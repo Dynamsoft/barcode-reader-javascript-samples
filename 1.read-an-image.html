@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Dynamsoft Barcode Reader Simple Sample - Read an Image</title>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.1.2/dist/dbr.js"
+        data-productKeys="t0077xQAAAEOf0RjyWar4Q48NrAu7iX4j+Ivl3iqpsR2Mf3W9gf/HMgalcntdpSMel3xw/Mze/z8dpY0eCdkvUxN6+brx+xrzZh4+AWkFKn4="></script>
+</head>
+
+<body>
+    <div>Choose image(s) to decode:
+        <br />
+        <input id="ipt-file" type="file" multiple accept="image/png,image/jpeg,image/bmp,image/gif">
+    </div>
+    <div id="result"></div>
+    <div>
+        <span id='lib-load' style='font-size:xx-large' hidden>Loading Library...</span>
+        <span id='reading' style='font-size:xx-large' hidden>Reading Barcodes...</span>
+    </div>
+    <script>
+        // reader for decoding picture
+        let reader = null;
+        let resultsToShow = [], imagesToShow = [];
+        // decode input picture
+        window.onload = async function () {
+            // Create a BarcodeReader instance on page load to speed things up.
+            reader = reader || await Dynamsoft.DBR.BarcodeReader.createInstance();
+        };
+        document.getElementById('ipt-file').addEventListener('change', async function () {
+            try {
+                document.getElementById('lib-load').hidden = false;
+                reader = reader || await Dynamsoft.DBR.BarcodeReader.createInstance();
+                resultsToShow = [];
+                imagesToShow = [];
+                document.getElementById('lib-load').hidden = true;
+                document.getElementById('reading').hidden = false;
+                for (let i = 0; i < this.files.length; ++i) {
+                    let file = this.files[i];
+                    let time = ((new Date()).getTime()).toString();
+                    resultsToShow.push('<img height="200" id="' + time + '" alt="' + file.name + '">');
+                    if (FileReader) {
+                        var fr = new FileReader();
+                        fr.onload = function () {
+                            imagesToShow.push({ id: time, src: fr.result });
+                        }
+                        fr.readAsDataURL(file);
+                    }
+                    let results = await reader.decode(file);
+                    if (results.length === 0)
+                        resultsToShow.push("No Barcode Found!");
+                    for (let result of results) {
+                        resultsToShow.push(result.barcodeFormatString + ": <span class='resultText'>" + result.barcodeText + "</span>");
+                        if (result.barcodeText.indexOf("Attention(exceptionCode") != -1) {
+                            resultsToShow.push("Error: " + result.exception.message);
+                        }
+                    }
+                    resultsToShow.push('<hr>');
+                    document.getElementById('result').innerHTML = resultsToShow.join('<br />');
+                    for (let img of imagesToShow) {
+                        document.getElementById(img.id).src = img.src;
+                    }
+                }
+                document.getElementById('reading').hidden = true;
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
+            this.value = '';
+        });
+    </script>
+</body>
+<style>
+    body {
+        text-align: center;
+        font-family: "Open Sans", sans-serif;
+        font-size: x-large;
+    }
+
+    div {
+        margin: 5vmin;
+    }
+
+    #result {
+        margin: 5vmin auto;
+        font-size: medium;
+        height: 50vh;
+        width: 60vw;
+        border: 1px dashed grey;
+        overflow-y: auto;
+    }
+
+    .resultText {
+        color: #cE5E04
+    }
+</style>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
+
+</html>

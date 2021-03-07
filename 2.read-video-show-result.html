@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Dynamsoft Barcode Reader Simple Sample - Read Video - Single Result</title>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.1.2/dist/dbr.js"
+        data-productKeys="t0077xQAAAEOf0RjyWar4Q48NrAu7iX4j+Ivl3iqpsR2Mf3W9gf/HMgalcntdpSMel3xw/Mze/z8dpY0eCdkvUxN6+brx+xrzZh4+AWkFKn4="></script>
+</head>
+
+<body>
+    <button id="btn-show-scanner" style="font-size:1.5rem;margin-bottom:5vmin;">Start Barcode
+        Scanner</button>
+    <input type="text" id="result" readonly="true" class="Input-text" placeholder="The Barcode Results">
+    <div id="scannerUI">
+        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
+    </div>
+    <script>
+        // scanner for decoding video
+        let scanner = null;
+        window.onload = async function () {
+            // Create a BarcodeScanner instance on page load to speed things up.
+            scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+        };
+        // decode video from camera
+        document.getElementById('btn-show-scanner').addEventListener('click', async () => {
+            try {
+                document.getElementById('lib-load').hidden = false;
+                scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                document.getElementById('lib-load').hidden = true;
+                scanner.onUnduplicatedRead = (txt, result) => {
+                    document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
+                };
+                document.getElementById('scannerUI').appendChild(scanner.getUIElement());
+                await scanner.show();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
+        });
+    </script>
+</body>
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        width: 100vw;
+        height: 100vh;
+        color: #455A64;
+    }
+
+    #scannerUI {
+        margin: 5vmin auto;
+        text-align: center;
+        font-size: medium;
+        height: 60vh;
+        width: 90vw;
+    }
+
+    .Input-text {
+        display: block;
+        margin: 0;
+        padding: 0.4rem 0.8rem;
+        color: inherit;
+        width: 90%;
+        border: none;
+        font-size: 1.5rem;
+        border-radius: 0.2rem;
+        text-align: center;
+    }
+
+    .Input-text::placeholder {
+        color: #B0BEC5;
+    }
+
+    .Input-text:focus {
+        outline: none;
+        box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
+    }
+</style>
+
+</html>
