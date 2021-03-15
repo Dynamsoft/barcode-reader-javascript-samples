@@ -12,7 +12,8 @@
 <body>
     <button id="btn-show-scanner" style="font-size:1.5rem;margin-bottom:5vmin;">Start Barcode
         Scanner</button>
-    <input type="text" id="result" readonly="true" class="Input-text" placeholder="The Barcode Results">
+    <button hidden id="btn-clear-result" style="font-size:1.5rem;margin-bottom:5vmin;">Clear The Result</button>
+    <input type="text" id="result" readonly="true" class="Input-text" placeholder="The Barcode Result">
     <div id="scannerUI">
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
     </div>
@@ -20,8 +21,8 @@
         // scanner for decoding video
         let scanner = null;
         window.onload = async function () {
-            // Create a BarcodeScanner instance on page load to speed things up.
-            scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+            //Load the library on page load to speed things up.
+            await Dynamsoft.DBR.BarcodeReader.loadWasm();
         };
         // decode video from camera
         document.getElementById('btn-show-scanner').addEventListener('click', async () => {
@@ -34,10 +35,15 @@
                 };
                 document.getElementById('scannerUI').appendChild(scanner.getUIElement());
                 await scanner.show();
+                document.getElementById('btn-show-scanner').hidden = true;
+                document.getElementById('btn-clear-result').hidden = false;
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
             }
+        });
+        document.getElementById('btn-clear-result').addEventListener('click', async () => {
+            document.getElementById('result').value = "";
         });
     </script>
 </body>
@@ -49,7 +55,7 @@
         justify-content: center;
         overflow: hidden;
         width: 100vw;
-        height: 100vh;
+        height: 90vh;
         color: #455A64;
     }
 

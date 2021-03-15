@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Dynamsoft Barcode Reader Sample - Minimum Code</title>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.1.2/dist/dbr.js"
+        data-productKeys="t0077xQAAAEOf0RjyWar4Q48NrAu7iX4j+Ivl3iqpsR2Mf3W9gf/HMgalcntdpSMel3xw/Mze/z8dpY0eCdkvUxN6+brx+xrzZh4+AWkFKn4="></script>
+</head>
+
+<body>
+    <button id='readBarcode'>Read Barcode</button>
+    <script>
+        let scanner = null;
+        document.getElementById('readBarcode').onclick = async function () {
+            try {
+                scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                scanner.onFrameRead = results => {
+                    for (let result of results) {
+                        alert(result.barcodeFormatString + ": " + result.barcodeText);
+                    }
+                };
+                await scanner.show();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
+        };
+    </script>
+</body>
+
+</html>
