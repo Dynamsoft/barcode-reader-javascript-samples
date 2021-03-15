@@ -70,8 +70,6 @@
                     });
             };
             document.getElementById('cameraList').onchange = function () {
-                alert(document.getElementById('cameraList').options[document.getElementById('cameraList').selectedIndex].value);
-                document.getElementById('result').value = document.getElementById('cameraList').value;
                 scanner.play(document.getElementById('cameraList').value).then(() => {
                     currentRes = scanner.getResolution();
                     updateCurrentResolution({
@@ -101,7 +99,6 @@
             try {
                 document.getElementById('lib-load').hidden = false;
                 scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
-                updateCameras();
                 document.getElementById('lib-load').hidden = true;
                 scanner.onUnduplicatedRead = (txt, result) => {
                     document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
@@ -112,22 +109,21 @@
                 document.getElementsByClassName('dbrScanner-sel-resolution')[0].hidden = true;
                 document.getElementsByClassName('dbrScanner-btn-close')[0].hidden = true;
                 await scanner.show();
+                updateCameras();
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
             }
         });
-        function updateCameras() {
+        async function updateCameras() {
             scanner.getAllCameras()
                 .then(
                     cameras => {
-                        alert(JSON.stringify(cameras[0]))
                         let cameraList = document.getElementById('cameraList');
                         cameraList.options.length = 0;
                         for (let camera of cameras) {
                             let opt = new Option(camera.label, camera.deviceId);
-                            cameraList.options.add()
-                            alert((new Option(camera.label, camera.deviceId)).value);
+                            cameraList.options.add(opt);
                         }
                     }
                 );
