@@ -1,0 +1,44 @@
+.helloWorld {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 100vw;
+    height: 90vh;
+    color: #455A64;
+}
+
+#scannerUI {
+    margin: 5vmin auto;
+    text-align: center;
+    font-size: medium;
+    height: 50vh;
+    width: 90vw;
+}
+
+.Input-text {
+    display: block;
+    margin: 0;
+    padding: 0.4rem 0.8rem;
+    color: inherit;
+    width: 90%;
+    border: none;
+    font-size: 1.5rem;
+    border-radius: 0.2rem;
+    text-align: center;
+}
+
+.Input-text::placeholder {
+    color: #B0BEC5;
+}
+
+.Input-text:focus {
+    outline: none;
+    box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
+}
+
+button {
+    font-size: 1.5rem;
+    margin-bottom: 5vmin;
+}
