@@ -14,7 +14,7 @@ class HelloWorld extends React.Component {
         };
     }
     async componentDidMount() {
-        await DBR.BarcodeScanner.createInstance();
+        await DBR.BarcodeScanner.loadWasm();
         this.setState(state => {
             state.libLoaded = true;
             return state;
@@ -38,8 +38,8 @@ class HelloWorld extends React.Component {
                 <button onClick={this.showScanner}>Start Barcode Scanner</button>
                 <input type="text" value={this.state.resultValue} readonly="true" class="Input-text" placeholder="The Barcode Result" />
                 <div id="scannerUI">
-                    {!this.state.libLoaded ? (<span style={{fontSize:"x-large"}}>Loading Library...</span>) : ""};
-                    <BarcodeScanner appendMessage={this.appendMessage}></BarcodeScanner>
+                    {!this.state.libLoaded ? (<span style={{ fontSize: "x-large" }}>Loading Library...</span>) : ""}
+                    {this.state.bShowScanner ? (<BarcodeScanner appendMessage={this.appendMessage}></BarcodeScanner>) : ""}
                 </div>
             </div>
         );
