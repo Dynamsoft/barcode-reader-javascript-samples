@@ -5,7 +5,7 @@ import HelloWorld from './components/HelloWorld.js';
 function App() {
   return (
     <div className="App">
-      <div className="App-logo"><img src={reactLogo} className="App-logo" alt="logo" /></div>
+      <div><img src={reactLogo} className="App-logo" alt="logo" /></div>
       <HelloWorld></HelloWorld>
     </div>
   );
