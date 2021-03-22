@@ -26,7 +26,12 @@
         // decode input picture
         window.onload = async function () {
             // Create a BarcodeReader instance on page load to speed things up.
-            reader = reader || await Dynamsoft.DBR.BarcodeReader.createInstance();
+            try {
+                await Dynamsoft.DBR.BarcodeReader.loadWasm();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
         };
         document.getElementById('ipt-file').addEventListener('change', async function () {
             try {

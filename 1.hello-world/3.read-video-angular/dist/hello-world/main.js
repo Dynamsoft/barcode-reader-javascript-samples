@@ -51,6 +51,7 @@ class HelloWorldComponent {
     }
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            //DBR.BarcodeReader._bUseFullFeature = true;
             yield _dbr__WEBPACK_IMPORTED_MODULE_1__["default"].BarcodeScanner.loadWasm();
             this.libLoaded = true;
         });

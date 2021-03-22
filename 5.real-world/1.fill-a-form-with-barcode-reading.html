@@ -60,7 +60,13 @@
                     }
                 });
             //Load the library on page load to speed things up.
-            await Dynamsoft.DBR.BarcodeReader.loadWasm();
+            try {
+                //DBR.BarcodeReader._bUseFullFeature = true;
+                await DBR.BarcodeScanner.loadWasm();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
             document.getElementById('inputs').hidden = false;
             document.getElementById('lib-load').hidden = true;
         };

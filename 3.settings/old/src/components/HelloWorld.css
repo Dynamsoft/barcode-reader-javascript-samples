@@ -1,0 +1,649 @@
+.logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 80px;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.left {
+    float: left;
+}
+
+.half {
+    width: 49vw;
+}
+
+.maxHalf {
+    max-width: 49vw;
+}
+
+.center {
+    text-align: center;
+}
+
+.thinBorder {
+    border: 1px solid rgba(0, 0, 0, .125);
+}
+
+.overFlowX {
+    overflow-x: auto;
+}
+
+.dsColor {
+    color: #cE5E04
+}
+
+.compact_P {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.runTimeSettings_P_0 {
+    padding-left: 0vw;
+}
+
+.runTimeSettings_P_1 {
+    padding-left: 2vw;
+}
+
+.runTimeSettings_P_2 {
+    padding-left: 4vw;
+}
+
+.noPadding {
+    padding: 0 !important;
+}
+
+.btn {
+    margin-right: 2vw;
+}
+
+.div-settingsModule {
+    font-size: 14px;
+    background: #fefefe;
+}
+
+.div-settingsModule label {
+    line-height: 1.8;
+}
+
+.div-settingsModule input[type='checkbox'], input[type='radio'] {
+    margin-right: 8px;
+}
+
+.div-settingsModule>.div-advanceSettingsHeader {
+    width: 100%;
+    height: 21px;
+    padding: 0 10px;
+    border-bottom: 1px solid #eee;
+    background: #f4f4f4;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -ms-align-items: center;
+    align-items: center;
+    -ms-justify-content: space-between;
+    justify-content: space-between;
+}
+
+.div-settingsModule>.div-advanceSettingsHeader>a, .div-settingsModule>.div-advanceSettingsHeader>button {
+    width: 20px;
+    height: 20px;
+    border-radius: 0;
+    display: inline-block;
+    position: relative;
+}
+
+.div-settingsModule>.div-advanceSettingsHeader>a:hover, .div-settingsModule>.div-advanceSettingsHeader>button:hover {
+    background: #ddd;
+}
+
+.div-settingsModule>.div-advanceSettingsHeader>a>svg, .div-settingsModule>.div-advanceSettingsHeader>button>svg {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.div-settingsModule>.div-advanceSettings {
+    padding: 10px;
+    height: calc(100% - 21px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>div {
+    width: 100%;
+    min-height: 25px;
+    margin-top: 1px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -ms-align-items: center;
+    align-items: center;
+    -ms-justify-content: flex-start;
+    justify-content: flex-start;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>div:first-child {
+    margin-top: 0;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>div>* {
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>div>label {
+    width: 60%;
+    overflow: hidden;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-runtimeSettings-textassistedcorrectionmode-container>label {
+    width: 70%;
+}
+
+.div-settingsModule .div-runtimesettings-details-container input[type="knumber"] {
+    width: 20%;
+    height: 22px;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    background: transparent;
+    border: 0;
+    -moz-appearance: textfield;
+    box-shadow: none;
+}
+
+.div-settingsModule .div-runtimesettings-details-container input[type="knumber"]::-webkit-outer-spin-button, .div-settingsModule input[type="knumber"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.div-settingsModule .div-runtimesettings-details-container input[type="knumber"]:focus {
+    background: #fefefe;
+    border: 1px solid #cacaca;
+}
+
+.div-settingsModule .div-runtimesettings-details-container input[type="range"] {
+    width: 20%;
+    margin: 0;
+}
+
+.div-settingsModule .div-runtimesettings-details-container input[type="checkbox"] {
+    margin-left: 10px;
+    margin-bottom: 0;
+}
+
+.div-settingsModule .div-runtimesettings-details-container select {
+    width: 40%;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-runtimeSettings-textassistedcorrectionmode-container>select {
+    width: 30%;
+}
+
+.div-settingsModule .div-runtimesettings-details-container input[type="text"] {
+    width: 40%;
+    height: 22px;
+    margin: 0;
+    padding: 0;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>div>textarea {
+    width: 40%;
+    height: 22px;
+    /*resize:none;*/
+}
+
+.allWidth {
+    width: 100%;
+}
+
+.sixTenths {
+    width: 60%;
+}
+
+.paddingOneVW {
+    padding: 1vw;
+}
+
+.btn-toggle {
+    margin-left: 10px;
+    width: 22px;
+    height: 22px;
+    position: relative;
+}
+
+.btn-toggle::before {
+    content: "";
+    width: 8px;
+    height: 4px;
+    box-sizing: border-box;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-style: solid;
+    border-width: 4px 4px 0;
+    border-color: #aaa transparent #aaa;
+}
+
+.div-settingsModule .div-runtimesettings-details-container .div-runtimesettings-details-container {
+    width: 100%;
+    padding-left: 13px;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-barcodeFormatContainer>div {
+    width: 100%;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -ms-align-items: center;
+    align-items: center;
+    -ms-justify-content: flex-start;
+    justify-content: flex-start;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-barcodeFormatContainer input {
+    margin-bottom: 0;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-barcodeFormatContainer>.div-1dFormatContainer {
+    padding: 0 10px;
+    border-radius: 3px;
+    background: #f4f4f4;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-barcodeFormatContainer>.div-1dFormatContainer>label {
+    min-width: 100px;
+    padding-right: 13px;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-barcodeFormatContainer>.div-GS1DatabarFormatContainer {
+    padding: 0 10px;
+    border-radius: 3px;
+    background: #f4f4f4;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-barcodeFormatContainer>.div-GS1DatabarFormatContainer>label {
+    min-width: 200px;
+    padding-right: 13px;
+    font-size: 11px;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-barcodeFormatContainer>label {
+    width: 50%;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-localizationAlgorithmPriorityContainer>.div-algsContainer {
+    width: 60%;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-localizationAlgorithmPriorityContainer>.div-algsContainer>label {
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 12px;
+    /*cursor:url('./img/cursor-move-v.svg') 10 10,ns-resize;*/
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-localizationAlgorithmPriorityContainer>.div-algsContainer>label>input[type="checkbox"] {
+    margin-left: 10px;
+    margin-bottom: 0;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-runtimesettings-mode-container>label {
+    width: 60%;
+    overflow: initial;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-runtimesettings-mode-container>.div-algsContainer {
+    width: 100%;
+    padding-left: 13px;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-runtimesettings-mode-container>.div-algsContainer>div {
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-runtimesettings-mode-container>.div-algsContainer>div>select {
+    width: calc(40% - 13px);
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-runtimesettings-mode-container>.div-algsContainer>div>.div-runtimesettings-details-container {
+    padding-left: 13px;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>div>.div-runtimesettings-region-container input[type="checkbox"] {
+    margin-bottom: 0;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>div>.div-runtimesettings-region-container>input[type="kPercentage"] {
+    width: 40%;
+    height: 20px;
+    margin-bottom: 2px;
+    border: 1px solid #cacaca;
+    text-align: center;
+    font-size: 13px;
+    border-radius: 3px;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>div>.div-runtimesettings-region-container>.ipt-runtimesettings-regionTop {
+    margin: 0 calc((60% - 13px) / 2) 0 calc((60% + 13px) / 2);
+}
+
+.div-settingsModule .div-runtimesettings-details-container>div>.div-runtimesettings-region-container>.ipt-runtimesettings-regionLeft {
+    margin: 0 0 0 13px;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>div>.div-runtimesettings-region-container>.ipt-runtimesettings-regionRight {
+    margin: 0 0 0 calc(20% - 13px);
+}
+
+.div-settingsModule .div-runtimesettings-details-container>div>.div-runtimesettings-region-container>.ipt-runtimesettings-regionBottom {
+    margin: 0 calc((60% - 13px) / 2) 0 calc((60% + 13px) / 2);
+}
+
+.div-settingsModule .div-runtimesettings-details-container .div-runtimesettings-obj-container>label {
+    width: calc(100% - 22px);
+    cursor: pointer;
+}
+
+.btn-toggle {
+    margin-left: 0;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-preSettingsBorder {
+    width: 100%;
+    position: relative;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-preSettingsBorder>.pre-settings {
+    width: 100%;
+    padding: 10px;
+    border-radius: 3px;
+    background: #f4f4f4;
+    overflow: auto;
+    font-size: 12px;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-preSettingsBorder>.btn-copySettings {
+    width: 18px;
+    height: 18px;
+    padding: 1px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    background: #fff;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-preSettingsBorder>.btn-copySettings:hover {
+    background: #ddd;
+}
+
+.div-footer {
+    height: 57px;
+    border-top: 1px solid #eee;
+    padding: 0 16px;
+    font-size: 15px;
+    color: #444;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    -ms-align-items: center;
+    align-items: center;
+    -ms-justify-content: space-between;
+    justify-content: space-between;
+}
+
+.div-footer>* {
+    margin-right: 5px;
+    -ms-flex: initial;
+    flex: initial;
+}
+
+.div-footer>a {
+    color: #444;
+}
+
+.div-footer>a:hover {
+    color: #ffae38;
+}
+
+.div-footer>.a-dynamsoft>img {
+    width: 113px;
+    height: 28px;
+}
+
+.div-footer>.a-siteMap {
+    margin-right: 0;
+}
+
+.div-footer>.white-area {
+    margin-right: 0;
+    -ms-flex: auto;
+    flex: auto;
+}
+
+.div-footer>.a-price, .div-footer>.a-sendEmail, .div-footer>.btn-liveChat {
+    width: 30px;
+    height: 100%;
+    margin-right: 0;
+    display: inline-box;
+    position: relative;
+    border-radius: 0;
+}
+
+.div-footer>.a-price>svg, .div-footer>.a-sendEmail>svg, .div-footer>.btn-liveChat>svg {
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.div-footer>.a-price:hover, .div-footer>.a-sendEmail:hover, .div-footer>.btn-liveChat:hover {
+    background: #ffae38;
+}
+
+/*.div-common100-ori-livechat{position:fixed;top:0;right:0;width:1px;height:1px;overflow:hidden;cursor:pointer;}*/
+
+.div-settingsModule .div-runtimesettings-details-container>#settingTab.div-tabContainer {
+    margin: 0px auto;
+    width: 100%;
+    padding: 0;
+    flex: auto
+}
+
+.div-settingsModule .div-runtimesettings-details-container>#settingTab.div-tabContainer>.ul-settingTab {
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: sflex-flex-start;
+    align-items: center;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>#settingTab.div-tabContainer>.ul-settingTab li {
+    float: left;
+    margin: 0;
+    flex: auto;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: flex-flex-start;
+    align-items: center;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>#settingTab.div-tabContainer>.ul-settingTab label.each-term {
+    width: 100%;
+    flex: auto;
+    vertical-align: middle;
+    text-align: center;
+    float: left;
+    position: relative;
+    line-height: 45px;
+    text-decoration: none;
+    color: #444;
+    border-radius: 10px 10px 0 0;
+    background: #fcfcfc;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, .4);
+}
+
+.div-settingsModule .div-runtimesettings-details-container>#settingTab.div-tabContainer>.ul-settingTab label.generic-terms {
+    width: 100%;
+    flex: auto;
+    float: left;
+    position: relative;
+    line-height: 45px;
+    text-decoration: none;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>#settingTab.div-tabContainer>.ul-settingTab .active label {
+    outline: 0;
+    background: #f4f4f4;
+    z-index: 4;
+    text-shadow: 0 1px 0 rgba(29, 29, 29, 0.8);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, .4);
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-modeArgumentBorder {
+    width: 100%;
+    position: relative;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-modeArgumentBorder>.modeArg-settings {
+    width: 100%;
+    padding: 10px;
+    border-radius: 3px;
+    background: #f4f4f4;
+    overflow: auto;
+    font-size: 12px;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-modeArgumentBorder>.btn-copyModeArgSettings {
+    width: 18px;
+    height: 18px;
+    padding: 1px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    background: #fff;
+}
+
+.div-settingsModule .div-runtimesettings-details-container>.div-modeArgumentBorder>.btn-copyModeArgSettings:hover {
+    background: #ddd;
+}
+
+/*
+ * master branch: https://github.com/Keillion/browserSideBasic Unlicense
+ * modify from: http://meyerweb.com/eric/tools/css/reset/ v2.0 license: none (public domain)
+ */
+
+a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, textarea, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block
+}
+
+body {
+    line-height: 1
+}
+
+ol, ul {
+    list-style: none
+}
+
+blockquote, q {
+    quotes: none
+}
+
+blockquote:after, blockquote:before, q:after, q:before {
+    content: '';
+    content: none
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Noto Sans CJK SC, WenQuanYi Micro Hei, Arial, sans-serif;
+}
+
+button {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    user-select: none;
+}
+
+button::-moz-focus-inner {
+    border: 0;
+}
+
+button[disabled] {
+    cursor: default;
+}
+
+input[type='checkbox'], input[type='radio'] {
+    vertical-align: text-top;
+    margin: 0;
+}
+
+a {
+    text-decoration-line: none;
+}
+
+/*util*/
+
+label._forCkBoxOrRadio {
+    user-select: none;
+}
+
+button._slowlyChange {
+    transition: all .2s ease-in-out;
+}
