@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - Single Result</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.1.2/dist/dbr.js"
-        data-productKeys="t0077xQAAAEOf0RjyWar4Q48NrAu7iX4j+Ivl3iqpsR2Mf3W9gf/HMgalcntdpSMel3xw/Mze/z8dpY0eCdkvUxN6+brx+xrzZh4+AWkFKn4="></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2/dist/dbr.js"
+        data-productKeys="216998-100262665"></script>
 </head>
 
 <body>
@@ -22,7 +22,12 @@
         let scanner = null;
         window.onload = async function () {
             //Load the library on page load to speed things up.
-            await Dynamsoft.DBR.BarcodeReader.loadWasm();
+            try {
+                await Dynamsoft.DBR.BarcodeReader.loadWasm();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
         };
         // decode video from camera
         document.getElementById('btn-show-scanner').addEventListener('click', async () => {

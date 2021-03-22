@@ -13,8 +13,15 @@ export class HelloWorldComponent implements OnInit {
   constructor() { }
 
   async ngOnInit(): Promise<void> {
-    await DBR.BarcodeScanner.loadWasm();
-    this.libLoaded = true;
+    //Load the library on page load to speed things up.
+    try {
+      //DBR.BarcodeReader._bUseFullFeature = true;
+      await DBR.BarcodeScanner.loadWasm();
+      this.libLoaded = true;
+    } catch (ex) {
+      alert(ex.message);
+      throw ex;
+    }
   }
   showScanner(): void {
     this.bShowScanner = true;

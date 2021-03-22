@@ -36,8 +36,15 @@ export default {
     };
   },
   async mounted() {
-    await DBR.BarcodeScanner.loadWasm();
-    this.libLoaded = true;
+    //Load the library on page load to speed things up.
+    try {
+      //DBR.BarcodeReader._bUseFullFeature = true;
+      await DBR.BarcodeScanner.loadWasm();
+      this.libLoaded = true;
+    } catch (ex) {
+      alert(ex.message);
+      throw ex;
+    }
   },
   components: {
     BarcodeScanner,

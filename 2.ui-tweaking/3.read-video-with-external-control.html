@@ -92,7 +92,13 @@
                     })
             };
             //Load the library on page load to speed things up.
-            await Dynamsoft.DBR.BarcodeReader.loadWasm();
+            try {
+                //DBR.BarcodeReader._bUseFullFeature = true;
+                await DBR.BarcodeScanner.loadWasm();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
         };
         // decode video from camera
         document.getElementById('btn-show-scanner').addEventListener('click', async () => {
@@ -100,8 +106,10 @@
                 document.getElementById('lib-load').hidden = false;
                 scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
                 document.getElementById('lib-load').hidden = true;
-                scanner.onUnduplicatedRead = (txt, result) => {
-                    document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
+                scanner.onFrameRead = (results) => {
+                    for (let result of results) {
+                        document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
+                    }
                 };
                 document.getElementById('scannerUI').appendChild(scanner.getUIElement());
                 document.querySelector('#scannerUI div').style.background = '';
@@ -157,8 +165,9 @@
         margin: 5vmin auto;
         text-align: center;
         font-size: medium;
-        height: 60vh;
+        height: 55vh;
         width: 90vw;
+        margin-bottom: 15vh;
     }
 
     .Input-text {
