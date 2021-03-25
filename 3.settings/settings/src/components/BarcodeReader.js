@@ -299,10 +299,14 @@ class BarcodeReader extends React.Component {
     }
     setUpRuntimeSettings = async () => {
         this.reader = this.reader || await DBR.BarcodeReader.createInstance();
-        this.setState({
-            modalTitle: "Set Up",
-            bShowModalDialog: true
-        });
+        let _runtimeSettings = await this.reader.getRuntimeSettings();
+        this.setState(
+            { runtimeSettings: _runtimeSettings },
+            () => this.setState({
+                modalTitle: "Set Up",
+                bShowModalDialog: true
+            })
+        );
         this.showCurrentSettings();
     }
     showCurrentSettings = async () => {
