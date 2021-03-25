@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Dynamsoft Barcode Reader Simple Sample - Read Video - No Extra Control</title>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2/dist/dbr.js"
+        data-productKeys="t0077xQAAAEOf0RjyWar4Q48NrAu7iX4j+Ivl3iqpsR2Mf3W9gf/HMgalcntdpSMel3xw/Mze/z8dpY0eCdkvUxN6+brx+xrzZh4+AWkFKn4="></script>
+</head>
+
+<body onclick="closeMessage()">
+    <h1>Read Driver's License</h1>
+    <div id="scannerUI">
+        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
+        <button id="btn-show-scanner">Start Reading</button>
+    </div>
+    <div id="divNoteMessage"></div>
+    <script>
+        // scanner for decoding video
+        let scanner = null;
+        window.onload = async function () {
+            //Load the library on page load to speed things up.
+            try {
+                //Dynamsoft.DBR.BarcodeReader._bUseFullFeature = true;
+                await Dynamsoft.DBR.BarcodeScanner.loadWasm();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
+            document.getElementById('divNoteMessage').addEventListener('click', evt => {
+                evt.stopPropagation();
+            });
+        };
+        // decode video from camera
+        document.getElementById('btn-show-scanner').addEventListener('click', async () => {
+            document.getElementById('btn-show-scanner').hidden = true;
+            try {
+                document.getElementById('lib-load').hidden = false;
+                scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                scanner.getRuntimeSettings()
+                    .then(settings => {
+                        settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
+                        settings.region = {
+                            regionLeft: 10,
+                            regionTop: 10,
+                            regionRight: 90,
+                            regionBottom: 90,
+                            regionMeasuredByPercentage: 1
+                        };
+                        scanner.updateRuntimeSettings(settings);
+                    });
+                document.getElementById('lib-load').hidden = true;
+                scanner.onUnduplicatedRead = (txt, result) => {
+                    extractInformation(txt);
+                };
+                document.getElementById('scannerUI').appendChild(scanner.getUIElement());
+                document.querySelector('#scannerUI div').style.background = '';
+                document.getElementsByClassName('dbrScanner-sel-camera')[0].hidden = true;
+                document.getElementsByClassName('dbrScanner-sel-resolution')[0].hidden = true;
+                document.getElementsByClassName('dbrScanner-btn-close')[0].hidden = true;
+                await scanner.show();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
+        });
+        function closeMessage() {
+            document.getElementById('divNoteMessage').innerHTML = "";
+        }
+        function GetField(keyword, barcode_text) {
+            var k = barcode_text.search("\n" + keyword);
+            if (k == -1)
+                return false;
+            var m = barcode_text.indexOf("\n", k + 1);
+            var subtext = barcode_text.substring(k + 4, m);
+            return subtext;
+        }
+
+        function extractInformation(text) {
+            var aryTextToShow = [];
+            for (var i = 0; i < driverLicenseFields.length; i++) {
+                var __item = driverLicenseFields[i];
+                var _fieldValue = GetField(__item.abbreviation, text);
+                if (_fieldValue != false) {
+                    aryTextToShow.push(__item.description + "<br /><strong>" + _fieldValue + "</strong><br />");
+                    aryTextToShow.push("------------------------------<br />");
+                }
+            }
+            aryTextToShow.splice(0, 0, '<p style="padding:5px; margin:0;">');
+            aryTextToShow.push('</p>');
+            document.getElementById('divNoteMessage').innerHTML = aryTextToShow.join('');
+        }
+
+        var driverLicenseFields = [
+            { 'abbreviation': 'DAA', 'description': 'Full Name' },
+            { 'abbreviation': 'DAB', 'description': 'Last Name' },
+            { 'abbreviation': 'DAB', 'description': 'Family Name' },
+            { 'abbreviation': 'DAC', 'description': 'First Name' },
+            { 'abbreviation': 'DAC', 'description': 'Given Name' },
+            { 'abbreviation': 'DAD', 'description': 'Middle Name or Initial' },
+            { 'abbreviation': 'DAD', 'description': 'Middle Name' },
+            { 'abbreviation': 'DAE', 'description': 'Name Suffix' },
+            { 'abbreviation': 'DAF', 'description': 'Name Prefix' },
+            { 'abbreviation': 'DAG', 'description': 'Mailing Street Address1' },
+            { 'abbreviation': 'DAH', 'description': 'Mailing Street Address2' },
+            { 'abbreviation': 'DAI', 'description': 'Mailing City' },
+            { 'abbreviation': 'DAJ', 'description': 'Mailing Jurisdiction Code' },
+            { 'abbreviation': 'DAK', 'description': 'Mailing Postal Code' },
+            { 'abbreviation': 'DAL', 'description': 'Residence Street Address1' },
+            { 'abbreviation': 'DAM', 'description': 'Residence Street Address2' },
+            { 'abbreviation': 'DAN', 'description': 'Residence City' },
+            { 'abbreviation': 'DAO', 'description': 'Residence Jurisdiction Code' },
+            { 'abbreviation': 'DAP', 'description': 'Residence Postal Code' },
+            { 'abbreviation': 'DAQ', 'description': 'License or ID Number' },
+            { 'abbreviation': 'DAR', 'description': 'License Classification Code' },
+            { 'abbreviation': 'DAS', 'description': 'License Restriction Code' },
+            { 'abbreviation': 'DAT', 'description': 'License Endorsements Code' },
+            { 'abbreviation': 'DAU', 'description': 'Height in FT_IN' },
+            { 'abbreviation': 'DAV', 'description': 'Height in CM' },
+            { 'abbreviation': 'DAW', 'description': 'Weight in LBS' },
+            { 'abbreviation': 'DAX', 'description': 'Weight in KG' },
+            { 'abbreviation': 'DAY', 'description': 'Eye Color' },
+            { 'abbreviation': 'DAZ', 'description': 'Hair Color' },
+            { 'abbreviation': 'DBA', 'description': 'License Expiration Date' },
+            { 'abbreviation': 'DBB', 'description': 'Date of Birth' },
+            { 'abbreviation': 'DBC', 'description': 'Sex' },
+            { 'abbreviation': 'DBD', 'description': 'License or ID Document Issue Date' },
+            { 'abbreviation': 'DBE', 'description': 'Issue Timestamp' },
+            { 'abbreviation': 'DBF', 'description': 'Number of Duplicates' },
+            { 'abbreviation': 'DBG', 'description': 'Medical Indicator Codes' },
+            { 'abbreviation': 'DBH', 'description': 'Organ Donor' },
+            { 'abbreviation': 'DBI', 'description': 'Non-Resident Indicator' },
+            { 'abbreviation': 'DBJ', 'description': 'Unique Customer Identifier' },
+            { 'abbreviation': 'DBK', 'description': 'Social Security Number' },
+            { 'abbreviation': 'DBL', 'description': 'Date Of Birth' },
+            { 'abbreviation': 'DBM', 'description': 'Social Security Number' },
+            { 'abbreviation': 'DBN', 'description': 'Full Name' },
+            { 'abbreviation': 'DBO', 'description': 'Last Name' },
+            { 'abbreviation': 'DBO', 'description': 'Family Name' },
+            { 'abbreviation': 'DBP', 'description': 'First Name' },
+            { 'abbreviation': 'DBP', 'description': 'Given Name' },
+            { 'abbreviation': 'DBQ', 'description': 'Middle Name' },
+            { 'abbreviation': 'DBQ', 'description': 'Middle Name or Initial' },
+            { 'abbreviation': 'DBR', 'description': 'Suffix' },
+            { 'abbreviation': 'DBS', 'description': 'Prefix' },
+            { 'abbreviation': 'DCA', 'description': 'Virginia Specific Class' },
+            { 'abbreviation': 'DCB', 'description': 'Virginia Specific Restrictions' },
+            { 'abbreviation': 'DCD', 'description': 'Virginia Specific Endorsements' },
+            { 'abbreviation': 'DCE', 'description': 'Physical Description Weight Range' },
+            { 'abbreviation': 'DCF', 'description': 'Document Discriminator' },
+            { 'abbreviation': 'DCG', 'description': 'Country territory of issuance' },
+            { 'abbreviation': 'DCH', 'description': 'Federal Commercial Vehicle Codes' },
+            { 'abbreviation': 'DCI', 'description': 'Place of birth' },
+            { 'abbreviation': 'DCJ', 'description': 'Audit information' },
+            { 'abbreviation': 'DCK', 'description': 'Inventory Control Number' },
+            { 'abbreviation': 'DCL', 'description': 'Race Ethnicity' },
+            { 'abbreviation': 'DCM', 'description': 'Standard vehicle classification' },
+            { 'abbreviation': 'DCN', 'description': 'Standard endorsement code' },
+            { 'abbreviation': 'DCO', 'description': 'Standard restriction code' },
+            { 'abbreviation': 'DCP', 'description': 'Jurisdiction specific vehicle classification description' },
+            { 'abbreviation': 'DCQ', 'description': 'Jurisdiction-specific' },
+            { 'abbreviation': 'DCR', 'description': 'Jurisdiction specific restriction code description' },
+            { 'abbreviation': 'DCS', 'description': 'Family Name' },
+            { 'abbreviation': 'DCS', 'description': 'Last Name' },
+            { 'abbreviation': 'DCT', 'description': 'Given Name' },
+            { 'abbreviation': 'DCT', 'description': 'First Name' },
+            { 'abbreviation': 'DCU', 'description': 'Suffix' },
+            { 'abbreviation': 'DDA', 'description': 'Compliance Type' },
+            { 'abbreviation': 'DDB', 'description': 'Card Revision Date' },
+            { 'abbreviation': 'DDC', 'description': 'HazMat Endorsement Expiry Date' },
+            { 'abbreviation': 'DDD', 'description': 'Limited Duration Document Indicator' },
+            { 'abbreviation': 'DDE', 'description': 'Family Name Truncation' },
+            { 'abbreviation': 'DDF', 'description': 'First Names Truncation' },
+            { 'abbreviation': 'DDG', 'description': 'Middle Names Truncation' },
+            { 'abbreviation': 'DDH', 'description': 'Under 18 Until' },
+            { 'abbreviation': 'DDI', 'description': 'Under 19 Until' },
+            { 'abbreviation': 'DDJ', 'description': 'Under 21 Until' },
+            { 'abbreviation': 'DDK', 'description': 'Organ Donor Indicator' },
+            { 'abbreviation': 'DDL', 'description': 'Veteran Indicator' },
+            { 'abbreviation': 'PAA', 'description': 'Permit Classification Code' },
+            { 'abbreviation': 'PAB', 'description': 'Permit Expiration Date' },
+            { 'abbreviation': 'PAC', 'description': 'Permit Identifier' },
+            { 'abbreviation': 'PAD', 'description': 'Permit IssueDate' },
+            { 'abbreviation': 'PAE', 'description': 'Permit Restriction Code' },
+            { 'abbreviation': 'PAF', 'description': 'Permit Endorsement Code' },
+            { 'abbreviation': 'ZVA', 'description': 'Court Restriction Code' }
+        ];
+    </script>
+</body>
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        width: 100vw;
+        height: 100vh;
+        color: #455A64;
+    }
+
+    #scannerUI {
+        border: 1px dashed lightgray;
+        height: 50vmin;
+        width: 80vmin;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #scannerUI button {
+        padding: 2vmin;
+        font-size: xx-large;
+    }
+
+    #divNoteMessage {
+        max-height: 90vh;
+        overflow-y: auto;
+        position: absolute;
+        z-index: 10;
+        color: white;
+        background: rgba(34, 34, 34, .8);
+    }
+
+    strong {
+        color: rgb(254, 142, 20);
+    }
+</style>
+
+</html>
