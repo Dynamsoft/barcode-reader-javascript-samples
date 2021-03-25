@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - Single Result</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2/dist/dbr.js"
-        data-productKeys="216998-100262665"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2/dist/dbr.js"></script>
 </head>
 
 <body>
@@ -18,7 +17,10 @@
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
     </div>
     <script>
-        // scanner for decoding video
+		Dynamsoft.DBR.BarcodeReader.licenseServer=["https://192.168.8.143:333/lts/"];
+		Dynamsoft.DBR.BarcodeReader.handshakeCode = "204948-DBRAddon1";
+		Dynamsoft.DBR.BarcodeReader.sessionPassword = "Aa000000";
+		// scanner for decoding video
         let scanner = null;
         window.onload = async function () {
             //Load the library on page load to speed things up.

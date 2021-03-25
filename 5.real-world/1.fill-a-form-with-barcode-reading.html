@@ -61,8 +61,8 @@
                 });
             //Load the library on page load to speed things up.
             try {
-                //DBR.BarcodeReader._bUseFullFeature = true;
-                await DBR.BarcodeScanner.loadWasm();
+                //Dynamsoft.DBR.BarcodeReader._bUseFullFeature = true;
+                await Dynamsoft.DBR.BarcodeScanner.loadWasm();
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
