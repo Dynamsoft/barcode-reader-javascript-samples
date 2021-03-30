@@ -11,28 +11,10 @@ class SetUpUI extends React.Component {
         this.messageKeyBase = 300000;
         this.allBarcodes = 4263510015;//-31457281;
         this.state = {
-            //Mode Mode Arguments Status
-            mAS: {
-                bm: [false, false, false, false, false, false, false, false], //binarizationModes
-                dm: [false, false, false, false, false, false, false, false, false, false], //deblurModes
-                lm: [false, false, false, false, false, false, false, false], //localizationModes
-                sum: [false, false, false, false, false, false, false, false], //scaleDownThreshold
-                // irsm: [true, false], //intermediateResultSavingMode
-                // atrm: [false, false, false, false, false, false, false, false],//accompanyingTextRecognitionModes
-                bcm: [false, false, false, false, false, false, false, false], //barcodeColourModes
-                cclm: [false, false, false, false, false, false, false, false], //colourClusteringModes
-                ccom: [false, false, false, false, false, false, false, false], //colourConversionModes
-                drm: [false, false, false, false, false, false, false, false], //deformationResistingModes
-                ipm: [0, 0, 0, 0, 0, 0, 0, 0], //imagePreprocessingModes
-                rpm: [false, false, false, false, false, false, false, false], //regionPredetectionModes
-                tacm: false, //textAssistedCorrectionMode
-                tfm: [false, false, false, false, false, false, false, false], //textFilterModes
-                tdm: [false, false, false, false, false, false, false, false] //textureDetectionModes
-            },
             showOneDItems: false,
             showDataBarItems: false,
             showPostalCodeItems: false,
-            showFurtherModesItems: false,
+            showFurtherModesItems: false
         };
     }
     usePredefinedSettings = async evt => {
@@ -120,6 +102,7 @@ class SetUpUI extends React.Component {
             if (nBarcodeFormatIds & parseInt(barcodeFormatInput.value))
                 barcodeFormatInput.checked = true;
         }
+        this.updateSettings();
     }
     updateBarcodeFormatsCheckStatus2 = nBarcodeFormatIds => {
         if (typeof (nBarcodeFormatIds) != "number") {
@@ -154,6 +137,7 @@ class SetUpUI extends React.Component {
             if (nBarcodeFormatIds & parseInt(barcodeFormatInput.value))
                 barcodeFormatInput.checked = true;
         }
+        this.updateSettings();
     }
     intermediateResultTypesUpdate = evt => {
         let elToUpdate = document.getElementById('ipt-runtimesettings-intermediateResultTypes');
@@ -169,6 +153,7 @@ class SetUpUI extends React.Component {
                 intermediateResultTypesInput.checked = elToUpdate.value & parseInt(intermediateResultTypesInput.value);
             }
         }
+        this.updateSettings();
     }
     usePercentageOrNot = async evt => {
         let checkBox = evt.target;
@@ -199,6 +184,7 @@ class SetUpUI extends React.Component {
     }
     updateRangeValue = evt => {
         evt.target.nextSibling.value = parseInt(evt.target.value) * parseInt(evt.target.getAttribute('factor'));
+        this.updateSettings();
     }
     updateRange = evt => {
         var reg = /^\d+$/;
@@ -207,38 +193,49 @@ class SetUpUI extends React.Component {
         if (evt.target.value > parseInt(evt.target.getAttribute('max')))
             evt.target.value = evt.target.getAttribute('max');
         evt.target.previousSibling.value = parseInt(parseInt(evt.target.value) / parseInt(evt.target.getAttribute('factor')));
+        this.updateSettings();
     }
     updateSettings = () => {
         let RTS = this.props.runtimeSettings;
         let allInputs = document.querySelectorAll('input');
         let allSelects = document.querySelectorAll('select');
+        let _regionItems = [];
         for (let _key in allInputs) {
             if (allInputs.hasOwnProperty(_key)) {
                 let _setting = allInputs[_key];
-                let _settingID = "";
+                let _settingID = "", _value = 0;
                 if (_setting.getAttribute && (_settingID = _setting.getAttribute('id'))) {
                     if (_settingID.indexOf('ipt-runtimesettings-') !== -1) {
                         let _item = _settingID.substr(_settingID.lastIndexOf("-") + 1)
-                        if (_setting.value === "") _setting.value = 0;
+                        if (_setting.value === "")
+                            _value = 0;
+                        else
+                            _value = parseInt(_setting.value);
                         if (_item.indexOf('region') !== -1) {
-                            if (_item === "regionMeasuredByPercentage") {
-                                if (_setting.checked)
-                                    RTS.region[_item] = 1;
-                                else
-                                    RTS.region[_item] = 0;
-                            } else
-                                RTS.region[_item] = parseInt(_setting.value);
+                            let keys = _item.split("_");
+                            if (keys[0] === "regionMeasuredByPercentage")
+                                _value = _setting.checked ? 1 : 0;
+                            _regionItems.push({ key: keys[0], index: keys[1] - 1, value: _value });
                         } else {
-                            RTS[_item] = parseInt(_setting.value);
+                            RTS[_item] = parseInt(_value);
                         }
                     }
                 }
             }
         }
+        let _regions = new Array(parseInt(_regionItems.length / 5));
+        for (let j = 0; j < _regions.length; j++) {
+            _regions[j] = {};
+        }
+        for (let o of _regionItems) {
+            let _region = _regions[o.index];
+            _region[o.key] = o.value;
+        }
+        _regions.length === 1 ? RTS["region"] = _regions[0] : RTS["region"] = _regions;
         for (let _key in allSelects) {
             if (allSelects.hasOwnProperty(_key)) {
                 let _setting = allSelects[_key];
-                let valueObj = parseInt(_setting.value)
+                let _value = parseInt(_setting.value);
                 let _settingID = "";
                 if (_setting.getAttribute && (_settingID = _setting.getAttribute('id'))) {
                     if (_settingID.indexOf("_") !== -1) {
@@ -246,15 +243,18 @@ class SetUpUI extends React.Component {
                         switch (subIDs[0]) {
                             // case "intermediateResultSavingMode":
                             case "terminatePhase":
-                            case "textAssistedCorrectionMode":
+                            case "pdfReadingMode":
                             case "resultCoordinateType":
-                                RTS[subIDs[0]] = valueObj;
+                                //case "textAssistedCorrectionMode":
+                                RTS[subIDs[0]] = _value;
                                 break;
+
                             case "binarizationModes":
+                            case "deblurModes":
                             case "localizationModes":
                             case "scaleUpModes":
                             case "textResultOrderModes":
-                                RTS[subIDs[0]][parseInt(subIDs[1]) - 1] = valueObj;
+                                RTS[subIDs[0]][parseInt(subIDs[1]) - 1] = _value;
                                 break;
                             //case "accompanyingTextRecognitionModes":
                             case "barcodeColourModes":
@@ -268,7 +268,7 @@ class SetUpUI extends React.Component {
                             case "regionPredetectionModes":
                             case "textFilterModes":
                             case "textureDetectionModes":
-                                RTS.furtherModes[subIDs[0]][parseInt(subIDs[1]) - 1] = valueObj;
+                                RTS.furtherModes[subIDs[0]][parseInt(subIDs[1]) - 1] = _value;
                                 break;
                             default: break;
                         }
@@ -278,78 +278,37 @@ class SetUpUI extends React.Component {
         }
         this.props.updateRuntimeSettings(RTS);
     }
-    setModeArguments = async (evt) => {
-        /**
-         *             EnumErrorCode errorCode;
-            string errorMessage;
-            if (ModesNameBox.Text == "IntermediateResultSavingMode" && ArgumentNameBox.Text == "FolderPath")
-                errorCode = reader.SetModeArgument(ModesNameBox.Text, (int)ModesIndexBox.Value, ArgumentNameBox.Text, txtArgumentValue.Text, out errorMessage);
-            else
-                errorCode = reader.SetModeArgument(ModesNameBox.Text, (int)ModesIndexBox.Value, ArgumentNameBox.Text, ArgumentValueBox.Text, out errorMessage);
-            if (errorCode != EnumErrorCode.DBR_SUCCESS)
-            {
-                MessageBox.Show(errorMessage, "Error!");
+    getModeArgument = async (evt) => {
+        try {
+            if (evt && evt.target && evt.target.parentElement && evt.target.parentElement.children) {
+                let sMAElements = evt.target.parentElement.children;
+                for (let _ele in sMAElements) {
+                    if (sMAElements[_ele].tagName && sMAElements[_ele].tagName.toLowerCase() === "div" && sMAElements[_ele].lastChild.tagName && sMAElements[_ele].lastChild.tagName.toLowerCase() === "input") {
+                        let _input = sMAElements[_ele].lastChild, value = null;
+                        this.props.getModeArgument(_input.getAttribute("data-id").split("-").slice(1).concat([value]));
+                    }
+                }
             }
-         */
-        /*let reader = this.reader = this.reader || await DBR.BarcodeReader.createInstance();
-        let runtimeSettings = await reader.getRuntimeSettings();
-        let newState = JSON.parse(JSON.stringify(this.state.mAS));
+        } catch (ex) {
+            console.error(ex);
+        }
+    }
+    setModeArguments = async (evt) => {
         try {
             if (evt && evt.target && evt.target.parentElement && evt.target.parentElement.children) {
                 let sMAElements = evt.target.parentElement.children;
                 for (let _ele in sMAElements) {
                     if (sMAElements[_ele].tagName && sMAElements[_ele].tagName.toLowerCase() === "div" && sMAElements[_ele].lastChild.tagName && sMAElements[_ele].lastChild.tagName.toLowerCase() === "input") {
                         let _input = sMAElements[_ele].lastChild;
-                        if (_input.parentElement.style.display !== "none") {
-                            let dataId = _input.getAttribute("data-id");
-                            if (typeof dataId === "string") {
-                                let params = dataId.split("-");
-                                if (params[0] === "SMA") {
-                                    let reader = this.reader = this.reader || await DBR.BarcodeReader.createInstance();
-                                    await this.updateRuntimeSettings();
-                                    let newValue = _input.value.trim();
-                                    if (params[3] === "EnableFillBinaryVacancy") {
-                                        if (_input.checked)
-                                            newValue = "1";
-                                        else
-                                            newValue = "0";
-                                    }
-                                    reader.setModeArgument(params[1], parseInt(params[2]), params[3], newValue);
-                                }
-                            }
-                        }
+                        this.props.setModeArgument(_input.getAttribute("data-id").split("-").slice(1).concat([_input.value]));
                     }
                 }
-                /**
-                let strMode = evt.target.parentElement.firstChild.lastChild.getAttribute('for').substr(20);
-                switch (strMode) {
-                    default:
-                        console.log(strMode);
-                        break;
-                    case "irsm-rss":
-                        break;
-                    case "BlockSizeX_1": break;
-                    case "ScanStride": break;
-                    case "AcuteAngleWithXThreshold": break;
-                    case "LightReflection": break;
-                    case "cclm-Sensitivity": break;
-                    case "BlueChannelWeight": break;
-                    case "drm-level": break;
-                    case "Sensitivity": break;
-                    case "SmoothBlockSizeX": break;
-                    case "SharpenBlockSizeX": break;
-                    case "SmoothBlockSizeX": break;
-                    case "5MinImageDimension": break;
-                    case "Sensitivity": break;
-                    case "BottomTextPercentageSize": break;
-    
-                } 
             }
         } catch (ex) {
-            this.appendAMessage(ex.message);
             console.error(ex);
-        }*/
+        }
     }
+    doNothing = () => { }
     render() {
         return (
             //Why animation={false}: https://github.com/react-bootstrap/react-bootstrap/issues/5075
@@ -376,7 +335,7 @@ class SetUpUI extends React.Component {
                                 <label htmlFor="ipt-runtimesettings-barcodeFormatIds">Barcode Format Ids Group 1</label>
                                 <input id="ipt-runtimesettings-barcodeFormatIds" onChange={this.updateBarcodeFormatsCheckStatus} type="knumber" defaultValue={this.props.runtimeSettings.barcodeFormatIds} />
                                 <div className="div-1dFormat">
-                                    <label title="<img src='img/oned.gif'>"><input type="checkbox" className="ipt-barcodeFormat-combo" onClick={this.barcodeFormatsUpdate} defaultChecked={(this.props.runtimeSettings.barcodeFormatIds & 0x001007FF) === 0x001007FF} defaultValue="0x001007FF" id="ipt-1dFormat" />1D</label>
+                                    <label><input type="checkbox" className="ipt-barcodeFormat-combo" onClick={this.barcodeFormatsUpdate} defaultChecked={(this.props.runtimeSettings.barcodeFormatIds & 0x001007FF) === 0x001007FF} defaultValue="0x001007FF" id="ipt-1dFormat" />1D</label>
                                     <Button variant="Light" id="btn-toggle1Ds" className="btn-toggle" onClick={this.toggleShowOneDItems} ></Button>
                                 </div>
                                 <Card id="div-1dFormatContainer" className="div-1dFormatContainer" style={this.state.showOneDItems ? style.show : style.hide}>
@@ -421,7 +380,7 @@ class SetUpUI extends React.Component {
                             <Card style={{ padding: '1vw', marginTop: '1vw' }} >
                                 <Card.Title style={{ width: '100%' }}>Basic Settings</Card.Title>
                                 <label htmlFor="ipt-runtimesettings-terminatePhase">TerminatePhase</label>
-                                <select id="terminatePhase_1" defaultValue={this.props.runtimeSettings.terminatePhase}>
+                                <select onChange={this.updateSettings} id="terminatePhase_1" value={this.props.runtimeSettings.terminatePhase}>
                                     <option value="1">Region Predetected</option>
                                     <option value="2">Image Preprocessed</option>
                                     <option value="4">Image Binarized</option>
@@ -455,16 +414,16 @@ class SetUpUI extends React.Component {
                                 <input id="ipt-runtimesettings-minResultConfidence" onKeyUp={this.updateRange} type="knumber" min="0" max="100" step="1" defaultValue={this.props.runtimeSettings.minResultConfidence} factor="1" />
 
                                 <label htmlFor="ipt-runtimesettings-pdfRasterDPI">PDFRasterDPI</label>
-                                <input type="range" onChange={this.updateRangeValue} min="0" max="10" step="1" defaultValue={parseInt(this.props.runtimeSettings.pdfRasterDPI / 100)} factor="100" />
-                                <input id="ipt-runtimesettings-pdfRasterDPI" onKeyUp={this.updateRange} type="knumber" min="100" max="1000" step="100" defaultValue={this.props.runtimeSettings.pdfRasterDPI} factor="100" />
+                                <input type="range" onChange={this.updateRangeValue} min="1" max="5" step="1" defaultValue={parseInt(this.props.runtimeSettings.pdfRasterDPI / 100)} factor="100" />
+                                <input id="ipt-runtimesettings-pdfRasterDPI" onKeyUp={this.updateRange} readOnly type="knumber" min="100" max="500" step="100" defaultValue={this.props.runtimeSettings.pdfRasterDPI} factor="100" />
 
                                 <label htmlFor="ipt-runtimesettings-scaleDownThreshold">ScaleDownThreshold</label>
-                                <input type="range" onChange={this.updateRangeValue} min="0" max="1000" step="1" defaultValue={this.props.runtimeSettings.scaleDownThreshold / 100} factor="100" />
-                                <input id="ipt-runtimesettings-scaleDownThreshold" onKeyUp={this.updateRange} type="knumber" min="512" max="100000" step="1" defaultValue={this.props.runtimeSettings.scaleDownThreshold} factor="100" />
+                                <input type="range" onChange={this.updateRangeValue} min="5" max="1000" step="1" defaultValue={this.props.runtimeSettings.scaleDownThreshold / 100} factor="100" />
+                                <input id="ipt-runtimesettings-scaleDownThreshold" onKeyUp={this.updateRange} readOnly type="knumber" min="500" max="100000" step="1" defaultValue={this.props.runtimeSettings.scaleDownThreshold} factor="100" />
 
                                 <label htmlFor="ipt-runtimesettings-timeout">Timeout</label>
                                 <input type="range" onChange={this.updateRangeValue} min="1" max="100" defaultValue={parseInt(this.props.runtimeSettings.timeout / 1000)} step="1" factor="1000" />
-                                <input id="ipt-runtimesettings-timeout" onKeyUp={this.updateRange} type="knumber" min="100" max="100000" step="1" defaultValue={this.props.runtimeSettings.timeout} factor="1000" />
+                                <input id="ipt-runtimesettings-timeout" onKeyUp={this.updateRange} type="knumber" readOnly min="100" max="100000" step="1" defaultValue={this.props.runtimeSettings.timeout} factor="1000" />
 
                                 <div className="div-runtimesettings-region-container" style={{ width: '100%' }}>
                                     <label>Region(s)</label>
@@ -472,28 +431,27 @@ class SetUpUI extends React.Component {
                                         (<>
                                             {this.props.runtimeSettings.region.map((value, key) => <>
                                                 <label style={{ width: '100%', textAlign: 'center' }}>
-                                                    <input type="checkbox" id={"ipt-runtimesettings-regionMeasuredByPercentage_" + (key + 1).toString()} defaultChecked={value === null ? false : !!value.regionMeasuredByPercentage} onClick={this.usePercentageOrNot} />By Percentage
+                                                    <input type="checkbox" onChange={this.updateSettings} id={"ipt-runtimesettings-regionMeasuredByPercentage_" + (key + 1).toString()} defaultChecked={value === null ? false : !!value.regionMeasuredByPercentage} onClick={this.usePercentageOrNot} />By Percentage
                                                 </label>
-                                                <input type="kPercentage" id={"ipt-runtimesettings-regionTop_" + (key + 1).toString()} className="ipt-runtimesettings-regionTop" placeholder="top(%)" defaultValue={value === null ? "" : value.regionTop} />
-                                                <input type="kPercentage" id={"ipt-runtimesettings-regionLeft_" + (key + 1).toString()} className="ipt-runtimesettings-regionLeft" placeholder="left(%)" defaultValue={value === null ? "" : value.regionLeft} />
-                                                <input type="kPercentage" id={"ipt-runtimesettings-regionRight_" + (key + 1).toString()} className="ipt-runtimesettings-regionRight" placeholder="right(%)" defaultValue={value === null ? "" : value.regionRight} />
-                                                <input type="kPercentage" id={"ipt-runtimesettings-regionBottom_" + (key + 1).toString()} className="ipt-runtimesettings-regionBottom" placeholder="bottom(%)" defaultValue={value === null ? "" : value.regionBottom} />
+                                                <input type="kPercentage" onChange={this.updateSettings} id={"ipt-runtimesettings-regionTop_" + (key + 1).toString()} className="ipt-runtimesettings-regionTop" placeholder={value === null ? "top" : "top(%)"} defaultValue={value === null ? "" : value.regionTop} />
+                                                <input type="kPercentage" onChange={this.updateSettings} id={"ipt-runtimesettings-regionLeft_" + (key + 1).toString()} className="ipt-runtimesettings-regionLeft" placeholder={value === null ? "left" : "left(%)"} defaultValue={value === null ? "" : value.regionLeft} />
+                                                <input type="kPercentage" onChange={this.updateSettings} id={"ipt-runtimesettings-regionRight_" + (key + 1).toString()} className="ipt-runtimesettings-regionRight" placeholder={value === null ? "right" : "right(%)"} defaultValue={value === null ? "" : value.regionRight} />
+                                                <input type="kPercentage" onChange={this.updateSettings} id={"ipt-runtimesettings-regionBottom_" + (key + 1).toString()} className="ipt-runtimesettings-regionBottom" placeholder={value === null ? "bottom" : "bottom(%)"} defaultValue={value === null ? "" : value.regionBottom} />
                                             </>)}
                                         </>)
                                         :
                                         (<>
                                             <label style={{ width: '100%', textAlign: 'center' }}>
-                                                <input type="checkbox" id="ipt-runtimesettings-regionMeasuredByPercentage_1" defaultChecked={!!this.props.runtimeSettings.region.regionMeasuredByPercentage} onClick={this.usePercentageOrNot} />By Percentage
+                                                <input type="checkbox" onChange={this.updateSettings} id="ipt-runtimesettings-regionMeasuredByPercentage_1" defaultChecked={!!this.props.runtimeSettings.region.regionMeasuredByPercentage} onClick={this.usePercentageOrNot} />By Percentage
                                             </label>
-                                            <input type="kPercentage" id="ipt-runtimesettings-regionTop_1" className="ipt-runtimesettings-regionTop" placeholder="top(%)" defaultValue={this.props.runtimeSettings.region.regionTop === 0 ? "" : this.props.runtimeSettings.region.regionTop} />
-                                            <input type="kPercentage" id="ipt-runtimesettings-regionLeft_1" className="ipt-runtimesettings-regionLeft" placeholder="left(%)" defaultValue={this.props.runtimeSettings.region.regionLeft === 0 ? "" : this.props.runtimeSettings.region.regionLeft} />
-                                            <input type="kPercentage" id="ipt-runtimesettings-regionRight_1" className="ipt-runtimesettings-regionRight" placeholder="right(%)" defaultValue={this.props.runtimeSettings.region.regionRight === 0 ? "" : this.props.runtimeSettings.region.regionRight} />
-                                            <input type="kPercentage" id="ipt-runtimesettings-regionBottom_1" className="ipt-runtimesettings-regionBottom" placeholder="bottom(%)" defaultValue={this.props.runtimeSettings.region.regionBottom === 0 ? "" : this.props.runtimeSettings.region.regionBottom} />
+                                            <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionTop_1" className="ipt-runtimesettings-regionTop" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "top(%)" : "top"} defaultValue={this.props.runtimeSettings.region.regionTop === 0 ? "" : this.props.runtimeSettings.region.regionTop} />
+                                            <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionLeft_1" className="ipt-runtimesettings-regionLeft" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "left(%)" : "left"} defaultValue={this.props.runtimeSettings.region.regionLeft === 0 ? "" : this.props.runtimeSettings.region.regionLeft} />
+                                            <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionRight_1" className="ipt-runtimesettings-regionRight" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "right(%)" : "right"} defaultValue={this.props.runtimeSettings.region.regionRight === 0 ? "" : this.props.runtimeSettings.region.regionRight} />
+                                            <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionBottom_1" className="ipt-runtimesettings-regionBottom" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "bottom(%)" : "bottom"} defaultValue={this.props.runtimeSettings.region.regionBottom === 0 ? "" : this.props.runtimeSettings.region.regionBottom} />
                                         </>)
                                     }
                                 </div>
                             </Card>
-                            <Button style={{ padding: "1vw", marginTop: "1vw", width: '100%' }} variant="outline-success" onClick={this.updateSettings}>Update Runtime Settings</Button>
                             <Card style={{ padding: '1vw', marginTop: '1vw' }} >
                                 <Card.Title style={{ width: '100%' }}>More Settings</Card.Title>
                                 {this.props.fullFeature ? (<>
@@ -520,14 +478,14 @@ class SetUpUI extends React.Component {
                                 <input id="ipt-runtimesettings-returnBarcodeZoneClarity" onKeyUp={this.updateRange} type="knumber" min="0" max="1" step="1" defaultValue={this.props.runtimeSettings.returnBarcodeZoneClarity} factor="1" />
 
                                 <label htmlFor="pdfReadingMode">PDFReadingMode</label>
-                                <select id="pdfReadingMode_1" defaultValue={this.props.runtimeSettings.pdfReadingMode}>
+                                <select onChange={this.updateSettings} id="pdfReadingMode_1" value={this.props.runtimeSettings.pdfReadingMode}>
                                     <option value="1">Auto</option>
                                     <option value="2">Vector</option>
                                     <option value="4">Raster</option>
                                 </select>
 
                                 <label htmlFor="resultCoordinateType">ResultCoordinateType</label>
-                                <select id="resultCoordinateType_1" defaultValue={this.props.runtimeSettings.resultCoordinateType}>
+                                <select onChange={this.updateSettings} id="resultCoordinateType_1" value={this.props.runtimeSettings.resultCoordinateType}>
                                     <option value="1">Pixel</option>
                                     <option value="2">Percentage</option>
                                 </select>
@@ -552,51 +510,65 @@ class SetUpUI extends React.Component {
                                     </Card>
                                 </>) : ""}
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-binarizationModes-container" className=" div-runtimesettings-mode-container">
-                                <Card.Title style={{ width: '100%' }}>binarizationModes</Card.Title>
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-binarizationModes-container" className="div-runtimesettings-mode-container">
+                                <Card.Title style={{ width: '100%' }}>BinarizationModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.binarizationModes.map((value, key) =>
                                         <div key={this.messageKeyBase + key}>
-                                            <select id={"binarizationModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"binarizationModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
+                                                <option value="1">Auto</option>
                                                 <option value="2">LocalBlock</option>
+                                                <option value="4">Threshold</option>
                                             </select>
-                                            <Card className={"div-runtimesettings-ModeArgument-container div-runtimesettings-details-container paddingOneVW SMA-BinarizationModes-SMA-Card_" + key.toString()} style={value === 2 ? style.show : style.hide} >
-                                                <div>
+                                            <Card className={"div-runtimesettings-ModeArgument-container div-runtimesettings-details-container paddingOneVW" + key.toString()} style={value === 2 ? style.show : style.hide} >
+                                                <div >
                                                     <label htmlFor={"SMA-BinarizationModes-" + key.toString() + "-BlockSizeX"}>BlockSizeX</label>
-                                                    <input type="range" onChange={this.updateRangeValue} min="3" max="1000" step="1" defaultValue="0" factor="1" />
-                                                    <input data-id={"SMA-BinarizationModes-" + key.toString() + "-BlockSizeX"} onKeyUp={this.updateRange} type="knumber" min="3" max="1000" step="1" defaultValue="3" factor="1" />
+                                                    <input type="range" onChange={this.updateRangeValue} min="0" max="1000" step="1" defaultValue="0" factor="1" />
+                                                    <input data-id={"SMA-BinarizationModes-" + key.toString() + "-BlockSizeX"} onKeyUp={this.updateRange} type="knumber" min="0" max="1000" step="1" defaultValue="0" factor="1" />
                                                 </div>
                                                 <div>
                                                     <label htmlFor={"SMA-BinarizationModes-" + key.toString() + "-BlockSizeY"}>BlockSizeY</label>
-                                                    <input type="range" onChange={this.updateRangeValue} min="3" max="1000" step="1" defaultValue="0" factor="1" />
-                                                    <input data-id={"SMA-BinarizationModes-" + key.toString() + "-BlockSizeY"} onKeyUp={this.updateRange} type="knumber" min="3" max="1000" step="1" defaultValue="3" factor="1" />
+                                                    <input type="range" onChange={this.updateRangeValue} min="0" max="1000" step="1" defaultValue="0" factor="1" />
+                                                    <input data-id={"SMA-BinarizationModes-" + key.toString() + "-BlockSizeY"} onKeyUp={this.updateRange} type="knumber" min="0" max="1000" step="1" defaultValue="0" factor="1" />
                                                 </div>
                                                 <div>
                                                     <label htmlFor={"SMA-BinarizationModes-" + key.toString() + "-EnableFillBinaryVacancy"}>EnableFillBinaryVacancy</label>
-                                                    <input data-id={"SMA-BinarizationModes-" + key.toString() + "-EnableFillBinaryVacancy"} type="checkbox" defaultChecked={true} />
+                                                    <input type="range" onChange={this.updateRangeValue} min="0" max="1" step="1" defaultValue="1" factor="1" />
+                                                    <input data-id={"SMA-BinarizationModes-" + key.toString() + "-EnableFillBinaryVacancy"} onKeyUp={this.updateRange} type="knumber" min="0" max="1" step="1" defaultValue="1" factor="1" />
                                                 </div>
                                                 <div>
-                                                    <label htmlFor={"SMA-BinarizationModes-" + key.toString() + "-ImagePreprocessingModesIndex"}>imagePreprocessingModesIndex</label>
+                                                    <label htmlFor={"SMA-BinarizationModes-" + key.toString() + "-ImagePreprocessingModesIndex"}>ImagePreprocessingModesIndex</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="-1" max="7" step="1" defaultValue="-1" factor="1" />
                                                     <input data-id={"SMA-BinarizationModes-" + key.toString() + "-ImagePreprocessingModesIndex"} onKeyUp={this.updateRange} type="knumber" min="-1" max="7" step="1" defaultValue="-1" factor="1" />
                                                 </div>
-                                                <div><label htmlFor={"SMA-BinarizationModes-" + key.toString() + "-ThreshValueCoefficient"}>ThreshValueCoefficient</label>
+                                                <div>
+                                                    <label htmlFor={"SMA-BinarizationModes-" + key.toString() + "-ThreshValueCoefficient"}>ThreshValueCoefficient</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="-255" max="255" step="1" defaultValue="10" factor="1" />
                                                     <input data-id={"SMA-BinarizationModes-" + key.toString() + "-ThreshValueCoefficient"} onKeyUp={this.updateRange} type="knumber" min="-255" max="255" step="1" defaultValue="10" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                            </Card>
+                                            <Card className={"div-runtimesettings-ModeArgument-container div-runtimesettings-details-container paddingOneVW" + key.toString()} style={value === 4 ? style.show : style.hide} >
+                                                <div>
+                                                    <label htmlFor={"SMA-BinarizationModes-" + key.toString() + "-BinarizationThreshold"}>BinarizationThreshold</label>
+                                                    <input type="range" onChange={this.updateRangeValue} min="-1" max="255" step="1" defaultValue="-1" factor="1" />
+                                                    <input data-id={"SMA-BinarizationModes-" + key.toString() + "-BinarizationThreshold"} onKeyUp={this.updateRange} type="knumber" min="-1" max="255" step="1" defaultValue="-1" factor="1" />
+                                                </div>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
                                         </div>
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-deblurModes-container" className=" div-runtimesettings-mode-container">
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-deblurModes-container" className="div-runtimesettings-mode-container">
                                 <Card.Title style={{ width: '100%' }}>deblurModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.deblurModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 100 + key}>
-                                            <select id={"deblurModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"deblurModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">DirectBinarization</option>
                                                 <option value="2">ThresholdBinarization</option>
@@ -610,12 +582,12 @@ class SetUpUI extends React.Component {
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-localizationModes-container" className=" div-runtimesettings-mode-container">
-                                <Card.Title style={{ width: '100%' }}>localizationModes</Card.Title>
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-localizationModes-container" className="div-runtimesettings-mode-container">
+                                <Card.Title style={{ width: '100%' }}>LocalizationModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.localizationModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 200 + key}>
-                                            <select id={"localizationModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"localizationModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="2">ConnectedBlocks</option>
                                                 <option value="4">Statistics</option>
@@ -624,22 +596,27 @@ class SetUpUI extends React.Component {
                                                 <option value="32">StatisticsMarks</option>
                                             </select>
                                             <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 16 ? style.show : style.hide}>
-                                                <div><label htmlFor="ipt-runtimesettings-ScanStride">ScanStride</label>
+                                                <div><label htmlFor={"SMA-LocalizationModes-" + key.toString() + "-ScanStride"}>ScanStride</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="0" max="999" step="1" defaultValue="0" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-ScanStride" onKeyUp={this.updateRange} type="knumber" min="0" max="999" step="1" defaultValue="0" factor="1" />
+                                                    <input data-id={"SMA-LocalizationModes-" + key.toString() + "-ScanStride"} onKeyUp={this.updateRange} type="knumber" min="0" max="999" step="1" defaultValue="0" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <div><label htmlFor={"SMA-LocalizationModes-" + key.toString() + "-ScanDirection"}>ScanDirection (both, vertical, horizontal)</label>
+                                                    <input type="range" onChange={this.updateRangeValue} min="0" max="2" step="1" defaultValue="0" factor="1" />
+                                                    <input data-id={"SMA-LocalizationModes-" + key.toString() + "-ScanDirection"} onKeyUp={this.updateRange} type="knumber" min="0" max="2" step="1" defaultValue="0" factor="1" />
+                                                </div>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
                                         </div>
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-scaleUpModes-container" className=" div-runtimesettings-mode-container">
-                                <Card.Title style={{ width: '100%' }}>scaleUpModes</Card.Title>
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-scaleUpModes-container" className="div-runtimesettings-mode-container">
+                                <Card.Title style={{ width: '100%' }}>ScaleUpModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.scaleUpModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 300 + key}>
-                                            <select id={"scaleUpModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"scaleUpModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">Auto</option>
                                                 <option value="2">LinearInterpolation</option>
@@ -647,32 +624,33 @@ class SetUpUI extends React.Component {
                                             </select>
                                             <Card className="div-runtimesettings-details-container paddingOneVW" style={value > 1 ? style.show : style.hide}>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-AcuteAngleWithXThreshold">AcuteAngleWithXThreshold</label>
+                                                    <label htmlFor={"SMA-ScaleUpModes-" + key.toString() + "-AcuteAngleWithXThreshold"}>AcuteAngleWithXThreshold</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="-1" max="90" step="1" defaultValue="-1" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-AcuteAngleWithXThreshold" onKeyUp={this.updateRange} type="knumber" min="-1" max="90" step="1" defaultValue="-1" factor="1" />
+                                                    <input data-id={"SMA-ScaleUpModes-" + key.toString() + "-AcuteAngleWithXThreshold"} onKeyUp={this.updateRange} type="knumber" min="-1" max="90" step="1" defaultValue="-1" factor="1" />
                                                 </div>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-ModuleSizeThreshold">ModuleSizeThreshold</label>
+                                                    <label htmlFor={"SMA-ScaleUpModes-" + key.toString() + "-ModuleSizeThreshold"}>ModuleSizeThreshold</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="0" max="999" step="1" defaultValue="0" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-ModuleSizeThreshold" onKeyUp={this.updateRange} type="knumber" min="0" max="999" step="1" defaultValue="0" factor="1" />
+                                                    <input data-id={"SMA-ScaleUpModes-" + key.toString() + "-ModuleSizeThreshold"} onKeyUp={this.updateRange} type="knumber" min="0" max="999" step="1" defaultValue="0" factor="1" />
                                                 </div>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-TargetModuleSize">TargetModuleSize</label>
-                                                    <input type="range" onChange={this.updateRangeValue} min="0" max="10" step="1" defaultValue="0" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-TargetModuleSize" onKeyUp={this.updateRange} type="knumber" min="0" max="10" step="1" defaultValue="0" factor="1" />
+                                                    <label htmlFor={"SMA-ScaleUpModes-" + key.toString() + "-TargetModuleSize"}>TargetModuleSize</label>
+                                                    <input type="range" onChange={this.updateRangeValue} min="0" max="999" step="1" defaultValue="0" factor="1" />
+                                                    <input data-id={"SMA-ScaleUpModes-" + key.toString() + "-TargetModuleSize"} onKeyUp={this.updateRange} type="knumber" min="0" max="999" step="1" defaultValue="0" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
                                         </div>
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-textResultOrderModes-container" className=" div-runtimesettings-mode-container">
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-textResultOrderModes-container" className="div-runtimesettings-mode-container">
                                 <Card.Title style={{ width: '100%' }}>textResultOrderModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.textResultOrderModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 400 + key}>
-                                            <select id={"textResultOrderModes_" + (key + 1).toString()} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"textResultOrderModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">Confidence</option>
                                                 <option value="2">Position</option>
@@ -682,7 +660,6 @@ class SetUpUI extends React.Component {
                                     )}
                                 </div>
                             </Card>
-                            <Button style={{ padding: "1vw", marginTop: "1vw", width: '100%' }} variant="outline-success" onClick={this.updateSettings}>Update Runtime Settings</Button>
                         </div>
                         {/* Further modes */}
                         <div className="div-advanceSettingsHeader" style={{ height: "auto", borderTop: "1px solid #dee2e6" }}>
@@ -690,12 +667,12 @@ class SetUpUI extends React.Component {
                             <button className="btn-toggle" onClick={this.toggleShowFurtherModesItems}></button>
                         </div>
                         <div className="div-advanceSettings div-runtimesettings-details-container" style={this.state.showFurtherModesItems ? style.show : style.hide}>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-barcodeColourModes-container" className=" div-runtimesettings-mode-container">
-                                <Card.Title style={{ width: '100%' }}>barcodeColourModes</Card.Title>
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-barcodeColourModes-container" className="div-runtimesettings-mode-container">
+                                <Card.Title style={{ width: '100%' }}>BarcodeColourModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.furtherModes.barcodeColourModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 500 + key}>
-                                            <select id={"barcodeColourModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"barcodeColourModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">DarkOnLight</option>
                                                 <option value="2">LightOnDark</option>
@@ -705,21 +682,24 @@ class SetUpUI extends React.Component {
                                                 <option value="32">DarkOnLightDarkSurrounding</option>
                                             </select>
                                             <Card className="div-runtimesettings-details-container paddingOneVW" style={value !== 0 ? style.show : style.hide}>
-                                                <div><label htmlFor="ipt-runtimesettings-LightReflection">LightReflection</label>
-                                                    <input data-id="ipt-runtimesettings-LightReflection" type="checkbox" defaultChecked={true} />
+                                                <div>
+                                                    <label htmlFor={"SMA-BarcodeColourModes-" + key.toString() + "-LightReflection"}>LightReflection</label>
+                                                    <input type="range" onChange={this.updateRangeValue} min="0" max="1" step="1" defaultValue="1" factor="1" />
+                                                    <input data-id={"SMA-BarcodeColourModes-" + key.toString() + "-LightReflection"} onKeyUp={this.updateRange} type="knumber" min="0" max="1" step="1" defaultValue="1" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
                                         </div>
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-barcodeComplementModes-container" className=" div-runtimesettings-mode-container">
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-barcodeComplementModes-container" className="div-runtimesettings-mode-container">
                                 <Card.Title style={{ width: '100%' }}>barcodeComplementModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.furtherModes.barcodeComplementModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 600 + key}>
-                                            <select id={"barcodeComplementModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"barcodeComplementModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">Auto</option>
                                                 <option value="2">General</option>
@@ -728,87 +708,90 @@ class SetUpUI extends React.Component {
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-colourClusteringModes-container" className=" div-runtimesettings-mode-container">
-                                <Card.Title style={{ width: '100%' }}>colourClusteringModes</Card.Title>
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-colourClusteringModes-container" className="div-runtimesettings-mode-container">
+                                <Card.Title style={{ width: '100%' }}>ColourClusteringModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.furtherModes.colourClusteringModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 700 + key}>
-                                            <select id={"colourClusteringModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"colourClusteringModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">Auto</option>
                                                 <option value="2">GeneralHSV</option>
                                             </select>
-                                            <Card className=" div-runtimesettings-details-container paddingOneVW" style={value === 2 ? style.show : style.hide}>
+                                            <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 2 ? style.show : style.hide}>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-cclm-Sensitivity">Sensitivity</label>
+                                                    <label htmlFor={"SMA-ColourClusteringModes-" + key.toString() + "-Sensitivity"}>Sensitivity</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="1" max="9" step="1" defaultValue="5" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-cclm-Sensitivity" onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="5" factor="1" />
+                                                    <input data-id={"SMA-ColourClusteringModes-" + key.toString() + "-Sensitivity"} onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="5" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
                                         </div>
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-colourConversionModes-container" className=" div-runtimesettings-mode-container">
-                                <Card.Title style={{ width: '100%' }}>colourConversionModes</Card.Title>
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-colourConversionModes-container" className="div-runtimesettings-mode-container">
+                                <Card.Title style={{ width: '100%' }}>ColourConversionModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.furtherModes.colourConversionModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 800 + key}>
-                                            <select id={"colourConversionModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"colourConversionModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">General</option>
                                             </select>
                                             <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 1 ? style.show : style.hide}>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-BlueChannelWeight">BlueChannelWeight</label>
+                                                    <label htmlFor={"SMA-ColourConversionModes-" + key.toString() + "-BlueChannelWeight"}>BlueChannelWeight</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="-1" max="1000" step="1" defaultValue="-1" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-BlueChannelWeight" onKeyUp={this.updateRange} type="knumber" min="-1" max="1000" step="1" defaultValue="-1" factor="1" />
+                                                    <input data-id={"SMA-ColourConversionModes-" + key.toString() + "-BlueChannelWeight"} onKeyUp={this.updateRange} type="knumber" min="-1" max="1000" step="1" defaultValue="-1" factor="1" />
                                                 </div>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-GreenChannelWeight">GreenChannelWeight</label>
+                                                    <label htmlFor={"SMA-ColourConversionModes-" + key.toString() + "-GreenChannelWeight"}>GreenChannelWeight</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="-1" max="1000" step="1" defaultValue="-1" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-GreenChannelWeight" onKeyUp={this.updateRange} type="knumber" min="-1" max="1000" step="1" defaultValue="-1" factor="1" />
+                                                    <input data-id={"SMA-ColourConversionModes-" + key.toString() + "-GreenChannelWeight"} onKeyUp={this.updateRange} type="knumber" min="-1" max="1000" step="1" defaultValue="-1" factor="1" />
                                                 </div>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-RedChannelWeight">RedChannelWeight</label>
+                                                    <label htmlFor={"SMA-ColourConversionModes-" + key.toString() + "-RedChannelWeight"}>RedChannelWeight</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="-1" max="1000" step="1" defaultValue="-1" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-RedChannelWeight" onKeyUp={this.updateRange} type="knumber" min="-1" max="1000" step="1" defaultValue="-1" factor="1" />
+                                                    <input data-id={"SMA-ColourConversionModes-" + key.toString() + "-RedChannelWeight"} onKeyUp={this.updateRange} type="knumber" min="-1" max="1000" step="1" defaultValue="-1" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
                                         </div>
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-deformationResistingModes-container" className=" div-runtimesettings-mode-container">
-                                <Card.Title style={{ width: '100%' }}>deformationResistingModes</Card.Title>
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-deformationResistingModes-container" className="div-runtimesettings-mode-container">
+                                <Card.Title style={{ width: '100%' }}>DeformationResistingModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.furtherModes.deformationResistingModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 900 + key}>
-                                            <select id={"deformationResistingModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"deformationResistingModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">Auto</option>
                                                 <option value="2">General</option>
                                             </select>
-                                            <Card className=" div-runtimesettings-details-container paddingOneVW" style={value === 2 ? style.show : style.hide}>
+                                            <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 2 ? style.show : style.hide}>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-drm-level">Level</label>
+                                                    <label htmlFor={"SMA-DeformationResistingModes-" + key.toString() + "-Level"}>Level</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="1" max="9" step="1" defaultValue="5" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-drm-level" onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="5" factor="1" />
+                                                    <input data-id={"SMA-DeformationResistingModes-" + key.toString() + "-Level"} onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="5" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
                                         </div>
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-dpmCodeReadingModes-container" className=" div-runtimesettings-mode-container">
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-dpmCodeReadingModes-container" className="div-runtimesettings-mode-container">
                                 <Card.Title style={{ width: '100%' }}>dpmCodeReadingModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.furtherModes.dpmCodeReadingModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 1000 + key}>
-                                            <select id={"dpmCodeReadingModes_" + (key + 1).toString()} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"dpmCodeReadingModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">Auto</option>
                                                 <option value="2">General</option>
@@ -817,12 +800,12 @@ class SetUpUI extends React.Component {
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-grayscaleTransformationModes-container" className=" div-runtimesettings-mode-container">
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-grayscaleTransformationModes-container" className="div-runtimesettings-mode-container">
                                 <Card.Title style={{ width: '100%' }}>grayscaleTransformationModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.furtherModes.grayscaleTransformationModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 1100 + key}>
-                                            <select id={"grayscaleTransformationModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"grayscaleTransformationModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">Inverted</option>
                                                 <option value="2">Original</option>
@@ -831,12 +814,12 @@ class SetUpUI extends React.Component {
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-imagePreprocessingModes-container" className=" div-runtimesettings-mode-container">
-                                <Card.Title style={{ width: '100%' }}>imagePreprocessingModes</Card.Title>
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-imagePreprocessingModes-container" className="div-runtimesettings-mode-container">
+                                <Card.Title style={{ width: '100%' }}>ImagePreprocessingModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.furtherModes.imagePreprocessingModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 1200 + key}>
-                                            <select id={"imagePreprocessingModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"imagePreprocessingModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">Auto</option>
                                                 <option value="2">General</option>
@@ -844,50 +827,84 @@ class SetUpUI extends React.Component {
                                                 <option value="8">GraySmooth</option>
                                                 <option value="16">SharpenSmooth</option>
                                             </select>
-                                            <Card className=" div-runtimesettings-details-container paddingOneVW" style={value === 4 ? style.show : style.hide}>
+                                            <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 4 ? style.show : style.hide}>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-Sensitivity">Sensitivity</label>
-                                                    <input type="range" onChange={this.updateRangeValue} min="10" max="9" step="1" defaultValue="5" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-Sensitivity" onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="5" factor="1" />
+                                                    <label htmlFor={"SMA-ImagePreprocessingModes-" + key.toString() + "-Sensitivity"}>Sensitivity</label>
+                                                    <input type="range" onChange={this.updateRangeValue} min="1" max="9" step="1" defaultValue="5" factor="1" />
+                                                    <input data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-Sensitivity"} onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="5" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
-                                            <Card className=" div-runtimesettings-details-container paddingOneVW" style={value === 16 ? style.show : style.hide}>
+                                            <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 8 || value === 16 ? style.show : style.hide}>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-SharpenBlockSizeX">SharpenBlockSizeX</label>
+                                                    <label htmlFor={"SMA-ImagePreprocessingModes-" + key.toString() + "-SmoothBlockSizeX"}>SmoothBlockSizeX</label>
                                                     <input type="range" min="3" max="1000" step="1" defaultValue="3" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-SmoothBlockSizeX" type="knumber" min="3" max="1000" step="1" defaultValue="3" factor="1" />
+                                                    <input data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-SmoothBlockSizeX"} type="knumber" min="3" max="1000" step="1" defaultValue="3" factor="1" />
                                                 </div>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-SharpenBlockSizeY">SharpenBlockSizeY</label>
+                                                    <label htmlFor={"SMA-ImagePreprocessingModes-" + key.toString() + "-SmoothBlockSizeY"}>SmoothBlockSizeY</label>
                                                     <input type="range" min="3" max="1000" step="1" defaultValue="3" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-SmoothBlockSizeX" type="knumber" min="3" max="1000" step="1" defaultValue="3" factor="1" />
+                                                    <input data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-SmoothBlockSizeY"} type="knumber" min="3" max="1000" step="1" defaultValue="3" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
-                                            <Card className=" div-runtimesettings-details-container paddingOneVW" style={value > 4 ? style.show : style.hide}>
+                                            <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 16 ? style.show : style.hide}>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-SmoothBlockSizeX">SmoothBlockSizeX</label>
+                                                    <label htmlFor={"SMA-ImagePreprocessingModes-" + key.toString() + "-SharpenBlockSizeX"}>SharpenBlockSizeX</label>
                                                     <input type="range" min="3" max="1000" step="1" defaultValue="3" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-SmoothBlockSizeX" type="knumber" min="3" max="1000" step="1" defaultValue="3" factor="1" />
+                                                    <input data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-SharpenBlockSizeX"} type="knumber" min="3" max="1000" step="1" defaultValue="3" factor="1" />
                                                 </div>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-SmoothBlockSizeY">SmoothBlockSizeY</label>
+                                                    <label htmlFor={"SMA-ImagePreprocessingModes-" + key.toString() + "-SharpenBlockSizeY"}>SharpenBlockSizeY</label>
                                                     <input type="range" min="3" max="1000" step="1" defaultValue="3" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-SmoothBlockSizeX" type="knumber" min="3" max="1000" step="1" defaultValue="3" factor="1" />
+                                                    <input data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-SharpenBlockSizeY"} type="knumber" min="3" max="1000" step="1" defaultValue="3" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                            </Card>
+                                            <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 32 ? style.show : style.hide}>
+                                                <div>
+                                                    <label htmlFor={"SMA-ImagePreprocessingModes-" + key.toString() + "-MorphOperation"}>MorphOperation</label>
+                                                    <select data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-MorphOperation"} defaultValue="Close">
+                                                        <option value="Erode">Erode</option>
+                                                        <option value="Dilate">Dilate</option>
+                                                        <option value="Open">Open</option>
+                                                        <option value="Close">Close</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label htmlFor={"SMA-ImagePreprocessingModes-" + key.toString() + "-MorphShape"}>MorphShape</label>
+                                                    <select data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-MorphShape"} defaultValue="Rectangle">
+                                                        <option value="Rectangle">Rectangle</option>
+                                                        <option value="Cross">Cross</option>
+                                                        <option value="Ellipse">Ellipse</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label htmlFor={"SMA-ImagePreprocessingModes-" + key.toString() + "-MorphOperationKernelSizeX"}>MorphOperationKernelSizeX</label>
+                                                    <input type="range" min="0" max="1000" step="1" defaultValue="0" factor="1" />
+                                                    <input data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-MorphOperationKernelSizeX"} type="knumber" min="0" max="1000" step="1" defaultValue="0" factor="1" />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor={"SMA-ImagePreprocessingModes-" + key.toString() + "-MorphOperationKernelSizeY"}>MorphOperationKernelSizeY</label>
+                                                    <input type="range" min="0" max="1000" step="1" defaultValue="0" factor="1" />
+                                                    <input data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-MorphOperationKernelSizeY"} type="knumber" min="0" max="1000" step="1" defaultValue="0" factor="1" />
+                                                </div>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
                                         </div>
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-regionPredetectionModes-container" className=" div-runtimesettings-mode-container">
-                                <Card.Title style={{ width: '100%' }}>regionPredetectionModes</Card.Title>
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-regionPredetectionModes-container" className="div-runtimesettings-mode-container">
+                                <Card.Title style={{ width: '100%' }}>RegionPredetectionModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.furtherModes.regionPredetectionModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 1300 + key}>
-                                            <select id={"regionPredetectionModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"regionPredetectionModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">Auto</option>
                                                 <option value="2">General</option>
@@ -895,105 +912,109 @@ class SetUpUI extends React.Component {
                                                 <option value="8">Gray</option>
                                                 <option value="16">HSV</option>
                                             </select>
-                                            <Card className=" div-runtimesettings-details-container paddingOneVW" style={value > 2 ? style.show : style.hide}>
+                                            <Card className="div-runtimesettings-details-container paddingOneVW" style={value > 2 ? style.show : style.hide}>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-MinImageDimension">MinImageDimension</label>
-                                                    <input type="range" onChange={this.updateRangeValue} min="262144" max="2147483647" step="1" defaultValue="2621445" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-MinImageDimension" onKeyUp={this.updateRange} type="knumber" min="262144" max="2147483647" step="1" defaultValue="262144" factor="1" />
+                                                    <label htmlFor={"SMA-RegionPredetectionModes-" + key.toString() + "-MinImageDimension"}>MinImageDimension</label>
+                                                    <input type="range" onChange={this.updateRangeValue} min="16384" max="2147483647" step="1" defaultValue="262144" factor="1" />
+                                                    <input data-id={"SMA-RegionPredetectionModes-" + key.toString() + "-MinImageDimension"} onKeyUp={this.updateRange} type="knumber" min="16384" max="2147483647" step="1" defaultValue="262144" factor="1" />
                                                 </div>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-Sensitivity">Sensitivity</label>
+                                                    <label htmlFor={"SMA-RegionPredetectionModes-" + key.toString() + "-Sensitivity"}>Sensitivity</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="1" max="9" step="1" defaultValue="1" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-Sensitivity" onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="1" factor="1" />
+                                                    <input data-id={"SMA-RegionPredetectionModes-" + key.toString() + "-Sensitivity"} onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="1" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <div>
+                                                    <label htmlFor={"SMA-RegionPredetectionModes-" + key.toString() + "-SpatialIndexBlockSize"}>SpatialIndexBlockSize</label>
+                                                    <input type="range" onChange={this.updateRangeValue} min="1" max="32" step="5" defaultValue="1" factor="1" />
+                                                    <input data-id={"SMA-RegionPredetectionModes-" + key.toString() + "-SpatialIndexBlockSize"} onKeyUp={this.updateRange} type="knumber" min="1" max="32" step="1" defaultValue="5" factor="1" />
+                                                </div>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                            </Card>
+                                            <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 16 ? style.show : style.hide}>
+                                                <div>
+                                                    <label htmlFor={"SMA-RegionPredetectionModes-" + key.toString() + "-RelativeBarcodeRegions"}>RelativeBarcodeRegions</label>
+                                                    <input data-id={"SMA-RegionPredetectionModes-" + key.toString() + "-RelativeBarcodeRegions"} type="text" defaultValue="1" />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor={"SMA-RegionPredetectionModes-" + key.toString() + "-ForeAndBackgroundColours"}>ForeAndBackgroundColours</label>
+                                                    <input data-id={"SMA-RegionPredetectionModes-" + key.toString() + "-ForeAndBackgroundColours"} type="text" defaultValue="1" />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor={"SMA-RegionPredetectionModes-" + key.toString() + "-AspectRatioRange"}>AspectRatioRange</label>
+                                                    <input data-id={"SMA-RegionPredetectionModes-" + key.toString() + "-AspectRatioRange"} type="text" defaultValue="1" />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor={"SMA-RegionPredetectionModes-" + key.toString() + "-HeightRange"}>HeightRange</label>
+                                                    <input data-id={"SMA-RegionPredetectionModes-" + key.toString() + "-HeightRange"} type="text" defaultValue="1" />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor={"SMA-RegionPredetectionModes-" + key.toString() + "-WidthRange"}>WidthRange</label>
+                                                    <input data-id={"SMA-RegionPredetectionModes-" + key.toString() + "-WidthRange"} type="text" defaultValue="1" />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor={"SMA-RegionPredetectionModes-" + key.toString() + "-FindAccurateBoundary"}>FindAccurateBoundary</label>
+                                                    <input type="range" onChange={this.updateRangeValue} min="0" max="1" step="1" defaultValue="1" factor="1" />
+                                                    <input data-id={"SMA-RegionPredetectionModes-" + key.toString() + "-FindAccurateBoundary"} onKeyUp={this.updateRange} type="knumber" min="0" max="0" step="1" defaultValue="1" factor="1" />
+                                                </div>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
                                         </div>
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-textFilterModes-container" className=" div-runtimesettings-mode-container">
-                                <Card.Title style={{ width: '100%' }}>textFilterModes</Card.Title>
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-textFilterModes-container" className="div-runtimesettings-mode-container">
+                                <Card.Title style={{ width: '100%' }}>TextFilterModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.furtherModes.textFilterModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 1400 + key}>
-                                            <select id={"textFilterModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"textFilterModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">Auto</option>
                                                 <option value="2">GeneralContour</option>
                                             </select>
-                                            <Card className=" div-runtimesettings-details-container paddingOneVW" style={value === 2 ? style.show : style.hide}>
+                                            <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 2 ? style.show : style.hide}>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-MinImageDimension">MinImageDimension</label>
+                                                    <label htmlFor={"SMA-TextFilterModes-" + key.toString() + "-MinImageDimension"}>MinImageDimension</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="65536" max="2147483647" step="1" defaultValue="65536" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-MinImageDimension" onKeyUp={this.updateRange} type="knumber" min="65536" max="2147483647" step="1" defaultValue="65536" factor="1" />
+                                                    <input data-id={"SMA-TextFilterModes-" + key.toString() + "-MinImageDimension"} onKeyUp={this.updateRange} type="knumber" min="65536" max="2147483647" step="1" defaultValue="65536" factor="1" />
                                                 </div>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-Sensitivity">Sensitivity</label>
+                                                    <label htmlFor={"SMA-TextFilterModes-" + key.toString() + "-Sensitivity"}>Sensitivity</label>
                                                     <input type="range" onChange={this.updateRangeValue} min="0" max="9" step="1" defaultValue="0" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-Sensitivity" onKeyUp={this.updateRange} type="knumber" min="0" max="9" step="1" defaultValue="0" factor="1" />
+                                                    <input data-id={"SMA-TextFilterModes-" + key.toString() + "-Sensitivity"} onKeyUp={this.updateRange} type="knumber" min="0" max="9" step="1" defaultValue="0" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
                                         </div>
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-textureDetectionModes-container" className=" div-runtimesettings-mode-container">
-                                <Card.Title style={{ width: '100%' }}>textureDetectionModes</Card.Title>
+                            <Card style={{ padding: '1vw', marginTop: '1vw' }} id="div-runtimesettings-textureDetectionModes-container" className="div-runtimesettings-mode-container">
+                                <Card.Title style={{ width: '100%' }}>TextureDetectionModes</Card.Title>
                                 <div className="div-algsContainer">
                                     {this.props.runtimeSettings.furtherModes.textureDetectionModes.map((value, key) =>
                                         <div key={this.messageKeyBase + 1500 + key}>
-                                            <select id={"textureDetectionModes_" + (key + 1).toString()} onChange={this.selectionChanged} defaultValue={value}>
+                                            <select onChange={this.updateSettings} id={"textureDetectionModes_" + (key + 1).toString()} value={value}>
                                                 <option value="0">Skip</option>
                                                 <option value="1">Auto</option>
                                                 <option value="2">GeneralWidthConcentration</option>
                                             </select>
-                                            <Card className=" div-runtimesettings-details-container paddingOneVW" style={value === 2 ? style.show : style.hide}>
+                                            <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 2 ? style.show : style.hide}>
                                                 <div>
-                                                    <label htmlFor="ipt-runtimesettings-Sensitivity">Sensitivity</label>
-                                                    <input type="range" onChange={this.updateRangeValue} min="10" max="9" step="1" defaultValue="5" factor="1" />
-                                                    <input data-id="ipt-runtimesettings-Sensitivity" onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="5" factor="1" />
+                                                    <label htmlFor={"SMA-TextureDetectionModes-" + key.toString() + "-Sensitivity"}>Sensitivity</label>
+                                                    <input type="range" onChange={this.updateRangeValue} min="1" max="9" step="1" defaultValue="5" factor="1" />
+                                                    <input data-id={"SMA-TextureDetectionModes-" + key.toString() + "-Sensitivity"} onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="5" factor="1" />
                                                 </div>
-                                                <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
+                                                <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
                                             </Card>
                                         </div>
                                     )}
                                 </div>
                             </Card>
-                            <Card style={{ padding: '1vw', marginTop: '1vw' }} className="div-runtimeSettings-textassistedcorrectionmode-container">
-                                <Card.Title style={{ width: '100%' }}>textAssistedCorrectionMode</Card.Title>
-                                <select id="textAssistedCorrectionMode_1" onChange={this.selectionChanged} defaultValue={this.props.runtimeSettings.furtherModes.textAssistedCorrectionMode}>
-                                    <option value="0">Skip</option>
-                                    <option value="1">Auto</option>
-                                    <option value="2">Verifying</option>
-                                    <option value="4">VerifyingPatching</option>
-                                </select>
-                                <Card className=" div-runtimesettings-details-container paddingOneVW" style={this.props.runtimeSettings.furtherModes.textAssistedCorrectionMode > 1 ? style.show : style.hide}>
-                                    <div>
-                                        <label htmlFor="ipt-runtimesettings-BottomTextPercentageSize">BottomTextPercentageSize</label>
-                                        <input type="range" onChange={this.updateRangeValue} min="0" max="255" step="1" defaultValue="0" factor="1" />
-                                        <input data-id="ipt-runtimesettings-BottomTextPercentageSize" onKeyUp={this.updateRange} type="knumber" min="0" max="255" step="1" defaultValue="0" factor="1" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="ipt-runtimesettings-LeftTextPercentageSize">LeftTextPercentageSize</label>
-                                        <input type="range" onChange={this.updateRangeValue} min="0" max="255" step="1" defaultValue="0" factor="1" />
-                                        <input data-id="ipt-runtimesettings-LeftTextPercentageSize" onKeyUp={this.updateRange} type="knumber" min="0" max="255" step="1" defaultValue="0" factor="1" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="ipt-runtimesettings-RightTextPercentageSize">RightTextPercentageSize</label>
-                                        <input type="range" onChange={this.updateRangeValue} min="0" max="255" step="1" defaultValue="0" factor="1" />
-                                        <input data-id="ipt-runtimesettings-RightTextPercentageSize" onKeyUp={this.updateRange} type="knumber" min="0" max="255" step="1" defaultValue="0" factor="1" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="ipt-runtimesettings-TopTextPercentageSize">TopTextPercentageSize</label>
-                                        <input type="range" onChange={this.updateRangeValue} min="0" max="255" step="1" defaultValue="0" factor="1" />
-                                        <input data-id="ipt-runtimesettings-TopTextPercentageSize" onKeyUp={this.updateRange} type="knumber" min="0" max="255" step="1" defaultValue="0" factor="1" />
-                                    </div>
-                                    <Button style={{ width: '100%' }} variant="outline-success" onClick={this.setModeArguments}>Set Mode Arguments</Button>
-                                </Card>
-                            </Card>
-                            <Button style={{ padding: "1vw", marginTop: "1vw", width: '100%' }} variant="outline-success" onClick={this.updateSettings}>Update Runtime Settings</Button>
                         </div >
                     </div >
                 </Modal.Body>
