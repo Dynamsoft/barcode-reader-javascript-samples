@@ -27,7 +27,8 @@ class BarcodeReader extends React.Component {
             detailContent: [],
             // UI status
             bShowModalDialog: false,
-            modalTitle: "Unspecified"
+            modalTitle: "Unspecified",
+            modeArgumentString: "",
         };
     }
     async componentDidMount() {
@@ -103,6 +104,8 @@ class BarcodeReader extends React.Component {
                         modalTitle={this.state.modalTitle}
                         runtimeSettings={this.state.runtimeSettings}
                         updateRuntimeSettings={this.updateRuntimeSettings}
+                        getModeArgument={this.getModeArgument}
+                        setModeArgument={this.setModeArgument}
                         toggleHideModal={this.toggleHideModal}
                     ></SetUpUI>
                 );
@@ -289,10 +292,40 @@ class BarcodeReader extends React.Component {
     setImageData = data => {
         this.setState({ imgData: data });
     }
+    getModeArgument = async paras => {
+        let reader = this.reader = this.reader || await DBR.BarcodeReader.createInstance();
+        try {
+            if (paras && paras.length > 2) {
+                let _value = await reader.getModeArgument(paras[0], parseInt(paras[1]), paras[2]);
+                alert(JSON.stringify({
+                    modeName: paras[0],
+                    key: paras[1],
+                    argumentName: paras[2],
+                    value: _value
+                }));
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    setModeArgument = async paras => {
+        let reader = this.reader = this.reader || await DBR.BarcodeReader.createInstance();
+        try {
+            if (paras && paras.length > 2) {
+                await reader.setModeArgument(paras[0], parseInt(paras[1]), paras[2], paras[3]);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
     updateRuntimeSettings = async _rts => {
         let reader = this.reader = this.reader || await DBR.BarcodeReader.createInstance();
-        await reader.updateRuntimeSettings(_rts);
-        this.showCurrentSettings();
+        try {
+            await reader.updateRuntimeSettings(_rts);
+            this.showCurrentSettings();
+        } catch (e) {
+            this.showCurrentSettings();
+        }
     }
     toggleHideModal = bShow => {
         this.setState({ bShowModalDialog: bShow });
