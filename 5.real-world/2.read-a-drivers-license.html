@@ -5,17 +5,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - No Extra Control</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2/dist/dbr.js"
-        data-productKeys="t0077xQAAAEOf0RjyWar4Q48NrAu7iX4j+Ivl3iqpsR2Mf3W9gf/HMgalcntdpSMel3xw/Mze/z8dpY0eCdkvUxN6+brx+xrzZh4+AWkFKn4="></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.1/dist/dbr.js"></script>
 </head>
 
 <body onclick="closeMessage()">
-    <h1>Read Driver's License</h1>
+    <h1>Read Driver's License <a href="#" id='readAgain' hidden onclick="readAgain()">Retry</a></h1>
     <div id="scannerUI">
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
-        <button id="btn-show-scanner">Start Reading</button>
+        <img id="btn-show-scanner" alt="show-scanner"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFb0lEQVR4Xu2ad8j1YxjHP6+ZlZEZRVayV9krsmXzh6wSUWSGhIxCiCgh2d7skS0ysv6wV8mIJDMjK1uf97kP5/05v+dc9/37/Z6n933OVeevc83vue/rvu7vfaYxxWXaFK+fEQCjFTDFEZjoLbAGsBawTN/Hn+Czvs+bwNsT9bt0DcBcwHbAbsAuwPLBwj4GHgTuBx4H/gjaZat1BcAcwAHAmcBK2VnNbPA+cBYwHfiroa//mXcBwK7ABcDqLSf7DnAy8ECbftsEwOVu4ce3meAAXxcDp7S1LdoCYGngNmDLjovvuX8G2A/4omm8NgCw+BeAFZomk2n/EbAJ8Hmm3UzqTQFYEHgaWL9JEg1sXwG2An4s9dEEAPe8DWmH0uAt2T2Sjtmio7IJAKcDZ7dURFM3ZwDnlDgpBcD97rE0X0nQDmx+SceufSFLSgG4F9g9K9KY8g/ALWnKe7Wviy8FrJemRQeohQp8m9OeuXYlAGwNPJkZ6E/girRMvxpiuwTg9joKmDMzjrnZlMNSAsDNacyNBvkO2B94LGqQ9GyutwKLZNiZ24EZ+tmEiEvTc3f+YJCfgM2B14L6VbV1gWeBBYL2PwNup/CxmLsCDgWuDSajmtPaHRn6g1T3BW7P8GGO10f1cwG4O6PRPArsWJPIYsAhfQOUA41Jf1Ojr6/tg0XdA+wV1M3eAu8CqwadbwBYWFV2Bq5JhEj/d5IihwEPDbBx0nw5GNccVwvqZgEwD+Aei3TmN4B1BiSxIfDiOD48LTaqKfZ1YO1AYU6E9qjfA7pZAEhnvRVxClwKHFfRlSQRGP2MJ9JhFlolPy4Bjg3GN4aD2lDJ6QESHVJUETkCuLqi6JZ4KWIMuFKqS/5w4KqgvRRciDjJAWCfjI7uuV/t3HsDdwYLMNZdFV1PFDmHiHhyhGLlALAHYIeNyMHAjRXFbRPBGbGXSH2iongQcEPEOJ1UjsZDJQeAnBFYMrR6U5Q7cIgaNtQ4PEmyVIcZb3ySoxHZBngqopgDwIrABxGnQN0McGS6E4znRp0rByh4749yDzLRH0ZyzQFAf3JwSwYc/wYsC3xd0TWexdnQBolNTgD+rny5OPAp4FE8TL5M4/AwvRnf5wJgD7AXROQi4KQaRU+U0yqT4LnpmjzIRF8nRIKmPtXZJHgicGEwkV/TmR/dNnVuXc7OBvMG45qj1HlIcleAA4oTWVR859s053ZWcezt83lgzWjANIE6cIUkFwCdyslvEfI+pmQ3dgaou+jUufLC5Czg6RMVc5MlDksJANJO3gpzxPc9b3/PBY02S7fDlYP6PTVzC53/PYMSAJzp3wM8FnPlPuCytIqqNLY0uy9LxxTyjR57q+Q+oJYAYNElq6AfLIcc+0PvaUsWx/8NOCyVSvavb6BSALR11M3i30orC9iZi+N3tjQBYOF0PV4uO2q7Bp+k1fN9idsmABjPI86xt8nSLcm7Z+NWkirzcbZImgJgUFnfhycBBIvfKbHGRcU37QH9QScahFaKbxMAfUlD3ZSeuIp/kYChT2o231b+SdbGFujPee70xyj/whIhTwP1/qsiYXp+4gRChGfEedsA9GLK/52abo5NgbBwp7vzMqjxSO0zdLoCoJeAz+hHA77WLBrOakzxW+A64HIg+9k7GqtrAHp5OD7bI/xPj0enrK2XnX7xsiTr7O3Pj7R26/8LrAIzUQBU48rYekPsF29+ssETKiMAJhTu/4KNVsBoC8zmPUAG145fJxsn2rz/e2lvX47rxAtPmOyMbu2umuCgPR7NqU6vk1NiBEDTn6XGfrQCBnT5pljPUltgWBMsAWOWaoIlBU6KTVdNcFKKKQk6AqAEtdnJZsqvgH8Apk7nQRizxhgAAAAASUVORK5CYII=" />
+        <img id="btn-open-image" alt="open-image"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADU0lEQVR4Xu2bSchOURjHfx8bw8IQygZZkUQkFBYkhVggKxk3LMxLkZKyMEUW5iFK2JCFDCXKFBFiZ1grdoYy9Nd96/Z2733P+d57zj33e89ZvX33OcP/d54zPM93bxcdXro6XD8RQPQAewJ9gE3ATEC/XZSfwCXgoovG023aLoERwC1gjOuBJe1vB/a77MsWwF1gtssBZbTtFIINgEnAc8/iG905g2ADYAlw1QOAR8D0jH62AQfK7t8GwFLgStkDyGhvLrAA2OwDQqgA7gAHfUAIGYAcIA/C1uRZ2w4ZOgDnEOoAwCmEugBwBqFOAIogbAEOdWdDqBuA0iHUEUCpEOoKoDQIIQJYDFw3XM9Z94S/wHjgrUkbIQK4DSwEfpkIyLks6dp+zaR+2QCeAReAL0nOYAMwxGQgTTYfgBcW9eYDfVP2y0wDtzIB7AL2AH9SAxmWBFCzLMSUYeodwA1gUc7IhyfrcVAZygzb8A5A8fvjgsEpjtdlxVfxDmBosu7zBK4HjvlSD3gHoGPnTYHA3cDOngzgCLAxR2A/4DUwuicD0M6vTfBmk8jewHFgjUfx6sr7ElCnuoGdAM6l7gE7gCmexVcGoAKduV1W4gERQEAEogdUEQsE5ADVnAIRQEAE4h4Qyh7wCdA7Be+AUcAMYEILT3kFPAQ+AmOBOcBIS++q3AN0K1S+TjfB76nBKwGjLNE+oH+GKP33eXlyq2w8VqZHiRaF06YJnEoBKC5YB5wpmDV5wn2gV4aNgioFV81F8cRJQwiVAZD4tcBZA5ddkcQNWbOaB2F1AiELXLrLSgBIvGZJwZBpEQTN9oCMCtOAJxl/XwWcyvGehrl3ABKv2Tlvqjxlp03xHjC4qW7RKzErgdMFELwD0MwXrflWXCYmp0UawlTgaUFFAReErOIdgDK+31qpbPF8HLA38YSjwOUW9gOBrz0JgC2/CCB6QFwCcQ8IZhN8Cfy23cXatFfKXcdnEMdgm1pKr+79HlC6gjYbjABcJER8vS7f5uT/r+7kFZkqP5iwhTLZ9BUb0wxLYwBVfDJjK16RpdJoRsUWgO+PpoxEpIzeA/OAz6YVbQGoXR+fzZmOv2H3A3gAHAb027h0B4Bx43UwjADqMEsux9jxHvAPwx/cQdZmcYgAAAAASUVORK5CYII=" />
     </div>
-    <div id="divNoteMessage"></div>
+    <div id="divNoteMessage" hidden></div>
     <script>
         // scanner for decoding video
         let scanner = null;
@@ -23,33 +25,50 @@
             //Load the library on page load to speed things up.
             try {
                 //Dynamsoft.DBR.BarcodeReader._bUseFullFeature = true;
+                Dynamsoft.DBR.BarcodeReader.organizationID = "200001";
                 await Dynamsoft.DBR.BarcodeScanner.loadWasm();
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
             }
-            document.getElementById('divNoteMessage').addEventListener('click', evt => {
-                evt.stopPropagation();
-            });
         };
+        // decode an image
+        document.getElementById('btn-open-image').addEventListener('click', async () => {
+            document.getElementById('btn-show-scanner').hidden = true;
+            document.getElementById('btn-open-image').hidden = true;
+            openScanner(true);
+        });
         // decode video from camera
         document.getElementById('btn-show-scanner').addEventListener('click', async () => {
             document.getElementById('btn-show-scanner').hidden = true;
+            document.getElementById('btn-open-image').hidden = true;
+            openScanner(false);
+        });
+        function readAgain() {
+            document.getElementById('readAgain').hidden = true;
+            document.getElementById('divNoteMessage').hidden = true;
+            document.getElementById('scannerUI').style.display = "";
+            document.getElementById('btn-show-scanner').hidden = false;
+            document.getElementById('btn-open-image').hidden = false;
+        }
+        async function openScanner(bSingleFrameMode) {
             try {
                 document.getElementById('lib-load').hidden = false;
                 scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
-                scanner.getRuntimeSettings()
-                    .then(settings => {
-                        settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
-                        settings.region = {
-                            regionLeft: 10,
-                            regionTop: 10,
-                            regionRight: 90,
-                            regionBottom: 90,
-                            regionMeasuredByPercentage: 1
-                        };
-                        scanner.updateRuntimeSettings(settings);
-                    });
+                scanner.singleFrameMode = bSingleFrameMode;
+                if (!bSingleFrameMode)
+                    scanner.getRuntimeSettings()
+                        .then(settings => {
+                            settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
+                            settings.region = {
+                                regionLeft: 10,
+                                regionTop: 10,
+                                regionRight: 90,
+                                regionBottom: 90,
+                                regionMeasuredByPercentage: 1
+                            };
+                            scanner.updateRuntimeSettings(settings);
+                        });
                 document.getElementById('lib-load').hidden = true;
                 scanner.onUnduplicatedRead = (txt, result) => {
                     extractInformation(txt);
@@ -64,11 +83,11 @@
                 alert(ex.message);
                 throw ex;
             }
-        });
+        }
         function closeMessage() {
             document.getElementById('divNoteMessage').innerHTML = "";
         }
-        function GetField(keyword, barcode_text) {
+        function getField(keyword, barcode_text) {
             var k = barcode_text.search("\n" + keyword);
             if (k == -1)
                 return false;
@@ -76,13 +95,16 @@
             var subtext = barcode_text.substring(k + 4, m);
             return subtext;
         }
-
-        function extractInformation(text) {
+        async function extractInformation(text) {
             var aryTextToShow = [];
             for (var i = 0; i < driverLicenseFields.length; i++) {
                 var __item = driverLicenseFields[i];
-                var _fieldValue = GetField(__item.abbreviation, text);
+                var _fieldValue = getField(__item.abbreviation, text);
                 if (_fieldValue != false) {
+                    await scanner.hide();
+                    document.getElementById('divNoteMessage').hidden = false;
+                    document.getElementById('scannerUI').style.display = "none";
+                    document.getElementById('readAgain').hidden = false;
                     aryTextToShow.push(__item.description + "<br /><strong>" + _fieldValue + "</strong><br />");
                     aryTextToShow.push("------------------------------<br />");
                 }
@@ -91,7 +113,6 @@
             aryTextToShow.push('</p>');
             document.getElementById('divNoteMessage').innerHTML = aryTextToShow.join('');
         }
-
         var driverLicenseFields = [
             { 'abbreviation': 'DAA', 'description': 'Full Name' },
             { 'abbreviation': 'DAB', 'description': 'Last Name' },
@@ -205,20 +226,34 @@
         height: 50vmin;
         width: 80vmin;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
     }
 
     #scannerUI button {
+        width: 50%;
+        margin: 2vmin;
         padding: 2vmin;
         font-size: xx-large;
     }
 
+    #scannerUI img {
+        height: 8vmin;
+        float: left;
+        margin: 8vmin;
+        cursor: pointer;
+    }
+
+    #scannerUI img:hover {
+        background-color: cadetblue;
+    }
+
     #divNoteMessage {
-        max-height: 90vh;
+        font-size: small;
+        height: 50vmin;
+        width: 80vmin;
         overflow-y: auto;
-        position: absolute;
         z-index: 10;
         color: white;
         background: rgba(34, 34, 34, .8);

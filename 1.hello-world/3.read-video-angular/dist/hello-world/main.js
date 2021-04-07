@@ -51,9 +51,16 @@ class HelloWorldComponent {
     }
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            //DBR.BarcodeReader._bUseFullFeature = true;
-            yield _dbr__WEBPACK_IMPORTED_MODULE_1__["default"].BarcodeScanner.loadWasm();
-            this.libLoaded = true;
+            //Load the library on page load to speed things up.
+            try {
+                //DBR.BarcodeReader._bUseFullFeature = true;
+                yield _dbr__WEBPACK_IMPORTED_MODULE_1__["default"].BarcodeScanner.loadWasm();
+                this.libLoaded = true;
+            }
+            catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
         });
     }
     showScanner() {
@@ -133,7 +140,7 @@ __webpack_require__.r(__webpack_exports__);
 
 dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.1.3/dist/";
 // Please visit https://www.dynamsoft.com/customer/license/trialLicense to get a trial license
-dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.productKeys = "t0077xQAAAEOf0RjyWar4Q48NrAu7iX4j+Ivl3iqpsR2Mf3W9gf/HMgalcntdpSMel3xw/Mze/z8dpY0eCdkvUxN6+brx+xrzZh4+AWkFKn4=";
+dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.organizationID = "200001";
 // DBR.BarcodeReader._bUseFullFeature = true; // Control of loading min wasm or full wasm.
 /* harmony default export */ __webpack_exports__["default"] = (dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
