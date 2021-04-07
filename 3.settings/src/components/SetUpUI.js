@@ -35,6 +35,10 @@ class SetUpUI extends React.Component {
     toggleShowFurtherModesItems = () => {
         this.setState(prevState => ({ showFurtherModesItems: !prevState.showFurtherModesItems }));
     }
+    removeRegion = evt => {
+        let thisRegion = evt.target.parentElement.parentElement;
+        thisRegion.parentElement.removeChild(thisRegion);
+    }
     barcodeFormatsUpdate = evt => {
         let barcodeFormatInputs = document.querySelectorAll('.ipt-barcodeFormat');
         let nBarcodeFormatIds = 0;
@@ -308,7 +312,6 @@ class SetUpUI extends React.Component {
             console.error(ex);
         }
     }
-    doNothing = () => { }
     render() {
         return (
             //Why animation={false}: https://github.com/react-bootstrap/react-bootstrap/issues/5075
@@ -317,7 +320,7 @@ class SetUpUI extends React.Component {
                     <Modal.Title>{this.props.modalTitle}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className={"overFlowX noPadding"}>
-                    <div id="div-settingsModule" className="div-settingsModule">
+                    <div id="div-settingsModule" key={this.props.RTSUpdatedCount} className="div-settingsModule">
                         <div className="div-advanceSettingsHeader">
                             <a title="Check Documentation" href="https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/global-interfaces.html?ver=latest#runtimesettings" target="_blank" rel="noopener noreferrer" original-title="document">
                                 <svg width="16" height="16" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#fe8e14" d="M1703 478q40 57 18 129l-275 906q-19 64-76.5 107.5t-122.5 43.5h-923q-77 0-148.5-53.5t-99.5-131.5q-24-67-2-127 0-4 3-27t4-37q1-8-3-21.5t-3-19.5q2-11 8-21t16.5-23.5 16.5-23.5q23-38 45-91.5t30-91.5q3-10 .5-30t-.5-28q3-11 17-28t17-23q21-36 42-92t25-90q1-9-2.5-32t.5-28q4-13 22-30.5t22-22.5q19-26 42.5-84.5t27.5-96.5q1-8-3-25.5t-2-26.5q2-8 9-18t18-23 17-21q8-12 16.5-30.5t15-35 16-36 19.5-32 26.5-23.5 36-11.5 47.5 5.5l-1 3q38-9 51-9h761q74 0 114 56t18 130l-274 906q-36 119-71.5 153.5t-128.5 34.5h-869q-27 0-38 15-11 16-1 43 24 70 144 70h923q29 0 56-15.5t35-41.5l300-987q7-22 5-57 38 15 59 43zm-1064 2q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5t16.5-22.5l21-64q4-13-2-22.5t-20-9.5h-608q-13 0-25.5 9.5t-16.5 22.5zm-83 256q-4 13 2 22.5t20 9.5h608q13 0 25.5-9.5t16.5-22.5l21-64q4-13-2-22.5t-20-9.5h-608q-13 0-25.5 9.5t-16.5 22.5z"></path></svg>
@@ -398,7 +401,7 @@ class SetUpUI extends React.Component {
                                 <input id="ipt-runtimesettings-deblurLevel" onKeyUp={this.updateRange} type="knumber" min="0" max="9" step="1" defaultValue={this.props.runtimeSettings.deblurLevel} factor="1" />
 
                                 <label htmlFor="ipt-runtimesettings-expectedBarcodesCount">ExpectedBarcodesCount</label>
-                                <input type="range" onChange={this.updateRangeValue} min="0" max="100" step="1" defaultValue={this.props.runtimeSettings.expectedBarcodesCount} factor="1" />
+                                <input type="range" onChange={this.updateRangeValue} min="0" max="999" step="1" defaultValue={this.props.runtimeSettings.expectedBarcodesCount} factor="1" />
                                 <input id="ipt-runtimesettings-expectedBarcodesCount" onKeyUp={this.updateRange} type="knumber" min="0" max="999" step="1" defaultValue={this.props.runtimeSettings.expectedBarcodesCount} factor="1" />
 
                                 <label htmlFor="ipt-runtimesettings-maxAlgorithmThreadCount">MaxAlgorithmThreadCount</label>
@@ -425,11 +428,11 @@ class SetUpUI extends React.Component {
                                 <input type="range" onChange={this.updateRangeValue} min="1" max="100" defaultValue={parseInt(this.props.runtimeSettings.timeout / 1000)} step="1" factor="1000" />
                                 <input id="ipt-runtimesettings-timeout" onKeyUp={this.updateRange} type="knumber" readOnly min="100" max="100000" step="1" defaultValue={this.props.runtimeSettings.timeout} factor="1000" />
 
-                                <div className="div-runtimesettings-region-container" style={{ width: '100%' }}>
-                                    <label>Region(s)</label>
-                                    {this.props.runtimeSettings.region.length > 0 ?
-                                        (<>
-                                            {this.props.runtimeSettings.region.map((value, key) => <>
+                                {this.props.runtimeSettings.region.length > 0 ?
+                                    (<>
+                                        {this.props.runtimeSettings.region.map((value, key) =>
+                                            <div key={this.messageKeyBase + 1600 + key} className="div-runtimesettings-region-container" style={{ width: '100%' }}>
+                                                <label>Region {key + 1}  {key !== 0 && key === this.props.runtimeSettings.region.length - 1 ? <Button variant="light" onClick={this.removeRegion}>X</Button> : ""}</label>
                                                 <label style={{ width: '100%', textAlign: 'center' }}>
                                                     <input type="checkbox" onChange={this.updateSettings} id={"ipt-runtimesettings-regionMeasuredByPercentage_" + (key + 1).toString()} defaultChecked={value === null ? false : !!value.regionMeasuredByPercentage} onClick={this.usePercentageOrNot} />By Percentage
                                                 </label>
@@ -437,20 +440,20 @@ class SetUpUI extends React.Component {
                                                 <input type="kPercentage" onChange={this.updateSettings} id={"ipt-runtimesettings-regionLeft_" + (key + 1).toString()} className="ipt-runtimesettings-regionLeft" placeholder={value === null ? "left" : "left(%)"} defaultValue={value === null ? "" : value.regionLeft} />
                                                 <input type="kPercentage" onChange={this.updateSettings} id={"ipt-runtimesettings-regionRight_" + (key + 1).toString()} className="ipt-runtimesettings-regionRight" placeholder={value === null ? "right" : "right(%)"} defaultValue={value === null ? "" : value.regionRight} />
                                                 <input type="kPercentage" onChange={this.updateSettings} id={"ipt-runtimesettings-regionBottom_" + (key + 1).toString()} className="ipt-runtimesettings-regionBottom" placeholder={value === null ? "bottom" : "bottom(%)"} defaultValue={value === null ? "" : value.regionBottom} />
-                                            </>)}
-                                        </>)
-                                        :
-                                        (<>
-                                            <label style={{ width: '100%', textAlign: 'center' }}>
-                                                <input type="checkbox" onChange={this.updateSettings} id="ipt-runtimesettings-regionMeasuredByPercentage_1" defaultChecked={!!this.props.runtimeSettings.region.regionMeasuredByPercentage} onClick={this.usePercentageOrNot} />By Percentage
+                                            </div>)}
+                                    </>)
+                                    :
+                                    (<div className="div-runtimesettings-region-container" style={{ width: '100%' }}>
+                                        <label>Region</label>
+                                        <label style={{ width: '100%', textAlign: 'center' }}>
+                                            <input type="checkbox" onChange={this.updateSettings} id="ipt-runtimesettings-regionMeasuredByPercentage_1" defaultChecked={!!this.props.runtimeSettings.region.regionMeasuredByPercentage} onClick={this.usePercentageOrNot} />By Percentage
                                             </label>
-                                            <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionTop_1" className="ipt-runtimesettings-regionTop" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "top(%)" : "top"} defaultValue={this.props.runtimeSettings.region.regionTop === 0 ? "" : this.props.runtimeSettings.region.regionTop} />
-                                            <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionLeft_1" className="ipt-runtimesettings-regionLeft" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "left(%)" : "left"} defaultValue={this.props.runtimeSettings.region.regionLeft === 0 ? "" : this.props.runtimeSettings.region.regionLeft} />
-                                            <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionRight_1" className="ipt-runtimesettings-regionRight" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "right(%)" : "right"} defaultValue={this.props.runtimeSettings.region.regionRight === 0 ? "" : this.props.runtimeSettings.region.regionRight} />
-                                            <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionBottom_1" className="ipt-runtimesettings-regionBottom" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "bottom(%)" : "bottom"} defaultValue={this.props.runtimeSettings.region.regionBottom === 0 ? "" : this.props.runtimeSettings.region.regionBottom} />
-                                        </>)
-                                    }
-                                </div>
+                                        <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionTop_1" className="ipt-runtimesettings-regionTop" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "top(%)" : "top"} defaultValue={this.props.runtimeSettings.region.regionTop === 0 ? "" : this.props.runtimeSettings.region.regionTop} />
+                                        <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionLeft_1" className="ipt-runtimesettings-regionLeft" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "left(%)" : "left"} defaultValue={this.props.runtimeSettings.region.regionLeft === 0 ? "" : this.props.runtimeSettings.region.regionLeft} />
+                                        <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionRight_1" className="ipt-runtimesettings-regionRight" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "right(%)" : "right"} defaultValue={this.props.runtimeSettings.region.regionRight === 0 ? "" : this.props.runtimeSettings.region.regionRight} />
+                                        <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionBottom_1" className="ipt-runtimesettings-regionBottom" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "bottom(%)" : "bottom"} defaultValue={this.props.runtimeSettings.region.regionBottom === 0 ? "" : this.props.runtimeSettings.region.regionBottom} />
+                                    </div>)
+                                }
                             </Card>
                             <Card style={{ padding: '1vw', marginTop: '1vw' }} >
                                 <Card.Title style={{ width: '100%' }}>More Settings</Card.Title>
@@ -1021,7 +1024,7 @@ class SetUpUI extends React.Component {
                 <Modal.Footer>
                     <Button variant="primary" onClick={this.handleClose}>Close</Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal >
         );
     }
 }

@@ -1,44 +1,24 @@
-import DBR from "../dbr";
 import React from 'react';
-import './BarcodeScanner.css';
+import './ScannerUI.css';
 
 class BarcodeScanner extends React.Component {
     constructor(props) {
         super(props);
-        this.bDestroyed = false;
-        this.scanner = null;
         this.elRef = React.createRef();
     }
     async componentDidMount() {
         try {
-            DBR.BarcodeReader._bUseFullFeature = this.props.fullFeature;
-            this.scanner = this.scanner || await DBR.BarcodeScanner.createInstance();
-            if (this.bDestroyed) {
-                this.scanner.destroy();
-                return;
-            }
-
-            this.scanner.setUIElement(this.elRef.current);
-            this.scanner.onFrameRead = results => {
+            this.props.scanner.setUIElement(this.elRef.current);
+            this.props.scanner.onFrameRead = results => {
                 for (let result of results) {
-                    this.props.showMessage(result.barcodeFormatString + ': ' + result.barcodeText);
+                    this.props.appendMessage(result.barcodeFormatString + ': ' + result.barcodeText);
                 }
             };
-            await this.scanner.open();
+            await this.props.scanner.open();
         } catch (ex) {
-            this.props.showMessage(ex.message);
+            this.props.appendMessage(ex.message);
             console.error(ex);
         }
-    }
-    componentWillUnmount() {
-        this.bDestroyed = true;
-        if (this.scanner) {
-            this.scanner.destroy();
-        }
-    }
-    shouldComponentUpdate() {
-        // Never update UI after mount, dbrjs sdk use native way to bind event, update will remove it.
-        return false;
     }
     render() {
         return (

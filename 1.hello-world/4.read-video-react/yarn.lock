@@ -4159,10 +4159,10 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dynamsoft-javascript-barcode@^8.1.3:
-  version "8.1.3"
-  resolved "https://registry.npm.taobao.org/dynamsoft-javascript-barcode/download/dynamsoft-javascript-barcode-8.1.3.tgz#ba2b100cb4258c08483c7d98ac564c8811d658b3"
-  integrity sha1-uisQDLQljAhIPH2YrFZMiBHWWLM=
+dynamsoft-javascript-barcode@^8.2.1:
+  version "8.2.1"
+  resolved "https://registry.npm.taobao.org/dynamsoft-javascript-barcode/download/dynamsoft-javascript-barcode-8.2.1.tgz#ed2a85235d3b30cefbd433a4869ae1b73195d3af"
+  integrity sha1-7SqFI107MM771DOkhprhtzGV068=
 
 ecc-jsbn@~0.1.1:
   version "0.1.2"

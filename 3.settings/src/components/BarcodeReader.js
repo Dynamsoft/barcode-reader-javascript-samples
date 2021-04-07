@@ -19,7 +19,7 @@ class BarcodeReader extends React.Component {
             // Runtime settings in different forms for display
             runtimeSettings: null,
             runtimeSettingsString: "",
-            showUpdatedRTSCount: 0,
+            RTSUpdatedCount: 0,
             // Data to show
             imgData: null,
             messages: [],
@@ -32,7 +32,8 @@ class BarcodeReader extends React.Component {
         };
     }
     async componentDidMount() {
-        DBR.BarcodeReader._bUseFullFeature = this.props.fullFeature;
+        if (DBR.BarcodeReader._bUseFullFeature !== this.props.fullFeature)
+            DBR.BarcodeReader._bUseFullFeature = this.props.fullFeature;
         //Load the library on page load to speed things up.
         try {
             await DBR.BarcodeReader.loadWasm();
@@ -91,7 +92,7 @@ class BarcodeReader extends React.Component {
                         modalTitle={this.state.modalTitle}
                         runtimeSettings={this.state.runtimeSettings}
                         runtimeSettingsString={this.state.runtimeSettingsString}
-                        showUpdatedRTSCount={this.state.showUpdatedRTSCount}
+                        RTSUpdatedCount={this.state.RTSUpdatedCount}
                         updateRuntimeSettings={this.updateRuntimeSettings}
                         toggleHideModal={this.toggleHideModal}
                     ></StaticSettings>
@@ -99,7 +100,7 @@ class BarcodeReader extends React.Component {
             case 'Set Up':
                 return (
                     <SetUpUI
-                        showUpdatedRTSCount={this.state.showUpdatedRTSCount}
+                        RTSUpdatedCount={this.state.RTSUpdatedCount}
                         fullFeature={this.props.fullFeature}
                         modalTitle={this.state.modalTitle}
                         runtimeSettings={this.state.runtimeSettings}
@@ -350,7 +351,7 @@ class BarcodeReader extends React.Component {
             if (this.props.fullFeature)
                 runtimeSettings_str = await reader.outputSettingsToString();
             this.setState({
-                showUpdatedRTSCount: this.state.showUpdatedRTSCount + 1,
+                RTSUpdatedCount: this.state.RTSUpdatedCount + 1,
                 runtimeSettings: _runtimeSettings,
                 runtimeSettingsString: runtimeSettings_str
             });

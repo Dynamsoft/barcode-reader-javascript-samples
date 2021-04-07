@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - Multiple Results</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.1.2/dist/dbr.js"
-        data-productKeys="t0077xQAAAEOf0RjyWar4Q48NrAu7iX4j+Ivl3iqpsR2Mf3W9gf/HMgalcntdpSMel3xw/Mze/z8dpY0eCdkvUxN6+brx+xrzZh4+AWkFKn4="></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.1/dist/dbr.js"></script>
 </head>
 
 <body>
@@ -23,6 +22,7 @@
             //Load the library on page load to speed things up.
             try {
                 // Dynamsoft.DBR.BarcodeReader._bUseFullFeature = true;
+                Dynamsoft.DBR.BarcodeReader.organizationID = "200001";
                 await Dynamsoft.DBR.BarcodeScanner.loadWasm();
             } catch (ex) {
                 alert(ex.message);

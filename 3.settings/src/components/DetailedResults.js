@@ -6,9 +6,7 @@ import { Modal, Card } from 'react-bootstrap';
 class DetailedResults extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            messageKeyBase: 200000
-        };
+        this.messageKeyBase = 200000;
     }
     render() {
         return (
@@ -20,7 +18,7 @@ class DetailedResults extends React.Component {
                 <Modal.Body className={"overFlowX"}>
                     <Card className="paddingOneVW">
                         {this.props.detailTitles.map((message, index) =>
-                            <p className='compact_P' key={this.state.messageKeyBase + index}>
+                            <p className='compact_P' key={this.messageKeyBase + index}>
                                 <span>
                                     {message}
                                 </span>
@@ -29,7 +27,7 @@ class DetailedResults extends React.Component {
                                 </strong>
                             </p>
                         )}
-                        </Card>
+                    </Card>
                 </Modal.Body>
             </Modal>
         );

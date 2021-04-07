@@ -6,16 +6,16 @@ import { Modal, Card, Button } from 'react-bootstrap';
 class StaticSettings extends React.Component {
     constructor(props) {
         super(props);
+        this.messageKeyBase = 100000;
         this.state = {
             runtimeSettingsString: "",
             runtimeSettingsArray: [],
             showString: false,
-            messageKeyBase: 100000
         };
     }
     componentDidUpdate(prevProps) {
         // Typical usage (don't forget to compare props):
-        if (this.props.showUpdatedRTSCount !== prevProps.showUpdatedRTSCount) {
+        if (this.props.RTSUpdatedCount !== prevProps.RTSUpdatedCount) {
             this.showSettings();
         }
     }
@@ -81,7 +81,7 @@ class StaticSettings extends React.Component {
                         : ""}
                     <Card className="paddingOneVW" style={this.state.showString ? style.hide : style.show}>
                         {this.state.runtimeSettingsArray.map((setting, index) =>
-                            <p className={'compact_P runTimeSettings_P' + setting[0]} key={this.state.messageKeyBase + index} >
+                            <p className={'compact_P runTimeSettings_P' + setting[0]} key={this.messageKeyBase + index} >
                                 {setting[1]}
                             </p >
                         )}

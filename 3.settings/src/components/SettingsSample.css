@@ -19,35 +19,6 @@
     padding: 2vmin;
 }
 
-#scannerUI {
-    margin: 2vmin auto;
-    text-align: center;
-    font-size: medium;
-    height: 50%;
-    width: 90vw;
-}
-
-.Input-text {
-    display: block;
-    margin: 2vh 0;
-    padding: 0.4rem 0.8rem;
-    color: inherit;
-    width: 100%;
-    border: none;
-    font-size: 1.5rem;
-    border-radius: 0.2rem;
-    text-align: center;
-}
-
-.Input-text::placeholder {
-    color: #B0BEC5;
-}
-
-.Input-text:focus {
-    outline: none;
-    box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
-}
-
 .logo {
     animation: App-logo-spin infinite 20s linear;
     height: 80px;
