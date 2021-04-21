@@ -26,7 +26,7 @@
         window.onload = async function () {
             // Create a BarcodeReader instance on page load to speed things up.
             try {
-                Dynamsoft.DBR.BarcodeReader.organizationID = "200001";
+                Dynamsoft.DBR.BarcodeReader.organizationID = "900001";
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
             } catch (ex) {
                 alert(ex.message);

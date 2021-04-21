@@ -4,7 +4,7 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      width: 100vw;
+      width: vw;
       height: 90vh;
       color: #455A64;
     }
