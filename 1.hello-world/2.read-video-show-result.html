@@ -9,12 +9,15 @@
 </head>
 
 <body>
-    <button id="btn-show-scanner" style="font-size:1.5rem;margin-bottom:5vmin;">Start Barcode
+    <button id="btn-show-scanner" style="font-size:1.5rem;margin-bottom:2vmin;">Start Barcode
         Scanner</button>
-    <button hidden id="btn-clear-result" style="font-size:1.5rem;margin-bottom:5vmin;">Clear The Result</button>
+    <button hidden id="btn-clear-result" style="font-size:1.5rem;margin-bottom:2vmin;">Clear The Result</button>
     <input type="text" id="result" readonly="true" class="Input-text" placeholder="The Barcode Result">
     <div id="scannerUI">
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
+    </div>
+    <div id="results" style="visibility: hidden;">
+        <span style="float:left">All Results:</span><br />
     </div>
     <script>
         // scanner for decoding video
@@ -38,8 +41,17 @@
                 scanner.onUnduplicatedRead = (txt, result) => {
                     document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
                 };
+                scanner.onFrameRead = (results) => {
+                    for (let result of results) {
+                        let newDIV = document.createElement("div");
+                        newDIV.innerHTML = result.barcodeFormatString + ": <span class='resultText'>" + result.barcodeText + "</span>";
+                        document.getElementById('results').appendChild(newDIV);
+                        document.getElementById('results').scrollTop = document.getElementById('results').scrollHeight;
+                    }
+                };
                 document.getElementById('scannerUI').appendChild(scanner.getUIElement());
                 await scanner.show();
+                document.getElementById('results').style.visibility = "visible";
                 document.getElementById('btn-show-scanner').hidden = true;
                 document.getElementById('btn-clear-result').hidden = false;
             } catch (ex) {
@@ -60,16 +72,16 @@
         justify-content: center;
         overflow: hidden;
         width: 100vw;
-        height: 90vh;
+        height: 99vh;
         color: #455A64;
     }
 
     #scannerUI {
-        margin: 5vmin auto;
+        margin: 2vmin auto;
         text-align: center;
         font-size: medium;
-        height: 60vh;
-        width: 90vw;
+        height: 50vh;
+        width: 80vw;
     }
 
     .Input-text {
@@ -77,7 +89,7 @@
         margin: 0;
         padding: 0.4rem 0.8rem;
         color: inherit;
-        width: 90%;
+        width: 80vw;
         border: none;
         font-size: 1.5rem;
         border-radius: 0.2rem;
@@ -91,6 +103,19 @@
     .Input-text:focus {
         outline: none;
         box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
+    }
+
+    #results {
+        border: 1px dashed grey;
+        overflow: auto;
+        width: 80vw;
+        padding: 2vmin;
+        margin-bottom: 5vh;
+        height: 20vh;
+    }
+
+    .resultText {
+        color: #cE5E04
     }
 </style>
 

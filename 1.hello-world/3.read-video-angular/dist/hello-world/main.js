@@ -32,15 +32,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+function HelloWorldComponent_button_3_Template(rf, ctx) { if (rf & 1) {
+    const _r5 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("click", function HelloWorldComponent_button_3_Template_button_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵrestoreView"](_r5); const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](); return ctx_r4.showScanner(); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1, "Start Barcode Scanner");
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+} }
+function HelloWorldComponent_button_4_Template(rf, ctx) { if (rf & 1) {
+    const _r7 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("click", function HelloWorldComponent_button_4_Template_button_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵrestoreView"](_r7); const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](); return ctx_r6.hideScanner(); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1, "Hide Barcode Scanner");
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+} }
 function HelloWorldComponent_span_7_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "span", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "span", 7);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1, "Loading Library...");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
 } }
 function HelloWorldComponent_app_barcode_scanner_8_Template(rf, ctx) { if (rf & 1) {
-    const _r3 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "app-barcode-scanner", 7);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("appendMessage", function HelloWorldComponent_app_barcode_scanner_8_Template_app_barcode_scanner_appendMessage_0_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵrestoreView"](_r3); const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](); return ctx_r2.appendMessage($event); });
+    const _r9 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "app-barcode-scanner", 8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("appendMessage", function HelloWorldComponent_app_barcode_scanner_8_Template_app_barcode_scanner_appendMessage_0_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵrestoreView"](_r9); const ctx_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](); return ctx_r8.appendMessage($event); });
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
 } }
 class HelloWorldComponent {
@@ -66,21 +80,22 @@ class HelloWorldComponent {
     showScanner() {
         this.bShowScanner = true;
     }
+    hideScanner() {
+        this.bShowScanner = false;
+    }
     appendMessage(str) {
         console.log(str);
         this.resultValue = str;
     }
 }
 HelloWorldComponent.ɵfac = function HelloWorldComponent_Factory(t) { return new (t || HelloWorldComponent)(); };
-HelloWorldComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: HelloWorldComponent, selectors: [["app-hello-world"]], decls: 9, vars: 3, consts: [[1, "helloWorld"], [3, "click"], ["type", "text", "readonly", "true", "placeholder", "The Barcode Result", 1, "Input-text", 3, "value"], ["id", "scannerUI"], ["style", "font-size:x-large", 4, "ngIf"], [3, "appendMessage", 4, "ngIf"], [2, "font-size", "x-large"], [3, "appendMessage"]], template: function HelloWorldComponent_Template(rf, ctx) { if (rf & 1) {
+HelloWorldComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: HelloWorldComponent, selectors: [["app-hello-world"]], decls: 9, vars: 5, consts: [[1, "helloWorld"], [3, "click", 4, "ngIf"], ["type", "text", "readonly", "true", "placeholder", "The Barcode Result", 1, "Input-text", 3, "value"], ["id", "scannerUI"], ["style", "font-size:x-large", 4, "ngIf"], [3, "appendMessage", 4, "ngIf"], [3, "click"], [2, "font-size", "x-large"], [3, "appendMessage"]], template: function HelloWorldComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "h1");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](2, "Dynamsoft Barcode Reader Hello World Sample for Angular");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](3, "button", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("click", function HelloWorldComponent_Template_button_click_3_listener() { return ctx.showScanner(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](4, "Start Barcode Scanner");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](3, HelloWorldComponent_button_3_Template, 2, 0, "button", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](4, HelloWorldComponent_button_4_Template, 2, 0, "button", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](5, "input", 2);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](6, "div", 3);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](7, HelloWorldComponent_span_7_Template, 2, 0, "span", 4);
@@ -88,13 +103,17 @@ HelloWorldComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefi
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
     } if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", !ctx.bShowScanner);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx.bShowScanner);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("value", ctx.resultValue);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", !ctx.libLoaded);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx.bShowScanner);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgIf"], _barcode_scanner_barcode_scanner_component__WEBPACK_IMPORTED_MODULE_4__["BarcodeScannerComponent"]], styles: [".helloWorld[_ngcontent-%COMP%] {\r\n      display: flex;\r\n      flex-direction: column;\r\n      align-items: center;\r\n      justify-content: center;\r\n      overflow: hidden;\r\n      width: 100vw;\r\n      height: 90vh;\r\n      color: #455A64;\r\n    }\r\n\r\n    #scannerUI[_ngcontent-%COMP%] {\r\n      margin: 5vmin auto;\r\n      text-align: center;\r\n      font-size: medium;\r\n      height: 50vh;\r\n      width: 90vw;\r\n    }\r\n\r\n    .Input-text[_ngcontent-%COMP%] {\r\n      display: block;\r\n      margin: 0;\r\n      padding: 0.4rem 0.8rem;\r\n      color: inherit;\r\n      width: 90%;\r\n      border: none;\r\n      font-size: 1.5rem;\r\n      border-radius: 0.2rem;\r\n      text-align: center;\r\n    }\r\n\r\n    .Input-text[_ngcontent-%COMP%]::placeholder {\r\n      color: #B0BEC5;\r\n    }\r\n\r\n    .Input-text[_ngcontent-%COMP%]:focus {\r\n      outline: none;\r\n      box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;\r\n    }\r\n\r\n    button[_ngcontent-%COMP%] {\r\n      font-size: 1.5rem;\r\n      margin-bottom: 5vmin;\r\n    }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImhlbGxvLXdvcmxkLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IklBQUk7TUFDRSxhQUFhO01BQ2Isc0JBQXNCO01BQ3RCLG1CQUFtQjtNQUNuQix1QkFBdUI7TUFDdkIsZ0JBQWdCO01BQ2hCLFlBQVk7TUFDWixZQUFZO01BQ1osY0FBYztJQUNoQjs7SUFFQTtNQUNFLGtCQUFrQjtNQUNsQixrQkFBa0I7TUFDbEIsaUJBQWlCO01BQ2pCLFlBQVk7TUFDWixXQUFXO0lBQ2I7O0lBRUE7TUFDRSxjQUFjO01BQ2QsU0FBUztNQUNULHNCQUFzQjtNQUN0QixjQUFjO01BQ2QsVUFBVTtNQUNWLFlBQVk7TUFDWixpQkFBaUI7TUFDakIscUJBQXFCO01BQ3JCLGtCQUFrQjtJQUNwQjs7SUFFQTtNQUNFLGNBQWM7SUFDaEI7O0lBRUE7TUFDRSxhQUFhO01BQ2Isd0NBQXdDO0lBQzFDOztJQUVBO01BQ0UsaUJBQWlCO01BQ2pCLG9CQUFvQjtJQUN0QiIsImZpbGUiOiJoZWxsby13b3JsZC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiICAgIC5oZWxsb1dvcmxkIHtcclxuICAgICAgZGlzcGxheTogZmxleDtcclxuICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICAgIG92ZXJmbG93OiBoaWRkZW47XHJcbiAgICAgIHdpZHRoOiAxMDB2dztcclxuICAgICAgaGVpZ2h0OiA5MHZoO1xyXG4gICAgICBjb2xvcjogIzQ1NUE2NDtcclxuICAgIH1cclxuXHJcbiAgICAjc2Nhbm5lclVJIHtcclxuICAgICAgbWFyZ2luOiA1dm1pbiBhdXRvO1xyXG4gICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICAgIGZvbnQtc2l6ZTogbWVkaXVtO1xyXG4gICAgICBoZWlnaHQ6IDUwdmg7XHJcbiAgICAgIHdpZHRoOiA5MHZ3O1xyXG4gICAgfVxyXG5cclxuICAgIC5JbnB1dC10ZXh0IHtcclxuICAgICAgZGlzcGxheTogYmxvY2s7XHJcbiAgICAgIG1hcmdpbjogMDtcclxuICAgICAgcGFkZGluZzogMC40cmVtIDAuOHJlbTtcclxuICAgICAgY29sb3I6IGluaGVyaXQ7XHJcbiAgICAgIHdpZHRoOiA5MCU7XHJcbiAgICAgIGJvcmRlcjogbm9uZTtcclxuICAgICAgZm9udC1zaXplOiAxLjVyZW07XHJcbiAgICAgIGJvcmRlci1yYWRpdXM6IDAuMnJlbTtcclxuICAgICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG4gICAgfVxyXG5cclxuICAgIC5JbnB1dC10ZXh0OjpwbGFjZWhvbGRlciB7XHJcbiAgICAgIGNvbG9yOiAjQjBCRUM1O1xyXG4gICAgfVxyXG5cclxuICAgIC5JbnB1dC10ZXh0OmZvY3VzIHtcclxuICAgICAgb3V0bGluZTogbm9uZTtcclxuICAgICAgYm94LXNoYWRvdzogMC4xcmVtIDAuNHJlbSAwLjhyZW0gIzVlMzViMTtcclxuICAgIH1cclxuXHJcbiAgICBidXR0b24ge1xyXG4gICAgICBmb250LXNpemU6IDEuNXJlbTtcclxuICAgICAgbWFyZ2luLWJvdHRvbTogNXZtaW47XHJcbiAgICB9XHJcbiJdfQ== */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgIf"], _barcode_scanner_barcode_scanner_component__WEBPACK_IMPORTED_MODULE_4__["BarcodeScannerComponent"]], styles: [".helloWorld[_ngcontent-%COMP%] {\r\n      display: flex;\r\n      flex-direction: column;\r\n      align-items: center;\r\n      justify-content: center;\r\n      overflow: hidden;\r\n      width: vw;\r\n      height: 90vh;\r\n      color: #455A64;\r\n    }\r\n\r\n    #scannerUI[_ngcontent-%COMP%] {\r\n      margin: 5vmin auto;\r\n      text-align: center;\r\n      font-size: medium;\r\n      height: 50vh;\r\n      width: 90vw;\r\n    }\r\n\r\n    .Input-text[_ngcontent-%COMP%] {\r\n      display: block;\r\n      margin: 0;\r\n      padding: 0.4rem 0.8rem;\r\n      color: inherit;\r\n      width: 90%;\r\n      border: none;\r\n      font-size: 1.5rem;\r\n      border-radius: 0.2rem;\r\n      text-align: center;\r\n    }\r\n\r\n    .Input-text[_ngcontent-%COMP%]::placeholder {\r\n      color: #B0BEC5;\r\n    }\r\n\r\n    .Input-text[_ngcontent-%COMP%]:focus {\r\n      outline: none;\r\n      box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;\r\n    }\r\n\r\n    button[_ngcontent-%COMP%] {\r\n      font-size: 1.5rem;\r\n      margin-bottom: 5vmin;\r\n    }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImhlbGxvLXdvcmxkLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IklBQUk7TUFDRSxhQUFhO01BQ2Isc0JBQXNCO01BQ3RCLG1CQUFtQjtNQUNuQix1QkFBdUI7TUFDdkIsZ0JBQWdCO01BQ2hCLFNBQVM7TUFDVCxZQUFZO01BQ1osY0FBYztJQUNoQjs7SUFFQTtNQUNFLGtCQUFrQjtNQUNsQixrQkFBa0I7TUFDbEIsaUJBQWlCO01BQ2pCLFlBQVk7TUFDWixXQUFXO0lBQ2I7O0lBRUE7TUFDRSxjQUFjO01BQ2QsU0FBUztNQUNULHNCQUFzQjtNQUN0QixjQUFjO01BQ2QsVUFBVTtNQUNWLFlBQVk7TUFDWixpQkFBaUI7TUFDakIscUJBQXFCO01BQ3JCLGtCQUFrQjtJQUNwQjs7SUFFQTtNQUNFLGNBQWM7SUFDaEI7O0lBRUE7TUFDRSxhQUFhO01BQ2Isd0NBQXdDO0lBQzFDOztJQUVBO01BQ0UsaUJBQWlCO01BQ2pCLG9CQUFvQjtJQUN0QiIsImZpbGUiOiJoZWxsby13b3JsZC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiICAgIC5oZWxsb1dvcmxkIHtcclxuICAgICAgZGlzcGxheTogZmxleDtcclxuICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICAgIG92ZXJmbG93OiBoaWRkZW47XHJcbiAgICAgIHdpZHRoOiB2dztcclxuICAgICAgaGVpZ2h0OiA5MHZoO1xyXG4gICAgICBjb2xvcjogIzQ1NUE2NDtcclxuICAgIH1cclxuXHJcbiAgICAjc2Nhbm5lclVJIHtcclxuICAgICAgbWFyZ2luOiA1dm1pbiBhdXRvO1xyXG4gICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICAgIGZvbnQtc2l6ZTogbWVkaXVtO1xyXG4gICAgICBoZWlnaHQ6IDUwdmg7XHJcbiAgICAgIHdpZHRoOiA5MHZ3O1xyXG4gICAgfVxyXG5cclxuICAgIC5JbnB1dC10ZXh0IHtcclxuICAgICAgZGlzcGxheTogYmxvY2s7XHJcbiAgICAgIG1hcmdpbjogMDtcclxuICAgICAgcGFkZGluZzogMC40cmVtIDAuOHJlbTtcclxuICAgICAgY29sb3I6IGluaGVyaXQ7XHJcbiAgICAgIHdpZHRoOiA5MCU7XHJcbiAgICAgIGJvcmRlcjogbm9uZTtcclxuICAgICAgZm9udC1zaXplOiAxLjVyZW07XHJcbiAgICAgIGJvcmRlci1yYWRpdXM6IDAuMnJlbTtcclxuICAgICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG4gICAgfVxyXG5cclxuICAgIC5JbnB1dC10ZXh0OjpwbGFjZWhvbGRlciB7XHJcbiAgICAgIGNvbG9yOiAjQjBCRUM1O1xyXG4gICAgfVxyXG5cclxuICAgIC5JbnB1dC10ZXh0OmZvY3VzIHtcclxuICAgICAgb3V0bGluZTogbm9uZTtcclxuICAgICAgYm94LXNoYWRvdzogMC4xcmVtIDAuNHJlbSAwLjhyZW0gIzVlMzViMTtcclxuICAgIH1cclxuXHJcbiAgICBidXR0b24ge1xyXG4gICAgICBmb250LXNpemU6IDEuNXJlbTtcclxuICAgICAgbWFyZ2luLWJvdHRvbTogNXZtaW47XHJcbiAgICB9XHJcbiJdfQ== */"] });
 
 
 /***/ }),
@@ -138,7 +157,7 @@ const environment = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dynamsoft-javascript-barcode */ "bHga");
 
-dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.1.3/dist/";
+dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.1/dist/";
 // Please visit https://www.dynamsoft.com/customer/license/trialLicense to get a trial license
 dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.organizationID = "200001";
 // DBR.BarcodeReader._bUseFullFeature = true; // Control of loading min wasm or full wasm.

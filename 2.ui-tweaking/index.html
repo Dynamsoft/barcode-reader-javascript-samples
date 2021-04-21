@@ -8,12 +8,20 @@
 </head>
 
 <body>
-    <h1>Dynamsoft Barcode Reader UI Samples</h1>
-    <ul>
-        <li><a class="button" href="1.read-video-show-multiple-results.html">Read Video and Show All Results</a></li>
-        <li><a class="button" href="2.read-video-no-extra-control.html">Read Video with No Built-in Controllers</a></li>
-        <li><a class="button" href="3.read-video-with-external-control.html">Control Video with External Controllers</a></li>
-    </ul>
+    <div class="filetree">
+        <div class="file">
+            <h2>Dynamsoft Barcode Reader UI Samples</h2>
+        </div>
+        <div class="children">
+            <div class="file"><a class="button" href="1.read-video-show-multiple-results.html">Read Video and Show All
+                    Results</a></div>
+            <div class="file"><a class="button" href="2.read-video-no-extra-control.html">Read Video with No Built-in
+                    Controllers</a></div>
+            <div class="file"><a class="button" href="3.read-video-with-external-control.html">Control Video with
+                    External Controllers</a>
+            </div>
+        </div>
+    </div>
 </body>
 <style>
     body {
@@ -21,34 +29,45 @@
         font-family: "Open Sans", sans-serif;
     }
 
-    h1 {
-        font-size: 4vmin;
-    }
-
-    ul {
-        list-style: none;
-        width: 70vw;
-        margin: 0 auto;
-    }
-
-    li {
+    .filetree {
         text-align: left;
-        font-size: 3vmin;
+        background: #fafafa;
+        border: 4px solid #dbdbdb;
+        border-radius: 4px;
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 16px 32px;
     }
 
-    .button {
-        text-decoration: none;
+    .filetree .file {
         display: block;
-        background: #4E9CAF;
-        padding: 2vmin;
-        margin-bottom: 2vmin;
-        text-align: center;
-        border-radius: 2vmin;
-        color: white;
+        font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+        letter-spacing: 0.3px;
+        line-height: 32px;
+        color: #333;
     }
 
-    .button:hover {
-        background: #3f8dbf;
+    .filetree .children {
+        padding-left: 24px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .filetree .children .file {
+        position: relative;
+    }
+
+    .filetree .children .file::before {
+        content: '';
+        left: -18px;
+        bottom: 16px;
+        width: 16px;
+        height: 9999px;
+        position: absolute;
+        border-width: 0 0 1px 1px;
+        border-style: solid;
+        border-color: #dbdbdb;
+        border-radius: 0 0 0 3px;
     }
 </style>
 <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />

@@ -26,6 +26,9 @@ export class HelloWorldComponent implements OnInit {
   showScanner(): void {
     this.bShowScanner = true;
   }
+  hideScanner(): void {
+    this.bShowScanner = false;
+  }
   appendMessage(str: string) {
     console.log(str);
     this.resultValue = str;
