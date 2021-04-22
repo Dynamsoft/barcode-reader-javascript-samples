@@ -9,7 +9,7 @@
       color: #455A64;
     }
 
-    #scannerUI {
+    #UIElement {
       margin: 5vmin auto;
       text-align: center;
       font-size: medium;
@@ -17,7 +17,7 @@
       width: 90vw;
     }
 
-    .Input-text {
+    .latest-result {
       display: block;
       margin: 0;
       padding: 0.4rem 0.8rem;
@@ -29,11 +29,11 @@
       text-align: center;
     }
 
-    .Input-text::placeholder {
+    .latest-result::placeholder {
       color: #B0BEC5;
     }
 
-    .Input-text:focus {
+    .latest-result:focus {
       outline: none;
       box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
     }

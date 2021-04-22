@@ -5,28 +5,31 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Simple Sample - Read an Image</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.1/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode/dist/dbr.js"></script>
 </head>
 
 <body>
-    <div>Choose image(s) to decode:
-        <br />
-        <input id="ipt-file" type="file" multiple accept="image/png,image/jpeg,image/bmp,image/gif">
+    <h2>Read An Existing Image</h2>
+    <input id="ipt-file" type="file" style="margin-bottom: 2vh;" accept="image/png,image/jpeg,image/bmp,image/gif">
+    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
+        placeholder="The Last Read Barcode">
+    <div id="UIElement">
+        <img id="imgToRead" alt="Image to read" hidden /><br />
+        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
+        <span id='reading' style='font-size:x-large;max-height: 10%;' hidden>Reading Barcodes...</span>
     </div>
-    <div id="result"></div>
     <div>
-        <span id='lib-load' style='font-size:xx-large' hidden>Loading Library...</span>
-        <span id='reading' style='font-size:xx-large' hidden>Reading Barcodes...</span>
+        <span style="float:left">All Results:</span><br />
+        <div id="results"></div>
     </div>
     <script>
         // reader for decoding picture
         let reader = null;
-        let resultsToShow = [], imagesToShow = [];
         // decode input picture
         window.onload = async function () {
             // Create a BarcodeReader instance on page load to speed things up.
             try {
-                Dynamsoft.DBR.BarcodeReader.organizationID = "900001";
+                Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
             } catch (ex) {
                 alert(ex.message);
@@ -35,37 +38,47 @@
         };
         document.getElementById('ipt-file').addEventListener('change', async function () {
             try {
+                document.getElementById("imgToRead").hidden = true;
                 document.getElementById('lib-load').hidden = false;
                 reader = reader || await Dynamsoft.DBR.BarcodeReader.createInstance();
-                resultsToShow = [];
-                imagesToShow = [];
                 document.getElementById('lib-load').hidden = true;
                 document.getElementById('reading').hidden = false;
                 for (let i = 0; i < this.files.length; ++i) {
+                    // Actually there will only be one file here (no 'multiple' attribute)
                     let file = this.files[i];
                     let time = ((new Date()).getTime()).toString();
-                    resultsToShow.push('<img height="200" id="' + time + '" alt="' + file.name + '">');
                     if (FileReader) {
                         var fr = new FileReader();
                         fr.onload = function () {
-                            imagesToShow.push({ id: time, src: fr.result });
+                            document.getElementById("imgToRead").src = fr.result;
+                            document.getElementById("imgToRead").hidden = false;
                         }
                         fr.readAsDataURL(file);
                     }
                     let results = await reader.decode(file);
-                    if (results.length === 0)
-                        resultsToShow.push("No Barcode Found!");
+                    let newElements = [];
+                    newElements.push(createAnSpan(file.name + ": ", "bigger"));
+                    newElements.push(document.createElement('br'));
+                    newElements.push(document.createElement('br'));
+                    if (results.length === 0) {
+                        newElements.push(createAnSpan("No Barcode Found!"));
+                        newElements.push(document.createElement('br'));
+                    }
                     for (let result of results) {
-                        resultsToShow.push(result.barcodeFormatString + ": <span class='resultText'>" + result.barcodeText + "</span>");
+                        document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
+                        newElements.push(createAnSpan(result.barcodeFormatString + ": "));
+                        newElements.push(createAnSpan(result.barcodeText, "resultText"));
+                        newElements.push(document.createElement('br'));
                         if (result.barcodeText.indexOf("Attention(exceptionCode") != -1) {
-                            resultsToShow.push("Error: " + result.exception.message);
+                            newElements.push(createAnSpan(" Error: " + result.exception.message));
+                            newElements.push(document.createElement('br'));
                         }
                     }
-                    resultsToShow.push('<hr>');
-                    document.getElementById('result').innerHTML = resultsToShow.join('<br />');
-                    for (let img of imagesToShow) {
-                        document.getElementById(img.id).src = img.src;
+                    newElements.push(document.createElement('hr'));
+                    for (let span of newElements) {
+                        document.getElementById('results').appendChild(span);
                     }
+                    document.getElementById('results').scrollTop = document.getElementById('results').scrollHeight;
                 }
                 document.getElementById('reading').hidden = true;
             } catch (ex) {
@@ -74,30 +87,90 @@
             }
             this.value = '';
         });
+        document.getElementById('result').addEventListener('dblclick', async () => {
+            document.getElementById('result').value = "";
+        });
+        function createAnSpan(txt, className) {
+            let newSPAN = document.createElement("span");
+            newSPAN.textContent = txt;
+            if (className)
+                newSPAN.className = className;
+            return newSPAN;
+        }
     </script>
 </body>
 <style>
     body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        width: 100vw;
+        height: 90vh;
+        color: #455A64;
+    }
+
+    button {
+        font-size: 1.5rem;
+        margin-bottom: 2vh;
+    }
+
+    span {
+        font-size: 0.8rem;
+    }
+
+    .latest-result {
+        display: block;
+        margin: 0;
+        padding: 0.4rem 0.8rem;
+        color: inherit;
+        width: 80vw;
+        border: none;
+        font-size: 1rem;
+        border-radius: 0.2rem;
         text-align: center;
-        font-family: "Open Sans", sans-serif;
-        font-size: x-large;
     }
 
-    div {
-        margin: 5vmin;
+    .latest-result::placeholder {
+        color: #B0BEC5;
     }
 
-    #result {
-        margin: 5vmin auto;
-        font-size: medium;
-        height: 50vh;
-        width: 60vw;
+    .latest-result:focus {
+        outline: none;
+        box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
+    }
+
+    #results {
         border: 1px dashed grey;
-        overflow-y: auto;
+        overflow: auto;
+        width: 80vw;
+        padding: 2vmin;
+        margin-bottom: 3vh;
+        height: 15vh;
     }
 
     .resultText {
         color: #cE5E04
+    }
+
+    .bigger {
+        font-size: large;
+        margin-bottom: 2%;
+    }
+
+    #UIElement {
+        margin: 2vmin auto;
+        text-align: center;
+        font-size: medium;
+        height: 40vh;
+        width: 80vw;
+    }
+
+    #UIElement img {
+        max-width: 100%;
+        max-height: 90%;
+        border: solid 1px gray;
     }
 </style>
 <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />

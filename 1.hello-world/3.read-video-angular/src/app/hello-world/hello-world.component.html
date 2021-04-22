@@ -2,8 +2,8 @@
   <h1>Dynamsoft Barcode Reader Hello World Sample for Angular</h1>
   <button *ngIf="!bShowScanner" (click)="showScanner()">Start Barcode Scanner</button>
   <button *ngIf="bShowScanner" (click)="hideScanner()">Hide Barcode Scanner</button>
-  <input type="text" [value]="resultValue" readonly="true" class="Input-text" placeholder="The Barcode Result">
-  <div id="scannerUI">
+  <input type="text" [value]="resultValue" readonly="true" class="latest-result" placeholder="The Barcode Result">
+  <div id="UIElement">
     <span style='font-size:x-large' *ngIf="!libLoaded">Loading Library...</span>
     <app-barcode-scanner *ngIf="bShowScanner" (appendMessage)="appendMessage($event)"></app-barcode-scanner>
   </div>

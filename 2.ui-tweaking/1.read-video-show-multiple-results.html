@@ -5,13 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - Multiple Results</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.1/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode/dist/dbr.js"></script>
 </head>
 
 <body>
     <button id="btn-show-scanner" style="font-size:1rem;">Start Barcode
         Scanner</button>
-    <div id="scannerUI">
+    <div id="UIElement">
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
     </div>
     <div id="result" style="visibility: hidden;"></div>
@@ -22,7 +22,7 @@
             //Load the library on page load to speed things up.
             try {
                 // Dynamsoft.DBR.BarcodeReader._bUseFullFeature = true;
-                Dynamsoft.DBR.BarcodeReader.organizationID = "200001";
+                Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
                 await Dynamsoft.DBR.BarcodeScanner.loadWasm();
             } catch (ex) {
                 alert(ex.message);
@@ -43,7 +43,7 @@
                         document.getElementById('result').scrollTop = document.getElementById('result').scrollHeight;
                     }
                 };
-                document.getElementById('scannerUI').appendChild(scanner.getUIElement());
+                document.getElementById('UIElement').appendChild(scanner.getUIElement());
                 await scanner.show();
                 document.getElementById('result').style.visibility = "";
             } catch (ex) {
@@ -65,7 +65,7 @@
         color: #455A64;
     }
 
-    #scannerUI {
+    #UIElement {
         text-align: center;
         margin: 5vmin auto;
         font-size: medium;

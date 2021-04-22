@@ -116,11 +116,11 @@ class BarcodeScanner extends React.Component {
     }
     render() {
         return (
-            <div id="scannerUI">
+            <div id="UIElement">
                 {this.state.libLoaded && !this.state.bShowScanner ? <Button size="lg" variant="outline-primary" onClick={this.showScanner}>Start Barcode Scanner</Button> : ""}
                 {this.state.bShowScanner ? <Button size="lg" variant="secondary" onClick={this.setUpRuntimeSettings}>Update Runtime Settings</Button> : ""}
                 {this.state.bShowScanner ? <Button size="lg" variant="secondary" onClick={this.showStaticRuntimeSettings}>Show Runtime Settings</Button> : ""}
-                {this.state.libLoaded ? <input type="text" value={this.state.resultValue} readOnly={true} className="Input-text" placeholder="The Barcode Result" /> : ""}
+                {this.state.libLoaded ? <input type="text" value={this.state.resultValue} readOnly={true} className="latest-result" placeholder="The Barcode Result" /> : ""}
                 {!this.state.libLoaded ? (<span style={{ fontSize: "x-large" }}>Loading Library...</span>) : ""}
                 {this.state.bShowScanner ? (
                     <ScannerUI
