@@ -5,23 +5,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - Fill Form</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.1/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode/dist/dbr.js"></script>
 </head>
 
 <body>
     <div id='inputs' hidden>
         <h2>Click each input box to fill in!</h2>
-        <input type="text" class="Input-text" readonly="true" placeholder="Barcode Result 1">
-        <input type="text" class="Input-text" readonly="true" placeholder="Barcode Result 2">
-        <input type="text" class="Input-text" readonly="true" placeholder="Barcode Result 3">
+        <input type="text" class="latest-result" readonly="true" placeholder="Barcode Result 1">
+        <input type="text" class="latest-result" readonly="true" placeholder="Barcode Result 2">
+        <input type="text" class="latest-result" readonly="true" placeholder="Barcode Result 3">
     </div>
     <span id='lib-load' style='font-size:x-large'>Loading Library...</span>
     <script>
         // scanner for decoding video
         let scanner = null;
         window.onload = async function () {
-            Dynamsoft.DBR.BarcodeReader.organizationID = "200001";  
-            let allInputs = document.getElementsByClassName('Input-text');
+            Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";  
+            let allInputs = document.getElementsByClassName('latest-result');
             for (let input of allInputs)
                 input.addEventListener('click', async function () {
                     try {
@@ -30,7 +30,7 @@
                         scanner.onUnduplicatedRead = (txt, result) => {
                             this.value = result.barcodeText;
                             scanner.hide();
-                            document.getElementById('scannerUI').hidden = true;
+                            document.getElementById('UIElement').hidden = true;
                         };
                         scanner.getRuntimeSettings()
                             .then(settings => {
@@ -51,8 +51,8 @@
                                 facingMode: { ideal: "environment" }
                             }
                         });
-                        document.getElementById('scannerUI').hidden = false;
-                        scanner.setUIElement(document.getElementById('scannerUI'));
+                        document.getElementById('UIElement').hidden = false;
+                        scanner.setUIElement(document.getElementById('UIElement'));
                         await scanner.show();
                     } catch (ex) {
                         alert(ex.message);
@@ -71,7 +71,7 @@
             document.getElementById('lib-load').hidden = true;
         };
     </script>
-    <div id="scannerUI" style="width:100%;height:100%;min-width:100px;min-height:100px;background:#eee;" hidden>
+    <div id="UIElement" style="width:100%;height:100%;min-width:100px;min-height:100px;background:#eee;" hidden>
         <svg class="dbrScanner-bg-loading"
             style="display:none;animation:1s linear infinite dbrScanner-rotate;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;"
             viewBox="0 0 1792 1792">
@@ -102,7 +102,7 @@
         color: #455A64;
     }
 
-    #scannerUI {
+    #UIElement {
         position: absolute;
         left: 0;
         top: 0;
@@ -112,7 +112,7 @@
         width: 100%;
     }
 
-    .Input-text {
+    .latest-result {
         display: block;
         margin: 2vh auto;
         padding: 0.4rem 0.8rem;
@@ -124,11 +124,11 @@
         text-align: center;
     }
 
-    .Input-text::placeholder {
+    .latest-result::placeholder {
         color: #B0BEC5;
     }
 
-    .Input-text:focus {
+    .latest-result:focus {
         outline: none;
         box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
     }

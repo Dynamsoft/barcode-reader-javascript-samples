@@ -6,10 +6,10 @@
       type="text"
       v-model="resultValue"
       readonly="true"
-      class="Input-text"
+      class="latest-result"
       placeholder="The Barcode Result"
     />
-    <div id="scannerUI">
+    <div id="UIElement">
       <span style="font-size: x-large" v-if="!libLoaded">Loading Library...</span>
       <BarcodeScanner
         v-if="bShowScanner"
@@ -87,7 +87,7 @@ a {
   color: #455a64;
 }
 
-#scannerUI {
+#UIElement {
   margin: 5vmin auto;
   text-align: center;
   font-size: medium;
@@ -95,7 +95,7 @@ a {
   width: 90vw;
 }
 
-.Input-text {
+.latest-result {
   display: block;
   margin: 0;
   padding: 0.4rem 0.8rem;
@@ -107,11 +107,11 @@ a {
   text-align: center;
 }
 
-.Input-text::placeholder {
+.latest-result::placeholder {
   color: #b0bec5;
 }
 
-.Input-text:focus {
+.latest-result:focus {
   outline: none;
   box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
 }

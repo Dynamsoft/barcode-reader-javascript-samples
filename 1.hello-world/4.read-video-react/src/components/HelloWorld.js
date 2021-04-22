@@ -41,8 +41,8 @@ class HelloWorld extends React.Component {
             <div className="helloWorld">
                 <h1>Dynamsoft Barcode Reader Hello World Sample for React</h1>
                 <button onClick={this.showScanner}>Start Barcode Scanner</button>
-                <input type="text" value={this.state.resultValue} readOnly={true} className="Input-text" placeholder="The Barcode Result" />
-                <div id="scannerUI">
+                <input type="text" value={this.state.resultValue} readOnly={true} className="latest-result" placeholder="The Barcode Result" />
+                <div id="UIElement">
                     {!this.state.libLoaded ? (<span style={{ fontSize: "x-large" }}>Loading Library...</span>) : ""}
                     {this.state.bShowScanner ? (<BarcodeScanner appendMessage={this.appendMessage}></BarcodeScanner>) : ""}
                 </div>

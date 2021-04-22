@@ -5,16 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Sample - Minimum Code</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.1/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode/dist/dbr.js"></script>
 </head>
 
 <body>
-    <button id='readBarcode'>Read Barcode</button>
+    <h2>Minimum Code to Read Barcodes</h2>
+    <button id='readBarcode'>Click Me to Read Barcode</button>
     <script>
         let scanner = null;
         document.getElementById('readBarcode').onclick = async function () {
             try {
-                Dynamsoft.DBR.BarcodeReader.organizationID = "200001";
+                Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
                 scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
                 scanner.onFrameRead = results => {
                     for (let result of results) {

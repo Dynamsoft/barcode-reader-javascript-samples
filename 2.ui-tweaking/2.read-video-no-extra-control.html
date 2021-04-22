@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - No Extra Control</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.1/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode/dist/dbr.js"></script>
 </head>
 
 <body>
     <button id="btn-show-scanner" style="font-size:1rem;margin-bottom:5vmin;">Start Barcode
         Scanner</button>
-    <input type="text" id="result" readonly="true" class="Input-text" placeholder="The Barcode Results">
-    <div id="scannerUI">
+    <input type="text" id="result" readonly="true" class="latest-result" placeholder="The Barcode Results">
+    <div id="UIElement">
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
     </div>
     <script>
@@ -22,7 +22,7 @@
             //Load the library on page load to speed things up.
             try {
                 //Dynamsoft.DBR.BarcodeReader._bUseFullFeature = true;
-                Dynamsoft.DBR.BarcodeReader.organizationID = "200001";
+                Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
                 await Dynamsoft.DBR.BarcodeScanner.loadWasm();
             } catch (ex) {
                 alert(ex.message);
@@ -40,8 +40,8 @@
                         document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
                     }
                 };
-                document.getElementById('scannerUI').appendChild(scanner.getUIElement());
-                document.querySelector('#scannerUI div').style.background = '';
+                document.getElementById('UIElement').appendChild(scanner.getUIElement());
+                document.querySelector('#UIElement div').style.background = '';
                 document.getElementsByClassName('dbrScanner-sel-camera')[0].hidden = true;
                 document.getElementsByClassName('dbrScanner-sel-resolution')[0].hidden = true;
                 document.getElementsByClassName('dbrScanner-btn-close')[0].hidden = true;
@@ -65,7 +65,7 @@
         color: #455A64;
     }
 
-    #scannerUI {
+    #UIElement {
         margin: 5vmin auto;
         text-align: center;
         font-size: medium;
@@ -74,7 +74,7 @@
         margin-bottom: 15vh;
     }
 
-    .Input-text {
+    .latest-result {
         display: block;
         margin: 0;
         padding: 0.4rem 0.8rem;
@@ -86,11 +86,11 @@
         text-align: center;
     }
 
-    .Input-text::placeholder {
+    .latest-result::placeholder {
         color: #B0BEC5;
     }
 
-    .Input-text:focus {
+    .latest-result:focus {
         outline: none;
         box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
     }
