@@ -15,7 +15,8 @@
     <div class="dbrScanner-cvs-scanarea">
       <div class="dbrScanner-scanlight" style="display: none"></div>
     </div>
-  </div>
+  <div style="position:absolute;left:50%;bottom:3%;padding:0 5px;margin: 0;font-family:Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;line-height:18px;font-size:12px;color:white;background-color: rgba(0,0,0,.3);border-radius:8px;transform:translateX(-50%);">Powered by Dynamsoft</div>
+</div>
 </template>
 
 <script>
@@ -38,15 +39,19 @@ export default {
       await this.scanner.setUIElement(this.$el);
       this.scanner.onFrameRead = (results) => {
         for (let result of results) {
-          this.$emit(
-            "appendMessage",
-            result.barcodeFormatString + ": " + result.barcodeText
-          );
+          this.$emit("appendMessage", {
+            format: result.barcodeFormatString,
+            text: result.barcodeText,
+            type: "result",
+          });
+          if (result.barcodeText.indexOf("Attention(exceptionCode") !== -1) {
+            this.$emit("appendMessage", { msg: result.exception.message, type: "error" });
+          }
         }
       };
       await this.scanner.open();
     } catch (ex) {
-      this.$emit("appendMessage", ex.message);
+      this.$emit("appendMessage", { msg: ex.message, type: "error" });
       console.error(ex);
     }
   },
@@ -64,9 +69,6 @@ export default {
 .component-barcode-scanner {
   width: 100%;
   height: 100%;
-  min-width: 640px;
-  min-height: 480px;
-  background: #eee;
   position: relative;
   resize: both;
 }
