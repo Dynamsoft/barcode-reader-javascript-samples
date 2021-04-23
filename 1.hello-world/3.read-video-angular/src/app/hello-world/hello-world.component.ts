@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import DBR from '../dbr';
 
 @Component({
@@ -7,17 +7,27 @@ import DBR from '../dbr';
   styleUrls: ['./hello-world.component.css']
 })
 export class HelloWorldComponent implements OnInit {
+  resultItems = [];
   bShowScanner = false;
   resultValue = "";
   libLoaded = false;
   constructor() { }
-
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) { }
+  }
   async ngOnInit(): Promise<void> {
     //Load the library on page load to speed things up.
     try {
       //DBR.BarcodeReader._bUseFullFeature = true;
       await DBR.BarcodeScanner.loadWasm();
       this.libLoaded = true;
+      this.showScanner();
     } catch (ex) {
       alert(ex.message);
       throw ex;
@@ -29,8 +39,17 @@ export class HelloWorldComponent implements OnInit {
   hideScanner(): void {
     this.bShowScanner = false;
   }
-  appendMessage(str: string) {
-    console.log(str);
-    this.resultValue = str;
+  appendMessage(message) {
+    switch (message.type) {
+      case "result":
+        this.resultValue = message.format + ": " + message.text;
+        this.resultItems.push({ type: message.format + ": ", text: message.text });
+        break;
+      case "error":
+        this.resultValue = "Error Occurred! Check the error message in 'All results'!";
+        this.resultItems.push({ type: "Error: ", text: message.msg });
+        break;
+      default: break;
+    }
   }
 }

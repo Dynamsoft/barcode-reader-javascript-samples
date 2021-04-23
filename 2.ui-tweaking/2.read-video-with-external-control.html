@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Dynamsoft Barcode Reader Simple Sample - Read Video - External Control</title>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode/dist/dbr.js"></script>
+</head>
+
+<body>
+    <button id="btn-show-scanner" style="font-size:1rem;">Start Barcode
+        Scanner</button>
+    <div id="externalControls" style="text-align: center;">
+        <select id="cameraList"></select>
+        <select id="resolutionList">
+            <option class="dbrScanner-opt-gotResolution">got 1280x720
+            </option>
+            <option>3840 x 2160</option>
+            <option>2560 x 1440</option>
+            <option>1920 x 1080</option>
+            <option>1600 x 1200</option>
+            <option>1280 x 720</option>
+            <option>800 x 600</option>
+            <option>640 x 480</option>
+            <option>640 x 360</option>
+        </select><br /><br />
+        <button id="toggleScanLight">Toggle Laser</button>
+        <button id="toggleScanRect">Toggle Search Area</button>
+        <button id="toggleSound">Toggle Sound</button>
+    </div>
+    <input type="text" id="result" readonly="true" class="latest-result" placeholder="The Barcode Results">
+    <div id="UIElement">
+        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
+    </div>
+    <script>
+        // scanner for decoding video
+        let scanner = null;
+        let scanRegions = [
+            [5, 5, 95, 95],
+            [25, 25, 75, 75],
+            [10, 33, 90, 66],
+            [33, 10, 66, 90],
+            [0, 0, 100, 100]
+        ], regionIndex = 0;
+        window.onload = async function () {
+            document.getElementById('toggleSound').onclick = function () {
+                scanner.bPlaySoundOnSuccessfulRead =
+                    !scanner.bPlaySoundOnSuccessfulRead;
+            };
+            document.getElementById('toggleScanLight').onclick = function () {
+                document.getElementsByClassName('dbrScanner-scanlight')[0].hidden
+                    = !document.getElementsByClassName('dbrScanner-scanlight')[0].hidden;
+            };
+            document.getElementById('toggleScanRect').onclick = function () {
+                let region = scanRegions[regionIndex];
+                regionIndex++;
+                if (regionIndex === scanRegions.length) regionIndex = 0;
+                scanner.getRuntimeSettings()
+                    .then(settings => {
+                        settings.region = {
+                            regionLeft: region[0],
+                            regionTop: region[1],
+                            regionRight: region[2],
+                            regionBottom: region[3],
+                            regionMeasuredByPercentage: 1
+                        };
+                        scanner.updateRuntimeSettings(settings);
+                    });
+            };
+            document.getElementById('cameraList').onchange = function () {
+                scanner.play(document.getElementById('cameraList').value).then(() => {
+                    currentRes = scanner.getResolution();
+                    updateCurrentResolution({
+                        width: currentRes[0],
+                        height: currentRes[1]
+                    });
+                }).catch(ex => {
+                    alert('Play video failed: ' + (ex.message || ex));
+                });
+            };
+            document.getElementById('resolutionList').onchange = function () {
+                let selectedRes = this.value.split(" x ");
+                scanner.setResolution(selectedRes[0], selectedRes[1])
+                    .then(updatedRes => {
+                        if (updatedRes.width != selectedRes[0] && updatedRes.height != selectedRes[1]) {
+                            scanner.setResolution(selectedRes[1], selectedRes[0])
+                                .then(newRes => updateCurrentResolution(newRes));
+                        } else
+                            updateCurrentResolution(updatedRes);
+                    })
+            };
+            //Load the library on page load to speed things up.
+            try {
+                //Dynamsoft.DBR.BarcodeReader._bUseFullFeature = true;
+                Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
+                await Dynamsoft.DBR.BarcodeScanner.loadWasm();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
+        };
+        // decode video from camera
+        document.getElementById('btn-show-scanner').addEventListener('click', async () => {
+            try {
+                document.getElementById('lib-load').hidden = false;
+                scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                document.getElementById('lib-load').hidden = true;
+                scanner.onFrameRead = (results) => {
+                    for (let result of results) {
+                        document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
+                    }
+                };
+                document.getElementById('UIElement').appendChild(scanner.getUIElement());
+                document.querySelector('#UIElement div').style.background = '';
+                document.getElementsByClassName('dbrScanner-sel-camera')[0].hidden = true;
+                document.getElementsByClassName('dbrScanner-sel-resolution')[0].hidden = true;
+                document.getElementsByClassName('dbrScanner-btn-close')[0].hidden = true;
+                await scanner.show();
+                updateCameras();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
+        });
+        async function updateCameras() {
+            scanner.getAllCameras()
+                .then(
+                    cameras => {
+                        let cameraList = document.getElementById('cameraList');
+                        cameraList.options.length = 0;
+                        for (let camera of cameras) {
+                            let opt = new Option(camera.label, camera.deviceId);
+                            cameraList.options.add(opt);
+                        }
+                    }
+                );
+        }
+        function updateCurrentResolution(res) {
+            let w = res.width;
+            let h = res.height;
+            let gotRes = document.getElementsByClassName('dbrScanner-opt-gotResolution')[0];
+            gotRes.innerText = "got " + w + " x " + h;
+            document.getElementById('resolutionList').selectedIndex = 0;
+        }
+    </script>
+</body>
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        width: 100vw;
+        height: 100vh;
+        color: #455A64;
+    }
+
+    body>div {
+        margin: 2vmin;
+    }
+
+    #UIElement {
+        margin: 5vmin auto;
+        text-align: center;
+        font-size: medium;
+        height: 55vh;
+        width: 90vw;
+        margin-bottom: 15vh;
+    }
+
+    .latest-result {
+        display: block;
+        margin: 0;
+        padding: 0.4rem 0.8rem;
+        color: inherit;
+        width: 90%;
+        border: none;
+        font-size: 1.5rem;
+        border-radius: 0.2rem;
+        text-align: center;
+    }
+
+    .latest-result::placeholder {
+        color: #B0BEC5;
+    }
+
+    .latest-result:focus {
+        outline: none;
+        box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
+    }
+</style>
+
+</html>

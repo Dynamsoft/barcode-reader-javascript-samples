@@ -1,4 +1,4 @@
-.component-barcode-scanner{width:100%;height:100%;min-width:640px;min-height:480px;background:#eee;position:relative;resize:both;}
+.component-barcode-scanner{width:100%;height:100%;position:relative;resize:both;}
 .dbrScanner-bg-loading{animation:1s linear infinite dbrScanner-rotate;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;}
 .dbrScanner-bg-camera{width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;}
 .dbrScanner-video{width:100%;height:100%;position:absolute;left:0;top:0;}
@@ -7,5 +7,6 @@
 .dbrScanner-scanlight{width:100%;height:3%;position:absolute;animation:3s infinite dbrScanner-scanlight;border-radius:50%;box-shadow:0px 0px 2vw 1px #00e5ff;background:#fff;}
 .dbrScanner-sel-camera{margin:0 auto;position:absolute;left:0;top:0;}
 .dbrScanner-sel-resolution{position:absolute;left:0;top:20px;}
+.dbrScanner-poweredby{position:absolute;left:50%;bottom:3%;padding:0 5px;margin: 0;font-family:Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;line-height:18px;font-size:12px;color:white;background-color: rgba(0,0,0,.3);border-radius:8px;transform:translateX(-50%);}
 @keyframes dbrScanner-rotate{from{transform:rotate(0turn);}to{transform:rotate(1turn);}}
 @keyframes dbrScanner-scanlight{from{top:0;}to{top:97%;}}

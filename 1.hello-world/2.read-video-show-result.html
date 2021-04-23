@@ -4,12 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Dynamsoft Barcode Reader Simple Sample - Read Video - Single Result</title>
+    <title>Dynamsoft Barcode Reader Sample - Video Decoding</title>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode/dist/dbr.js"></script>
 </head>
 
+<!-- 
+    This sample demonstrates how to use the library to decode video stream from a USB-connected or built-in camera,
+    whether on mobile or desktop. If you are looking to read barcodes directly from an existing image, 
+    please refer to the "Read an Image" sample instead.
+
+    Please note that the organizationID '200001' corresponds to Dynamsoft's public trial license which is reserved for public samples. 
+    When hosting the sample in your own environment, please obtain a private trial license or a full license by contacting the 
+    Dynamsoft Support Team via support@dynamsoft.com 
+-->
+
 <body>
-    <button id="btn-toggle-scanner">Start Barcode Scanner</button>
+    <h2>Read Video Stream</h2>
     <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
         placeholder="The Last Read Barcode">
     <div id="UIElement">
@@ -27,52 +37,46 @@
             try {
                 Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
+                startBarcodeScanner();
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
             }
+            document.getElementById('result').addEventListener('dblclick', async () => {
+                document.getElementById('result').value = "";
+            });
         };
         // decode video from camera
-        document.getElementById('btn-toggle-scanner').addEventListener('click', async () => {
-            if (document.getElementById('btn-toggle-scanner').textContent === "Stop Barcode Scanner") {
-                // Scanner is already open, close it here
-                if (scanner) scanner.hide();
-                document.getElementById('btn-toggle-scanner').textContent = "Start Barcode Scanner";
-            } else {
-                try {
-                    document.getElementById('lib-load').hidden = false;
-                    scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
-                    document.getElementById('lib-load').hidden = true;
-                    scanner.onFrameRead = (results) => {
-                        for (let result of results) {
-                            let newElements = [];
-                            document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
-                            newElements.push(createAnSpan(result.barcodeFormatString + ": "));
-                            newElements.push(createAnSpan(result.barcodeText, "resultText"));
+        async function startBarcodeScanner() {
+            try {
+                document.getElementById('lib-load').hidden = false;
+                scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                document.getElementById('lib-load').hidden = true;
+                scanner.onFrameRead = (_results) => {
+                    for (let result of _results) {
+                        let newElements = [];
+                        document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
+                        newElements.push(createAnSpan(result.barcodeFormatString + ": "));
+                        newElements.push(createAnSpan(result.barcodeText, "resultText"));
+                        newElements.push(document.createElement('br'));
+                        if (result.barcodeText.indexOf("Attention(exceptionCode") != -1) {
+                            newElements.push(createAnSpan(" Error: " + result.exception.message));
                             newElements.push(document.createElement('br'));
-                            if (result.barcodeText.indexOf("Attention(exceptionCode") != -1) {
-                                newElements.push(createAnSpan(" Error: " + result.exception.message));
-                                newElements.push(document.createElement('br'));
-                            }
-                            for (let span of newElements) {
-                                document.getElementById('results').appendChild(span);
-                            }
-                            document.getElementById('results').scrollTop = document.getElementById('results').scrollHeight;
                         }
-                    };
-                    document.getElementById('UIElement').appendChild(scanner.getUIElement());
-                    await scanner.show();
-                    document.getElementById('results').style.visibility = "visible";
-                    document.getElementById('btn-toggle-scanner').textContent = "Stop Barcode Scanner";
-                } catch (ex) {
-                    alert(ex.message);
-                    throw ex;
-                }
+                        for (let span of newElements) {
+                            document.getElementById('results').appendChild(span);
+                        }
+                        document.getElementById('results').scrollTop = document.getElementById('results').scrollHeight;
+                    }
+                };
+                document.getElementById('UIElement').appendChild(scanner.getUIElement());
+                await scanner.show();
+                document.getElementById('results').style.visibility = "visible";
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
             }
-        });
-        document.getElementById('result').addEventListener('dblclick', async () => {
-            document.getElementById('result').value = "";
-        });
+        }
         function createAnSpan(txt, className) {
             let newSPAN = document.createElement("span");
             newSPAN.textContent = txt;
@@ -90,13 +94,13 @@
         justify-content: center;
         overflow: hidden;
         width: 100vw;
-        height: 99vh;
+        height: 90vh;
         color: #455A64;
     }
 
     button {
         font-size: 1.5rem;
-        margin-bottom: 2vmin;
+        margin-bottom: 2vh;
     }
 
     span {
@@ -129,20 +133,31 @@
         overflow: auto;
         width: 80vw;
         padding: 2vmin;
-        margin-bottom: 5vh;
-        height: 20vh;
+        margin-bottom: 3vh;
+        height: 15vh;
     }
 
     .resultText {
         color: #cE5E04
     }
 
+    .bigger {
+        font-size: large;
+        margin-bottom: 2%;
+    }
+
     #UIElement {
         margin: 2vmin auto;
         text-align: center;
         font-size: medium;
-        height: 50vh;
+        height: 40vh;
         width: 80vw;
+    }
+
+    #UIElement img {
+        max-width: 100%;
+        max-height: 90%;
+        border: solid 1px gray;
     }
 </style>
 

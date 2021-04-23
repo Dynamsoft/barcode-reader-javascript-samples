@@ -22,12 +22,16 @@ export class BarcodeScannerComponent implements OnInit {
       this.scanner.setUIElement(this.elementRef.nativeElement);
       this.scanner.onFrameRead = results => {
         for (let result of results) {
-          this.appendMessage.emit(result.barcodeFormatString + ': ' + result.barcodeText);
+          this.appendMessage.emit({ format: result.barcodeFormatString, text: result.barcodeText, type: "result" });
+
+          if (result.barcodeText.indexOf("Attention(exceptionCode") !== -1) {
+            this.appendMessage.emit({ msg: result.exception.message, type: "error" });
+          }
         }
       };
       await this.scanner.open();
     } catch (ex) {
-      this.appendMessage.emit(ex.message);
+      this.appendMessage.emit({ msg: ex.message, type: "error" });
       console.error(ex);
     }
   }
