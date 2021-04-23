@@ -1,13 +1,12 @@
 <template>
   <div class="helloWorld">
-    <h1>{{ msg }}</h1>
-    <button v-on:click="showScanner">Start Barcode Scanner</button>
+    <h2>{{ msg }} <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h2>
     <input
       type="text"
       v-model="resultValue"
       readonly="true"
       class="latest-result"
-      placeholder="The Barcode Result"
+      placeholder="The Last Read Barcode"
     />
     <div id="UIElement">
       <span style="font-size: x-large" v-if="!libLoaded">Loading Library...</span>
@@ -15,6 +14,17 @@
         v-if="bShowScanner"
         v-on:appendMessage="appendMessage"
       ></BarcodeScanner>
+    </div>
+    <div>
+      <span style="float: left">All Results:</span><br />
+      <div id="results">
+        <ul>
+          <li v-for="(item, index) in resultItems" :key="index + 100000">
+            <span>{{ item.type }}</span
+            ><span class="resultText">{{ item.text }}</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -31,6 +41,7 @@ export default {
   data() {
     return {
       resultValue: "",
+      resultItems: [],
       libLoaded: false,
       bShowScanner: false,
     };
@@ -41,17 +52,33 @@ export default {
       //DBR.BarcodeReader._bUseFullFeature = true;
       await DBR.BarcodeScanner.loadWasm();
       this.libLoaded = true;
+      this.showScanner();
     } catch (ex) {
       alert(ex.message);
       throw ex;
     }
   },
+  updated() {
+    var container = this.$el.querySelector("#results");
+    container.scrollTop = container.scrollHeight;
+  },
   components: {
     BarcodeScanner,
   },
   methods: {
-    appendMessage(str) {
-      this.resultValue = str;
+    appendMessage(message) {
+      switch (message.type) {
+        case "result":
+          this.resultValue = message.format + ": " + message.text;
+          this.resultItems.push({ type: message.format + ": ", text: message.text });
+          break;
+        case "error":
+          this.resultValue = "Error Occurred! Check the error message in 'All results'!";
+          this.resultItems.push({ type: "Error: ", text: message.msg });
+          break;
+        default:
+          break;
+      }
     },
     showScanner() {
       this.bShowScanner = true;
@@ -70,11 +97,13 @@ ul {
   padding: 0;
 }
 li {
-  display: inline-block;
   margin: 0 10px;
 }
 a {
   color: #42b983;
+}
+.applogo {
+  height: 25px;
 }
 .helloWorld {
   display: flex;
@@ -82,17 +111,18 @@ a {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  width: 100vw;
-  height: 90vh;
+  width: 100%;
+  height: 100%;
   color: #455a64;
 }
 
-#UIElement {
-  margin: 5vmin auto;
-  text-align: center;
-  font-size: medium;
-  height: 50vh;
-  width: 90vw;
+button {
+  font-size: 1.5rem;
+  margin-bottom: 2vh;
+}
+
+span {
+  font-size: 0.8rem;
 }
 
 .latest-result {
@@ -100,9 +130,9 @@ a {
   margin: 0;
   padding: 0.4rem 0.8rem;
   color: inherit;
-  width: 90%;
+  width: 80vw;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1rem;
   border-radius: 0.2rem;
   text-align: center;
 }
@@ -116,8 +146,43 @@ a {
   box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
 }
 
-button {
-  font-size: 1.5rem;
-  margin-bottom: 5vmin;
+#results {
+  border: 1px dashed grey;
+  overflow: auto;
+  width: 80vw;
+  padding: 2vmin;
+  margin-bottom: 3vh;
+  height: 15vh;
+}
+
+#results ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.resultText {
+  color: #ce5e04;
+}
+
+.bigger {
+  font-size: large;
+  margin-bottom: 2%;
+}
+
+#UIElement {
+  margin: 2vmin auto;
+  text-align: center;
+  font-size: medium;
+  height: 40vh;
+  width: 80vw;
+}
+
+#UIElement img {
+  max-width: 100%;
+  max-height: 90%;
+  border: solid 1px gray;
 }
 </style>

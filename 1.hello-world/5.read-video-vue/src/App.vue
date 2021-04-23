@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <img class="applogo" alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Dynamsoft Barcode Reader Hello World Sample for Vue" />
+    <HelloWorld msg="Hello World Sample for Vue" />
   </div>
 </template>
 
