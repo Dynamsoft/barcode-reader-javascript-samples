@@ -1,4 +1,5 @@
 import './HelloWorld.css';
+import reactLogo from '../logo.svg';
 import DBR from "../dbr";
 import React from 'react';
 import BarcodeScanner from './BarcodeScanner';
@@ -10,6 +11,7 @@ class HelloWorld extends React.Component {
         this.state = {
             libLoaded: false,
             resultValue: "",
+            resultItems: [],
             bShowScanner: false
         };
     }
@@ -19,17 +21,41 @@ class HelloWorld extends React.Component {
             this.setState(state => {
                 state.libLoaded = true;
                 return state;
+            }, () => {
+                this.showScanner();
             });
         } catch (ex) {
             alert(ex.message);
             throw ex;
         }
     }
-    appendMessage = str => {
-        this.setState(state => {
-            state.resultValue = str;
-            return state;
-        });
+
+    scrollToBottom = () => {
+        this.refDivMessage.current.scrollTop = this.refDivMessage.current.scrollHeight;
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
+    appendMessage = (message) => {
+        switch (message.type) {
+            case "result":
+                this.setState(prevState => {
+                    prevState.resultValue = message.format + ": " + message.text;
+                    prevState.resultItems = prevState.resultItems.concat([{ type: message.format + ": ", text: message.text }]);
+                    return prevState;
+                });
+                break;
+            case "error":
+                this.setState(prevState => {
+                    prevState.resultValue = "Error Occurred! Check the error message in 'All results'!";
+                    prevState.resultItems = prevState.resultItems.concat([{ type: "Error: ", text: message.msg }]);
+                    return prevState;
+                });
+                break;
+            default: break;
+        }
     }
     showScanner = () => {
         this.setState({
@@ -39,12 +65,21 @@ class HelloWorld extends React.Component {
     render() {
         return (
             <div className="helloWorld">
-                <h1>Dynamsoft Barcode Reader Hello World Sample for React</h1>
-                <button onClick={this.showScanner}>Start Barcode Scanner</button>
-                <input type="text" value={this.state.resultValue} readOnly={true} className="latest-result" placeholder="The Barcode Result" />
+                <h2>Hello World Sample for React<img src={reactLogo} className="App-logo" alt="logo" /></h2>
+                <input type="text" value={this.state.resultValue} readOnly={true} className="latest-result" placeholder="The Last Read Barcode" />
                 <div id="UIElement">
                     {!this.state.libLoaded ? (<span style={{ fontSize: "x-large" }}>Loading Library...</span>) : ""}
                     {this.state.bShowScanner ? (<BarcodeScanner appendMessage={this.appendMessage}></BarcodeScanner>) : ""}
+                </div>
+                <div>
+                    <span style={{ float: "left" }}>All Results:</span><br />
+                    <div id="results" ref={this.refDivMessage}>
+                        <ul>
+                            {this.state.resultItems.map((item, index) => (
+                                <li key={100000 + index} ><span>{item.type}</span><span className="resultText">{item.text}</span>                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             </div>
         );

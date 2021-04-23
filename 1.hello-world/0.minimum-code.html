@@ -4,24 +4,48 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Dynamsoft Barcode Reader Sample - Minimum Code</title>
+    <title>Dynamsoft Barcode Reader Sample - Hello World (Decoding via Camera)</title>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode/dist/dbr.js"></script>
 </head>
 
+<!-- 
+    This sample demonstrates the minimum necessary JavaScript code to get the BarcodeScanner (video) up and running. 
+    The BarcodeScanner object is initialized with its default UI once the user clicks the 'Read Barcode via Camera' button. 
+    Any unique barcode results that are found are then displayed in an alert box to the user. 
+
+    Please note that the organizationID '200001' corresponds to Dynamsoft's public trial license which is reserved for public samples. 
+    When hosting the sample in your own environment, please obtain a private trial license or a full license by contacting the 
+    Dynamsoft Support Team via support@dynamsoft.com 
+-->
+
 <body>
     <h2>Minimum Code to Read Barcodes</h2>
-    <button id='readBarcode'>Click Me to Read Barcode</button>
+    <button id='readBarcode'>Read Barcode via Camera</button>
     <script>
         let scanner = null;
         document.getElementById('readBarcode').onclick = async function () {
             try {
                 Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
                 scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                /* 
+                 * onFrameRead is triggered once each frame is read. 
+                 * There can be one or multiple barcodes on each frame.
+                 */
                 scanner.onFrameRead = results => {
+                    console.log("Barcodes on one frame:");
                     for (let result of results) {
-                        alert(result.barcodeFormatString + ": " + result.barcodeText);
+                        console.log(result.barcodeFormatString + ": " + result.barcodeText);
                     }
                 };
+                /* 
+                 * onUnduplicatdRead is triggered once a new barcode is found. 
+                 * The amount of time that the library 'remembers' the found barcode is defined by duplicateForgetTime 
+                 * in the ScanSettings interface of the BarcodeScanner class. By default that is set to 3000 ms (or 3 secs) 
+                 */
+                scanner.onUnduplicatedRead = (txt, result) => {
+                    alert(txt);
+                    console.log("Unique Code Found: " + result);
+                }
                 await scanner.show();
             } catch (ex) {
                 alert(ex.message);

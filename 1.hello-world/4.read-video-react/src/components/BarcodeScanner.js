@@ -17,17 +17,19 @@ class BarcodeScanner extends React.Component {
                 this.scanner.destroy();
                 return;
             }
-
             this.scanner.setUIElement(this.elRef.current);
             this.scanner.onFrameRead = results => {
                 for (let result of results) {
-                    this.props.appendMessage(result.barcodeFormatString + ': ' + result.barcodeText);
+                    this.props.appendMessage({ format: result.barcodeFormatString, text: result.barcodeText, type: "result" });
+
+                    if (result.barcodeText.indexOf("Attention(exceptionCode") !== -1) {
+                        this.props.appendMessage({ msg: result.exception.message, type: "error" });
+                    }
                 }
             };
             await this.scanner.open();
-
         } catch (ex) {
-            this.props.appendMessage(ex.message);
+            this.props.appendMessage({ msg: ex.message, type: "error" });
             console.error(ex);
         }
     }
@@ -51,6 +53,7 @@ class BarcodeScanner extends React.Component {
                 <div className="dbrScanner-cvs-scanarea">
                     <div className="dbrScanner-scanlight" style={{ display: "none" }}></div>
                 </div>
+                <div className="dbrScanner-poweredby">Powered by Dynamsoft</div>
             </div>
         );
     }
