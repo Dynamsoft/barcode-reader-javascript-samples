@@ -19,6 +19,7 @@
 -->
 
 <body>
+    <button id="backToNormal" hidden>Exit</button>
     <h2>Read Video Stream</h2>
     <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
         placeholder="The Last Read Barcode">
@@ -36,6 +37,7 @@
             //Load the library on page load to speed things up.
             try {
                 Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
+                document.getElementById('lib-load').hidden = false;
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
                 startBarcodeScanner();
             } catch (ex) {
@@ -49,7 +51,6 @@
         // decode video from camera
         async function startBarcodeScanner() {
             try {
-                document.getElementById('lib-load').hidden = false;
                 scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
                 document.getElementById('lib-load').hidden = true;
                 scanner.onFrameRead = (_results) => {
@@ -87,6 +88,12 @@
     </script>
 </body>
 <style>
+    button#backToNormal {
+        position: absolute;
+        z-index: 10000000;
+        top: 5vh;
+    }
+
     body {
         display: flex;
         flex-direction: column;
@@ -96,6 +103,7 @@
         width: 100vw;
         height: 90vh;
         color: #455A64;
+        margin: 0;
     }
 
     button {
