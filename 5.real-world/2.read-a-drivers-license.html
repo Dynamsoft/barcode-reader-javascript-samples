@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h1>Read Driver's License <a href="#" id='readAgain' hidden onclick="readAgain()">Retry</a></h1>
+    <h2 id='header'>Read Driver's License <a href="#" id='readAgain' hidden onclick="readAgain()">Retry</a></h2>
     <div id="UIElement">
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
         <img id="btn-show-scanner" alt="show-scanner"
@@ -61,10 +61,10 @@
                         .then(settings => {
                             settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
                             settings.region = {
-                                regionLeft: 10,
-                                regionTop: 10,
-                                regionRight: 90,
-                                regionBottom: 90,
+                                regionLeft: 5,
+                                regionTop: 5,
+                                regionRight: 95,
+                                regionBottom: 95,
                                 regionMeasuredByPercentage: 1
                             };
                             scanner.updateRuntimeSettings(settings);
@@ -74,11 +74,16 @@
                     extractInformation(txt);
                 };
                 document.getElementById('UIElement').appendChild(scanner.getUIElement());
+                document.getElementById('UIElement').style.height = '100vh';
+                document.getElementById('UIElement').style.width = '100vw';
+                document.getElementById('UIElement').style.position = 'absolute';
+                document.getElementById('UIElement').style.top = 0;
                 document.querySelector('#UIElement div').style.background = '';
                 document.getElementsByClassName('dbrScanner-sel-camera')[0].hidden = true;
                 document.getElementsByClassName('dbrScanner-sel-resolution')[0].hidden = true;
                 document.getElementsByClassName('dbrScanner-btn-close')[0].hidden = true;
                 await scanner.show();
+                document.getElementById('header').hidden = true;
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
@@ -101,6 +106,7 @@
                 var __item = driverLicenseFields[i];
                 var _fieldValue = getField(__item.abbreviation, text);
                 if (_fieldValue != false) {
+                    document.getElementById('header').hidden = false;
                     await scanner.hide();
                     document.getElementById('divNoteMessage').hidden = false;
                     document.getElementById('UIElement').style.display = "none";
@@ -219,12 +225,17 @@
         width: 100vw;
         height: 100vh;
         color: #455A64;
+        margin: 0;
+    }
+
+    h2 {
+        position: absolute;
+        z-index: 10000000;
+        top: 2vh;
     }
 
     #UIElement {
-        border: 1px dashed lightgray;
-        height: 50vmin;
-        width: 80vmin;
+        margin: 0;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -251,8 +262,8 @@
 
     #divNoteMessage {
         font-size: small;
-        height: 50vmin;
-        width: 80vmin;
+        height: 80vh;
+        width: 90vw;
         overflow-y: auto;
         z-index: 10;
         color: white;

@@ -20,7 +20,7 @@
         // scanner for decoding video
         let scanner = null;
         window.onload = async function () {
-            Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";  
+            Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
             let allInputs = document.getElementsByClassName('latest-result');
             for (let input of allInputs)
                 input.addEventListener('click', async function () {
@@ -100,6 +100,7 @@
         width: 100vw;
         height: 80vh;
         color: #455A64;
+        margin: 0;
     }
 
     #UIElement {
