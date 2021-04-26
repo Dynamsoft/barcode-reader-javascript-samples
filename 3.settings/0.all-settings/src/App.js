@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <SettingsSample title="Dynamsoft Barcode Reader Settings Sample"></SettingsSample>
+      <SettingsSample title="Barcode Reader Settings Sample"></SettingsSample>
     </div>
   );
 }

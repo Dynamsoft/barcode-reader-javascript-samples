@@ -55,8 +55,8 @@ class BarcodeReader extends React.Component {
                     (<span style={{ fontSize: "x-large" }}>Loading Library...</span>)
                     :
                     (<>
-                        <Button size="lg" variant="secondary" onClick={this.setUpRuntimeSettings}>Update Runtime Settings</Button>
-                        <Button size="lg" variant="secondary" onClick={this.showStaticRuntimeSettings}>Show Runtime Settings</Button>
+                        <Button className="narrow" size="lg" variant="secondary" onClick={this.setUpRuntimeSettings}>Update Settings</Button>
+                        <Button className="narrow" size="lg" variant="secondary" onClick={this.showStaticRuntimeSettings}>Show Settings</Button>
                         <input onChange={this.onFileSelected} type="file" multiple accept="image/png,image/jpeg,image/bmp,image/gif" />
                         {this.state.bDecoding || this.state.messages.length > 0 ?
                             <SimpleResults

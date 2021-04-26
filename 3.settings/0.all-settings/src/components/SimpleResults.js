@@ -12,10 +12,7 @@ class SimpleResults extends React.Component {
     render() {
         return (
             <div className="div-message" style={style.div_message}>
-                <div className="left half thinBorder">
-                    <img src={this.props.imgData === null ? logo : this.props.imgData} className={this.props.imgData === null ? "left maxFullWidth logo" : "left maxFullWidth thinBorder"} alt="Place Holder" />
-                </div>
-                <div className="left half thinBorder">
+                <div className="main thinBorder">
                     {this.props.bDecoding ? (<Spinner animation="border" />) :
                         (<Button style={{ width: "80%" }} variant="primary" onClick={this.props.showDetails}>Show Details</Button>)
                     }
@@ -27,6 +24,9 @@ class SimpleResults extends React.Component {
                         )
                     }
                 </div>
+                <div className="main thinBorder">
+                    <img src={this.props.imgData === null ? logo : this.props.imgData} className={this.props.imgData === null ? "left maxFullWidth logo" : "left maxFullWidth thinBorder"} alt="Place Holder" />
+                </div>
             </div >
         );
     }
@@ -34,7 +34,7 @@ class SimpleResults extends React.Component {
 const style = {
     div_message: {
         resize: "both",
-        width: "80vw",
+        width: "90vw",
         height: "60vw",
         margin: "0 auto"
     },

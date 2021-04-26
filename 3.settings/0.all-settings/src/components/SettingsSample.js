@@ -29,15 +29,15 @@ class SettingsSample extends React.Component {
             <>
                 {!this.state.sampleStarted ?
                     (<div className="settingsSample">
-                        <h1><Badge variant="outline-primary">{this.props.title}</Badge></h1>
-                        <InputGroup style={{ width: '40vw' }} className="mb-3">
+                        <h3><Badge variant="outline-primary">{this.props.title}</Badge></h3>
+                        <InputGroup style={{ width: '40vw', minWidth: '250px' }} className="mb-3">
                             <InputGroup.Prepend>
                                 <InputGroup.Checkbox defaultChecked={false} onChange={this.handleCheckBoxChange} aria-label="Checkbox for following text input" />
                             </InputGroup.Prepend>
                             <FormControl aria-label="Text input with checkbox" defaultValue="Use Advanced Features" readOnly />
                         </InputGroup>
-                        <Button size="lg" block variant="outline-primary" onClick={() => { this.createAnInstance('reader') }}>Read Existing Files</Button>
-                        <Button size="lg" block variant="outline-primary" onClick={() => { this.createAnInstance('scanner') }}>Read From Video Stream</Button>
+                        <Button className="normal" size="lg" block variant="outline-primary" onClick={() => { this.createAnInstance('reader') }}>Read File</Button>
+                        <Button className="normal" size="lg" block variant="outline-primary" onClick={() => { this.createAnInstance('scanner') }}>Read Video</Button>
                     </div>
                     ) :
                     (<div className="settingsSample">
