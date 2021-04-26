@@ -5,12 +5,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Sample - Using Runtime Settings</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.1/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.3/dist/dbr.js"></script>
     <link rel="stylesheet" href="settings-css.css">
 </head>
 
-<!-- This sample demonstrates the minimum necessary JavaScript code to get the BarcodeScanner (video) up and running. The BarcodeScanner object is initialized with its default UI once the user clicks the 'Read Barcode via Camera' button. Any unique barcode results that are found are then displayed in an alert box to the user. 
-Please note that the organizationID '200001' corresponds to Dynamsoft's public license which is reserved for public samples. When hosting the sample in your own environment, please obtain a private trial by contacting the Dynamsoft Support Team via support@dynamsoft.com -->
+<!-- This sample demonstrates the minimum necessary JavaScript code to get the BarcodeScanner (video) 
+    up and running. The BarcodeScanner object is initialized with its default UI once the user clicks 
+    the 'Read Barcode via Camera' button. Any unique barcode results that are found are then displayed
+     in an alert box to the user. 
+
+
+    Please note that the organizationID '200001' corresponds to Dynamsoft's public trial license which is reserved for public samples. 
+    When hosting the sample in your own environment, please obtain a private trial license or a full license by contacting the 
+    Dynamsoft Support Team via support@dynamsoft.com 
+-->
 
 <body>
     <button id='readBarcode'>Open Camera and Read Barcode</button>
@@ -28,7 +36,8 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
             <span id="closeModalBtn" class="closeModal"></span>
             <div class="tooltip">Choose Which Barcode Formats to Detect
                 <span class="tooltiptext">If you know that your application will only be dealing with a certain type of
-                barcode format, you can save processing time by specifying which barcode formats the SDK should be looking for.</span>
+                    barcode format, you can save processing time by specifying which barcode formats the SDK should be
+                    looking for.</span>
             </div>
             <form id="chooseBarcodeFormats">
                 <input type="checkbox" id="OneD" name="barcodeFormat" value="BF_ONED">
@@ -44,7 +53,8 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
             </form><br>
             <form id="chooseExpectedNumber">
                 <div class="tooltip"> Please input the expected number of barcodes per scan
-                    <span class="tooltiptext">This parameter helps save time and resources when the expected number of barcodes per scan is less than the actual number of barcodes.</span>
+                    <span class="tooltiptext">This parameter helps save time and resources when the expected number of
+                        barcodes per scan is less than the actual number of barcodes.</span>
                 </div>
                 <input type="text" id="expectedNumberBarcodes" name="expectedNumber">
             </form>
@@ -64,7 +74,7 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
         // Create a BarcodeScanner instance on page load to speed things up.
         window.onload = async function () {
             try {
-                Dynamsoft.DBR.BarcodeReader.organizationID = "200001";
+                Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
                 scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
                 await scanner.setUIElement(document.getElementById('div-video-container'));
             } catch (ex) {
@@ -74,16 +84,16 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
         };
 
         // Open the settings modal menu once the settings button is clicked
-        settingsBtn.onclick = function(){
+        settingsBtn.onclick = function () {
             modalSettings.style.display = "block";
         }
 
         // Close the modal when the 'x' is clicked
-        closeModalBtn.onclick = function() {
+        closeModalBtn.onclick = function () {
             modalSettings.style.display = "none";
         }
         // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == modalSettings) {
                 modalSettings.style.display = "none";
             }
@@ -92,10 +102,10 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
         // open the scanner video and start decoding once the Read Barcode button is clicked
         readBtn.onclick = async function () {
             try {
-				scanner.onUnduplicatedRead = (txt, result) => {
-					alert(txt);
-					console.log(result);
-				}
+                scanner.onUnduplicatedRead = (txt, result) => {
+                    alert(txt);
+                    console.log(result);
+                }
                 await scanner.show();
             } catch (ex) {
                 alert(ex.message);
@@ -105,29 +115,29 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
 
         // When one or multiple of the barcode format options are selected, update the runtime settings
         settingsForm.onchange = async function () {
-            try{
+            try {
                 console.log("shiet");
                 const checkboxes = document.querySelectorAll('input[name="barcodeFormat"]:checked');
                 let settings = await scanner.getRuntimeSettings();
                 settings.barcodeFormatIds = Dynamsoft.EnumBarcodeFormat.BF_NULL; // Set it to NULL first since the default is BF_ALL
                 checkboxes.forEach((checkbox) => {
                     // go through each of the checked options and perform a compound bitwise OR to include each of the selected formats
-                    switch(checkbox.value){
+                    switch (checkbox.value) {
                         case "BF_ONED":
-                        settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_ONED;
-                        break;
+                            settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_ONED;
+                            break;
                         case "BF_QR_CODE":
-                        settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_QR_CODE;
-                        break;
+                            settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_QR_CODE;
+                            break;
                         case "BF_PDF417":
-                        settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_PDF417;
-                        break;
+                            settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_PDF417;
+                            break;
                         case "BF_DATAMATRIX":
-                        settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_DATAMATRIX;
-                        break;
+                            settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_DATAMATRIX;
+                            break;
                         case "BF_AZTEC":
-                        settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_AZTEC;
-                        break;
+                            settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_AZTEC;
+                            break;
                     }
                 });
                 await scanner.updateRuntimeSettings(settings);
@@ -139,11 +149,12 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
         }
 
         // Should the user enter the expected number of barcodes to be found per scan, the runtime settings are updated as follows
-        expectedNumbersForm.onchange = async function (){
+        expectedNumbersForm.onchange = async function () {
             let expectedVal = document.getElementById('expectedNumberBarcodes').value;
             let settings = await scanner.getRuntimeSettings();
             settings.expectedBarcodesCount = expectedVal;
         }
     </script>
 </body>
+
 </html>
