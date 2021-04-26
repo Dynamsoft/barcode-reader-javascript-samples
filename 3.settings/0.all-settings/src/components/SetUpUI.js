@@ -551,7 +551,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-BinarizationModes-" + key.toString() + "-ThreshValueCoefficient"} onKeyUp={this.updateRange} type="knumber" min="-255" max="255" step="1" defaultValue="10" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                             <Card className={"div-runtimesettings-ModeArgument-container div-runtimesettings-details-container paddingOneVW" + key.toString()} style={value === 4 ? style.show : style.hide} >
                                                 <div>
@@ -560,7 +560,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-BinarizationModes-" + key.toString() + "-BinarizationThreshold"} onKeyUp={this.updateRange} type="knumber" min="-1" max="255" step="1" defaultValue="-1" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                         </div>
                                     )}
@@ -608,7 +608,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-LocalizationModes-" + key.toString() + "-ScanDirection"} onKeyUp={this.updateRange} type="knumber" min="0" max="2" step="1" defaultValue="0" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                         </div>
                                     )}
@@ -642,7 +642,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-ScaleUpModes-" + key.toString() + "-TargetModuleSize"} onKeyUp={this.updateRange} type="knumber" min="0" max="999" step="1" defaultValue="0" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                         </div>
                                     )}
@@ -691,7 +691,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-BarcodeColourModes-" + key.toString() + "-LightReflection"} onKeyUp={this.updateRange} type="knumber" min="0" max="1" step="1" defaultValue="1" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                         </div>
                                     )}
@@ -728,7 +728,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-ColourClusteringModes-" + key.toString() + "-Sensitivity"} onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="5" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                         </div>
                                     )}
@@ -760,7 +760,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-ColourConversionModes-" + key.toString() + "-RedChannelWeight"} onKeyUp={this.updateRange} type="knumber" min="-1" max="1000" step="1" defaultValue="-1" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                         </div>
                                     )}
@@ -783,7 +783,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-DeformationResistingModes-" + key.toString() + "-Level"} onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="5" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                         </div>
                                     )}
@@ -837,7 +837,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-Sensitivity"} onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="5" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                             <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 8 || value === 16 ? style.show : style.hide}>
                                                 <div>
@@ -851,7 +851,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-SmoothBlockSizeY"} type="knumber" min="3" max="1000" step="1" defaultValue="3" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                             <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 16 ? style.show : style.hide}>
                                                 <div>
@@ -865,7 +865,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-SharpenBlockSizeY"} type="knumber" min="3" max="1000" step="1" defaultValue="3" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                             <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 32 ? style.show : style.hide}>
                                                 <div>
@@ -896,7 +896,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-ImagePreprocessingModes-" + key.toString() + "-MorphOperationKernelSizeY"} type="knumber" min="0" max="1000" step="1" defaultValue="0" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                         </div>
                                     )}
@@ -932,7 +932,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-RegionPredetectionModes-" + key.toString() + "-SpatialIndexBlockSize"} onKeyUp={this.updateRange} type="knumber" min="1" max="32" step="1" defaultValue="5" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                             <Card className="div-runtimesettings-details-container paddingOneVW" style={value === 16 ? style.show : style.hide}>
                                                 <div>
@@ -961,7 +961,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-RegionPredetectionModes-" + key.toString() + "-FindAccurateBoundary"} onKeyUp={this.updateRange} type="knumber" min="0" max="0" step="1" defaultValue="1" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                         </div>
                                     )}
@@ -989,7 +989,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-TextFilterModes-" + key.toString() + "-Sensitivity"} onKeyUp={this.updateRange} type="knumber" min="0" max="9" step="1" defaultValue="0" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                         </div>
                                     )}
@@ -1012,7 +1012,7 @@ class SetUpUI extends React.Component {
                                                     <input data-id={"SMA-TextureDetectionModes-" + key.toString() + "-Sensitivity"} onKeyUp={this.updateRange} type="knumber" min="1" max="9" step="1" defaultValue="5" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
-                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit Change</Button>
+                                                <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>
                                             </Card>
                                         </div>
                                     )}

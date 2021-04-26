@@ -9,12 +9,19 @@
     color: #455A64;
 }
 
-.settingsSample Button {
-    width: 40%;
+.settingsSample Button.narrow {
+    width: 40vw;
+    min-width: 150px;
+    font-size: 1rem;
+}
+
+.settingsSample Button.normal {
+    width: 40vw;
+    min-width: 250px;
 }
 
 .tab-content {
-    height: 80%;
+    height: 90%;
     width: 100%;
     padding: 2vmin;
 }
@@ -31,6 +38,12 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+.main {
+    width: 100%;
+    margin: 2vh 0;
+    overflow: auto;
 }
 
 .left {
@@ -62,10 +75,10 @@
 }
 
 .compact_P {
-    margin-top: 0;
-    margin-bottom: 0;
     padding: 1% 2vmin;
     text-align: left;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .runTimeSettings_P_0 {
