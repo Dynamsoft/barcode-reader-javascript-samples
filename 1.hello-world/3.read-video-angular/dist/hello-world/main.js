@@ -193,7 +193,7 @@ const environment = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dynamsoft-javascript-barcode */ "bHga");
 
-dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode/dist/";
+dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.3/dist/";
 // Please visit https://www.dynamsoft.com/customer/license/trialLicense to get a trial license
 dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.organizationID = "100448235";
 // DBR.BarcodeReader._bUseFullFeature = true; // Control of loading min wasm or full wasm.
