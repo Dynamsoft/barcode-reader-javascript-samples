@@ -9,11 +9,10 @@
 
 <body>
     <div class="filetree">
+        <div class="ds-logo"></div>
         <div class="file">
-            <h3>Dynamsoft Barcode Reader Real-World Samples</h3>
+            <h3>Barcode Reader Real-World Samples</h3>
         </div>
-        <div class="file"><a class="button" href="../index.html">..Parent Menu</a></div>
-        <div class="file">Real-World</div>
         <div class="children">
             <div class="file"><a class="button title" href="1.fill-a-form-with-barcode-reading.html">Read
                     Video and Fill a
@@ -29,6 +28,7 @@
                     license (AAMVA compliant) and decode it.</div>
             </div>
         </div>
+        <div class="file"><a class="button" href="../index.html">..Parent Menu</a></div>
     </div>
 </body>
 
@@ -36,6 +36,15 @@
     body {
         text-align: center;
         font-family: "Open Sans", sans-serif;
+    }
+
+    .ds-logo {
+        height: 3vh;
+        background: url(../logo-dynamsoft-black.svg) no-repeat 0;
+    }
+
+    h3 {
+        margin: 1vh auto;
     }
 
     .description {

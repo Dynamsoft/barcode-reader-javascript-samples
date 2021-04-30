@@ -9,11 +9,10 @@
 
 <body>
     <div class="filetree">
+        <div class="ds-logo"></div>
         <div class="file">
-            <h3>Dynamsoft Barcode Reader Hello World Samples</h3>
+            <h3>Barcode Reader Hello World Samples</h3>
         </div>
-        <div class="file"><a class="button" href="../index.html">..Parent Menu</a></div>
-        <div class="file">Hello World</div>
         <div class="children">
             <div class="file"><a class="button title" href="0.minimum-code.html">Simplest
                     Implementation</a><span id="icon001" class="tooltipIcon"></span>
@@ -66,6 +65,7 @@
                     whether on mobile or desktop.</div>
             </div>
         </div>
+        <div class="file"><a class="button" href="../index.html">..Parent Menu</a></div>
     </div>
 </body>
 
@@ -73,6 +73,15 @@
     body {
         text-align: center;
         font-family: "Open Sans", sans-serif;
+    }
+
+    .ds-logo {
+        height: 3vh;
+        background: url(../logo-dynamsoft-black.svg) no-repeat 0;
+    }
+
+    h3 {
+        margin: 1vh auto;
     }
 
     .description {

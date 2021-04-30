@@ -36,8 +36,11 @@ class SetUpUI extends React.Component {
         this.setState(prevState => ({ showFurtherModesItems: !prevState.showFurtherModesItems }));
     }
     removeRegion = evt => {
-        let thisRegion = evt.target.parentElement.parentElement;
-        thisRegion.parentElement.removeChild(thisRegion);
+        if (this.props.runtimeSettings.region.length && this.props.runtimeSettings.region.length > 1) {
+            let newRTS = this.props.runtimeSettings;
+            newRTS.region.pop();
+            this.props.updateRuntimeSettings(newRTS);
+        }
     }
     barcodeFormatsUpdate = evt => {
         let barcodeFormatInputs = document.querySelectorAll('.ipt-barcodeFormat');
@@ -106,7 +109,10 @@ class SetUpUI extends React.Component {
             if (nBarcodeFormatIds & parseInt(barcodeFormatInput.value))
                 barcodeFormatInput.checked = true;
         }
-        this.updateSettings();
+        //////////////////////////////
+            let newRTS = this.props.runtimeSettings;
+            newRTS.region.
+            this.props.updateRuntimeSettings(newRTS);
     }
     updateBarcodeFormatsCheckStatus2 = nBarcodeFormatIds => {
         if (typeof (nBarcodeFormatIds) != "number") {
@@ -335,7 +341,7 @@ class SetUpUI extends React.Component {
                         <div id="div-advanceSettings" className="div-advanceSettings div-runtimesettings-details-container">
                             <Card style={{ padding: '1vw' }} id="div-barcodeFormatContainer" className="div-barcodeFormatContainer">
                                 <Card.Title style={{ width: '100%' }}>Choose Formats</Card.Title>
-                                <label htmlFor="ipt-runtimesettings-barcodeFormatIds">Barcode Format Ids Group 1</label>
+                                <label htmlFor="ipt-runtimesettings-barcodeFormatIds">Barcode Formats</label>
                                 <input id="ipt-runtimesettings-barcodeFormatIds" onChange={this.updateBarcodeFormatsCheckStatus} type="knumber" defaultValue={this.props.runtimeSettings.barcodeFormatIds} />
                                 <div className="div-1dFormat">
                                     <label><input type="checkbox" className="ipt-barcodeFormat-combo" onClick={this.barcodeFormatsUpdate} defaultChecked={(this.props.runtimeSettings.barcodeFormatIds & 0x001007FF) === 0x001007FF} defaultValue="0x001007FF" id="ipt-1dFormat" />1D</label>
@@ -458,7 +464,7 @@ class SetUpUI extends React.Component {
                             <Card style={{ padding: '1vw', marginTop: '1vw' }} >
                                 <Card.Title style={{ width: '100%' }}>More Settings</Card.Title>
                                 {this.props.fullFeature ? (<>
-                                    <label htmlFor="ipt-runtimesettings-barcodeFormatIds_2">Barcode Format Ids Group 2</label>
+                                    <label htmlFor="ipt-runtimesettings-barcodeFormatIds_2">Extra Barcode Format</label>
                                     <input id="ipt-runtimesettings-barcodeFormatIds_2" onChange={this.updateBarcodeFormatsCheckStatus2} type="knumber" defaultValue={this.props.runtimeSettings.barcodeFormatIds_2} />
                                     <Card className="paddingOneVW allWidth">
                                         <label><input type="checkbox" onClick={this.barcodeFormatsUpdate2} defaultValue="0" defaultChecked={this.props.runtimeSettings.barcodeFormatIds_2 === 0} id="null-barcodeFormatIds_2" />null</label>
