@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Dynamsoft Barcode Reader Sample - Using Runtime Settings</title>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.3/dist/dbr.js"></script>
+    <link rel="stylesheet" href="settings-css.css">
+    <link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css"> <!-- Used for tooltip styling -->
+</head>
+
+<!-- This sample demonstrates the minimum necessary JavaScript code to get the BarcodeScanner (video) up and running. The BarcodeScanner object is initialized with its default UI once the user clicks the 'Read Barcode via Camera' button. Any unique barcode results that are found are then displayed in an alert box to the user. 
+Please note that the organizationID '200001' corresponds to Dynamsoft's public license which is reserved for public samples. When hosting the sample in your own environment, please obtain a private trial by contacting the Dynamsoft Support Team via support@dynamsoft.com -->
+
+<body>
+    <button id='readBarcode'>Open Camera and Read Barcode</button>
+    <p></p>
+    <button id='openSimpleSettingsMenu'>Open Runtime Settings Menu</button>
+
+    <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen, hiding the  -->
+    <div id="div-video-container">
+        <video class="dbrScanner-video" playsinline="true"></video>
+    </div>
+
+    <!-- Settings Menu displayed in a modal -->
+    <div id="settingsModal" class="modal">
+        <div id="settingsContent" class="modal-content">
+            <span id="closeModalBtn" class="closeModal">&times;</span>
+            <div class="tooltip" aria-label="If you know that your application will only be dealing with a certain type of
+            barcode format, you can save processing time by specifying which barcode formats the SDK should be looking for." data-balloon-pos="down" data-balloon-length="medium">Choose Which Barcode Formats to Detect
+            </div>
+            <form id="chooseBarcodeFormats">
+                <input type="checkbox" id="OneD" name="barcodeFormat" value="BF_ONED">
+                <label for="OneD"> 1D </label><br>
+                <input type="checkbox" id="QR" name="barcodeFormat" value="BF_QR_CODE">
+                <label for="QR"> QR Code </label><br>
+                <input type="checkbox" id="PDF417" name="barcodeFormat" value="BF_PDF417">
+                <label for="PDF417"> PDF 417 </label><br>
+                <input type="checkbox" id="Datamatrix" name="barcodeFormat" value="BF_DATAMATRIX">
+                <label for="Datamatrix"> DataMatrix </label> <br>
+                <input type="checkbox" id="Aztec" name="barcodeFormat" value="BF_AZTEC">
+                <label for="Aztec"> Aztec </label> <br>
+            </form><br>
+            <form id="chooseExpectedNumber">
+                <div class="tooltip" aria-label="This parameter helps save time and resources when the expected number of barcodes per scan is less than the actual number of barcodes. Should the number of found results be less than this value, the SDK will exhaust more resources and try more algorithms to reach the expected number." data-balloon-pos="down" data-balloon-length="large"> Please input the expected number of barcodes per scan
+                </div>
+                <input type="text" id="expectedNumberBarcodes" name="expectedNumber">
+            </form>
+        </div>
+    </div>
+
+    <!-- JS Code -->
+    <script src="initScanner.js"></script> <!-- To initialize the barcode scanner -->
+
+    <script>
+    
+    /* Beginning of barcode formats assignment */
+
+    /* Should the user select one of the barcode format options, update the runtime settings accordingly and in the correct selection order */
+    settingsForm.onchange = async function () {
+        try{
+            console.log("shiet");
+            const checkboxes = document.querySelectorAll('input[name="barcodeFormat"]:checked');
+            let settings = await scanner.getRuntimeSettings();
+            settings.barcodeFormatIds = Dynamsoft.EnumBarcodeFormat.BF_NULL; // Set it to NULL first since the default is BF_ALL
+            checkboxes.forEach((checkbox) => {
+                // go through each of the checked options and perform a compound bitwise OR to include each of the selected formats
+                switch(checkbox.value){
+                    case "BF_ONED":
+                    settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_ONED;
+                    break;
+                    case "BF_QR_CODE":
+                    settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_QR_CODE;
+                    break;
+                    case "BF_PDF417":
+                    settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_PDF417;
+                    break;
+                    case "BF_DATAMATRIX":
+                    settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_DATAMATRIX;
+                    break;
+                    case "BF_AZTEC":
+                    settings.barcodeFormatIds |= Dynamsoft.EnumBarcodeFormat.BF_AZTEC;
+                    break;
+                }
+            });
+            await scanner.updateRuntimeSettings(settings);
+        }
+        catch (ex) {
+            console.log(ex.message);
+            throw ex;
+        }
+    }
+
+    /* End of barcode formats assignment */
+
+    /* Now for the expected barcodes */ 
+    // Should the user enter the expected number of barcodes to be found per scan, the runtime settings are updated as follows
+    expectedNumbersForm.onchange = async function (){
+        try{
+            let expectedVal = document.getElementById('expectedNumberBarcodes').value;
+            let settings = await scanner.getRuntimeSettings();
+            settings.expectedBarcodesCount = expectedVal;
+            await scanner.updateRuntimeSettings(settings);
+        }
+        catch (ex){
+            console.log(ex.message);
+        }
+    }
+    </script>
+</body>
+</html>

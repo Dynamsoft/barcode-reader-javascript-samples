@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Dynamsoft Barcode Reader Sample - Using Runtime Settings</title>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.3/dist/dbr.js"></script>
+    <link rel="stylesheet" href="settings-css.css">
+    <link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css"> <!-- Used for tooltip styling -->
+</head>
+
+<!-- This sample demonstrates how to deal with deformed and incomplete barcodes. Therefore, we will be specifically looking at the runtime settings DeformationResistingModes and BarcodeComplementModes which are used in those situations, respectively. 
+The BarcodeScanner object is initialized with its default UI once the user clicks the 'Read Barcode via Camera' button. Any unique barcode results that are found are then displayed in an alert box to the user.
+Please note that the organizationID '200001' corresponds to Dynamsoft's public license which is reserved for public samples. When hosting the sample in your own environment, please obtain a private trial by contacting the Dynamsoft Support Team via support@dynamsoft.com -->
+
+<body>
+    <button id='readBarcode'>Open Camera and Read Barcode</button>
+    <p></p>
+    <button id='openSimpleSettingsMenu'>Open Runtime Settings Menu</button>
+
+    <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen, hiding the  -->
+    <div id="div-video-container">
+        <video class="dbrScanner-video" playsinline="true"></video>
+    </div>
+
+    <!-- Settings Menu displayed in a modal -->
+    <div id="settingsModal" class="modal">
+        <div id="settingsContent" class="modal-content">
+            <span id="closeModalBtn" class="closeModal">&times;</span>
+
+            <!-- Dealing with blurry barcodes through Deblur Modes -->
+            <div class="tooltip" aria-label="Barcodes can sometimes be printed on an irregular surface, such as cylindrical object, causing these barcodes to be distorted or deformed. To better handle those scenarios, it is recommended to prioritize the General mode of DeformationResistingModes. Note that this only works for QR and DataMatrix codes." data-balloon-pos="down" data-balloon-length="large">Select the Deformation Resisting Modes in Decreasing Priority Order (Highest to Lowest)</div>
+
+            <form id="drModes">
+                <input type="checkbox" id="autoDR" name="drMode" value="DRM_AUTO">
+                <label for="autoDR"> Automatic </label><br>
+                <input type="checkbox" id="generalDR" name="drMode" value="DRM_GENERAL">
+                <label for="generalDR"> General </label><br>
+                <input type="checkbox" id="skipDR" name="drMode" value="DRM_SKIP">
+                <label for="skipDR"> Skip </label><br>
+            </form><br>
+
+            <!-- Dealing with barocdes that are incomplete -->
+            <div class="tooltip" aria-label="There are some cases where the barcode(s) might have incomplete parts due to misprinting or certain environmental conditions. Using this parameter, you can enable DBR's barcode completion logic by prioritizing the General complement mode." data-balloon-pos="down" data-balloon-length="large">Select the Barcode Complement Modes in Decreasing Priority Order (Highest to Lowest)
+            </div>
+
+            <form id="bcModes">
+                <input type="checkbox" id="autoBC" name="bcMode" value="BCM_AUTO">
+                <label for="autoBC"> Automatic </label><br>
+
+                <input type="checkbox" id="generalBC" name="bcMode" value="BCM_GENERAL">
+                <label for="generalBC"> General </label><br>
+
+                <input type="checkbox" id="skipBC" name="bcMode" value="BCM_SKIP">
+                <label for="skipBC"> Skip </label></br>
+            </form><br>
+            
+        </div>
+    </div>
+    
+    <!-- JS Code -->
+    <script src="initScanner.js"></script> <!-- To initialize the barcode scanner -->
+    <script>
+    
+    /* Beginning of deformation resisting modes assignment */
+
+    /* When one or multiple of the deformation resisting mode options are selected, update the runtime settings. The deformation resisting  modes need to be set in order of priority, thus the code takes into account the order in which the user selects the checkbox options.
+    Whenever a deformation resist mode checkbox is clicked, push it to the deformation resisting modes array. With how this is set up, the localization modes must be selected in decreasing priority (highest to lowest)*/
+
+    const checkboxesDRM = document.querySelectorAll('input[name="drMode"]');
+    let DRMCount = 0; // used to keep track of the current index of deformation resisting modes array
+    for(var i = 0; i < checkboxesDRM.length; i++){
+        checkboxesDRM[i].addEventListener('click', async function(){
+            try{
+                let settings = await scanner.getRuntimeSettings();
+                if(this.checked){
+                    switch(this.value){
+                        case "DRM_AUTO":
+                        settings.furtherModes.deformationResistingModes[DRMCount] = Dynamsoft.DBR.EnumDeformationResistingMode.DRM_AUTO;
+                        break;
+                        case "DRM_GENERAL":
+                        settings.furtherModes.deformationResistingModes[DRMCount] = Dynamsoft.DBR.EnumDeformationResistingMode.LM_STATISTICS;
+                        break;
+                        case "DRM_SKIP":
+                        settings.furtherModes.deformationResistingModes[DRMCount] = Dynamsoft.DBR.EnumDeformationResistingMode.LM_LINES;
+                        break;
+                    }
+                }
+                // So that the deformation resisting modes array stays at a max length of 8 no matter how many times options are clicked
+                if(DRMCount == 7)
+                    DRMCount = 0;
+                else
+                    DRMCount++;
+                
+                console.log(settings.furtherModes.deformationResistingModes); // check that the deformation resist modes array is correct
+                await scanner.updateRuntimeSettings(settings);
+            }
+            catch(ex){
+                console.log(ex.message);
+            }
+        })
+    }
+    /* End of deformation resisting modes assignment */
+
+    /* Now to deal with the barcode complement modes. This is dealt with in the same way as the deformation resisting modes */
+    const checkboxesBC = document.querySelectorAll('input[name="bcMode"]');
+    let BCCount = 0; // used to keep track of the current index of barcode complement modes array
+    for(var i = 0; i < checkboxesBC.length; i++){
+        checkboxesBC[i].addEventListener('click', async function(){
+            try{
+                let settings = await scanner.getRuntimeSettings();
+                if(this.checked){
+                    switch(this.value){
+                        case "BCM_AUTO":
+                        settings.furtherModes.barcodeComplementModes[BCCount] = Dynamsoft.DBR.EnumBarcodeComplementMode.DRM_AUTO;
+                        break;
+                        case "BCM_GENERAL":
+                        settings.furtherModes.barcodeComplementModes[BCCount] = Dynamsoft.DBR.EnumBarcodeComplementMode.LM_STATISTICS;
+                        break;
+                        case "BCM_SKIP":
+                        settings.furtherModes.barcodeComplementModes[BCCount] = Dynamsoft.DBR.EnumBarcodeComplementMode.LM_LINES;
+                        break;
+                    }
+                }
+                // So that the barcode complement modes array stays at a max length of 8 no matter how many times options are clicked
+                if(BCCount == 7)
+                    BCCount = 0;
+                else
+                    BCCount++;
+                
+                console.log(settings.furtherModes.barcodeComplementModes); // check that the barcode complement modes array is correct
+                await scanner.updateRuntimeSettings(settings);
+            }
+            catch(ex){
+                console.log(ex.message);
+            }
+        })
+    }
+    /* End of barcode complement modes assignment */
+    </script>
+</body>
+</html>

@@ -5,27 +5,74 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Sample - Hello World (Decoding via Camera)</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.3/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20210429140551.0/dist/dbr.js"></script>
 </head>
 
 <!-- 
     This sample demonstrates the minimum necessary JavaScript code to get the BarcodeScanner (video) up and running. 
     The BarcodeScanner object is initialized with its default UI once the user clicks the 'Read Barcode via Camera' button. 
     Any unique barcode results that are found are then displayed in an alert box to the user. 
-
-    Please note that the organizationID '200001' corresponds to Dynamsoft's public trial license which is reserved for public samples. 
-    When hosting the sample in your own environment, please obtain a private trial license or a full license by contacting the 
-    Dynamsoft Support Team via support@dynamsoft.com 
 -->
 
 <body>
     <h2>Minimum Code to Read Barcodes</h2>
     <button id='readBarcode'>Read Barcode via Camera</button>
     <script>
+        /**
+         * The library requires a license to work, the APIs organizationID and handshakeCode specify how to acquire a license.
+         * 
+         * If nothing is specified, a 7-day (public) trial license will be used by default.
+         *
+         * Note that network connection is required for this license acquisition to work.
+         */
+
+        /**
+         * All licenses belong to a specific organization, therefore, you can acquire your licenses
+         * by first specifying the ID of your organization.
+         * 
+         * You can get your own organization with licenses by
+         * - Requesting a private trial/evaluation license
+         * - Or, purchasing a commercial/deployment license
+         * 
+         * Once you get your own organization, uncomment the following line of code and put your ID there.
+         */
+
+        // Dynamsoft.DBR.BarcodeReader.organizationID = "123***7";
+
+        /**
+         * Licenses of an organization are grouped by handshake codes. After specifying the organization, 
+         * you can further specify the handshake code as a more precise way to use only the licenses configured 
+         * to that handshake code. If no handshake code is specified, the default handshake code is used.
+         */
+
+        // Dynamsoft.DBR.BarcodeReader.handshakeCode = "A-Specific-HandshakeCode";
+
+        /**
+         * To protect your licenses, you can specify a session password. 
+         * 
+         * This password corresponds to the handshake code specified by the above API "handshakeCode" 
+         * or the default one if no handshakeCode is specified.
+         * 
+         * Read more about [How can I protect my license?](https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-can-i-protect-my-license)
+         */
+
+        // Dynamsoft.DBR.BarcodeReader.sessionPassword = "Your-Session-Password";
+
+        /**
+         * The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network.
+         * 
+         * Contact support@dynamsoft.com for more information.
+         */
+
+        // Dynamsoft.DBR.BarcodeReader.productKeys = "Your-Product-Keys";
+
+        
+        Dynamsoft.DBR.BarcodeReader.licenseServer = ["https://192.168.80.221/lts/", "https://192.168.80.9/lts/"];
+        Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
+
         let scanner = null;
         document.getElementById('readBarcode').onclick = async function () {
             try {
-                Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
                 scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
                 /* 
                  * onFrameRead is triggered once each frame is read. 
