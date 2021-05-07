@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <span id="hintMSG" hidden>Aim at the barcode on the driver's license</span>
     <h2 id='header'>Read Driver's License <a href="#" id='readAgain' hidden onclick="readAgain()">Retry</a></h2>
     <div id="UIElement">
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
@@ -41,7 +42,7 @@
         // decode video from camera
         document.getElementById('btn-show-scanner').addEventListener('click', async () => {
             document.getElementById('btn-show-scanner').hidden = true;
-            document.getElementById('btn-open-image').hidden = true;
+            //document.getElementById('btn-open-image').hidden = true;
             openScanner(false);
         });
         function readAgain() {
@@ -49,7 +50,7 @@
             document.getElementById('divNoteMessage').hidden = true;
             document.getElementById('UIElement').style.display = "";
             document.getElementById('btn-show-scanner').hidden = false;
-            document.getElementById('btn-open-image').hidden = false;
+            //document.getElementById('btn-open-image').hidden = false;
         }
         async function openScanner(bSingleFrameMode) {
             try {
@@ -83,6 +84,7 @@
                 document.getElementsByClassName('dbrScanner-sel-resolution')[0].hidden = true;
                 document.getElementsByClassName('dbrScanner-btn-close')[0].hidden = true;
                 await scanner.show();
+                document.getElementById('hintMSG').hidden = false;
                 document.getElementById('header').hidden = true;
             } catch (ex) {
                 alert(ex.message);
@@ -108,6 +110,7 @@
                 if (_fieldValue != false) {
                     document.getElementById('header').hidden = false;
                     await scanner.hide();
+                    document.getElementById('hintMSG').hidden = true;
                     document.getElementById('divNoteMessage').hidden = false;
                     document.getElementById('UIElement').style.display = "none";
                     document.getElementById('readAgain').hidden = false;
@@ -216,6 +219,14 @@
     </script>
 </body>
 <style>
+    span#hintMSG {
+        position: absolute;
+        z-index: 10000000;
+        font-size: 1rem;
+        color: #5e35b1;
+        top: 1vh;
+    }
+
     body {
         display: flex;
         flex-direction: column;
@@ -235,7 +246,6 @@
     }
 
     #UIElement {
-        border: dashed 1px gray;
         margin: 0;
         display: flex;
         flex-direction: row;

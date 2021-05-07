@@ -81,7 +81,6 @@
     .filetree .children {
         padding-left: 24px;
         position: relative;
-        overflow: hidden;
     }
 
     .filetree .children .file {
@@ -93,12 +92,16 @@
         left: -18px;
         bottom: 16px;
         width: 16px;
-        height: 9999px;
+        height: 20px;
         position: absolute;
         border-width: 0 0 1px 1px;
         border-style: solid;
         border-color: #dbdbdb;
         border-radius: 0 0 0 3px;
+    }
+
+    [aria-label] {
+        line-height: 15px;
     }
 
     .title img {
@@ -123,6 +126,7 @@
     var clicked = false;
     var clickedIconId = "";
     var showNode = function (evt) {
+        hideNode('all');
         if (evt.target.nodeName === "SPAN" && evt.type === "click") {
             clicked = true;
             clickedIconId = evt.target.id;
@@ -131,16 +135,23 @@
                 hideNode(evt);
             }, 5000);
         }
-        var textNode = evt.target.parentElement.nextElementSibling;
-        if (textNode) {
-            textNode.hidden = false;
+        var titleNode = evt.target.previousElementSibling;
+        if (titleNode) {
+            titleNode.setAttribute('data-balloon-visible', '');
         }
     };
     var hideNode = function (evt) {
+        if (evt === 'all') {
+            var allTitleNodes = document.getElementsByTagName('a');
+            for (let node of allTitleNodes) {
+                node.removeAttribute('data-balloon-visible');
+            }
+            return;
+        }
         if (clicked && clickedIconId === evt.target.id) return;
-        var textNode = evt.target.parentElement.nextElementSibling;
-        if (textNode) {
-            textNode.hidden = true;
+        var titleNode = evt.target.previousElementSibling;
+        if (titleNode) {
+            titleNode.removeAttribute('data-balloon-visible');
         }
     };
 

@@ -20,7 +20,7 @@
 
 <body>
     <button id="backToNormal" hidden>Exit</button>
-    <h2>Read Video Stream</h2>
+    <h2>Use Default Camera UI</h2>
     <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
         placeholder="The Last Read Barcode">
     <div id="UIElement">
@@ -41,7 +41,7 @@
                  * When hosting the sample in your own environment, please obtain a private trial license or a full license by contacting the 
                  * Dynamsoft Support Team via support@dynamsoft.com 
                  */
-                Dynamsoft.DBR.BarcodeReader.organizationID = "200001";
+                Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
                 document.getElementById('lib-load').hidden = false;
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
                 startBarcodeScanner();
