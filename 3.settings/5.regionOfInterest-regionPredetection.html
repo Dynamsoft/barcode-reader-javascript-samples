@@ -16,13 +16,17 @@
 Please note that the organizationID '200001' corresponds to Dynamsoft's public license which is reserved for public samples. When hosting the sample in your own environment, please obtain a private trial by contacting the Dynamsoft Support Team via support@dynamsoft.com -->
 
 <body>
-    <button id='readBarcode'>Open Camera and Read Barcode</button>
-    <p></p>
-    <button id='openSimpleSettingsMenu'>Open Runtime Settings Menu</button><br><br>
+    <button id='openSimpleSettingsMenu'>Open Runtime Settings Menu</button><br /><br />
 
-    <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen, hiding the  -->
+    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
+        placeholder="The Last Read Barcode">
+    <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen-->
     <div id="div-video-container">
+        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
         <video class="dbrScanner-video" playsinline="true"></video>
+        <canvas class="dbrScanner-cvs-drawarea"
+            style="width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; object-fit: contain;"
+            width="1280" height="720"></canvas>
     </div>
 
     <!-- Settings Menu displayed in a modal -->
@@ -31,63 +35,100 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
             <span id="closeModalBtn" class="closeModal">&times;</span>
 
             <!-- Dealing with blurry barcodes through Deblur Modes -->
-            <div class="tooltip" aria-label="To define the region of interest, the top-most, left-most, right-most, and bottom-most coordinate or percentage of the region must be defined. Whether coordinate or percentage is used is defined by regionMeasuredByPercentage. In most cases, percentage is easier to use." data-balloon-pos="down" data-balloon-length="medium">Manually Define a Region of Interest</div><br><br>
+            <div class="tooltip"
+                aria-label="To define the region of interest, the top-most, left-most, right-most, and bottom-most coordinate or percentage of the region must be defined. Whether coordinate or percentage is used is defined by regionMeasuredByPercentage. In most cases, percentage is easier to use."
+                data-balloon-pos="down" data-balloon-length="fit">Manually Define a Region of Interest</div>
+            <br />
 
             <form id="roiForm">
-                <label for="regionTop"> Region Top </label>
-                <input type="number" id="regionTop" name="regionDef"><br>
-                <label for="regionLeft"> Region Left </label>
-                <input type="number" id="regionLeft" name="regionDef"><br>
-                <label for="regionBottom"> Region Bottom </label>
-                <input type="number" id="regionBottom" name="regionDef"><br>
-                <label for="regionRight"> Region Right </label> 
-                <input type="number" id="regionRight" name="regionDef"><br>
-                
                 <label for="regionPercentage"> Region Measured By Percentage </label>
-                <input type="checkbox" id="regionPercentage" checked><br> <!-- This should be checked by default -->
-            </form><br>
+                <input type="checkbox" id="regionPercentage" checked><br /> <!-- This should be checked by default -->
+                <label for="regionTop"> Region Top </label>
+                <input type="number" id="regionTop" name="regionDef"><br />
+                <label for="regionLeft"> Region Left </label>
+                <input type="number" id="regionLeft" name="regionDef"><br />
+                <label for="regionBottom"> Region Bottom </label>
+                <input type="number" id="regionBottom" name="regionDef"><br />
+                <label for="regionRight"> Region Right </label>
+                <input type="number" id="regionRight" name="regionDef"><br />
+            </form>
 
             <!-- Dealing with barocdes that have small module sizes-->
-            <div class="tooltip" aria-label="Region detection can also be used to pre-detect the ROI of a large image to get several areas where the barcodes may exist to reduce processing time. To learn more about each mode, please refer to the documentation." data-balloon-pos="down" data-balloon-length="large">Select the Region Pre-detection Modes in Decreasing Priority Order (Highest to Lowest)</div><br><br>
+            <div class="tooltip"
+                aria-label="Region detection can also be used to pre-detect the ROI of a large image to get several areas where the barcodes may exist to reduce processing time. To learn more about each mode, please refer to the documentation."
+                data-balloon-pos="down" data-balloon-length="large">Region Pre-detection Modes in Decreasing
+                Priority</div><br />
+
+            <span style="background-color: white;padding: 1vmin;margin-right: 2vmin;"
+                id="regionPredetectionModeSPAN"></span>
+            <a href="#" id='resetRPM'>Reset</a><br />
 
             <form id="rpModesForm">
+                <input type="checkbox" id="general" name="rpMode" value="RPM_GENERAL">
+                <label for="general" class="tooltip" aria-label="Detects region using the general algorithm."
+                    data-balloon-pos="down" data-balloon-length="fit"> General Mode (2) </label><br />
+
                 <input type="checkbox" id="rgbContrast" name="rpMode" value="RPM_GENERAL_RGB_CONTRAST">
-                <label for="rgbContrast" class="tooltip" aria-label="Detects region using the general algorithm based on RGB colour contrast." data-balloon-pos="down" data-balloon-length="small"> General RGB Contrast Mode </label><br>
+                <label for="rgbContrast" class="tooltip"
+                    aria-label="Detects region using the general algorithm based on RGB colour contrast."
+                    data-balloon-pos="down" data-balloon-length="fit"> General RGB Contrast Mode (4) </label><br />
 
                 <!-- Mode Arguments for the RGB Contrast pre-detection mode-->
-                <div class="rgbContrastForm">
-                    <label for="midRGB" class="tooltip" aria-label="If the image dimension is larger than the given value, the library will enable the feature of pre-detecting barcode regions. Otherwise, it will skip this step when searching for barcodes." data-balloon-pos="down" data-balloon-length="medium">Minimum Image Dimension</label>
-                    <input type="range" id="midRGB" name="minImageDim" data-require-pair="#rgbContrast" min="16384" max="2147483647" value="262144"><span id="midRGBDisplay"></span></br>
+                <div class="rgbContrastForm arguments">
+                    <label for="midRGB" class="tooltip"
+                        aria-label="If the image dimension is larger than the given value, the library will enable the feature of pre-detecting barcode regions. Otherwise, it will skip this step when searching for barcodes."
+                        data-balloon-pos="down" data-balloon-length="fit">Minimum Image Dimension</label>
+                    <input type="range" id="midRGB" name="minImageDim" data-require-pair="#rgbContrast" min="16384"
+                        max="2147483647" value="262144"><span id="midRGBDisplay"></span></br>
 
-                    <label for="sensRGB" class="tooltip" aria-label="The higher the sensitivity, the more effort the library will take to detect regions." data-balloon-pos="down" data-balloon-length="medium">Sensitivity</label>
-                    <input type="range" id="sensRGB" name="sensitivity" data-require-pair="#rgbContrast" min="1" max="9" value="1"><span id="sensRGBDisplay"></span></br>
+                    <label for="sensRGB" class="tooltip"
+                        aria-label="The higher the sensitivity, the more effort the library will take to detect regions."
+                        data-balloon-pos="down" data-balloon-length="fit">Sensitivity</label>
+                    <input type="range" id="sensRGB" name="sensitivity" data-require-pair="#rgbContrast" min="1" max="9"
+                        value="1"><span id="sensRGBDisplay"></span></br>
 
-                    <label for="sibRGB" class="tooltip" aria-label="The block size used for region predetection would be 2 to the power of N, with N being the SpatialIndexBlockSize" data-balloon-pos="down" data-balloon-length="medium">Spatial Index Block Size</label>
-                    <input type="range" id="sibRGB" name="SpatialIndexBlockSize" data-require-pair="#rgbContrast" min="1" max="32" value="5"><span id="sibRGBDisplay"></span></br>
+                    <label for="sibRGB" class="tooltip"
+                        aria-label="The block size used for region predetection would be 2 to the power of N, with N being the SpatialIndexBlockSize"
+                        data-balloon-pos="down" data-balloon-length="fit">Spatial Index Block Size</label>
+                    <input type="range" id="sibRGB" name="SpatialIndexBlockSize" data-require-pair="#rgbContrast"
+                        min="1" max="32" value="5"><span id="sibRGBDisplay"></span></br>
                 </div>
 
                 <input type="checkbox" id="grayContrast" name="rpMode" value="RPM_GENERAL_GRAY_CONTRAST">
-                <label for="grayContrast" class="tooltip" aria-label="Detects region using the general algorithm based on gray contrast." data-balloon-pos="down" data-balloon-length="small"> General Gray Contrast Mode </label><br>
+                <label for="grayContrast" class="tooltip"
+                    aria-label="Detects region using the general algorithm based on gray contrast."
+                    data-balloon-pos="down" data-balloon-length="fit"> General Gray Contrast Mode (8) </label><br />
 
                 <!-- Mode Arguments for the gray contrast pre-detection mode-->
-                <div class="grayContrastForm">
-                    <label for="midGray" class="tooltip" aria-label="If the image dimension is larger than the given value, the library will enable the feature of pre-detecting barcode regions. Otherwise, it will skip this step when searching for barcodes." data-balloon-pos="down" data-balloon-length="medium">Minimum Image Dimension</label>
-                    <input type="range" id="midGray" name="minImageDim" data-require-pair="#grayContrast" min="16384" max="2147483647" value="262144"><span id="midGrayDisplay"></span></br>
+                <div class="grayContrastForm arguments">
+                    <label for="midGray" class="tooltip"
+                        aria-label="If the image dimension is larger than the given value, the library will enable the feature of pre-detecting barcode regions. Otherwise, it will skip this step when searching for barcodes."
+                        data-balloon-pos="down" data-balloon-length="fit">Minimum Image Dimension</label>
+                    <input type="range" id="midGray" name="minImageDim" data-require-pair="#grayContrast" min="16384"
+                        max="2147483647" value="262144"><span id="midGrayDisplay"></span></br>
 
-                    <label for="sensGray" class="tooltip" aria-label="The higher the sensitivity, the more effort the library will take to detect regions." data-balloon-pos="down" data-balloon-length="medium">Sensitivity</label>
-                    <input type="range" id="sensGray" name="sensitivity" data-require-pair="#grayContrast" min="1" max="9" value="1"><span id="sensGrayDisplay"></span></br>
+                    <label for="sensGray" class="tooltip"
+                        aria-label="The higher the sensitivity, the more effort the library will take to detect regions."
+                        data-balloon-pos="down" data-balloon-length="fit">Sensitivity</label>
+                    <input type="range" id="sensGray" name="sensitivity" data-require-pair="#grayContrast" min="1"
+                        max="9" value="1"><span id="sensGrayDisplay"></span></br>
 
-                    <label for="sibGray" class="tooltip" aria-label="The block size used for region predetection would be 2 to the power of N, with N being the SpatialIndexBlockSize" data-balloon-pos="down" data-balloon-length="medium">Spatial Index Block Size</label>
-                    <input type="range" id="sibGray" name="SpatialIndexBlockSize" data-require-pair="#grayContrast" min="1" max="32" value="5"><span id="sibGrayDisplay"></span></br>
+                    <label for="sibGray" class="tooltip"
+                        aria-label="The block size used for region predetection would be 2 to the power of N, with N being the SpatialIndexBlockSize"
+                        data-balloon-pos="down" data-balloon-length="fit">Spatial Index Block Size</label>
+                    <input type="range" id="sibGray" name="SpatialIndexBlockSize" data-require-pair="#grayContrast"
+                        min="1" max="32" value="5"><span id="sibGrayDisplay"></span></br>
                 </div>
 
                 <input type="checkbox" id="autoRPM" name="rpMode" value="RPM_AUTO">
-                <label for="autoRPM" class="tooltip" aria-label="Lets the library choose an algorithm automatically to detect region." data-balloon-pos="down" data-balloon-length="small"> Auto </label></br>
+                <label for="autoRPM" class="tooltip"
+                    aria-label="Lets the library choose an algorithm automatically to detect region."
+                    data-balloon-pos="down" data-balloon-length="fit"> Auto (1) </label></br>
 
                 <input type="checkbox" id="skipRPM" name="rpMode" value="RPM_SKIP">
-                <label for="skipRPM"> Skip</label></br>
-            </form><br><br>
-            <div id="placeholderClick" style="visibility: hidden;">Placeholder Click</div> 
+                <label for="skipRPM"> Skip (0) </label></br>
+            </form><br /><br />
+            <div id="placeholderClick" style="visibility: hidden;">Placeholder Click</div>
         </div>
     </div>
 
@@ -95,212 +136,227 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
     <script src="initScanner.js"></script> <!-- To initialize the barcode scanner -->
 
     <script>
-    /* First thing that must be done is to lay out the operation of defining a region of interest, per the user's input */    
-    
-    // Should the Region of Interest form change (as in the user inputted a value for regionTop, regionLeft, regionBottom, or regionRight) update the runtime settings to reflect this change
-    const roiFormInputs = document.querySelectorAll('input[name="regionDef"]');
-    roiFormInputs.forEach(element => {
-        element.addEventListener("input", async function () {
-            try{
-                let settings = await scanner.getRuntimeSettings();
+        function initPage() {
 
-                // If regionMeasuredByPercentage is checked, update the corresponding property in region definition
-                let usePercentage = document.getElementById("regionPercentage").value;
-                console.log(usePercentage);
-                if(usePercentage)
-                    settings.region.regionMeasuredByPercentage = true;
-                else
-                    settings.region.regionMeasuredByPercentage = false;
+            /* First thing that must be done is to lay out the operation of defining a region of interest, per the user's input */
 
-                switch(this.id){
-                    case "regionTop":
-                    settings.region.regionTop = this.value;
-                    break;
-                    case "regionBottom":
-                    settings.region.regionBottom = this.value;
-                    break;
-                    case "regionLeft":
-                    settings.region.regionLeft = this.value;
-                    break;
-                    case "regionRight":
-                    settings.region.regionRight = this.value;
-                    break;
-                }
-                await scanner.updateRuntimeSettings(settings);
-            } catch (ex){
-                console.log(ex.message);
+            /** 
+             * Should the Region of Interest form change (as in the user inputted a value for regionTop, regionLeft, regionBottom, or regionRight) 
+             * update the runtime settings to reflect this change.
+             */
+            const roiFormInputs = document.querySelectorAll('input[name="regionDef"]');
+            let settings = null;
+            roiFormInputs.forEach(element => {
+                element.addEventListener("input", async function () {
+                    try {
+                        settings = await scanner.getRuntimeSettings();
+
+                        // If regionMeasuredByPercentage is checked, update the corresponding property in region definition
+                        let usePercentage = document.getElementById("regionPercentage").value;
+                        if (usePercentage)
+                            settings.region.regionMeasuredByPercentage = true;
+                        else
+                            settings.region.regionMeasuredByPercentage = false;
+                        switch (this.id) {
+                            case "regionTop":
+                                settings.region.regionTop = this.value;
+                                break;
+                            case "regionBottom":
+                                settings.region.regionBottom = this.value;
+                                break;
+                            case "regionLeft":
+                                settings.region.regionLeft = this.value;
+                                break;
+                            case "regionRight":
+                                settings.region.regionRight = this.value;
+                                break;
+                        }
+                        await scanner.updateRuntimeSettings(settings);
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                })
+            })
+
+            /* Done with defining the region of interest per the user's input */
+
+            /* Now to set the Region Pre-detection modes should the user select at least one mode */
+            const checkboxesRPM = document.querySelectorAll('input[name="rpMode"]');
+            let rpmCount = 0; // Used to track the current index of the region pre-detection modes array
+            for (var i = 0; i < checkboxesRPM.length; i++) {
+                checkboxesRPM[i].addEventListener('click', async function () {
+                    try {
+                        settings = await scanner.getRuntimeSettings();
+                        if (this.checked) {
+                            this.disabled = true;
+                            switch (this.value) {
+                                case "RPM_GENERAL_RGB_CONTRAST":
+                                    // First, display the mode arguments form for RGB Contrast mode the update the settings
+                                    let rgbContrastForm = document.getElementsByClassName("rgbContrastForm");
+                                    rgbContrastForm[0].style.display = "block";
+                                    settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_RGB_CONTRAST;
+                                    break;
+                                case "RPM_GENERAL_GRAY_CONTRAST":
+                                    // First, we display the mode arguments form then update the settings
+                                    let grayContrastForm = document.getElementsByClassName("grayContrastForm");
+                                    grayContrastForm[0].style.display = "block";
+                                    settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_GRAY_CONTRAST;
+                                    break;
+                                case "RPM_GENERAL":
+                                    settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL;
+                                    break;
+                                case "RPM_AUTO":
+                                    settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_AUTO;
+                                    break;
+                                case "RPM_SKIP":
+                                    settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_SKIP;
+                                    break;
+                            }
+                        }
+                        await scanner.updateRuntimeSettings(settings);
+                        settings = await scanner.getRuntimeSettings();
+                        if (settings.furtherModes.regionPredetectionModes.length === rpmCount - 1)
+                            rpmCount = 0;
+                        else
+                            rpmCount++;
+                        showModes('regionPredetectionModeSPAN', settings.furtherModes.regionPredetectionModes, rpmCount);
+                    }
+                    catch (ex) {
+                        console.log(ex.message);
+                    }
+                })
             }
-        })      
-    })
+            resetRPM.addEventListener('click', async function () {
+                settings = settings || await scanner.getRuntimeSettings();
+                showModes('regionPredetectionModeSPAN', settings.furtherModes.regionPredetectionModes, 0);
+                rpmCount = 0;
+                for (var i = 0; i < checkboxesRPM.length; i++) {
+                    checkboxesRPM[i].checked = false;
+                    checkboxesRPM[i].disabled = false;
+                }
+            });
+            showModes('regionPredetectionModeSPAN', initialSettings.furtherModes.regionPredetectionModes, 0);
 
-    /* Done with defining the region of interest per the user's input */
-
-    /* Now to set the Region Pre-detection modes should the user select at least one mode */
-    const checkboxesRPM = document.querySelectorAll('input[name="rpMode"]');
-    let rpmCount = 0; // Used to track the current index of the region pre-detection modes array
-    for(var i = 0; i < checkboxesRPM.length; i++){
-        checkboxesRPM[i].addEventListener('click', async function(){
-            try{
+            /* Next, should any of the mode arguments for RGB Contrast mode change, then set the mode argument.  */
+            // Starting with the minimum image dimension
+            let midRGB = document.getElementById("midRGB");
+            midRGB.onchange = async function () {
+                document.getElementById("midRGBDisplay").innerHTML = midRGB.value.toString();
                 let settings = await scanner.getRuntimeSettings();
-                if(this.checked){
-                    switch(this.value){
-                        case "RPM_GENERAL_RGB_CONTRAST":
-                        // First, display the mode arguments form for RGB Contrast mode the update the settings
-                        let rgbContrastForm = document.getElementsByClassName("rgbContrastForm");
-                        rgbContrastForm[0].style.display = "block";
-                        settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_RGB_CONTRAST;
-                        break;
-                        case "RPM_GENERAL_GRAY_CONTRAST":
-                        // First, we display the mode arguments form then update the settings
-                        let grayContrastForm = document.getElementsByClassName("grayContrastForm");
-                        grayContrastForm[0].style.display = "block";
-                        settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_GRAY_CONTRAST;
-                        break;
-                        case "RPM_GENERAL":
-                        settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL;
-                        break;
-                        case "RPM_AUTO":
-                        settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_AUTO;
-                        break;
-                        case "RPM_SKIP":
-                        settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_SKIP;
-                        break;
+                // Get the index of the RGB Contrast mode in the scale up modes array
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_RGB_CONTRAST)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("RegionPredetectionMode", i, "MinImageDimension", midRGB.value.toString()); // set the min image dimension 
+                        else
+                            continue; // if not RGB contrast, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
                     }
                 }
-                // The region pre-detection modes array has a max length of 8 so the following ensures that the rpmCount index loops around
-                if(rpmCount == 7)
-                    rpmCount = 0;
-                else
-                    rpmCount++;
-
-                console.log(settings.furtherModes.regionPredetectionModes); // check that the array is correct
-                await scanner.updateRuntimeSettings(settings);
-            } 
-            catch(ex) {
-                console.log(ex.message);
             }
-        })
-    }
 
-    /* Next, should any of the mode arguments for RGB Contrast mode change, then set the mode argument.  */  
-    // Starting with the minimum image dimension
-    let midRGB = document.getElementById("midRGB");
-    midRGB.onchange = async function(){
-        document.getElementById("midRGBDisplay").innerHTML = midRGB.value.toString();
-        let settings = await scanner.getRuntimeSettings();
-        // Get the index of the RGB Contrast mode in the scale up modes array
-        for(var i = 0; i <= 8; i++){
-            try{
-                if(settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_RGB_CONTRAST)
-                    //once the index is found, use the index to set the mode argument.
-                    await scanner.setModeArgument("RegionPredetectionMode", i, "MinImageDimension", midRGB.value.toString()); // set the min image dimension 
-                else
-                    continue; // if not RGB contrast, skip to next iteration
-            } catch(ex) {
-                console.log(ex.message);
+            // Then, the sensitivity
+            let sensitivityRGB = document.getElementById("sensRGB");
+            sensitivityRGB.onchange = async function () {
+                document.getElementById("sensRGBDisplay").innerHTML = sensitivityRGB.value.toString();
+                let settings = await scanner.getRuntimeSettings();
+                // Get the index of the RGB Contrast mode in the scale up modes array
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_RGB_CONTRAST)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("RegionPredetectionMode", i, "Sensitivity", sensitivityRGB.value.toString()); // set the min image dimension 
+                        else
+                            continue; // if not RGB contrast, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                }
             }
+
+            // Now for the spatial index block size
+            let sibRGB = document.getElementById("sibRGB");
+            sibRGB.onchange = async function () {
+                document.getElementById("sibRGBDisplay").innerHTML = sibRGB.value.toString();
+                let settings = await scanner.getRuntimeSettings();
+                // Get the index of the RGB Contrast mode in the scale up modes array
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_RGB_CONTRAST)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("RegionPredetectionMode", i, "SpatialIndexBlockSize", sibRGB.value.toString()); // set the min image dimension 
+                        else
+                            continue; // if not RGB contrast, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                }
+            }
+
+            /* Done with mode arguments for the RGB Contrast mode */
+
+            /* Now for the mode arguments of the Gray contrast mode, which are the same as the RGB contrast mode */
+            // Starting with the minimum image dimension
+            let midGray = document.getElementById("midGray");
+            midGray.onchange = async function () {
+                document.getElementById("midGrayDisplay").innerHTML = midGray.value.toString();
+                let settings = await scanner.getRuntimeSettings();
+                // Get the index of the Gray Contrast mode in the scale up modes array
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_GRAY_CONTRAST)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("RegionPredetectionMode", i, "MinImageDimension", midGray.value.toString()); // set the min image dimension 
+                        else
+                            continue; // if not gray contrast, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                }
+            }
+
+            // Then, the sensitivity
+            let sensitivityGray = document.getElementById("sensGray");
+            sensitivityGray.onchange = async function () {
+                document.getElementById("sensGrayDisplay").innerHTML = sensitivityGray.value.toString();
+                let settings = await scanner.getRuntimeSettings();
+                // Get the index of the RGB Contrast mode in the scale up modes array
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_GRAY_CONTRAST)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("RegionPredetectionMode", i, "Sensitivity", sensitivityGray.value.toString()); // set the min image dimension 
+                        else
+                            continue; // if not nearest neighbour, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                }
+            }
+
+            // Lastly, the spatial index block size
+            let sibGray = document.getElementById("sibGray");
+            sibGray.onchange = async function () {
+                document.getElementById("sibGrayDisplay").innerHTML = sibGray.value.toString();
+                let settings = await scanner.getRuntimeSettings();
+                // Get the index of the RGB Contrast mode in the scale up modes array
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_GRAY_CONTRAST)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("RegionPredetectionMode", i, "SpatialIndexBlockSize", sibGray.value.toString()); // set the min image dimension 
+                        else
+                            continue; // if not nearest neighbour, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                }
+            }
+            /* Done with the mode arguments for the gray contrast pre-detection mode */
         }
-    }
-
-    // Then, the sensitivity
-    let sensitivityRGB = document.getElementById("sensRGB");
-    sensitivityRGB.onchange = async function(){
-        document.getElementById("sensRGBDisplay").innerHTML = sensitivityRGB.value.toString();
-        let settings = await scanner.getRuntimeSettings();
-        // Get the index of the RGB Contrast mode in the scale up modes array
-        for(var i = 0; i <= 8; i++){
-            try{
-                if(settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_RGB_CONTRAST)
-                    //once the index is found, use the index to set the mode argument.
-                    await scanner.setModeArgument("RegionPredetectionMode", i, "Sensitivity", sensitivityRGB.value.toString()); // set the min image dimension 
-                else
-                    continue; // if not RGB contrast, skip to next iteration
-            } catch(ex) {
-                console.log(ex.message);
-            }
-        }
-    } 
-
-    // Now for the spatial index block size
-    let sibRGB = document.getElementById("sibRGB");
-    sibRGB.onchange = async function(){
-        document.getElementById("sibRGBDisplay").innerHTML = sibRGB.value.toString();
-        let settings = await scanner.getRuntimeSettings();
-        // Get the index of the RGB Contrast mode in the scale up modes array
-        for(var i = 0; i <= 8; i++){
-            try{
-                if(settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_RGB_CONTRAST)
-                    //once the index is found, use the index to set the mode argument.
-                    await scanner.setModeArgument("RegionPredetectionMode", i, "SpatialIndexBlockSize", sibRGB.value.toString()); // set the min image dimension 
-                else
-                    continue; // if not RGB contrast, skip to next iteration
-            } catch(ex) {
-                console.log(ex.message);
-            }
-        }
-    }
-
-    /* Done with mode arguments for the RGB Contrast mode */
-
-    /* Now for the mode arguments of the Gray contrast mode, which are the same as the RGB contrast mode */
-    // Starting with the minimum image dimension
-    let midGray = document.getElementById("midGray");
-    midGray.onchange = async function(){
-        document.getElementById("midGrayDisplay").innerHTML = midGray.value.toString();
-        let settings = await scanner.getRuntimeSettings();
-        // Get the index of the Gray Contrast mode in the scale up modes array
-        for(var i = 0; i <= 8; i++){
-            try{
-                if(settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_GRAY_CONTRAST)
-                    //once the index is found, use the index to set the mode argument.
-                    await scanner.setModeArgument("RegionPredetectionMode", i, "MinImageDimension", midGray.value.toString()); // set the min image dimension 
-                else
-                    continue; // if not gray contrast, skip to next iteration
-            } catch(ex) {
-                console.log(ex.message);
-            }
-        }
-    }
-
-    // Then, the sensitivity
-    let sensitivityGray = document.getElementById("sensGray");
-    sensitivityGray.onchange = async function(){
-        document.getElementById("sensGrayDisplay").innerHTML = sensitivityGray.value.toString();
-        let settings = await scanner.getRuntimeSettings();
-        // Get the index of the RGB Contrast mode in the scale up modes array
-        for(var i = 0; i <= 8; i++){
-            try{
-                if(settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_GRAY_CONTRAST)
-                    //once the index is found, use the index to set the mode argument.
-                    await scanner.setModeArgument("RegionPredetectionMode", i, "Sensitivity", sensitivityGray.value.toString()); // set the min image dimension 
-                else
-                    continue; // if not nearest neighbour, skip to next iteration
-            } catch(ex) {
-                console.log(ex.message);
-            }
-        }
-    } 
-
-    // Lastly, the spatial index block size
-    let sibGray = document.getElementById("sibGray");
-    sibGray.onchange = async function(){
-        document.getElementById("sibGrayDisplay").innerHTML = sibGray.value.toString();
-        let settings = await scanner.getRuntimeSettings();
-        // Get the index of the RGB Contrast mode in the scale up modes array
-        for(var i = 0; i <= 8; i++){
-            try{
-                if(settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_GRAY_CONTRAST)
-                    //once the index is found, use the index to set the mode argument.
-                    await scanner.setModeArgument("RegionPredetectionMode", i, "SpatialIndexBlockSize", sibGray.value.toString()); // set the min image dimension 
-                else
-                    continue; // if not nearest neighbour, skip to next iteration
-            } catch(ex) {
-                console.log(ex.message);
-            }
-        }
-    }
-    /* Done with the mode arguments for the gray contrast pre-detection mode */
-
     </script>
 </body>
+
 </html>

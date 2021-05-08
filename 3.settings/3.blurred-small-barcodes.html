@@ -15,13 +15,18 @@
 Please note that the organizationID '200001' corresponds to Dynamsoft's public license which is reserved for public samples. When hosting the sample in your own environment, please obtain a private trial by contacting the Dynamsoft Support Team via support@dynamsoft.com -->
 
 <body>
-    <button id='readBarcode'>Open Camera and Read Barcode</button>
-    <p></p>
+    <h2>Blurry or Small Codes</h2>
     <button id='openSimpleSettingsMenu'>Open Runtime Settings Menu</button>
 
-    <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen, hiding the  -->
+    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
+        placeholder="The Last Read Barcode">
+    <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen-->
     <div id="div-video-container">
+        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
         <video class="dbrScanner-video" playsinline="true"></video>
+        <canvas class="dbrScanner-cvs-drawarea"
+            style="width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; object-fit: contain;"
+            width="1280" height="720"></canvas>
     </div>
 
     <!-- Settings Menu displayed in a modal -->
@@ -30,75 +35,101 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
             <span id="closeModalBtn" class="closeModal">&times;</span>
 
             <!-- Dealing with blurry barcodes through Deblur Modes -->
-            <div class="tooltip" aria-label="This parameter defines the order of algorithms used when deblurring an image, with the array going in decreasing priority. Please see documentation on what each mode entails." data-balloon-pos="down" data-balloon-length="medium">Select the Deblur Modes in Decreasing Priority Order (Highest to Lowest)</div>
+            <div class="tooltip"
+                aria-label="This parameter defines the order of algorithms used when deblurring an image, with the array going in decreasing priority. Please see documentation on what each mode entails."
+                data-balloon-pos="down" data-balloon-length="fit">Deblur Modes in Decreasing Priority</div>
+            <br />
+
+            <span style="background-color: white;padding: 1vmin;margin-right: 2vmin;" id="deblurModeSPAN"></span>
+            <a href="#" id='resetDM'>Reset</a><br />
 
             <form id="deblurModes">
                 <input type="checkbox" id="dirBinarization" name="debMode" value="DM_DIRECT_BINARIZATION">
-                <label for="dirBinarization"> Direct Binarization </label><br>
+                <label for="dirBinarization"> Direct Binarization (1)</label><br>
                 <input type="checkbox" id="thresBinarization" name="debMode" value="DM_THRESHOLD_BINARIZATION">
-                <label for="thresBinarization"> Threshold Binarization </label><br>
+                <label for="thresBinarization"> Threshold Binarization (2) </label><br>
                 <input type="checkbox" id="grayEqual" name="debMode" value="DM_GRAY_EQUALIZATION">
-                <label for="grayEqual"> Gray Equalization </label><br>
+                <label for="grayEqual"> Gray Equalization (4)</label><br>
                 <input type="checkbox" id="smoothing" name="debMode" value="DM_SMOOTHING">
-                <label for="smoothing"> Smoothing </label> <br>
+                <label for="smoothing"> Smoothing (8)</label> <br>
                 <input type="checkbox" id="morphing" name="debMode" value="DM_MORPHING">
-                <label for="morphing"> Morphing </label> <br>
+                <label for="morphing"> Morphing (16)</label> <br>
                 <input type="checkbox" id="deepAnalysis" name="debMode" value="DM_DEEP_ANALYSIS">
-                <label for="deepAnalysis"> Deep Analysis </label> <br>
+                <label for="deepAnalysis"> Deep Analysis (32)</label> <br>
                 <input type="checkbox" id="sharpening" name="debMode" value="DM_SHARPENING">
-                <label for="sharpening"> Sharpening </label> <br>
+                <label for="sharpening"> Sharpening (64)</label> <br>
                 <input type="checkbox" id="skipDeblur" name="debMode" value="DM_SKIP">
-                <label for="sharpening"> Skip </label> <br>
-            </form><br>
-
+                <label for="skipDeblur"> Skip (0)</label> <br>
+            </form>
             <!-- Dealing with barocdes that have small module sizes-->
-            <div class="tooltip" aria-label="Sometimes a barcode has a small module size, or is relatively small compared to the overall frame or image. This parameter helps enlarge the barcode through different modes, making it easier for the SDK to locate the barcode." data-balloon-pos="down" data-balloon-length="large">Select the Scale Up Modes in Decreasing Priority Order (Highest to Lowest)
-            </div>
+            <div class="tooltip"
+                aria-label="Sometimes a barcode has a small module size, or is relatively small compared to the overall frame or image. This parameter helps enlarge the barcode through different modes, making it easier for the SDK to locate the barcode."
+                data-balloon-pos="down" data-balloon-length="large">Scale Up Modes in Decreasing Priority
+            </div><br />
+
+            <span style="background-color: white;padding: 1vmin;margin-right: 2vmin;" id="scaleUpModeSPAN"></span>
+            <a href="#" id='resetSUM'>Reset</a><br />
 
             <form id="scaleUpModes">
                 <input type="checkbox" id="lInterpolation" name="suMode" value="SUM_LINEAR_INTERPOLATION">
-                <label for="lInterpolation"> Linear Interpolation </label><br>
+                <label for="lInterpolation"> Linear Interpolation (2)</label><br>
 
                 <!-- Mode Arguments for the local block binarization mode-->
-                <div class="liForm">
-                    <label for="acuteAngleX" class="tooltip" aria-label="If the acute angle of the barcode with the x-axis is greater than this threshold value, the barcode will be enlarged. Please see documentation for extra info." data-balloon-pos="down" data-balloon-length="medium">Acute Angle With X-Axis Threshold   
+                <div class="liForm arguments">
+                    <label for="acuteAngleX" class="tooltip"
+                        aria-label="If the acute angle of the barcode with the x-axis is greater than this threshold value, the barcode will be enlarged. Please see documentation for extra info."
+                        data-balloon-pos="down" data-balloon-length="fit">Acute Angle With X-Axis Threshold
                     </label>
-                    <input type="range" id="acuteAngleX" name="acuteAngleX" data-require-pair="#lInterpolation" min="-1" max="90" value="-1"><span id="acuteAngleDisplay"></span></br>
+                    <input type="range" id="acuteAngleX" name="acuteAngleX" data-require-pair="#lInterpolation" min="-1"
+                        max="90" value="-1"><span id="acuteAngleDisplay"></span></br>
 
-                    <label for="moduleSizeThres" class="tooltip" aria-label="If the module size of the barcode is less than the value for ModuleSizeThreshold, the barcode will be enlarged." data-balloon-pos="down" data-balloon-length="medium">Module Size Threshold  
+                    <label for="moduleSizeThres" class="tooltip"
+                        aria-label="If the module size of the barcode is less than the value for ModuleSizeThreshold, the barcode will be enlarged."
+                        data-balloon-pos="down" data-balloon-length="fit">Module Size Threshold
                     </label>
-                    <input type="range" id="moduleSizeThres" name="moduleSizeThres" data-require-pair="#lInterpolation" min="0" max="1000" value="0"><span id="moduleSizeThresDisplay"></span></br>
+                    <input type="range" id="moduleSizeThres" name="moduleSizeThres" data-require-pair="#lInterpolation"
+                        min="0" max="1000" value="0"><span id="moduleSizeThresDisplay"></span></br>
 
-                    <label for="targetModuleSz" class="tooltip" aria-label="The barcode will be enlarged by N times till (N * moduleSize) is greater than or equal to TargetModuleSize." data-balloon-pos="down" data-balloon-length="medium">Target Module Size
+                    <label for="targetModuleSz" class="tooltip"
+                        aria-label="The barcode will be enlarged by N times till (N * moduleSize) is greater than or equal to TargetModuleSize."
+                        data-balloon-pos="down" data-balloon-length="fit">Target Module Size
                     </label>
-                    <input type="range" id="targetModuleSz" name="targetModuleSize" data-require-pair="#lInterpolation" min="0" max="1000" value="0"><span id="targetModuleSzDisplay"></span></br>
+                    <input type="range" id="targetModuleSz" name="targetModuleSize" data-require-pair="#lInterpolation"
+                        min="0" max="1000" value="0"><span id="targetModuleSzDisplay"></span></br>
                 </div>
 
                 <input type="checkbox" id="nnInterpolation" name="suMode" value="SUM_NEAREST_NEIGHBOUR_INTERPOLATION">
-                <label for="nnInterpolation"> Nearest Neighbour Interpolation </label><br>
+                <label for="nnInterpolation"> Nearest Neighbour Interpolation (4)</label><br>
                 <!-- Mode Arguments for the nearst naighbour interpolation mode-->
-                <div class="nniForm">
-                    <label for="acuteAngleXNN" class="tooltip" aria-label="If the acute angle of the barcode with the x-axis is greater than this threshold value, the barcode will be enlarged. Please see documentation for extra info." data-balloon-pos="down" data-balloon-length="medium">Acute Angle With X-Axis Threshold   
+                <div class="nniForm arguments">
+                    <label for="acuteAngleXNN" class="tooltip"
+                        aria-label="If the acute angle of the barcode with the x-axis is greater than this threshold value, the barcode will be enlarged. Please see documentation for extra info."
+                        data-balloon-pos="down" data-balloon-length="fit">Acute Angle With X-Axis Threshold
                     </label>
-                    <input type="range" id="acuteAngleXNN" name="acuteAngleX" data-require-pair="#nnInterpolation" min="-1" max="90" value="-1"><span id="acuteAngleDisplayNN"></span></br>
+                    <input type="range" id="acuteAngleXNN" name="acuteAngleX" data-require-pair="#nnInterpolation"
+                        min="-1" max="90" value="-1"><span id="acuteAngleDisplayNN"></span></br>
 
-                    <label for="moduleSizeThresNN" class="tooltip" aria-label="If the module size of the barcode is less than the value for ModuleSizeThreshold, the barcode will be enlarged." data-balloon-pos="down" data-balloon-length="medium">Module Size Threshold  
+                    <label for="moduleSizeThresNN" class="tooltip"
+                        aria-label="If the module size of the barcode is less than the value for ModuleSizeThreshold, the barcode will be enlarged."
+                        data-balloon-pos="down" data-balloon-length="fit">Module Size Threshold
                     </label>
-                    <input type="range" id="moduleSizeThresNN" name="moduleSizeThres" data-require-pair="#nnInterpolation" min="0" max="1000" value="0"><span id="moduleSizeThresDisplayNN"></span></br>
+                    <input type="range" id="moduleSizeThresNN" name="moduleSizeThres"
+                        data-require-pair="#nnInterpolation" min="0" max="1000" value="0"><span
+                        id="moduleSizeThresDisplayNN"></span></br>
 
-                    <label for="targetModuleSzNN" class="tooltip" aria-label="The barcode will be enlarged by N times till (N * moduleSize) is greater than or equal to TargetModuleSize." data-balloon-pos="down" data-balloon-length="medium">Target Module Size
+                    <label for="targetModuleSzNN" class="tooltip"
+                        aria-label="The barcode will be enlarged by N times till (N * moduleSize) is greater than or equal to TargetModuleSize."
+                        data-balloon-pos="down" data-balloon-length="fit">Target Module Size
                     </label>
-                    <input type="range" id="targetModuleSzNN" name="targetModuleSize" data-require-pair="#nnInterpolation" min="0" max="1000" value="0"><span id="targetModuleSzDisplayNN"></span></br>
+                    <input type="range" id="targetModuleSzNN" name="targetModuleSize"
+                        data-require-pair="#nnInterpolation" min="0" max="1000" value="0"><span
+                        id="targetModuleSzDisplayNN"></span></br>
                 </div>
-
                 <input type="checkbox" id="autoSU" name="suMode" value="SUM_AUTO">
-                <label for="autoSU"> Auto </label></br>
-
+                <label for="autoSU"> Auto (1)</label></br>
                 <input type="checkbox" id="skipSU" name="suMode" value="SUM_SKIP">
-                <label for="skipSU"> Skip</label></br>
-
-            </form><br>
-            
+                <label for="skipSU"> Skip (0)</label></br>
+            </form>
         </div>
     </div>
 
@@ -106,244 +137,267 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
     <script src="initScanner.js"></script> <!-- To initialize the barcode scanner -->
 
     <script>
+        function initPage() {
+            /* Beginning of deblur modes assignment */
 
-    /* Beginning of deblur modes assignment */
+            /* When one or multiple of the deblur mode options are selected, update the runtime settings. The localization modes
+                need to be set in order of priority, thus the code takes into account the order in which the user selects the checkbox options
+                Whenever a deblur mode checkbox is clicked, push it to the deblur modes array. With how this is set up, the deblur modes must be selected in decreasing priority (highest to lowest)*/
 
-    /* When one or multiple of the deblur mode options are selected, update the runtime settings. The localization modes
-        need to be set in order of priority, thus the code takes into account the order in which the user selects the checkbox options
-        Whenever a deblur mode checkbox is clicked, push it to the deblur modes array. With how this is set up, the deblur modes must be selected in decreasing priority (highest to lowest)*/
+            const checkboxesDeblur = document.querySelectorAll('input[name="debMode"]');
+            let deblurModeCount = 0; // Used to track the current index of the deblur modes array
+            let settings = null;
+            for (var i = 0; i < checkboxesDeblur.length; i++) {
+                checkboxesDeblur[i].addEventListener('click', async function () {
+                    try {
+                        settings = await scanner.getRuntimeSettings();
+                        if (this.checked) {
+                            this.disabled = true;
+                            switch (this.value) {
+                                case "DM_DIRECT_BINARIZATION":
+                                    settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_DIRECT_BINARIZATION;
+                                    break;
+                                case "DM_THRESHOLD_BINARIZATION":
+                                    settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_THRESHOLD_BINARIZATION;
+                                    break;
+                                case "DM_GRAY_EQUALIZATION":
+                                    settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_GRAY_EQUALIZATION;
+                                    break;
+                                case "DM_SMOOTHING":
+                                    settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_SMOOTHING;
+                                    break;
+                                case "DM_MORPHING":
+                                    settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_MORPHING;
+                                    break;
+                                case "DM_DEEP_ANALYSIS":
+                                    settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_DEEP_ANALYSIS;
+                                    break;
+                                case "DM_SHARPENING":
+                                    settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_SHARPENING;
+                                    break;
+                                case "DM_SKIP":
+                                    settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_SKIP;
+                                    break;
+                            }
+                        }
+                        await scanner.updateRuntimeSettings(settings);
+                        settings = await scanner.getRuntimeSettings();
+                        if (settings.deblurModes.length === deblurModeCount - 1)
+                            deblurModeCount = 0;
+                        else
+                            deblurModeCount++;
+                        showModes('deblurModeSPAN', settings.deblurModes, deblurModeCount);
+                    }
+                    catch (ex) {
+                        console.log(ex.message);
+                    }
+                })
+            }
+            resetDM.addEventListener('click', async function () {
+                settings = settings || await scanner.getRuntimeSettings();
+                showModes('deblurModeSPAN', settings.deblurModes, 0);
+                deblurModeCount = 0;
+                for (var i = 0; i < checkboxesDeblur.length; i++) {
+                    checkboxesDeblur[i].checked = false;
+                    checkboxesDeblur[i].disabled = false;
+                }
+            });
+            showModes('deblurModeSPAN', initialSettings.deblurModes, 0);
+            /* End of deblur modes assignment */
 
-    const checkboxesDeblur = document.querySelectorAll('input[name="debMode"]');
-    let deblurModeCount = 0; // Used to track the current index of the deblur modes array
-    for(var i = 0; i < checkboxesDeblur.length; i++){
-        checkboxesDeblur[i].addEventListener('click', async function(){
-            try{
+            /* Beginning of scale up modes assignment */
+            /* Like before, the scale up modes array must be assigned in the order of the checkbox selection, so this will be reflected in the code */
+
+            const checkboxesScaleUp = document.querySelectorAll('input[name="suMode"]');
+            let suModeCount = 0; // Used to track the current index of the scale up modes array
+            for (var i = 0; i < checkboxesScaleUp.length; i++) {
+                checkboxesScaleUp[i].addEventListener('click', async function () {
+                    try {
+                        settings = await scanner.getRuntimeSettings();
+                        if (this.checked) {
+                            this.disabled = true;
+                            switch (this.value) {
+                                case "SUM_LINEAR_INTERPOLATION":
+                                    settings.scaleUpModes[suModeCount] = Dynamsoft.DBR.EnumScaleUpMode.SUM_LINEAR_INTERPOLATION;
+                                    break;
+                                case "SUM_NEAREST_NEIGHBOUR_INTERPOLATION":
+                                    settings.scaleUpModes[suModeCount] = Dynamsoft.DBR.EnumScaleUpMode.SUM_NEAREST_NEIGHBOUR_INTERPOLATION;
+                                    break;
+                                case "SUM_AUTO":
+                                    settings.scaleUpModes[suModeCount] = Dynamsoft.DBR.EnumScaleUpMode.SUM_AUTO;
+                                    break;
+                                case "SUM_SKIP":
+                                    settings.scaleUpModes[suModeCount] = Dynamsoft.DBR.EnumScaleUpMode.SUM_SKIP;
+                                    break;
+                            }
+                        }
+
+                        await scanner.updateRuntimeSettings(settings);
+                        settings = await scanner.getRuntimeSettings();
+                        if (settings.scaleUpModes.length === suModeCount - 1)
+                            suModeCount = 0;
+                        else
+                            suModeCount++;
+                        showModes('scaleUpModeSPAN', settings.scaleUpModes, suModeCount);
+                    }
+                    catch (ex) {
+                        console.log(ex.message);
+                    }
+                })
+            }
+            resetSUM.addEventListener('click', async function () {
+                settings = settings || await scanner.getRuntimeSettings();
+                showModes('scaleUpModeSPAN', settings.scaleUpModes, 0);
+                suModeCount = 0;
+                for (var i = 0; i < checkboxesScaleUp.length; i++) {
+                    checkboxesScaleUp[i].checked = false;
+                    checkboxesScaleUp[i].disabled = false;
+                }
+            });
+            showModes('scaleUpModeSPAN', initialSettings.scaleUpModes, 0);
+
+            /* Now to deal with the mode arguments for the linear interpolation and the nearest neighbour interpolation scale up modes */
+
+            // First, if the linear interpolation option is checked, expand the menu for its mode arguments
+            let lInterpolOption = document.getElementById("lInterpolation");
+            lInterpolOption.onclick = function () {
+                let lInterpolForm = document.getElementsByClassName("liForm");
+                lInterpolForm[0].style.display = "block";
+            }
+
+            // Next, should any of the mode arguments for liner interpolation change, then set the mode argument
+            // Starting with the acute angle to the horizontal axis threshold
+            let acuteAngleX = document.getElementById("acuteAngleX");
+            acuteAngleX.onchange = async function () {
+                document.getElementById("acuteAngleDisplay").innerHTML = acuteAngleX.value.toString();
+                // Get the index of the linear interpolation mode in the scale up modes array
                 let settings = await scanner.getRuntimeSettings();
-                if(this.checked){
-                    switch(this.value){
-                        case "DM_DIRECT_BINARIZATION":
-                        settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_DIRECT_BINARIZATION;
-                        break;
-                        case "DM_THRESHOLD_BINARIZATION":
-                        settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_THRESHOLD_BINARIZATION;
-                        break;
-                        case "DM_GRAY_EQUALIZATION":
-                        settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_GRAY_EQUALIZATION;
-                        break;
-                        case "DM_SMOOTHING":
-                        settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_SMOOTHING;
-                        break;
-                        case "DM_MORPHING":
-                        settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_MORPHING;
-                        break;
-                        case "DM_DEEP_ANALYSIS":
-                        settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_DEEP_ANALYSIS;
-                        break;
-                        case "DM_DEEP_ANALYSIS":
-                        settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_DEEP_ANALYSIS;
-                        break;
-                        case "DM_SKIP":
-                        settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_SKIP;
-                        break;
+                for (var i = 0; i <= 8; i++) {
+                    try {
+
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumScaleUpMode.SUM_LINEAR_INTERPOLATION)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("ScaleUpModes", i, "AcuteAngleWithXThreshold", acuteAngleX.value.toString()); // set the acute angle horizontal threshold
+                        else
+                            continue; // if not linear interpolation, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
                     }
                 }
-                // So that the deblur modes array stays at a max length of 8 no matter how many times options are clicked. See the documentation for more info.
-                if(deblurModeCount == 7)
-                    deblurModeCount = 0;
-                else
-                    deblurModeCount++;
-                
-                console.log(settings.deblurModes); // check that the deblur modes array is correct
-                await scanner.updateRuntimeSettings(settings);
-            } 
-            catch(ex) {
-                console.log(ex.message);
             }
-        })
-    }
-    /* End of deblur modes assignment */
 
-    /* Beginning of scale up modes assignment */
-    /* Like before, the scale up modes array must be assigned in the order of the checkbox selection, so this will be reflected in the code */
-
-    const checkboxesScaleUp = document.querySelectorAll('input[name="suMode"]');
-    let suModeCount = 0; // Used to track the current index of the scale up modes array
-    for(var i = 0; i < checkboxesScaleUp.length; i++){
-        checkboxesScaleUp[i].addEventListener('click', async function(){
-            try{
+            // Then, the module size threshold
+            let moduleSizeThres = document.getElementById("moduleSizeThres");
+            moduleSizeThres.onchange = async function () {
+                document.getElementById("moduleSizeThresDisplay").innerHTML = moduleSizeThres.value.toString();
+                // Get the index of the linear interpolation mode in the scale up modes array
                 let settings = await scanner.getRuntimeSettings();
-                if(this.checked){
-                    switch(this.value){
-                        case "SUM_LINEAR_INTERPOLATION":
-                        settings.scaleUpModes[suModeCount] = Dynamsoft.DBR.EnumScaleUpMode.SUM_LINEAR_INTERPOLATION;
-                        break;
-                        case "SUM_NEAREST_NEIGHBOUR_INTERPOLATION":
-                        settings.scaleUpModes[suModeCount] = Dynamsoft.DBR.EnumScaleUpMode.SUM_NEAREST_NEIGHBOUR_INTERPOLATION;
-                        break;
-                        case "SUM_AUTO":
-                        settings.scaleUpModes[suModeCount] = Dynamsoft.DBR.EnumScaleUpMode.SUM_AUTO;
-                        break;
-                        case "SUM_SKIP":
-                        settings.scaleUpModes[suModeCount] = Dynamsoft.DBR.EnumScaleUpMode.SUM_SKIP;
-                        break;
+                for (var i = 0; i <= 8; i++) {
+                    try {
+
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumScaleUpMode.SUM_LINEAR_INTERPOLATION)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("ScaleUpModes", i, "ModuleSizeThreshold", moduleSizeThres.value.toString()); // set the module size threshold
+                        else
+                            continue; // if not linear interpolation, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
                     }
                 }
-                // So that the binarization modes array stays at a length of 8 no matter how many times options are clicked
-                if(suModeCount == 7)
-                    suModeCount = 0;
-                else
-                    suModeCount++;
-
-                console.log(settings.scaleUpModes); // check that the array is correct
-                await scanner.updateRuntimeSettings(settings);
-            } 
-            catch(ex) {
-                console.log(ex.message);
             }
-        })
-    }
 
-    /* Now to deal with the mode arguments for the linear interpolation and the nearest neighbour interpolation scale up modes */
-    
-    // First, if the linear interpolation option is checked, expand the menu for its mode arguments
-    let lInterpolOption = document.getElementById("lInterpolation");
-    lInterpolOption.onclick = function(){
-        let lInterpolForm = document.getElementsByClassName("liForm");
-        lInterpolForm[0].style.display = "block";
-    }
+            // And the final mode argument is target module size
+            let targetModuleSz = document.getElementById("targetModuleSz");
+            targetModuleSz.onchange = async function () {
+                document.getElementById("targetModuleSzDisplay").innerHTML = targetModuleSz.value.toString();
+                // Get the index of the linear interpolation mode in the scale up modes array
+                let settings = await scanner.getRuntimeSettings();
+                for (var i = 0; i <= 8; i++) {
+                    try {
 
-    // Next, should any of the mode arguments for liner interpolation change, then set the mode argument
-    // Starting with the acute angle to the horizontal axis threshold
-    let acuteAngleX = document.getElementById("acuteAngleX");
-    acuteAngleX.onchange = async function(){
-        document.getElementById("acuteAngleDisplay").innerHTML = acuteAngleX.value.toString();
-        // Get the index of the linear interpolation mode in the scale up modes array
-        let settings = await scanner.getRuntimeSettings();
-        for(var i = 0; i <= 8; i++){
-            try{
-                
-                if(settings.scaleUpModes[i] == Dynamsoft.DBR.EnumScaleUpMode.SUM_LINEAR_INTERPOLATION)
-                    //once the index is found, use the index to set the mode argument.
-                    await scanner.setModeArgument("ScaleUpModes", i, "AcuteAngleWithXThreshold", acuteAngleX.value.toString()); // set the acute angle horizontal threshold
-                else
-                    continue; // if not linear interpolation, skip to next iteration
-            } catch(ex) {
-                console.log(ex.message);
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumScaleUpMode.SUM_LINEAR_INTERPOLATION)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("ScaleUpModes", i, "TargetModuleSize", targetModuleSz.value.toString()); // set the target module size
+                        else
+                            continue; // if not linear interpolation, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                }
             }
+
+            // If the nearest neighbour interpolation option is checked, expand the mode arguments form for it
+            let nnInterpolation = document.getElementById("nnInterpolation");
+            nnInterpolation.onclick = function () {
+                let nniForm = document.getElementsByClassName("nniForm");
+                nniForm[0].style.display = "block";
+            }
+
+            // Next, should any of the mode arguments for nearest neighbour change, then set the mode argument. Please note that they are similar to the linear interpolation mode arguments.
+            // Starting with the acute angle to the horizontal axis threshold
+            let acuteAngleX_NN = document.getElementById("acuteAngleXNN");
+            acuteAngleX_NN.onchange = async function () {
+                document.getElementById("acuteAngleDisplayNN").innerHTML = acuteAngleX_NN.value.toString();
+                // Get the index of the nearest neighbour mode in the scale up modes array
+                let settings = await scanner.getRuntimeSettings();
+                for (var i = 0; i <= 8; i++) {
+                    try {
+
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumScaleUpMode.SUM_NEAREST_NEIGHBOUR_INTERPOLATION)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("ScaleUpModes", i, "AcuteAngleWithXThreshold", acuteAngleX_NN.value.toString()); // set the acute angle horizontal threshold
+                        else
+                            continue; // if not nearest neighbour, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                }
+            }
+
+            // Then, the module size threshold
+            let moduleSizeThres_NN = document.getElementById("moduleSizeThresNN");
+            moduleSizeThres_NN.onchange = async function () {
+                document.getElementById("moduleSizeThresDisplayNN").innerHTML = moduleSizeThres_NN.value.toString();
+                // Get the index of the nearest neighbour mode in the scale up modes array
+                let settings = await scanner.getRuntimeSettings();
+                for (var i = 0; i <= 8; i++) {
+                    try {
+
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumScaleUpMode.SUM_NEAREST_NEIGHBOUR_INTERPOLATION)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("ScaleUpModes", i, "ModuleSizeThreshold", moduleSizeThres_NN.value.toString()); // set the acute angle horizontal threshold
+                        else
+                            continue; // if not nearest neighbour, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                }
+            }
+
+            // And the final mode argument is target module size
+            let targetModuleSz_NN = document.getElementById("targetModuleSzNN");
+            targetModuleSz_NN.onchange = async function () {
+                document.getElementById("targetModuleSzDisplayNN").innerHTML = targetModuleSz_NN.value.toString();
+                // Get the index of the nearest neighbour mode in the scale up modes array
+                let settings = await scanner.getRuntimeSettings();
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumScaleUpMode.SUM_NEAREST_NEIGHBOUR_INTERPOLATION)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("ScaleUpModes", i, "TargetModuleSize", targetModuleSz_NN.value.toString()); // set the target module size
+                        else
+                            continue; // if not nearest neighbour, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                }
+            }
+
+            /* End of setting mode arguments for the linear interpolation and nearest neighbour methods */
+
+            /* End of scale up modes assignment */
         }
-    }
-
-    // Then, the module size threshold
-    let moduleSizeThres = document.getElementById("moduleSizeThres");
-    moduleSizeThres.onchange = async function(){
-        document.getElementById("moduleSizeThresDisplay").innerHTML = moduleSizeThres.value.toString();
-        // Get the index of the linear interpolation mode in the scale up modes array
-        let settings = await scanner.getRuntimeSettings();
-        for(var i = 0; i <= 8; i++){
-            try{
-                
-                if(settings.scaleUpModes[i] == Dynamsoft.DBR.EnumScaleUpMode.SUM_LINEAR_INTERPOLATION)
-                    //once the index is found, use the index to set the mode argument.
-                    await scanner.setModeArgument("ScaleUpModes", i, "ModuleSizeThreshold", moduleSizeThres.value.toString()); // set the module size threshold
-                else
-                    continue; // if not linear interpolation, skip to next iteration
-            } catch(ex) {
-                console.log(ex.message);
-            }
-        }
-    }
-
-    // And the final mode argument is target module size
-    let targetModuleSz = document.getElementById("targetModuleSz");
-    targetModuleSz.onchange = async function(){
-        document.getElementById("targetModuleSzDisplay").innerHTML = targetModuleSz.value.toString();
-        // Get the index of the linear interpolation mode in the scale up modes array
-        let settings = await scanner.getRuntimeSettings();
-        for(var i = 0; i <= 8; i++){
-            try{
-                
-                if(settings.scaleUpModes[i] == Dynamsoft.DBR.EnumScaleUpMode.SUM_LINEAR_INTERPOLATION)
-                    //once the index is found, use the index to set the mode argument.
-                    await scanner.setModeArgument("ScaleUpModes", i, "TargetModuleSize", targetModuleSz.value.toString()); // set the target module size
-                else
-                    continue; // if not linear interpolation, skip to next iteration
-            } catch(ex) {
-                console.log(ex.message);
-            }
-        }
-    }
-
-    // If the nearest neighbour interpolation option is checked, expand the mode arguments form for it
-    let nnInterpolation = document.getElementById("nnInterpolation");
-    nnInterpolation.onclick = function(){
-        let nniForm = document.getElementsByClassName("nniForm");
-        nniForm[0].style.display = "block";
-    }
-
-    // Next, should any of the mode arguments for nearest neighbour change, then set the mode argument. Please note that they are similar to the linear interpolation mode arguments.
-    // Starting with the acute angle to the horizontal axis threshold
-    let acuteAngleX_NN = document.getElementById("acuteAngleXNN");
-    acuteAngleX_NN.onchange = async function(){
-        document.getElementById("acuteAngleDisplayNN").innerHTML = acuteAngleX_NN.value.toString();
-        // Get the index of the nearest neighbour mode in the scale up modes array
-        let settings = await scanner.getRuntimeSettings();
-        for(var i = 0; i <= 8; i++){
-            try{
-                
-                if(settings.scaleUpModes[i] == Dynamsoft.DBR.EnumScaleUpMode.SUM_NEAREST_NEIGHBOUR_INTERPOLATION)
-                    //once the index is found, use the index to set the mode argument.
-                    await scanner.setModeArgument("ScaleUpModes", i, "AcuteAngleWithXThreshold", acuteAngleX_NN.value.toString()); // set the acute angle horizontal threshold
-                else
-                    continue; // if not nearest neighbour, skip to next iteration
-            } catch(ex) {
-                console.log(ex.message);
-            }
-        }
-    }
-
-    // Then, the module size threshold
-    let moduleSizeThres_NN = document.getElementById("moduleSizeThresNN");
-    moduleSizeThres_NN.onchange = async function(){
-        document.getElementById("moduleSizeThresDisplayNN").innerHTML = moduleSizeThres_NN.value.toString();
-        // Get the index of the nearest neighbour mode in the scale up modes array
-        let settings = await scanner.getRuntimeSettings();
-        for(var i = 0; i <= 8; i++){
-            try{
-                
-                if(settings.scaleUpModes[i] == Dynamsoft.DBR.EnumScaleUpMode.SUM_NEAREST_NEIGHBOUR_INTERPOLATION)
-                    //once the index is found, use the index to set the mode argument.
-                    await scanner.setModeArgument("ScaleUpModes", i, "ModuleSizeThreshold", moduleSizeThres_NN.value.toString()); // set the acute angle horizontal threshold
-                else
-                    continue; // if not nearest neighbour, skip to next iteration
-            } catch(ex) {
-                console.log(ex.message);
-            }
-        }
-    }
-
-    // And the final mode argument is target module size
-    let targetModuleSz_NN = document.getElementById("targetModuleSzNN");
-    targetModuleSz_NN.onchange = async function(){
-        document.getElementById("targetModuleSzDisplayNN").innerHTML = targetModuleSz_NN.value.toString();
-        // Get the index of the nearest neighbour mode in the scale up modes array
-        let settings = await scanner.getRuntimeSettings();
-        for(var i = 0; i <= 8; i++){
-            try {
-                if(settings.scaleUpModes[i] == Dynamsoft.DBR.EnumScaleUpMode.SUM_NEAREST_NEIGHBOUR_INTERPOLATION)
-                    //once the index is found, use the index to set the mode argument.
-                    await scanner.setModeArgument("ScaleUpModes", i, "TargetModuleSize", targetModuleSz_NN.value.toString()); // set the target module size
-                else
-                    continue; // if not nearest neighbour, skip to next iteration
-            } catch(ex) {
-                console.log(ex.message);
-            }
-        }
-    }
-
-    /* End of setting mode arguments for the linear interpolation and nearest neighbour methods */
-
-    /* End of scale up modes assignment */
-
     </script>
 </body>
+
 </html>

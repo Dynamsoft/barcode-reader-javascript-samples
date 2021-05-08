@@ -11,17 +11,19 @@
 
 </head>
 
-<!-- This sample demonstrates the minimum necessary JavaScript code to get the BarcodeScanner (video) up and running. The BarcodeScanner object is initialized with its default UI once the user clicks the 'Read Barcode via Camera' button. Any unique barcode results that are found are then displayed in an alert box to the user. 
-Please note that the organizationID '200001' corresponds to Dynamsoft's public license which is reserved for public samples. When hosting the sample in your own environment, please obtain a private trial by contacting the Dynamsoft Support Team via support@dynamsoft.com -->
-
 <body>
-    <button id='readBarcode'>Open Camera and Read Barcode</button>
-    <p></p>
+    <h2>Localization and Binarization</h2>
     <button id='openSimpleSettingsMenu'>Open Runtime Settings Menu</button>
 
-    <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen, hiding the  -->
+    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
+        placeholder="The Last Read Barcode">
+    <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen-->
     <div id="div-video-container">
+        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
         <video class="dbrScanner-video" playsinline="true"></video>
+        <canvas class="dbrScanner-cvs-drawarea"
+            style="width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; object-fit: contain;"
+            width="1280" height="720"></canvas>
     </div>
 
     <!-- Settings Menu displayed in a modal -->
@@ -30,62 +32,68 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
             <span id="closeModalBtn" class="closeModal">&times;</span>
             <div class="tooltip"
                 aria-label="Selecting the approporiate localization mode priority order depending on the user scenario or the barcode format can help improve the SDK's speed and accuracy"
-                data-balloon-pos="down" data-balloon-length="medium">Select the Localization Modes in Decreasing
-                Priority Order (Highest to Lowest)</div>
-
+                data-balloon-pos="down" data-balloon-length="fit">Localization Modes in Decreasing
+                Priority</div><br />
+            <span style="background-color: white;padding: 1vmin; margin-right: 2vmin;" id="localizationModeSPAN"></span>
+            <a href="#" id='resetLM'>Reset</a><br />
             <form id="localizationMode">
                 <input type="checkbox" id="connectedBlocks" name="locMode" value="LM_CONNECTED_BLOCKS">
-                <label for="connectedBlocks"> Connected Blocks </label><br>
+                <label for="connectedBlocks"> Connected Blocks (2) </label><br />
                 <input type="checkbox" id="statistics" name="locMode" value="LM_STATISTICS">
-                <label for="statistics"> Statistics </label><br>
+                <label for="statistics"> Statistics (4) </label><br />
                 <input type="checkbox" id="lines" name="locMode" value="LM_LINES">
-                <label for="lines"> Lines </label><br>
+                <label for="lines"> Lines (8) </label><br />
                 <input type="checkbox" id="scanDirectly" name="locMode" value="LM_SCAN_DIRECTLY">
-                <label for="scanDirectly"> Scan Directly </label> <br>
+                <label for="scanDirectly"> Scan Directly (16) </label> <br />
                 <input type="checkbox" id="statMarks" name="locMode" value="LM_STATISTICS_MARKS">
-                <label for="statMarks"> Statistics Marks </label> <br>
+                <label for="statMarks"> Statistics Marks (32) </label> <br />
                 <input type="checkbox" id="statPostal" name="locMode" value="LM_STATISTICS_POSTAL_CODE">
-                <label for="statPostal"> Statistics Postal Code </label> <br>
-                <input type="checkbox" id="skipLoc" name="locMode" value="LM_SKIP">
-                <label for="skip"> Skip </label> <br>
-            </form><br>
-
+                <label for="statPostal"> Statistics Postal Code (64) </label> <br />
+                <input type="checkbox" id="statCenter" name="locMode" value="LM_CENTRE">
+                <label for="statCenter"> Center (128) </label> <br />
+                <input type="checkbox" id="autoLoc" name="locMode" value="LM_AUTO">
+                <label for="autoLoc"> Auto (1) </label> <br />
+                <!--<input type="checkbox" id="skipLoc" name="locMode" value="LM_SKIP">
+                <label for="skipLoc"> Skip (0) </label> <br />-->
+            </form>
             <div class="tooltip"
                 aria-label="Selecting the approporiate binarization mode can help increase the accuracy of barcode localization by providing the SDK with the best quality binary image."
-                data-balloon-pos="down" data-balloon-length="medium">Select the Binarization Modes in Decreasing
-                Priority Order (Highest to Lowest)
-            </div>
+                data-balloon-pos="down" data-balloon-length="fit">Binarization Modes in Decreasing
+                Priority
+            </div><br /><span style="background-color: white;padding: 1vmin;margin-right: 2vmin;"
+                id="binarizationModeSPAN"></span>
+            <a href="#" id='resetBM'>Reset</a><br />
 
             <form id="binarizationMode">
                 <input type="checkbox" id="localBlock" name="binMode" value="BM_LOCAL_BLOCK">
-                <label for="localBlock"> Local Block </label><br>
+                <label for="localBlock"> Local Block (2) </label><br />
 
                 <!-- Mode Arguments for the local block binarization mode-->
-                <div class="localBlockForm">
+                <div class="localBlockForm arguments">
                     <label for="blockSizeX" class="tooltip"
                         aria-label="Sets the horizontal block size [0-1000] for the binarization process. Please see documentation on what the values represent."
-                        data-balloon-pos="down" data-balloon-length="medium">Horizontal Block Size
+                        data-balloon-pos="down" data-balloon-length="fit">Horizontal Block Size
                     </label>
                     <input type="range" id="blockSizeX" name="blockSizeX" data-require-pair="#localBlock" min="0"
                         max="1000" value="0"><span id="blockSizeXDisplay"></span></br>
 
                     <label for="blockSizeY" class="tooltip"
                         aria-label="Sets the vertical block size [0-1000] for the binarization process. Please see documentation on what the values represent."
-                        data-balloon-pos="down" data-balloon-length="medium">Vertical Block Size
+                        data-balloon-pos="down" data-balloon-length="fit">Vertical Block Size
                     </label>
                     <input type="range" id="blockSizeY" name="blockSizeY" data-require-pair="#localBlock" min="0"
                         max="1000" value="0"><span id="blockSizeYDisplay"></span></br>
 
                     <label for="enableFillBinary" class="tooltip"
                         aria-label="For barcodes of a large module size, it is recommended to set this property to true. Please see documentation for more info."
-                        data-balloon-pos="down" data-balloon-length="medium">Enable Fill Binary Vacancy
+                        data-balloon-pos="down" data-balloon-length="fit">Enable Fill Binary Vacancy
                     </label>
                     <input type="checkbox" id="enableFillBinary" name="enableFillBinary"
-                        data-require-pair="#localBlock"><br>
+                        data-require-pair="#localBlock"><br />
 
                     <label for="imagePreModes" class="tooltip"
                         aria-label="If the image preprocessing modes are being used, the following property specifies which index in the modes array the local block binarization will be applied to. By default, it is applied to all the modes."
-                        data-balloon-pos="down" data-balloon-length="medium">Image Pre-processing Modes Index
+                        data-balloon-pos="down" data-balloon-length="fit">Image Pre-processing Modes Index
                     </label>
                     <input type="range" id="imagePreModes" name="imagePreModes" data-require-pair="#localBlock" min="-1"
                         max="3" value="-1"><span id="imagePreModesDisplay"></span></br>
@@ -94,29 +102,26 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
 
                 <!-- Mode Arguments for the threshold binarization mode-->
                 <input type="checkbox" id="threshold" name="binMode" value="BM_THRESHOLD">
-                <label for="threshold"> Threshold </label><br>
+                <label for="threshold"> Threshold (4) </label><br />
 
-                <div class="thresholdForm">
+                <div class="thresholdForm arguments">
                     <label for="binThreshold" class="tooltip"
                         aria-label="This threshold is used to classify the pixel values for the binarization process."
-                        data-balloon-pos="down" data-balloon-length="medium">Binarization Threshold
+                        data-balloon-pos="down" data-balloon-length="fit">Binarization Threshold
                     </label>
                     <input type="range" id="binThreshold" name="binThreshold" data-require-pair="#localBlock" min="-1"
                         max="255" value="-1"><span id="binThresholdDisplay"></span></br>
 
                     <label for="imagePreModesThres" class="tooltip"
                         aria-label="If the image preprocessing modes are being used, the following property specifies which index in the modes array the threshold binarization will be applied to. By default, it is applied to all the modes."
-                        data-balloon-pos="down" data-balloon-length="medium">Image Pre-processing Modes Index
+                        data-balloon-pos="down" data-balloon-length="fit">Image Pre-processing Modes Index
                     </label>
                     <input type="range" id="imagePreModesThres" name="imagePreModesThres" data-require-pair="#threshold"
                         min="-1" max="3" value="-1"><span id="imagePreModesThresDisplay"></span></br>
                 </div>
-
                 <input type="checkbox" id="skipBin" name="binMode" value="BM_SKIP">
-                <label for="threshold"> Skip</label></br>
-
-            </form><br>
-
+                <label for="skipBin"> Skip (0) </label></br>
+            </form>
         </div>
     </div>
 
@@ -124,220 +129,264 @@ Please note that the organizationID '200001' corresponds to Dynamsoft's public l
     <script src="initScanner.js"></script> <!-- To initialize the barcode scanner -->
 
     <script>
+        function initPage() {
+            /**
+             * When one or multiple of the localization mode options are selected, update the runtime settings. 
+             * 
+             * Whenever a localization mode checkbox is clicked, push it to the localization mode array.
+             * The code takes into account the order in which the user selects the checkbox options which represents
+             * the priority.
+             */
+            let locModeCount = 0;
+            let settings = null;
+            const checkboxesLocalization = document.querySelectorAll('input[name="locMode"]');
+            for (var i = 0; i < checkboxesLocalization.length; i++) {
+                checkboxesLocalization[i].addEventListener('click', async function () {
+                    try {
+                        settings = await scanner.getRuntimeSettings();
+                        if (this.checked) {
+                            this.disabled = true;
+                            switch (this.value) {
+                                case "LM_CONNECTED_BLOCKS":
+                                    settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_CONNECTED_BLOCKS;
+                                    break;
+                                case "LM_STATISTICS":
+                                    settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_STATISTICS;
+                                    break;
+                                case "LM_LINES":
+                                    settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_LINES;
+                                    break;
+                                case "LM_SCAN_DIRECTLY":
+                                    settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_SCAN_DIRECTLY;
+                                    break;
+                                case "LM_STATISTICS_MARKS":
+                                    settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_STATISTICS_MARKS;
+                                    break;
+                                case "LM_STATISTICS_POSTAL_CODE":
+                                    settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_STATISTICS_POSTAL_CODE;
+                                    break;
+                                case "LM_CENTRE":
+                                    settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_CENTRE;
+                                    break;
+                                case "LM_AUTO":
+                                    settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_AUTO;
+                                    break;
+                                case "LM_SKIP":
+                                    settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_SKIP;
+                                    break;
+                            }
+                        }
 
-        /* When one or multiple of the localization mode options are selected, update the runtime settings. The localization modes
-            need to be set in order of priority, thus the code takes into account the order in which the user selects the checkbox options
-            Whenever a localization mode checkbox is clicked, push it to the localization mode array. With hos this is set up, the localization modes must be selected in decreasing priority (highest to lowest)*/
-        const checkboxesLocalization = document.querySelectorAll('input[name="locMode"]');
-        for (var i = 0; i < checkboxesLocalization.length; i++) {
-            checkboxesLocalization[i].addEventListener('click', async function () {
-                let settings = await scanner.getRuntimeSettings();
-                if (this.checked) {
-                    switch (this.value) {
-                        case "LM_CONNECTED_BLOCKS":
-                            settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_CONNECTED_BLOCKS;
-                            break;
-                        case "LM_STATISTICS":
-                            settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_STATISTICS;
-                            break;
-                        case "LM_LINES":
-                            settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_LINES;
-                            break;
-                        case "LM_SCAN_DIRECTLY":
-                            settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_SCAN_DIRECTLY;
-                            break;
-                        case "LM_STATISTICS_MARKS":
-                            settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_STATISTICS_MARKS;
-                            break;
-                        case "LM_STATISTICS_POSTAL_CODE":
-                            settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_STATISTICS_POSTAL_CODE;
-                            break;
-                        case "LM_SKIP":
-                            settings.localizationModes[locModeCount] = Dynamsoft.DBR.EnumLocalizationMode.LM_SKIP;
-                            break;
+                        await scanner.updateRuntimeSettings(settings);
+                        settings = await scanner.getRuntimeSettings();
+                        if (settings.localizationModes.length === locModeCount - 1)
+                            locModeCount = 0;
+                        else
+                            locModeCount++;
+                        showModes('localizationModeSPAN', settings.localizationModes, locModeCount);
                     }
+                    catch (e) {
+                        console.log("Error:" + e.message);
+                    }
+                })
+            }
+            resetLM.addEventListener('click', async function () {
+                settings = settings || await scanner.getRuntimeSettings();
+                showModes('localizationModeSPAN', settings.localizationModes, 0);
+                locModeCount = 0;
+                for (var i = 0; i < checkboxesLocalization.length; i++) {
+                    checkboxesLocalization[i].checked = false;
+                    checkboxesLocalization[i].disabled = false;
                 }
-                // So that the localization modes array stays at a length of 8 no matter how many times options are clicked
-                if (locModeCount == 7)
-                    locModeCount = 0;
-                else
-                    locModeCount++;
+            });
+            showModes('localizationModeSPAN', initialSettings.localizationModes, 0);
+            /* End of localization mode assignment */
 
-                console.log(settings.localizationModes); // check that the localization modes array is correct
-                await scanner.updateRuntimeSettings(settings);
-            })
-        }
-        /* End of localization mode assignment */
+            /* Beginning of binarization mode assignment */
+            let localBlock = document.getElementById("localBlock");
 
-        /* Beginning of binarization mode assignment */
-        let localBlock = document.getElementById("localBlock");
+            // Local Block Binarization Mode Arguments
+            let blockSizeX = document.getElementById("blockSizeX");
+            let blockSizeY = document.getElementById("blockSizeY");
+            let enableBinary = document.getElementById("enableFillBinary");
+            let imagePreModesLB = document.getElementById("imagePreModes");
 
-        // Local Block Binarization Mode Arguments
-        let blockSizeX = document.getElementById("blockSizeX");
-        let blockSizeY = document.getElementById("blockSizeY");
-        let enableBinary = document.getElementById("enableFillBinary");
-        let imagePreModesLB = document.getElementById("imagePreModes");
+            // Threshold Binarization Mode Arguments
+            let binThreshold = document.getElementById("binThreshold");
+            let imagePreModesT = document.getElementById("imagePreModesThres");
 
-        // Threshold Binarization Mode Arguments
-        let binThreshold = document.getElementById("binThreshold");
-        let imagePreModesT = document.getElementById("imagePreModesThres");
-
-        // Loop through the localization mode options and assign them to the localization modes array in the order they are selected.
-        const checkboxesBinarization = document.querySelectorAll('input[name="binMode"]');
-        for (var i = 0; i < checkboxesBinarization.length; i++) {
-            checkboxesBinarization[i].addEventListener('click', async function () {
-                try {
-                    let settings = await scanner.getRuntimeSettings();
-                    if (this.checked) {
-                        switch (this.value) {
-                            case "BM_LOCAL_BLOCK":
-                                settings.binarizationModes[binModeCount] = Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK;
-                                break;
-                            case "BM_THRESHOLD":
-                                settings.binarizationModes[binModeCount] = Dynamsoft.DBR.EnumBinarizationMode.BM_THRESHOLD;
-                                break;
-                            case "BM_SKIP":
-                                settings.binarizationModes[binModeCount] = Dynamsoft.DBR.EnumBinarizationMode.BM_SKIP;
-                                break;
+            // Loop through the localization mode options and assign them to the localization modes array in the order they are selected.
+            const checkboxesBinarization = document.querySelectorAll('input[name="binMode"]');
+            let binModeCount = 0;
+            for (var i = 0; i < checkboxesBinarization.length; i++) {
+                checkboxesBinarization[i].addEventListener('click', async function () {
+                    try {
+                        settings = await scanner.getRuntimeSettings();
+                        if (this.checked) {
+                            this.disabled = true;
+                            switch (this.value) {
+                                case "BM_LOCAL_BLOCK":
+                                    settings.binarizationModes[binModeCount] = Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK;
+                                    break;
+                                case "BM_THRESHOLD":
+                                    settings.binarizationModes[binModeCount] = Dynamsoft.DBR.EnumBinarizationMode.BM_THRESHOLD;
+                                    break;
+                                case "BM_SKIP":
+                                    settings.binarizationModes[binModeCount] = Dynamsoft.DBR.EnumBinarizationMode.BM_SKIP;
+                                    break;
+                            }
+                        }
+                        try {
+                            await scanner.updateRuntimeSettings(settings);
+                            settings = await scanner.getRuntimeSettings();
+                            if (settings.binarizationModes.length === binModeCount - 1)
+                                binModeCount = 0;
+                            else
+                                binModeCount++;
+                            showModes('binarizationModeSPAN', settings.binarizationModes, binModeCount);
+                        }
+                        catch (e) {
+                            console.log("Error:" + e.message);
                         }
                     }
-                    // So that the binarization modes array stays at a max length of 8 no matter how many times options are clicked
-                    if (binModeCount == 7)
-                        binModeCount = 0;
-                    else
-                        binModeCount++;
+                    catch (ex) {
+                        console.log(ex.message);
+                    }
+                })
+            }
 
-                    console.log(settings.binarizationModes);
-                    await scanner.updateRuntimeSettings(settings);
-                }
-                catch (ex) {
-                    console.log(ex.message);
-                }
-            })
-        }
+            /* If local block binarization is selected, open up the local block binarization options
+            Once one of the options is changed, for example block size X, apply this change to the SDK's settings*/
+            localBlock.onclick = function () {
+                let localBlockForm = document.getElementsByClassName("localBlockForm");
+                localBlockForm[0].style.display = "block";
+            }
 
-        /* If local block binarization is selected, open up the local block binarization options
-        Once one of the options is changed, for example block size X, apply this change to the SDK's settings*/
-        localBlock.onclick = function () {
-            let localBlockForm = document.getElementsByClassName("localBlockForm");
-            localBlockForm[0].style.display = "block";
-        }
-
-        /* Applying the local block binarization options to the settings, starting with the horizontal block size */
-        blockSizeX.onchange = async function () {
-            document.getElementById("blockSizeXDisplay").innerHTML = blockSizeX.value.toString(); // display the slider value next to it
-            // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8 as explained above.
-            for (var i = 0; i <= 8; i++) {
-                try {
-                    let settings = await scanner.getRuntimeSettings();
-                    if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK)
-                        //once the index is found, use the index to set the mode argument.
-                        await scanner.setModeArgument("BinarizationModes", i, "BlockSizeX", blockSizeX.value.toString()); // set the horizontal block size
-                    else
-                        continue; // if not local block, skip to next iteration
-                }
-                catch (ex) {
-                    console.log(ex.message);
+            /* Applying the local block binarization options to the settings, starting with the horizontal block size */
+            blockSizeX.onchange = async function () {
+                document.getElementById("blockSizeXDisplay").innerHTML = blockSizeX.value.toString(); // display the slider value next to it
+                // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8 as explained above.
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        let settings = await scanner.getRuntimeSettings();
+                        if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("BinarizationModes", i, "BlockSizeX", blockSizeX.value.toString()); // set the horizontal block size
+                        else
+                            continue; // if not local block, skip to next iteration
+                    }
+                    catch (ex) {
+                        console.log(ex.message);
+                    }
                 }
             }
-        }
 
-        // Set the mode argument vertical block size of the local block binarization mode
-        blockSizeY.onchange = async function () {
-            document.getElementById("blockSizeYDisplay").innerHTML = blockSizeY.value.toString(); // display the slider value next to it
-            // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
-            for (var i = 0; i <= 8; i++) {
-                try {
-                    let settings = await scanner.getRuntimeSettings();
-                    if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK)
-                        await scanner.setModeArgument("BinarizationModes", i, "BlockSizeY", blockSizeY.value.toString()); // set the vertical block size
-                    else
-                        continue;
-                } catch (ex) {
-                    console.log(ex.message);
+            // Set the mode argument vertical block size of the local block binarization mode
+            blockSizeY.onchange = async function () {
+                document.getElementById("blockSizeYDisplay").innerHTML = blockSizeY.value.toString(); // display the slider value next to it
+                // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        let settings = await scanner.getRuntimeSettings();
+                        if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK)
+                            await scanner.setModeArgument("BinarizationModes", i, "BlockSizeY", blockSizeY.value.toString()); // set the vertical block size
+                        else
+                            continue;
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
                 }
             }
-        }
 
-        // Set the mode argument enable binary fill vacancy 
-        enableBinary.onchange = async function () {
-            // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
-            for (var i = 0; i <= 8; i++) {
-                try {
-                    let settings = await scanner.getRuntimeSettings();
-                    if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK) {
-                        let boolVal = (enableBinary.checked | 0).toString();
-                        await scanner.setModeArgument("BinarizationModes", i, "EnableFillBinaryVacancy", boolVal); // set the horizontal block size
-                    } else
-                        continue;
-                } catch (ex) {
-                    console.log(ex.message);
+            // Set the mode argument enable binary fill vacancy 
+            enableBinary.onchange = async function () {
+                // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        let settings = await scanner.getRuntimeSettings();
+                        if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK) {
+                            let boolVal = (enableBinary.checked | 0).toString();
+                            await scanner.setModeArgument("BinarizationModes", i, "EnableFillBinaryVacancy", boolVal); // set the horizontal block size
+                        } else
+                            continue;
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
                 }
             }
-        }
 
-        // Setting the ImagePreprocessingModesIndex mode argument 
-        imagePreModesLB.onchange = async function () {
-            document.getElementById("imagePreModesDisplay").innerHTML = imagePreModesLB.value.toString(); // display the slider value next to it
-            // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
-            for (var i = 0; i <= 8; i++) {
-                try {
-                    let settings = await scanner.getRuntimeSettings();
-                    if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK)
-                        await scanner.setModeArgument("BinarizationModes", i, "ImagePreprocessingModesIndex", imagePreModesLB.value.toString());
-                    else
-                        continue;
-                } catch (ex) {
-                    console.log(ex.message);
+            // Setting the ImagePreprocessingModesIndex mode argument 
+            imagePreModesLB.onchange = async function () {
+                document.getElementById("imagePreModesDisplay").innerHTML = imagePreModesLB.value.toString(); // display the slider value next to it
+                // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        let settings = await scanner.getRuntimeSettings();
+                        if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK)
+                            await scanner.setModeArgument("BinarizationModes", i, "ImagePreprocessingModesIndex", imagePreModesLB.value.toString());
+                        else
+                            continue;
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
                 }
             }
-        }
-        /* Done applying the local block binarization mode arguments */
+            /* Done applying the local block binarization mode arguments */
 
-        // Expand the threshold mode arguments options menu when threshold is checked
-        let thresholdOption = document.getElementById("threshold");
-        thresholdOption.onclick = function () {
-            let thresholdForm = document.getElementsByClassName("thresholdForm");
-            thresholdForm[0].style.display = "block";
-        }
+            // Expand the threshold mode arguments options menu when threshold is checked
+            let thresholdOption = document.getElementById("threshold");
+            thresholdOption.onclick = function () {
+                let thresholdForm = document.getElementsByClassName("thresholdForm");
+                thresholdForm[0].style.display = "block";
+            }
 
-        /* Applying the threshold binarization mode arguments */
+            /* Applying the threshold binarization mode arguments */
 
-        // Applying the binarization threshold mode argument
-        binThreshold.onchange = async function () {
-            document.getElementById("binThresholdDisplay").innerHTML = binThreshold.value.toString(); // display the slider value next to it
-            // Get the index of the threshold binarization mode in the binarization modes array. max length of array is 8.
-            for (var i = 0; i <= 8; i++) {
-                try {
-                    let settings = await scanner.getRuntimeSettings();
-                    if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_THRESHOLD)
-                        await scanner.setModeArgument("BinarizationModes", i, "BinarizationThreshold", binThreshold.value.toString());
-                    else
-                        continue;
-                } catch (ex) {
-                    console.log(ex.message);
+            // Applying the binarization threshold mode argument
+            binThreshold.onchange = async function () {
+                document.getElementById("binThresholdDisplay").innerHTML = binThreshold.value.toString(); // display the slider value next to it
+                // Get the index of the threshold binarization mode in the binarization modes array. max length of array is 8.
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        let settings = await scanner.getRuntimeSettings();
+                        if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_THRESHOLD)
+                            await scanner.setModeArgument("BinarizationModes", i, "BinarizationThreshold", binThreshold.value.toString());
+                        else
+                            continue;
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
                 }
             }
-        }
 
-        // Setting the ImagePreprocessingModesIndex mode argument for threshold
-        imagePreModesT.onchange = async function () {
-            document.getElementById("imagePreModesThresDisplay").innerHTML = imagePreModesT.value.toString(); // display the slider value next to it
-            // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
-            for (var i = 0; i <= 8; i++) {
-                try {
-                    let settings = await scanner.getRuntimeSettings();
-                    if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_THRESHOLD)
-                        await scanner.setModeArgument("BinarizationModes", i, "ImagePreprocessingModesIndex", imagePreModesT.value.toString());
-                    else
-                        continue;
-                } catch (ex) {
-                    console.log(ex.message);
+            // Setting the ImagePreprocessingModesIndex mode argument for threshold
+            imagePreModesT.onchange = async function () {
+                document.getElementById("imagePreModesThresDisplay").innerHTML = imagePreModesT.value.toString(); // display the slider value next to it
+                // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        let settings = await scanner.getRuntimeSettings();
+                        if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_THRESHOLD)
+                            await scanner.setModeArgument("BinarizationModes", i, "ImagePreprocessingModesIndex", imagePreModesT.value.toString());
+                        else
+                            continue;
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
                 }
             }
+            resetBM.addEventListener('click', async function () {
+                settings = settings || await scanner.getRuntimeSettings();
+                showModes('binarizationModeSPAN', settings.binarizationModes, 0);
+                binModeCount = 0;
+                for (var i = 0; i < checkboxesBinarization.length; i++) {
+                    checkboxesBinarization[i].checked = false;
+                    checkboxesBinarization[i].disabled = false;
+                }
+            });
+            showModes('binarizationModeSPAN', initialSettings.binarizationModes, 0);
+            /* Done applying the threshold binarization mode arguments */
         }
-    /* Done applying the threshold binarization mode arguments */
-
     </script>
 </body>
 
