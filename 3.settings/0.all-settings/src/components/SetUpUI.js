@@ -9,7 +9,9 @@ class SetUpUI extends React.Component {
     constructor(props) {
         super(props);
         this.messageKeyBase = 300000;
-        this.allBarcodes = 4263510015;//-31457281;
+        this.allBarcodesFormats = 4263510015;//-31457281;
+        this.allBarcodesFormats_2 = 32505859;
+
         this.state = {
             showOneDItems: false,
             showDataBarItems: false,
@@ -53,7 +55,7 @@ class SetUpUI extends React.Component {
                 nBarcodeFormatIds += parseInt(barcodeFormatInput.value);
         }
         if (!evt.target.checked)
-            nBarcodeFormatIds = (this.allBarcodes - parseInt(evt.target.value)) & nBarcodeFormatIds;
+            nBarcodeFormatIds = (this.allBarcodesFormats - parseInt(evt.target.value)) & nBarcodeFormatIds;
         this.updateBarcodeFormatsCheckStatus(nBarcodeFormatIds);
     }
     barcodeFormatsUpdate2 = evt => {
@@ -67,12 +69,12 @@ class SetUpUI extends React.Component {
                 nBarcodeFormatIds += parseInt(barcodeFormatInput.value);
         }
         if (!evt.target.checked)
-            nBarcodeFormatIds = (this.allBarcodes - parseInt(evt.target.value)) & nBarcodeFormatIds;
+            nBarcodeFormatIds = (this.allBarcodesFormats_2 - parseInt(evt.target.value)) & nBarcodeFormatIds;
         if (parseInt(evt.target.value) === 0) {
             if (evt.target.checked)
                 nBarcodeFormatIds = 0;
             else
-                nBarcodeFormatIds = this.allBarcodes;
+                nBarcodeFormatIds = this.allBarcodesFormats_2;
         }
         this.updateBarcodeFormatsCheckStatus2(nBarcodeFormatIds);
     }
@@ -109,10 +111,9 @@ class SetUpUI extends React.Component {
             if (nBarcodeFormatIds & parseInt(barcodeFormatInput.value))
                 barcodeFormatInput.checked = true;
         }
-        //////////////////////////////
-            let newRTS = this.props.runtimeSettings;
-            newRTS.region.
-            this.props.updateRuntimeSettings(newRTS);
+        let newRTS = this.props.runtimeSettings;
+        newRTS.barcodeFormatIds = nBarcodeFormatIds;
+        this.props.updateRuntimeSettings(newRTS);
     }
     updateBarcodeFormatsCheckStatus2 = nBarcodeFormatIds => {
         if (typeof (nBarcodeFormatIds) != "number") {
@@ -147,7 +148,9 @@ class SetUpUI extends React.Component {
             if (nBarcodeFormatIds & parseInt(barcodeFormatInput.value))
                 barcodeFormatInput.checked = true;
         }
-        this.updateSettings();
+        let newRTS = this.props.runtimeSettings;
+        newRTS.barcodeFormatIds_2 = nBarcodeFormatIds;
+        this.props.updateRuntimeSettings(newRTS);
     }
     intermediateResultTypesUpdate = evt => {
         let elToUpdate = document.getElementById('ipt-runtimesettings-intermediateResultTypes');
@@ -163,34 +166,42 @@ class SetUpUI extends React.Component {
                 intermediateResultTypesInput.checked = elToUpdate.value & parseInt(intermediateResultTypesInput.value);
             }
         }
-        this.updateSettings();
+        let newRTS = this.props.runtimeSettings;
+        newRTS.intermediateResultTypes = parseInt(elToUpdate.value);
+        this.props.updateRuntimeSettings(newRTS);
     }
     usePercentageOrNot = async evt => {
         let checkBox = evt.target;
+        let reg = /^\d+$/;
         let parentElement = checkBox.parentElement;
-        let oldText1 = parentElement.nextSibling.getAttribute("placeholder");
-        let oldText2 = parentElement.nextSibling.nextSibling.getAttribute("placeholder");
-        let oldText3 = parentElement.nextSibling.nextSibling.nextSibling.getAttribute("placeholder");
-        let oldText4 = parentElement.nextSibling.nextSibling.nextSibling.nextSibling.getAttribute("placeholder");
+        let regionParams = [];
+        regionParams.push(parentElement.nextSibling);
+        regionParams.push(parentElement.nextSibling.nextSibling);
+        regionParams.push(parentElement.nextSibling.nextSibling.nextSibling);
+        regionParams.push(parentElement.nextSibling.nextSibling.nextSibling.nextSibling);
         if (checkBox.checked) {
-            if (oldText1.indexOf("%") === -1) {
-                oldText1 = oldText1 + "(%)";
-                oldText2 = oldText2 + "(%)";
-                oldText3 = oldText3 + "(%)";
-                oldText4 = oldText4 + "(%)";
+            for (let param of regionParams) {
+                if (param.getAttribute("placeholder").indexOf("%") === -1)
+                    param.placeholder = param.getAttribute("placeholder") + "(%)";
+                if (reg.test(param.value)) { // Confirming it is a positive number
+                    if (parseInt(param.value) > 100)
+                        param.value = 100;
+                } else { // If not a number, set it to 0
+                    param.value = param.value === "" ? "" : 0;
+                }
             }
         } else {
-            if (oldText1.indexOf("%") !== -1) {
-                oldText1 = oldText1.substr(0, oldText1.length - 3);
-                oldText2 = oldText2.substr(0, oldText2.length - 3);
-                oldText3 = oldText3.substr(0, oldText3.length - 3);
-                oldText4 = oldText4.substr(0, oldText4.length - 3);
+            for (let param of regionParams) {
+                if (param.getAttribute("placeholder").indexOf("%") !== -1)
+                    param.placeholder = param.getAttribute("placeholder").substr(0, param.getAttribute("placeholder").length - 3);
+                if (reg.test(param.value)) { // Confirming it is a positive number
+                    if (parseInt(param.value) > 10000)
+                        param.value = 10000;
+                } else { // If not a number, set it to 0
+                    param.value = param.value === "" ? "" : 0;
+                }
             }
         }
-        parentElement.nextSibling.placeholder = oldText1;
-        parentElement.nextSibling.nextSibling.placeholder = oldText2;
-        parentElement.nextSibling.nextSibling.nextSibling.placeholder = oldText3;
-        parentElement.nextSibling.nextSibling.nextSibling.nextSibling.placeholder = oldText4;
     }
     updateRangeValue = evt => {
         evt.target.nextSibling.value = parseInt(evt.target.value) * parseInt(evt.target.getAttribute('factor'));
@@ -440,26 +451,27 @@ class SetUpUI extends React.Component {
                                             <div key={this.messageKeyBase + 1600 + key} className="div-runtimesettings-region-container" style={{ width: '100%' }}>
                                                 <label>Region {key + 1}  {key !== 0 && key === this.props.runtimeSettings.region.length - 1 ? <Button variant="light" onClick={this.removeRegion}>X</Button> : ""}</label>
                                                 <label style={{ width: '100%', textAlign: 'center' }}>
-                                                    <input type="checkbox" onChange={this.updateSettings} id={"ipt-runtimesettings-regionMeasuredByPercentage_" + (key + 1).toString()} defaultChecked={value === null ? false : !!value.regionMeasuredByPercentage} onClick={this.usePercentageOrNot} />By Percentage
+                                                    <input type="checkbox" id={"ipt-runtimesettings-regionMeasuredByPercentage_" + (key + 1).toString()} defaultChecked={value === null ? false : !!value.regionMeasuredByPercentage} onClick={this.usePercentageOrNot} />By Percentage
                                                 </label>
-                                                <input type="kPercentage" onChange={this.updateSettings} id={"ipt-runtimesettings-regionTop_" + (key + 1).toString()} className="ipt-runtimesettings-regionTop" placeholder={value === null ? "top" : "top(%)"} defaultValue={value === null ? "" : value.regionTop} />
-                                                <input type="kPercentage" onChange={this.updateSettings} id={"ipt-runtimesettings-regionLeft_" + (key + 1).toString()} className="ipt-runtimesettings-regionLeft" placeholder={value === null ? "left" : "left(%)"} defaultValue={value === null ? "" : value.regionLeft} />
-                                                <input type="kPercentage" onChange={this.updateSettings} id={"ipt-runtimesettings-regionRight_" + (key + 1).toString()} className="ipt-runtimesettings-regionRight" placeholder={value === null ? "right" : "right(%)"} defaultValue={value === null ? "" : value.regionRight} />
-                                                <input type="kPercentage" onChange={this.updateSettings} id={"ipt-runtimesettings-regionBottom_" + (key + 1).toString()} className="ipt-runtimesettings-regionBottom" placeholder={value === null ? "bottom" : "bottom(%)"} defaultValue={value === null ? "" : value.regionBottom} />
+                                                <input type="kPercentage" id={"ipt-runtimesettings-regionTop_" + (key + 1).toString()} className="ipt-runtimesettings-regionTop" placeholder={value === null ? "top" : "top(%)"} defaultValue={value === null ? "" : value.regionTop} />
+                                                <input type="kPercentage" id={"ipt-runtimesettings-regionLeft_" + (key + 1).toString()} className="ipt-runtimesettings-regionLeft" placeholder={value === null ? "left" : "left(%)"} defaultValue={value === null ? "" : value.regionLeft} />
+                                                <input type="kPercentage" id={"ipt-runtimesettings-regionRight_" + (key + 1).toString()} className="ipt-runtimesettings-regionRight" placeholder={value === null ? "right" : "right(%)"} defaultValue={value === null ? "" : value.regionRight} />
+                                                <input type="kPercentage" id={"ipt-runtimesettings-regionBottom_" + (key + 1).toString()} className="ipt-runtimesettings-regionBottom" placeholder={value === null ? "bottom" : "bottom(%)"} defaultValue={value === null ? "" : value.regionBottom} />
                                             </div>)}
                                     </>)
                                     :
                                     (<div className="div-runtimesettings-region-container" style={{ width: '100%' }}>
                                         <label>Region</label>
                                         <label style={{ width: '100%', textAlign: 'center' }}>
-                                            <input type="checkbox" onChange={this.updateSettings} id="ipt-runtimesettings-regionMeasuredByPercentage_1" defaultChecked={!!this.props.runtimeSettings.region.regionMeasuredByPercentage} onClick={this.usePercentageOrNot} />By Percentage
+                                            <input type="checkbox" id="ipt-runtimesettings-regionMeasuredByPercentage_1" defaultChecked={!!this.props.runtimeSettings.region.regionMeasuredByPercentage} onClick={this.usePercentageOrNot} />By Percentage
                                             </label>
-                                        <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionTop_1" className="ipt-runtimesettings-regionTop" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "top(%)" : "top"} defaultValue={this.props.runtimeSettings.region.regionTop === 0 ? "" : this.props.runtimeSettings.region.regionTop} />
-                                        <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionLeft_1" className="ipt-runtimesettings-regionLeft" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "left(%)" : "left"} defaultValue={this.props.runtimeSettings.region.regionLeft === 0 ? "" : this.props.runtimeSettings.region.regionLeft} />
-                                        <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionRight_1" className="ipt-runtimesettings-regionRight" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "right(%)" : "right"} defaultValue={this.props.runtimeSettings.region.regionRight === 0 ? "" : this.props.runtimeSettings.region.regionRight} />
-                                        <input type="kPercentage" onChange={this.updateSettings} id="ipt-runtimesettings-regionBottom_1" className="ipt-runtimesettings-regionBottom" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "bottom(%)" : "bottom"} defaultValue={this.props.runtimeSettings.region.regionBottom === 0 ? "" : this.props.runtimeSettings.region.regionBottom} />
+                                        <input type="kPercentage" id="ipt-runtimesettings-regionTop_1" className="ipt-runtimesettings-regionTop" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "top(%)" : "top"} defaultValue={this.props.runtimeSettings.region.regionTop === 0 ? "" : this.props.runtimeSettings.region.regionTop} />
+                                        <input type="kPercentage" id="ipt-runtimesettings-regionLeft_1" className="ipt-runtimesettings-regionLeft" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "left(%)" : "left"} defaultValue={this.props.runtimeSettings.region.regionLeft === 0 ? "" : this.props.runtimeSettings.region.regionLeft} />
+                                        <input type="kPercentage" id="ipt-runtimesettings-regionRight_1" className="ipt-runtimesettings-regionRight" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "right(%)" : "right"} defaultValue={this.props.runtimeSettings.region.regionRight === 0 ? "" : this.props.runtimeSettings.region.regionRight} />
+                                        <input type="kPercentage" id="ipt-runtimesettings-regionBottom_1" className="ipt-runtimesettings-regionBottom" placeholder={!!this.props.runtimeSettings.region.regionMeasuredByPercentage ? "bottom(%)" : "bottom"} defaultValue={this.props.runtimeSettings.region.regionBottom === 0 ? "" : this.props.runtimeSettings.region.regionBottom} />
                                     </div>)
                                 }
+                                <Button variant="primary" style={{ width: "80%", margin: "auto" }} onClick={this.updateSettings}>Set Region(s)</Button>
                             </Card>
                             <Card style={{ padding: '1vw', marginTop: '1vw' }} >
                                 <Card.Title style={{ width: '100%' }}>More Settings</Card.Title>
@@ -468,9 +480,10 @@ class SetUpUI extends React.Component {
                                     <input id="ipt-runtimesettings-barcodeFormatIds_2" onChange={this.updateBarcodeFormatsCheckStatus2} type="knumber" defaultValue={this.props.runtimeSettings.barcodeFormatIds_2} />
                                     <Card className="paddingOneVW allWidth">
                                         <label><input type="checkbox" onClick={this.barcodeFormatsUpdate2} defaultValue="0" defaultChecked={this.props.runtimeSettings.barcodeFormatIds_2 === 0} id="null-barcodeFormatIds_2" />null</label>
-                                        <label><input type="checkbox" onClick={this.barcodeFormatsUpdate2} defaultValue="1" className="ipt-barcodeFormat-combo2" defaultChecked={(this.props.runtimeSettings.barcodeFormatIds_2 & 1) === 1} />NonStandard</label>
+                                        <label><input type="checkbox" onClick={this.barcodeFormatsUpdate2} defaultValue="1" className="ipt-barcodeFormat2" defaultChecked={(this.props.runtimeSettings.barcodeFormatIds_2 & 1) === 1} />NonStandard</label>
+                                        <label><input type="checkbox" onClick={this.barcodeFormatsUpdate2} defaultValue="2" className="ipt-barcodeFormat2" defaultChecked={(this.props.runtimeSettings.barcodeFormatIds_2 & 2) === 2} />Dot Code</label>
                                         <div className="div-PostalCodeFormat">
-                                            <label><input type="checkbox" onClick={this.barcodeFormatsUpdate2} className="ipt-barcodeFormat-combo2" defaultValue="0x01F00000" defaultChecked={(this.props.runtimeSettings.barcodeFormatIds_2 & 0x01F00000) === 0x01F00000} id="ipt-PostalCodeFormat" />Postal Codes</label>
+                                            <label><input type="checkbox" onClick={this.barcodeFormatsUpdate2} className="ipt-barcodeFormat-combo2" defaultValue="0x1F00000" defaultChecked={(this.props.runtimeSettings.barcodeFormatIds_2 & 0x1F00000) === 0x1F00000} id="ipt-PostalCodeFormat" />Postal Codes</label>
                                             <Button variant="Light" id="btn-togglePostalCodes" className="btn-toggle" onClick={this.toggleShowPostalCodeItems}></Button>
                                         </div>
                                         <Card id="div-PostalCodeFormatContainer" className="div-1dFormatContainer" style={this.state.showPostalCodeItems ? style.show : style.hide}>
