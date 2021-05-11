@@ -8,12 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.3/dist/dbr.js"></script>
 </head>
 
-<!-- 
-    This sample demonstrates how to use the library to decode barcodes using images that are stored locally, 
-    whether on mobile or desktop. If you are looking to read barcodes directly from a video stream instead, 
-    please refer to the "Video Decoding" sample instead.
--->
-
 <body>
     <h2>Read An Existing Image</h2>
     <input id="ipt-file" type="file" style="margin-bottom: 2vh;" accept="image/png,image/jpeg,image/bmp,image/gif">
@@ -29,18 +23,32 @@
         <div id="results"></div>
     </div>
     <script>
+        /** LICENSE ALERT - README
+         * The library requires a license to work, the APIs organizationID and handshakeCode specify how to acquire a license.
+         * If nothing is specified, a 7-day (public) trial license will be used by default which is the case in this sample.
+         * Note that network connection is required for this license acquisition to work.
+         */
+
+        /* When using your own license, please uncomment the following lines and fill in your own information. */
+        /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
+
+        // Dynamsoft.DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
+        // Dynamsoft.DBR.BarcodeReader.handshakeCode = "A-SPECIFIC-HANDSHAKECODE";
+        // Dynamsoft.DBR.BarcodeReader.sessionPassword = "PASSWORD-TO-PROTECT-YOUR-LICENSE"; // Important field to protect your license.
+        // Dynamsoft.DBR.BarcodeReader.licenseServer = ["YOUR-OWN-MAIN-LTS", "YOUR-OWN-STANDBY-LTS"]; // Ignore this line if you are using Dynamsoft-hosting LTS
+
+        /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
+
+        // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
+
+        /** LICENSE ALERT - THE END */
+
         // reader for decoding picture
         let reader = null;
         // decode input picture
         window.onload = async function () {
             // Create a BarcodeReader instance on page load to speed things up.
             try {
-                /**
-                 * Please note that the organizationID '200001' corresponds to Dynamsoft's public trial license which is reserved for public samples. 
-                 * When hosting the sample in your own environment, please obtain a private trial license or a full license by contacting the 
-                 * Dynamsoft Support Team via support@dynamsoft.com 
-                 */
-                Dynamsoft.DBR.BarcodeReader.organizationID = "100448235";
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
             } catch (ex) {
                 alert(ex.message);
