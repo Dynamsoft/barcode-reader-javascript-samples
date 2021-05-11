@@ -196,7 +196,7 @@ __webpack_require__.r(__webpack_exports__);
 /** LICENSE ALERT - README
  * The library requires a license to work, the APIs organizationID and handshakeCode specify how to acquire a license.
  * If nothing is specified, a 7-day (public) trial license will be used by default which is the case in this sample.
- * Note that network connection is required for this license acquisition to work.
+ * Note that network connection is required for this license to work.
  */
 /* When using your own license, please uncomment the following lines and fill in your own information. */
 /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
