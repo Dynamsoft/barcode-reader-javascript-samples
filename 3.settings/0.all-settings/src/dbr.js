@@ -9,14 +9,14 @@ import DBR from "dynamsoft-javascript-barcode";
 /* When using your own license, please uncomment the following lines and fill in your own information. */
 /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
 
-// DBR..BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
-// DBR..BarcodeReader.handshakeCode = "A-SPECIFIC-HANDSHAKECODE";
-// DBR..BarcodeReader.sessionPassword = "PASSWORD-TO-PROTECT-YOUR-LICENSE"; // Important field to protect your license.
-// DBR..BarcodeReader.licenseServer = ["YOUR-OWN-MAIN-LTS", "YOUR-OWN-STANDBY-LTS"]; // Ignore this line if you are using Dynamsoft-hosting LTS
+// DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
+// DBR.BarcodeReader.handshakeCode = "A-SPECIFIC-HANDSHAKECODE";
+// DBR.BarcodeReader.sessionPassword = "PASSWORD-TO-PROTECT-YOUR-LICENSE"; // Important field to protect your license.
+// DBR.BarcodeReader.licenseServer = ["YOUR-OWN-MAIN-LTS", "YOUR-OWN-STANDBY-LTS"]; // Ignore this line if you are using Dynamsoft-hosting LTS
 
 /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
 
-// DBR..BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
+// DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
 
 /** LICENSE ALERT - THE END */
 
