@@ -205,7 +205,8 @@ class SetUpUI extends React.Component {
     }
     updateRangeValue = evt => {
         evt.target.nextSibling.value = parseInt(evt.target.value) * parseInt(evt.target.getAttribute('factor'));
-        this.updateSettings();
+        if (evt.target.getAttribute('data-type') === "setting")
+            this.updateSettings();
     }
     updateRange = evt => {
         var reg = /^\d+$/;
@@ -214,7 +215,8 @@ class SetUpUI extends React.Component {
         if (evt.target.value > parseInt(evt.target.getAttribute('max')))
             evt.target.value = evt.target.getAttribute('max');
         evt.target.previousSibling.value = parseInt(parseInt(evt.target.value) / parseInt(evt.target.getAttribute('factor')));
-        this.updateSettings();
+        if (evt.target.getAttribute('data-type') === "setting")
+            this.updateSettings();
     }
     updateSettings = () => {
         let RTS = this.props.runtimeSettings;
@@ -306,7 +308,11 @@ class SetUpUI extends React.Component {
                 for (let _ele in sMAElements) {
                     if (sMAElements[_ele].tagName && sMAElements[_ele].tagName.toLowerCase() === "div" && sMAElements[_ele].lastChild.tagName && sMAElements[_ele].lastChild.tagName.toLowerCase() === "input") {
                         let _input = sMAElements[_ele].lastChild, value = null;
-                        this.props.getModeArgument(_input.getAttribute("data-id").split("-").slice(1).concat([value]));
+                        let arg = await this.props.getModeArgument(_input.getAttribute("data-id").split("-").slice(1).concat([value]));
+                        if (arg !== "error") {
+                            _input.value = parseInt(arg);
+                            _input.previousSibling.value = parseInt(arg);
+                        }
                     }
                 }
             }
@@ -410,40 +416,40 @@ class SetUpUI extends React.Component {
                                 </select>
 
                                 <label htmlFor="ipt-runtimesettings-barcodeZoneMinDistanceToImageBorders">BarcodeZoneMinDistanceToImageBorders</label>
-                                <input type="range" onChange={this.updateRangeValue} min="0" max="1000" step="10" defaultValue={this.props.runtimeSettings.barcodeZoneMinDistanceToImageBorders} factor="1" />
-                                <input id="ipt-runtimesettings-barcodeZoneMinDistanceToImageBorders" onKeyUp={this.updateRange} type="knumber" min="0" max="1000" step="10" defaultValue={this.props.runtimeSettings.barcodeZoneMinDistanceToImageBorders} factor="1" />
+                                <input type="range" data-type="setting" onChange={this.updateRangeValue} min="0" max="1000" step="10" defaultValue={this.props.runtimeSettings.barcodeZoneMinDistanceToImageBorders} factor="1" />
+                                <input id="ipt-runtimesettings-barcodeZoneMinDistanceToImageBorders" data-type="setting" onKeyUp={this.updateRange} type="knumber" min="0" max="1000" step="10" defaultValue={this.props.runtimeSettings.barcodeZoneMinDistanceToImageBorders} factor="1" />
 
                                 <label htmlFor="ipt-runtimesettings-deblurLevel">DeblurLevel</label>
-                                <input type="range" onChange={this.updateRangeValue} min="0" max="9" step="1" defaultValue={this.props.runtimeSettings.deblurLevel} factor="1" />
-                                <input id="ipt-runtimesettings-deblurLevel" onKeyUp={this.updateRange} type="knumber" min="0" max="9" step="1" defaultValue={this.props.runtimeSettings.deblurLevel} factor="1" />
+                                <input type="range" data-type="setting" onChange={this.updateRangeValue} min="0" max="9" step="1" defaultValue={this.props.runtimeSettings.deblurLevel} factor="1" />
+                                <input id="ipt-runtimesettings-deblurLevel" data-type="setting" onKeyUp={this.updateRange} type="knumber" min="0" max="9" step="1" defaultValue={this.props.runtimeSettings.deblurLevel} factor="1" />
 
                                 <label htmlFor="ipt-runtimesettings-expectedBarcodesCount">ExpectedBarcodesCount</label>
-                                <input type="range" onChange={this.updateRangeValue} min="0" max="999" step="1" defaultValue={this.props.runtimeSettings.expectedBarcodesCount} factor="1" />
-                                <input id="ipt-runtimesettings-expectedBarcodesCount" onKeyUp={this.updateRange} type="knumber" min="0" max="999" step="1" defaultValue={this.props.runtimeSettings.expectedBarcodesCount} factor="1" />
+                                <input type="range" data-type="setting" onChange={this.updateRangeValue} min="0" max="999" step="1" defaultValue={this.props.runtimeSettings.expectedBarcodesCount} factor="1" />
+                                <input id="ipt-runtimesettings-expectedBarcodesCount" data-type="setting" onKeyUp={this.updateRange} type="knumber" min="0" max="999" step="1" defaultValue={this.props.runtimeSettings.expectedBarcodesCount} factor="1" />
 
                                 <label htmlFor="ipt-runtimesettings-maxAlgorithmThreadCount">MaxAlgorithmThreadCount</label>
-                                <input type="range" onChange={this.updateRangeValue} min="1" max="4" step="1" defaultValue={this.props.runtimeSettings.maxAlgorithmThreadCount} factor="1" />
-                                <input id="ipt-runtimesettings-maxAlgorithmThreadCount" onKeyUp={this.updateRange} type="knumber" min="1" max="4" step="1" defaultValue={this.props.runtimeSettings.maxAlgorithmThreadCount} factor="1" />
+                                <input type="range" data-type="setting" onChange={this.updateRangeValue} min="1" max="4" step="1" defaultValue={this.props.runtimeSettings.maxAlgorithmThreadCount} factor="1" />
+                                <input id="ipt-runtimesettings-maxAlgorithmThreadCount" data-type="setting" onKeyUp={this.updateRange} type="knumber" min="1" max="4" step="1" defaultValue={this.props.runtimeSettings.maxAlgorithmThreadCount} factor="1" />
 
                                 <label htmlFor="ipt-runtimesettings-minBarcodeTextLength">MinBarcodeTextLength</label>
-                                <input type="range" onChange={this.updateRangeValue} min="0" max="200" step="1" defaultValue={this.props.runtimeSettings.minBarcodeTextLength} factor="1" />
-                                <input id="ipt-runtimesettings-minBarcodeTextLength" onKeyUp={this.updateRange} type="knumber" min="0" max="999" step="1" defaultValue={this.props.runtimeSettings.minBarcodeTextLength} factor="1" />
+                                <input type="range" data-type="setting" onChange={this.updateRangeValue} min="0" max="200" step="1" defaultValue={this.props.runtimeSettings.minBarcodeTextLength} factor="1" />
+                                <input id="ipt-runtimesettings-minBarcodeTextLength" data-type="setting" onKeyUp={this.updateRange} type="knumber" min="0" max="999" step="1" defaultValue={this.props.runtimeSettings.minBarcodeTextLength} factor="1" />
 
                                 <label htmlFor="ipt-runtimesettings-minResultConfidence">MinResultConfidence</label>
-                                <input type="range" onChange={this.updateRangeValue} min="0" max="100" step="1" defaultValue={this.props.runtimeSettings.minResultConfidence} factor="1" />
-                                <input id="ipt-runtimesettings-minResultConfidence" onKeyUp={this.updateRange} type="knumber" min="0" max="100" step="1" defaultValue={this.props.runtimeSettings.minResultConfidence} factor="1" />
+                                <input type="range" data-type="setting" onChange={this.updateRangeValue} min="0" max="100" step="1" defaultValue={this.props.runtimeSettings.minResultConfidence} factor="1" />
+                                <input id="ipt-runtimesettings-minResultConfidence" data-type="setting" onKeyUp={this.updateRange} type="knumber" min="0" max="100" step="1" defaultValue={this.props.runtimeSettings.minResultConfidence} factor="1" />
 
                                 <label htmlFor="ipt-runtimesettings-pdfRasterDPI">PDFRasterDPI</label>
-                                <input type="range" onChange={this.updateRangeValue} min="1" max="5" step="1" defaultValue={parseInt(this.props.runtimeSettings.pdfRasterDPI / 100)} factor="100" />
-                                <input id="ipt-runtimesettings-pdfRasterDPI" onKeyUp={this.updateRange} readOnly type="knumber" min="100" max="500" step="100" defaultValue={this.props.runtimeSettings.pdfRasterDPI} factor="100" />
+                                <input type="range" data-type="setting" onChange={this.updateRangeValue} min="1" max="5" step="1" defaultValue={parseInt(this.props.runtimeSettings.pdfRasterDPI / 100)} factor="100" />
+                                <input id="ipt-runtimesettings-pdfRasterDPI" data-type="setting" onKeyUp={this.updateRange} readOnly type="knumber" min="100" max="500" step="100" defaultValue={this.props.runtimeSettings.pdfRasterDPI} factor="100" />
 
                                 <label htmlFor="ipt-runtimesettings-scaleDownThreshold">ScaleDownThreshold</label>
-                                <input type="range" onChange={this.updateRangeValue} min="5" max="1000" step="1" defaultValue={this.props.runtimeSettings.scaleDownThreshold / 100} factor="100" />
-                                <input id="ipt-runtimesettings-scaleDownThreshold" onKeyUp={this.updateRange} readOnly type="knumber" min="500" max="100000" step="1" defaultValue={this.props.runtimeSettings.scaleDownThreshold} factor="100" />
+                                <input type="range" data-type="setting" onChange={this.updateRangeValue} min="5" max="1000" step="1" defaultValue={this.props.runtimeSettings.scaleDownThreshold / 100} factor="100" />
+                                <input id="ipt-runtimesettings-scaleDownThreshold" data-type="setting" onKeyUp={this.updateRange} readOnly type="knumber" min="500" max="100000" step="1" defaultValue={this.props.runtimeSettings.scaleDownThreshold} factor="100" />
 
                                 <label htmlFor="ipt-runtimesettings-timeout">Timeout</label>
-                                <input type="range" onChange={this.updateRangeValue} min="1" max="100" defaultValue={parseInt(this.props.runtimeSettings.timeout / 1000)} step="1" factor="1000" />
-                                <input id="ipt-runtimesettings-timeout" onKeyUp={this.updateRange} type="knumber" readOnly min="100" max="100000" step="1" defaultValue={this.props.runtimeSettings.timeout} factor="1000" />
+                                <input type="range" data-type="setting" onChange={this.updateRangeValue} min="1" max="100" defaultValue={parseInt(this.props.runtimeSettings.timeout / 1000)} step="1" factor="1000" />
+                                <input id="ipt-runtimesettings-timeout" data-type="setting" onKeyUp={this.updateRange} type="knumber" readOnly min="100" max="100000" step="1" defaultValue={this.props.runtimeSettings.timeout} factor="1000" />
 
                                 {this.props.runtimeSettings.region.length > 0 ?
                                     (<>
@@ -496,8 +502,8 @@ class SetUpUI extends React.Component {
                                     </Card></>) : ""}
 
                                 <label htmlFor="ipt-runtimesettings-returnBarcodeZoneClarity">ReturnBarcodeZoneClarity</label>
-                                <input type="range" onChange={this.updateRangeValue} min="0" max="1" step="1" defaultValue={this.props.runtimeSettings.returnBarcodeZoneClarity} factor="1" />
-                                <input id="ipt-runtimesettings-returnBarcodeZoneClarity" onKeyUp={this.updateRange} type="knumber" min="0" max="1" step="1" defaultValue={this.props.runtimeSettings.returnBarcodeZoneClarity} factor="1" />
+                                <input type="range" data-type="setting" onChange={this.updateRangeValue} min="0" max="1" step="1" defaultValue={this.props.runtimeSettings.returnBarcodeZoneClarity} factor="1" />
+                                <input id="ipt-runtimesettings-returnBarcodeZoneClarity" data-type="setting" onKeyUp={this.updateRange} type="knumber" min="0" max="1" step="1" defaultValue={this.props.runtimeSettings.returnBarcodeZoneClarity} factor="1" />
 
                                 <label htmlFor="pdfReadingMode">PDFReadingMode</label>
                                 <select onChange={this.updateSettings} id="pdfReadingMode_1" value={this.props.runtimeSettings.pdfReadingMode}>
@@ -657,8 +663,8 @@ class SetUpUI extends React.Component {
                                                 </div>
                                                 <div>
                                                     <label htmlFor={"SMA-ScaleUpModes-" + key.toString() + "-TargetModuleSize"}>TargetModuleSize</label>
-                                                    <input type="range" onChange={this.updateRangeValue} min="0" max="999" step="1" defaultValue="0" factor="1" />
-                                                    <input data-id={"SMA-ScaleUpModes-" + key.toString() + "-TargetModuleSize"} onKeyUp={this.updateRange} type="knumber" min="0" max="999" step="1" defaultValue="0" factor="1" />
+                                                    <input type="range" onChange={this.updateRangeValue} min="0" max="10" step="1" defaultValue="0" factor="1" />
+                                                    <input data-id={"SMA-ScaleUpModes-" + key.toString() + "-TargetModuleSize"} onKeyUp={this.updateRange} type="knumber" min="0" max="10" step="1" defaultValue="0" factor="1" />
                                                 </div>
                                                 <Button style={{ width: '45%', marginRight: '9%' }} variant="outline-success" onClick={this.getModeArgument}>Get Current</Button>
                                                 <Button style={{ width: '45%' }} variant="outline-primary" onClick={this.setModeArguments}>Submit </Button>

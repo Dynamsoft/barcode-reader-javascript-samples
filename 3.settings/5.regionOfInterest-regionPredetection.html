@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Sample - Using Runtime Settings</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.3/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.5/dist/dbr.js"></script>
     <link rel="stylesheet" href="settings-css.css">
     <link rel="stylesheet" href="../balloon.min.css"> <!-- Used for tooltip styling -->
 </head>
@@ -32,31 +32,32 @@
             <!-- Dealing with blurry barcodes through Deblur Modes -->
             <div class="tooltip"
                 aria-label="To define the region of interest, the top-most, left-most, right-most, and bottom-most coordinate or percentage of the region must be defined. Whether coordinate or percentage is used is defined by regionMeasuredByPercentage. In most cases, percentage is easier to use."
-                data-balloon-pos="down" data-balloon-length="fit">Manually Define a Region of Interest</div>
+                data-balloon-pos="down" data-balloon-length="fit">1. Manually Define a Region of Interest</div>
             <br />
 
             <form id="roiForm">
-                <label for="regionPercentage"> Region Measured By Percentage </label>
-                <input type="checkbox" id="regionPercentage" checked><br /> <!-- This should be checked by default -->
                 <label for="regionTop"> Region Top </label>
-                <input type="number" id="regionTop" name="regionDef"><br />
+                <input type="number" id="regionTop" placeholder="(0~100)%" name="regionDef"><br />
                 <label for="regionLeft"> Region Left </label>
-                <input type="number" id="regionLeft" name="regionDef"><br />
+                <input type="number" id="regionLeft" placeholder="(0~100)%" name="regionDef"><br />
                 <label for="regionBottom"> Region Bottom </label>
-                <input type="number" id="regionBottom" name="regionDef"><br />
+                <input type="number" id="regionBottom" placeholder="(0~100)%" name="regionDef"><br />
                 <label for="regionRight"> Region Right </label>
-                <input type="number" id="regionRight" name="regionDef"><br />
+                <input type="number" id="regionRight" placeholder="(0~100)%" name="regionDef"><br />
             </form>
-
+            <br />
             <!-- Dealing with barocdes that have small module sizes-->
             <div class="tooltip"
                 aria-label="Region detection can also be used to pre-detect the ROI of a large image to get several areas where the barcodes may exist to reduce processing time. To learn more about each mode, please refer to the documentation."
-                data-balloon-pos="down" data-balloon-length="large">Region Pre-detection Modes in Decreasing
-                Priority</div><br />
-
+                data-balloon-pos="down" data-balloon-length="large">2. Region Pre-detection Modes in Decreasing
+                Priority<br /><br />Read more on 
+                <a target="_blank"
+                    href="https://www.dynamsoft.com/barcode-reader/parameters/scenario-settings/how-to-use-region-predetection.html?ver=latest">How
+                    To Use Region Predetection</a>
+            </div><br />
             <span style="background-color: white;padding: 1vmin;margin-right: 2vmin;"
                 id="regionPredetectionModeSPAN"></span>
-            <a href="#" id='resetRPM'>Reset</a><br />
+            <a href="#" id='resetRPM'>Start Over</a><br />
 
             <form id="rpModesForm">
                 <input type="checkbox" id="general" name="rpMode" value="RPM_GENERAL">
@@ -145,13 +146,16 @@
                 element.addEventListener("input", async function () {
                     try {
                         settings = await scanner.getRuntimeSettings();
-
-                        // If regionMeasuredByPercentage is checked, update the corresponding property in region definition
-                        let usePercentage = document.getElementById("regionPercentage").value;
-                        if (usePercentage)
+                        if (settings.region.regionMeasuredByPercentage === undefined)
                             settings.region.regionMeasuredByPercentage = true;
-                        else
-                            settings.region.regionMeasuredByPercentage = false;
+                        if (settings.region.regionTop === undefined)
+                            settings.region.regionTop = 0;
+                        if (settings.region.regionBottom === undefined)
+                            settings.region.regionBottom = 100;
+                        if (settings.region.regionLeft === undefined)
+                            settings.region.regionLeft = 0;
+                        if (settings.region.regionRight === undefined)
+                            settings.region.regionRight = 100;
                         switch (this.id) {
                             case "regionTop":
                                 settings.region.regionTop = this.value;

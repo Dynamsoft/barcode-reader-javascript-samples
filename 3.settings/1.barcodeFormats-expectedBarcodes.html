@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Dynamsoft Barcode Reader Sample - Using Runtime Settings</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.3/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.5/dist/dbr.js"></script>
     <link rel="stylesheet" href="settings-css.css">
     <link rel="stylesheet" href="../balloon.min.css"> <!-- Used for tooltip styling -->
 </head>
@@ -32,7 +32,7 @@
             <div class="tooltip"
                 aria-label="If you know that your application will only be dealing with a certain type of
             barcode format, you can save processing time by specifying which barcode formats the SDK should be looking for."
-                data-balloon-pos="down" data-balloon-length="fit">Choose the Formats to Detect
+                data-balloon-pos="down" data-balloon-length="fit">1. Choose the Formats to Detect
             </div>
             <form id="chooseBarcodeFormats">
                 <input type="checkbox" id="OneD" name="barcodeFormat" value="BF_ONED">
@@ -46,7 +46,7 @@
             </form>
             <div class="tooltip"
                 aria-label="This parameter helps save time and resources when the expected number of barcodes per scan is less than the actual number of barcodes. Should the number of found results be less than this value, the SDK will exhaust more resources and try more algorithms to reach the expected number."
-                data-balloon-pos="down" data-balloon-length="fit"> Expected barcode count per frame
+                data-balloon-pos="down" data-balloon-length="fit">2. Expected barcode count per frame
             </div><br />
             <input type="range" min="1" max="20" step="1" id="expectedNumberBarcodes" value="1">
             <span id="expectedNumberBarcodesLable">1</span>

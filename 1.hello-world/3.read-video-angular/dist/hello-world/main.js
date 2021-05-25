@@ -207,7 +207,7 @@ __webpack_require__.r(__webpack_exports__);
 /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
 // DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
 /** LICENSE ALERT - THE END */
-dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.3/dist/";
+dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.5/dist/";
 // DBR.BarcodeReader._bUseFullFeature = true; // Control of loading min wasm or full wasm.
 /* harmony default export */ __webpack_exports__["default"] = (dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"]);
 

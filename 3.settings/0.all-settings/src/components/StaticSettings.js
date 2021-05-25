@@ -77,7 +77,7 @@ class StaticSettings extends React.Component {
                         <Button variant="secondary" style={{ width: "30%" }} modename="coverage" onClick={this.usePredefinedSettings}>Coverage</Button>
                     </div>
                     {this.props.fullFeature ?
-                        (<><input style={{ verticalAlign: 'baseline' }} type="checkbox" onChange={this.toggleSettingsString} /> Show String</>)
+                        (<><input style={{ verticalAlign: 'baseline', lineHeight: '30px' }} type="checkbox" onChange={this.toggleSettingsString} /> Show String</>)
                         : ""}
                     <Card className="paddingOneVW" style={this.state.showString ? style.hide : style.show}>
                         {this.state.runtimeSettingsArray.map((setting, index) =>
