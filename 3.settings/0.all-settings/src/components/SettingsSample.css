@@ -79,6 +79,7 @@
     text-align: left;
     max-width: 600px;
     margin: 0 auto;
+    line-height: 25px;
 }
 
 .runTimeSettings_P_0 {
@@ -212,7 +213,8 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     margin: 0;
     padding: 0;
     border: 0;
-    vertical-align: baseline
+    vertical-align: baseline;
+    line-height: 25px;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {

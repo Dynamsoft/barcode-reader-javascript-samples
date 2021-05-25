@@ -86,7 +86,7 @@
 }
 
 .div-settingsModule .div-runtimesettings-details-container>.div-runtimesettings-mode-container>.div-algsContainer>div>.div-runtimesettings-details-container {
-    padding-left: 13px;
+    padding: 13px;
 }
 
 .div-settingsModule .div-runtimesettings-details-container>div>.div-runtimesettings-region-container input[type="checkbox"] {

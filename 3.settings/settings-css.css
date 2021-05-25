@@ -47,9 +47,11 @@ strong {
     /* 15% from the top and centered */
     padding: 2vmin;
     border: 1px solid #888;
-    max-width: 90%;
+    min-width: 300px;
+    max-width: 500px;
     line-height: 5vh;
-    max-height: 80%;
+    min-height: 400px;
+    max-height: 800px;
     overflow: auto;
     /* Could be more or less, depending on screen size */
 }
@@ -72,6 +74,7 @@ strong {
 /* Tooltip container */
 
 .tooltip {
+    font-weight: bolder;
     position: relative;
     display: inline-block;
     border-bottom: 1px dotted black;

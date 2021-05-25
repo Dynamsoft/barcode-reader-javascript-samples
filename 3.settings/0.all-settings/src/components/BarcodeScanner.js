@@ -108,6 +108,23 @@ class BarcodeScanner extends React.Component {
             bShowScanner: false
         });
     }
+    setModeArgument = async _arg => {
+        let scanner = this.scanner = this.scanner || await DBR.BarcodeReader.createInstance();
+        try {
+            await scanner.setModeArgument(_arg[0], parseInt(_arg[1]), _arg[2], _arg[3]);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    getModeArgument = async _arg => {
+        let scanner = this.scanner = this.scanner || await DBR.BarcodeReader.createInstance();
+        try {
+            return (await scanner.getModeArgument(_arg[0], parseInt(_arg[1]), _arg[2]));
+        } catch (e) {
+            return 'error';
+            console.log(e);
+        }
+    }
     appendMessage = str => {
         this.setState(state => {
             state.resultValue = str;

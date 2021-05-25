@@ -4241,10 +4241,10 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dynamsoft-javascript-barcode@8.2.3:
-  version "8.2.3"
-  resolved "https://registry.nlark.com/dynamsoft-javascript-barcode/download/dynamsoft-javascript-barcode-8.2.3.tgz#dff00e279a8016ae2d18ebdffa89e360329df9d8"
-  integrity sha1-3/AOJ5qAFq4tGOvf+onjYDKd+dg=
+dynamsoft-javascript-barcode@8.2.5:
+  version "8.2.5"
+  resolved "https://registry.nlark.com/dynamsoft-javascript-barcode/download/dynamsoft-javascript-barcode-8.2.5.tgz#43006db0bf362a9d0142e5785e94c1a3e963ee01"
+  integrity sha1-QwBtsL82Kp0BQuV4XpTBo+lj7gE=
 
 ecc-jsbn@~0.1.1:
   version "0.1.2"
