@@ -9,12 +9,12 @@
 </head>
 
 <body>
-    <button id="backToNormal" hidden>Exit</button>
     <h2>Use Default Camera UI</h2>
     <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
         placeholder="The Last Read Barcode">
     <div id="UIElement">
-        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
+        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span><br />
+        <button id="showScanner" hidden>Show The Scanner</button>
     </div>
     <div>
         <span style="float:left">All Results:</span><br />
@@ -22,25 +22,24 @@
     </div>
     <script>
         /** LICENSE ALERT - README
-         * The library requires a license to work, the APIs organizationID and handshakeCode specify how to acquire a license.
-         * If nothing is specified, a 7-day (public) trial license will be used by default which is the case in this sample.
+         * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
+         * If the Organizaion ID is not specified, a 7-day (public) trial license will be used by default which is the case in this sample.
          * Note that network connection is required for this license to work.
          */
 
-        /* When using your own license, please uncomment the following lines and fill in your own information. */
-        /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
-
-        // Dynamsoft.DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
-        // Dynamsoft.DBR.BarcodeReader.handshakeCode = "A-SPECIFIC-HANDSHAKECODE";
-        // Dynamsoft.DBR.BarcodeReader.sessionPassword = "PASSWORD-TO-PROTECT-YOUR-LICENSE"; // Important field to protect your license.
-        // Dynamsoft.DBR.BarcodeReader.licenseServer = ["YOUR-OWN-MAIN-LTS", "YOUR-OWN-STANDBY-LTS"]; // Ignore this line if you are using Dynamsoft-hosting LTS
-
-        /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
-
-        // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
-
-        /** LICENSE ALERT - THE END */
+        /* When using your own license, uncomment the following line and specify your Organization ID. */
         
+        // Dynamsoft.DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
+        
+        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
+        /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
+        
+        /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
+        
+        // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
+        
+        /** LICENSE ALERT - THE END */
+
         // scanner for decoding video
         let scanner = null;
         window.onload = async function () {
@@ -56,12 +55,16 @@
             document.getElementById('result').addEventListener('dblclick', async () => {
                 document.getElementById('result').value = "";
             });
+            document.getElementById('showScanner').addEventListener('click', () => {
+                if (scanner) scanner.show();
+            });
         };
         // decode video from camera
         async function startBarcodeScanner() {
             try {
                 scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
                 document.getElementById('lib-load').hidden = true;
+                document.getElementById('showScanner').hidden = false;
                 scanner.onFrameRead = (_results) => {
                     for (let result of _results) {
                         let newElements = [];
@@ -97,10 +100,11 @@
     </script>
 </body>
 <style>
-    button#backToNormal {
+    button#showScanner {
         position: absolute;
-        z-index: 10000000;
-        top: 5vh;
+        width: 50%;
+        left: 25%;
+        top: 30%;
     }
 
     body {

@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <h2>Use External Controllers</h2>
     <button id="btn-show-scanner">Start Barcode
         Scanner</button>
     <button id="btn-hide-scanner" hidden>Hide Barcode
@@ -35,9 +36,15 @@
             <option>640 x 360</option>
             <option>360 x 640</option>
         </select><br /><br />
-        <button id="toggleScanLight">Toggle Laser</button>
         <button id="toggleScanRect">Toggle Search Area</button>
-        <button id="toggleSound">Toggle Sound</button>
+        <label class="switch">
+            <input type="checkbox" checked id="toggleScanLight">
+            <span class="slider round"></span>
+        </label> Toggle Laser
+        <label class="switch">
+            <input type="checkbox" id="toggleSound">
+            <span class="slider round"></span>
+        </label> Toggle Sound
     </div>
     <input type="text" id="result" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
     <div id="UIElement">
@@ -45,23 +52,22 @@
     </div>
     <script>
         /** LICENSE ALERT - README
-         * The library requires a license to work, the APIs organizationID and handshakeCode specify how to acquire a license.
-         * If nothing is specified, a 7-day (public) trial license will be used by default which is the case in this sample.
+         * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
+         * If the Organizaion ID is not specified, a 7-day (public) trial license will be used by default which is the case in this sample.
          * Note that network connection is required for this license to work.
          */
 
-        /* When using your own license, please uncomment the following lines and fill in your own information. */
-        /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
-
+        /* When using your own license, uncomment the following line and specify your Organization ID. */
+        
         // Dynamsoft.DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
-        // Dynamsoft.DBR.BarcodeReader.handshakeCode = "A-SPECIFIC-HANDSHAKECODE";
-        // Dynamsoft.DBR.BarcodeReader.sessionPassword = "PASSWORD-TO-PROTECT-YOUR-LICENSE"; // Important field to protect your license.
-        // Dynamsoft.DBR.BarcodeReader.licenseServer = ["YOUR-OWN-MAIN-LTS", "YOUR-OWN-STANDBY-LTS"]; // Ignore this line if you are using Dynamsoft-hosting LTS
-
+        
+        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
+        /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
+        
         /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
-
+        
         // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
-
+        
         /** LICENSE ALERT - THE END */
 
         // scanner for decoding video
@@ -263,6 +269,70 @@
         max-width: 100%;
         max-height: 90%;
         border: solid 1px gray;
+    }
+
+    /* The switch - the box around the slider */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 30px;
+        height: 17px;
+        margin: 10px;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 13px;
+        width: 13px;
+        left: 2px;
+        bottom: 2px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(13px);
+        -ms-transform: translateX(13px);
+        transform: translateX(13px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 17px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
     }
 </style>
 

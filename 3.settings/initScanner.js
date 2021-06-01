@@ -12,23 +12,22 @@ let resultBox = document.getElementById('result');
 window.onload = async function () {
     try {
         /** LICENSE ALERT - README
-         * The library requires a license to work, the APIs organizationID and handshakeCode specify how to acquire a license.
-         * If nothing is specified, a 7-day (public) trial license will be used by default which is the case in this sample.
+         * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
+         * If the Organizaion ID is not specified, a 7-day (public) trial license will be used by default which is the case in this sample.
          * Note that network connection is required for this license to work.
          */
 
-        /* When using your own license, please uncomment the following lines and fill in your own information. */
-        /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
-
+        /* When using your own license, uncomment the following line and specify your Organization ID. */
+        
         // Dynamsoft.DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
-        // Dynamsoft.DBR.BarcodeReader.handshakeCode = "A-SPECIFIC-HANDSHAKECODE";
-        // Dynamsoft.DBR.BarcodeReader.sessionPassword = "PASSWORD-TO-PROTECT-YOUR-LICENSE"; // Important field to protect your license.
-        // Dynamsoft.DBR.BarcodeReader.licenseServer = ["YOUR-OWN-MAIN-LTS", "YOUR-OWN-STANDBY-LTS"]; // Ignore this line if you are using Dynamsoft-hosting LTS
-
+        
+        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
+        /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
+        
         /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
-
+        
         // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
-
+        
         /** LICENSE ALERT - THE END */
 
         loadingText.hidden = false;
