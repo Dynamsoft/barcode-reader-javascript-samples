@@ -19,7 +19,7 @@ Get the basic features of the library working with plain/native JavaScript or wi
 * **Use External Controllers**: Use custom controllers to manipulate the Camera UI.
 * **Enlarge the Video Stream**: Enlarge the video stream temporarily to read a barcode.
 
-## Settings
+## Parameter Settings
 
 How to configure different settings of the library.
 
@@ -28,36 +28,12 @@ How to configure different settings of the library.
 * **Blurry or Small codes**: Set DeblurModes and ScaleUpModes for decoding blurry or small barcodes.
 * **Deformed or Incomplete codes**: Set DeformationResistingModes or BarcodeComplementModes for decoding deformed or incomplete barcodes.
 * **Define or Detect the Region**: Set the region of interest manually or regionPredetectionModes to speed up the reading process.
-* **Try All Settings**: Try all available settings.
 
-## Real-World
+## Use Case
 
-Real-world usage of the library.
+Use cases of the library.
 
 * **Read Video and Fill a Form**: Read barcodes to fill a form.
 * **Read a Driver's License**: Read the PDF417 barcode on a driver's license (AAMVA compliant) and parse it.
-
-> NOTE
->  
-> The library requires a license to work, the APIs organizationID and handshakeCode specify how to acquire a license.
->  
-> If nothing is specified, a 7-day (public) trial license will be used by default which is the case in these samples. Note that network connection is required for this license to work.
->
-> When using your own license, please uncomment the following lines in the code and fill in your own information.
-> 
-> For more information, please refer to [How to use a trackable license](https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license).
-> 
-> ``` javascript
-> // Dynamsoft.DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
-> // Dynamsoft.DBR.BarcodeReader.handshakeCode = "A-SPECIFIC-HANDSHAKECODE";
-> // Dynamsoft.DBR.BarcodeReader.sessionPassword = "PASSWORD-TO-PROTECT-YOUR-LICENSE"; // Important field to protect your license.
-> // Dynamsoft.DBR.BarcodeReader.licenseServer = ["YOUR-OWN-MAIN-LTS", "YOUR-OWN-STANDBY-LTS"]; // Ignore this line if you are using Dynamsoft-hosting LTS
-> ```
-> 
-> The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. [Contact us](https://www.dynamsoft.com/company/contact/) for more information.
-> 
-> ``` javascript
-> // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
-> ```
 
 If you have any questions with these samples, feel free to submit an issue or [contact us](https://www.dynamsoft.com/company/contact/).

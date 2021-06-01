@@ -194,11 +194,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dynamsoft-javascript-barcode */ "bHga");
 
 /** LICENSE ALERT - README
- * The library requires a license to work, the APIs organizationID and handshakeCode specify how to acquire a license.
- * If nothing is specified, a 7-day (public) trial license will be used by default which is the case in this sample.
+ * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
+ * If the Organizaion ID is not specified, a 7-day (public) trial license will be used by default which is the case in this sample.
  * Note that network connection is required for this license to work.
  */
-/* When using your own license, please uncomment the following lines and fill in your own information. */
+/* When using your own license, uncomment the following line and specify your Organization ID. */
+/* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
 /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
 // DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
 // DBR.BarcodeReader.handshakeCode = "A-SPECIFIC-HANDSHAKECODE";
