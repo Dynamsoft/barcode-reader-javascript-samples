@@ -33,5 +33,33 @@ In this sample, a listener is set up so that the SDK decodes any image that the 
 
 ### Hello World - Angular
 
+This sample demonstrates how to use the library in an Angular application in the most basic manner.
 
+As mentioned in the user guide, when working with Angular aplications, it is recommended to use the `dynamsoft-javascript-barcode` npm package. The library is then set up as its own component, in this case defined in `barcode-scanner`.
 
+The majority of the `DBR` (short for Dynamsoft Barcode Reader) operations are grouped in the `barcode-scanner` folder. Since we are using the npm package, the engine files are not in the same location as the main library file, `dbr.ts`. Therefore, the `engineResourcePath` must be defined so that the library knows where to find the engine files.
+
+In our sample, we assign the `engineResourcePath` to our jsDelivr CDN URL as it is the easiest way to go. However, you can choose to use the engine files in installed npm package instead as such:
+```js
+DBR.BarcodeScanner.engineResourcePath = "/node_modules/dynamsoft-javascript-barcode/dist/"; // use the npm package in node_modules
+```
+Please note that the path is relative to where the `dbr.ts` file is compared to the `node_modules` folder.
+
+The license is also defined in `dbr.ts`, so please input your `organizationID` in order to use the trial license. Of course, this assumes that you requested a new trial license for DBR JavaScript via the customer portal.
+
+Let's do a quick breakdown of the `barcode-scanner` folder where the barcode scanner component is declared and all of its operations are defined:
+
+- `barcode-scanner.component.ts`: The core file where the scanner is created (via `createInstance`) and assigned a UI element (via `setUIElement`). Afterwards, the `onFrameRead` event action was set, and lastly the scanner is opened via the `open` method.
+
+- `barcode-scanner.component.html/barcode-scanner.component.css`: Define the UI of the scanner object. Many of the elements referenced in these files (e.g. `dbrScanner-video`) are inherited from the default UI elements of the library defined in the engine files.
+
+- `barcode-scanner.component.spec.ts`: Contains the unit tests of the component.
+
+The `hello-world` component in turn implements the `barcode-scanner` component, with the main operation being defined in `hello-world.component.ts` and the UI in `hello-world.component.html`.
+
+### Hello World - React JS
+Much like the Angular implementation, the library is set up as its own component, based on the npm package `dynamsoft-javascript-barcode`.
+
+The barcode scanner component is defined in the `components` folder. `BarcodeScanner.js` is the most basic implementation of the library as a React component. The `BarcodeScanner` component is then used in the parent component, `HelloWorld`.
+
+Please note that since we are using the npm package, the `engineResourcePath` must be defined in the `dbr.js` file, similar to the Angular implementation. In addition, the license must be specified via `organizationID` or `productKeys`, depending on the version of the library you are using.
