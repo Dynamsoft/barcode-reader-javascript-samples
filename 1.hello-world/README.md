@@ -33,11 +33,11 @@ In this sample, a listener is set up so that the SDK decodes any image that the 
 
 ### Hello World - Angular
 
-This sample demonstrates how to use the library in an Angular application in the most basic manner.
+This sample demonstrates how to use the library in an Angular application in the most basic manner. [Angular CLI](https://github.com/angular/angular-cli) v11.2.4 is used to generate this sample project.
 
 As mentioned in the user guide, when working with Angular aplications, it is recommended to use the `dynamsoft-javascript-barcode` npm package. The library is then set up as its own component, in this case defined in `barcode-scanner`.
 
-The majority of the `DBR` (short for Dynamsoft Barcode Reader) operations are grouped in the `barcode-scanner` folder. Since we are using the npm package, the engine files are not in the same location as the main library file, `dbr.ts`. Therefore, the `engineResourcePath` must be defined so that the library knows where to find the engine files.
+The majority of the `DBR` (short for Dynamsoft Barcode Reader) operations are grouped in the `barcode-scanner` folder. Since we are using the npm package, the engine files are not in the same location as the main library file, `src/app/dbr.ts`. Therefore, the `engineResourcePath` must be defined so that the library knows where to find the engine files.
 
 In our sample, we assign the `engineResourcePath` to our jsDelivr CDN URL as it is the easiest way to go. However, you can choose to use the engine files in installed npm package instead as such:
 ```js
@@ -58,8 +58,16 @@ Let's do a quick breakdown of the `barcode-scanner` folder where the barcode sca
 The `hello-world` component in turn implements the `barcode-scanner` component, with the main operation being defined in `hello-world.component.ts` and the UI in `hello-world.component.html`.
 
 ### Hello World - React JS
-Much like the Angular implementation, the library is set up as its own component, based on the npm package `dynamsoft-javascript-barcode`.
+Much like the Angular implementation, the library is set up as its own component in the React JS implementation, based on the npm package `dynamsoft-javascript-barcode`. This sample project is bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 The barcode scanner component is defined in the `components` folder. `BarcodeScanner.js` is the most basic implementation of the library as a React component. The `BarcodeScanner` component is then used in the parent component, `HelloWorld`.
 
-Please note that since we are using the npm package, the `engineResourcePath` must be defined in the `dbr.js` file, similar to the Angular implementation. In addition, the license must be specified via `organizationID` or `productKeys`, depending on the version of the library you are using.
+Please note that since we are using the npm package, the `engineResourcePath` must be defined in the `src/dbr.js` file, similar to the Angular implementation. In addition, the license must be specified via `organizationID` or `productKeys`, depending on the version of the library you are using.
+
+### Hello World - Vue JS
+The Vue implementation of the Hello World sample is very similar to the React and Angular implementations. Of course, this implementation will be based on the npm package `dynamsoft-javascript-barcode`.
+
+The `BarcodeScanner.vue` component, defined in the `components` folder, includes the basic `DBR` methods to get the video scanner up and running. The `BarcodeScanner.vue` component is then used in the parent component, `HelloWorld`.
+
+Like the previous implementations, the `engineResourcePath` and license will need to be defined in `src/dbr.js`
+
