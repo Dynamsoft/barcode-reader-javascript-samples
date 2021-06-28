@@ -48,10 +48,10 @@
         /** LICENSE ALERT - THE END */
 
         // reader for decoding picture
-        let reader = null;
+        let pReader = null;
         // decode input picture
         window.onload = async function () {
-            // Create a BarcodeReader instance on page load to speed things up.
+            // Load the library on page load to speed things up.
             try {
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
             } catch (ex) {
@@ -63,7 +63,7 @@
             try {
                 document.getElementById("imgToRead").hidden = true;
                 document.getElementById('lib-load').hidden = false;
-                reader = reader || await Dynamsoft.DBR.BarcodeReader.createInstance();
+                let reader = await (pReader = pReader || Dynamsoft.DBR.BarcodeReader.createInstance());
                 document.getElementById('lib-load').hidden = true;
                 document.getElementById('reading').hidden = false;
                 for (let i = 0; i < this.files.length; ++i) {

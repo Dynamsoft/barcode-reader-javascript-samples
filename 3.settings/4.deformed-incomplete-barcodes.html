@@ -87,7 +87,8 @@
     <!-- JS Code -->
     <script src="initScanner.js"></script> <!-- To initialize the barcode scanner -->
     <script>
-        function initPage() {
+        async function initPage() {
+            let scanner = await pScanner;
             /* Beginning of deformation resisting modes assignment */
 
             /* When one or multiple of the deformation resisting mode options are selected, update the runtime settings. The deformation resisting  modes need to be set in order of priority, thus the code takes into account the order in which the user selects the checkbox options.

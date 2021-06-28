@@ -142,7 +142,7 @@
     <script src="initScanner.js"></script> <!-- To initialize the barcode scanner -->
 
     <script>
-        function initPage() {
+        async function initPage() {
             /**
              * When one or multiple of the localization mode options are selected, update the runtime settings. 
              * 
@@ -150,6 +150,8 @@
              * The code takes into account the order in which the user selects the checkbox options which represents
              * the priority.
              */
+            
+            let scanner = await pScanner;
             let locModeCount = 0;
             let settings = null;
             const checkboxesLocalization = document.querySelectorAll('input[name="locMode"]');

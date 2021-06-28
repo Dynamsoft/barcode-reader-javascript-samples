@@ -1,6 +1,6 @@
 /* The purpose of this file is to combine the DBR Scanner initialization code as well as the common operations among all the samples in the settings folder */
 
-let scanner = null;
+let pScanner = null;
 let initialSettings = null;
 let loadingText = document.getElementById('lib-load');
 let modalSettings = document.getElementById('settingsModal');
@@ -31,7 +31,7 @@ window.onload = async function () {
         /** LICENSE ALERT - THE END */
 
         loadingText.hidden = false;
-        scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+        let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
         initialSettings = await scanner.getRuntimeSettings();
         await scanner.setUIElement(document.getElementById('div-video-container'));
         startReading();
@@ -74,6 +74,7 @@ window.onload = async function () {
 // open the scanner video and start decoding once the Read Barcode button is clicked
 async function startReading() {
     try {
+        let scanner = await pScanner;
         scanner.onFrameRead = (_results) => {
             for (let result of _results) {
                 resultBox.value = result.barcodeFormatString + ": " + result.barcodeText;

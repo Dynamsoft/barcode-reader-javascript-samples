@@ -43,13 +43,13 @@
         /** LICENSE ALERT - THE END */
 
         // scanner for decoding video
-        let scanner = null;
+        let pScanner = null;
         window.onload = async function () {
             let allInputs = document.getElementsByClassName('latest-result');
             for (let input of allInputs)
                 input.addEventListener('click', async function () {
                     try {
-                        scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                        let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                         scanner.bPlaySoundOnSuccessfulRead = true;
                         scanner.onUnduplicatedRead = (txt, result) => {
                             this.value = result.barcodeText;

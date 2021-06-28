@@ -7,20 +7,20 @@ import DBR from 'dynamsoft-javascript-barcode'
 })
 export class BarcodeScannerComponent implements OnInit {
   bDestroyed = false;
-  scanner = null;
+  pScanner = null;
   @Output() appendMessage = new EventEmitter();
   constructor(private elementRef: ElementRef) { }
 
   async ngOnInit(): Promise<void> {
     try {
-      this.scanner = this.scanner || await DBR.BarcodeScanner.createInstance();
+      let scanner = await (this.pScanner = this.pScanner || DBR.BarcodeScanner.createInstance());
 
       if (this.bDestroyed) {
-        this.scanner.destroy();
+        scanner.destroy();
         return;
       }
-      this.scanner.setUIElement(this.elementRef.nativeElement);
-      this.scanner.onFrameRead = results => {
+      scanner.setUIElement(this.elementRef.nativeElement);
+      scanner.onFrameRead = results => {
         for (let result of results) {
           this.appendMessage.emit({ format: result.barcodeFormatString, text: result.barcodeText, type: "result" });
 
@@ -29,16 +29,16 @@ export class BarcodeScannerComponent implements OnInit {
           }
         }
       };
-      await this.scanner.open();
+      await scanner.open();
     } catch (ex) {
       this.appendMessage.emit({ msg: ex.message, type: "error" });
       console.error(ex);
     }
   }
-  ngOnDestroy() {
+  async ngOnDestroy() {
     this.bDestroyed = true;
-    if (this.scanner) {
-      this.scanner.destroy();
+    if (this.pScanner) {
+      (await this.pScanner).destroy();
     }
   }
 }
