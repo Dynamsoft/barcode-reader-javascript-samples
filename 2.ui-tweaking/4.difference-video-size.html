@@ -44,7 +44,7 @@
         /** LICENSE ALERT - THE END */
 
         // scanner for decoding video
-        let scanner = null;
+        let pScanner = null;
         window.onload = async function () {
             //Load the library on page load to speed things up.
             try {
@@ -77,7 +77,7 @@
         // decode video from camera
         async function showScanner() {
             try {
-                scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 document.getElementById('lib-load').hidden = true;
                 scanner.onFrameRead = (results) => {
                     for (let result of results) {

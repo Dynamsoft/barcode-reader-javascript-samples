@@ -68,7 +68,8 @@
          */
         chooseBarcodeFormats.onchange = async function () {
             try {
-                const checkboxes = document.querySelectorAll('input[name="barcodeFormat"]:checked');
+                let scanner = await pScanner;
+				const checkboxes = document.querySelectorAll('input[name="barcodeFormat"]:checked');
                 let settings = await scanner.getRuntimeSettings();
                 settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_NULL; // Set it to NULL first since the default is BF_ALL
                 checkboxes.forEach((checkbox) => {
@@ -103,10 +104,12 @@
         // the runtime settings are updated as follows
         expectedNumberBarcodes.onchange = async function () {
             try {
+				let scanner = await pScanner;
                 let expectedVal = document.getElementById('expectedNumberBarcodes').value;
                 document.getElementById('expectedNumberBarcodesLable').innerText = expectedVal;
                 let settings = await scanner.getRuntimeSettings();
                 settings.expectedBarcodesCount = expectedVal;
+                settings.expectedBarcodesCount = parseInt(expectedVal);
                 await scanner.updateRuntimeSettings(settings);
             }
             catch (ex) {

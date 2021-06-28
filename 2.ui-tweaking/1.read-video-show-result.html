@@ -22,7 +22,7 @@
         <button id="showScanner" hidden>Show The Scanner</button>
     </div>
     <div>
-        <span style="float:left">All Results:</span><br />
+        <span style="float:left;margin-top:20px;">All Results:</span><br />
         <div id="results"></div>
     </div>
     <script>
@@ -46,7 +46,7 @@
         /** LICENSE ALERT - THE END */
 
         // scanner for decoding video
-        let scanner = null;
+        let pScanner = null;
         window.onload = async function () {
             //Load the library on page load to speed things up.
             try {
@@ -60,14 +60,14 @@
             document.getElementById('result').addEventListener('dblclick', async () => {
                 document.getElementById('result').value = "";
             });
-            document.getElementById('showScanner').addEventListener('click', () => {
-                if (scanner) scanner.show();
+            document.getElementById('showScanner').addEventListener('click', async() => {
+                if (pScanner) (await pScanner).show();
             });
         };
         // decode video from camera
         async function startBarcodeScanner() {
             try {
-                scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 document.getElementById('lib-load').hidden = true;
                 document.getElementById('showScanner').hidden = false;
                 scanner.onFrameRead = (_results) => {

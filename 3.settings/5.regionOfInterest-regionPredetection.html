@@ -138,7 +138,7 @@
     <script src="initScanner.js"></script> <!-- To initialize the barcode scanner -->
 
     <script>
-        function initPage() {
+        async function initPage() {
 
             /* First thing that must be done is to lay out the operation of defining a region of interest, per the user's input */
 
@@ -146,6 +146,8 @@
              * Should the Region of Interest form change (as in the user inputted a value for regionTop, regionLeft, regionBottom, or regionRight) 
              * update the runtime settings to reflect this change.
              */
+
+            let scanner = await pScanner;
             const roiFormInputs = document.querySelectorAll('input[name="regionDef"]');
             let settings = null;
             roiFormInputs.forEach(element => {

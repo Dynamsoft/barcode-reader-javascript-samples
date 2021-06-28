@@ -45,7 +45,7 @@
         /** LICENSE ALERT - THE END */
 
         // scanner for decoding video
-        let scanner = null;
+        let pScanner = null;
         window.onload = async function () {
             //Load the library on page load to speed things up.
             try {
@@ -77,7 +77,7 @@
         async function openScanner(bSingleFrameMode) {
             try {
                 document.getElementById('lib-load').hidden = false;
-                scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 scanner.singleFrameMode = bSingleFrameMode;
                 if (!bSingleFrameMode)
                     scanner.getRuntimeSettings()
@@ -131,7 +131,7 @@
                 var _fieldValue = getField(__item.abbreviation, text);
                 if (_fieldValue != false) {
                     document.getElementById('header').hidden = false;
-                    await scanner.hide();
+                    await (await pScanner).hide();
                     document.getElementById('hintMSG').hidden = true;
                     document.getElementById('divNoteMessage').hidden = false;
                     document.getElementById('UIElement').style.display = "none";
@@ -301,6 +301,7 @@
         z-index: 10;
         color: white;
         background: rgba(34, 34, 34, .8);
+        margin-top: 30px;
     }
 
     strong {

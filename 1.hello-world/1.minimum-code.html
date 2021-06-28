@@ -36,10 +36,10 @@
         
         /** LICENSE ALERT - THE END */
 
-        let scanner = null;
+        let pScanner = null;
         document.getElementById('readBarcode').onclick = async function () {
             try {
-                scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 /* 
                  * onFrameRead is triggered once each frame is read. 
                  * There can be one or multiple barcodes on each frame.
