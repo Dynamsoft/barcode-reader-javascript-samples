@@ -124,10 +124,7 @@
                     }catch(ex){
                         alert('Play video failed: ' + (ex.message || ex));
                     }
-                    updateCurrentResolution({
-                        width: currentRes[0],
-                        height: currentRes[1]
-                    });
+                    updateCurrentResolution(currentRes);
                 }
             };
             document.getElementById('resolutionList').onchange = async function () {
