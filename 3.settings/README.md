@@ -55,7 +55,7 @@ Similar to `DeformationResistingModes`, `BarcodeComplementModes` is currently on
 Usually, DBR will traverse the entire area of an image or frame to locate and decode any barcodes that are there. However, there are some situations where the user is only concerned about a specific area of an image or want to restrict the video view to a specific region. This sample demonstrates how to manually define a [RegionDefinition](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/global-interfaces.html#regiondefinition). Once the region is defined, DBR will only decode barcodes that are within that region.
 
 To define the region, the top-most, left-most, right-most, and bottom-most coordinate or percentage of the region must be defined. Whether coordinate or percentage is used is defined by `regionMeasuredByPercentage`. In most cases, percentage is easier to use. Please refer to the following image to get an idea of how the percentages are taken into account:
-![RegionOfInterest Percentages](https://photos.app.goo.gl/hZMfVBv7fFQ75i5T8)
+![RegionOfInterest Percentages](https://tst.dynamsoft.com/public/samples/dbr/JS/assets/regionOfInterest.png)
 
 To learn more about `RegionDefinition` and how to use them, please refer to this [article](https://www.dynamsoft.com/barcode-reader/parameters/scenario-settings/manually-define-region-of-interest.html?ver=latest).
 
