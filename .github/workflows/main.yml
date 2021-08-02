@@ -33,7 +33,7 @@ jobs:
           # FTP user
           user: websitecontentmanage
           # FTP password
-          password: ${{ secrets.FTP_PASSWORD }}
+          password: ${{ secrets.FTP_DEMO_PASSWORD }}
           # Force SSL encryption
           #forceSsl: # optional, default is false
           # Local directory
