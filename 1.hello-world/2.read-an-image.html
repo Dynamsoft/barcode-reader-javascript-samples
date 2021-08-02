@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <h2>Read An Existing Image</h2>
+    <h2>Read Barcodes from An Existing Image</h2>
     <input id="ipt-file" type="file" style="margin-bottom: 2vh;" accept="image/png,image/jpeg,image/bmp,image/gif">
     <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
         placeholder="The Last Read Barcode">
@@ -35,16 +35,17 @@
          */
 
         /* When using your own license, uncomment the following line and specify your Organization ID. */
-        
-        // Dynamsoft.DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
-        
+
+        Dynamsoft.DBR.BarcodeReader.organizationID = "200000";
+        Dynamsoft.DBR.BarcodeReader.handshakeCode = "200000-dbr_js_samples";
+
         /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
         /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
-        
+
         /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
-        
+
         // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
-        
+
         /** LICENSE ALERT - THE END */
 
         // reader for decoding picture
@@ -79,6 +80,7 @@
                     }
                     // Decode the file
                     let results = await reader.decode(file);
+                    // Show the results
                     let newElements = [];
                     newElements.push(createAnSpan(file.name + ": ", "bigger"));
                     newElements.push(document.createElement('br'));

@@ -63,16 +63,17 @@
          */
 
         /* When using your own license, uncomment the following line and specify your Organization ID. */
-        
-        // Dynamsoft.DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
-        
+
+        Dynamsoft.DBR.BarcodeReader.organizationID = "200000";
+        Dynamsoft.DBR.BarcodeReader.handshakeCode = "200000-dbr_js_samples";
+
         /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
         /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
-        
+
         /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
-        
+
         // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
-        
+
         /** LICENSE ALERT - THE END */
 
         // scanner for decoding video
@@ -86,18 +87,18 @@
         ], regionIndex = 0;
         window.onload = async function () {
             document.getElementById('toggleSound').onclick = async function () {
-                if(pScanner){
+                if (pScanner) {
                     (await pScanner).bPlaySoundOnSuccessfulRead = this.checked;
                 }
             };
             document.getElementById('toggleScanLight').onclick = function () {
                 let scanlight = document.getElementsByClassName('dbrScanner-scanlight');
-                if(scanlight.length){
+                if (scanlight.length) {
                     scanlight[0].hidden = !this.checked;
                 }
             };
             document.getElementById('toggleScanRect').onclick = async function () {
-                if(pScanner){
+                if (pScanner) {
                     let scanner = await pScanner;
 
                     let region = scanRegions[regionIndex];
@@ -116,12 +117,12 @@
                 }
             };
             document.getElementById('cameraList').onchange = async function () {
-                if(pScanner){
+                if (pScanner) {
                     let scanner = await pScanner;
                     let currentRes;
-                    try{
+                    try {
                         currentRes = await scanner.setCurrentCamera(document.getElementById('cameraList').value);
-                    }catch(ex){
+                    } catch (ex) {
                         alert('Play video failed: ' + (ex.message || ex));
                     }
                     updateCurrentResolution(currentRes);
@@ -179,7 +180,7 @@
                 cameraList.options.add(opt);
             }
             let camera = await scanner.getCurrentCamera();
-            if(camera){
+            if (camera) {
                 cameraList.value = camera.deviceId;
                 currentRes = scanner.getResolution();
                 updateCurrentResolution({
