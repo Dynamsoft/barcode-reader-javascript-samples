@@ -8,7 +8,8 @@ import DBR from "dynamsoft-javascript-barcode";
 
 /* When using your own license, uncomment the following line and specify your Organization ID. */
 
-// DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
+DBR.BarcodeReader.organizationID = "200000";
+DBR.BarcodeReader.handshakeCode = "200000-dbr_js_samples";
 
 /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
 /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
