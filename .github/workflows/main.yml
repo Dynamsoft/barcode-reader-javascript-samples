@@ -37,6 +37,6 @@ jobs:
           # Force SSL encryption
           #forceSsl: # optional, default is false
           # Local directory
-          #localDir: $GITHUB_WORKSPACE/4.use-case
+          #localDir: # optional, default is .
           # Remote directory
-          remoteDir: /demo.dynamsoft.com/Samples/DBR/tmp/
+          remoteDir: /demo.dynamsoft.com/Samples/DBR/JS/
