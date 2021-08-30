@@ -122,6 +122,32 @@
                         min="1" max="32" value="5"><span id="sibGrayDisplay"></span></br>
                 </div>
 
+                <input type="checkbox" id="hsvContrast" name="rpMode" value="RPM_GENERAL_HSV_CONTRAST">
+                <label for="hsvContrast" class="tooltip"
+                    aria-label="Detects region using the general algorithm based on HSV colour contrast."
+                    data-balloon-pos="down" data-balloon-length="fit"> General HSV Contrast Mode (16) </label><br />
+
+                <!-- Mode Arguments for the hsv contrast pre-detection mode-->
+                <div class="hsvContrastForm arguments">
+                    <label for="midHSV" class="tooltip"
+                        aria-label="If the image dimension is larger than the given value, the library will enable the feature of pre-detecting barcode regions. Otherwise, it will skip this step when searching for barcodes."
+                        data-balloon-pos="down" data-balloon-length="fit">Minimum Image Dimension</label>
+                    <input type="range" id="midHSV" name="minImageDim" data-require-pair="#hsvContrast" min="16384"
+                        max="2147483647" value="262144"><span id="midHSVDisplay"></span></br>
+
+                    <label for="sensHSV" class="tooltip"
+                        aria-label="The higher the sensitivity, the more effort the library will take to detect regions."
+                        data-balloon-pos="down" data-balloon-length="fit">Sensitivity</label>
+                    <input type="range" id="sensHSV" name="sensitivity" data-require-pair="#hsvContrast" min="1"
+                        max="9" value="1"><span id="sensHSVDisplay"></span></br>
+
+                    <label for="sibHSV" class="tooltip"
+                        aria-label="The block size used for region predetection would be 2 to the power of N, with N being the SpatialIndexBlockSize"
+                        data-balloon-pos="down" data-balloon-length="fit">Spatial Index Block Size</label>
+                    <input type="range" id="sibHSV" name="SpatialIndexBlockSize" data-require-pair="#hsvContrast"
+                        min="1" max="32" value="5"><span id="sibHSVDisplay"></span></br>
+                </div>
+
                 <input type="checkbox" id="autoRPM" name="rpMode" value="RPM_AUTO">
                 <label for="autoRPM" class="tooltip"
                     aria-label="Lets the library choose an algorithm automatically to detect region."
@@ -208,6 +234,12 @@
                                     let grayContrastForm = document.getElementsByClassName("grayContrastForm");
                                     grayContrastForm[0].style.display = "block";
                                     settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_GRAY_CONTRAST;
+                                    break;
+                                case "RPM_GENERAL_HSV_CONTRAST":
+                                    // First, display the mode arguments form for HSV Contrast mode the update the settings
+                                    let hsvContrastForm = document.getElementsByClassName("hsvContrastForm");
+                                    hsvContrastForm[0].style.display = "block";
+                                    settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_HSV_CONTRAST;
                                     break;
                                 case "RPM_GENERAL":
                                     settings.furtherModes.regionPredetectionModes[rpmCount] = Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL;
@@ -301,7 +333,6 @@
                     }
                 }
             }
-
             /* Done with mode arguments for the RGB Contrast mode */
 
             /* Now for the mode arguments of the Gray contrast mode, which are the same as the RGB contrast mode */
@@ -362,6 +393,64 @@
                 }
             }
             /* Done with the mode arguments for the gray contrast pre-detection mode */
+
+            let midHSV = document.getElementById("midHSV");
+            midHSV.onchange = async function () {
+                document.getElementById("midHSVDisplay").innerHTML = midHSV.value.toString();
+                let settings = await scanner.getRuntimeSettings();
+                // Get the index of the HSV Contrast mode in the scale up modes array
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_HSV_CONTRAST)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("RegionPredetectionMode", i, "MinImageDimension", midHSV.value.toString()); // set the min image dimension 
+                        else
+                            continue; // if not HSV contrast, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                }
+            }
+
+            // Then, the sensitivity
+            let sensitivityHSV = document.getElementById("sensHSV");
+            sensitivityHSV.onchange = async function () {
+                document.getElementById("sensHSVDisplay").innerHTML = sensitivityHSV.value.toString();
+                let settings = await scanner.getRuntimeSettings();
+                // Get the index of the HSV Contrast mode in the scale up modes array
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_HSV_CONTRAST)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("RegionPredetectionMode", i, "Sensitivity", sensitivityHSV.value.toString()); // set the min image dimension 
+                        else
+                            continue; // if not HSV contrast, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                }
+            }
+
+            // Now for the spatial index block size
+            let sibHSV = document.getElementById("sibHSV");
+            sibHSV.onchange = async function () {
+                document.getElementById("sibHSVDisplay").innerHTML = sibHSV.value.toString();
+                let settings = await scanner.getRuntimeSettings();
+                // Get the index of the HSV Contrast mode in the scale up modes array
+                for (var i = 0; i <= 8; i++) {
+                    try {
+                        if (settings.scaleUpModes[i] == Dynamsoft.DBR.EnumRegionPredetectionMode.RPM_GENERAL_HSV_CONTRAST)
+                            //once the index is found, use the index to set the mode argument.
+                            await scanner.setModeArgument("RegionPredetectionMode", i, "SpatialIndexBlockSize", sibHSV.value.toString()); // set the min image dimension 
+                        else
+                            continue; // if not HSV contrast, skip to next iteration
+                    } catch (ex) {
+                        console.log(ex.message);
+                    }
+                }
+            }
+
+            /* Done with mode arguments for the HSV Contrast mode */
         }
     </script>
 </body>
