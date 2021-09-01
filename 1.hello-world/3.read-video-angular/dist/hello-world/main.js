@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\GitHub\2.dbr\dbr-browser-samples\1.hello-world\3.read-video-angular\src\main.ts */"zUnb");
+module.exports = __webpack_require__(/*! D:\project_test\dbr-browser-samples\1.hello-world\3.read-video-angular\src\main.ts */"zUnb");
 
 
 /***/ }),
@@ -199,16 +199,13 @@ __webpack_require__.r(__webpack_exports__);
  * Note that network connection is required for this license to work.
  */
 /* When using your own license, uncomment the following line and specify your Organization ID. */
+// DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
 /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
 /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
-// DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
-// DBR.BarcodeReader.handshakeCode = "A-SPECIFIC-HANDSHAKECODE";
-// DBR.BarcodeReader.sessionPassword = "PASSWORD-TO-PROTECT-YOUR-LICENSE"; // Important field to protect your license.
-// DBR.BarcodeReader.licenseServer = ["YOUR-OWN-MAIN-LTS", "YOUR-OWN-STANDBY-LTS"]; // Ignore this line if you are using Dynamsoft-hosting LTS
 /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
 // DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
 /** LICENSE ALERT - THE END */
-dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.2.5/dist/";
+dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"].BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.6.1/dist/";
 // DBR.BarcodeReader._bUseFullFeature = true; // Control of loading min wasm or full wasm.
 /* harmony default export */ __webpack_exports__["default"] = (dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
@@ -297,19 +294,19 @@ class BarcodeScannerComponent {
     constructor(elementRef) {
         this.elementRef = elementRef;
         this.bDestroyed = false;
-        this.scanner = null;
+        this.pScanner = null;
         this.appendMessage = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
     }
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             try {
-                this.scanner = this.scanner || (yield dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_2__["default"].BarcodeScanner.createInstance());
+                let scanner = yield (this.pScanner = this.pScanner || dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_2__["default"].BarcodeScanner.createInstance());
                 if (this.bDestroyed) {
-                    this.scanner.destroy();
+                    scanner.destroy();
                     return;
                 }
-                this.scanner.setUIElement(this.elementRef.nativeElement);
-                this.scanner.onFrameRead = results => {
+                scanner.setUIElement(this.elementRef.nativeElement);
+                scanner.onFrameRead = results => {
                     for (let result of results) {
                         this.appendMessage.emit({ format: result.barcodeFormatString, text: result.barcodeText, type: "result" });
                         if (result.barcodeText.indexOf("Attention(exceptionCode") !== -1) {
@@ -317,7 +314,7 @@ class BarcodeScannerComponent {
                         }
                     }
                 };
-                yield this.scanner.open();
+                yield scanner.open();
             }
             catch (ex) {
                 this.appendMessage.emit({ msg: ex.message, type: "error" });
@@ -326,14 +323,16 @@ class BarcodeScannerComponent {
         });
     }
     ngOnDestroy() {
-        this.bDestroyed = true;
-        if (this.scanner) {
-            this.scanner.destroy();
-        }
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            this.bDestroyed = true;
+            if (this.pScanner) {
+                (yield this.pScanner).destroy();
+            }
+        });
     }
 }
 BarcodeScannerComponent.ɵfac = function BarcodeScannerComponent_Factory(t) { return new (t || BarcodeScannerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])); };
-BarcodeScannerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({ type: BarcodeScannerComponent, selectors: [["app-barcode-scanner"]], outputs: { appendMessage: "appendMessage" }, decls: 11, vars: 0, consts: [["v-once", "", 1, "component-barcode-scanner"], ["viewBox", "0 0 1792 1792", 1, "dbrScanner-bg-loading"], ["d", "M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z"], ["viewBox", "0 0 2048 1792", 1, "dbrScanner-bg-camera", 2, "display", "none"], ["d", "M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z"], ["playsinline", "true", 1, "dbrScanner-video"], [1, "dbrScanner-cvs-drawarea"], [1, "dbrScanner-cvs-scanarea"], [1, "dbrScanner-scanlight", 2, "display", "none"], [2, "position", "absolute", "left", "50%", "bottom", "3%", "padding", "0 5px", "margin", "0", "font-family", "Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif", "line-height", "18px", "font-size", "12px", "color", "white", "background-color", "rgba(0,0,0,.3)", "border-radius", "8px", "transform", "translateX(-50%)"]], template: function BarcodeScannerComponent_Template(rf, ctx) { if (rf & 1) {
+BarcodeScannerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({ type: BarcodeScannerComponent, selectors: [["app-barcode-scanner"]], outputs: { appendMessage: "appendMessage" }, decls: 35, vars: 0, consts: [["v-once", "", 1, "component-barcode-scanner"], ["viewBox", "0 0 1792 1792", 1, "dbrScanner-bg-loading", 2, "display", "none", "animation", "1s linear infinite dbrScanner-rotate", "width", "40%", "height", "40%", "position", "absolute", "margin", "auto", "left", "0", "top", "0", "right", "0", "bottom", "0", "fill", "#aaa"], ["d", "M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z"], ["viewBox", "0 0 2048 1792", 1, "dbrScanner-bg-camera", 2, "display", "none", "width", "40%", "height", "40%", "position", "absolute", "margin", "auto", "left", "0", "top", "0", "right", "0", "bottom", "0", "fill", "#aaa"], ["d", "M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z"], ["playsinline", "true", 1, "dbrScanner-video", 2, "width", "100%", "height", "100%", "position", "absolute", "left", "0", "top", "0"], [1, "dbrScanner-cvs-drawarea", 2, "width", "100%", "height", "100%", "position", "absolute", "left", "0", "top", "0"], [1, "dbrScanner-cvs-scanarea", 2, "width", "100%", "height", "100%", "position", "absolute", "left", "0", "top", "0"], [1, "dbrScanner-scanlight", 2, "display", "none", "width", "100%", "height", "3%", "position", "absolute", "animation", "3s infinite dbrScanner-scanlight", "border-radius", "50%", "box-shadow", "0px 0px 2vw 1px #00e5ff", "background", "#fff", "user-select", "none"], [1, "dbrScanner-sel-camera", 2, "margin", "0 auto", "position", "absolute", "left", "0", "top", "0"], [1, "dbrScanner-sel-resolution", 2, "position", "absolute", "left", "0", "top", "20px"], [1, "dbrScanner-btn-close", 2, "position", "absolute", "right", "0", "top", "0"], ["width", "16", "height", "16", "viewBox", "0 0 1792 1792", "xmlns", "http://www.w3.org/2000/svg"], ["d", "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"], [1, "dbrScanner-msg-poweredby", 2, "position", "absolute", "left", "50%", "bottom", "10%", "transform", "translateX(-50%)"], ["viewBox", "0 0 94 17", 2, "height", "max(3vmin,17px)", "fill", "#FFFFFF"], ["d", "M0.9,14V4.3h2.3c0.6,0,1,0.1,1.4,0.3c0.3,0.2,0.6,0.5,0.7,0.9s0.2,0.8,0.2,1.4c0,0.5-0.1,0.9-0.2,1.3\n\t\tC5.1,8.5,4.9,8.8,4.5,9.1C4.2,9.3,3.7,9.4,3.2,9.4H1.8V14H0.9z M1.8,8.7h1.2c0.4,0,0.7-0.1,1-0.2S4.3,8.2,4.4,8\n\t\tc0.1-0.3,0.2-0.6,0.2-1.1c0-0.5,0-0.9-0.1-1.2C4.3,5.4,4.2,5.2,3.9,5.1S3.4,5,2.9,5H1.8V8.7z"], ["d", "M8.1,14.1c-0.5,0-0.8-0.1-1.1-0.3s-0.5-0.5-0.6-0.9s-0.2-0.9-0.2-1.4V9.6c0-0.6,0.1-1,0.2-1.4\n\t\tC6.5,7.8,6.7,7.5,7,7.3S7.6,7,8.1,7C8.6,7,9,7.1,9.2,7.3s0.5,0.5,0.6,0.9C9.9,8.5,9.9,9,9.9,9.6v1.9c0,0.6-0.1,1-0.2,1.4\n\t\tc-0.1,0.4-0.3,0.7-0.6,0.9S8.6,14.1,8.1,14.1z M8.1,13.4c0.3,0,0.5-0.1,0.7-0.2C8.9,13,9,12.8,9,12.5c0-0.3,0-0.6,0-1v-2\n\t\tc0-0.4,0-0.7,0-1C9,8.2,8.9,8,8.8,7.9C8.6,7.7,8.4,7.6,8.1,7.6c-0.3,0-0.5,0.1-0.7,0.2C7.3,8,7.2,8.2,7.2,8.5c0,0.3-0.1,0.6-0.1,1\n\t\tv2c0,0.4,0,0.7,0.1,1c0,0.3,0.1,0.5,0.3,0.7C7.6,13.4,7.8,13.4,8.1,13.4z"], ["d", "M12,14l-1.1-6.9h0.7l0.9,5.8l1.1-5.8h0.8l1.1,5.8l0.8-5.8H17L15.9,14H15l-1.1-5.6L12.8,14H12z"], ["d", "M19.8,14.1c-0.4,0-0.8-0.1-1.1-0.3s-0.5-0.5-0.6-0.9c-0.1-0.4-0.2-0.9-0.2-1.6V9.6c0-0.7,0.1-1.2,0.2-1.6\n\t\tc0.1-0.4,0.3-0.7,0.6-0.8C19,7,19.3,7,19.8,7c0.5,0,0.9,0.1,1.1,0.3c0.3,0.2,0.4,0.5,0.5,0.9c0.1,0.4,0.1,1,0.1,1.6v0.6h-2.8v1.2\n\t\tc0,0.4,0,0.8,0.1,1.1c0.1,0.3,0.2,0.4,0.3,0.6s0.3,0.2,0.6,0.2c0.2,0,0.3,0,0.5-0.1c0.1-0.1,0.3-0.2,0.3-0.4s0.1-0.5,0.1-0.8v-0.5\n\t\th0.9V12c0,0.6-0.1,1.1-0.4,1.5S20.4,14.1,19.8,14.1z M18.8,9.9h1.9V9.4c0-0.4,0-0.7-0.1-0.9c0-0.3-0.1-0.5-0.3-0.6S20,7.6,19.8,7.6\n\t\tc-0.2,0-0.4,0.1-0.6,0.2c-0.1,0.1-0.3,0.3-0.3,0.6c-0.1,0.3-0.1,0.7-0.1,1.1V9.9z"], ["d", "M22.8,14V7.1h0.9V8c0.2-0.4,0.5-0.6,0.8-0.8C24.8,7.1,25,7,25.3,7c0,0,0,0,0.1,0s0.1,0,0.1,0v0.9\n\t\tc-0.1,0-0.1,0-0.2-0.1c-0.1,0-0.2,0-0.2,0c-0.3,0-0.5,0.1-0.7,0.2c-0.2,0.1-0.4,0.3-0.6,0.6V14H22.8z"], ["d", "M28,14.1c-0.4,0-0.8-0.1-1.1-0.3s-0.5-0.5-0.6-0.9c-0.1-0.4-0.2-0.9-0.2-1.6V9.6c0-0.7,0.1-1.2,0.2-1.6\n\t\tc0.1-0.4,0.3-0.7,0.6-0.8C27.3,7,27.6,7,28,7c0.5,0,0.9,0.1,1.1,0.3c0.3,0.2,0.4,0.5,0.5,0.9c0.1,0.4,0.1,1,0.1,1.6v0.6H27v1.2\n\t\tc0,0.4,0,0.8,0.1,1.1c0.1,0.3,0.2,0.4,0.3,0.6s0.3,0.2,0.6,0.2c0.2,0,0.3,0,0.5-0.1c0.1-0.1,0.3-0.2,0.3-0.4s0.1-0.5,0.1-0.8v-0.5\n\t\th0.9V12c0,0.6-0.1,1.1-0.4,1.5S28.7,14.1,28,14.1z M27,9.9H29V9.4c0-0.4,0-0.7-0.1-0.9c0-0.3-0.1-0.5-0.3-0.6S28.3,7.6,28,7.6\n\t\tc-0.2,0-0.4,0.1-0.6,0.2c-0.1,0.1-0.3,0.3-0.3,0.6C27.1,8.6,27,9,27,9.5V9.9z"], ["d", "M32.6,14.1c-0.6,0-1-0.2-1.3-0.7c-0.3-0.4-0.4-1.2-0.4-2.2V9.9c0-0.6,0-1.1,0.1-1.6c0.1-0.4,0.2-0.8,0.5-1\n\t\tc0.2-0.2,0.6-0.4,1-0.4C32.8,7,33,7,33.2,7.1c0.2,0.1,0.4,0.3,0.5,0.4V4.3h0.9V14h-0.9v-0.5c-0.1,0.2-0.3,0.3-0.5,0.4\n\t\tC33,14,32.8,14.1,32.6,14.1z M32.7,13.4c0.2,0,0.4,0,0.5-0.1c0.2-0.1,0.3-0.2,0.5-0.3V8.1c-0.1-0.1-0.3-0.2-0.4-0.3\n\t\tc-0.2-0.1-0.4-0.2-0.6-0.2c-0.4,0-0.6,0.2-0.8,0.5S31.8,9,31.8,9.6v1.6c0,0.5,0,0.9,0.1,1.2c0.1,0.3,0.1,0.6,0.3,0.7\n\t\tC32.3,13.3,32.5,13.4,32.7,13.4z"], ["d", "M40.5,14.1c-0.3,0-0.5-0.1-0.7-0.2c-0.2-0.1-0.4-0.3-0.5-0.4V14h-0.9V4.3h0.9v3.4c0.1-0.2,0.3-0.3,0.5-0.5\n\t\tC40.1,7,40.3,7,40.6,7C41,7,41.2,7,41.4,7.2c0.2,0.2,0.4,0.4,0.5,0.6c0.1,0.3,0.2,0.6,0.2,0.9s0.1,0.7,0.1,1v1.5\n\t\tc0,0.6,0,1.1-0.1,1.5c-0.1,0.4-0.3,0.8-0.5,1C41.3,14,41,14.1,40.5,14.1z M40.4,13.4c0.3,0,0.5-0.1,0.6-0.3\n\t\tc0.1-0.2,0.2-0.4,0.3-0.8s0.1-0.7,0.1-1.2V9.7c0-0.5,0-0.8-0.1-1.1S41.1,8,41,7.9c-0.1-0.2-0.3-0.2-0.6-0.2c-0.2,0-0.4,0.1-0.6,0.2\n\t\tc-0.2,0.1-0.3,0.2-0.5,0.4v4.7c0.1,0.1,0.3,0.3,0.5,0.4C40,13.4,40.2,13.4,40.4,13.4z"], ["d", "M43.2,15.7V15c0.4,0,0.7,0,0.9-0.1c0.2-0.1,0.3-0.1,0.4-0.3c0.1-0.1,0.1-0.2,0.1-0.4c0-0.1,0-0.3-0.1-0.5\n\t\tc0-0.2-0.1-0.4-0.2-0.6L43,7.1h0.9l1.2,5.9l1.2-5.9h0.9l-1.7,7.4c-0.1,0.3-0.2,0.5-0.3,0.7c-0.2,0.2-0.4,0.3-0.6,0.4\n\t\tc-0.3,0.1-0.6,0.1-1,0.1H43.2z"], ["d", "M50.6,14V4.3h2.1c0.7,0,1.2,0.1,1.6,0.4c0.4,0.2,0.6,0.6,0.8,1c0.2,0.4,0.2,0.9,0.2,1.5V11\n\t\tc0,0.6-0.1,1.1-0.2,1.6s-0.4,0.8-0.8,1S53.5,14,52.8,14H50.6z M51.5,13.3h1.2c0.5,0,0.9-0.1,1.1-0.3s0.4-0.5,0.5-0.9\n\t\ts0.1-0.8,0.1-1.3V7.2c0-0.5,0-0.9-0.1-1.2s-0.2-0.6-0.5-0.8S53.2,5,52.7,5h-1.2V13.3z"], ["d", "M56.5,15.7V15c0.4,0,0.7,0,0.9-0.1c0.2-0.1,0.3-0.1,0.4-0.3c0.1-0.1,0.1-0.2,0.1-0.4c0-0.1,0-0.3-0.1-0.5\n\t\tc0-0.2-0.1-0.4-0.2-0.6l-1.4-6.1h0.9l1.2,5.9l1.2-5.9h0.9l-1.7,7.4c-0.1,0.3-0.2,0.5-0.3,0.7s-0.4,0.3-0.6,0.4s-0.6,0.1-1,0.1H56.5\n\t\tz"], ["d", "M61.3,14V7.1h0.9v0.7c0.2-0.2,0.5-0.4,0.8-0.6C63.2,7,63.5,7,63.8,7C64,7,64.2,7,64.4,7.1s0.3,0.3,0.4,0.5\n\t\tc0.1,0.2,0.1,0.5,0.1,0.8V14H64V8.6c0-0.4-0.1-0.6-0.2-0.8c-0.1-0.1-0.3-0.2-0.5-0.2c-0.2,0-0.4,0.1-0.6,0.2s-0.4,0.3-0.6,0.5V14\n\t\tH61.3z"], ["d", "M67.4,14.1c-0.3,0-0.5-0.1-0.7-0.2c-0.2-0.1-0.4-0.3-0.5-0.6C66,13.1,66,12.8,66,12.6c0-0.4,0.1-0.7,0.2-0.9\n\t\ts0.3-0.5,0.5-0.7c0.2-0.2,0.5-0.4,0.9-0.6c0.4-0.2,0.8-0.4,1.3-0.6V9.3c0-0.4,0-0.8-0.1-1c-0.1-0.2-0.1-0.4-0.3-0.5\n\t\tc-0.1-0.1-0.3-0.2-0.5-0.2c-0.2,0-0.3,0-0.5,0.1c-0.1,0.1-0.3,0.2-0.3,0.4c-0.1,0.2-0.1,0.4-0.1,0.7V9l-0.9,0\n\t\tc0-0.7,0.2-1.2,0.5-1.6C66.8,7.1,67.3,7,68,7c0.6,0,1.1,0.2,1.3,0.6c0.3,0.4,0.4,1,0.4,1.7v3.4c0,0.1,0,0.3,0,0.5\n\t\tc0,0.2,0,0.4,0,0.5c0,0.2,0,0.3,0,0.4h-0.8c0-0.2-0.1-0.3-0.1-0.5c0-0.2,0-0.3-0.1-0.5c-0.1,0.3-0.3,0.5-0.5,0.7\n\t\tS67.7,14.1,67.4,14.1z M67.6,13.4c0.2,0,0.3,0,0.5-0.1c0.1-0.1,0.3-0.2,0.4-0.3s0.2-0.3,0.3-0.4v-2.2c-0.3,0.2-0.6,0.3-0.9,0.5\n\t\tc-0.2,0.1-0.4,0.3-0.6,0.4c-0.2,0.1-0.3,0.3-0.3,0.5s-0.1,0.4-0.1,0.6c0,0.4,0.1,0.6,0.2,0.8C67.2,13.3,67.4,13.4,67.6,13.4z"], ["d", "M70.9,14V7.1h0.8v0.7c0.2-0.3,0.5-0.5,0.8-0.6c0.3-0.1,0.6-0.2,0.9-0.2c0.2,0,0.5,0.1,0.7,0.2s0.3,0.4,0.4,0.7\n\t\tc0.2-0.3,0.5-0.5,0.8-0.7c0.3-0.2,0.6-0.2,0.9-0.2c0.2,0,0.4,0,0.6,0.1s0.3,0.3,0.4,0.5c0.1,0.2,0.2,0.5,0.2,0.9V14h-0.8V8.6\n\t\tc0-0.4-0.1-0.7-0.2-0.8s-0.3-0.2-0.5-0.2c-0.2,0-0.4,0.1-0.7,0.2S74.7,8,74.5,8.3c0,0,0,0.1,0,0.1s0,0.1,0,0.1V14h-0.8V8.6\n\t\tc0-0.4-0.1-0.7-0.2-0.8c-0.1-0.1-0.3-0.2-0.5-0.2c-0.2,0-0.4,0.1-0.7,0.2c-0.2,0.1-0.4,0.3-0.6,0.5V14H70.9z"], ["d", "M80.2,14.1c-0.6,0-1-0.2-1.3-0.5c-0.3-0.4-0.5-0.8-0.6-1.4l0.7-0.2c0,0.5,0.2,0.9,0.4,1.2\n\t\tc0.2,0.2,0.5,0.4,0.8,0.4c0.3,0,0.5-0.1,0.7-0.3c0.2-0.2,0.2-0.4,0.2-0.7c0-0.2-0.1-0.5-0.2-0.7c-0.1-0.2-0.4-0.5-0.6-0.7l-0.9-0.8\n\t\tc-0.3-0.3-0.5-0.5-0.7-0.8c-0.2-0.3-0.2-0.6-0.2-0.9c0-0.3,0.1-0.6,0.2-0.8c0.1-0.2,0.3-0.4,0.6-0.5C79.5,7,79.8,7,80.2,7\n\t\tc0.5,0,0.9,0.2,1.2,0.5c0.3,0.3,0.4,0.8,0.4,1.3L81.2,9c0-0.3-0.1-0.6-0.1-0.8s-0.2-0.4-0.3-0.5c-0.1-0.1-0.3-0.1-0.5-0.1\n\t\tc-0.3,0-0.5,0.1-0.6,0.2c-0.2,0.1-0.2,0.4-0.2,0.6c0,0.2,0,0.4,0.1,0.6c0.1,0.2,0.2,0.3,0.4,0.5l1,0.9c0.2,0.2,0.4,0.3,0.6,0.5\n\t\tc0.2,0.2,0.3,0.4,0.4,0.6c0.1,0.2,0.2,0.5,0.2,0.8c0,0.4-0.1,0.7-0.2,0.9c-0.1,0.2-0.4,0.4-0.6,0.6C80.9,14,80.6,14.1,80.2,14.1z"], ["d", "M84.7,14.1c-0.5,0-0.8-0.1-1.1-0.3c-0.3-0.2-0.5-0.5-0.6-0.9s-0.2-0.9-0.2-1.4V9.6c0-0.6,0.1-1,0.2-1.4\n\t\tc0.1-0.4,0.3-0.7,0.6-0.9C83.9,7.1,84.3,7,84.7,7c0.5,0,0.9,0.1,1.1,0.3s0.5,0.5,0.6,0.9c0.1,0.4,0.2,0.9,0.2,1.4v1.9\n\t\tc0,0.6-0.1,1-0.2,1.4s-0.3,0.7-0.6,0.9S85.2,14.1,84.7,14.1z M84.7,13.4c0.3,0,0.5-0.1,0.7-0.2c0.1-0.2,0.2-0.4,0.3-0.7\n\t\tc0-0.3,0-0.6,0-1v-2c0-0.4,0-0.7,0-1c0-0.3-0.1-0.5-0.3-0.7c-0.1-0.2-0.4-0.2-0.7-0.2c-0.3,0-0.5,0.1-0.7,0.2\n\t\tc-0.1,0.2-0.2,0.4-0.3,0.7c0,0.3-0.1,0.6-0.1,1v2c0,0.4,0,0.7,0.1,1c0,0.3,0.1,0.5,0.3,0.7C84.2,13.4,84.4,13.4,84.7,13.4z"], ["d", "M88.2,14V7.7h-0.9V7.1h0.9V6.3c0-0.3,0-0.6,0.1-0.9c0.1-0.3,0.2-0.5,0.4-0.6c0.2-0.2,0.5-0.2,0.8-0.2\n\t\tc0.1,0,0.2,0,0.4,0c0.1,0,0.2,0,0.3,0.1v0.6c-0.1,0-0.2,0-0.2,0c-0.1,0-0.2,0-0.2,0c-0.3,0-0.4,0.1-0.5,0.2s-0.1,0.4-0.1,0.8v0.8\n\t\th1.1v0.6h-1.1V14H88.2z"], ["d", "M92.7,14.1c-0.3,0-0.6-0.1-0.8-0.2s-0.3-0.3-0.4-0.5c-0.1-0.2-0.1-0.5-0.1-0.8V7.6h-0.9V7.1h0.9V4.9h0.9v2.1\n\t\th1.2v0.6h-1.2v4.8c0,0.3,0,0.6,0.1,0.7c0.1,0.1,0.2,0.2,0.5,0.2c0.1,0,0.2,0,0.2,0s0.2,0,0.3,0V14c-0.1,0-0.2,0-0.4,0.1\n\t\tC92.9,14.1,92.8,14.1,92.7,14.1z"]], template: function BarcodeScannerComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnamespaceSVG"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "svg", 1);
@@ -348,8 +347,39 @@ BarcodeScannerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵ
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](7, "div", 7);
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](8, "div", 8);
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](9, "div", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](10, "Powered by Dynamsoft");
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](9, "select", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](10, "select", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](11, "button", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnamespaceSVG"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](12, "svg", 12);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](13, "path", 13);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnamespaceHTML"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](14, "div", 14);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnamespaceSVG"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](15, "svg", 15);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](16, "g");
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](17, "path", 16);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](18, "path", 17);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](19, "path", 18);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](20, "path", 19);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](21, "path", 20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](22, "path", 21);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](23, "path", 22);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](24, "path", 23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](25, "path", 24);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](26, "path", 25);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](27, "path", 26);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](28, "path", 27);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](29, "path", 28);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](30, "path", 29);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](31, "path", 30);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](32, "path", 31);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](33, "path", 32);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](34, "path", 33);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
     } }, styles: [".component-barcode-scanner[_ngcontent-%COMP%]{width:100%;height:100%;background:#fff;position:relative;resize:both;}\r\n.dbrScanner-bg-loading[_ngcontent-%COMP%]{animation:1s linear infinite dbrScanner-rotate;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;}\r\n.dbrScanner-bg-camera[_ngcontent-%COMP%]{width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;}\r\n.dbrScanner-video[_ngcontent-%COMP%]{width:100%;height:100%;position:absolute;left:0;top:0;}\r\n.dbrScanner-cvs-drawarea[_ngcontent-%COMP%]{width:100%;height:100%;position:absolute;left:0;top:0;}\r\n.dbrScanner-cvs-scanarea[_ngcontent-%COMP%]{width:100%;height:100%;position:absolute;left:0;top:0;}\r\n.dbrScanner-scanlight[_ngcontent-%COMP%]{width:100%;height:3%;position:absolute;animation:3s infinite dbrScanner-scanlight;border-radius:50%;box-shadow:0px 0px 2vw 1px #00e5ff;background:#fff;}\r\n.dbrScanner-sel-camera[_ngcontent-%COMP%]{margin:0 auto;position:absolute;left:0;top:0;}\r\n.dbrScanner-sel-resolution[_ngcontent-%COMP%]{position:absolute;left:0;top:20px;}\r\n@keyframes dbrScanner-rotate{from{transform:rotate(0turn);}to{transform:rotate(1turn);}}\r\n@keyframes dbrScanner-scanlight{from{top:0;}to{top:97%;}}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJhcmNvZGUtc2Nhbm5lci5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDJCQUEyQixVQUFVLENBQUMsV0FBVyxDQUFDLGVBQWUsQ0FBQyxpQkFBaUIsQ0FBQyxXQUFXLENBQUM7QUFDaEcsdUJBQXVCLDhDQUE4QyxDQUFDLFNBQVMsQ0FBQyxVQUFVLENBQUMsaUJBQWlCLENBQUMsV0FBVyxDQUFDLE1BQU0sQ0FBQyxLQUFLLENBQUMsT0FBTyxDQUFDLFFBQVEsQ0FBQyxTQUFTLENBQUM7QUFDakssc0JBQXNCLFNBQVMsQ0FBQyxVQUFVLENBQUMsaUJBQWlCLENBQUMsV0FBVyxDQUFDLE1BQU0sQ0FBQyxLQUFLLENBQUMsT0FBTyxDQUFDLFFBQVEsQ0FBQyxTQUFTLENBQUM7QUFDakgsa0JBQWtCLFVBQVUsQ0FBQyxXQUFXLENBQUMsaUJBQWlCLENBQUMsTUFBTSxDQUFDLEtBQUssQ0FBQztBQUN4RSx5QkFBeUIsVUFBVSxDQUFDLFdBQVcsQ0FBQyxpQkFBaUIsQ0FBQyxNQUFNLENBQUMsS0FBSyxDQUFDO0FBQy9FLHlCQUF5QixVQUFVLENBQUMsV0FBVyxDQUFDLGlCQUFpQixDQUFDLE1BQU0sQ0FBQyxLQUFLLENBQUM7QUFDL0Usc0JBQXNCLFVBQVUsQ0FBQyxTQUFTLENBQUMsaUJBQWlCLENBQUMsMENBQTBDLENBQUMsaUJBQWlCLENBQUMsa0NBQWtDLENBQUMsZUFBZSxDQUFDO0FBQzdLLHVCQUF1QixhQUFhLENBQUMsaUJBQWlCLENBQUMsTUFBTSxDQUFDLEtBQUssQ0FBQztBQUNwRSwyQkFBMkIsaUJBQWlCLENBQUMsTUFBTSxDQUFDLFFBQVEsQ0FBQztBQUM3RCw2QkFBNkIsS0FBSyx1QkFBdUIsQ0FBQyxDQUFDLEdBQUcsdUJBQXVCLENBQUMsQ0FBQztBQUN2RixnQ0FBZ0MsS0FBSyxLQUFLLENBQUMsQ0FBQyxHQUFHLE9BQU8sQ0FBQyxDQUFDIiwiZmlsZSI6ImJhcmNvZGUtc2Nhbm5lci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNvbXBvbmVudC1iYXJjb2RlLXNjYW5uZXJ7d2lkdGg6MTAwJTtoZWlnaHQ6MTAwJTtiYWNrZ3JvdW5kOiNmZmY7cG9zaXRpb246cmVsYXRpdmU7cmVzaXplOmJvdGg7fVxyXG4uZGJyU2Nhbm5lci1iZy1sb2FkaW5ne2FuaW1hdGlvbjoxcyBsaW5lYXIgaW5maW5pdGUgZGJyU2Nhbm5lci1yb3RhdGU7d2lkdGg6NDAlO2hlaWdodDo0MCU7cG9zaXRpb246YWJzb2x1dGU7bWFyZ2luOmF1dG87bGVmdDowO3RvcDowO3JpZ2h0OjA7Ym90dG9tOjA7ZmlsbDojYWFhO31cclxuLmRiclNjYW5uZXItYmctY2FtZXJhe3dpZHRoOjQwJTtoZWlnaHQ6NDAlO3Bvc2l0aW9uOmFic29sdXRlO21hcmdpbjphdXRvO2xlZnQ6MDt0b3A6MDtyaWdodDowO2JvdHRvbTowO2ZpbGw6I2FhYTt9XHJcbi5kYnJTY2FubmVyLXZpZGVve3dpZHRoOjEwMCU7aGVpZ2h0OjEwMCU7cG9zaXRpb246YWJzb2x1dGU7bGVmdDowO3RvcDowO31cclxuLmRiclNjYW5uZXItY3ZzLWRyYXdhcmVhe3dpZHRoOjEwMCU7aGVpZ2h0OjEwMCU7cG9zaXRpb246YWJzb2x1dGU7bGVmdDowO3RvcDowO31cclxuLmRiclNjYW5uZXItY3ZzLXNjYW5hcmVhe3dpZHRoOjEwMCU7aGVpZ2h0OjEwMCU7cG9zaXRpb246YWJzb2x1dGU7bGVmdDowO3RvcDowO31cclxuLmRiclNjYW5uZXItc2NhbmxpZ2h0e3dpZHRoOjEwMCU7aGVpZ2h0OjMlO3Bvc2l0aW9uOmFic29sdXRlO2FuaW1hdGlvbjozcyBpbmZpbml0ZSBkYnJTY2FubmVyLXNjYW5saWdodDtib3JkZXItcmFkaXVzOjUwJTtib3gtc2hhZG93OjBweCAwcHggMnZ3IDFweCAjMDBlNWZmO2JhY2tncm91bmQ6I2ZmZjt9XHJcbi5kYnJTY2FubmVyLXNlbC1jYW1lcmF7bWFyZ2luOjAgYXV0bztwb3NpdGlvbjphYnNvbHV0ZTtsZWZ0OjA7dG9wOjA7fVxyXG4uZGJyU2Nhbm5lci1zZWwtcmVzb2x1dGlvbntwb3NpdGlvbjphYnNvbHV0ZTtsZWZ0OjA7dG9wOjIwcHg7fVxyXG5Aa2V5ZnJhbWVzIGRiclNjYW5uZXItcm90YXRle2Zyb217dHJhbnNmb3JtOnJvdGF0ZSgwdHVybik7fXRve3RyYW5zZm9ybTpyb3RhdGUoMXR1cm4pO319XHJcbkBrZXlmcmFtZXMgZGJyU2Nhbm5lci1zY2FubGlnaHR7ZnJvbXt0b3A6MDt9dG97dG9wOjk3JTt9fVxyXG4iXX0= */"] });
