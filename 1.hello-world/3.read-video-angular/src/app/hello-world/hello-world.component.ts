@@ -11,7 +11,6 @@ export class HelloWorldComponent implements OnInit {
   bShowScanner = false;
   resultValue = "";
   libLoaded = false;
-  constructor() { }
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   ngAfterViewChecked() {
     this.scrollToBottom();
@@ -24,7 +23,6 @@ export class HelloWorldComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     //Load the library on page load to speed things up.
     try {
-      //DBR.BarcodeReader._bUseFullFeature = true;
       await DBR.BarcodeScanner.loadWasm();
       this.libLoaded = true;
       this.showScanner();
@@ -46,7 +44,7 @@ export class HelloWorldComponent implements OnInit {
         this.resultItems.push({ type: message.format + ": ", text: message.text });
         break;
       case "error":
-        this.resultValue = "Error Occurred! Check the error message in 'All results'!";
+        this.resultValue = message.msg;
         this.resultItems.push({ type: "Error: ", text: message.msg });
         break;
       default: break;

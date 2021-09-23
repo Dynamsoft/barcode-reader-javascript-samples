@@ -62,10 +62,6 @@
                 <label for="deepAnalysis"> Deep Analysis (32)</label> <br>
                 <input type="checkbox" id="sharpening" name="debMode" value="DM_SHARPENING">
                 <label for="sharpening"> Sharpening (64)</label> <br>
-                <input type="checkbox" id="basedOnLocBin" name="debMode" value="DM_BASED_ON_LOC_BIN">
-                <label for="sharpening"> Based on the binary image from the localization process (128)</label> <br>
-                <input type="checkbox" id="sharpeningSmoothing" name="debMode" value="DM_SHARPENING_SMOOTHING">
-                <label for="sharpening"> Sharpening And Smoothing (256)</label> <br>
                 <input type="checkbox" id="skipDeblur" name="debMode" value="DM_SKIP">
                 <label for="skipDeblur"> Skip (0)</label> <br>
             </form>
@@ -186,12 +182,6 @@
                                     break;
                                 case "DM_SHARPENING":
                                     settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_SHARPENING;
-                                    break;
-                                case "DM_BASED_ON_LOC_BIN":
-                                    settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_BASED_ON_LOC_BIN;
-                                    break;
-                                case "DM_SHARPENING_SMOOTHING":
-                                    settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_SHARPENING_SMOOTHING;
                                     break;
                                 case "DM_SKIP":
                                     settings.deblurModes[deblurModeCount] = Dynamsoft.DBR.EnumDeblurMode.DM_SKIP;

@@ -74,11 +74,11 @@
                     for (let result of _results) {
                         let newElements = [];
                         document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
-                        newElements.push(createAnSpan(result.barcodeFormatString + ": "));
-                        newElements.push(createAnSpan(result.barcodeText, "resultText"));
+                        newElements.push(createASpan(result.barcodeFormatString + ": "));
+                        newElements.push(createASpan(result.barcodeText, "resultText"));
                         newElements.push(document.createElement('br'));
                         if (result.barcodeText.indexOf("Attention(exceptionCode") != -1) {
-                            newElements.push(createAnSpan(" Error: " + result.exception.message));
+                            newElements.push(createASpan(" Error: " + result.exception.message));
                             newElements.push(document.createElement('br'));
                         }
                         for (let span of newElements) {
@@ -95,7 +95,7 @@
                 throw ex;
             }
         }
-        function createAnSpan(txt, className) {
+        function createASpan(txt, className) {
             let newSPAN = document.createElement("span");
             newSPAN.textContent = txt;
             if (className)

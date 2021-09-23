@@ -49,7 +49,7 @@ class HelloWorld extends React.Component {
                 break;
             case "error":
                 this.setState(prevState => {
-                    prevState.resultValue = "Error Occurred! Check the error message in 'All results'!";
+                    prevState.resultValue = message.msg;
                     prevState.resultItems = prevState.resultItems.concat([{ type: "Error: ", text: message.msg }]);
                     return prevState;
                 });

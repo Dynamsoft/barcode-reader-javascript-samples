@@ -13,13 +13,14 @@ export class BarcodeScannerComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      let scanner = await (this.pScanner = this.pScanner || DBR.BarcodeScanner.createInstance());
+      this.pScanner = this.pScanner || DBR.BarcodeScanner.createInstance();
+      let scanner = await this.pScanner;
 
       if (this.bDestroyed) {
         scanner.destroy();
         return;
       }
-      scanner.setUIElement(this.elementRef.nativeElement);
+      this.elementRef.nativeElement.appendChild(scanner.getUIElement());
       scanner.onFrameRead = results => {
         for (let result of results) {
           this.appendMessage.emit({ format: result.barcodeFormatString, text: result.barcodeText, type: "result" });
