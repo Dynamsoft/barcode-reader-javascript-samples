@@ -19,7 +19,7 @@ import DBR from "dynamsoft-javascript-barcode";
 
 /** LICENSE ALERT - THE END */
 
-DBR.BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.6.1/dist/";
+DBR.BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.6.3/dist/";
 
 // DBR.BarcodeReader._bUseFullFeature = true; // Control of loading min wasm or full wasm.
 
