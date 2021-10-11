@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\GitHub\2.dbr\dbr-browser-samples\1.hello-world\3.read-video-angular\src\polyfills.ts */"hN/g");
+module.exports = __webpack_require__(/*! D:\Downloads\dbr-browser-samples\1.hello-world\3.read-video-angular\src\polyfills.ts */"hN/g");
 
 
 /***/ }),
