@@ -4159,7 +4159,7 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dynamsoft-javascript-barcode@8.6.1:
+dynamsoft-javascript-barcode@8.8.0:
   version "8.6.1"
   resolved "https://registry.yarnpkg.com/dynamsoft-javascript-barcode/-/dynamsoft-javascript-barcode-8.6.1.tgz#5aaed858c778525392bdaa3b06c234d2541d4cf7"
   integrity sha512-u6/vchGd9mMbRvOTrck3zDkEi5U6zBp14tvpt0XMHwmygUQHrxFIzM0wY1LZ9VrikLIrLmXb7tLecivdtt7fEQ==
