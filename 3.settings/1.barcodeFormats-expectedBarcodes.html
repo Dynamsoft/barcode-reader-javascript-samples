@@ -4,40 +4,38 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="description" content="Read barcodes from camera with Dynamsoft Barcode Reader and update simple runtime settings.">
+    <meta name="keywords" content="read barcode from camera, formats and count">
     <title>Dynamsoft Barcode Reader Sample - Using Runtime Settings</title>
     <!--
       This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
       library offline. Please see the guide on how to host the library: 
       https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.6.3/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.0/dist/dbr.js"></script>
     <link rel="stylesheet" href="settings-css.css">
-    <link rel="stylesheet" href="../balloon.min.css"> <!-- Used for tooltip styling -->
+    <link rel="stylesheet" href="../balloon.min.css">
+    <!-- Used for tooltip styling -->
 </head>
 
 <body>
-    <h2>Formats and Count Per Frame</h2>
+    <h1>Set Formats and Count</h1>
     <button id='openSimpleSettingsMenu'>Open Runtime Settings Menu</button>
 
-    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
-        placeholder="The Last Read Barcode">
+    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
     <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen-->
     <div id="div-video-container">
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
         <video class="dbrScanner-video" playsinline="true"></video>
-        <canvas class="dbrScanner-cvs-drawarea"
-            style="width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; object-fit: contain;"
-            width="1280" height="720"></canvas>
+        <canvas class="dbrScanner-cvs-drawarea" style="width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; object-fit: contain;" width="1280" height="720"></canvas>
     </div>
 
     <!-- Settings Menu displayed in a modal -->
     <div id="settingsModal" class="modal">
         <div id="settingsContent" class="modal-content">
             <span id="closeModalBtn" class="closeModal">&times;</span>
-            <div class="tooltip"
-                aria-label="If you know that your application will only be dealing with a certain type of
-            barcode format, you can save processing time by specifying which barcode formats the SDK should be looking for."
-                data-balloon-pos="down" data-balloon-length="fit">1. Choose the Formats to Detect
+            <div class="tooltip" aria-label="If you know that your application will only be dealing with a certain type of
+            barcode format, you can save processing time by specifying which barcode formats the SDK should be looking for." data-balloon-pos="down" data-balloon-length="fit">1. Choose the Formats to Detect
             </div>
             <form id="chooseBarcodeFormats">
                 <input type="checkbox" id="OneD" name="barcodeFormat" value="BF_ONED">
@@ -49,8 +47,7 @@
                 <input type="checkbox" id="Datamatrix" name="barcodeFormat" value="BF_DATAMATRIX">
                 <label for="Datamatrix"> DataMatrix </label> <br />
             </form>
-            <div class="tooltip"
-                aria-label="This parameter helps save time and resources when the expected number of barcodes per scan is less than the actual number of barcodes. Should the number of found results be less than this value, the SDK will exhaust more resources and try more algorithms to reach the expected number."
+            <div class="tooltip" aria-label="This parameter helps save time and resources when the expected number of barcodes per scan is less than the actual number of barcodes. Should the number of found results be less than this value, the SDK will exhaust more resources and try more algorithms to reach the expected number."
                 data-balloon-pos="down" data-balloon-length="fit">2. Expected barcode count per frame
             </div><br />
             <input type="range" min="1" max="20" step="1" id="expectedNumberBarcodes" value="1">
@@ -59,17 +56,18 @@
     </div>
 
     <!-- JS Code -->
-    <script src="initScanner.js"></script> <!-- To initialize the barcode scanner -->
+    <script src="initScanner.js"></script>
+    <!-- To initialize the barcode scanner -->
 
     <script>
         /** Beginning of barcode formats assignment
          *  Should the user select one of the barcode format options, 
          *  update the runtime settings accordingly and in the correct selection order
          */
-        chooseBarcodeFormats.onchange = async function () {
+        chooseBarcodeFormats.onchange = async function() {
             try {
                 let scanner = await pScanner;
-				const checkboxes = document.querySelectorAll('input[name="barcodeFormat"]:checked');
+                const checkboxes = document.querySelectorAll('input[name="barcodeFormat"]:checked');
                 let settings = await scanner.getRuntimeSettings();
                 settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_NULL; // Set it to NULL first since the default is BF_ALL
                 checkboxes.forEach((checkbox) => {
@@ -91,8 +89,7 @@
                     }
                 });
                 await scanner.updateRuntimeSettings(settings);
-            }
-            catch (ex) {
+            } catch (ex) {
                 alert(ex.message);
             }
         }
@@ -102,17 +99,16 @@
         /* Now for the expected barcodes */
         // Should the user enter the expected number of barcodes to be found per scan, 
         // the runtime settings are updated as follows
-        expectedNumberBarcodes.onchange = async function () {
+        expectedNumberBarcodes.onchange = async function() {
             try {
-				let scanner = await pScanner;
+                let scanner = await pScanner;
                 let expectedVal = document.getElementById('expectedNumberBarcodes').value;
                 document.getElementById('expectedNumberBarcodesLable').innerText = expectedVal;
                 let settings = await scanner.getRuntimeSettings();
                 settings.expectedBarcodesCount = expectedVal;
                 settings.expectedBarcodesCount = parseInt(expectedVal);
                 await scanner.updateRuntimeSettings(settings);
-            }
-            catch (ex) {
+            } catch (ex) {
                 alert(ex.message);
             }
         }

@@ -4,17 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="description" content="Read barcodes from camera and with rich UI control. You can change settings such as Toggle Search Area, Laser, and Sound.">
+    <meta name="keywords" content="read barcodes from camera, customzied ui">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - External Control</title>
     <!--
       This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
       library offline. Please see the guide on how to host the library: 
       https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.6.3/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.0/dist/dbr.js"></script>
 </head>
 
 <body>
-    <h2>Use External Controllers</h2>
+    <h1>Customized UI</h1>
     <button id="btn-show-scanner">Start Barcode
         Scanner</button>
     <button id="btn-hide-scanner" hidden>Hide Barcode
@@ -63,41 +65,42 @@
          */
 
         /* When using your own license, uncomment the following line and specify your Organization ID. */
-        
-        // Dynamsoft.DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
-        
-        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
-        /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
-        
+
+        // Dynamsoft.DBR.organizationID = "YOUR-ORGANIZATION-ID";
+
+        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=samples */
+        /* For more information, please refer to https://www.dynamsoft.com/license-server/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
+
         /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
-        
-        // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
-        
+
+        // Dynamsoft.DBR.productKeys = "YOUR-PRODUCT-KEY";
+
         /** LICENSE ALERT - THE END */
 
         // scanner for decoding video
         let pScanner = null;
         let scanRegions = [
-            [5, 5, 95, 95],
-            [25, 25, 75, 75],
-            [10, 33, 90, 66],
-            [33, 10, 66, 90],
-            [0, 0, 100, 100]
-        ], regionIndex = 0;
-        window.onload = async function () {
-            document.getElementById('toggleSound').onclick = async function () {
-                if(pScanner){
+                [5, 5, 95, 95],
+                [25, 25, 75, 75],
+                [10, 33, 90, 66],
+                [33, 10, 66, 90],
+                [0, 0, 100, 100]
+            ],
+            regionIndex = 0;
+        window.onload = async function() {
+            document.getElementById('toggleSound').onclick = async function() {
+                if (pScanner) {
                     (await pScanner).bPlaySoundOnSuccessfulRead = this.checked;
                 }
             };
-            document.getElementById('toggleScanLight').onclick = function () {
+            document.getElementById('toggleScanLight').onclick = function() {
                 let scanlight = document.getElementsByClassName('dbrScanner-scanlight');
-                if(scanlight.length){
+                if (scanlight.length) {
                     scanlight[0].hidden = !this.checked;
                 }
             };
-            document.getElementById('toggleScanRect').onclick = async function () {
-                if(pScanner){
+            document.getElementById('toggleScanRect').onclick = async function() {
+                if (pScanner) {
                     let scanner = await pScanner;
 
                     let region = scanRegions[regionIndex];
@@ -115,19 +118,19 @@
                     await scanner.updateRuntimeSettings(settings);
                 }
             };
-            document.getElementById('cameraList').onchange = async function () {
-                if(pScanner){
+            document.getElementById('cameraList').onchange = async function() {
+                if (pScanner) {
                     let scanner = await pScanner;
                     let currentRes;
-                    try{
+                    try {
                         currentRes = await scanner.setCurrentCamera(document.getElementById('cameraList').value);
-                    }catch(ex){
+                    } catch (ex) {
                         alert('Play video failed: ' + (ex.message || ex));
                     }
                     updateCurrentResolution(currentRes);
                 }
             };
-            document.getElementById('resolutionList').onchange = async function () {
+            document.getElementById('resolutionList').onchange = async function() {
                 let selectedRes = this.value.split(" x ");
                 let currentRes = await scanner.setResolution(selectedRes[0], selectedRes[1])
                 updateCurrentResolution(currentRes);
@@ -141,7 +144,7 @@
             }
         };
         // decode video from camera
-        document.getElementById('btn-show-scanner').addEventListener('click', async () => {
+        document.getElementById('btn-show-scanner').addEventListener('click', async() => {
             try {
                 document.getElementById('lib-load').hidden = false;
                 scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
@@ -165,7 +168,7 @@
                 throw ex;
             }
         });
-        document.getElementById('btn-hide-scanner').addEventListener('click', async () => {
+        document.getElementById('btn-hide-scanner').addEventListener('click', async() => {
             document.getElementById('btn-hide-scanner').hidden = true;
             document.getElementById('btn-show-scanner').hidden = false;
             scanner.hide();
@@ -179,7 +182,7 @@
                 cameraList.options.add(opt);
             }
             let camera = await scanner.getCurrentCamera();
-            if(camera){
+            if (camera) {
                 cameraList.value = camera.deviceId;
                 currentRes = scanner.getResolution();
                 updateCurrentResolution({
@@ -188,6 +191,7 @@
                 });
             }
         }
+
         function updateCurrentResolution(res) {
             let w = res.width;
             let h = res.height;
@@ -208,16 +212,16 @@
         height: 90vh;
         color: #455A64;
     }
-
+    
     button {
         font-size: 0.8rem;
         margin-bottom: 2vh;
     }
-
+    
     span {
         font-size: 0.8rem;
     }
-
+    
     .latest-result {
         display: block;
         margin: 0;
@@ -229,16 +233,16 @@
         border-radius: 0.2rem;
         text-align: center;
     }
-
+    
     .latest-result::placeholder {
         color: #B0BEC5;
     }
-
+    
     .latest-result:focus {
         outline: none;
         box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
     }
-
+    
     #results {
         border: 1px dashed grey;
         overflow: auto;
@@ -247,16 +251,16 @@
         margin-bottom: 3vh;
         height: 15vh;
     }
-
+    
     .resultText {
         color: #cE5E04
     }
-
+    
     .bigger {
         font-size: large;
         margin-bottom: 2%;
     }
-
+    
     #UIElement {
         margin: 2vmin auto;
         text-align: center;
@@ -264,14 +268,14 @@
         height: 40vh;
         width: 80vw;
     }
-
+    
     #UIElement img {
         max-width: 100%;
         max-height: 90%;
         border: solid 1px gray;
     }
-
     /* The switch - the box around the slider */
+    
     .switch {
         position: relative;
         display: inline-block;
@@ -279,15 +283,15 @@
         height: 17px;
         margin: 10px;
     }
-
     /* Hide default HTML checkbox */
+    
     .switch input {
         opacity: 0;
         width: 0;
         height: 0;
     }
-
     /* The slider */
+    
     .slider {
         position: absolute;
         cursor: pointer;
@@ -299,7 +303,7 @@
         -webkit-transition: .4s;
         transition: .4s;
     }
-
+    
     .slider:before {
         position: absolute;
         content: "";
@@ -311,26 +315,26 @@
         -webkit-transition: .4s;
         transition: .4s;
     }
-
+    
     input:checked+.slider {
         background-color: #2196F3;
     }
-
+    
     input:focus+.slider {
         box-shadow: 0 0 1px #2196F3;
     }
-
+    
     input:checked+.slider:before {
         -webkit-transform: translateX(13px);
         -ms-transform: translateX(13px);
         transform: translateX(13px);
     }
-
     /* Rounded sliders */
+    
     .slider.round {
         border-radius: 17px;
     }
-
+    
     .slider.round:before {
         border-radius: 50%;
     }

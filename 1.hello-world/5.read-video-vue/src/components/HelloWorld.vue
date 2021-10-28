@@ -1,6 +1,6 @@
 <template>
   <div class="helloWorld">
-    <h2>{{ msg }} <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h2>
+    <h1>{{ msg }} <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h1>
     <input
       type="text"
       v-model="resultValue"
@@ -49,7 +49,6 @@ export default {
   async mounted() {
     //Load the library on page load to speed things up.
     try {
-      //DBR.BarcodeReader._bUseFullFeature = true;
       await DBR.BarcodeScanner.loadWasm();
       this.libLoaded = true;
       this.showScanner();
@@ -73,7 +72,7 @@ export default {
           this.resultItems.push({ type: message.format + ": ", text: message.text });
           break;
         case "error":
-          this.resultValue = "Error Occurred! Check the error message in 'All results'!";
+          this.resultValue = message.msg;
           this.resultItems.push({ type: "Error: ", text: message.msg });
           break;
         default:
