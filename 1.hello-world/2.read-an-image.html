@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="description" content="Read barcodes from images in no time with Dynamsoft Barcode Reader. With this online demo, you can choose a file to scan the barcodes on them.">
+    <meta name="keywords" content="read barcode from still images">
     <title>Dynamsoft Barcode Reader Sample - Read an Image</title>
     <!--
       This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
@@ -14,10 +16,9 @@
 </head>
 
 <body>
-    <h2>Read An Existing Image</h2>
+    <h1>Read Barcode from Images</h1>
     <input id="ipt-file" type="file" style="margin-bottom: 2vh;" accept="image/png,image/jpeg,image/bmp,image/gif">
-    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
-        placeholder="The Last Read Barcode">
+    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
     <div id="UIElement">
         <img id="imgToRead" alt="Image to read" hidden /><br />
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
@@ -49,7 +50,7 @@
 
         // reader for decoding pictures
         let pReader = null;
-        window.onload = async function () {
+        window.onload = async function() {
             // Load the library on page load to speed things up.
             try {
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
@@ -58,7 +59,7 @@
                 throw ex;
             }
         };
-        document.getElementById('ipt-file').addEventListener('change', async function () {
+        document.getElementById('ipt-file').addEventListener('change', async function() {
             try {
                 document.getElementById("imgToRead").hidden = true;
                 document.getElementById('lib-load').hidden = false;
@@ -72,7 +73,7 @@
                     let time = ((new Date()).getTime()).toString();
                     if (FileReader) {
                         var fr = new FileReader();
-                        fr.onload = function () {
+                        fr.onload = function() {
                             document.getElementById("imgToRead").src = fr.result;
                             document.getElementById("imgToRead").hidden = false;
                         }
@@ -111,9 +112,10 @@
             }
             this.value = '';
         });
-        document.getElementById('result').addEventListener('dblclick', async () => {
+        document.getElementById('result').addEventListener('dblclick', async() => {
             document.getElementById('result').value = "";
         });
+
         function createASpan(txt, className) {
             let newSPAN = document.createElement("span");
             newSPAN.textContent = txt;
@@ -135,16 +137,16 @@
         color: #455A64;
         margin: 0;
     }
-
+    
     button {
         font-size: 1.5rem;
         margin-bottom: 2vh;
     }
-
+    
     span {
         font-size: 0.8rem;
     }
-
+    
     .latest-result {
         display: block;
         margin: 0;
@@ -156,16 +158,16 @@
         border-radius: 0.2rem;
         text-align: center;
     }
-
+    
     .latest-result::placeholder {
         color: #B0BEC5;
     }
-
+    
     .latest-result:focus {
         outline: none;
         box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
     }
-
+    
     #results {
         border: 1px dashed grey;
         overflow: auto;
@@ -174,16 +176,16 @@
         margin-bottom: 3vh;
         height: 15vh;
     }
-
+    
     .resultText {
         color: #cE5E04
     }
-
+    
     .bigger {
         font-size: large;
         margin-bottom: 2%;
     }
-
+    
     #UIElement {
         margin: 2vmin auto;
         text-align: center;
@@ -191,7 +193,7 @@
         height: 40vh;
         width: 80vw;
     }
-
+    
     #UIElement img {
         max-width: 100%;
         max-height: 90%;

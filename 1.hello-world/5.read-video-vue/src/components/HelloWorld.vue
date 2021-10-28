@@ -1,6 +1,6 @@
 <template>
   <div class="helloWorld">
-    <h2>{{ msg }} <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h2>
+    <h1>{{ msg }} <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h1>
     <input
       type="text"
       v-model="resultValue"

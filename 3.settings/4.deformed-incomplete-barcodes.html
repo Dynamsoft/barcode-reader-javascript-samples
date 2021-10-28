@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="description" content="Read barcodes from camera with Dynamsoft Barcode Reader and update settings for deformed or incomplete codes.">
+    <meta name="keywords" content="read barcode from camera, deformed, incomplete">
     <title>Dynamsoft Barcode Reader Sample - Using Runtime Settings</title>
     <!--
       This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
@@ -12,21 +14,19 @@
     -->
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.0/dist/dbr.js"></script>
     <link rel="stylesheet" href="settings-css.css">
-    <link rel="stylesheet" href="../balloon.min.css"> <!-- Used for tooltip styling -->
+    <link rel="stylesheet" href="../balloon.min.css">
+    <!-- Used for tooltip styling -->
 </head>
 
 <body>
-    <h2>Deformed or Incomplete codes</h2>
+    <h1>Settings for Deformed or Incomplete codes</h1>
     <button id='openSimpleSettingsMenu'>Open Runtime Settings Menu</button>
-    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
-        placeholder="The Last Read Barcode">
+    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
     <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen-->
     <div id="div-video-container">
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
         <video class="dbrScanner-video" playsinline="true"></video>
-        <canvas class="dbrScanner-cvs-drawarea"
-            style="width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; object-fit: contain;"
-            width="1280" height="720"></canvas>
+        <canvas class="dbrScanner-cvs-drawarea" style="width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; object-fit: contain;" width="1280" height="720"></canvas>
     </div>
 
     <!-- Settings Menu displayed in a modal -->
@@ -35,16 +35,13 @@
             <span id="closeModalBtn" class="closeModal">&times;</span>
 
             <!-- Dealing with blurry barcodes through Deblur Modes -->
-            <div class="tooltip"
-                aria-label="Barcodes can sometimes be printed on an irregular surface, such as cylindrical object, causing these barcodes to be distorted or deformed. To better handle those scenarios, it is recommended to prioritize the General mode of DeformationResistingModes. Note that this only works for QR and DataMatrix codes."
-                data-balloon-pos="down" data-balloon-length="large">1. Deformation Resisting Modes in Decreasing
-                Priority<br /><br />Read more on
-                <a target="_blank"
-                    href="https://www.dynamsoft.com/barcode-reader/parameters/scenario-settings/resist-deformation.html?ver=latest">How
+            <div class="tooltip" aria-label="Barcodes can sometimes be printed on an irregular surface, such as cylindrical object, causing these barcodes to be distorted or deformed. To better handle those scenarios, it is recommended to prioritize the General mode of DeformationResistingModes. Note that this only works for QR and DataMatrix codes."
+                data-balloon-pos="down" data-balloon-length="large">1. Deformation Resisting Modes in Decreasing Priority
+                <br /><br />Read more on
+                <a target="_blank" href="https://www.dynamsoft.com/barcode-reader/parameters/scenario-settings/resist-deformation.html?ver=latest">How
                     to deal with deformed barcodes</a>
             </div><br />
-            <span style="background-color: white;padding: 1vmin;margin-right: 2vmin;"
-                id="deformationResistingModeSPAN"></span>
+            <span style="background-color: white;padding: 1vmin;margin-right: 2vmin;" id="deformationResistingModeSPAN"></span>
             <a href="#" id='resetDRM'>Reset</a><br />
 
             <form id="drModes">
@@ -57,18 +54,14 @@
             </form>
 
             <!-- Dealing with barocdes that are incomplete -->
-            <div class="tooltip"
-                aria-label="There are some cases where the barcode(s) might have incomplete parts due to misprinting or certain environmental conditions. Using this parameter, you can enable DBR's barcode completion logic by prioritizing the General complement mode."
-                data-balloon-pos="down" data-balloon-length="large">2. Barcode Complement Modes in Decreasing
-                Priority
+            <div class="tooltip" aria-label="There are some cases where the barcode(s) might have incomplete parts due to misprinting or certain environmental conditions. Using this parameter, you can enable DBR's barcode completion logic by prioritizing the General complement mode."
+                data-balloon-pos="down" data-balloon-length="large">2. Barcode Complement Modes in Decreasing Priority
                 <br /><br />Read more on
-                <a target="_blank"
-                    href="https://www.dynamsoft.com/barcode-reader/parameters/scenario-settings/how-to-set-barcode-complememt-modes.html?ver=latest">How
+                <a target="_blank" href="https://www.dynamsoft.com/barcode-reader/parameters/scenario-settings/how-to-set-barcode-complememt-modes.html?ver=latest">How
                     to decode incomplete barcodes</a>
             </div><br />
 
-            <span style="background-color: white;padding: 1vmin;margin-right: 2vmin;"
-                id="barcodeComplementModeSPAN"></span>
+            <span style="background-color: white;padding: 1vmin;margin-right: 2vmin;" id="barcodeComplementModeSPAN"></span>
             <a href="#" id='resetBCM'>Reset</a><br />
 
             <form id="bcModes">
@@ -85,7 +78,8 @@
     </div>
 
     <!-- JS Code -->
-    <script src="initScanner.js"></script> <!-- To initialize the barcode scanner -->
+    <script src="initScanner.js"></script>
+    <!-- To initialize the barcode scanner -->
     <script>
         async function initPage() {
             let scanner = await pScanner;
@@ -97,7 +91,7 @@
             let DRMCount = 0; // used to keep track of the current index of deformation resisting modes array
             let settings = null;
             for (var i = 0; i < checkboxesDRM.length; i++) {
-                checkboxesDRM[i].addEventListener('click', async function () {
+                checkboxesDRM[i].addEventListener('click', async function() {
                     try {
                         settings = await scanner.getRuntimeSettings();
                         if (this.checked) {
@@ -121,13 +115,12 @@
                         else
                             DRMCount++;
                         showModes('deformationResistingModeSPAN', settings.furtherModes.deformationResistingModes, DRMCount);
-                    }
-                    catch (ex) {
+                    } catch (ex) {
                         console.log(ex.message);
                     }
                 })
             }
-            resetDRM.addEventListener('click', async function () {
+            resetDRM.addEventListener('click', async function() {
                 settings = settings || await scanner.getRuntimeSettings();
                 showModes('deformationResistingModeSPAN', settings.furtherModes.deformationResistingModes, 0);
                 DRMCount = 0;
@@ -143,7 +136,7 @@
             const checkboxesBC = document.querySelectorAll('input[name="bcMode"]');
             let BCCount = 0; // used to keep track of the current index of barcode complement modes array
             for (var i = 0; i < checkboxesBC.length; i++) {
-                checkboxesBC[i].addEventListener('click', async function () {
+                checkboxesBC[i].addEventListener('click', async function() {
                     try {
                         settings = await scanner.getRuntimeSettings();
                         if (this.checked) {
@@ -167,13 +160,12 @@
                         else
                             BCCount++;
                         showModes('barcodeComplementModeSPAN', settings.furtherModes.barcodeComplementModes, BCCount);
-                    }
-                    catch (ex) {
+                    } catch (ex) {
                         console.log(ex.message);
                     }
                 })
             }
-            resetBCM.addEventListener('click', async function () {
+            resetBCM.addEventListener('click', async function() {
                 settings = settings || await scanner.getRuntimeSettings();
                 showModes('barcodeComplementModeSPAN', settings.furtherModes.barcodeComplementModes, 0);
                 BCCount = 0;

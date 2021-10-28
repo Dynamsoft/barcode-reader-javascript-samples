@@ -65,7 +65,7 @@ class HelloWorld extends React.Component {
     render() {
         return (
             <div className="helloWorld">
-                <h2>Hello World for React<img src={reactLogo} className="App-logo" alt="logo" /></h2>
+                <h1>Hello World for React<img src={reactLogo} className="App-logo" alt="logo" /></h1>
                 <input type="text" value={this.state.resultValue} readOnly={true} className="latest-result" placeholder="The Last Read Barcode" />
                 <div id="UIElement">
                     {!this.state.libLoaded ? (<span style={{ fontSize: "x-large" }}>Loading Library...</span>) : ""}

@@ -3,10 +3,13 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="description" content="Read barcodes from camera with Dynamsoft Barcode Reader. Save the processed frames for debugging.">
+    <meta name="keywords" content="read barcode from camera, debug">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
 
 <body>
+    <h1>Read Barcodes from Camera - Debug</h1>
     <button id="btn-show-scanner">show scanner</button>
     <br>
     <div id="div-video-container" style="width:100%;height:calc(100vh - 100px);"></div>
@@ -33,7 +36,7 @@
 
         let pScanner = null;
         // decode video from camera
-        document.getElementById('btn-show-scanner').addEventListener('click', async () => {
+        document.getElementById('btn-show-scanner').addEventListener('click', async() => {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 scanner.bPlaySoundOnSuccessfulRead = true;
