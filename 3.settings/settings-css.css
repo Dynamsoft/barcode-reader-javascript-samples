@@ -83,7 +83,7 @@ strong {
 
 /* All of the mode arguments of these options stay hidden until the user includes the option in its corresponding array/modes */
 
-.localBlockForm, .thresholdForm, .liForm, .nniForm, .rgbContrastForm, .grayContrastForm, .hsvContrastForm {
+.localBlockForm, .thresholdForm, .liForm, .nniForm, .rgbContrastForm, .grayContrastForm {
     display: none;
     padding-left: 5px;
 }

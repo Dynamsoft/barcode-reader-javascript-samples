@@ -4,17 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="description" content="Enlarge video stream to read barcodes with Dynamsoft Barcode Reader. Scan the barcodes in full screen and exit once done.">
+    <meta name="keywords" content="enlarge video stream to read barcodes">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - No Extra Control</title>
     <!--
       This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
       library offline. Please see the guide on how to host the library: 
       https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.6.3/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.0/dist/dbr.js"></script>
 </head>
 
 <body>
-    <h2>Enlarge the Video Stream</h2>
+    <h1>Enlarge the Video Stream</h1>
     <button id="backToNormal" hidden>Exit Full Screen</button>
     <div id="externalControls" style="text-align: center;">
         <button id="fitPage">Enter Full Screen, Read and Exit</button>
@@ -31,21 +33,21 @@
          */
 
         /* When using your own license, uncomment the following line and specify your Organization ID. */
-        
-        // Dynamsoft.DBR.BarcodeReader.organizationID = "YOUR-ORGANIZATION-ID";
-        
-        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
-        /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
-        
+
+        // Dynamsoft.DBR.organizationID = "YOUR-ORGANIZATION-ID";
+
+        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=samples */
+        /* For more information, please refer to https://www.dynamsoft.com/license-server/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
+
         /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
-        
-        // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
-        
+
+        // Dynamsoft.DBR.productKeys = "YOUR-PRODUCT-KEY";
+
         /** LICENSE ALERT - THE END */
 
         // scanner for decoding video
         let pScanner = null;
-        window.onload = async function () {
+        window.onload = async function() {
             //Load the library on page load to speed things up.
             try {
                 document.getElementById('lib-load').hidden = false;
@@ -67,6 +69,7 @@
             document.getElementById('backToNormal').hidden = false;
             document.getElementById('result').style.display = "none";
         });
+
         function exitFullPage() {
             document.getElementById('UIElement').style.height = '';
             document.getElementById('UIElement').style.width = '';
@@ -104,7 +107,7 @@
         z-index: 10000000;
         top: 5vh;
     }
-
+    
     body {
         display: flex;
         flex-direction: column;
@@ -116,16 +119,16 @@
         color: #455A64;
         margin: 0;
     }
-
+    
     button {
         font-size: 1.5rem;
         margin-bottom: 2vh;
     }
-
+    
     span {
         font-size: 0.8rem;
     }
-
+    
     .latest-result {
         display: block;
         margin: 0;
@@ -137,16 +140,16 @@
         border-radius: 0.2rem;
         text-align: center;
     }
-
+    
     .latest-result::placeholder {
         color: #B0BEC5;
     }
-
+    
     .latest-result:focus {
         outline: none;
         box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
     }
-
+    
     #results {
         border: 1px dashed grey;
         overflow: auto;
@@ -155,16 +158,16 @@
         margin-bottom: 3vh;
         height: 15vh;
     }
-
+    
     .resultText {
         color: #cE5E04
     }
-
+    
     .bigger {
         font-size: large;
         margin-bottom: 2%;
     }
-
+    
     #UIElement {
         margin: 0;
         text-align: center;
@@ -172,7 +175,7 @@
         height: 40vh;
         width: 80vw;
     }
-
+    
     #UIElement img {
         max-width: 100%;
         max-height: 90%;

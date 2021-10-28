@@ -18,11 +18,6 @@
     </div>
     <select class="dbrScanner-sel-camera" style="margin:0 auto;position:absolute;left:0;top:0;"></select>
     <select class="dbrScanner-sel-resolution" style="position:absolute;left:0;top:20px;"></select>
-    <button class="dbrScanner-btn-close" style="position:absolute;right:0;top:0;">
-      <svg width="16" height="16" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
-        <path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z" />
-      </svg>
-    </button>
     <!-- The "Powered by Dynamsoft" logo can be easily removed by eliminating the following line. -->
     <div class="dbrScanner-msg-poweredby" style="position:absolute;left:50%;bottom:10%;transform:translateX(-50%);">
       <svg viewBox="0 0 94 17" style="height:max(3vmin,17px);fill:#FFFFFF;">
@@ -116,7 +111,8 @@ export default {
   },
   async mounted() {
     try {
-      let scanner = await (this.pScanner = this.pScanner || DBR.BarcodeScanner.createInstance());
+      this.pScanner = this.pScanner || DBR.BarcodeScanner.createInstance()
+      let scanner = await this.pScanner;
       if (this.bDestroyed) {
         scanner.destroy();
         return;
@@ -128,10 +124,10 @@ export default {
             format: result.barcodeFormatString,
             text: result.barcodeText,
             type: "result",
-          });
-          if (result.barcodeText.indexOf("Attention(exceptionCode") !== -1) {
-            this.$emit("appendMessage", { msg: result.exception.message, type: "error" });
-          }
+            });
+            if (result.barcodeText.indexOf("Attention(exceptionCode") !== -1) {
+              this.$emit("appendMessage", { msg: result.exception.message, type: "error" });
+            }
         }
       };
       await scanner.open();
@@ -140,7 +136,7 @@ export default {
       console.error(ex);
     }
   },
-  async beforeDestroy() {
+  async beforeUnmount() {
     this.bDestroyed = true;
     if (this.pScanner) {
       (await this.pScanner).destroy();

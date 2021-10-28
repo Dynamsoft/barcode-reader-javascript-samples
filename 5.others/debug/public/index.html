@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Read barcodes from camera with Dynamsoft Barcode Reader. Save the processed frames for debugging.">
+    <meta name="keywords" content="read barcode from camera, debug">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+</head>
+
+<body>
+    <h1>Read Barcodes from Camera - Debug</h1>
+    <button id="btn-show-scanner">show scanner</button>
+    <br>
+    <div id="div-video-container" style="width:100%;height:calc(100vh - 100px);"></div>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.0/dist/dbr.js"></script>
+    <script>
+        /** LICENSE ALERT - README
+         * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
+         * If the Organizaion ID is not specified, a 7-day (public) trial license will be used by default which is the case in this sample.
+         * Note that network connection is required for this license to work.
+         */
+
+        /* When using your own license, uncomment the following line and specify your Organization ID. */
+
+        // Dynamsoft.DBR.organizationID = "YOUR-ORGANIZATION-ID";
+
+        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=samples */
+        /* For more information, please refer to https://www.dynamsoft.com/license-server/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
+
+        /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
+
+        // Dynamsoft.DBR.productKeys = "YOUR-PRODUCT-KEY";
+
+        /** LICENSE ALERT - THE END */
+
+        let pScanner = null;
+        // decode video from camera
+        document.getElementById('btn-show-scanner').addEventListener('click', async() => {
+            try {
+                let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+                scanner.bPlaySoundOnSuccessfulRead = true;
+                let rs = await scanner.getRuntimeSettings();
+                rs.timeout = 100000;
+                await scanner.updateRuntimeSettings(rs);
+                let ss = await scanner.getScanSettings();
+                ss.intervalTime = 100;
+                await scanner.updateScanSettings(ss);
+                scanner.ifSaveOriginalImageInACanvas = true;
+                let processingCount = 0;
+                scanner.onFrameRead = async results => {
+                    /**
+                     * The barcode reading speed is very fast, we must limit 
+                     * the number of uploaded frames (4), so that it is feasible.
+                     */
+                    if (processingCount < 4) {
+                        ++processingCount;
+                        try {
+                            /**
+                             * The original image is the one the reader worked on,
+                             * we can collect it for futher testing and debugging.
+                             */
+                            let cvs = await scanner.getOriginalImageInACanvas();
+                            let fd = new FormData();
+                            if (cvs != null) {
+                                let blob = cvs.convertToBlob ?
+                                    await cvs.convertToBlob() :
+                                    await new Promise(resolve => {
+                                        cvs.toBlob(blob => resolve(blob));
+                                    });
+                                fd.append("img", blob);
+                                await fetch("collect", {
+                                    method: "POST",
+                                    body: fd
+                                });
+                            }
+                        } catch (ex) {
+                            console.error(ex);
+                        }
+                        --processingCount;
+                    }
+                };
+                document.getElementById('div-video-container').appendChild(scanner.getUIElement());
+                await scanner.show();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
+        });
+    </script>
+</body>
+
+</html>
