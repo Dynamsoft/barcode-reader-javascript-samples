@@ -12,6 +12,6 @@
         "webpack-cli": "4.8.0"
     },
     "dependencies": {
-        "dynamsoft-javascript-barcode": "8.8.1"
+        "dynamsoft-javascript-barcode": "8.8.3"
     }
 }
