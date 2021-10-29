@@ -19,11 +19,11 @@ import DBR from "dynamsoft-javascript-barcode";
 
 /** LICENSE ALERT - THE END */
 
-DBR.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.0/dist/";
+DBR.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.1/dist/";
 
 let pScanner = null;
 if (document.getElementById('readBarcode')) {
-    document.getElementById('readBarcode').onclick = async function () {
+    document.getElementById('readBarcode').onclick = async function() {
         try {
             let scanner = await (pScanner = pScanner || DBR.BarcodeScanner.createInstance());
             scanner.onFrameRead = results => {
