@@ -17,11 +17,11 @@ As explained in the user guide, the default UI comes with 3 core components: a v
 
 However, you might encounter a situation where you do not require those extra components and would like to simply display the video viewer, and perhaps automatically close it when a barcode is found.
 
-In this sample, we've chosen to hide the source select dropdown (`dbrScanner-sel-camera`), the resolution select (`dbrScanner-sel-resolution`), and the close button (`dbrScanner-btn-close`). This way, only the video viewer will show up when `scanner.show()` is called.
+In this sample, we've chosen to hide the source select dropdown (`dce-sel-camera`), the resolution select (`dce-sel-resolution`), and the close button (`dce-btn-close`). This way, only the video viewer will show up when `scanner.show()` is called.
 
 ### Set up External Controls
 
-In the last sample, we chose to hide the extra control options that come with the default UI. This time around, we will choose to hide the default control elements that come with the UI (e.g. `dbrScanner-sel-camera`) and set up our own controls instead using simple `select` and `button` elements.
+In the last sample, we chose to hide the extra control options that come with the default UI. This time around, we will choose to hide the default control elements that come with the UI (e.g. `dce-sel-camera`) and set up our own controls instead using simple `select` and `button` elements.
 
 First off, the external elements must be included in the HTML body, whether they are created programatically in JS or declared manually in the HTML code. In our sample, these elements are contained within the parent `div`, `externalControls`. The following external controls are set up:
 - `cameraList`: This `select` element is populated with all the currently connected and available cameras. This is done in the `updateCameras()` function. This function utilizes the `getAllCameras` API method, which retrieves all the camera info once called. Should the user select a different camera (`onchange`), then the scanner will switch to that camera via the `scanner.play()` method.

@@ -1,9 +1,9 @@
 import { Component, OnInit, EventEmitter, Output, ElementRef } from '@angular/core';
-import DBR from 'dynamsoft-javascript-barcode'
+// import DBR from 'dynamsoft-javascript-barcode'
+import DBR from 'keillion-dynamsoft-javascript-barcode'
 @Component({
   selector: 'app-barcode-scanner',
   templateUrl: './barcode-scanner.component.html',
-  styleUrls: ['./barcode-scanner.component.css']
 })
 export class BarcodeScannerComponent implements OnInit {
   bDestroyed = false;
@@ -20,7 +20,7 @@ export class BarcodeScannerComponent implements OnInit {
         scanner.destroy();
         return;
       }
-      this.elementRef.nativeElement.appendChild(scanner.getUIElement());
+       this.elementRef.nativeElement.appendChild(scanner.getUIElement());
       scanner.onFrameRead = results => {
         for (let result of results) {
           this.appendMessage.emit({ format: result.barcodeFormatString, text: result.barcodeText, type: "result" });
