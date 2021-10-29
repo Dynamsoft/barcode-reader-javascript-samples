@@ -21,6 +21,7 @@ export default {
         return;
       }
       this.$el.appendChild(scanner.getUIElement());
+      document.getElementsByClassName("dce-btn-close")[0].style.display = "none";
       scanner.onFrameRead = (results) => {
         for (let result of results) {
           this.$emit("appendMessage", {
