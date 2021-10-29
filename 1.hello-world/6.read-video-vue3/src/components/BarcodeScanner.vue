@@ -20,7 +20,7 @@ export default {
           return;
         }
         root.value.appendChild(scanner.getUIElement());
-        document.getElementsByClassName("dbrScanner-btn-close")[0].hidden = true;
+        document.getElementsByClassName("dce-btn-close")[0].hidden = true;
         scanner.onFrameRead = (results) => {
           for (let result of results) {
             context.emit("appendMessage", {

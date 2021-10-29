@@ -51,7 +51,7 @@ Let's do a quick breakdown of the `barcode-scanner` folder where the barcode sca
 
 - `barcode-scanner.component.ts`: The core file where the scanner is created (via `createInstance`) and assigned a UI element (via `setUIElement`). Afterwards, the `onFrameRead` event action was set, and lastly the scanner is opened via the `open` method.
 
-- `barcode-scanner.component.html/barcode-scanner.component.css`: Define the UI of the scanner object. Many of the elements referenced in these files (e.g. `dbrScanner-video`) are inherited from the default UI elements of the library defined in the engine files.
+- `barcode-scanner.component.html/barcode-scanner.component.css`: Define the UI of the scanner object. Many of the elements referenced in these files (e.g. `dce-video`) are inherited from the default UI elements of the library defined in the engine files.
 
 - `barcode-scanner.component.spec.ts`: Contains the unit tests of the component.
 

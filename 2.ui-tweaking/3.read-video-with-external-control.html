@@ -24,7 +24,7 @@
     <div id="externalControls" style="text-align: center;">
         <select id="cameraList"></select>
         <select id="resolutionList">
-            <option class="dbrScanner-opt-gotResolution">got 1280x720
+            <option class="dce-opt-gotResolution">got 1280x720
             </option>
             <option>1920 x 1080</option>
             <option>1600 x 1200</option>
@@ -156,9 +156,9 @@
                 };
                 document.getElementById('UIElement').appendChild(scanner.getUIElement());
                 document.querySelector('#UIElement div').style.background = '';
-                document.getElementsByClassName('dbrScanner-sel-camera')[0].hidden = true;
-                document.getElementsByClassName('dbrScanner-sel-resolution')[0].hidden = true;
-                document.getElementsByClassName('dbrScanner-btn-close')[0].hidden = true;
+                document.getElementsByClassName('dce-sel-camera')[0].hidden = true;
+                document.getElementsByClassName('dce-sel-resolution')[0].hidden = true;
+                document.getElementsByClassName('dce-btn-close')[0].hidden = true;
                 await scanner.show();
                 document.getElementById('btn-hide-scanner').hidden = false;
                 document.getElementById('btn-show-scanner').hidden = true;
@@ -195,7 +195,7 @@
         function updateCurrentResolution(res) {
             let w = res.width;
             let h = res.height;
-            let gotRes = document.getElementsByClassName('dbrScanner-opt-gotResolution')[0];
+            let gotRes = document.getElementsByClassName('dce-opt-gotResolution')[0];
             gotRes.innerText = "got " + w + " x " + h;
             document.getElementById('resolutionList').selectedIndex = 0;
         }
