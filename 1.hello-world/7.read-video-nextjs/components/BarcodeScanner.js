@@ -16,6 +16,7 @@ class BarcodeScanner extends React.Component {
                 return;
             }
             this.elRef.current.appendChild(scanner.getUIElement());
+            document.getElementsByClassName("dce-btn-close")[0].style.display = "none";
             scanner.onFrameRead = results => {
                 for (let result of results) {
                     this.props.appendMessage({ format: result.barcodeFormatString, text: result.barcodeText, type: "result" });
