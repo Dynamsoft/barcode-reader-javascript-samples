@@ -1,5 +1,4 @@
-// import DBR from "dynamsoft-javascript-barcode";
-import DBR from "keillion-dynamsoft-javascript-barcode";
+import DBR from "dynamsoft-javascript-barcode";
 
 /** LICENSE ALERT - README
  * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
@@ -20,7 +19,6 @@ import DBR from "keillion-dynamsoft-javascript-barcode";
 
 /** LICENSE ALERT - THE END */
 
-// DBR.BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.0/dist/";
-DBR.BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20211029100732.0/dist/";
+DBR.BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.0/dist/";
 
 export default DBR;
