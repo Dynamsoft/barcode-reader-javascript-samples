@@ -4,17 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="description" content="Read Barcodes from camera. Hide built-in controllers for a simplified ui">
+    <meta name="keywords" content="read barcodes from camera, simple ui">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - No Extra Control</title>
     <!--
       This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
       library offline. Please see the guide on how to host the library: 
       https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.6.3/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.3/dist/dbr.js"></script>
 </head>
 
 <body>
-    <h2>Hide Built-in Controllers</h2>
+    <h1>Hide UI Controllers</h1>
     <input type="text" id="result" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
     <div id="UIElement">
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
@@ -28,21 +30,21 @@
 
         /* When using your own license, uncomment the following line and specify your Organization ID. */
 
-        Dynamsoft.DBR.BarcodeReader.organizationID = "200000";
-        Dynamsoft.DBR.BarcodeReader.handshakeCode = "200000-dbr_js_samples";
+        Dynamsoft.DBR.organizationID = "200000";
+        Dynamsoft.DBR.handshakeCode = "200000-dbr_js_samples";
 
-        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
-        /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
+        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=samples */
+        /* For more information, please refer to https://www.dynamsoft.com/license-server/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
 
         /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
 
-        // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
+        // Dynamsoft.DBR.productKeys = "YOUR-PRODUCT-KEY";
 
         /** LICENSE ALERT - THE END */
 
         // scanner for decoding video
         let pScanner = null;
-        window.onload = async function () {
+        window.onload = async function() {
             //Load the library on page load to speed things up.
             try {
                 document.getElementById('lib-load').hidden = false;
@@ -65,9 +67,9 @@
                 };
                 document.getElementById('UIElement').appendChild(scanner.getUIElement());
                 document.querySelector('#UIElement div').style.background = '';
-                document.getElementsByClassName('dbrScanner-sel-camera')[0].hidden = true;
-                document.getElementsByClassName('dbrScanner-sel-resolution')[0].hidden = true;
-                document.getElementsByClassName('dbrScanner-btn-close')[0].hidden = true;
+                document.getElementsByClassName('dce-sel-camera')[0].hidden = true;
+                document.getElementsByClassName('dce-sel-resolution')[0].hidden = true;
+                document.getElementsByClassName('dce-btn-close')[0].hidden = true;
                 await scanner.show();
             } catch (ex) {
                 alert(ex.message);
@@ -87,16 +89,16 @@
         height: 90vh;
         color: #455A64;
     }
-
+    
     button {
         font-size: 1.5rem;
         margin-bottom: 2vh;
     }
-
+    
     span {
         font-size: 0.8rem;
     }
-
+    
     .latest-result {
         display: block;
         margin: 0;
@@ -108,16 +110,16 @@
         border-radius: 0.2rem;
         text-align: center;
     }
-
+    
     .latest-result::placeholder {
         color: #B0BEC5;
     }
-
+    
     .latest-result:focus {
         outline: none;
         box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
     }
-
+    
     #results {
         border: 1px dashed grey;
         overflow: auto;
@@ -126,16 +128,16 @@
         margin-bottom: 3vh;
         height: 15vh;
     }
-
+    
     .resultText {
         color: #cE5E04
     }
-
+    
     .bigger {
         font-size: large;
         margin-bottom: 2%;
     }
-
+    
     #UIElement {
         margin: 2vmin auto;
         text-align: center;
@@ -143,7 +145,7 @@
         height: 40vh;
         width: 80vw;
     }
-
+    
     #UIElement img {
         max-width: 100%;
         max-height: 90%;

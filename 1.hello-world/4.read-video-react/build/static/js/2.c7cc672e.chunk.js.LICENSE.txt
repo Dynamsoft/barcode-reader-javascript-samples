@@ -1,0 +1,63 @@
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+/*!
+ * Dynamsoft JavaScript Library
+ * @product Dynamsoft Barcode Reader JS Edition
+ * @website http://www.dynamsoft.com
+ * @copyright Copyright 2021, Dynamsoft Corporation
+ * @author Dynamsoft
+ * @version 8.8.3 (js 20211011)
+ * @fileoverview Dynamsoft JavaScript Library for Barcode Reader
+ * More info on DBR JS: https://www.dynamsoft.com/barcode-reader/sdk-javascript/
+ */
+
+/*!
+ * Dynamsoft JavaScript Library
+ * @product Dynamsoft Camera Enhancer JS Edition
+ * @website http://www.dynamsoft.com
+ * @copyright Copyright 2021, Dynamsoft Corporation
+ * @author Dynamsoft
+ * @version 2.0.3 (js 20210628)
+ * @fileoverview Dynamsoft JavaScript Library for Camera Enhancer
+ * More info on DBR JS: https://www.dynamsoft.com/barcode-reader/sdk-javascript/
+ */
+
+/** @license React v0.20.2
+ * scheduler.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v17.0.2
+ * react-dom.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v17.0.2
+ * react-jsx-runtime.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v17.0.2
+ * react.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
