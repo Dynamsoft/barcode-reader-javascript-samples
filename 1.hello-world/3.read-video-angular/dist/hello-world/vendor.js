@@ -35550,7 +35550,7 @@ const ɵ9 = (eventName, args) => ({ eventName, args });
  *
  * @Component({
  *   selector: 'app',
- *   template: `<h1>Hello, you have pressed keys {{counter}} number of times!</h1> Press any key to
+ *   template: `<h1 style="font-size: 1.5em;">Hello, you have pressed keys {{counter}} number of times!</h1> Press any key to
  * increment the counter.
  *   <button (click)="resetCounter()">Reset Counter</button>`
  * })
