@@ -1,6 +1,6 @@
 <template>
   <div className="helloWorld">
-    <h2>{{ msg }} <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h2>
+    <h1>{{ msg }} <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h1>
     <input
       type="text"
       placeholder="The Last Read Barcode"
@@ -145,5 +145,9 @@ export default {
 
 .resultText {
   color: #ce5e04;
+}
+
+h1 {
+  font-size: 1.5em;
 }
 </style>

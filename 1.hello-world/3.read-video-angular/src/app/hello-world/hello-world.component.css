@@ -72,3 +72,7 @@
       height: 40vh;
       width: 80vw;
     }
+
+    h1 {
+      font-size: 1.5em;
+    }

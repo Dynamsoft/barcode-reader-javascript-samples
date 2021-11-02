@@ -9,6 +9,10 @@
     color: #455A64;
 }
 
+h1 {
+    font-size: 1.5em;
+}
+
 button {
     font-size: 1.5rem;
     margin-bottom: 2vh;

@@ -1,6 +1,6 @@
 <template>
   <div class="helloWorld">
-    <h1 style="font-size: 1.5em;">{{ msg }} <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h1>
+    <h1>{{ msg }} <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h1>
     <input
       type="text"
       v-model="resultValue"
@@ -91,6 +91,11 @@ export default {
 h3 {
   margin: 40px 0 0;
 }
+
+h1 {
+  font-size: 1.5em;
+}
+
 ul {
   list-style-type: none;
   padding: 0;
