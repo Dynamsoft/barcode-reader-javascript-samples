@@ -54,7 +54,8 @@ class HelloWorld extends React.Component {
                     return prevState;
                 });
                 break;
-            default: break;
+            default:
+                break;
         }
     }
     showScanner = () => {
