@@ -91,6 +91,11 @@ export default {
 h3 {
   margin: 40px 0 0;
 }
+
+h1 {
+  font-size: 1.5em;
+}
+
 ul {
   list-style-type: none;
   padding: 0;
