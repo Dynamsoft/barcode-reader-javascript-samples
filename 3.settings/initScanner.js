@@ -9,7 +9,7 @@ let closeModalBtn = document.getElementById('closeModalBtn');
 let resultBox = document.getElementById('result');
 
 // Create a BarcodeScanner instance on page load to speed things up.
-window.onload = async function() {
+window.onload = async function () {
     try {
         /** LICENSE ALERT - README
          * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
@@ -42,16 +42,16 @@ window.onload = async function() {
     }
 
     // Open the settings modal menu once the settings button is clicked
-    settingsBtn.onclick = function() {
+    settingsBtn.onclick = function () {
         modalSettings.style.display = "block";
     }
 
     // Close the modal when the 'x' is clicked
-    closeModalBtn.onclick = function() {
-            modalSettings.style.display = "none";
-        }
-        // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
+    closeModalBtn.onclick = function () {
+        modalSettings.style.display = "none";
+    }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
         if (event.target == modalSettings) {
             modalSettings.style.display = "none";
         }
@@ -60,10 +60,10 @@ window.onload = async function() {
     /* The following defines an ontouchstart event for all the tooltip elements. This trigger is being added to take into account that there is no 'hover' event when using a mobile browser. Therefore, this event will be added so that the tooltip appears whenever it is tapped on a mobile browser */
     const tooltips = document.getElementsByClassName("tooltip");
     for (let i = 0; i < tooltips.length; i++) {
-        tooltips[i].addEventListener('click', function() {
+        tooltips[i].addEventListener('click', function () {
             var _tip = this;
             _tip.setAttribute('data-balloon-visible', '');
-            setTimeout(function() {
+            setTimeout(function () {
                 _tip.removeAttribute('data-balloon-visible');
             }, 3000);
         })

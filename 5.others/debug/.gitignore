@@ -3,3 +3,7 @@
 
 # collected images
 /public/collect
+
+# others
+
+*.lock
