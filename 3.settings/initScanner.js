@@ -9,7 +9,7 @@ let closeModalBtn = document.getElementById('closeModalBtn');
 let resultBox = document.getElementById('result');
 
 // Create a BarcodeScanner instance on page load to speed things up.
-window.onload = async function () {
+window.onload = async function() {
     try {
         /** LICENSE ALERT - README
          * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
@@ -19,15 +19,15 @@ window.onload = async function () {
 
         /* When using your own license, uncomment the following line and specify your Organization ID. */
 
-        Dynamsoft.DBR.BarcodeReader.organizationID = "200000";
-        Dynamsoft.DBR.BarcodeReader.handshakeCode = "200000-dbr_js_samples";
+        Dynamsoft.DBR.organizationID = "200000";
+        Dynamsoft.DBR.handshakeCode = "200000-dbr_js_samples";
 
-        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
-        /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
+        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=samples */
+        /* For more information, please refer to https://www.dynamsoft.com/license-server/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
 
         /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
 
-        // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
+        // Dynamsoft.DBR.productKeys = "YOUR-PRODUCT-KEY";
 
         /** LICENSE ALERT - THE END */
 
@@ -42,16 +42,16 @@ window.onload = async function () {
     }
 
     // Open the settings modal menu once the settings button is clicked
-    settingsBtn.onclick = function () {
+    settingsBtn.onclick = function() {
         modalSettings.style.display = "block";
     }
 
     // Close the modal when the 'x' is clicked
-    closeModalBtn.onclick = function () {
-        modalSettings.style.display = "none";
-    }
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
+    closeModalBtn.onclick = function() {
+            modalSettings.style.display = "none";
+        }
+        // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
         if (event.target == modalSettings) {
             modalSettings.style.display = "none";
         }
@@ -60,10 +60,10 @@ window.onload = async function () {
     /* The following defines an ontouchstart event for all the tooltip elements. This trigger is being added to take into account that there is no 'hover' event when using a mobile browser. Therefore, this event will be added so that the tooltip appears whenever it is tapped on a mobile browser */
     const tooltips = document.getElementsByClassName("tooltip");
     for (let i = 0; i < tooltips.length; i++) {
-        tooltips[i].addEventListener('click', function () {
+        tooltips[i].addEventListener('click', function() {
             var _tip = this;
             _tip.setAttribute('data-balloon-visible', '');
-            setTimeout(function () {
+            setTimeout(function() {
                 _tip.removeAttribute('data-balloon-visible');
             }, 3000);
         })

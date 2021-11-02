@@ -1,0 +1,15 @@
+{
+    "name": "read-video-electron",
+    "version": "1.0.0",
+    "description": "How to read barcodes from a video input in an Electron App",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "tom@dynamsoft.com",
+    "dependencies": {
+        "electron": "14.0.1",
+        "dynamsoft-javascript-barcode": "8.8.3"
+    }
+}

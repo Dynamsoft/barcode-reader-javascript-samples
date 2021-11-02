@@ -1,28 +1,23 @@
 <template>
   <div v-once class="component-barcode-scanner">
-    <svg class="dbrScanner-bg-loading"
-      style="display:none;animation:1s linear infinite dbrScanner-rotate;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;"
+    <svg class="dce-bg-loading"
+      style="display:none;animation:1s linear infinite dce-rotate;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;"
       viewBox="0 0 1792 1792">
       <path d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z" />
     </svg>
-    <svg class="dbrScanner-bg-camera"
+    <svg class="dce-bg-camera"
       style="display:none;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;"
       viewBox="0 0 2048 1792">
       <path d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z" />
     </svg>
-    <video class="dbrScanner-video" playsinline="true"
+    <video class="dce-video" playsinline="true"
       style="width:100%;height:100%;position:absolute;left:0;top:0;"></video>
     <canvas class="dbrScanner-cvs-drawarea" style="width:100%;height:100%;position:absolute;left:0;top:0;"></canvas>
     <div class="dbrScanner-cvs-scanarea" style="width:100%;height:100%;position:absolute;left:0;top:0;">
-      <div class="dbrScanner-scanlight" style="display:none;width:100%;height:3%;position:absolute;animation:3s infinite dbrScanner-scanlight;border-radius:50%;box-shadow:0px 0px 2vw 1px #00e5ff;background:#fff;user-select:none;"></div>
+      <div class="dbrScanner-scanlight" style="display:none;width:100%;height:3%;position:absolute;animation:3s infinite dce-scanlight;border-radius:50%;box-shadow:0px 0px 2vw 1px #00e5ff;background:#fff;user-select:none;"></div>
     </div>
-    <select class="dbrScanner-sel-camera" style="margin:0 auto;position:absolute;left:0;top:0;"></select>
-    <select class="dbrScanner-sel-resolution" style="position:absolute;left:0;top:20px;"></select>
-    <button class="dbrScanner-btn-close" style="position:absolute;right:0;top:0;">
-      <svg width="16" height="16" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
-        <path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z" />
-      </svg>
-    </button>
+    <select class="dce-sel-camera" style="margin:0 auto;position:absolute;left:0;top:0;"></select>
+    <select class="dce-sel-resolution" style="position:absolute;left:0;top:20px;"></select>
     <!-- The "Powered by Dynamsoft" logo can be easily removed by eliminating the following line. -->
     <div class="dbrScanner-msg-poweredby" style="position:absolute;left:50%;bottom:10%;transform:translateX(-50%);">
       <svg viewBox="0 0 94 17" style="height:max(3vmin,17px);fill:#FFFFFF;">
@@ -116,7 +111,8 @@ export default {
   },
   async mounted() {
     try {
-      let scanner = await (this.pScanner = this.pScanner || DBR.BarcodeScanner.createInstance());
+      this.pScanner = this.pScanner || DBR.BarcodeScanner.createInstance()
+      let scanner = await this.pScanner;
       if (this.bDestroyed) {
         scanner.destroy();
         return;
@@ -128,10 +124,10 @@ export default {
             format: result.barcodeFormatString,
             text: result.barcodeText,
             type: "result",
-          });
-          if (result.barcodeText.indexOf("Attention(exceptionCode") !== -1) {
-            this.$emit("appendMessage", { msg: result.exception.message, type: "error" });
-          }
+            });
+            if (result.barcodeText.indexOf("Attention(exceptionCode") !== -1) {
+              this.$emit("appendMessage", { msg: result.exception.message, type: "error" });
+            }
         }
       };
       await scanner.open();
@@ -140,7 +136,7 @@ export default {
       console.error(ex);
     }
   },
-  async beforeDestroy() {
+  async beforeUnmount() {
     this.bDestroyed = true;
     if (this.pScanner) {
       (await this.pScanner).destroy();
@@ -157,8 +153,8 @@ export default {
   position: relative;
   resize: both;
 }
-.dbrScanner-bg-loading {
-  animation: 1s linear infinite dbrScanner-rotate;
+.dce-bg-loading {
+  animation: 1s linear infinite dce-rotate;
   width: 40%;
   height: 40%;
   position: absolute;
@@ -169,7 +165,7 @@ export default {
   bottom: 0;
   fill: #aaa;
 }
-.dbrScanner-bg-camera {
+.dce-bg-camera {
   width: 40%;
   height: 40%;
   position: absolute;
@@ -180,7 +176,7 @@ export default {
   bottom: 0;
   fill: #aaa;
 }
-.dbrScanner-video {
+.dce-video {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -210,18 +206,18 @@ export default {
   box-shadow: 0px 0px 2vw 1px #00e5ff;
   background: #fff;
 }
-.dbrScanner-sel-camera {
+.dce-sel-camera {
   margin: 0 auto;
   position: absolute;
   left: 0;
   top: 0;
 }
-.dbrScanner-sel-resolution {
+.dce-sel-resolution {
   position: absolute;
   left: 0;
   top: 20px;
 }
-@keyframes dbrScanner-rotate {
+@keyframes dce-rotate {
   from {
     transform: rotate(0turn);
   }

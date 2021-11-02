@@ -4,17 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Dynamsoft Barcode Reader Simple Sample - Read Barcodes and Fill Form Fields</title>
+    <meta name="description" content="Read barcodes and fill form fields using barcode with Barcode Reader. Get quick and accurate results in no time.">
+    <meta name="keywords" content="fill form fields using barcodes">
+    <title>Dynamsoft Barcode Reader Simple Sample - Read Video - Fill Form</title>
     <!--
       This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
       library offline. Please see the guide on how to host the library: 
       https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.6.3/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.3/dist/dbr.js"></script>
 </head>
 
 <body>
-    <h2>Read Barcodes and Fill Form Fields</h2>
+    <h1>Read Barcodes as Input</h1>
     <div id='inputs' style="text-align: center;" hidden>
         <h3>Click each input box to fill in!</h3>
         <input type="text" class="latest-result" readonly="true" placeholder="Barcode Result 1">
@@ -31,24 +33,24 @@
 
         /* When using your own license, uncomment the following line and specify your Organization ID. */
 
-        Dynamsoft.DBR.BarcodeReader.organizationID = "200000";
-        Dynamsoft.DBR.BarcodeReader.handshakeCode = "200000-dbr_js_samples";
+        Dynamsoft.DBR.organizationID = "200000";
+        Dynamsoft.DBR.handshakeCode = "200000-dbr_js_samples";
 
-        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=github */
-        /* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
+        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=samples */
+        /* For more information, please refer to https://www.dynamsoft.com/license-server/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
 
         /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
 
-        // Dynamsoft.DBR.BarcodeReader.productKeys = "YOUR-PRODUCT-KEY";
+        // Dynamsoft.DBR.productKeys = "YOUR-PRODUCT-KEY";
 
         /** LICENSE ALERT - THE END */
 
         // scanner for decoding video
         let pScanner = null;
-        window.onload = async function () {
+        window.onload = async function() {
             let allInputs = document.getElementsByClassName('latest-result');
             for (let input of allInputs)
-                input.addEventListener('click', async function () {
+                input.addEventListener('click', async function() {
                     try {
                         let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                         scanner.bPlaySoundOnSuccessfulRead = true;
@@ -70,10 +72,15 @@
                             });
                         await scanner.updateVideoSettings({
                             video: {
-                                width:
-                                    { ideal: 1280 },
-                                height: { ideal: 720 },
-                                facingMode: { ideal: "environment" }
+                                width: {
+                                    ideal: 1280
+                                },
+                                height: {
+                                    ideal: 720
+                                },
+                                facingMode: {
+                                    ideal: "environment"
+                                }
                             }
                         });
                         document.getElementById('UIElement').hidden = false;
@@ -97,20 +104,15 @@
         };
     </script>
     <div id="UIElement" style="width:100%;height:100%;min-width:100px;min-height:100px;background:#eee;" hidden>
-        <svg class="dbrScanner-bg-loading"
-            style="display:none;animation:1s linear infinite dbrScanner-rotate;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;"
-            viewBox="0 0 1792 1792">
+        <svg class="dce-bg-loading" style="display:none;animation:1s linear infinite dce-rotate;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;" viewBox="0 0 1792 1792">
             <path
                 d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z" />
         </svg>
-        <svg class="dbrScanner-bg-camera"
-            style="display:none;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;"
-            viewBox="0 0 2048 1792">
+        <svg class="dce-bg-camera" style="display:none;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;" viewBox="0 0 2048 1792">
             <path
                 d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z" />
         </svg>
-        <video class="dbrScanner-video" playsinline="true"
-            style="width:100%;height:100%;position:absolute;left:0;top:0;"></video>
+        <video class="dce-video" playsinline="true" style="width:100%;height:100%;position:absolute;left:0;top:0;"></video>
         <canvas class="dbrScanner-cvs-drawarea" style="width:100%;height:100%;position:absolute;left:0;top:0;"></canvas>
         <div class="dbrScanner-cvs-scanarea" style="width:100%;height:100%;position:absolute;left:0;top:0;"></div>
     </div>
@@ -127,7 +129,7 @@
         color: #455A64;
         margin: 0;
     }
-
+    
     #UIElement {
         position: absolute;
         left: 0;
@@ -137,7 +139,7 @@
         height: 100%;
         width: 100%;
     }
-
+    
     .latest-result {
         display: block;
         margin: 2vh auto;
@@ -149,11 +151,11 @@
         border-radius: 0.2rem;
         text-align: center;
     }
-
+    
     .latest-result::placeholder {
         color: #B0BEC5;
     }
-
+    
     .latest-result:focus {
         outline: none;
         box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;

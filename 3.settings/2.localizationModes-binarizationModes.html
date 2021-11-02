@@ -4,43 +4,39 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Dynamsoft Barcode Reader Sample - Set Localization and Binarization Modes</title>
+    <meta name="description" content="Read barcodes from camera with Dynamsoft Barcode Reader and update simple runtime settings.">
+    <meta name="keywords" content="read barcode from camera, formats and count">
+    <title>Dynamsoft Barcode Reader Sample - Using Runtime Settings</title>
     <!--
       This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
       library offline. Please see the guide on how to host the library: 
       https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.6.3/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.3/dist/dbr.js"></script>
     <link rel="stylesheet" href="settings-css.css">
-    <link rel="stylesheet" href="../balloon.min.css"> <!-- Used for tooltip styling -->
+    <link rel="stylesheet" href="../balloon.min.css">
+    <!-- Used for tooltip styling -->
 
 </head>
 
 <body>
-    <h2>Set Localization and Binarization Modes</h2>
+    <h1>Set Localization and Binarization</h1>
     <button id='openSimpleSettingsMenu'>Open Runtime Settings Menu</button>
 
-    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result"
-        placeholder="The Last Read Barcode">
+    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
     <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen-->
     <div id="div-video-container">
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
-        <video class="dbrScanner-video" playsinline="true"></video>
-        <canvas class="dbrScanner-cvs-drawarea"
-            style="width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; object-fit: contain;"
-            width="1280" height="720"></canvas>
+        <video class="dce-video" playsinline="true"></video>
+        <canvas class="dbrScanner-cvs-drawarea" style="width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; object-fit: contain;" width="1280" height="720"></canvas>
     </div>
 
     <!-- Settings Menu displayed in a modal -->
     <div id="settingsModal" class="modal">
         <div id="settingsContent" class="modal-content">
             <span id="closeModalBtn" class="closeModal">&times;</span>
-            <div class="tooltip"
-                aria-label="Selecting the approporiate localization mode priority order depending on the user scenario or the barcode format can help improve the SDK's speed and accuracy"
-                data-balloon-pos="down" data-balloon-length="fit">1. Localization Modes in Decreasing
-                Priority<br /><br />
-                Read more on <a target="_blank"
-                    href="https://www.dynamsoft.com/barcode-reader/parameters/scenario-settings/how-to-set-localization-modes.html">How
+            <div class="tooltip" aria-label="Selecting the approporiate localization mode priority order depending on the user scenario or the barcode format can help improve the SDK's speed and accuracy" data-balloon-pos="down" data-balloon-length="fit">1. Localization Modes in Decreasing Priority
+                <br /><br /> Read more on <a target="_blank" href="https://www.dynamsoft.com/barcode-reader/parameters/scenario-settings/how-to-set-localization-modes.html">How
                     to select the appropriate localization mode</a>
             </div><br />
             <span style="background-color: white;padding: 1vmin; margin-right: 2vmin;" id="localizationModeSPAN"></span>
@@ -65,16 +61,11 @@
                 <!--<input type="checkbox" id="skipLoc" name="locMode" value="LM_SKIP">
                 <label for="skipLoc"> Skip (0) </label> <br />-->
             </form>
-            <div class="tooltip"
-                aria-label="Selecting the approporiate binarization mode can help increase the accuracy of barcode localization by providing the SDK with the best quality binary image."
-                data-balloon-pos="down" data-balloon-length="fit">2. Binarization Modes in Decreasing
-                Priority<br /><br />
-                Read more on <a target="_blank"
-                    href="https://www.dynamsoft.com/barcode-reader/parameters/scenario-settings/how-to-set-binarization-modes.html?ver=latest">How
+            <div class="tooltip" aria-label="Selecting the approporiate binarization mode can help increase the accuracy of barcode localization by providing the SDK with the best quality binary image." data-balloon-pos="down" data-balloon-length="fit">2. Binarization Modes in Decreasing Priority
+                <br /><br /> Read more on <a target="_blank" href="https://www.dynamsoft.com/barcode-reader/parameters/scenario-settings/how-to-set-binarization-modes.html?ver=latest">How
                     to select the appropriate binarization
                     mode</a>
-            </div><br /><span style="background-color: white;padding: 1vmin;margin-right: 2vmin;"
-                id="binarizationModeSPAN"></span>
+            </div><br /><span style="background-color: white;padding: 1vmin;margin-right: 2vmin;" id="binarizationModeSPAN"></span>
             <a href="#" id='resetBM'>Start Over</a><br />
 
             <form id="binarizationMode">
@@ -83,33 +74,22 @@
 
                 <!-- Mode Arguments for the local block binarization mode-->
                 <div class="localBlockForm arguments">
-                    <label for="blockSizeX" class="tooltip"
-                        aria-label="Sets the horizontal block size [0-1000] for the binarization process. Please see documentation on what the values represent."
-                        data-balloon-pos="down" data-balloon-length="fit">Horizontal Block Size
+                    <label for="blockSizeX" class="tooltip" aria-label="Sets the horizontal block size [0-1000] for the binarization process. Please see documentation on what the values represent." data-balloon-pos="down" data-balloon-length="fit">Horizontal Block Size
                     </label>
-                    <input type="range" id="blockSizeX" name="blockSizeX" data-require-pair="#localBlock" min="0"
-                        max="1000" value="0"><span id="blockSizeXDisplay"></span></br>
+                    <input type="range" id="blockSizeX" name="blockSizeX" data-require-pair="#localBlock" min="0" max="1000" value="0"><span id="blockSizeXDisplay"></span></br>
 
-                    <label for="blockSizeY" class="tooltip"
-                        aria-label="Sets the vertical block size [0-1000] for the binarization process. Please see documentation on what the values represent."
-                        data-balloon-pos="down" data-balloon-length="fit">Vertical Block Size
+                    <label for="blockSizeY" class="tooltip" aria-label="Sets the vertical block size [0-1000] for the binarization process. Please see documentation on what the values represent." data-balloon-pos="down" data-balloon-length="fit">Vertical Block Size
                     </label>
-                    <input type="range" id="blockSizeY" name="blockSizeY" data-require-pair="#localBlock" min="0"
-                        max="1000" value="0"><span id="blockSizeYDisplay"></span></br>
+                    <input type="range" id="blockSizeY" name="blockSizeY" data-require-pair="#localBlock" min="0" max="1000" value="0"><span id="blockSizeYDisplay"></span></br>
 
-                    <label for="enableFillBinary" class="tooltip"
-                        aria-label="For barcodes of a large module size, it is recommended to set this property to true. Please see documentation for more info."
-                        data-balloon-pos="down" data-balloon-length="fit">Enable Fill Binary Vacancy
+                    <label for="enableFillBinary" class="tooltip" aria-label="For barcodes of a large module size, it is recommended to set this property to true. Please see documentation for more info." data-balloon-pos="down" data-balloon-length="fit">Enable Fill Binary Vacancy
                     </label>
-                    <input type="checkbox" id="enableFillBinary" name="enableFillBinary"
-                        data-require-pair="#localBlock"><br />
+                    <input type="checkbox" id="enableFillBinary" name="enableFillBinary" data-require-pair="#localBlock"><br />
 
-                    <label for="imagePreModes" class="tooltip"
-                        aria-label="If the image preprocessing modes are being used, the following property specifies which index in the modes array the local block binarization will be applied to. By default, it is applied to all the modes."
+                    <label for="imagePreModes" class="tooltip" aria-label="If the image preprocessing modes are being used, the following property specifies which index in the modes array the local block binarization will be applied to. By default, it is applied to all the modes."
                         data-balloon-pos="down" data-balloon-length="fit">Image Pre-processing Modes Index
                     </label>
-                    <input type="range" id="imagePreModes" name="imagePreModes" data-require-pair="#localBlock" min="-1"
-                        max="3" value="-1"><span id="imagePreModesDisplay"></span></br>
+                    <input type="range" id="imagePreModes" name="imagePreModes" data-require-pair="#localBlock" min="-1" max="3" value="-1"><span id="imagePreModesDisplay"></span></br>
 
                 </div>
 
@@ -118,19 +98,14 @@
                 <label for="threshold"> Threshold (4) </label><br />
 
                 <div class="thresholdForm arguments">
-                    <label for="binThreshold" class="tooltip"
-                        aria-label="This threshold is used to classify the pixel values for the binarization process."
-                        data-balloon-pos="down" data-balloon-length="fit">Binarization Threshold
+                    <label for="binThreshold" class="tooltip" aria-label="This threshold is used to classify the pixel values for the binarization process." data-balloon-pos="down" data-balloon-length="fit">Binarization Threshold
                     </label>
-                    <input type="range" id="binThreshold" name="binThreshold" data-require-pair="#localBlock" min="-1"
-                        max="255" value="-1"><span id="binThresholdDisplay"></span></br>
+                    <input type="range" id="binThreshold" name="binThreshold" data-require-pair="#localBlock" min="-1" max="255" value="-1"><span id="binThresholdDisplay"></span></br>
 
-                    <label for="imagePreModesThres" class="tooltip"
-                        aria-label="If the image preprocessing modes are being used, the following property specifies which index in the modes array the threshold binarization will be applied to. By default, it is applied to all the modes."
+                    <label for="imagePreModesThres" class="tooltip" aria-label="If the image preprocessing modes are being used, the following property specifies which index in the modes array the threshold binarization will be applied to. By default, it is applied to all the modes."
                         data-balloon-pos="down" data-balloon-length="fit">Image Pre-processing Modes Index
                     </label>
-                    <input type="range" id="imagePreModesThres" name="imagePreModesThres" data-require-pair="#threshold"
-                        min="-1" max="3" value="-1"><span id="imagePreModesThresDisplay"></span></br>
+                    <input type="range" id="imagePreModesThres" name="imagePreModesThres" data-require-pair="#threshold" min="-1" max="3" value="-1"><span id="imagePreModesThresDisplay"></span></br>
                 </div>
                 <input type="checkbox" id="skipBin" name="binMode" value="BM_SKIP">
                 <label for="skipBin"> Skip (0) </label></br>
@@ -139,7 +114,8 @@
     </div>
 
     <!-- JS Code -->
-    <script src="initScanner.js"></script> <!-- To initialize the barcode scanner -->
+    <script src="initScanner.js"></script>
+    <!-- To initialize the barcode scanner -->
 
     <script>
         async function initPage() {
@@ -150,13 +126,13 @@
              * The code takes into account the order in which the user selects the checkbox options which represents
              * the priority.
              */
-            
+
             let scanner = await pScanner;
             let locModeCount = 0;
             let settings = null;
             const checkboxesLocalization = document.querySelectorAll('input[name="locMode"]');
             for (var i = 0; i < checkboxesLocalization.length; i++) {
-                checkboxesLocalization[i].addEventListener('click', async function () {
+                checkboxesLocalization[i].addEventListener('click', async function() {
                     try {
                         settings = await scanner.getRuntimeSettings();
                         if (this.checked) {
@@ -199,13 +175,12 @@
                         else
                             locModeCount++;
                         showModes('localizationModeSPAN', settings.localizationModes, locModeCount);
-                    }
-                    catch (e) {
+                    } catch (e) {
                         console.log("Error:" + e.message);
                     }
                 })
             }
-            resetLM.addEventListener('click', async function () {
+            resetLM.addEventListener('click', async function() {
                 settings = settings || await scanner.getRuntimeSettings();
                 showModes('localizationModeSPAN', settings.localizationModes, 0);
                 locModeCount = 0;
@@ -234,7 +209,7 @@
             const checkboxesBinarization = document.querySelectorAll('input[name="binMode"]');
             let binModeCount = 0;
             for (var i = 0; i < checkboxesBinarization.length; i++) {
-                checkboxesBinarization[i].addEventListener('click', async function () {
+                checkboxesBinarization[i].addEventListener('click', async function() {
                     try {
                         settings = await scanner.getRuntimeSettings();
                         if (this.checked) {
@@ -259,12 +234,10 @@
                             else
                                 binModeCount++;
                             showModes('binarizationModeSPAN', settings.binarizationModes, binModeCount);
-                        }
-                        catch (e) {
+                        } catch (e) {
                             console.log("Error:" + e.message);
                         }
-                    }
-                    catch (ex) {
+                    } catch (ex) {
                         console.log(ex.message);
                     }
                 })
@@ -272,32 +245,31 @@
 
             /* If local block binarization is selected, open up the local block binarization options
             Once one of the options is changed, for example block size X, apply this change to the SDK's settings*/
-            localBlock.onclick = function () {
+            localBlock.onclick = function() {
                 let localBlockForm = document.getElementsByClassName("localBlockForm");
                 localBlockForm[0].style.display = "block";
             }
 
             /* Applying the local block binarization options to the settings, starting with the horizontal block size */
-            blockSizeX.onchange = async function () {
+            blockSizeX.onchange = async function() {
                 document.getElementById("blockSizeXDisplay").innerHTML = blockSizeX.value.toString(); // display the slider value next to it
                 // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8 as explained above.
                 for (var i = 0; i <= 8; i++) {
                     try {
                         let settings = await scanner.getRuntimeSettings();
                         if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK)
-                            //once the index is found, use the index to set the mode argument.
+                        //once the index is found, use the index to set the mode argument.
                             await scanner.setModeArgument("BinarizationModes", i, "BlockSizeX", blockSizeX.value.toString()); // set the horizontal block size
                         else
                             continue; // if not local block, skip to next iteration
-                    }
-                    catch (ex) {
+                    } catch (ex) {
                         console.log(ex.message);
                     }
                 }
             }
 
             // Set the mode argument vertical block size of the local block binarization mode
-            blockSizeY.onchange = async function () {
+            blockSizeY.onchange = async function() {
                 document.getElementById("blockSizeYDisplay").innerHTML = blockSizeY.value.toString(); // display the slider value next to it
                 // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
                 for (var i = 0; i <= 8; i++) {
@@ -314,7 +286,7 @@
             }
 
             // Set the mode argument enable binary fill vacancy 
-            enableBinary.onchange = async function () {
+            enableBinary.onchange = async function() {
                 // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
                 for (var i = 0; i <= 8; i++) {
                     try {
@@ -331,26 +303,26 @@
             }
 
             // Setting the ImagePreprocessingModesIndex mode argument 
-            imagePreModesLB.onchange = async function () {
-                document.getElementById("imagePreModesDisplay").innerHTML = imagePreModesLB.value.toString(); // display the slider value next to it
-                // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
-                for (var i = 0; i <= 8; i++) {
-                    try {
-                        let settings = await scanner.getRuntimeSettings();
-                        if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK)
-                            await scanner.setModeArgument("BinarizationModes", i, "ImagePreprocessingModesIndex", imagePreModesLB.value.toString());
-                        else
-                            continue;
-                    } catch (ex) {
-                        console.log(ex.message);
+            imagePreModesLB.onchange = async function() {
+                    document.getElementById("imagePreModesDisplay").innerHTML = imagePreModesLB.value.toString(); // display the slider value next to it
+                    // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
+                    for (var i = 0; i <= 8; i++) {
+                        try {
+                            let settings = await scanner.getRuntimeSettings();
+                            if (settings.binarizationModes[i] == Dynamsoft.DBR.EnumBinarizationMode.BM_LOCAL_BLOCK)
+                                await scanner.setModeArgument("BinarizationModes", i, "ImagePreprocessingModesIndex", imagePreModesLB.value.toString());
+                            else
+                                continue;
+                        } catch (ex) {
+                            console.log(ex.message);
+                        }
                     }
                 }
-            }
-            /* Done applying the local block binarization mode arguments */
+                /* Done applying the local block binarization mode arguments */
 
             // Expand the threshold mode arguments options menu when threshold is checked
             let thresholdOption = document.getElementById("threshold");
-            thresholdOption.onclick = function () {
+            thresholdOption.onclick = function() {
                 let thresholdForm = document.getElementsByClassName("thresholdForm");
                 thresholdForm[0].style.display = "block";
             }
@@ -358,7 +330,7 @@
             /* Applying the threshold binarization mode arguments */
 
             // Applying the binarization threshold mode argument
-            binThreshold.onchange = async function () {
+            binThreshold.onchange = async function() {
                 document.getElementById("binThresholdDisplay").innerHTML = binThreshold.value.toString(); // display the slider value next to it
                 // Get the index of the threshold binarization mode in the binarization modes array. max length of array is 8.
                 for (var i = 0; i <= 8; i++) {
@@ -375,7 +347,7 @@
             }
 
             // Setting the ImagePreprocessingModesIndex mode argument for threshold
-            imagePreModesT.onchange = async function () {
+            imagePreModesT.onchange = async function() {
                 document.getElementById("imagePreModesThresDisplay").innerHTML = imagePreModesT.value.toString(); // display the slider value next to it
                 // Get the index of the local block binarization mode in the binarization modes array. max length of array is 8.
                 for (var i = 0; i <= 8; i++) {
@@ -390,7 +362,7 @@
                     }
                 }
             }
-            resetBM.addEventListener('click', async function () {
+            resetBM.addEventListener('click', async function() {
                 settings = settings || await scanner.getRuntimeSettings();
                 showModes('binarizationModeSPAN', settings.binarizationModes, 0);
                 binModeCount = 0;
