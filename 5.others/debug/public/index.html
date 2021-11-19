@@ -12,9 +12,18 @@
     <h1 style="font-size: 1.5em;">Read Barcodes from Camera - Debug</h1>
     <button id="btn-show-scanner">show scanner</button>
     <br>
-    <div id="div-video-container" style="width:100%;height:calc(100vh - 100px);"></div>
+    <label><input type="radio" name="video-settings" checked value="default">default</label>
+    <label><input type="radio" name="video-settings" value="back-camera">back camera</label>
+    <label><input type="radio" name="video-settings" value="only-video">only video</label>
+    <br>
+    <label><input id="cb-send-img" type="checkbox">send image to</label><input id="ipt-server-url" placeholder="server url, default ./collect">
+    <br>
+    <div id="div-video-container" style="width:100%;height:calc(100vh - 150px);"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/2.4.1/eruda.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.3/dist/dbr.js"></script>
     <script>
+        eruda.init();
+        Dynamsoft.DBR._onLog = console.log;
         /** LICENSE ALERT - README
          * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
          * If the Organizaion ID is not specified, a 7-day (public) trial license will be used by default which is the case in this sample.
@@ -49,11 +58,12 @@
                 scanner.ifSaveOriginalImageInACanvas = true;
                 let processingCount = 0;
                 scanner.onFrameRead = async results => {
+                    let bSendImg = !!document.getElementById("cb-send-img").checked;
                     /**
                      * The barcode reading speed is very fast, we must limit 
                      * the number of uploaded frames (4), so that it is feasible.
                      */
-                    if (processingCount < 4) {
+                    if (bSendImg && processingCount < 4) {
                         ++processingCount;
                         try {
                             /**
@@ -69,7 +79,7 @@
                                         cvs.toBlob(blob => resolve(blob));
                                     });
                                 fd.append("img", blob);
-                                await fetch("collect", {
+                                await fetch(document.getElementById("ipt-server-url").value || "collect", {
                                     method: "POST",
                                     body: fd
                                 });
@@ -87,6 +97,24 @@
                 throw ex;
             }
         });
+        
+        let switchVideoSettings = async()=>{
+            if(!pScanner)return;
+            let scanner = await pScanner;
+            switch(document.querySelector('input[name="video-settings"]:checked').value){
+                case "back-camera":
+                    await scanner.updateVideoSettings({video:{facingMode:"environment"}});
+                    break;
+                case "only-video":
+                    await scanner.updateVideoSettings({video:true});
+                    break;
+                default:
+                    await scanner.updateVideoSettings({video:{width:{ideal:1280},height:{ideal:720},facingMode:{ideal:"environment"}}});
+            }
+        };
+        for(let ipt of document.querySelectorAll('input[name="video-settings"]')){
+            ipt.addEventListener("change", switchVideoSettings);
+        }
     </script>
 </body>
 
