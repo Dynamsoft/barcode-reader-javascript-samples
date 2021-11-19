@@ -1,3 +1,7 @@
+# Quick debug
+
+https://dynamsoft.github.io/barcode-reader-javascript-samples/5.others/debug/public/index.html
+
 # Collect runtime images for debugging
 
 When you encounter unreadable barcodes via a video input, you can use this sample to take a few sample frames to share with the Dynamsoft Support Team for debugging purposes.
