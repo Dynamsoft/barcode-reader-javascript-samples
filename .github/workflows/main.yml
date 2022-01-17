@@ -16,27 +16,23 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: ftp-action
-        # You may pin to the exact commit or the version.
-        # uses: sebastianpopp/ftp-action@eb75c5cb29d23ee4a729720a27dfb66403cb0f6d
-        uses: sebastianpopp/ftp-action@v2.0.0
+         # Runs a set of commands using the runners shell
+      - name: Get Source
+        run: |
+          cd /home/ubuntu
+          [ -d barcode-reader-javascript-samples ] && cd barcode-reader-javascript-samples && git pull https://github.com/Dynamsoft/barcode-reader-javascript-samples.git
+          [ ! -d barcode-reader-javascript-samples ] && git clone --depth 1 https://github.com/Dynamsoft/barcode-reader-javascript-samples.git && cd barcode-reader-javascript-samples 
+          
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
-          # FTP host
-          host: demo.dynamsoft.com:2122
-          # FTP user
-          user: websitecontentmanage
-          # FTP password
+          server: ${{ secrets.FTP_DEMO_SERVER }}
+          username: ${{ secrets.FTP_DEMO_USERNAME }}
           password: ${{ secrets.FTP_DEMO_PASSWORD }}
-          # Force SSL encryption
-          #forceSsl: # optional, default is false
-          # Local directory
-          #localDir: # optional, default is .
-          # Remote directory
-          remoteDir: /demo.dynamsoft.com/Samples/DBR/JS/
+          port: 2122 
+          local-dir: /home/ubuntu/barcode-reader-javascript-samples/
+          server-dir: /demo.dynamsoft.com/Samples/DBR/JS/
