@@ -83,10 +83,6 @@
                 document.getElementById('lib-load').hidden = false;
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 scanner.singleFrameMode = bSingleFrameMode;
-
-
-
-
                 if (!bSingleFrameMode)
                     scanner.getRuntimeSettings()
                     .then(settings => {
