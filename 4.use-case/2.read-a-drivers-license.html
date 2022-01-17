@@ -83,10 +83,15 @@
                 document.getElementById('lib-load').hidden = false;
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 scanner.singleFrameMode = bSingleFrameMode;
+
+
+
+
                 if (!bSingleFrameMode)
                     scanner.getRuntimeSettings()
                     .then(settings => {
                         settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
+                        settings.deblurLevel = 7;
                         settings.region = {
                             regionLeft: 5,
                             regionTop: 5,
@@ -109,6 +114,13 @@
                 document.getElementsByClassName('dce-sel-camera')[0].hidden = true;
                 document.getElementsByClassName('dce-sel-resolution')[0].hidden = true;
                 document.getElementsByClassName('dce-btn-close')[0].hidden = true;
+                await scanner.updateVideoSettings({
+                    video: {
+                        width: 1920,
+                        height: 1080,
+                        facingMode: "environment"
+                    }
+                });
                 await scanner.show();
                 document.getElementById('hintMSG').hidden = false;
                 document.getElementById('header').hidden = true;
