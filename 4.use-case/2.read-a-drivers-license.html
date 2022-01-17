@@ -70,13 +70,12 @@
             //document.getElementById('btn-open-image').hidden = true;
             openScanner(false);
         });
-
+        
         function readAgain() {
             document.getElementById('readAgain').hidden = true;
             document.getElementById('divNoteMessage').hidden = true;
             document.getElementById('UIElement').style.display = "";
             document.getElementById('btn-show-scanner').hidden = false;
-            //document.getElementById('btn-open-image').hidden = false;
         }
         async function openScanner(bSingleFrameMode) {
             try {
