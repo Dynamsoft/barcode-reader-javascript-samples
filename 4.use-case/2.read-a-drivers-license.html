@@ -12,7 +12,7 @@
       library offline. Please see the guide on how to host the library: 
       https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.3/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
 </head>
 
 <body>
@@ -93,6 +93,8 @@
                             regionBottom: 95,
                             regionMeasuredByPercentage: 1
                         };
+                        settings.localizationModes = [16, 8, 2, 0, 0, 0, 0, 0];
+                        settings.deblurLevel = 7;
                         scanner.updateRuntimeSettings(settings);
                     });
                 document.getElementById('lib-load').hidden = true;
