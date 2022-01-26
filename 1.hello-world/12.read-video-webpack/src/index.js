@@ -19,7 +19,7 @@ import DBR from "dynamsoft-javascript-barcode";
 
 /** LICENSE ALERT - THE END */
 
-DBR.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.3/dist/";
+DBR.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";
 
 let pScanner = null;
 if (document.getElementById('readBarcode')) {
