@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "core-js": "^3.6.5",
-        "dynamsoft-javascript-barcode": "8.8.5",
+        "dynamsoft-javascript-barcode": "8.8.7",
         "vue": "^2.6.11"
     },
     "devDependencies": {

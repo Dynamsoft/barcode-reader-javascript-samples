@@ -13,7 +13,7 @@
     <button id="readBarcode">show scanner</button>
     <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.js"></script>
     <script>
-        requirejs(['https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.5/dist/dbr.js'], function({
+        requirejs(['https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js'], function({
             DBR,
             BarcodeReader,
             BarcodeScanner
@@ -37,7 +37,7 @@
 
             /** LICENSE ALERT - THE END */
 
-            DBR.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.5/dist/";
+            DBR.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";
             let pScanner = null;
             document.getElementById('readBarcode').onclick = async function() {
                 try {
