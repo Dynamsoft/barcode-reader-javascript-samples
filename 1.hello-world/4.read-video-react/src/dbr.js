@@ -20,6 +20,6 @@ DBR.handshakeCode = "200000-dbr_js_samples";
 
 /** LICENSE ALERT - THE END */
 
-DBR.BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.3/dist/";
+DBR.BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";
 
 export default DBR;
