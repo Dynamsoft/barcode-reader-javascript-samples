@@ -1,6 +1,5 @@
 import DBR from "../dbr";
 import React from 'react';
-import './BarcodeScanner.css';
 
 class BarcodeScanner extends React.Component {
     constructor(props) {

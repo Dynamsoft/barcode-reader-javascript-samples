@@ -14,7 +14,7 @@
       style="width:100%;height:100%;position:absolute;left:0;top:0;"></video>
     <canvas class="dbrScanner-cvs-drawarea" style="width:100%;height:100%;position:absolute;left:0;top:0;"></canvas>
     <div class="dbrScanner-cvs-scanarea" style="width:100%;height:100%;position:absolute;left:0;top:0;">
-      <div class="dbrScanner-scanlight" style="display:none;width:100%;height:3%;position:absolute;animation:3s infinite dce-scanlight;border-radius:50%;box-shadow:0px 0px 2vw 1px #00e5ff;background:#fff;user-select:none;"></div>
+      <div class="dbrScanner-scanlight" style="display:none;width:100%;height:3%;position:absolute;animation:3s infinite dbrScanner-scanlight;border-radius:50%;box-shadow:0px 0px 2vw 1px #00e5ff;background:#fff;user-select:none;"></div>
     </div>
     <select class="dce-sel-camera" style="margin:0 auto;position:absolute;left:0;top:0;"></select>
     <select class="dce-sel-resolution" style="position:absolute;left:0;top:20px;"></select>

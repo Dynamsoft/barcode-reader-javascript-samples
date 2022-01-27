@@ -67,14 +67,16 @@
         // decode video from camera
         document.getElementById('btn-show-scanner').addEventListener('click', async() => {
             document.getElementById('btn-show-scanner').hidden = true;
+            //document.getElementById('btn-open-image').hidden = true;
             openScanner(false);
         });
-        
+
         function readAgain() {
             document.getElementById('readAgain').hidden = true;
             document.getElementById('divNoteMessage').hidden = true;
             document.getElementById('UIElement').style.display = "";
             document.getElementById('btn-show-scanner').hidden = false;
+            //document.getElementById('btn-open-image').hidden = false;
         }
         async function openScanner(bSingleFrameMode) {
             try {
@@ -85,7 +87,6 @@
                     scanner.getRuntimeSettings()
                     .then(settings => {
                         settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
-                        settings.deblurLevel = 7;
                         settings.region = {
                             regionLeft: 5,
                             regionTop: 5,
@@ -93,6 +94,8 @@
                             regionBottom: 95,
                             regionMeasuredByPercentage: 1
                         };
+                        settings.localizationModes = [16, 8, 2, 0, 0, 0, 0, 0];
+                        settings.deblurLevel = 7;
                         scanner.updateRuntimeSettings(settings);
                     });
                 document.getElementById('lib-load').hidden = true;
@@ -108,13 +111,6 @@
                 document.getElementsByClassName('dce-sel-camera')[0].hidden = true;
                 document.getElementsByClassName('dce-sel-resolution')[0].hidden = true;
                 document.getElementsByClassName('dce-btn-close')[0].hidden = true;
-                await scanner.updateVideoSettings({
-                    video: {
-                        width: 1920,
-                        height: 1080,
-                        facingMode: "environment"
-                    }
-                });
                 await scanner.show();
                 document.getElementById('hintMSG').hidden = false;
                 document.getElementById('header').hidden = true;
@@ -163,17 +159,8 @@
             'abbreviation': 'DAB',
             'description': 'Last Name'
         }, {
-            'abbreviation': 'DAB',
-            'description': 'Family Name'
-        }, {
             'abbreviation': 'DAC',
             'description': 'First Name'
-        }, {
-            'abbreviation': 'DAC',
-            'description': 'Given Name'
-        }, {
-            'abbreviation': 'DAD',
-            'description': 'Middle Name or Initial'
         }, {
             'abbreviation': 'DAD',
             'description': 'Middle Name'
@@ -289,20 +276,11 @@
             'abbreviation': 'DBO',
             'description': 'Last Name'
         }, {
-            'abbreviation': 'DBO',
-            'description': 'Family Name'
-        }, {
             'abbreviation': 'DBP',
             'description': 'First Name'
         }, {
-            'abbreviation': 'DBP',
-            'description': 'Given Name'
-        }, {
             'abbreviation': 'DBQ',
             'description': 'Middle Name'
-        }, {
-            'abbreviation': 'DBQ',
-            'description': 'Middle Name or Initial'
         }, {
             'abbreviation': 'DBR',
             'description': 'Suffix'
@@ -362,13 +340,7 @@
             'description': 'Jurisdiction specific restriction code description'
         }, {
             'abbreviation': 'DCS',
-            'description': 'Family Name'
-        }, {
-            'abbreviation': 'DCS',
             'description': 'Last Name'
-        }, {
-            'abbreviation': 'DCT',
-            'description': 'Given Name'
         }, {
             'abbreviation': 'DCT',
             'description': 'First Name'
