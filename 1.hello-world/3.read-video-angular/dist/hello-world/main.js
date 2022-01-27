@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\GitHub\dynamsoft\barcode-reader-javascript-samples-demoBranch\1.hello-world\3.read-video-angular\src\main.ts */"zUnb");
+module.exports = __webpack_require__(/*! D:\GitHub\dynamsoft\barcode-reader-javascript-samples-demo\1.hello-world\3.read-video-angular\src\main.ts */"zUnb");
 
 
 /***/ }),
@@ -284,7 +284,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BarcodeScannerComponent", function() { return BarcodeScannerComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dynamsoft-javascript-barcode */ "qQmn");
+/* harmony import */ var _dbr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dbr */ "QmJJ");
 
 
 
@@ -299,7 +299,7 @@ class BarcodeScannerComponent {
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             try {
-                this.pScanner = this.pScanner || dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_2__["default"].BarcodeScanner.createInstance();
+                this.pScanner = this.pScanner || _dbr__WEBPACK_IMPORTED_MODULE_2__["default"].BarcodeScanner.createInstance();
                 let scanner = yield this.pScanner;
                 if (this.bDestroyed) {
                     scanner.destroy();

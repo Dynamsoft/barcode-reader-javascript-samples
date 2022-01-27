@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, ElementRef } from '@angular/core';
-import DBR from 'dynamsoft-javascript-barcode'
+import DBR from '../dbr'
 @Component({
   selector: 'app-barcode-scanner',
   templateUrl: './barcode-scanner.component.html',

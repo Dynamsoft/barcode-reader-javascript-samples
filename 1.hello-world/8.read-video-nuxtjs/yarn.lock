@@ -3070,10 +3070,10 @@ dynamsoft-camera-enhancer@2.0.3:
   resolved "https://registry.yarnpkg.com/dynamsoft-camera-enhancer/-/dynamsoft-camera-enhancer-2.0.3.tgz#a68ea225563f8e3888f552447693d7a2b5f97d4f"
   integrity sha512-B8C72P2sg2wPPFQR/lDt1GT//qKamKonDYiIIN5DeIrRsSefw6hFraQly0nXCDGOxkyFfTVMZz7r8XS66Dwtug==
 
-dynamsoft-javascript-barcode@8.8.3:
-  version "8.8.3"
-  resolved "https://registry.yarnpkg.com/dynamsoft-javascript-barcode/-/dynamsoft-javascript-barcode-8.8.3.tgz#ed47040a7e0623b387acb9fb229a9bba83c7b2ad"
-  integrity sha512-LL85kgfun5czDObFlvd7Kdm0o8Bl+76JhbaWyEGBuppCqt+qLI0ZeEmBQ91Ky3laVh+lsLEXLgiI34qFU0xzEg==
+dynamsoft-javascript-barcode@8.8.7:
+  version "8.8.7"
+  resolved "https://registry.yarnpkg.com/dynamsoft-javascript-barcode/-/dynamsoft-javascript-barcode-8.8.7.tgz#54e84d586717380327c158a0822f12013e4a6090"
+  integrity sha512-Gm9vCuUQq7PJ2Am9u5w578/vAMvwVZle879r80eMfAtO7KR/CRKnNHO0mk7GOWHaQfb/Rjmtfu/IQ1iUbSNeOA==
   dependencies:
     dynamsoft-camera-enhancer "2.0.3"
 
