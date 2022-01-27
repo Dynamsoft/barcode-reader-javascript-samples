@@ -24,8 +24,8 @@ jobs:
       - name: Get Source
         run: |
           cd /home/ubuntu
-          [ ! -d barcode-reader-javascript-samples ] && git clone --depth 1 https://github.com/Dynamsoft/barcode-reader-javascript-samples.git 
-          [ -d barcode-reader-javascript-samples ] && cd barcode-reader-javascript-samples && git pull https://github.com/Dynamsoft/barcode-reader-javascript-samples.git
+          [ -d barcode-reader-javascript-samples ] && rm -rf barcode-reader-javascript-samples
+          git clone --depth 1 -b demo https://github.com/Dynamsoft/barcode-reader-javascript-samples.git 
           
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
