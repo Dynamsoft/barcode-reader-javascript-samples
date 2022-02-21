@@ -7,11 +7,6 @@
     <meta name="description" content="Read barcodes from images in no time with Dynamsoft Barcode Reader. With this online demo, you can choose a file to scan the barcodes on them.">
     <meta name="keywords" content="read barcode from still images">
     <title>Dynamsoft Barcode Reader Sample - Read an Image</title>
-    <!--
-      This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
-      library offline. Please see the guide on how to host the library: 
-      https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest&utm_source=github#host-the-library-yourself-recommended
-    -->
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
 </head>
 
@@ -20,12 +15,12 @@
     <input id="ipt-file" type="file" style="margin-bottom: 2vh;" accept="image/png,image/jpeg,image/bmp,image/gif">
     <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
     <div id="UIElement">
-        <img id="imgToRead" alt="Image to read" hidden /><br />
-        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
-        <span id='reading' style='font-size:x-large;max-height: 10%;' hidden>Reading Barcodes...</span>
+        <img id="imgToRead" alt="Image to read" hidden /><br>
+        <span id='lib-load' style='font-size:1.5em'>Loading Library...</span>
+        <span id='reading' style='font-size:1.5em;display:none;'>Reading Barcodes...</span>
     </div>
     <div>
-        <span style="float:left">All Results:</span><br />
+        <span>All Results:</span><br>
         <div id="results"></div>
     </div>
     <script>
@@ -40,25 +35,31 @@
         
         // Dynamsoft.DBR.BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
 
-        // reader for decoding pictures
-        let pReader = null;
-        window.onload = async function() {
-            // Load the library on page load to speed things up.
+
+
+
+        // Load the library on page load to speed things up.
+        (async()=>{
             try {
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
+                document.getElementById('lib-load').style.display = 'none';
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
             }
-        };
+        })();
+
+
+
+
+        // reader for decoding pictures
+        let pReader = null;
         document.getElementById('ipt-file').addEventListener('change', async function() {
             try {
                 document.getElementById("imgToRead").hidden = true;
-                document.getElementById('lib-load').hidden = false;
                 pReader = pReader || Dynamsoft.DBR.BarcodeReader.createInstance();
                 let reader = await pReader;
-                document.getElementById('lib-load').hidden = true;
-                document.getElementById('reading').hidden = false;
+                document.getElementById('reading').style.display = '';
                 for (let i = 0; i < this.files.length; ++i) {
                     // In our case, there will only be one file here (no 'multiple' attribute)
                     let file = this.files[i];
@@ -97,7 +98,7 @@
                     }
                     document.getElementById('results').scrollTop = document.getElementById('results').scrollHeight;
                 }
-                document.getElementById('reading').hidden = true;
+                document.getElementById('reading').style.display = 'none';
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
