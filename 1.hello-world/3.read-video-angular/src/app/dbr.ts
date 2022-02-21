@@ -1,6 +1,7 @@
 import DBR from "dynamsoft-javascript-barcode";
 
 /** LICENSE ALERT - README
+ * 
  * The library requires a license to work.
  * If the license is not specified, a free public trial license will be used by default which is the case in this sample.
  * Note that network connection is required for the public license to work.
@@ -10,6 +11,8 @@ import DBR from "dynamsoft-javascript-barcode";
 /* When using your own license, uncomment the following line and specify your license. */
 
 // DBR.BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
+
+/** LICENSE ALERT - THE END */
 
 DBR.BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";
 
