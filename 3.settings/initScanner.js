@@ -12,21 +12,15 @@ let resultBox = document.getElementById('result');
 window.onload = async function () {
     try {
         /** LICENSE ALERT - README
-         * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
-         * If the Organizaion ID is not specified, a 7-day (public) trial license will be used by default which is the case in this sample.
-         * Note that network connection is required for this license to work.
+         * The library requires a license to work.
+         * If the license is not specified, a free public trial license will be used by default which is the case in this sample.
+         * Note that network connection is required for the public license to work.
+         * For more info, please check https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=8.8.7&utm_source=github#specify-the-license or contact support@dynamsoft.com.
          */
 
-        /* When using your own license, uncomment the following line and specify your Organization ID. */
+        /* When using your own license, uncomment the following line and specify your license. */
 
-        // Dynamsoft.DBR.organizationID = "YOUR-ORGANIZATION-ID";
-
-        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=samples */
-        /* For more information, please refer to https://www.dynamsoft.com/license-server/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
-
-        /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
-
-        // Dynamsoft.DBR.productKeys = "YOUR-PRODUCT-KEY";
+        // Dynamsoft.DBR.BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
 
         /** LICENSE ALERT - THE END */
 
