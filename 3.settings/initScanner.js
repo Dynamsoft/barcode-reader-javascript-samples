@@ -12,6 +12,7 @@ let resultBox = document.getElementById('result');
 window.onload = async function () {
     try {
         /** LICENSE ALERT - README
+         *
          * The library requires a license to work.
          * If the license is not specified, a free public trial license will be used by default which is the case in this sample.
          * Note that network connection is required for the public license to work.

@@ -25,6 +25,7 @@
     </div>
     <script>
         /** LICENSE ALERT - README
+         *
          * The library requires a license to work.
          * If the license is not specified, a free public trial license will be used by default which is the case in this sample.
          * Note that network connection is required for the public license to work.
@@ -32,14 +33,13 @@
          */
 
         /* When using your own license, uncomment the following line and specify your license. */
-        
+
         // Dynamsoft.DBR.BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
 
-
-
+        /** LICENSE ALERT - THE END */
 
         // Load the library on page load to speed things up.
-        (async()=>{
+        (async() => {
             try {
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
                 document.getElementById('lib-load').style.display = 'none';
