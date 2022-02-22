@@ -10,7 +10,7 @@ Let's break down each of the samples
 
 In this sample, you will find the basic lines of code ncessary to initialize the library and set it up.
 
-Please note that if no license is specified in code via the `organizationID` property or the `productKeys` property, as shown in the commented lines of code, a 7-day public trial will be used starting from v8.2.5. In earlier versions, an error will be thrown if no license, trial or full, is specified.
+Please note that if no license is specified in code via the `organizationID` property or the `productKeys` property, as shown in the commented lines of code, a free public trial will be used starting from v8.2.5. In earlier versions, an error will be thrown if no license, trial or full, is specified.
 
 Let's quickly break down the methods used in order:
 
