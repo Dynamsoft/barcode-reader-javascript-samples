@@ -49,7 +49,7 @@
                  */
                 scanner.onUnduplicatedRead = (txt, result) => {
                     alert(txt);
-                    console.log("Unique Code Found: " + result);
+                    console.log("Unique Code Found: ", result);
                 }
                 await scanner.show();
             } catch (ex) {
