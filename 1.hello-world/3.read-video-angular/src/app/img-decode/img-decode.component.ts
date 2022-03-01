@@ -13,8 +13,8 @@ export class ImgDecodeComponent implements OnInit {
 
   decodeImg = async (e: any) => {
     try {
-      const render = await (this.pReader = DBR.BarcodeScanner.createInstance());
-      const results = await render.decode(e.target.files[0]);
+      const reader = await (this.pReader = DBR.BarcodeReader.createInstance());
+      const results = await reader.decode(e.target.files[0]);
       for (const result of results) {
         alert(result.barcodeText);
       }

@@ -28,7 +28,8 @@
         // Dynamsoft.DBR.BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
         
         /** LICENSE ALERT - THE END */
-        
+
+        let pScanner = null;
         let latestResult = null;
         document.getElementById('readBarcode').onclick = async function() {
             Notification.requestPermission().then((result) => {
@@ -37,7 +38,7 @@
                 }
             });
             try {
-                const scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                const scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 scanner.onFrameRead = results => {
                     console.log("Barcodes on one frame:");
                     for (let result of results) {
