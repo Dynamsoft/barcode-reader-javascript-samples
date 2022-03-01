@@ -1,5 +1,5 @@
 import './App.css';
-import HelloWorld from './components/HelloWorld.js';
+import HelloWorld from './components/HelloWorld/HelloWorld.js';
 
 function App() {
   return (

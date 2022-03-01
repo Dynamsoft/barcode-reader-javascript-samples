@@ -17,17 +17,17 @@ window.onload = function () {
     let pScanner = null;
     document.getElementById('readBarcode').onclick = async () => {
         try {
-            let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-            scanner.onFrameRead = results => {
+            pScanner = pScanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+            pScanner.onFrameRead = results => {
                 if (results.length) {
                     console.log(results);
                 }
             };
-            scanner.onUnduplicatedRead = (txt, result) => {
-                document.getElementById('resultText').value = result.barcodeFormatString + ': ' + txt;
+            pScanner.onUnduplicatedRead = (txt, result) => {
+                alert(txt, result);
             };
-            document.getElementById("barcodeScannerUI").appendChild(scanner.getUIElement());
-            await scanner.show();
+            document.getElementById("barcodeScannerUI").appendChild(pScanner.getUIElement());
+            await pScanner.show();
         } catch (ex) {
             alert(ex.message);
             throw ex;

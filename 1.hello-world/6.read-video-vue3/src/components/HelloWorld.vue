@@ -1,30 +1,13 @@
 <template>
   <div className="helloWorld">
-    <h1>{{ msg }} <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h1>
-    <input
-      type="text"
-      placeholder="The Last Read Barcode"
-      id="resultText"
-      v-model="resultValue"
-      readonly="true"
-    />
-    <div id="UIElement">
-      <span style="font-size: x-large" v-if="!libLoaded">Loading Library...</span>
-      <BarcodeScanner
-        v-if="bShowScanner"
-        v-on:appendMessage="appendMessage"
-      ></BarcodeScanner>
+    <h1>Hello World for Vue 3 <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h1>
+    <div class="btn-group">
+        <button :style="{marginRight: '10px', backgroundColor: bShowScanner ? 'rgb(255,174,55)' : 'white'}" @click="showScanner">Video Decode</button>
+        <button :style="{backgroundColor: bShowImgDecode ? 'rgb(255,174,55)' : 'white'}"  @click="showImgDecode">Image Decode</button>
     </div>
-    <div>
-      <span style="float: left">All Results:</span><br />
-      <div id="results">
-        <ul>
-          <li v-for="(item, index) in resultItems" :key="index + 100000">
-            <span>{{ item.type }}</span
-            ><span class="resultText">{{ item.text }}</span>
-          </li>
-        </ul>
-      </div>
+    <div id="UIElement">
+      <BarcodeScanner v-if="bShowScanner"></BarcodeScanner>
+      <ImgDecode v-if="bShowImgDecode"></ImgDecode>
     </div>
   </div>
 </template>
@@ -32,63 +15,50 @@
 <script>
 import DBR from "../dbr";
 import BarcodeScanner from "./BarcodeScanner";
-import { ref, onMounted, reactive } from "vue";
+import ImgDecode from './ImgDecode'
+import { ref, onMounted } from "vue";
 
 export default {
   name: "HelloWorld",
-  props: {
-    msg: String,
-  },
   setup() {
-    const resultValue = ref(null);
-    const libLoaded = ref(false);
-    const bShowScanner = ref(false);
-    const resultItems = reactive([]);
+    const bShowScanner = ref(true);
+    const bShowImgDecode = ref(false)
     onMounted(async () => {
       try {
         //Load the library on page load to speed things up.
         await DBR.BarcodeScanner.loadWasm();
-        libLoaded.value = true;
-        showScanner();
       } catch (ex) {
-        alert(ex.message);
-        throw ex;
+        console.error(ex);
       }
     });
     const showScanner = () => {
       bShowScanner.value = true;
+      bShowImgDecode.value = false;
     };
-    const appendMessage = (message) => {
-      switch (message.type) {
-        case "result":
-          resultValue.value = message.format + ": " + message.text;
-          resultItems.push({ type: message.format + ": ", text: message.text });
-          break;
-        case "error":
-          resultValue.value = message.msg;
-          resultItems.push({ type: "Error: ", text: message.msg });
-          break;
-        default:
-          break;
-      }
-    };
+    const showImgDecode = () => {
+      bShowScanner.value = false;
+      bShowImgDecode.value = true;
+    }
     return {
-      resultItems,
-      resultValue,
-      libLoaded,
       bShowScanner,
       showScanner,
-      appendMessage,
+      showImgDecode,
+      bShowImgDecode
     };
   },
   components: {
-    BarcodeScanner,
+    BarcodeScanner, ImgDecode
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+button {
+  font-size: 1.5rem;
+  margin-bottom: 2vh;
+  border: 1px solid black;
+}
 #UIElement {
   margin: 2vmin auto;
   text-align: center;
