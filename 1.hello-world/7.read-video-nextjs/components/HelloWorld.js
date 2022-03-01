@@ -1,5 +1,5 @@
 import React from 'react';
-import BarcodeScanner from './BarcodeScanner';
+import VideoDecode from './VideoDecode';
 import ImgDecode from './ImgDecode';
 import DBR from "../dbr";
 
@@ -40,7 +40,7 @@ class HelloWorld extends React.Component {
                     <button style={{marginRight: '10px', backgroundColor: this.state.bShowScanner ? 'rgb(255,174,55)' : 'white'}} onClick={this.showScanner}>Video Decode</button>
                     <button style={{backgroundColor: this.state.bShowImgDecode ? 'rgb(255,174,55)' : 'white'}} onClick={this.showImgDecode}>Image Decode</button>
                 </div>
-                {this.state.bShowScanner ? (<BarcodeScanner></BarcodeScanner>) : ""}
+                {this.state.bShowScanner ? (<VideoDecode></VideoDecode>) : ""}
                 {this.state.bShowImgDecode ? (<ImgDecode></ImgDecode>) : ""}
             </div>
         );

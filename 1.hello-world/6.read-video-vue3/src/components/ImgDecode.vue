@@ -12,8 +12,8 @@ export default {
 
     const decodeImg = async (e) => {
       try {
-        pReader.value = pReader.value || await DBR.BarcodeScanner.createInstance();
-        let results = await pReader.value.decode(e.target.files[0]);
+        const render = await (pReader.value = DBR.BarcodeScanner.createInstance());
+        let results = await render.decode(e.target.files[0]);
         for(let result of results){
           alert(result.barcodeText);
         }

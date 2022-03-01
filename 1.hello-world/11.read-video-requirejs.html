@@ -32,10 +32,9 @@
             /** LICENSE ALERT - THE END */
 
             BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";
-            let pScanner = null;
             document.getElementById('readBarcode').onclick = async function() {
                 try {
-                    const scanner = await (pScanner = pScanner || BarcodeScanner.createInstance());
+                    const scanner = await BarcodeScanner.createInstance();
                     scanner.onFrameRead = results => {
                         console.log("Barcodes on one frame:");
                         for (let result of results) {

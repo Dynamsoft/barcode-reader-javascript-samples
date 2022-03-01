@@ -16,22 +16,21 @@ import DBR from "dynamsoft-javascript-barcode";
 
 DBR.BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";
 
-let pScanner = null;
 if (document.getElementById('readBarcode')) {
     document.getElementById('readBarcode').onclick = async function() {
         try {
-            pScanner = pScanner || await DBR.BarcodeScanner.createInstance();
-            pScanner.onFrameRead = results => {
+            const scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
+            scanner.onFrameRead = results => {
                 console.log("Barcodes on one frame:");
                 for (let result of results) {
                     console.log(result.barcodeFormatString + ": " + result.barcodeText);
                 }
             };
-            pScanner.onUnduplicatedRead = (txt, result) => {
+            scanner.onUnduplicatedRead = (txt, result) => {
                 alert(txt);
-                console.log("Unique Code Found: " + result);
+                console.log("Unique Code Found: ", result);
             }
-            await pScanner.show();
+            await scanner.show();
         } catch (ex) {
             alert(ex.message);
             throw ex;

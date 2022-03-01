@@ -6,8 +6,8 @@
         <button [ngStyle]="{'margin-right': '10px', 'background-color': bShowScanner ? 'rgb(255,174,55)' : 'white'}" (click)="showScanner()">Video Decode</button>
         <button [ngStyle]="{'background-color': !bShowScanner ? 'rgb(255,174,55)' : 'white'}" (click)="showImgDecode()">Image Decode</button>
     </div>
-    <div id="UIElement">
-        <app-barcode-scanner *ngIf="bShowScanner"></app-barcode-scanner>
+    <div class="container">
+        <app-video-decode *ngIf="bShowScanner"></app-video-decode>
         <app-img-decode *ngIf="bShowImgDecode"></app-img-decode>
     </div>
 </div>
