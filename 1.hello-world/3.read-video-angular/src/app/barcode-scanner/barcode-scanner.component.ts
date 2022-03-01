@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import DBR from '../dbr';
 @Component({
-  selector: 'app-barcode-scanner',
+  selector: 'app-video-decode',
   templateUrl: './barcode-scanner.component.html',
   styleUrls: ['./barcode-scanner.component.css']
 })
-export class BarcodeScannerComponent implements OnInit {
+export class VideoDecodeComponent implements OnInit {
   pScanner = null;
 
   async ngOnInit(): Promise<void> {

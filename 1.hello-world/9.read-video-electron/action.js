@@ -14,20 +14,19 @@ window.onload = function () {
     /** LICENSE ALERT - THE END */
 
     Dynamsoft.DBR.BarcodeReader.loadWasm();
-    let pScanner = null;
     document.getElementById('readBarcode').onclick = async () => {
         try {
-            pScanner = pScanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
-            pScanner.onFrameRead = results => {
+            const scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
+            scanner.onFrameRead = results => {
                 if (results.length) {
                     console.log(results);
                 }
             };
-            pScanner.onUnduplicatedRead = (txt, result) => {
+            scanner.onUnduplicatedRead = (txt, result) => {
                 alert(txt, result);
             };
-            document.getElementById("barcodeScannerUI").appendChild(pScanner.getUIElement());
-            await pScanner.show();
+            document.getElementById("barcodeScannerUI").appendChild(scanner.getUIElement());
+            await scanner.show();
         } catch (ex) {
             alert(ex.message);
             throw ex;

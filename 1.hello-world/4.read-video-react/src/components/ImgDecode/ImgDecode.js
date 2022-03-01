@@ -10,8 +10,8 @@ export default class ImgDecode extends Component {
 
   decodeImg = async (e) => {
     try {
-      this.pReader = this.pReader || await DBR.BarcodeScanner.createInstance();
-      let results = await this.pReader.decode(e.target.files[0]);
+      const render = await (this.pReader = DBR.BarcodeScanner.createInstance());
+      let results = await render.decode(e.target.files[0]);
       for(let result of results){
         alert(result.barcodeText);
       }

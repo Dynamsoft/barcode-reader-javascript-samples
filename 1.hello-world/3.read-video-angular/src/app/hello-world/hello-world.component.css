@@ -21,54 +21,12 @@
       font-size: 0.8rem;
     }
 
-    .latest-result {
-      display: block;
-      margin: 0;
-      padding: 0.4rem 0.8rem;
-      color: inherit;
-      width: 80vw;
-      border: none;
-      font-size: 1rem;
-      border-radius: 0.2rem;
-      text-align: center;
-    }
-
-    .latest-result::placeholder {
-      color: #B0BEC5;
-    }
-
-    .latest-result:focus {
-      outline: none;
-      box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
-    }
-
-    #results {
-      border: 1px dashed grey;
-      overflow: auto;
-      width: 80vw;
-      padding: 2vmin;
-      margin-bottom: 3vh;
-      height: 15vh;
-    }
-
-    #results ul {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-      text-align: left;
-      font-size: 0.8rem;
-    }
-
-    .resultText {
-      color: #cE5E04
-    }
-
     .bigger {
       font-size: large;
       margin-bottom: 2%;
     }
 
-    #UIElement {
+    .container {
       margin: 2vmin auto;
       text-align: center;
       font-size: medium;

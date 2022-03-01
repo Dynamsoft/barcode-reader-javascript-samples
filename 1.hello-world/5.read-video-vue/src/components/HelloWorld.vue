@@ -5,8 +5,8 @@
         <button :style="{marginRight: '10px', backgroundColor: bShowScanner ? 'rgb(255,174,55)' : 'white'}" @click="showScanner">Video Decode</button>
         <button :style="{backgroundColor: bShowImgDecode ? 'rgb(255,174,55)' : 'white'}"  @click="showImgDecode">Image Decode</button>
     </div>
-    <div id="UIElement">
-      <BarcodeScanner v-if="bShowScanner"></BarcodeScanner>
+    <div class="container">
+      <VideoDecode v-if="bShowScanner"></VideoDecode>
       <ImgDecode v-if="bShowImgDecode"></ImgDecode>
     </div>
   </div>
@@ -14,7 +14,7 @@
 
 <script>
 import DBR from "../dbr";
-import BarcodeScanner from "./BarcodeScanner";
+import VideoDecode from "./VideoDecode";
 import ImgDecode from './ImgDecode.vue'
 
 export default {
@@ -35,7 +35,7 @@ export default {
     }
   },
   components: {
-    BarcodeScanner, ImgDecode
+    VideoDecode, ImgDecode
   },
   methods: {
     showScanner() {
@@ -137,17 +137,11 @@ span {
   margin-bottom: 2%;
 }
 
-#UIElement {
+.container {
   margin: 2vmin auto;
   text-align: center;
   font-size: medium;
   height: 40vh;
   width: 80vw;
-}
-
-#UIElement img {
-  max-width: 100%;
-  max-height: 90%;
-  border: solid 1px gray;
 }
 </style>
