@@ -28,9 +28,10 @@
 
         /** LICENSE ALERT - THE END */
 
+        let pScanner = null;
         document.getElementById('btn-show-scanner').onclick = async function() {
             try {
-                const scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                const scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 /* 
                  * onFrameRead is triggered after the library finishes reading a frame.
                  * There can be multiple barcodes on one frame.

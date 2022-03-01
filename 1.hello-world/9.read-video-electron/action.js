@@ -14,9 +14,10 @@ window.onload = function () {
     /** LICENSE ALERT - THE END */
 
     Dynamsoft.DBR.BarcodeReader.loadWasm();
+    let pScanner = null;
     document.getElementById('readBarcode').onclick = async () => {
         try {
-            const scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
+            const scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
             scanner.onFrameRead = results => {
                 if (results.length) {
                     console.log(results);
