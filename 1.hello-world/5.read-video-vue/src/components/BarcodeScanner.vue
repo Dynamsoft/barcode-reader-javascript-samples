@@ -105,41 +105,30 @@ import DBR from "../dbr";
 export default {
   data() {
     return {
-      bDestroyed: false,
       pScanner: null,
     };
   },
   async mounted() {
     try {
-      this.pScanner = this.pScanner || DBR.BarcodeScanner.createInstance()
-      let scanner = await this.pScanner;
-      if (this.bDestroyed) {
-        scanner.destroy();
-        return;
-      }
+      const scanner = await (this.pScanner = DBR.BarcodeScanner.createInstance());
       await scanner.setUIElement(this.$el);
       scanner.onFrameRead = (results) => {
         for (let result of results) {
-          this.$emit("appendMessage", {
-            format: result.barcodeFormatString,
-            text: result.barcodeText,
-            type: "result",
-            });
-            if (result.barcodeText.indexOf("Attention(exceptionCode") !== -1) {
-              this.$emit("appendMessage", { msg: result.exception.message, type: "error" });
-            }
+          console.log(result.barcodeText);
         }
       };
+      scanner.onUnduplicatedRead = (txt, result) => {
+        alert(txt, result);
+      }
       await scanner.open();
     } catch (ex) {
-      this.$emit("appendMessage", { msg: ex.message, type: "error" });
       console.error(ex);
     }
   },
-  async beforeUnmount() {
-    this.bDestroyed = true;
+  async beforeDestroy() {
     if (this.pScanner) {
       (await this.pScanner).destroy();
+      console.log('BarcodeScanner Component Unmount');
     }
   },
 };
@@ -148,69 +137,69 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .component-barcode-scanner {
+  position: relative;
   width: 100%;
   height: 100%;
-  position: relative;
   resize: both;
 }
 .dce-bg-loading {
-  animation: 1s linear infinite dce-rotate;
-  width: 40%;
-  height: 40%;
   position: absolute;
-  margin: auto;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
+  width: 40%;
+  height: 40%;
+  margin: auto;
   fill: #aaa;
+  animation: 1s linear infinite dce-rotate;
 }
 .dce-bg-camera {
-  width: 40%;
-  height: 40%;
   position: absolute;
-  margin: auto;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
+  width: 40%;
+  height: 40%;
+  margin: auto;
   fill: #aaa;
 }
 .dce-video {
-  width: 100%;
-  height: 100%;
   position: absolute;
   left: 0;
   top: 0;
+  width: 100%;
+  height: 100%;
 }
 .dbrScanner-cvs-drawarea {
-  width: 100%;
-  height: 100%;
   position: absolute;
   left: 0;
   top: 0;
+  width: 100%;
+  height: 100%;
 }
 .dbrScanner-cvs-scanarea {
-  width: 100%;
-  height: 100%;
   position: absolute;
   left: 0;
   top: 0;
+  width: 100%;
+  height: 100%;
 }
 .dbrScanner-scanlight {
+  position: absolute;
   width: 100%;
   height: 3%;
-  position: absolute;
   animation: 3s infinite dbrScanner-scanlight;
   border-radius: 50%;
   box-shadow: 0px 0px 2vw 1px #00e5ff;
   background: #fff;
 }
 .dce-sel-camera {
-  margin: 0 auto;
   position: absolute;
   left: 0;
   top: 0;
+  margin: 0 auto;
 }
 .dce-sel-resolution {
   position: absolute;
