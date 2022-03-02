@@ -10,7 +10,7 @@ import { BarcodeReader } from 'dynamsoft-javascript-barcode';
 
 /* When using your own license, uncomment the following line and specify your license. */
 
-// DBR.BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
+// BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
 
 /** LICENSE ALERT - THE END */
 
