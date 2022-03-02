@@ -4,19 +4,17 @@ It's a sample aim to:
 
 1. Print verbose logs to better assist in problem solving. 
 2. Check whether your device and browser are compatible with the camera, and to what extent. 
-3. Save the decoded picture for analysis. 
+3. Collect the video frames for analysis. 
 
-## Quick Debug
+*Quick Debug*: https://dynamsoft.github.io/barcode-reader-javascript-samples/5.others/debug/public/index.html
 
-https://dynamsoft.github.io/barcode-reader-javascript-samples/5.others/debug/public/index.html
-
-# Collect runtime images for debugging
+## Collect the video frames for analysis
 
 When you encounter unreadable barcodes via a video input, you can use this sample to take a few sample frames to share with the Dynamsoft Support Team for debugging purposes.
 
 Since the video is usually playing on mobile devices, having these frames uploaded to a self-hosted local server is most convenient, the following shows how to use the sample.
 
-## Set up a local server
+### Set up a local server
 
 We make use of the web server that comes with [Express](https://expressjs.com/).
 
@@ -34,7 +32,7 @@ We defined the web server logic in the file "app.js", to start it, run the follo
 
 Note that we have enabled SSL on this server at the port 4443.
 
-## Use the sample page
+### Use the sample page
 
 Once the server is up and running, open the page on the device that will do the barcode reading. The URL for the sample is "https://{your-local-ip}:4443/". For example, suppose your ip is 192.168.1.1, the site can be visited at https://192.168.1.1:4443/.
 
