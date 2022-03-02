@@ -51,11 +51,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#barcodeScannerUI {
-  width: 100%;
-  height: 100%;
-}
-
 .component-barcode-scanner{width:100%;height:100%;min-width:640px;min-height:480px;background:#eee;position:relative;resize:both;}
 .dbrScanner-bg-loading{animation:1s linear infinite dbrScanner-rotate;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;}
 .dbrScanner-bg-camera{width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;}
