@@ -1,4 +1,12 @@
-# Quick debug
+# Debug Sample
+
+It's a sample aim to:
+
+1. Print verbose logs to better assist in problem solving. 
+2. Check whether your device and browser are compatible with the camera, and to what extent. 
+3. Save the decoded picture for analysis. 
+
+## Quick Debug
 
 https://dynamsoft.github.io/barcode-reader-javascript-samples/5.others/debug/public/index.html
 
