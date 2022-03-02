@@ -1,6 +1,7 @@
 import './HelloWorld.css';
 import reactLogo from '../../logo.svg';
-import DBR from "../../dbr";
+import "../../dbr"; // import side effects. The license, engineResourcePath, so on.
+import { BarcodeReader } from "dynamsoft-javascript-barcode";
 import React from 'react';
 import VideoDecode from '../VideoDecode/VideoDecode';
 import ImgDecode from '../ImgDecode/ImgDecode';
@@ -15,7 +16,7 @@ class HelloWorld extends React.Component {
     }
     async componentDidMount() {
         try {
-            await DBR.BarcodeScanner.loadWasm();
+            await BarcodeReader.loadWasm();
         } catch (ex) {
             alert(ex.message);
             throw ex;

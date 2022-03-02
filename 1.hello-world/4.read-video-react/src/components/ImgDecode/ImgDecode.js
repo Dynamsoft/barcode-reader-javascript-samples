@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import DBR from "../../dbr";
+import { BarcodeReader } from "dynamsoft-javascript-barcode";
 import './ImgDecode.css'
 
 export default class ImgDecode extends Component {
@@ -10,7 +10,7 @@ export default class ImgDecode extends Component {
 
   decodeImg = async (e) => {
     try {
-      const reader = await (this.pReader = DBR.BarcodeReader.createInstance());
+      const reader = await (this.pReader = BarcodeReader.createInstance());
       let results = await reader.decode(e.target.files[0]);
       for(let result of results){
         alert(result.barcodeText);
