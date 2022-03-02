@@ -4,7 +4,7 @@
 
 <script>
 import { onBeforeUnmount, ref } from "vue";
-import DBR from "../dbr";
+import { BarcodeReader } from 'dynamsoft-javascript-barcode'
 
 export default {
   setup() {
@@ -12,7 +12,7 @@ export default {
 
     const decodeImg = async (e) => {
       try {
-        const reader = await (pReader.value = DBR.BarcodeReader.createInstance());
+        const reader = await (pReader.value = BarcodeReader.createInstance());
         let results = await reader.decode(e.target.files[0]);
         for(let result of results){
           alert(result.barcodeText);

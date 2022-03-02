@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import DBR from '../dbr';
+import {BarcodeReader} from 'dynamsoft-javascript-barcode'
 
 @Component({
   selector: 'app-img-decode',
@@ -13,7 +13,7 @@ export class ImgDecodeComponent implements OnInit {
 
   decodeImg = async (e: any) => {
     try {
-      const reader = await (this.pReader = DBR.BarcodeReader.createInstance());
+      const reader = await (this.pReader = BarcodeReader.createInstance());
       const results = await reader.decode(e.target.files[0]);
       for (const result of results) {
         alert(result.barcodeText);

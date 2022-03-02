@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import DBR from "../dbr";
+import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
 
 export default {
   data() {
@@ -36,7 +36,7 @@ export default {
   },
   async mounted() {
     try {
-      const scanner = await (this.pScanner = DBR.BarcodeScanner.createInstance());
+      const scanner = await (this.pScanner = BarcodeScanner.createInstance());
       await scanner.setUIElement(this.$el);
       scanner.onFrameRead = (results) => {
         for (let result of results) {

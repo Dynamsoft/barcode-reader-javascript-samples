@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import DBR from '../dbr';
+import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
 @Component({
   selector: 'app-video-decode',
   templateUrl: './barcode-scanner.component.html',
@@ -10,7 +10,7 @@ export class VideoDecodeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      const scanner = await (this.pScanner = DBR.BarcodeScanner.createInstance());
+      const scanner = await (this.pScanner = BarcodeScanner.createInstance());
       scanner.setUIElement((document.querySelector('.component-barcode-scanner') as any));
       scanner.onFrameRead = (results: any) => {
         for (const result of results) {
