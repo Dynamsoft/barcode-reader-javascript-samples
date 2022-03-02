@@ -8,7 +8,7 @@
     <meta name="keywords" content="read barcode from camera in PWA">
     <title>Dynamsoft Barcode Reader PWA Sample - Hello World (Decoding via Camera)</title>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
-    <link rel="manifest" href="./helloworld-pwa.webmanifest">
+    <link rel="manifest" href="./helloworld-pwa.json">
 </head>
 
 <body>
@@ -38,7 +38,7 @@
                 }
             });
             try {
-                let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+                const scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 scanner.onFrameRead = results => {
                     console.log("Barcodes on one frame:");
                     for (let result of results) {
@@ -47,7 +47,7 @@
                 };
                 scanner.onUnduplicatedRead = (txt, result) => {
                     latestResult = txt;
-                    console.log("Unique Code Found: " + result);
+                    alert(txt, result);
                 }
                 await scanner.show();
             } catch (ex) {
