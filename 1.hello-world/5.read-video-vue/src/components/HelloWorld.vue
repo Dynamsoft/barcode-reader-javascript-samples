@@ -1,97 +1,57 @@
 <template>
   <div class="helloWorld">
-    <h1>{{ msg }} <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h1>
-    <input
-      type="text"
-      v-model="resultValue"
-      readonly="true"
-      class="latest-result"
-      placeholder="The Last Read Barcode"
-    />
-    <div id="UIElement">
-      <span style="font-size: x-large" v-if="!libLoaded">Loading Library...</span>
-      <BarcodeScanner
-        v-if="bShowScanner"
-        v-on:appendMessage="appendMessage"
-      ></BarcodeScanner>
+    <h1>Hello World for Vue<img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h1>
+    <div class="btn-group">
+        <button :style="{marginRight: '10px', backgroundColor: bShowScanner ? 'rgb(255,174,55)' : 'white'}" @click="showScanner">Video Decode</button>
+        <button :style="{backgroundColor: bShowImgDecode ? 'rgb(255,174,55)' : 'white'}"  @click="showImgDecode">Image Decode</button>
     </div>
-    <div>
-      <span style="float: left">All Results:</span><br />
-      <div id="results">
-        <ul>
-          <li v-for="(item, index) in resultItems" :key="index + 100000">
-            <span>{{ item.type }}</span
-            ><span class="resultText">{{ item.text }}</span>
-          </li>
-        </ul>
-      </div>
+    <div class="container">
+      <VideoDecode v-if="bShowScanner"></VideoDecode>
+      <ImgDecode v-if="bShowImgDecode"></ImgDecode>
     </div>
   </div>
 </template>
 
 <script>
 import DBR from "../dbr";
-import BarcodeScanner from "./BarcodeScanner";
+import VideoDecode from "./VideoDecode";
+import ImgDecode from './ImgDecode.vue'
 
 export default {
   name: "HelloWorld",
-  props: {
-    msg: String,
-  },
   data() {
     return {
-      resultValue: "",
-      resultItems: [],
-      libLoaded: false,
-      bShowScanner: false,
+      bShowScanner: true,
+      bShowImgDecode: false
     };
   },
   async mounted() {
     //Load the library on page load to speed things up.
     try {
       await DBR.BarcodeScanner.loadWasm();
-      this.libLoaded = true;
-      this.showScanner();
     } catch (ex) {
       alert(ex.message);
       throw ex;
     }
   },
-  updated() {
-    var container = this.$el.querySelector("#results");
-    container.scrollTop = container.scrollHeight;
-  },
   components: {
-    BarcodeScanner,
+    VideoDecode, ImgDecode
   },
   methods: {
-    appendMessage(message) {
-      switch (message.type) {
-        case "result":
-          this.resultValue = message.format + ": " + message.text;
-          this.resultItems.push({ type: message.format + ": ", text: message.text });
-          break;
-        case "error":
-          this.resultValue = message.msg;
-          this.resultItems.push({ type: "Error: ", text: message.msg });
-          break;
-        default:
-          break;
-      }
-    },
     showScanner() {
       this.bShowScanner = true;
+      this.bShowImgDecode = false;
     },
+    showImgDecode() {
+      this.bShowScanner = false;
+      this.bShowImgDecode = true;
+    }
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-
 h1 {
   font-size: 1.5em;
 }
@@ -123,6 +83,7 @@ a {
 button {
   font-size: 1.5rem;
   margin-bottom: 2vh;
+  border: 1px solid black;
 }
 
 span {
@@ -176,17 +137,11 @@ span {
   margin-bottom: 2%;
 }
 
-#UIElement {
+.container {
   margin: 2vmin auto;
   text-align: center;
   font-size: medium;
   height: 40vh;
   width: 80vw;
-}
-
-#UIElement img {
-  max-width: 100%;
-  max-height: 90%;
-  border: solid 1px gray;
 }
 </style>

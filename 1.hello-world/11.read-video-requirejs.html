@@ -14,7 +14,6 @@
     <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.js"></script>
     <script>
         requirejs(['https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js'], function({
-            DBR,
             BarcodeReader,
             BarcodeScanner
         }) {
@@ -36,7 +35,7 @@
             let pScanner = null;
             document.getElementById('readBarcode').onclick = async function() {
                 try {
-                    let scanner = await (pScanner = pScanner || BarcodeScanner.createInstance());
+                    const scanner = await (pScanner = pScanner || BarcodeScanner.createInstance());
                     scanner.onFrameRead = results => {
                         console.log("Barcodes on one frame:");
                         for (let result of results) {
@@ -45,7 +44,7 @@
                     };
                     scanner.onUnduplicatedRead = (txt, result) => {
                         alert(txt);
-                        console.log("Unique Code Found: " + result);
+                        console.log("Unique Code Found: ", result);
                     }
                     await scanner.show();
                 } catch (ex) {

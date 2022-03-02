@@ -20,7 +20,7 @@ let pScanner = null;
 if (document.getElementById('readBarcode')) {
     document.getElementById('readBarcode').onclick = async function() {
         try {
-            let scanner = await (pScanner = pScanner || DBR.BarcodeScanner.createInstance());
+            const scanner = await (pScanner = pScanner || DBR.BarcodeScanner.createInstance());
             scanner.onFrameRead = results => {
                 console.log("Barcodes on one frame:");
                 for (let result of results) {
@@ -29,7 +29,7 @@ if (document.getElementById('readBarcode')) {
             };
             scanner.onUnduplicatedRead = (txt, result) => {
                 alert(txt);
-                console.log("Unique Code Found: " + result);
+                console.log("Unique Code Found: ", result);
             }
             await scanner.show();
         } catch (ex) {

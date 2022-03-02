@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/BarcodeScanner.css'
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />

@@ -1,45 +1,34 @@
-import { Component, OnInit, EventEmitter, Output, ElementRef } from '@angular/core';
-import DBR from '../dbr'
+import { Component, OnInit } from '@angular/core';
+import DBR from '../dbr';
 @Component({
-  selector: 'app-barcode-scanner',
+  selector: 'app-video-decode',
   templateUrl: './barcode-scanner.component.html',
+  styleUrls: ['./barcode-scanner.component.css']
 })
-export class BarcodeScannerComponent implements OnInit {
-  bDestroyed = false;
+export class VideoDecodeComponent implements OnInit {
   pScanner = null;
-  @Output() appendMessage = new EventEmitter();
-  constructor(private elementRef: ElementRef) { }
 
   async ngOnInit(): Promise<void> {
     try {
-      this.pScanner = this.pScanner || DBR.BarcodeScanner.createInstance();
-      let scanner = await this.pScanner;
-
-      if (this.bDestroyed) {
-        scanner.destroy();
-        return;
-      }
-       this.elementRef.nativeElement.appendChild(scanner.getUIElement());
-       (<HTMLDivElement>document.getElementsByClassName("dce-btn-close")[0]).style.display = "none";
-      scanner.onFrameRead = results => {
-        for (let result of results) {
-          this.appendMessage.emit({ format: result.barcodeFormatString, text: result.barcodeText, type: "result" });
-
-          if (result.barcodeText.indexOf("Attention(exceptionCode") !== -1) {
-            this.appendMessage.emit({ msg: result.exception.message, type: "error" });
-          }
+      const scanner = await (this.pScanner = DBR.BarcodeScanner.createInstance());
+      scanner.setUIElement((document.querySelector('.component-barcode-scanner') as any));
+      scanner.onFrameRead = (results: any) => {
+        for (const result of results) {
+          console.log(result.barcodeText);
         }
+      };
+      scanner.onUnduplicatedRead = (txt, result) => {
+        alert(txt);
       };
       await scanner.open();
     } catch (ex) {
-      this.appendMessage.emit({ msg: ex.message, type: "error" });
       console.error(ex);
     }
   }
   async ngOnDestroy() {
-    this.bDestroyed = true;
     if (this.pScanner) {
       (await this.pScanner).destroy();
+      console.log('BarcodeScanner Component Unmount');
     }
   }
 }
