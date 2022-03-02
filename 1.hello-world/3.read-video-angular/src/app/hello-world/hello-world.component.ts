@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import DBR from '../dbr';
+import '../dbr'; // import side effects. The license, engineResourcePath, so on.
+import { BarcodeScanner } from 'dynamsoft-javascript-barcode';
 
 @Component({
   selector: 'app-hello-world',
@@ -12,7 +13,7 @@ export class HelloWorldComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     // Load the library on page load to speed things up.
     try {
-      await DBR.BarcodeScanner.loadWasm();
+      await BarcodeScanner.loadWasm();
     } catch (ex) {
       alert(ex.message);
     }

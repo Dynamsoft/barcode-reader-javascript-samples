@@ -1,4 +1,4 @@
-import DBR from "dynamsoft-javascript-barcode";
+import { BarcodeReader } from "dynamsoft-javascript-barcode";
 
 /** LICENSE ALERT - README
  * 
@@ -10,10 +10,8 @@ import DBR from "dynamsoft-javascript-barcode";
 
 /* When using your own license, uncomment the following line and specify your license. */
 
-// DBR.BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
+// BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
 
 /** LICENSE ALERT - THE END */
 
-DBR.BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";
-
-export default DBR;
+BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";

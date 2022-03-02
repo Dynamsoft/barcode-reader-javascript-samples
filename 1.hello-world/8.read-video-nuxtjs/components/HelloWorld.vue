@@ -12,7 +12,8 @@
 </template>
 
 <script>
-import DBR from "../dbr";
+import "../dbr"; // import side effects. The license, engineResourcePath, so on.
+import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
 import VideoDecode from "./VideoDecode";
 import ImgDecode from "./ImgDecode";
 
@@ -30,7 +31,7 @@ export default {
   async mounted() {
     try {
       //Load the library on page load to speed things up.
-      await DBR.BarcodeScanner.loadWasm();
+      await BarcodeScanner.loadWasm();
     } catch (ex) {
       alert(ex.message);
       throw ex;
