@@ -1,4 +1,4 @@
-import DBR from "../../dbr";
+import { BarcodeScanner } from "dynamsoft-javascript-barcode";
 import React from 'react';
 import './VideoDecode.css'
 
@@ -10,7 +10,7 @@ class VideoDecode extends React.Component {
     }
     async componentDidMount() {
         try {
-            const scanner = await (this.pScanner = DBR.BarcodeScanner.createInstance());
+            const scanner = await (this.pScanner = BarcodeScanner.createInstance());
             scanner.setUIElement(this.elRef.current);
             scanner.onFrameRead = results => {
                 for (let result of results) {
