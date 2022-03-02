@@ -28,20 +28,20 @@
 
         /* When using your own license, uncomment the following line and specify your license. */
 
-        // Dynamsoft.DBR.BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
+        // BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
 
         /** LICENSE ALERT - THE END */
-        import { BarcodeRender, BarcodeScanner } from 'https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.mjs';
+        import { BarcodeReader, BarcodeScanner } from 'https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.mjs';
 
         // DBR.productKeys = "PRODUCT-KEYS";
     
-        BarcodeRender.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";
+        BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";
 
 
         let pScanner = null;
         document.getElementById('btn-show-scanner').addEventListener('click', async () => {
             try {
-                const scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+                const scanner = await (pScanner = pScanner || BarcodeScanner.createInstance());
                 /* 
                  * onFrameRead is triggered after the library finishes reading a frame.
                  * There can be one or multiple barcodes on each frame.
