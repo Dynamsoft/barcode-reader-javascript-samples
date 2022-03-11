@@ -7,20 +7,16 @@
     <meta name="description" content="Read Barcodes from camera. Hide built-in controllers for a simplified ui">
     <meta name="keywords" content="read barcodes from camera, simple ui">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - No Extra Control</title>
-    <!--
-      This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
-      library offline. Please see the guide on how to host the library: 
-      https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
-    -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
 </head>
 
 <body>
     <h1 style="font-size: 1.5em;">Hide UI Controllers</h1>
-    <input type="text" id="result" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
     <div id="UIElement">
-        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
+        <div id="div-video-container" style="width:100%;height:100%;">
+            <video class="dce-video" playsinline="true" muted style="width:100%;height:100%;"></video>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README
          *
@@ -38,41 +34,28 @@
 
         // scanner for decoding video
         let pScanner = null;
-        window.onload = async function() {
-            //Load the library on page load to speed things up.
-            try {
-                document.getElementById('lib-load').hidden = false;
-                await Dynamsoft.DBR.BarcodeScanner.loadWasm();
-                showScanner();
-            } catch (ex) {
-                alert(ex.message);
-                throw ex;
-            }
-        };
+
         // decode video from camera
-        async function showScanner() {
+        (async () => {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                document.getElementById('lib-load').hidden = true;
-                scanner.onFrameRead = (results) => {
-                    for (let result of results) {
-                        document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
-                    }
-                };
-                document.getElementById('UIElement').appendChild(scanner.getUIElement());
-                document.querySelector('#UIElement div').style.background = '';
-                document.getElementsByClassName('dce-sel-camera')[0].hidden = true;
-                document.getElementsByClassName('dce-sel-resolution')[0].hidden = true;
-                document.getElementsByClassName('dce-btn-close')[0].hidden = true;
-                await scanner.show();
+                await scanner.setUIElement(document.getElementById('div-video-container'));
+                scanner.onUnduplicatedRead = (txt, result) => { alert(text); };
+                await scanner.open();
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
             }
-        }
+        })();
+
     </script>
 </body>
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
     body {
         display: flex;
         flex-direction: column;
@@ -83,67 +66,23 @@
         height: 90vh;
         color: #455A64;
     }
-    
+
     button {
         font-size: 1.5rem;
         margin-bottom: 2vh;
     }
-    
-    span {
-        font-size: 0.8rem;
-    }
-    
-    .latest-result {
-        display: block;
-        margin: 0;
-        padding: 0.4rem 0.8rem;
-        color: inherit;
-        width: 80vw;
-        border: none;
-        font-size: 1rem;
-        border-radius: 0.2rem;
-        text-align: center;
-    }
-    
-    .latest-result::placeholder {
-        color: #B0BEC5;
-    }
-    
-    .latest-result:focus {
-        outline: none;
-        box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
-    }
-    
-    #results {
-        border: 1px dashed grey;
-        overflow: auto;
-        width: 80vw;
-        padding: 2vmin;
-        margin-bottom: 3vh;
-        height: 15vh;
-    }
-    
-    .resultText {
-        color: #cE5E04
-    }
-    
-    .bigger {
-        font-size: large;
-        margin-bottom: 2%;
-    }
-    
+
     #UIElement {
         margin: 2vmin auto;
         text-align: center;
         font-size: medium;
         height: 40vh;
-        width: 80vw;
+        width: 100vw;
     }
-    
-    #UIElement img {
-        max-width: 100%;
-        max-height: 90%;
-        border: solid 1px gray;
+
+    .div-video-container {
+        width: 100%;
+        height: 100%;
     }
 </style>
 
