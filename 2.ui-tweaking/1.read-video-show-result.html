@@ -4,28 +4,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta name="description" content="Read barcode from a video input. This sample demonstrates the default built-in UI.">
+    <meta name="description"
+        content="Read barcode from a video input. This sample demonstrates the default built-in UI.">
     <meta name="keywords" content="read barcode from video, built-in ui">
     <title>Dynamsoft Barcode Reader Sample - Video Decoding with Default UI</title>
-    <!--
-      This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
-      library offline. Please see the guide on how to host the library: 
-      https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
-    -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
 </head>
 
 <body>
     <h1 style="font-size: 1.5em;">Use the Default Built-in UI</h1>
-    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
     <div id="UIElement">
-        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span><br />
-        <button id="showScanner" hidden>Show The Scanner</button>
+        <button id="showScanner">Show The Scanner</button>
     </div>
-    <div>
-        <span style="float:left;margin-top:20px;">All Results:</span><br />
-        <div id="results"></div>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README
          *
@@ -43,72 +33,40 @@
 
         // scanner for decoding video
         let pScanner = null;
-        window.onload = async function() {
+        (async () => {
             //Load the library on page load to speed things up.
             try {
-                document.getElementById('lib-load').hidden = false;
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
-                startBarcodeScanner();
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
             }
-            document.getElementById('result').addEventListener('dblclick', async() => {
-                document.getElementById('result').value = "";
-            });
-            document.getElementById('showScanner').addEventListener('click', async() => {
-                if (pScanner)(await pScanner).show();
-            });
-        };
-        // decode video from camera
-        async function startBarcodeScanner() {
+        })();
+        document.getElementById('showScanner').addEventListener('click', async () => {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                document.getElementById('lib-load').hidden = true;
-                document.getElementById('showScanner').hidden = false;
-                scanner.onFrameRead = (_results) => {
-                    for (let result of _results) {
-                        let newElements = [];
-                        document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
-                        newElements.push(createASpan(result.barcodeFormatString + ": "));
-                        newElements.push(createASpan(result.barcodeText, "resultText"));
-                        newElements.push(document.createElement('br'));
-                        if (result.barcodeText.indexOf("Attention(exceptionCode") != -1) {
-                            newElements.push(createASpan(" Error: " + result.exception.message));
-                            newElements.push(document.createElement('br'));
-                        }
-                        for (let span of newElements) {
-                            document.getElementById('results').appendChild(span);
-                        }
-                        document.getElementById('results').scrollTop = document.getElementById('results').scrollHeight;
-                    }
-                };
+                scanner.onUnduplicatedRead = (txt, result) => { alert(txt); };
                 document.getElementById('UIElement').appendChild(scanner.getUIElement());
                 await scanner.show();
-                document.getElementById('results').style.visibility = "visible";
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
             }
-        }
-
-        function createASpan(txt, className) {
-            let newSPAN = document.createElement("span");
-            newSPAN.textContent = txt;
-            if (className)
-                newSPAN.className = className;
-            return newSPAN;
-        }
+        });
     </script>
 </body>
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
     button#showScanner {
         position: absolute;
         width: 50%;
         left: 25%;
-        top: 30%;
     }
-    
+
     body {
         display: flex;
         flex-direction: column;
@@ -116,71 +74,21 @@
         justify-content: center;
         overflow: hidden;
         width: 100vw;
-        height: 90vh;
+        height: 100vh;
         color: #455A64;
-        margin: 0;
     }
-    
+
     button {
         font-size: 1.5rem;
         margin-bottom: 2vh;
     }
-    
-    span {
-        font-size: 0.8rem;
-    }
-    
-    .latest-result {
-        display: block;
-        margin: 0;
-        padding: 0.4rem 0.8rem;
-        color: inherit;
-        width: 80vw;
-        border: none;
-        font-size: 1rem;
-        border-radius: 0.2rem;
-        text-align: center;
-    }
-    
-    .latest-result::placeholder {
-        color: #B0BEC5;
-    }
-    
-    .latest-result:focus {
-        outline: none;
-        box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
-    }
-    
-    #results {
-        border: 1px dashed grey;
-        overflow: auto;
-        width: 80vw;
-        padding: 2vmin;
-        margin-bottom: 3vh;
-        height: 15vh;
-    }
-    
-    .resultText {
-        color: #cE5E04
-    }
-    
-    .bigger {
-        font-size: large;
-        margin-bottom: 2%;
-    }
-    
+
     #UIElement {
         margin: 2vmin auto;
         text-align: center;
         font-size: medium;
-        height: 40vh;
-        width: 80vw;
-    }
-    
-    #UIElement img {
-        max-width: 100%;
-        max-height: 90%;
-        border: solid 1px gray;
+        height: 60vh;
+        width: 60vw;
     }
 </style>
 

@@ -7,12 +7,6 @@
     <meta name="description" content="Enlarge video stream to read barcodes with Dynamsoft Barcode Reader. Scan the barcodes in full screen and exit once done.">
     <meta name="keywords" content="enlarge video stream to read barcodes">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - No Extra Control</title>
-    <!--
-      This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
-      library offline. Please see the guide on how to host the library: 
-      https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
-    -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
 </head>
 
 <body>
@@ -21,10 +15,12 @@
     <div id="externalControls" style="text-align: center;">
         <button id="fitPage">Enter Full Screen, Read and Exit</button>
     </div>
-    <input type="text" id="result" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
-    <div id="UIElement">
-        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
+    <div id="UIElement" class="UIElement">
+        <div id="div-video-container" style="width:100%;height:100%;">
+            <video class="dce-video" playsinline="true" muted style="width:100%;height:100%;"></video>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README
          *
@@ -42,52 +38,39 @@
 
         // scanner for decoding video
         let pScanner = null;
-        window.onload = async function() {
+        (async () => {
             //Load the library on page load to speed things up.
             try {
-                document.getElementById('lib-load').hidden = false;
-                await Dynamsoft.DBR.BarcodeScanner.loadWasm();
+                await Dynamsoft.DBR.BarcodeReader.loadWasm();
                 showScanner();
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
             }
-        };
-        document.getElementById('backToNormal').addEventListener('click', () => {
+        })();
+
+        // define html elements needed
+        const backToNormal = document.getElementById('backToNormal');
+        const UIElement = document.getElementById('UIElement');
+        const fitPage = document.getElementById('fitPage');
+
+        backToNormal.addEventListener('click', () => {
             exitFullPage();
         });
-
-        document.getElementById('fitPage').addEventListener('click', () => {
-            document.getElementById('UIElement').style.height = '100vh';
-            document.getElementById('UIElement').style.width = '100vw';
-            document.getElementById('UIElement').style.position = 'absolute';
-            document.getElementById('backToNormal').hidden = false;
-            document.getElementById('result').style.display = "none";
+        fitPage.addEventListener('click', () => {
+            UIElement.classList.add("fullscreen");
+            backToNormal.hidden = false;
         });
-
         function exitFullPage() {
-            document.getElementById('UIElement').style.height = '';
-            document.getElementById('UIElement').style.width = '';
-            document.getElementById('UIElement').style.position = '';
-            document.getElementById('backToNormal').hidden = true;
-            document.getElementById('result').style.display = "block"
+            UIElement.classList.remove("fullscreen");
+            backToNormal.hidden = true;
         }
         // decode video from camera
         async function showScanner() {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                document.getElementById('lib-load').hidden = true;
-                scanner.onFrameRead = (results) => {
-                    for (let result of results) {
-                        document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
-                        exitFullPage();
-                    }
-                };
-                document.getElementById('UIElement').appendChild(scanner.getUIElement());
-                document.querySelector('#UIElement div').style.background = '';
-                document.getElementsByClassName('dce-sel-camera')[0].hidden = true;
-                document.getElementsByClassName('dce-sel-resolution')[0].hidden = true;
-                document.getElementsByClassName('dce-btn-close')[0].hidden = true;
+                await scanner.setUIElement(document.getElementById('div-video-container'));
+                scanner.onUnduplicatedRead = (txt, result) => { alert(txt); };
                 await scanner.show();
             } catch (ex) {
                 alert(ex.message);
@@ -97,6 +80,11 @@
     </script>
 </body>
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
     button#backToNormal {
         position: absolute;
         z-index: 10000000;
@@ -110,7 +98,7 @@
         justify-content: center;
         overflow: hidden;
         width: 100vw;
-        height: 90vh;
+        height: 100vh;
         color: #455A64;
         margin: 0;
     }
@@ -119,51 +107,8 @@
         font-size: 1.5rem;
         margin-bottom: 2vh;
     }
-    
-    span {
-        font-size: 0.8rem;
-    }
-    
-    .latest-result {
-        display: block;
-        margin: 0;
-        padding: 0.4rem 0.8rem;
-        color: inherit;
-        width: 80vw;
-        border: none;
-        font-size: 1rem;
-        border-radius: 0.2rem;
-        text-align: center;
-    }
-    
-    .latest-result::placeholder {
-        color: #B0BEC5;
-    }
-    
-    .latest-result:focus {
-        outline: none;
-        box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
-    }
-    
-    #results {
-        border: 1px dashed grey;
-        overflow: auto;
-        width: 80vw;
-        padding: 2vmin;
-        margin-bottom: 3vh;
-        height: 15vh;
-    }
-    
-    .resultText {
-        color: #cE5E04
-    }
-    
-    .bigger {
-        font-size: large;
-        margin-bottom: 2%;
-    }
-    
-    #UIElement {
+
+    .UIElement {
         margin: 0;
         text-align: center;
         font-size: medium;
@@ -171,10 +116,12 @@
         width: 80vw;
     }
     
-    #UIElement img {
-        max-width: 100%;
-        max-height: 90%;
-        border: solid 1px gray;
+    .fullscreen {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        left: 0;
+        top: 0;
     }
 </style>
 
