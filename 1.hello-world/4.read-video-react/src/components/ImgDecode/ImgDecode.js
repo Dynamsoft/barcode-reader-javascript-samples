@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BarcodeReader } from "dynamsoft-javascript-barcode";
+import { BarcodeReader } from "keillion-dynamsoft-javascript-barcode";
 import './ImgDecode.css'
 
 export default class ImgDecode extends Component {

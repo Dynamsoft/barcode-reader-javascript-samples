@@ -1,7 +1,7 @@
 import './HelloWorld.css';
 import reactLogo from '../../logo.svg';
 import "../../dbr"; // import side effects. The license, engineResourcePath, so on.
-import { BarcodeReader } from "dynamsoft-javascript-barcode";
+import { BarcodeReader } from "keillion-dynamsoft-javascript-barcode";
 import React from 'react';
 import VideoDecode from '../VideoDecode/VideoDecode';
 import ImgDecode from '../ImgDecode/ImgDecode';
