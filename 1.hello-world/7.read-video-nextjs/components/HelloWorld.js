@@ -2,7 +2,7 @@ import React from 'react';
 import VideoDecode from './VideoDecode';
 import ImgDecode from './ImgDecode';
 import "../dbr"; // import side effects. The license, engineResourcePath, so on.
-import { BarcodeScanner } from 'dynamsoft-javascript-barcode';
+import { BarcodeScanner } from 'keillion-dynamsoft-javascript-barcode';
 
 class HelloWorld extends React.Component {
     constructor(props) {
