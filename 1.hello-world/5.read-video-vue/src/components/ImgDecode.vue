@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { BarcodeReader } from 'dynamsoft-javascript-barcode'
+import { BarcodeReader } from 'keillion-dynamsoft-javascript-barcode'
 export default {
   name: 'ImgDecode',
   data() {

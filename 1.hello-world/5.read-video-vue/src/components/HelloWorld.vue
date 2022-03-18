@@ -14,7 +14,7 @@
 
 <script>
 import "../dbr"; // import side effects. The license, engineResourcePath, so on.
-import { BarcodeReader } from "dynamsoft-javascript-barcode";
+import { BarcodeReader } from "keillion-dynamsoft-javascript-barcode";
 import VideoDecode from "./VideoDecode";
 import ImgDecode from './ImgDecode.vue'
 
@@ -142,7 +142,7 @@ span {
   margin: 2vmin auto;
   text-align: center;
   font-size: medium;
-  height: 40vh;
+  /* height: 40vh; */
   width: 80vw;
 }
 </style>
