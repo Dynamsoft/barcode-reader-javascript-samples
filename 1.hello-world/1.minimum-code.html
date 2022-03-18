@@ -12,7 +12,8 @@
 <body>
     <h1 style="font-size: 1.5em;">Read Barcodes from a Camera</h1>
     <button id="btn-show-scanner">Show Barcode Scanner</button>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220317102136.0/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README
          *
@@ -43,11 +44,11 @@
                     }
                 };
                 /*
-                 * onUnduplicatdRead is triggered only when a 'new' barcode is found.
+                 * onUniqueRead is triggered only when a 'new' barcode is found.
                  * The amount of time that the library 'remembers' a barcode is defined by 
                  * "duplicateForgetTime" in "ScanSettings". By default it is set to 3000 ms.
                  */
-                scanner.onUnduplicatedRead = (txt, result) => {
+                scanner.onUniqueRead = (txt, result) => {
                     alert(txt);
                     console.log("Unique Code Found: ", result);
                 }

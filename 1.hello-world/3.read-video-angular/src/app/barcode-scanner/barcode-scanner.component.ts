@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
+import { BarcodeScanner } from 'keillion-dynamsoft-javascript-barcode'
 @Component({
   selector: 'app-video-decode',
   templateUrl: './barcode-scanner.component.html',
@@ -17,7 +17,7 @@ export class VideoDecodeComponent implements OnInit {
           console.log(result.barcodeText);
         }
       };
-      scanner.onUnduplicatedRead = (txt, result) => {
+      scanner.onUniqueRead = (txt, result) => {
         alert(txt);
       };
       await scanner.open();
