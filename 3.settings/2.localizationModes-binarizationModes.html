@@ -12,7 +12,7 @@
       library offline. Please see the guide on how to host the library: 
       https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/dbr.js"></script>
     <link rel="stylesheet" href="settings-css.css">
     <link rel="stylesheet" href="../balloon.min.css">
     <!-- Used for tooltip styling -->
@@ -25,10 +25,9 @@
 
     <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
     <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen-->
-    <div id="div-video-container">
+    <div id="div-ui-container">
         <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
-        <video class="dce-video" playsinline="true"></video>
-        <canvas class="dbrScanner-cvs-drawarea" style="width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; object-fit: contain;" width="1280" height="720"></canvas>
+	    <div class="dce-video-container" style="position:absolute;left:0;top:0;width:100%;height:100%;"></div>
     </div>
 
     <!-- Settings Menu displayed in a modal -->
