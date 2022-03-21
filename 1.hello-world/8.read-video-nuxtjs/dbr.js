@@ -1,4 +1,4 @@
-import { BarcodeReader } from "dynamsoft-javascript-barcode";
+import { BarcodeReader } from "keillion-dynamsoft-javascript-barcode";
 
 /** LICENSE ALERT - README
  *
@@ -14,4 +14,4 @@ import { BarcodeReader } from "dynamsoft-javascript-barcode";
 
 /** LICENSE ALERT - THE END */
 
-BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";
+BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/";
