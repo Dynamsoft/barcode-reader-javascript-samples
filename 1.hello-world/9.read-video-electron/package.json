@@ -9,7 +9,8 @@
     },
     "author": "tom@dynamsoft.com",
     "dependencies": {
+        "dynamsoft-javascript-barcode": "8.8.7",
         "electron": "14.0.1",
-        "dynamsoft-javascript-barcode": "8.8.7"
+        "keillion-dynamsoft-javascript-barcode": "0.20220318174621.0"
     }
 }

@@ -22,7 +22,7 @@ document.getElementById('readBarcode').onclick = async () => {
                 console.log(results);
             }
         };
-        scanner.onUnduplicatedRead = (txt, result) => {
+        scanner.onUniqueRead = (txt, result) => {
             alert(txt, result);
         };
         document.getElementById("barcodeScannerUI").appendChild(scanner.getUIElement());
