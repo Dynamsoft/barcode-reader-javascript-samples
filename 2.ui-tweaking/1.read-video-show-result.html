@@ -15,7 +15,7 @@
     <div id="UIElement">
         <button id="showScanner">Show The Scanner</button>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README
          *
@@ -45,7 +45,7 @@
         document.getElementById('showScanner').addEventListener('click', async () => {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                scanner.onUnduplicatedRead = (txt, result) => { alert(txt); };
+                scanner.onUniqueRead = (txt, result) => { alert(txt); };
                 document.getElementById('UIElement').appendChild(scanner.getUIElement());
                 await scanner.show();
             } catch (ex) {

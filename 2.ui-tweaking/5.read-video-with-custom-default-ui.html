@@ -44,7 +44,7 @@
     </div>
     <div id="UIElement">
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README
          *
@@ -103,7 +103,7 @@
                 // when the last two values are judged to be false, it means this is the first time into the function showScanner
                 if (!currentResolution && !currentCamera) {
                     document.getElementById('UIElement').appendChild(scanner.getUIElement());
-                    scanner.onUnduplicatedRead = (txt, result) => { alert(txt); };
+                    scanner.onUniqueRead = (txt, result) => { alert(txt); };
                     await scanner.open();
                     cameras = await scanner.getAllCameras();
                 }
