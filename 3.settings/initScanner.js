@@ -28,7 +28,7 @@ window.onload = async function () {
         loadingText.hidden = false;
         let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
         initialSettings = await scanner.getRuntimeSettings();
-        await scanner.setUIElement(document.getElementById('div-video-container'));
+        await scanner.setUIElement(document.getElementById('div-ui-container'));
         startReading();
     } catch (ex) {
         alert(ex.message);
