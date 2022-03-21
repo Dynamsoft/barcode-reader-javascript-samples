@@ -45,7 +45,7 @@
                         console.log(result.barcodeFormatString + ": " + result.barcodeText);
                     }
                 };
-                scanner.onUnduplicatedRead = (txt, result) => {
+                scanner.onUniqueRead = (txt, result) => {
                     latestResult = txt;
                     alert(txt, result);
                 }

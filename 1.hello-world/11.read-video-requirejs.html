@@ -13,7 +13,7 @@
     <button id="readBarcode">show scanner</button>
     <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.js"></script>
     <script>
-        requirejs(['https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js'], function({
+        requirejs(['https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/dbr.js'], function({
             BarcodeReader,
             BarcodeScanner
         }) {
@@ -31,7 +31,7 @@
             
             /** LICENSE ALERT - THE END */
 
-            BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";
+            BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/";
             let pScanner = null;
             document.getElementById('readBarcode').onclick = async function() {
                 try {
@@ -42,7 +42,7 @@
                             console.log(result.barcodeFormatString + ": " + result.barcodeText);
                         }
                     };
-                    scanner.onUnduplicatedRead = (txt, result) => {
+                    scanner.onUniqueRead = (txt, result) => {
                         alert(txt);
                         console.log("Unique Code Found: ", result);
                     }

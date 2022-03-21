@@ -16,11 +16,11 @@
         <button id="fitPage">Enter Full Screen, Read and Exit</button>
     </div>
     <div id="UIElement" class="UIElement">
-        <div id="div-video-container" style="width:100%;height:100%;">
-            <video class="dce-video" playsinline="true" muted style="width:100%;height:100%;"></video>
+        <div id="div-ui-container" style="width:100%;height:100%;">
+        <div class="dce-video-container" style="position:relative;width:100%;height:100%;"></div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README
          *
@@ -69,8 +69,8 @@
         async function showScanner() {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                await scanner.setUIElement(document.getElementById('div-video-container'));
-                scanner.onUnduplicatedRead = (txt, result) => { alert(txt); };
+                await scanner.setUIElement(document.getElementById('div-ui-container'));
+                scanner.onUniqueRead = (txt, result) => { alert(txt); };
                 await scanner.show();
             } catch (ex) {
                 alert(ex.message);

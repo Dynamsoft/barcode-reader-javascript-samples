@@ -51,7 +51,7 @@
                  * The amount of time that the library 'remembers' a barcode is defined by 
                  * "duplicateForgetTime" in "ScanSettings". By default it is set to 3000 ms.
                  */
-                 scanner.onUnduplicatedRead = (txt, result) => {
+                 scanner.onUniqueRead = (txt, result) => {
                     alert(txt);
                     console.log("Unique Code Found: ", result);
                 }
