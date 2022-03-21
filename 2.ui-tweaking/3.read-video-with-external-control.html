@@ -10,63 +10,67 @@
 </head>
 
 <body>
-    <h1 style="font-size: 1.5em;">Customized UI</h1>
+    <h1>Customized UI</h1>
     <button id="btn-show-scanner">Start Barcode Scanner</button>
     <button id="btn-hide-scanner" hidden>Hide Barcode Scanner</button>
-    <div id="externalControls" style="text-align: center;">
-        <div class="selector_camera">
-            <div id="cam_selector_switch" class="selector">
-                <input class="selector_input_camera" readonly type="text" autocomplete="off" placeholder="Select">
-                <svg class="arrow_camera" viewBox="0 0 1024 1024" p-id="3019" width="13" height="13"><path d="M517.688889 796.444444c-45.511111 0-85.333333-17.066667-119.466667-51.2L73.955556 381.155556c-22.755556-22.755556-17.066667-56.888889 5.688888-79.644445 22.755556-22.755556 56.888889-17.066667 79.644445 5.688889l329.955555 364.088889c5.688889 5.688889 17.066667 11.377778 28.444445 11.377778s22.755556-5.688889 34.133333-17.066667l312.888889-364.088889c22.755556-22.755556 56.888889-28.444444 79.644445-5.688889 22.755556 22.755556 28.444444 56.888889 5.688888 79.644445L637.155556 739.555556c-28.444444 39.822222-68.266667 56.888889-119.466667 56.888888 5.688889 0 0 0 0 0z" p-id="3020" fill="#cccccc"></path></svg>
+    <div id="externalControls" class="externalControls">
+        <div class="selector_container">
+            <div class="selector">
+                <div id="cam_selector_switch" class="selector_switch">
+                    <input id="selector_input_camera" class="selector_input" type="text" readonly autocomplete="off" placeholder="Select">
+                    <svg id="arrow_camera" class="arrow" viewBox="0 0 1024 1024" p-id="3019" width="13" height="13">
+                        <path d="M517.688889 796.444444c-45.511111 0-85.333333-17.066667-119.466667-51.2L73.955556 381.155556c-22.755556-22.755556-17.066667-56.888889 5.688888-79.644445 22.755556-22.755556 56.888889-17.066667 79.644445 5.688889l329.955555 364.088889c5.688889 5.688889 17.066667 11.377778 28.444445 11.377778s22.755556-5.688889 34.133333-17.066667l312.888889-364.088889c22.755556-22.755556 56.888889-28.444444 79.644445-5.688889 22.755556 22.755556 28.444444 56.888889 5.688888 79.644445L637.155556 739.555556c-28.444444 39.822222-68.266667 56.888889-119.466667 56.888888 5.688889 0 0 0 0 0z" p-id="3020" fill="#cccccc"></path>
+                    </svg>
+                </div>
+                <div id="options_camera" class="options unshow noheight">
+                    <ul id="ul_options_camera">
+                    </ul>
+                </div>
             </div>
-            <div id="options_camera" class="options_camera unshow noheight">
-                <ul class="options_list options_list_camera">
-                </ul>
-            </div>
-        </div>
-        <div class="selector_resolution">
-            <div id="res_selector_switch" class="selector">
-                <input class="selector_input_resolution" readonly type="text" autocomplete="off" placeholder="Select">
-                <svg class="arrow_resolution" viewBox="0 0 1024 1024" p-id="3019" width="13" height="13"><path d="M517.688889 796.444444c-45.511111 0-85.333333-17.066667-119.466667-51.2L73.955556 381.155556c-22.755556-22.755556-17.066667-56.888889 5.688888-79.644445 22.755556-22.755556 56.888889-17.066667 79.644445 5.688889l329.955555 364.088889c5.688889 5.688889 17.066667 11.377778 28.444445 11.377778s22.755556-5.688889 34.133333-17.066667l312.888889-364.088889c22.755556-22.755556 56.888889-28.444444 79.644445-5.688889 22.755556 22.755556 28.444444 56.888889 5.688888 79.644445L637.155556 739.555556c-28.444444 39.822222-68.266667 56.888889-119.466667 56.888888 5.688889 0 0 0 0 0z" p-id="3020" fill="#cccccc"></path></svg>
-            </div>
-            <div id="options_resolution" class="options_resolution unshow noheight">
-                <ul class="options_list">
-                    <li class="option_resolution gotResolution"></li>
-                    <li class="option_resolution"><span id="1920x1080">ask 1920 x 1080</span></li>
-                    <li class="option_resolution"><span id="1280x720">ask 1280 x 720</span></li>
-                    <li class="option_resolution"><span id="720x576">ask 720 x 576</span></li>
-                    <li class="option_resolution"><span id="640x480">ask 640 x 480</span></li>
-                    <li class="option_resolution"><span id="480x360">ask 480 x 360</span></li>
-                    <li class="option_resolution"><span id="320x240">ask 320 x 240</span></li>
-                    <li class="option_resolution"><span id="176x144">ask 176 x 144</span></li>
-                </ul>
-            </div>
-        </div>
-        <div style="clear: both;"></div>
-        <button id="toggleScanRect">Toggle Search Area</button>
-        <div>
-            <label class="switch">
-                <input id="toggleScanLight" type="checkbox" checked>
-                <span class="slider round"></span>
-            </label> Toggle Laser
-            <label class="switch">
-                <input type="checkbox" id="toggleSound">
-                <span class="slider round"></span>
-            </label> Toggle Sound
-        </div>
-    </div>
-    <div id="UIElement">
-        <div id="div-video-container"
-            style="width:100%;height:100%;min-width:100px;min-height:100px;position:relative;">
-	        <div class="dce-video-container" style="position:absolute;left:0;top:0;width:100%;height:100%;"></div>
-            <div class="dce-scanarea" style="width:100%;height:100%;position:absolute;left:0;top:0;">
-                <div class="dce-scanlight"
-                    style="display:none;width:100%;height:3%;position:absolute;animation:3s infinite dce-scanlight;border-radius:50%;box-shadow:0px 0px 2vw 1px #00e5ff;background:#fff;user-select:none;">
+            <div class="selector">
+                <div id="res_selector_switch" class="selector_switch">
+                    <input id="selector_input_resolution" class="selector_input" type="text" readonly autocomplete="off" placeholder="Select">
+                    <svg id="arrow_resolution" class="arrow" viewBox="0 0 1024 1024" p-id="3019" width="13" height="13">
+                        <path d="M517.688889 796.444444c-45.511111 0-85.333333-17.066667-119.466667-51.2L73.955556 381.155556c-22.755556-22.755556-17.066667-56.888889 5.688888-79.644445 22.755556-22.755556 56.888889-17.066667 79.644445 5.688889l329.955555 364.088889c5.688889 5.688889 17.066667 11.377778 28.444445 11.377778s22.755556-5.688889 34.133333-17.066667l312.888889-364.088889c22.755556-22.755556 56.888889-28.444444 79.644445-5.688889 22.755556 22.755556 28.444444 56.888889 5.688888 79.644445L637.155556 739.555556c-28.444444 39.822222-68.266667 56.888889-119.466667 56.888888 5.688889 0 0 0 0 0z" p-id="3020" fill="#cccccc"></path>
+                    </svg>
+                </div>
+                <div id="options_resolution" class="options unshow noheight">
+                    <ul id="ul_options_resolution">
+                        <li id="gotResolution"><span></span></li>
+                        <li><span id="1920x1080">ask 1920 x 1080</span></li>
+                        <li><span id="1280x720">ask 1280 x 720</span></li>
+                        <li><span id="720x576">ask 720 x 576</span></li>
+                        <li><span id="640x480">ask 640 x 480</span></li>
+                        <li><span id="480x360">ask 480 x 360</span></li>
+                        <li><span id="320x240">ask 320 x 240</span></li>
+                        <li><span id="176x144">ask 176 x 144</span></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/dbr.js"></script>
+    <button id="toggleScanRect">Toggle Search Area</button>
+    <div>
+        <label class="switch">
+            <input id="toggleScanLight" type="checkbox" checked>
+            <span class="slider round"></span>
+        </label> Toggle Laser
+        <label class="switch">
+            <input id="toggleSound" type="checkbox">
+            <span class="slider round"></span>
+        </label> Toggle Sound
+    </div>
+    </div>
+    <div id="UIElement" class="UIElement">
+        <div id="div-video-container" class="div-video-container">
+            <video class="dce-video" playsinline="true"></video>
+            <canvas class="dbrScanner-cvs-drawarea"></canvas>
+            <div class="dbrScanner-cvs-scanarea">
+                <div class="dbrScanner-scanlight" hidden></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README
          *
@@ -83,13 +87,15 @@
         /** LICENSE ALERT - THE END */
 
         // define html elements needed
-        const camOptions = document.querySelector(".options_camera");
-        const camArrow = document.querySelector(".arrow_camera");
-        const camSelectorInput = document.querySelector(".selector_input_camera");
-        const resOptions = document.querySelector(".options_resolution");
-        const resArrow = document.querySelector(".arrow_resolution");
-        const resSelectorInput = document.querySelector(".selector_input_resolution");
-        const gotResolution = document.querySelector(".gotResolution");
+        const camOptions = document.getElementById("options_camera");
+        const camArrow = document.getElementById("arrow_camera");
+        const camSelectorInput = document.getElementById("selector_input_camera");
+        const cameraUL = document.getElementById("ul_options_camera");
+        const resOptions = document.getElementById("options_resolution");
+        const resArrow = document.getElementById("arrow_resolution");
+        const resSelectorInput = document.getElementById("selector_input_resolution");
+        const gotResolution = document.querySelector("#gotResolution span");
+        const scanlight = document.querySelector('.dbrScanner-scanlight');
         // define some required variables
         let camOptionsViewable = false;
         let resOptionsViewable = false;
@@ -100,8 +106,7 @@
         let currentResolution = null;
         // scanner for decoding video
         let pScanner = null;
-        let scanRegions = [[5, 5, 95, 95], [25, 25, 75, 75], [10, 33, 90, 66], [33, 10, 66, 90], [0, 0, 100, 100]],
-            regionIndex = 0;
+        let scanRegions = [[5, 5, 95, 95], [25, 25, 75, 75], [10, 33, 90, 66], [33, 10, 66, 90], [0, 0, 100, 100]], regionIndex = 0;
         (async () => {
             //Load the library on page load to speed things up.
             try {
@@ -111,59 +116,17 @@
                 throw ex;
             }
         })();
-        document.getElementById('toggleSound').onclick = async function () {
-            if (pScanner) {
-                (await pScanner).bPlaySoundOnSuccessfulRead = this.checked;
+        function toggleBtnView(boolean) {
+            document.getElementById('btn-hide-scanner').hidden = boolean;
+            document.getElementById('btn-show-scanner').hidden = !boolean;
+        }
+        function setScanLightView(boolean) {
+            if (scanlight) {
+                scanlight.hidden = !boolean;
             }
-        };
-        document.getElementById('toggleScanLight').onclick = function () {
-            let scanlight = document.getElementsByClassName('dce-scanlight');
-            if (scanlight.length) {
-                scanlight[0].hidden = !this.checked;
-            }
-        };
-        document.getElementById('toggleScanRect').onclick = async function () {
-            if (pScanner) {
-                let scanner = await pScanner;
-                let region = scanRegions[regionIndex];
-                regionIndex++;
-                if (regionIndex === scanRegions.length) regionIndex = 0;
-                let settings = await scanner.getRuntimeSettings()
-                settings.region = {
-                    regionLeft: region[0],
-                    regionTop: region[1],
-                    regionRight: region[2],
-                    regionBottom: region[3],
-                    regionMeasuredByPercentage: 1
-                };
-                await scanner.updateRuntimeSettings(settings);
-            }
-        };
-        // decode video from camera
-        document.getElementById('btn-show-scanner').addEventListener('click', async () => {
-            toggleStartBtnView(false);
-            try {
-                scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                await scanner.setUIElement(document.getElementById('div-video-container'));
-                scanner.onUnduplicatedRead = (txt, result) => { alert(txt); };
-                await scanner.show();
-                updateCameras();
-            } catch (ex) {
-                alert(ex.message);
-                throw ex;
-            }
-        });
-        document.getElementById('btn-hide-scanner').addEventListener('click', async () => {
-            toggleStartBtnView(true);
-            await scanner.hide();
-        });
+        }
         // when the selector is clicked
         function toggleCamView(e) {
-            // make the page have only one expanded selector
-            if (e)
-                e.stopPropagation();
-            if (resOptionsViewable)
-                toggleResView()
             // expanding and collapsing control options by changing the classList
             clearTimeout(camAnimateTimer);
             camOptions.classList.toggle("noheight");
@@ -181,10 +144,6 @@
             camOptionsViewable = !camOptionsViewable
         }
         function toggleResView(e) {
-            if (e)
-                e.stopPropagation();
-            if (camOptionsViewable)
-                toggleCamView()
             clearTimeout(cresAnimateTimer);
             resOptions.classList.toggle("noheight");
             resArrow.classList.toggle("trans")
@@ -199,95 +158,146 @@
             }
             resOptionsViewable = !resOptionsViewable
         }
-        function toggleStartBtnView(boolean) {
-            document.getElementById('btn-hide-scanner').hidden = boolean;
-            document.getElementById('btn-show-scanner').hidden = !boolean;
-        }
         // when option is selected
-        function camOptionSelected(e) {
-            e.stopPropagation();
-            toggleCamView();
+        async function camOptionSelected(e) {
             if (currentCamera.deviceId === e.target.id) {
                 return;
             }
+            setScanLightView(false);
             camSelectorInput.value = e.target.innerText;
+            let scanner = await pScanner;
             cameras.forEach(async item => {
                 if (item.deviceId === e.target.id) {
-                    let scanner = await pScanner;
                     try {
-                        currentResolution = await scanner.setCurrentCamera(item);
+                        let resolution = await scanner.setCurrentCamera(item);
+                        currentResolution = [resolution.width, resolution.height];
                     } catch (ex) {
                         alert('Play video failed: ' + (ex.message || ex));
                     }
-                    updateCurrentResolution(currentResolution);
+                    updateCurrentResolution();
                 }
-            })
+            });
         }
         async function resOptionSelected(e) {
-            e.stopPropagation();
-            toggleResView();
             const data = e.target.id.split("x");
             if (currentResolution[0] == data[0] && currentResolution[1] == data[1]) {
                 return;
             }
+            setScanLightView(false);
             resSelectorInput.value = e.target.innerText;
-            currentResolution = [parseInt(data[0]), parseInt(data[1])];
-            currentResolution = await scanner.setResolution(currentResolution);
-            updateCurrentResolution(currentResolution);
+            let targetResolution = [parseInt(data[0]), parseInt(data[1])];
+            let scanner = await pScanner
+            currentResolution = await scanner.setResolution(targetResolution);
+            currentResolution = [currentResolution.width, currentResolution.height];
+            updateCurrentResolution();
         }
-        // click anywhere outside the options to collapse the options
-        function clickToHidden(e) {
-            if (camOptionsViewable && e.target.id != "options_camera") {
-                toggleCamView()
-            }
-            if (resOptionsViewable && e.target.id != "options_resolution") {
-                toggleResView()
-            }
-            // trigger only once
-            document.removeEventListener("click", arguments.callee)
-        }
-        
-        async function updateCameras() {
+        // update and re-render options
+        async function updateOptions() {
+            let scanner = await pScanner;
             cameras = await scanner.getAllCameras();
-            let html = "";
+            cameraUL.innerHTML = "";
             cameras.forEach(item => {
-                html += `<li id=${item.deviceId} class="option_camera"><span>${item.label}</span></li>`
+                let li = document.createElement("li");
+                let span = document.createElement("span");
+                span.setAttribute("id", item.deviceId);
+                span.innerText = item.label;
+                li.appendChild(span);
+                cameraUL.appendChild(li);
             });
-            document.querySelector(".options_list_camera").innerHTML = html;
             currentCamera = await scanner.getCurrentCamera();
-            const camOption = document.querySelectorAll(".option_camera");
+            const camOption = document.querySelectorAll("#ul_options_camera span");
             camOption.forEach(item => {
                 item.addEventListener("click", camOptionSelected);
                 if (item.id === currentCamera.deviceId) {
                     camSelectorInput.value = item.innerText;
                     item.classList.add("selected");
-                    currentResolution = scanner.getResolution();
-                    updateCurrentResolution({
-                        width: currentResolution[0],
-                        height: currentResolution[1]
-                    });
                 }
                 else {
                     item.classList.remove("selected");
                 }
             })
-        }
-
-        function updateCurrentResolution(res) {
-            gotResolution.innerHTML = `<span>${'got ' + res.width + ' x ' + res.height}</span>`;
-            gotResolution.id = res.width + 'x' + res.height;
-            gotResolution.classList.add("selected");
-            resSelectorInput.value = gotResolution.innerText;
-            const resOption = document.querySelectorAll(".option_resolution");
+            const resOption = document.querySelectorAll("#ul_options_resolution span");
             for (let i = 0; i < resOption.length; i++) {
                 resOption[i].addEventListener("click", resOptionSelected);
             };
-            document.getElementById("cam_selector_switch").addEventListener("click", toggleCamView);
-            document.getElementById("res_selector_switch").addEventListener("click", toggleResView);
+            currentResolution = await scanner.getResolution();
+            updateCurrentResolution();
         }
+        function updateCurrentResolution(res) {
+            gotResolution.innerText = 'got ' + currentResolution[0] + ' x ' + currentResolution[1];
+            gotResolution.id = currentResolution[0] + 'x' + currentResolution[1];
+            gotResolution.classList.add("selected");
+            resSelectorInput.value = gotResolution.innerText;
+            let checked = document.getElementById("toggleScanLight").checked;
+            setScanLightView(checked);
+        }
+        function clickToHidden(e) {
+            if (camOptionsViewable && e.target.id != "selector_input_camera" && e.target.id != "arrow_camera" && e.target.parentNode.id != "arrow_camera") {
+                toggleCamView();
+            }
+            if (resOptionsViewable && e.target.id != "selector_input_resolution" && e.target.id != "arrow_resolution" && e.target.parentNode.id != "arrow_resolution") {
+                toggleResView();
+            }
+            if (!camOptionsViewable && !resOptionsViewable) {
+                // trigger only once
+                document.removeEventListener("click", arguments.callee)
+            }
+        }
+        // add the corresponding event to the controllers
+        document.getElementById('toggleSound').addEventListener("click", async () => {
+            if (pScanner) {
+                (await pScanner).bPlaySoundOnSuccessfulRead = this.checked;
+            }
+        });
+        document.getElementById('toggleScanLight').addEventListener("click", () => {
+            let checked = document.getElementById("toggleScanLight").checked;
+            setScanLightView(checked);
+        });
+        document.getElementById('toggleScanRect').addEventListener("click", async () => {
+            if (pScanner) {
+                let scanner = await pScanner;
+                let region = scanRegions[regionIndex];
+                regionIndex++;
+                if (regionIndex === scanRegions.length) regionIndex = 0;
+                let settings = await scanner.getRuntimeSettings()
+                settings.region = {
+                    regionLeft: region[0],
+                    regionTop: region[1],
+                    regionRight: region[2],
+                    regionBottom: region[3],
+                    regionMeasuredByPercentage: 1
+                };
+                await scanner.updateRuntimeSettings(settings);
+            }
+        });
+        document.getElementById("cam_selector_switch").addEventListener("click", toggleCamView);
+        document.getElementById("res_selector_switch").addEventListener("click", toggleResView);
+        document.getElementById('btn-show-scanner').addEventListener('click', async () => {
+            toggleBtnView(false);
+            // decode video from camera
+            try {
+                let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+                await scanner.setUIElement(document.getElementById('div-video-container'));
+                scanner.onUnduplicatedRead = (txt, result) => { alert(txt); };
+                await scanner.show();
+                updateOptions();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
+        });
+        document.getElementById('btn-hide-scanner').addEventListener('click', () => {
+            toggleBtnView(true);
+            scanner.hide();
+        });
     </script>
 </body>
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
     body {
         display: flex;
         flex-direction: column;
@@ -297,28 +307,43 @@
         width: 100vw;
         height: 90vh;
         color: #455A64;
-        margin: 0;
-        padding: 0;
     }
 
-    .selector_camera,
-    .selector_resolution {
-        float: left;
+    h1 {
+        font-size: 1.5em;
+    }
+
+    button {
+        font-size: 0.8rem;
+        margin: 2vh;
+    }
+
+    .externalControls {
+        text-align: center;
+    }
+
+    .selector_container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .selector {
         margin: 10px;
     }
 
     /* Small devices */
     @media only screen and (max-width: 545px) {
-        .selector_camera,
-        .selector_resolution {
-            float: none;
+        .selector_container {
+            flex-direction: column;
         }
-    } 
+    }
 
-    .selector {
+    .selector_switch {
+        position: relative;
         width: 250px;
         height: 30px;
-        position: relative;
         border: 1px solid #ccc;
         border-radius: 5px;
         line-height: 30px;
@@ -326,17 +351,16 @@
         transition: all 200ms;
     }
 
-    .selector:hover {
+    .selector_switch:hover {
         border: 1px solid #b4b4b4;
     }
 
-    .selector_input_resolution,
-    .selector_input_camera {
+    .selector_input {
         position: absolute;
+        left: 0;
         width: 100%;
         height: 30px;
         margin: 0;
-        left: 0;
         padding: 0 30px 0 15px;
         box-sizing: border-box;
         border: none;
@@ -346,14 +370,22 @@
         color: #606266;
     }
 
-    .selector svg {
+    .selector_switch svg {
         height: 30px;
         position: absolute;
         right: 5px;
     }
 
-    .options_resolution,
-    .options_camera {
+    .arrow {
+        transform: rotate(0deg);
+        transition: all 200ms;
+    }
+
+    .trans {
+        transform: rotate(-180deg);
+    }
+
+    .options {
         position: absolute;
         width: 250px;
         max-height: 0;
@@ -390,6 +422,7 @@
     ul li {
         height: 30px;
         line-height: 30px;
+        text-align: left;
         cursor: pointer;
         color: #606266;
         font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
@@ -400,27 +433,17 @@
         background-color: #f5f7fa;
     }
 
+    .selected {
+        color: #fe8e14;
+        font-weight: bold;
+    }
+
     ul li span {
         display: inline-block;
         width: 100%;
         box-sizing: border-box;
         padding: 0 20px;
         height: 30px;
-    }
-
-    .arrow_camera,
-    .arrow_resolution {
-        transform: rotate(0deg);
-        transition: all 200ms;
-    }
-
-    .trans {
-        transform: rotate(-180deg);
-    }
-
-    .selected {
-        color: #fe8e14;
-        font-weight: bold;
     }
 
     /* The switch - the box around the slider */
@@ -491,17 +514,42 @@
         border-radius: 50%;
     }
 
-    button {
-        font-size: 0.8rem;
-        margin-bottom: 2vh;
-    }
-
-    #UIElement {
+    .UIElement {
         margin: 2vmin auto;
         text-align: center;
         font-size: medium;
-        height: 40vh;
         width: 80vw;
+        height: 40vh;
+        max-width: 600px;
+    }
+
+    .div-video-container {
+        width: 100%;
+        height: 100%;
+        min-width: 100px;
+        min-height: 100px;
+        position: relative;
+    }
+
+    .dce-video,
+    .dbrScanner-cvs-drawarea,
+    .dbrScanner-cvs-scanarea {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .dbrScanner-scanlight {
+        width: 100%;
+        height: 3%;
+        position: absolute;
+        animation: 3s infinite dbrScanner-scanlight;
+        border-radius: 50%;
+        box-shadow: 0px 0px 2vw 1px #00e5ff;
+        background: #fff;
+        user-select: none;
     }
 </style>
 

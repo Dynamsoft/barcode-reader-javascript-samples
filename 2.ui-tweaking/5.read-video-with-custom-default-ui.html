@@ -4,45 +4,48 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta name="description" content="Read Barcodes from camera. Hide built-in controllers for a simplified ui">
-    <meta name="keywords" content="read barcodes from camera, simple ui">
+    <meta name="description" content="Read Barcodes from camera. The default ui element that can be specified as your own defined through the API we provide.">
+    <meta name="keywords" content="read barcodes from camera, customized default ui element">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - Customized UI</title>
 </head>
 
 <body>
-    <h1 style="font-size: 1.5em;">Customized UI</h1>
-
-    <div class="controler" style="text-align: center;">
-        <div class="selector_camera">
-            <div id="cam_selector_switch" class="selector">
-                <input class="selector_input_camera" readonly type="text" autocomplete="off" placeholder="Select">
-                <svg class="arrow_camera" viewBox="0 0 1024 1024" p-id="3019" width="13" height="13"><path d="M517.688889 796.444444c-45.511111 0-85.333333-17.066667-119.466667-51.2L73.955556 381.155556c-22.755556-22.755556-17.066667-56.888889 5.688888-79.644445 22.755556-22.755556 56.888889-17.066667 79.644445 5.688889l329.955555 364.088889c5.688889 5.688889 17.066667 11.377778 28.444445 11.377778s22.755556-5.688889 34.133333-17.066667l312.888889-364.088889c22.755556-22.755556 56.888889-28.444444 79.644445-5.688889 22.755556 22.755556 28.444444 56.888889 5.688888 79.644445L637.155556 739.555556c-28.444444 39.822222-68.266667 56.888889-119.466667 56.888888 5.688889 0 0 0 0 0z" p-id="3020" fill="#cccccc"></path></svg>
+    <h1>Customized Default UI</h1>
+    <div class="controler">
+        <div class="selector">
+            <div id="cam_selector_switch" class="selector_switch">
+                <input id="selector_input_camera" class="selector_input" type="text" readonly autocomplete="off" placeholder="Select">
+                <svg id="arrow_camera" class="arrow" viewBox="0 0 1024 1024" p-id="3019" width="13" height="13">
+                    <path d="M517.688889 796.444444c-45.511111 0-85.333333-17.066667-119.466667-51.2L73.955556 381.155556c-22.755556-22.755556-17.066667-56.888889 5.688888-79.644445 22.755556-22.755556 56.888889-17.066667 79.644445 5.688889l329.955555 364.088889c5.688889 5.688889 17.066667 11.377778 28.444445 11.377778s22.755556-5.688889 34.133333-17.066667l312.888889-364.088889c22.755556-22.755556 56.888889-28.444444 79.644445-5.688889 22.755556 22.755556 28.444444 56.888889 5.688888 79.644445L637.155556 739.555556c-28.444444 39.822222-68.266667 56.888889-119.466667 56.888888 5.688889 0 0 0 0 0z" p-id="3020" fill="#cccccc"></path>
+                </svg>
             </div>
-            <div id="options_camera" class="options_camera unshow noheight">
-                <ul class="options_list options_list_camera">
+            <div id="options_camera" class="options unshow noheight">
+                <ul id="ul_options_camera">
                 </ul>
             </div>
         </div>
-        <div class="selector_resolution">
-            <div id="res_selector_switch" class="selector">
-                <input class="selector_input_resolution" readonly type="text" autocomplete="off" placeholder="Select">
-                <svg class="arrow_resolution" viewBox="0 0 1024 1024" p-id="3019" width="13" height="13"><path d="M517.688889 796.444444c-45.511111 0-85.333333-17.066667-119.466667-51.2L73.955556 381.155556c-22.755556-22.755556-17.066667-56.888889 5.688888-79.644445 22.755556-22.755556 56.888889-17.066667 79.644445 5.688889l329.955555 364.088889c5.688889 5.688889 17.066667 11.377778 28.444445 11.377778s22.755556-5.688889 34.133333-17.066667l312.888889-364.088889c22.755556-22.755556 56.888889-28.444444 79.644445-5.688889 22.755556 22.755556 28.444444 56.888889 5.688888 79.644445L637.155556 739.555556c-28.444444 39.822222-68.266667 56.888889-119.466667 56.888888 5.688889 0 0 0 0 0z" p-id="3020" fill="#cccccc"></path></svg>
+        <div class="selector">
+            <div id="res_selector_switch" class="selector_switch">
+                <input id="selector_input_resolution" class="selector_input" type="text" readonly autocomplete="off" placeholder="Select">
+                <svg id="arrow_resolution" class="arrow" viewBox="0 0 1024 1024" p-id="3019" width="13" height="13">
+                    <path d="M517.688889 796.444444c-45.511111 0-85.333333-17.066667-119.466667-51.2L73.955556 381.155556c-22.755556-22.755556-17.066667-56.888889 5.688888-79.644445 22.755556-22.755556 56.888889-17.066667 79.644445 5.688889l329.955555 364.088889c5.688889 5.688889 17.066667 11.377778 28.444445 11.377778s22.755556-5.688889 34.133333-17.066667l312.888889-364.088889c22.755556-22.755556 56.888889-28.444444 79.644445-5.688889 22.755556 22.755556 28.444444 56.888889 5.688888 79.644445L637.155556 739.555556c-28.444444 39.822222-68.266667 56.888889-119.466667 56.888888 5.688889 0 0 0 0 0z" p-id="3020" fill="#cccccc"></path>
+                </svg>
             </div>
-            <div id="options_resolution" class="options_resolution unshow noheight">
-                <ul class="options_list">
-                    <li class="option_resolution gotResolution"></li>
-                    <li class="option_resolution"><span id="1920x1080">ask 1920 x 1080</span></li>
-                    <li class="option_resolution"><span id="1280x720">ask 1280 x 720</span></li>
-                    <li class="option_resolution"><span id="720x576">ask 720 x 576</span></li>
-                    <li class="option_resolution"><span id="640x480">ask 640 x 480</span></li>
-                    <li class="option_resolution"><span id="480x360">ask 480 x 360</span></li>
-                    <li class="option_resolution"><span id="320x240">ask 320 x 240</span></li>
-                    <li class="option_resolution"><span id="176x144">ask 176 x 144</span></li>
+            <div id="options_resolution" class="options unshow noheight">
+                <ul id="ul_options_resolution">
+                    <li id="gotResolution"><span></span></li>
+                    <li><span id="1920x1080">ask 1920 x 1080</span></li>
+                    <li><span id="1280x720">ask 1280 x 720</span></li>
+                    <li><span id="720x576">ask 720 x 576</span></li>
+                    <li><span id="640x480">ask 640 x 480</span></li>
+                    <li><span id="480x360">ask 480 x 360</span></li>
+                    <li><span id="320x240">ask 320 x 240</span></li>
+                    <li><span id="176x144">ask 176 x 144</span></li>
                 </ul>
             </div>
         </div>
     </div>
-    <div id="UIElement">
+    <div id="UIElement" class="UIElement">
     </div>
     <script src="https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/dbr.js"></script>
     <script>
@@ -61,13 +64,14 @@
         /** LICENSE ALERT - THE END */
 
         // define html elements needed
-        const camOptions = document.querySelector(".options_camera");
-        const camArrow = document.querySelector(".arrow_camera");
-        const camSelectorInput = document.querySelector(".selector_input_camera");
-        const resOptions = document.querySelector(".options_resolution");
-        const resArrow = document.querySelector(".arrow_resolution");
-        const resSelectorInput = document.querySelector(".selector_input_resolution");
-        const gotResolution = document.querySelector(".gotResolution");
+        const camOptions = document.getElementById("options_camera");
+        const camArrow = document.getElementById("arrow_camera");
+        const camSelectorInput = document.getElementById("selector_input_camera");
+        const cameraUL = document.getElementById("ul_options_camera");
+        const resOptions = document.getElementById("options_resolution");
+        const resArrow = document.getElementById("arrow_resolution");
+        const resSelectorInput = document.getElementById("selector_input_resolution");
+        const gotResolution = document.querySelector("#gotResolution span");
         // define some required variables
         let camOptionsViewable = false;
         let resOptionsViewable = false;
@@ -79,11 +83,9 @@
         // scanner for decoding video
         let pScanner = null;
         (async () => {
-            //Load the library on page load to speed things up.
             try {
-                await Dynamsoft.DBR.BarcodeReader.loadWasm();
                 // use the API defaultUIElementURL to set specified html as the default UIelement
-                await (Dynamsoft.DBR.BarcodeScanner.defaultUIElementURL = "./customized-scanner.html");
+                await (Dynamsoft.DBR.BarcodeScanner.defaultUIElementURL = "./my.dbr.scanner.html");
                 showScanner();
             } catch (ex) {
                 alert(ex.message);
@@ -119,15 +121,19 @@
         // initial selector renderer
         function renderSelector() {
             // render the selector's options based on the fetched value
-            let html = "";
+            cameraUL.innerHTML = "";
             cameras.forEach(item => {
-                html += `<li id=${item.deviceId} class="option_camera"><span>${item.label}</span></li>`
+                let li = document.createElement("li");
+                let span = document.createElement("span");
+                span.setAttribute("id", item.deviceId);
+                span.innerText = item.label;
+                li.appendChild(span);
+                cameraUL.appendChild(li);
             });
-            document.querySelector(".options_list_camera").innerHTML = html;
-            gotResolution.innerHTML = `<span>${'got ' + currentResolution[0] + ' x ' + currentResolution[1]}</span>`;
+            gotResolution.innerText = 'got ' + currentResolution[0] + ' x ' + currentResolution[1];
             gotResolution.id = currentResolution[0] + 'x' + currentResolution[1];
             // highlight and display the selected option and add click event to selector
-            const camOption = document.querySelectorAll(".option_camera");
+            const camOption = document.querySelectorAll("#ul_options_camera span");
             camOption.forEach(item => {
                 item.addEventListener("click", camOptionSelected);
                 if (item.id === currentCamera.deviceId) {
@@ -140,7 +146,7 @@
             })
             resSelectorInput.value = gotResolution.innerText;
             gotResolution.classList.add("selected");
-            const resOption = document.querySelectorAll(".option_resolution");
+            const resOption = document.querySelectorAll("#ul_options_resolution span");
             for (let i = 0; i < resOption.length; i++) {
                 resOption[i].addEventListener("click", resOptionSelected);
             };
@@ -150,11 +156,6 @@
         }
         // when the selector is clicked
         function toggleCamView(e) {
-            // make the page have only one expanded selector
-            if (e)
-                e.stopPropagation();
-            if (resOptionsViewable)
-                toggleResView()
             // expanding and collapsing control options by changing the classList
             clearTimeout(camAnimateTimer);
             camOptions.classList.toggle("noheight");
@@ -169,13 +170,9 @@
                     camOptions.classList.replace("show", "unshow");
                 }, 200);
             }
-            camOptionsViewable = !camOptionsViewable
+            camOptionsViewable = !camOptionsViewable;
         }
         function toggleResView(e) {
-            if (e)
-                e.stopPropagation();
-            if (camOptionsViewable)
-                toggleCamView()
             clearTimeout(cresAnimateTimer);
             resOptions.classList.toggle("noheight");
             resArrow.classList.toggle("trans")
@@ -188,55 +185,60 @@
                     resOptions.classList.replace("show", "unshow");
                 }, 200);
             }
-            resOptionsViewable = !resOptionsViewable
+            resOptionsViewable = !resOptionsViewable;
         }
         // when option is selected
         function camOptionSelected(e) {
-            e.stopPropagation();
-            toggleCamView();
-            if (currentCamera.deviceId === e.target.id) {
-                return;
-            }
+            // if (currentCamera.deviceId === e.target.id) {
+            //     return;
+            // }
+            toggleMaskView();
             camSelectorInput.value = e.target.innerText;
             cameras.forEach(item => {
                 if (item.deviceId === e.target.id) {
                     currentCamera = item;
-                    toggleMaskView();
                     return showScanner();
                 }
             })
         }
         function resOptionSelected(e) {
-            e.stopPropagation();
-            toggleResView();
             const data = e.target.id.split("x");
             if (currentResolution[0] == data[0] && currentResolution[1] == data[1]) {
                 return;
             }
+            toggleMaskView();
             resSelectorInput.value = e.target.innerText;
             currentResolution = [parseInt(data[0]), parseInt(data[1])];
-            toggleMaskView();
             showScanner();
         }
         // camera's styles mask show or not
         function toggleMaskView() {
-            document.getElementById('lib-load').hidden = !document.getElementById('lib-load').hidden;
-            document.querySelector('.dce-mask').hidden = !document.querySelector('.dce-mask').hidden;
+            let dceLoading = document.getElementById('dce-loading');
+            let dceMask = document.getElementById('dce-mask');
+            dceLoading.style.display = dceLoading.style.display === "none" ? "inline-block" : "none"
+            dceMask.hidden = !dceMask.hidden;
         }
         // click anywhere outside the options to collapse the options
         function clickToHidden(e) {
-            if (camOptionsViewable && e.target.id != "options_camera") {
-                toggleCamView()
+            if (camOptionsViewable && e.target.id != "selector_input_camera" && e.target.id != "arrow_camera" && e.target.parentNode.id != "arrow_camera") {
+                toggleCamView();
             }
-            if (resOptionsViewable && e.target.id != "options_resolution") {
-                toggleResView()
+            if (resOptionsViewable && e.target.id != "selector_input_resolution" && e.target.id != "arrow_resolution" && e.target.parentNode.id != "arrow_resolution") {
+                toggleResView();
             }
-            // trigger only once
-            document.removeEventListener("click", arguments.callee)
+            if (!camOptionsViewable && !resOptionsViewable) {
+                // trigger only once
+                document.removeEventListener("click", arguments.callee)
+            }
         }
     </script>
 </body>
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
     body {
         display: flex;
         flex-direction: column;
@@ -246,28 +248,34 @@
         width: 100vw;
         height: 90vh;
         color: #455A64;
-        margin: 0;
-        padding: 0;
     }
 
-    .selector_camera,
-    .selector_resolution {
-        float: left;
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .controler {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .selector {
         margin: 10px;
     }
 
     /* Small devices */
     @media only screen and (max-width: 545px) {
-        .selector_camera,
-        .selector_resolution {
-            float: none;
+        .controler {
+            flex-direction: column;
         }
-    } 
+    }
 
-    .selector {
+    .selector_switch {
+        position: relative;
         width: 250px;
         height: 30px;
-        position: relative;
         border: 1px solid #ccc;
         border-radius: 5px;
         line-height: 30px;
@@ -275,12 +283,11 @@
         transition: all 200ms;
     }
 
-    .selector:hover {
+    .selector_switch:hover {
         border: 1px solid #b4b4b4;
     }
 
-    .selector_input_resolution,
-    .selector_input_camera {
+    .selector_input {
         position: absolute;
         left: 0;
         width: 100%;
@@ -295,14 +302,22 @@
         color: #606266;
     }
 
-    .selector svg {
+    .selector_switch svg {
         height: 30px;
         position: absolute;
         right: 5px;
     }
 
-    .options_resolution,
-    .options_camera {
+    .arrow {
+        transform: rotate(0deg);
+        transition: all 200ms;
+    }
+
+    .trans {
+        transform: rotate(-180deg);
+    }
+
+    .options {
         position: absolute;
         width: 250px;
         max-height: 0;
@@ -339,6 +354,7 @@
     ul li {
         height: 30px;
         line-height: 30px;
+        text-align: left;
         cursor: pointer;
         color: #606266;
         font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
@@ -349,36 +365,26 @@
         background-color: #f5f7fa;
     }
 
-    ul li span {
-        display: inline-block;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 0 20px;
-        height: 30px;
-    }
-
-    .arrow_camera,
-    .arrow_resolution {
-        transform: rotate(0deg);
-        transition: all 200ms;
-    }
-
-    .trans {
-        transform: rotate(-180deg);
-    }
-
     .selected {
         color: #fe8e14;
         font-weight: bold;
     }
 
-    #UIElement {
+    ul li span {
+        display: inline-block;
+        width: 100%;
+        height: 30px;
+        box-sizing: border-box;
+        padding: 0 20px;
+    }
+
+    .UIElement {
+        width: 80vw;
+        height: 60vh;
+        max-width: 600px;
         margin: 2vmin auto;
         text-align: center;
         font-size: medium;
-        width: 80vw;
-        height: 40vh;
-        max-width: 600px;
     }
 </style>
 
