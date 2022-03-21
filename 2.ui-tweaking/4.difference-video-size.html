@@ -10,14 +10,14 @@
 </head>
 
 <body>
-    <h1 style="font-size: 1.5em;">Enlarge the Video Stream</h1>
-    <button id="backToNormal" hidden>Exit Full Screen</button>
-    <div id="externalControls" style="text-align: center;">
+    <h1>Enlarge the Video Stream</h1>
+    <button id="backToNormal" class="backToNormal" hidden>Exit Full Screen</button>
+    <div id="externalControls">
         <button id="fitPage">Enter Full Screen, Read and Exit</button>
     </div>
     <div id="UIElement" class="UIElement">
-        <div id="div-video-container" style="width:100%;height:100%;">
-            <video class="dce-video" playsinline="true" muted style="width:100%;height:100%;"></video>
+        <div id="div-video-container" class="div-video-container">
+            <video class="dce-video" playsinline="true" muted></video>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
@@ -36,37 +36,12 @@
 
         /** LICENSE ALERT - THE END */
 
+        // define html elements needed
+        const UIElement = document.getElementById('UIElement');
         // scanner for decoding video
         let pScanner = null;
         (async () => {
             //Load the library on page load to speed things up.
-            try {
-                await Dynamsoft.DBR.BarcodeReader.loadWasm();
-                showScanner();
-            } catch (ex) {
-                alert(ex.message);
-                throw ex;
-            }
-        })();
-
-        // define html elements needed
-        const backToNormal = document.getElementById('backToNormal');
-        const UIElement = document.getElementById('UIElement');
-        const fitPage = document.getElementById('fitPage');
-
-        backToNormal.addEventListener('click', () => {
-            exitFullPage();
-        });
-        fitPage.addEventListener('click', () => {
-            UIElement.classList.add("fullscreen");
-            backToNormal.hidden = false;
-        });
-        function exitFullPage() {
-            UIElement.classList.remove("fullscreen");
-            backToNormal.hidden = true;
-        }
-        // decode video from camera
-        async function showScanner() {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 await scanner.setUIElement(document.getElementById('div-video-container'));
@@ -76,19 +51,22 @@
                 alert(ex.message);
                 throw ex;
             }
-        }
+        })();
+
+        document.getElementById('backToNormal').addEventListener('click', () => {
+            UIElement.classList.remove("fullscreen");
+            backToNormal.hidden = true;
+        });
+        document.getElementById('fitPage').addEventListener('click', () => {
+            UIElement.classList.add("fullscreen");
+            backToNormal.hidden = false;
+        });
     </script>
 </body>
 <style>
     * {
         margin: 0;
         padding: 0;
-    }
-
-    button#backToNormal {
-        position: absolute;
-        z-index: 10000000;
-        top: 5vh;
     }
     
     body {
@@ -100,7 +78,10 @@
         width: 100vw;
         height: 100vh;
         color: #455A64;
-        margin: 0;
+    }
+
+    h1 {
+        font-size: 1.5em;
     }
     
     button {
@@ -109,19 +90,31 @@
     }
 
     .UIElement {
-        margin: 0;
+        height: 60vh;
+        width: 80vw;
+        margin: 2vmin auto;
         text-align: center;
         font-size: medium;
-        height: 40vh;
-        width: 80vw;
     }
     
+    .backToNormal {
+        position: absolute;
+        z-index: 10000000;
+        top: 5vh;
+    }
+
     .fullscreen {
         position: fixed;
         width: 100vw;
         height: 100vh;
         left: 0;
         top: 0;
+    }
+
+    .div-video-container,
+    .dce-video {
+        width: 100%;
+        height: 100%;
     }
 </style>
 

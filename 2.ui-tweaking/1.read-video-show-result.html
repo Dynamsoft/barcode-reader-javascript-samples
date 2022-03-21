@@ -4,16 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta name="description"
-        content="Read barcode from a video input. This sample demonstrates the default built-in UI.">
+    <meta name="description" content="Read barcode from a video input. This sample demonstrates the default built-in UI.">
     <meta name="keywords" content="read barcode from video, built-in ui">
     <title>Dynamsoft Barcode Reader Sample - Video Decoding with Default UI</title>
 </head>
 
 <body>
-    <h1 style="font-size: 1.5em;">Use the Default Built-in UI</h1>
-    <div id="UIElement">
-        <button id="showScanner">Show The Scanner</button>
+    <h1>Use the Default Built-in UI</h1>
+    <div id="UIElement" class="UIElement">
+        <button id="showScanner" class="showScanner">Show The Scanner</button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
     <script>
@@ -61,12 +60,6 @@
         padding: 0;
     }
 
-    button#showScanner {
-        position: absolute;
-        width: 50%;
-        left: 25%;
-    }
-
     body {
         display: flex;
         flex-direction: column;
@@ -78,17 +71,27 @@
         color: #455A64;
     }
 
-    button {
-        font-size: 1.5rem;
-        margin-bottom: 2vh;
+    h1 {
+        font-size: 1.5em;
     }
 
-    #UIElement {
+    button {
+        margin-bottom: 2vh;
+        font-size: 1.5rem;
+    }
+
+    .UIElement {
+        height: 60vh;
+        width: 80vw;
         margin: 2vmin auto;
         text-align: center;
         font-size: medium;
-        height: 60vh;
-        width: 60vw;
+    }
+
+    .showScanner {
+        position: absolute;
+        width: 50%;
+        left: 25%;
     }
 </style>
 
