@@ -189,9 +189,9 @@
         }
         // when option is selected
         function camOptionSelected(e) {
-            // if (currentCamera.deviceId === e.target.id) {
-            //     return;
-            // }
+            if (currentCamera.deviceId === e.target.id) {
+                return;
+            }
             toggleMaskView();
             camSelectorInput.value = e.target.innerText;
             cameras.forEach(item => {
