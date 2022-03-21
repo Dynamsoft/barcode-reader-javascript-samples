@@ -62,15 +62,14 @@
     </div>
     </div>
     <div id="UIElement" class="UIElement">
-        <div id="div-video-container" class="div-video-container">
-            <video class="dce-video" playsinline="true"></video>
-            <canvas class="dbrScanner-cvs-drawarea"></canvas>
-            <div class="dbrScanner-cvs-scanarea">
-                <div class="dbrScanner-scanlight" hidden></div>
+        <div id="div-ui-container" class="div-ui-container">
+            <div class="dce-video-container"></div>
+            <div class="dce-scanarea">
+                <div class="dce-scanlight" hidden></div>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README
          *
@@ -95,7 +94,7 @@
         const resArrow = document.getElementById("arrow_resolution");
         const resSelectorInput = document.getElementById("selector_input_resolution");
         const gotResolution = document.querySelector("#gotResolution span");
-        const scanlight = document.querySelector('.dbrScanner-scanlight');
+        const scanlight = document.querySelector('.dce-scanlight');
         // define some required variables
         let camOptionsViewable = false;
         let resOptionsViewable = false;
@@ -277,7 +276,7 @@
             // decode video from camera
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                await scanner.setUIElement(document.getElementById('div-video-container'));
+                await scanner.setUIElement(document.getElementById('div-ui-container'));
                 scanner.onUnduplicatedRead = (txt, result) => { alert(txt); };
                 await scanner.show();
                 updateOptions();
@@ -523,7 +522,7 @@
         max-width: 600px;
     }
 
-    .div-video-container {
+    .div-ui-container {
         width: 100%;
         height: 100%;
         min-width: 100px;
@@ -531,9 +530,8 @@
         position: relative;
     }
 
-    .dce-video,
-    .dbrScanner-cvs-drawarea,
-    .dbrScanner-cvs-scanarea {
+    .dce-video-container,
+    .dce-scanarea {
         width: 100%;
         height: 100%;
         position: absolute;
@@ -541,11 +539,11 @@
         top: 0;
     }
 
-    .dbrScanner-scanlight {
+    .dce-scanlight {
         width: 100%;
         height: 3%;
         position: absolute;
-        animation: 3s infinite dbrScanner-scanlight;
+        animation: 3s infinite dce-scanlight;
         border-radius: 50%;
         box-shadow: 0px 0px 2vw 1px #00e5ff;
         background: #fff;
