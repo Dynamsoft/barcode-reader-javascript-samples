@@ -42,7 +42,7 @@
         </div>
     </div>
     <div id="divNoteMessage" class="divNoteMessage" hidden></div>
-    <script src="https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220321161731.0/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README
          *
@@ -74,18 +74,10 @@
         // decode video from camera
         showScannerBtn.addEventListener('click', async () => {
             showScannerBtn.hidden = true;
-            // openImageBtn.hidden = true;
             startScanning(false);
         });
-        // decode an image
-        // openImageBtn.addEventListener('click', async () => {
-        //     backToHome();
-        //     startScanning(true);
-        // });
-
         function backToHome() {
             showScannerBtn.hidden = false;
-            // openImageBtn.hidden = true;
             document.getElementById('hintMSG').hidden = true;
             document.getElementById('header').hidden = false;
             document.getElementById('readAgain').hidden = true;
@@ -99,6 +91,10 @@
             let timer = null;
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+                if (scanner.singleFrameMode !== bSingleFrameMode) {
+                    await scanner.hide();
+                    scanner.singleFrameMode = bSingleFrameMode;
+                }
                 await scanner.setUIElement(document.getElementById('div-ui-container'));
                 if (!bSingleFrameMode) {
                     let settings = await scanner.getRuntimeSettings();
@@ -109,11 +105,8 @@
                     document.getElementById('header').hidden = true;
                     UIElement.classList.add("show");
                 }
-                if (scanner.singleFrameMode !== bSingleFrameMode) {
-                    await scanner.hide();
-                    scanner.singleFrameMode = bSingleFrameMode;
-                }
-                scanner.onUnduplicatedRead = (txt, result) => {
+                scanner.onUniqueRead = (txt, result) => {
+                    document.getElementById("dialog").hidden = true;
                     clearTimeout(timer);
                     extractInformation(txt);
                 };
@@ -123,7 +116,7 @@
                     document.getElementById('div-ui-container').hidden = false;
                     timer = setTimeout(() => {
                         alertMsg("Tips:", "Can't scan results for a long time? Try to use the single frame mode to upload high-definition picture for recognition.");
-                    }, 2000);
+                    }, 10000);
                 }
             } catch (ex) {
                 alert(ex.message);
@@ -131,11 +124,10 @@
             }
         }
         document.getElementById("confirm_btn").addEventListener("click", () => {
-            document.getElementById('div-ui-container').hidden = true;
+            backToHome();
             showScannerBtn.hidden = false;
             startScanning(true);
             document.getElementById("dialog").hidden = true;
-            setTimeout
         });
         document.getElementById("cancel_btn").addEventListener("click", () => {
             document.getElementById("dialog").hidden = true;
@@ -465,12 +457,6 @@
         font-size: 1.5em;
     }
 
-    h2 {
-        position: absolute;
-        z-index: 10000000;
-        top: 2vh;
-    }
-
     .UIElement {
         display: flex;
         flex-direction: row;
@@ -538,7 +524,7 @@
         left: 0;
         right: 0;
         text-align: center;
-        z-index: 99999;
+        z-index: 9999;
         background-color: rgba(0, 0, 0, 0.7);
     }
 
@@ -557,14 +543,13 @@
         padding-bottom: 10px;
         vertical-align: middle;
         background-color: #fff;
-        /* border-radius: 4px; */
-        /* border: 1px solid #ebeef5; */
         font-size: 18px;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
         text-align: left;
         overflow: hidden;
         backface-visibility: hidden;
         font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+        z-index: 10000;
     }
 
     @media only screen and (max-width: 545px) {
