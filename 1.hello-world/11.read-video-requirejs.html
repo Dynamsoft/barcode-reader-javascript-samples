@@ -17,19 +17,18 @@
             BarcodeReader,
             BarcodeScanner
         }) {
-            /** LICENSE ALERT - README
-             *
-             * The library requires a license to work.
-             * If the license is not specified, a free public trial license will be used by default which is the case in this sample.
-             * Note that network connection is required for the public license to work.
-             * For more info, please check https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=8.8.7&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+            /** LICENSE ALERT - README 
+             * To use the library, you need to first specify a license key using the API "license" as shown below.
              */
 
-            /* When using your own license, uncomment the following line and specify your license. */
-
-            // BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
+            BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
             
-            /** LICENSE ALERT - THE END */
+            /** 
+             * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
+             * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+             * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.0.0&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+             * LICENSE ALERT - THE END 
+             */
 
             BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/";
             let pScanner = null;
