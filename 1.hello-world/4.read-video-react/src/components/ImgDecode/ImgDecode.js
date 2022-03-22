@@ -22,7 +22,7 @@ export default class ImgDecode extends Component {
 
   async componentWillUnmount() {
     if (this.pReader) {
-      (await this.pReader).destroy();
+      (await this.pReader).destroyContext();
       console.log('ImgDecode Component Unmount');
     }
   }

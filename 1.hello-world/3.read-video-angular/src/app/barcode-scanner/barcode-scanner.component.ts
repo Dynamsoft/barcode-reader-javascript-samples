@@ -27,7 +27,7 @@ export class VideoDecodeComponent implements OnInit {
   }
   async ngOnDestroy() {
     if (this.pScanner) {
-      (await this.pScanner).destroy();
+      (await this.pScanner).destroyContext();
       console.log('BarcodeScanner Component Unmount');
     }
   }

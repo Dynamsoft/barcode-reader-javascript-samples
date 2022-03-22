@@ -26,7 +26,7 @@ class VideoDecode extends React.Component {
     }
     async componentWillUnmount() {
         if (this.pScanner) {
-            (await this.pScanner).destroy();
+            (await this.pScanner).destroyContext();
             console.log('BarcodeScanner Component Unmount');
         }
     }

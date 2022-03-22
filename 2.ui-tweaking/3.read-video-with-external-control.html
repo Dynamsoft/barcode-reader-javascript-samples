@@ -60,7 +60,7 @@
             <span class="slider round"></span>
         </label> Toggle Sound
     </div>
-    </div>
+    
     <div id="UIElement" class="UIElement">
         <div id="div-ui-container" class="div-ui-container">
             <div class="dce-video-container"></div>
@@ -277,7 +277,7 @@
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 await scanner.setUIElement(document.getElementById('div-ui-container'));
-                scanner.onUnduplicatedRead = (txt, result) => { alert(txt); };
+                scanner.onUniqueRead = (txt, result) => { alert(txt); };
                 await scanner.show();
                 updateOptions();
             } catch (ex) {

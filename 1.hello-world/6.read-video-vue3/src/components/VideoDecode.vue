@@ -109,7 +109,7 @@ export default {
     });
     onBeforeUnmount(async () => {
       if (pScanner.value) {
-        (await pScanner.value).destroy();
+        (await pScanner.value).destroyContext();
         console.log('BarcodeScanner Component Unmount');
       }
     });
