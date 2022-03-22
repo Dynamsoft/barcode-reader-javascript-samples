@@ -23,7 +23,7 @@ export default {
     }
     onBeforeUnmount(async () => {
       if (pReader.value) {
-        (await pReader.value).destroy();
+        (await pReader.value).destroyContext();
         console.log('ImgDecode Component Unmount');
       }
     })

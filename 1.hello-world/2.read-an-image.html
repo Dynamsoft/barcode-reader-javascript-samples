@@ -75,7 +75,7 @@
 
                 // show image
                 divCvsContainer.innerHTML = '';
-                divCvsContainer.appendChild(reader.oriCanvas);
+                divCvsContainer.appendChild(reader.getOriginalImageInACanvas());
                 
                 // show results
                 divResults.appendChild(createEl('h3', file.name + ": "));

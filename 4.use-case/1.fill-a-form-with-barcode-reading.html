@@ -47,7 +47,9 @@
                 input.addEventListener('click', async function() {
                     try {
                         let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                        scanner.bPlaySoundOnSuccessfulRead = true;
+                        let scanSettings = await scanner.getScanSettings();
+                        scanSettings.whenToPlaySoundforSuccessfulRead = "frame";
+                        await scanner.updateScanSettings(scanSettings);
                         scanner.onUniqueRead = (txt, result) => {
                             this.value = result.barcodeText;
                             scanner.hide();

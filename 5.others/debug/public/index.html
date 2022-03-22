@@ -20,7 +20,7 @@
     <br>
     <div id="div-video-container" style="width:100%;height:calc(100vh - 150px);"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/2.4.1/eruda.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220318174621.0/dist/dbr.js"></script>
     <script>
         eruda.init();
         Dynamsoft.DBR.BarcodeReader._onLog = console.log;
@@ -43,12 +43,12 @@
         document.getElementById('btn-show-scanner').addEventListener('click', async() => {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                scanner.bPlaySoundOnSuccessfulRead = true;
                 let rs = await scanner.getRuntimeSettings();
                 rs.timeout = 100000;
                 await scanner.updateRuntimeSettings(rs);
                 let ss = await scanner.getScanSettings();
                 ss.intervalTime = 100;
+                scanSettings.whenToPlaySoundforSuccessfulRead = "frame";
                 await scanner.updateScanSettings(ss);
                 scanner.ifSaveOriginalImageInACanvas = true;
                 let processingCount = 0;
@@ -65,7 +65,7 @@
                              * The original image is the one the reader worked on,
                              * we can collect it for futher testing and debugging.
                              */
-                            let cvs = await scanner.getOriginalImageInACanvas();
+                            let cvs = scanner.getOriginalImageInACanvas();
                             let fd = new FormData();
                             if (cvs != null) {
                                 let blob = cvs.convertToBlob ?
