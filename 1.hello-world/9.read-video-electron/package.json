@@ -11,6 +11,6 @@
     "dependencies": {
         "dynamsoft-javascript-barcode": "8.8.7",
         "electron": "14.0.1",
-        "keillion-dynamsoft-javascript-barcode": "0.20220318174621.0"
+        "keillion-dynamsoft-javascript-barcode": "0.20220323095526.0"
     }
 }

@@ -74,7 +74,7 @@
         // decode video from camera
         showScannerBtn.addEventListener('click', async () => {
             showScannerBtn.hidden = true;
-            startScanning(false);
+            await startScanning(false);
         });
         function backToHome() {
             showScannerBtn.hidden = false;
@@ -92,7 +92,7 @@
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 if (scanner.singleFrameMode !== bSingleFrameMode) {
-                    await scanner.hide();
+                    scanner.hide();
                     scanner.singleFrameMode = bSingleFrameMode;
                 }
                 await scanner.setUIElement(document.getElementById('div-ui-container'));
@@ -101,7 +101,7 @@
                     settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
                     settings.localizationModes = [16, 8, 2, 0, 0, 0, 0, 0];
                     settings.deblurLevel = 7;
-                    scanner.updateRuntimeSettings(settings);
+                    await scanner.updateRuntimeSettings(settings);
                     document.getElementById('header').hidden = true;
                     UIElement.classList.add("show");
                 }
@@ -126,7 +126,7 @@
         document.getElementById("confirm_btn").addEventListener("click", () => {
             backToHome();
             showScannerBtn.hidden = false;
-            startScanning(true);
+            await startScanning(true);
             document.getElementById("dialog").hidden = true;
         });
         document.getElementById("cancel_btn").addEventListener("click", () => {
@@ -153,7 +153,7 @@
         }
         async function extractInformation(text) {
             let resultShowNode = document.createElement("p");
-            await (await pScanner).hide();
+            (await pScanner).hide();
             document.getElementById('hintMSG').hidden = true;
             document.getElementById('header').hidden = false;
             document.getElementById('readAgain').hidden = false;

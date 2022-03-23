@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {BarcodeReader} from 'dynamsoft-javascript-barcode'
+import {BarcodeReader} from 'keillion-dynamsoft-javascript-barcode'
 
 @Component({
   selector: 'app-img-decode',

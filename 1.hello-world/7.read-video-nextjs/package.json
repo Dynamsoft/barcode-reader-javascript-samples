@@ -10,7 +10,7 @@
     },
     "dependencies": {
         "dynamsoft-javascript-barcode": "8.8.7",
-        "keillion-dynamsoft-javascript-barcode": "0.20220318174621.0",
+        "keillion-dynamsoft-javascript-barcode": "0.20220323095526.0",
         "next": "11.1.2",
         "react": "17.0.2",
         "react-dom": "17.0.2"
