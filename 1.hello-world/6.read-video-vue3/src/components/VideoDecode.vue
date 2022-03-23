@@ -92,8 +92,9 @@ export default {
     onMounted(async () => {
       try {
         const internalInstance = getCurrentInstance();
+        elRefs.value = internalInstance.refs.elRefs;
         const scanner = await (pScanner.value = BarcodeScanner.createInstance());
-        scanner.setUIElement(internalInstance.ctx.elRefs);
+        await scanner.setUIElement(elRefs.value);
         scanner.onFrameRead = (results) => {
           for (let result of results) {
             console.log(result.barcodeText);

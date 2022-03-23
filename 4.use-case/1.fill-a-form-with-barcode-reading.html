@@ -54,17 +54,15 @@
                             scanner.hide();
                             document.getElementById('UIElement').hidden = true;
                         };
-                        scanner.getRuntimeSettings()
-                            .then(settings => {
-                                settings.region = {
-                                    regionLeft: 5,
-                                    regionTop: 5,
-                                    regionRight: 95,
-                                    regionBottom: 95,
-                                    regionMeasuredByPercentage: 1
-                                };
-                                scanner.updateRuntimeSettings(settings);
-                            });
+                        await settings = scanner.getRuntimeSettings();
+                        settings.region = {
+                            regionLeft: 5,
+                            regionTop: 5,
+                            regionRight: 95,
+                            regionBottom: 95,
+                            regionMeasuredByPercentage: 1
+                        };
+                        await scanner.updateRuntimeSettings(settings);
                         await scanner.updateVideoSettings({
                             video: {
                                 width: {
@@ -79,7 +77,7 @@
                             }
                         });
                         document.getElementById('UIElement').hidden = false;
-                        scanner.setUIElement(document.getElementById('UIElement'));
+                        await scanner.setUIElement(document.getElementById('UIElement'));
                         await scanner.show();
                     } catch (ex) {
                         alert(ex.message);

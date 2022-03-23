@@ -10,7 +10,7 @@ class VideoDecode extends React.Component {
     async componentDidMount() {
         try {
             const scanner = await (this.pScanner = BarcodeScanner.createInstance());
-            scanner.setUIElement(this.elRef.current);
+            await scanner.setUIElement(this.elRef.current);
             scanner.onFrameRead = results => {
                 for (let result of results) {
                     console.log(result.barcodeText);

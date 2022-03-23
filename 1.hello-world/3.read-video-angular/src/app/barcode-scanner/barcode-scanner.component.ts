@@ -11,7 +11,7 @@ export class VideoDecodeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     try {
       const scanner = await (this.pScanner = BarcodeScanner.createInstance());
-      scanner.setUIElement((document.querySelector('.component-barcode-scanner') as any));
+      await scanner.setUIElement((document.querySelector('.component-barcode-scanner') as any));
       scanner.onFrameRead = (results: any) => {
         for (const result of results) {
           console.log(result.barcodeText);
