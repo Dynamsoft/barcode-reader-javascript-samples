@@ -74,7 +74,7 @@
         // decode video from camera
         showScannerBtn.addEventListener('click', async () => {
             showScannerBtn.hidden = true;
-            await startScanning(false);
+            startScanning(false);
         });
         function backToHome() {
             showScannerBtn.hidden = false;
@@ -126,7 +126,7 @@
         document.getElementById("confirm_btn").addEventListener("click", () => {
             backToHome();
             showScannerBtn.hidden = false;
-            await startScanning(true);
+            startScanning(true);
             document.getElementById("dialog").hidden = true;
         });
         document.getElementById("cancel_btn").addEventListener("click", () => {
