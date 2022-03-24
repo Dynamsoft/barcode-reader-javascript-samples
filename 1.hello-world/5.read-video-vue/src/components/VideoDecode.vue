@@ -36,7 +36,7 @@ export default {
   },
   async mounted() {
     try {
-      const scanner = await (this.pScanner = BarcodeScanner.createInstance());
+      const scanner = await (this.pScanner = this.pScanner || BarcodeScanner.createInstance());
       await scanner.setUIElement(this.$el);
       scanner.onFrameRead = (results) => {
         for (let result of results) {
