@@ -17,7 +17,7 @@ Get the basic features of the library working with plain/native JavaScript or wi
 * **Hello World in Electron**: Decode video stream in a Electron Application from a USB-connected or built-in camera (desktop only).
 * **Hello World in PWA**: Decode video stream in a PWA Application from a USB-connected or built-in camera (mobile or desktop).
 * **Hello World with RequireJS**: Decode video stream in a simple Application using RequireJS from a USB-connected or built-in camera (mobile or desktop).
-* **Hello World with webpack**: Decode video stream in a simple Application using webpack from a USB-connected or built-in camera (mobile or desktop).
+* **Hello World with ES6**: Decode video stream in a simple Application using ES6 from a USB-connected or built-in camera (mobile or desktop).
 
 ## Customize Camera UI
 
@@ -25,6 +25,7 @@ Get the basic features of the library working with plain/native JavaScript or wi
 * **Hide Built-in Controllers**: Hide built-in UI elements (camera selection, resolution selection, etc.) and show only the video stream.
 * **Use External Controllers**: Use custom controllers to manipulate the Camera UI.
 * **Enlarge the Video Stream**: Enlarge the video stream temporarily to read a barcode.
+* **Customize the Camera UI**: Show the custom camera UI to decode video stream from a USB-connected or built-in camera (mobile or desktop).
 
 ## Parameter Settings
 
