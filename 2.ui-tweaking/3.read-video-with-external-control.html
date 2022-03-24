@@ -284,9 +284,10 @@
                 throw ex;
             }
         });
-        document.getElementById('btn-hide-scanner').addEventListener('click', () => {
+        document.getElementById('btn-hide-scanner').addEventListener('click', async () => {
             toggleBtnView(true);
-            scanner.hide();
+            let scanner = await pScanner;
+            scanner && scanner.hide();
         });
     </script>
 </body>

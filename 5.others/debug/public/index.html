@@ -47,7 +47,7 @@
                 await scanner.updateRuntimeSettings(rs);
                 let ss = await scanner.getScanSettings();
                 ss.intervalTime = 100;
-                scanSettings.whenToPlaySoundforSuccessfulRead = "frame";
+                ss.whenToPlaySoundforSuccessfulRead = "frame";
                 await scanner.updateScanSettings(ss);
                 scanner.ifSaveOriginalImageInACanvas = true;
                 let processingCount = 0;
