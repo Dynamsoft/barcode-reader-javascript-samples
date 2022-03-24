@@ -64,7 +64,7 @@ button {
   margin: 2vmin auto;
   text-align: center;
   font-size: medium;
-  height: 40vh;
+  /* height: 40vh; */
   width: 80vw;
 }
 .applogo {

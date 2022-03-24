@@ -13,24 +13,21 @@
     <h1 style="font-size: 1.5em;">Read Barcodes from a Camera</h1>
     <button id="btn-show-scanner">Show Barcode Scanner</button>
     <script type="module">
-        import { BarcodeReader, BarcodeScanner } from 'https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.mjs';
-         /** LICENSE ALERT - README
-         *
-         * The library requires a license to work.
-         * If the license is not specified, a free public trial license will be used by default which is the case in this sample.
-         * Note that network connection is required for the public license to work.
-         * For more info, please check https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=8.8.7&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+        import { BarcodeReader, BarcodeScanner } from 'https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.mjs';
+        /** LICENSE ALERT - README 
+         * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
 
-        /* When using your own license, uncomment the following line and specify your license. */
+        BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
+        
+        /** 
+         * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
+         * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.0.0&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+         * LICENSE ALERT - THE END 
+         */
 
-        // BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
-
-        /** LICENSE ALERT - THE END */
-
-        // DBR.productKeys = "PRODUCT-KEYS";
-
-        BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/";
+        BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/";
 
         let pScanner = null;
         document.getElementById('btn-show-scanner').addEventListener('click', async () => {
@@ -51,7 +48,7 @@
                  * The amount of time that the library 'remembers' a barcode is defined by 
                  * "duplicateForgetTime" in "ScanSettings". By default it is set to 3000 ms.
                  */
-                 scanner.onUnduplicatedRead = (txt, result) => {
+                 scanner.onUniqueRead = (txt, result) => {
                     alert(txt);
                     console.log("Unique Code Found: ", result);
                 }

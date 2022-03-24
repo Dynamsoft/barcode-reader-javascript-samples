@@ -11,13 +11,13 @@ export class VideoDecodeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     try {
       const scanner = await (this.pScanner = BarcodeScanner.createInstance());
-      scanner.setUIElement((document.querySelector('.component-barcode-scanner') as any));
+      await scanner.setUIElement((document.querySelector('.component-barcode-scanner') as any));
       scanner.onFrameRead = (results: any) => {
         for (const result of results) {
           console.log(result.barcodeText);
         }
       };
-      scanner.onUnduplicatedRead = (txt, result) => {
+      scanner.onUniqueRead = (txt, result) => {
         alert(txt);
       };
       await scanner.open();
@@ -27,7 +27,7 @@ export class VideoDecodeComponent implements OnInit {
   }
   async ngOnDestroy() {
     if (this.pScanner) {
-      (await this.pScanner).destroy();
+      (await this.pScanner).destroyContext();
       console.log('BarcodeScanner Component Unmount');
     }
   }

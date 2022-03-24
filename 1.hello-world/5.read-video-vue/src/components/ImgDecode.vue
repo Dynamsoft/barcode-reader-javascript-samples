@@ -26,7 +26,7 @@ export default {
   },
   async beforeDestroy() {
     if (this.pReader) {
-      (await this.pReader).destroy();
+      (await this.pReader).destroyContext();
       console.log('ImgDecode Component Unmount');
     }
   },
