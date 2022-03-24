@@ -14,7 +14,7 @@ export default {
   methods: {
     async decodeImg(e) {
       try {
-        const reader = await (this.pReader = BarcodeReader.createInstance());
+        const reader = await (this.pReader = this.pReader || BarcodeReader.createInstance());
         let results = await reader.decode(e.target.files[0]);
         for(let result of results){
           alert(result.barcodeText);
