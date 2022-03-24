@@ -17,9 +17,11 @@ export default {
         for(let result of results){
           alert(result.barcodeText);
         }
+        if(!results.length){ alert('No barcode found'); }
       } catch(ex) {
         console.error(ex);
       }
+      e.target.value = '';
     }
     onBeforeUnmount(async () => {
       if (pReader.value) {
