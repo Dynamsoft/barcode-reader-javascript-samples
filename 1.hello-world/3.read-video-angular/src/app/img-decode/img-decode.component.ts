@@ -25,7 +25,7 @@ export class ImgDecodeComponent implements OnInit {
 
   async ngOnDestroy() {
     if (this.pReader) {
-      (await this.pReader).destroy();
+      (await this.pReader).destroyContext();
       console.log('ImgDecode Component Unmount');
     }
   }

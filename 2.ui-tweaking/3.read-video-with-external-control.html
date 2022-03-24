@@ -60,30 +60,29 @@
             <span class="slider round"></span>
         </label> Toggle Sound
     </div>
+
     <div id="UIElement" class="UIElement">
-        <div id="div-video-container" class="div-video-container">
-            <video class="dce-video" playsinline="true"></video>
-            <canvas class="dbrScanner-cvs-drawarea"></canvas>
-            <div class="dbrScanner-cvs-scanarea">
-                <div class="dbrScanner-scanlight" hidden></div>
+        <div id="div-ui-container" class="div-ui-container">
+            <div class="dce-video-container"></div>
+            <div class="dce-scanarea">
+                <div class="dce-scanlight" hidden></div>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js"></script>
     <script>
-        /** LICENSE ALERT - README
-         *
-         * The library requires a license to work.
-         * If the license is not specified, a free public trial license will be used by default which is the case in this sample.
-         * Note that network connection is required for the public license to work.
-         * For more info, please check https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=8.8.7&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+        /** LICENSE ALERT - README 
+         * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
 
-        /* When using your own license, uncomment the following line and specify your license. */
-
-        // Dynamsoft.DBR.BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
-
-        /** LICENSE ALERT - THE END */
+        Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
+        
+        /** 
+         * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
+         * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.0.0&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+         * LICENSE ALERT - THE END 
+         */
 
         // define html elements needed
         const camOptions = document.getElementById("options_camera");
@@ -94,7 +93,7 @@
         const resArrow = document.getElementById("arrow_resolution");
         const resSelectorInput = document.getElementById("selector_input_resolution");
         const gotResolution = document.querySelector("#gotResolution span");
-        const scanlight = document.querySelector('.dbrScanner-scanlight');
+        const scanlight = document.querySelector('.dce-scanlight');
         // define some required variables
         let camOptionsViewable = false;
         let resOptionsViewable = false;
@@ -170,10 +169,10 @@
                     try {
                         let resolution = await scanner.setCurrentCamera(item);
                         currentResolution = [resolution.width, resolution.height];
-                        updateOptions();
                     } catch (ex) {
                         alert('Play video failed: ' + (ex.message || ex));
                     }
+                    updateOptions();
                 }
             });
         }
@@ -185,7 +184,7 @@
             setScanLightView(false);
             resSelectorInput.value = e.target.innerText;
             let targetResolution = [parseInt(data[0]), parseInt(data[1])];
-            let scanner = await pScanner;
+            let scanner = await pScanner
             currentResolution = await scanner.setResolution(targetResolution);
             currentResolution = [currentResolution.width, currentResolution.height];
             updateCurrentResolution();
@@ -276,8 +275,8 @@
             // decode video from camera
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                await scanner.setUIElement(document.getElementById('div-video-container'));
-                scanner.onUnduplicatedRead = (txt, result) => { alert(txt); };
+                await scanner.setUIElement(document.getElementById('div-ui-container'));
+                scanner.onUniqueRead = (txt, result) => { alert(txt); };
                 await scanner.show();
                 updateOptions();
             } catch (ex) {
@@ -285,9 +284,10 @@
                 throw ex;
             }
         });
-        document.getElementById('btn-hide-scanner').addEventListener('click', () => {
+        document.getElementById('btn-hide-scanner').addEventListener('click', async () => {
             toggleBtnView(true);
-            scanner.hide();
+            let scanner = await pScanner;
+            scanner && scanner.hide();
         });
     </script>
 </body>
@@ -522,7 +522,7 @@
         max-width: 600px;
     }
 
-    .div-video-container {
+    .div-ui-container {
         width: 100%;
         height: 100%;
         min-width: 100px;
@@ -530,9 +530,8 @@
         position: relative;
     }
 
-    .dce-video,
-    .dbrScanner-cvs-drawarea,
-    .dbrScanner-cvs-scanarea {
+    .dce-video-container,
+    .dce-scanarea {
         width: 100%;
         height: 100%;
         position: absolute;
@@ -540,11 +539,11 @@
         top: 0;
     }
 
-    .dbrScanner-scanlight {
+    .dce-scanlight {
         width: 100%;
         height: 3%;
         position: absolute;
-        animation: 3s infinite dbrScanner-scanlight;
+        animation: 3s infinite dce-scanlight;
         border-radius: 50%;
         box-shadow: 0px 0px 2vw 1px #00e5ff;
         background: #fff;

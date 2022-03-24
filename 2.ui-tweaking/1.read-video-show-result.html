@@ -4,32 +4,30 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta name="description"
-        content="Read barcode from a video input. This sample demonstrates the default built-in UI.">
+    <meta name="description" content="Read barcode from a video input. This sample demonstrates the default built-in UI.">
     <meta name="keywords" content="read barcode from video, built-in ui">
     <title>Dynamsoft Barcode Reader Sample - Video Decoding with Default UI</title>
 </head>
 
 <body>
-    <h1 style="font-size: 1.5em;">Use the Default Built-in UI</h1>
-    <div id="UIElement">
-        <button id="showScanner">Show The Scanner</button>
+    <h1>Use the Default Built-in UI</h1>
+    <div id="UIElement" class="UIElement">
+        <button id="showScanner" class="showScanner">Show The Scanner</button>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js"></script>
     <script>
-        /** LICENSE ALERT - README
-         *
-         * The library requires a license to work.
-         * If the license is not specified, a free public trial license will be used by default which is the case in this sample.
-         * Note that network connection is required for the public license to work.
-         * For more info, please check https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=8.8.7&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+        /** LICENSE ALERT - README 
+         * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
 
-        /* When using your own license, uncomment the following line and specify your license. */
-
-        // Dynamsoft.DBR.BarcodeReader.license = "YOUR-ORGANIZATION-ID or YOUR-HANDSHAKECODE or AN-OFFLINE-LICENSE or ANY-OTHER-TYPE-OF-SUPPORTED-LICENSE-STRING";
-
-        /** LICENSE ALERT - THE END */
+        Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
+        
+        /** 
+         * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
+         * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.0.0&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+         * LICENSE ALERT - THE END 
+         */
 
         // scanner for decoding video
         let pScanner = null;
@@ -45,7 +43,7 @@
         document.getElementById('showScanner').addEventListener('click', async () => {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                scanner.onUnduplicatedRead = (txt, result) => { alert(txt); };
+                scanner.onUniqueRead = (txt, result) => { alert(txt); };
                 document.getElementById('UIElement').appendChild(scanner.getUIElement());
                 await scanner.show();
             } catch (ex) {
@@ -61,12 +59,6 @@
         padding: 0;
     }
 
-    button#showScanner {
-        position: absolute;
-        width: 50%;
-        left: 25%;
-    }
-
     body {
         display: flex;
         flex-direction: column;
@@ -78,17 +70,27 @@
         color: #455A64;
     }
 
-    button {
-        font-size: 1.5rem;
-        margin-bottom: 2vh;
+    h1 {
+        font-size: 1.5em;
     }
 
-    #UIElement {
+    button {
+        margin-bottom: 2vh;
+        font-size: 1.5rem;
+    }
+
+    .UIElement {
+        height: 60vh;
+        width: 80vw;
         margin: 2vmin auto;
         text-align: center;
         font-size: medium;
-        height: 60vh;
-        width: 60vw;
+    }
+
+    .showScanner {
+        position: absolute;
+        width: 50%;
+        left: 25%;
     }
 </style>
 
