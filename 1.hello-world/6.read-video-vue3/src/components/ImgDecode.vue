@@ -20,6 +20,7 @@ export default {
       } catch(ex) {
         console.error(ex);
       }
+      e.target.value = '';
     }
     onBeforeUnmount(async () => {
       if (pReader.value) {

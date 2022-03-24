@@ -21,6 +21,7 @@ export class ImgDecodeComponent implements OnInit {
     } catch (ex) {
       console.error(ex);
     }
+    e.target.value = '';
   }
 
   async ngOnDestroy() {

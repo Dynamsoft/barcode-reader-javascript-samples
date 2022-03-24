@@ -17,6 +17,7 @@ export default class ImgDecode extends Component {
     } catch(ex) {
       console.error(ex);
     }
+    e.target.value = '';
   }
 
   async componentWillUnmount() {
