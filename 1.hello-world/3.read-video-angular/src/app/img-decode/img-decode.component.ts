@@ -18,9 +18,11 @@ export class ImgDecodeComponent implements OnInit {
       for (const result of results) {
         alert(result.barcodeText);
       }
+      if(!results.length){ alert('No barcode found'); }
     } catch (ex) {
       console.error(ex);
     }
+    e.target.value = '';
   }
 
   async ngOnDestroy() {
