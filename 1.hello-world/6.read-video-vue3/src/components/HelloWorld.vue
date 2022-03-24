@@ -14,7 +14,7 @@
 
 <script>
 import "../dbr"; // import side effects. The license, engineResourcePath, so on.
-import { BarcodeScanner } from 'keillion-dynamsoft-javascript-barcode'
+import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
 import VideoDecode from "./VideoDecode";
 import ImgDecode from './ImgDecode'
 import { ref, onMounted } from "vue";

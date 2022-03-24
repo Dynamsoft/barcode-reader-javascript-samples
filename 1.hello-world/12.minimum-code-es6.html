@@ -13,7 +13,7 @@
     <h1 style="font-size: 1.5em;">Read Barcodes from a Camera</h1>
     <button id="btn-show-scanner">Show Barcode Scanner</button>
     <script type="module">
-        import { BarcodeReader, BarcodeScanner } from 'https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220323095526.0/dist/dbr.mjs';
+        import { BarcodeReader, BarcodeScanner } from 'https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.mjs';
         /** LICENSE ALERT - README 
          * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
@@ -29,7 +29,7 @@
 
         // DBR.productKeys = "PRODUCT-KEYS";
 
-        BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220323095526.0/dist/";
+        BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/";
 
         let pScanner = null;
         document.getElementById('btn-show-scanner').addEventListener('click', async () => {

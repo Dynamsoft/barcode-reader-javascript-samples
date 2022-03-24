@@ -4,7 +4,7 @@
 
 <script>
 import { onBeforeUnmount, ref } from "vue";
-import { BarcodeReader } from 'keillion-dynamsoft-javascript-barcode'
+import { BarcodeReader } from 'dynamsoft-javascript-barcode'
 
 export default {
   setup() {
