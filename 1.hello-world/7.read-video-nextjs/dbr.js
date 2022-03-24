@@ -1,4 +1,4 @@
-import { BarcodeReader } from "keillion-dynamsoft-javascript-barcode";
+import { BarcodeReader } from "dynamsoft-javascript-barcode";
 
 /** LICENSE ALERT - README 
  * To use the library, you need to first specify a license key using the API "license" as shown below.
@@ -13,4 +13,4 @@ BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
  * LICENSE ALERT - THE END 
  */
 
-BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/keillion-dynamsoft-javascript-barcode@0.20220323095526.0/dist/";
+BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/";

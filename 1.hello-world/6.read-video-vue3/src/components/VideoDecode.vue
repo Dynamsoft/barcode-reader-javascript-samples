@@ -83,7 +83,7 @@
 
 <script>
 import { onBeforeUnmount, onMounted, ref, getCurrentInstance } from "vue";
-import { BarcodeScanner } from 'keillion-dynamsoft-javascript-barcode'
+import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
 
 export default {
   setup() {

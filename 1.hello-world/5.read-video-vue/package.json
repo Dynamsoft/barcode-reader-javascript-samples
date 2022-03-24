@@ -9,9 +9,8 @@
     },
     "dependencies": {
         "core-js": "^3.6.5",
-        "dynamsoft-javascript-barcode": "8.8.7",
-        "keillion-dynamsoft-javascript-barcode": "0.20220323095526.0",
-        "vue": "^2.6.11"
+        "dynamsoft-javascript-barcode": "9.0.0",
+        "vue": "2.6.14"
     },
     "devDependencies": {
         "@vue/cli-plugin-babel": "~4.5.0",

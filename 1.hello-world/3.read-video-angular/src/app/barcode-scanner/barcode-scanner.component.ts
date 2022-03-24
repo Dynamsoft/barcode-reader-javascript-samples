@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BarcodeScanner } from 'keillion-dynamsoft-javascript-barcode'
+import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
 @Component({
   selector: 'app-video-decode',
   templateUrl: './barcode-scanner.component.html',

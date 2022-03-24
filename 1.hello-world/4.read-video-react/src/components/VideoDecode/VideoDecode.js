@@ -1,4 +1,4 @@
-import { BarcodeScanner } from "keillion-dynamsoft-javascript-barcode";
+import { BarcodeScanner } from "dynamsoft-javascript-barcode";
 import React from 'react';
 import './VideoDecode.css'
 
