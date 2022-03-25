@@ -35,7 +35,7 @@ yarn.lock
 /*.js
 /*.txt
 /.gitattributes
-# /.*ignore
+/.*ignore
 
 !bower.json
 !composer.json
