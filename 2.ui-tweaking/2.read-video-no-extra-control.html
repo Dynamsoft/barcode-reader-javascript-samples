@@ -39,7 +39,7 @@
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 await scanner.setUIElement(document.getElementById('div-ui-container'));
-                scanner.onUniqueRead = (txt, result) => { alert(text); };
+                scanner.onUniqueRead = (txt, result) => { alert(txt); };
                 await scanner.open();
             } catch (ex) {
                 alert(ex.message);
