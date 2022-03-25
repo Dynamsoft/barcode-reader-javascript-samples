@@ -7,199 +7,114 @@
     <meta name="description" content="Read barcodes from images in no time with Dynamsoft Barcode Reader. With this online demo, you can choose a file to scan the barcodes on them.">
     <meta name="keywords" content="read barcode from still images">
     <title>Dynamsoft Barcode Reader Sample - Read an Image</title>
-    <!--
-      This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
-      library offline. Please see the guide on how to host the library: 
-      https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
-    -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
 </head>
 
 <body>
-    <h1 style="font-size: 1.5em;">Read Barcode from Images</h1>
-    <input id="ipt-file" type="file" style="margin-bottom: 2vh;" accept="image/png,image/jpeg,image/bmp,image/gif">
-    <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
-    <div id="UIElement">
-        <img id="imgToRead" alt="Image to read" hidden /><br />
-        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
-        <span id='reading' style='font-size:x-large;max-height: 10%;' hidden>Reading Barcodes...</span>
+    <div style="width:80vw;margin:0 auto;">
+        <h1 style="font-size: 1.5em;">Read Barcode from Images</h1>
+        <input id="ipt-file" type="file" accept="image/png,image/jpeg,image/bmp,image/gif">
+        <input id="ipt-readonly-last-result" title="Double click to clear!" readonly placeholder="The Last Read Barcode" style="width:80vw;margin-top:20px;">
+        <p id='p-loading' style='font-size:1.5em'>Loading Library...</p>
+        <p id='p-reading' style='font-size:1.5em;display:none;'>Reading Barcodes...</p>
+        <div id="div-cvs-container" style="width:80vw;height:40vh;margin-top:20px;display:flex;justify-content:center;"></div>
+        <p>All Results:</p>
+        <div id="div-results" style="width:80vw;height:15vh;padding:16px;overflow-y:auto;border: 1px dashed grey;"></div>
     </div>
-    <div>
-        <span style="float:left">All Results:</span><br />
-        <div id="results"></div>
-    </div>
+    <style>
+        .sp-resultText { color: #cE5E04 }
+        #div-cvs-container canvas { border: solid 1px gray; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js"></script>
     <script>
-        /** LICENSE ALERT - README
-         * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
-         * If the Organizaion ID is not specified, a 7-day (public) trial license will be used by default which is the case in this sample.
-         * Note that network connection is required for this license to work.
+        /** LICENSE ALERT - README 
+         * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
 
-        /* When using your own license, uncomment the following line and specify your Organization ID. */
+        Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
 
-        Dynamsoft.DBR.organizationID = "200000";
-        Dynamsoft.DBR.handshakeCode = "200000-dbr_js_samples";
+        /** 
+         * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
+         * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.0.0&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+         * LICENSE ALERT - THE END 
+         */
 
-        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=samples */
-        /* For more information, please refer to https://www.dynamsoft.com/license-server/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
+        // Load the library on page load to speed things up.
+        (async() => {
+            try {
+                await Dynamsoft.DBR.BarcodeReader.loadWasm();
+                document.getElementById('p-loading').style.display = 'none';
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
+        })();
 
-        /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
 
-        // Dynamsoft.DBR.productKeys = "YOUR-PRODUCT-KEY";
 
-        /** LICENSE ALERT - THE END */
+
+        // html elements
+        const iptFile = document.getElementById('ipt-file');
+        const iptReadonlyLastResult = document.getElementById('ipt-readonly-last-result');
+        const pReading = document.getElementById('p-reading');
+        const divResults = document.getElementById('div-results');
+        const divCvsContainer = document.getElementById('div-cvs-container');
+
 
         // reader for decoding pictures
         let pReader = null;
-        window.onload = async function() {
-            // Load the library on page load to speed things up.
+        iptFile.addEventListener('change', async function() {
+            const file = this.files[0];
+            pReading.style.display = '';
             try {
-                await Dynamsoft.DBR.BarcodeReader.loadWasm();
-            } catch (ex) {
-                alert(ex.message);
-                throw ex;
-            }
-        };
-        document.getElementById('ipt-file').addEventListener('change', async function() {
-            try {
-                document.getElementById("imgToRead").hidden = true;
-                document.getElementById('lib-load').hidden = false;
-                pReader = pReader || Dynamsoft.DBR.BarcodeReader.createInstance();
-                let reader = await pReader;
-                document.getElementById('lib-load').hidden = true;
-                document.getElementById('reading').hidden = false;
-                for (let i = 0; i < this.files.length; ++i) {
-                    // In our case, there will only be one file here (no 'multiple' attribute)
-                    let file = this.files[i];
-                    let time = ((new Date()).getTime()).toString();
-                    if (FileReader) {
-                        var fr = new FileReader();
-                        fr.onload = function() {
-                            document.getElementById("imgToRead").src = fr.result;
-                            document.getElementById("imgToRead").hidden = false;
-                        }
-                        fr.readAsDataURL(file);
-                    }
-                    // Decode the file and show results
-                    let results = await reader.decode(file);
-                    let newElements = [];
-                    newElements.push(createASpan(file.name + ": ", "bigger"));
-                    newElements.push(document.createElement('br'));
-                    newElements.push(document.createElement('br'));
-                    if (results.length === 0) {
-                        newElements.push(createASpan("No Barcode Found!"));
-                        newElements.push(document.createElement('br'));
-                    }
-                    for (let result of results) {
-                        document.getElementById('result').value = result.barcodeFormatString + ": " + result.barcodeText;
-                        newElements.push(createASpan(result.barcodeFormatString + ": "));
-                        newElements.push(createASpan(result.barcodeText, "resultText"));
-                        newElements.push(document.createElement('br'));
-                        if (result.barcodeText.indexOf("Attention(exceptionCode") != -1) {
-                            newElements.push(createASpan(" Error: " + result.exception.message));
-                            newElements.push(document.createElement('br'));
-                        }
-                    }
-                    newElements.push(document.createElement('hr'));
-                    for (let span of newElements) {
-                        document.getElementById('results').appendChild(span);
-                    }
-                    document.getElementById('results').scrollTop = document.getElementById('results').scrollHeight;
+                const reader = await (pReader = pReader || Dynamsoft.DBR.BarcodeReader.createInstance());
+                reader.ifSaveOriginalImageInACanvas = true;
+                const results = await reader.decode(file);
+
+                // show image
+                divCvsContainer.innerHTML = '';
+                divCvsContainer.appendChild(reader.getOriginalImageInACanvas());
+                
+                // show results
+                divResults.appendChild(createEl('h3', file.name + ": "));
+                if (0 === results.length) {
+                    divResults.appendChild(createEl('p', "No Barcode Found!"));
                 }
-                document.getElementById('reading').hidden = true;
+                for (let result of results) {
+                    iptReadonlyLastResult.value = result.barcodeFormatString + ": " + result.barcodeText; // show last txt result
+                    const p = document.createElement('p');
+                    p.appendChild(createEl('span', result.barcodeFormatString + ": "));
+                    p.appendChild(createEl('span', result.barcodeText, "sp-resultText"));
+                    divResults.appendChild(p);
+                    if (result.barcodeText.indexOf("Attention(exceptionCode") != -1) {
+                        divResults.appendChild(createEl('p', "Error: " + result.exception.message));
+                    }
+                }
+
+                divResults.appendChild(document.createElement('hr'));
+                divResults.scrollTop = divResults.scrollHeight;
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
+            } finally {
+                pReading.style.display = 'none';
+                this.value = '';
             }
-            this.value = '';
-        });
-        document.getElementById('result').addEventListener('dblclick', async() => {
-            document.getElementById('result').value = "";
         });
 
-        function createASpan(txt, className) {
-            let newSPAN = document.createElement("span");
-            newSPAN.textContent = txt;
-            if (className)
-                newSPAN.className = className;
-            return newSPAN;
+        iptReadonlyLastResult.addEventListener('dblclick', async() => {
+            iptReadonlyLastResult.value = "";
+        });
+
+        function createEl(type, txt, className) {
+            const el = document.createElement(type);
+            el.textContent = txt;
+            if (className){
+                el.className = className;
+            }
+            return el;
         }
     </script>
 </body>
-<style>
-    body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        width: 100vw;
-        height: 90vh;
-        color: #455A64;
-        margin: 0;
-    }
-    
-    button {
-        font-size: 1.5rem;
-        margin-bottom: 2vh;
-    }
-    
-    span {
-        font-size: 0.8rem;
-    }
-    
-    .latest-result {
-        display: block;
-        margin: 0;
-        padding: 0.4rem 0.8rem;
-        color: inherit;
-        width: 80vw;
-        border: none;
-        font-size: 1rem;
-        border-radius: 0.2rem;
-        text-align: center;
-    }
-    
-    .latest-result::placeholder {
-        color: #B0BEC5;
-    }
-    
-    .latest-result:focus {
-        outline: none;
-        box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
-    }
-    
-    #results {
-        border: 1px dashed grey;
-        overflow: auto;
-        width: 80vw;
-        padding: 2vmin;
-        margin-bottom: 3vh;
-        height: 15vh;
-    }
-    
-    .resultText {
-        color: #cE5E04
-    }
-    
-    .bigger {
-        font-size: large;
-        margin-bottom: 2%;
-    }
-    
-    #UIElement {
-        margin: 2vmin auto;
-        text-align: center;
-        font-size: medium;
-        height: 40vh;
-        width: 80vw;
-    }
-    
-    #UIElement img {
-        max-width: 100%;
-        max-height: 90%;
-        border: solid 1px gray;
-    }
-</style>
 
 </html>
