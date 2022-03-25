@@ -117,7 +117,7 @@
         document.getElementById('btn-hide-scanner').addEventListener('click', async () => {
             toggleBtnView(true);
             let scanner = await pScanner;
-            scanner.hide();
+            scanner && scanner.hide();
         });
         document.getElementById('toggleSound').addEventListener("click", async () => {
             if (pScanner) {
@@ -148,46 +148,12 @@
         document.getElementById("cam_selector_switch").addEventListener("click", toggleCamView);
         document.getElementById("res_selector_switch").addEventListener("click", toggleResView);
         
-        // update or re-render options
-        async function updateOptions() {
-            let scanner = await pScanner;
-            const cameras = await scanner.getAllCameras();
-            document.getElementById("ul_options_camera").innerHTML = "";
-            cameras.forEach(camera => {
-                let li = document.createElement("li");
-                let span = document.createElement("span");
-                span.setAttribute("id", camera.deviceId);
-                span.innerText = camera.label;
-                li.appendChild(span);
-                document.getElementById("ul_options_camera").appendChild(li);
-            });
-            const currentCamera = await scanner.getCurrentCamera();
-            let camOption = document.querySelectorAll("#ul_options_camera span");
-            camOption.forEach(sapn => {
-                sapn.addEventListener("click", camOptionSelected);
-                if (!currentCamera || sapn.id === currentCamera.deviceId) {
-                    document.getElementById("selector_input_camera").value = sapn.innerText;
-                    sapn.classList.add("selected");
-                }
-                else {
-                    sapn.classList.remove("selected");
-                }
-            })
-            let resOption = document.querySelectorAll("#ul_options_resolution span");
-            for (let i = 0; i < resOption.length; i++) {
-                resOption[i].addEventListener("click", resOptionSelected);
-            };
+        function toggleBtnView(boolean) {
+            document.getElementById('btn-hide-scanner').hidden = boolean;
+            document.getElementById('btn-show-scanner').hidden = !boolean;
         }
-        async function updateCurrentResolution() {
-            let scanner = await pScanner;
-            const currentResolution = await scanner.getResolution();
-            let gotResolution = document.querySelector("#gotResolution span");
-            gotResolution.innerText = 'got ' + currentResolution[0] + ' x ' + currentResolution[1];
-            gotResolution.id = currentResolution[0] + 'x' + currentResolution[1];
-            gotResolution.classList.add("selected");
-            document.getElementById("selector_input_resolution").value = gotResolution.innerText;
-            const checked = document.getElementById("toggleScanLight").checked;
-            setScanLightView(checked);
+        function setScanLightView(boolean) {
+            document.querySelector('.dce-scanlight').hidden = !boolean;
         }
         // when the selector is clicked
         function toggleCamView(e) {
@@ -254,12 +220,46 @@
             await scanner.setResolution(targetResolution);
             updateCurrentResolution();
         }
-        function toggleBtnView(boolean) {
-            document.getElementById('btn-hide-scanner').hidden = boolean;
-            document.getElementById('btn-show-scanner').hidden = !boolean;
+        // update or re-render options
+        async function updateOptions() {
+            let scanner = await pScanner;
+            const cameras = await scanner.getAllCameras();
+            document.getElementById("ul_options_camera").innerHTML = "";
+            cameras.forEach(camera => {
+                let li = document.createElement("li");
+                let span = document.createElement("span");
+                span.setAttribute("id", camera.deviceId);
+                span.innerText = camera.label;
+                li.appendChild(span);
+                document.getElementById("ul_options_camera").appendChild(li);
+            });
+            const currentCamera = await scanner.getCurrentCamera();
+            let camOption = document.querySelectorAll("#ul_options_camera span");
+            camOption.forEach(sapn => {
+                sapn.addEventListener("click", camOptionSelected);
+                if (!currentCamera || sapn.id === currentCamera.deviceId) {
+                    document.getElementById("selector_input_camera").value = sapn.innerText;
+                    sapn.classList.add("selected");
+                }
+                else {
+                    sapn.classList.remove("selected");
+                }
+            })
+            let resOption = document.querySelectorAll("#ul_options_resolution span");
+            for (let i = 0; i < resOption.length; i++) {
+                resOption[i].addEventListener("click", resOptionSelected);
+            };
         }
-        function setScanLightView(boolean) {
-            document.querySelector('.dce-scanlight').hidden = !boolean;
+        async function updateCurrentResolution() {
+            let scanner = await pScanner;
+            const currentResolution = await scanner.getResolution();
+            let gotResolution = document.querySelector("#gotResolution span");
+            gotResolution.innerText = 'got ' + currentResolution[0] + ' x ' + currentResolution[1];
+            gotResolution.id = currentResolution[0] + 'x' + currentResolution[1];
+            gotResolution.classList.add("selected");
+            document.getElementById("selector_input_resolution").value = gotResolution.innerText;
+            const checked = document.getElementById("toggleScanLight").checked;
+            setScanLightView(checked);
         }
         function clickToHidden(e) {
             const camViewable = camOptions.classList.value.search("unshow");
