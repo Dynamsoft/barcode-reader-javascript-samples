@@ -4,15 +4,14 @@ name: CI
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  Build-Demo:
+    if: ${{ github.ref == 'refs/heads/demo' }}    
+
     # The type of runner that the job will run on
     runs-on: self-hosted
 
@@ -26,7 +25,7 @@ jobs:
           git clone --depth 1 -b demo https://github.com/Dynamsoft/barcode-reader-javascript-samples.git 
           
       - name: Sync files
-        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ${{ secrets.FTP_DEMO_SERVER }}
           username: ${{ secrets.FTP_DEMO_USERNAME }}
