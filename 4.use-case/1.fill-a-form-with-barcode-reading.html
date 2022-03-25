@@ -12,7 +12,7 @@
       library offline. Please see the guide on how to host the library: 
       https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js"></script>
 </head>
 
 <body>
@@ -25,25 +25,18 @@
     </div>
     <span id='lib-load' style='font-size:x-large'>Loading Library...</span>
     <script>
-        /** LICENSE ALERT - README
-         * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
-         * If the Organizaion ID is not specified, a 7-day (public) trial license will be used by default which is the case in this sample.
-         * Note that network connection is required for this license to work.
+        /** LICENSE ALERT - README 
+         * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
 
-        /* When using your own license, uncomment the following line and specify your Organization ID. */
-
-        Dynamsoft.DBR.organizationID = "200000";
-        Dynamsoft.DBR.handshakeCode = "200000-dbr_js_samples";
-
-        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=samples */
-        /* For more information, please refer to https://www.dynamsoft.com/license-server/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
-
-        /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
-
-        // Dynamsoft.DBR.productKeys = "YOUR-PRODUCT-KEY";
-
-        /** LICENSE ALERT - THE END */
+        Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
+        
+        /** 
+         * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
+         * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.0.0&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+         * LICENSE ALERT - THE END 
+         */
 
         // scanner for decoding video
         let pScanner = null;
@@ -53,23 +46,23 @@
                 input.addEventListener('click', async function() {
                     try {
                         let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                        scanner.bPlaySoundOnSuccessfulRead = true;
-                        scanner.onUnduplicatedRead = (txt, result) => {
+                        let scanSettings = await scanner.getScanSettings();
+                        scanSettings.whenToPlaySoundforSuccessfulRead = "frame";
+                        await scanner.updateScanSettings(scanSettings);
+                        scanner.onUniqueRead = (txt, result) => {
                             this.value = result.barcodeText;
                             scanner.hide();
                             document.getElementById('UIElement').hidden = true;
                         };
-                        scanner.getRuntimeSettings()
-                            .then(settings => {
-                                settings.region = {
-                                    regionLeft: 5,
-                                    regionTop: 5,
-                                    regionRight: 95,
-                                    regionBottom: 95,
-                                    regionMeasuredByPercentage: 1
-                                };
-                                scanner.updateRuntimeSettings(settings);
-                            });
+                        settings = await scanner.getRuntimeSettings();
+                        settings.region = {
+                            regionLeft: 5,
+                            regionTop: 5,
+                            regionRight: 95,
+                            regionBottom: 95,
+                            regionMeasuredByPercentage: 1
+                        };
+                        await scanner.updateRuntimeSettings(settings);
                         await scanner.updateVideoSettings({
                             video: {
                                 width: {
@@ -84,7 +77,7 @@
                             }
                         });
                         document.getElementById('UIElement').hidden = false;
-                        scanner.setUIElement(document.getElementById('UIElement'));
+                        await scanner.setUIElement(document.getElementById('UIElement'));
                         await scanner.show();
                     } catch (ex) {
                         alert(ex.message);
@@ -112,9 +105,10 @@
             <path
                 d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z" />
         </svg>
-        <video class="dce-video" playsinline="true" style="width:100%;height:100%;position:absolute;left:0;top:0;"></video>
-        <canvas class="dbrScanner-cvs-drawarea" style="width:100%;height:100%;position:absolute;left:0;top:0;"></canvas>
-        <div class="dbrScanner-cvs-scanarea" style="width:100%;height:100%;position:absolute;left:0;top:0;"></div>
+	    <div class="dce-video-container" style="position:absolute;left:0;top:0;width:100%;height:100%;"></div>
+        <div class="dce-scanarea" style="position:absolute;left:0;top:0;width:100%;height:100%;">
+		    <div class="dce-scanlight" style="display:none;position:absolute;width:100%;height:3%;border-radius:50%;box-shadow:0px 0px 2vw 1px #00e5ff;background:#fff;animation:3s infinite dce-scanlight;user-select:none;"></div>
+	    </div>
     </div>
 </body>
 <style>

@@ -15,7 +15,10 @@ h1 {
 
 button {
     font-size: 1.5rem;
-    margin-bottom: 2vh;
+    margin: 1.5vh 0;
+    border: 1px solid black;
+    background-color: white;
+    color: black;
 }
 
 span {
@@ -69,16 +72,10 @@ span {
     margin-bottom: 2%;
 }
 
-#UIElement {
+.container {
     margin: 2vmin auto;
     text-align: center;
     font-size: medium;
-    height: 40vh;
+    /* height: 40vh; */
     width: 80vw;
-}
-
-#UIElement img {
-    max-width: 100%;
-    max-height: 90%;
-    border: solid 1px gray;
 }

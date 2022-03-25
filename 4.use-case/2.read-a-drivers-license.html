@@ -7,49 +7,62 @@
     <meta name="description" content="Read the PDF417 barcode on Driver's Licenses instantly with this barcode reader.">
     <meta name="keywords" content="read driver's license barcode">
     <title>Dynamsoft Barcode Reader Simple Sample - Read Video - No Extra Control</title>
-    <!--
-      This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
-      library offline. Please see the guide on how to host the library: 
-      https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
-    -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@8.8.7/dist/dbr.js"></script>
 </head>
 
 <body>
-    <span id="hintMSG" hidden>Aim at the barcode on the driver's license</span>
-    <h1 style="font-size: 1.5em;" id='header'>Read A Driver's License <a href="#" id='readAgain' hidden onclick="readAgain()">Retry</a></h1>
-    <div id="UIElement">
-        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
-        <img id="btn-show-scanner" alt="show-scanner" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFb0lEQVR4Xu2ad8j1YxjHP6+ZlZEZRVayV9krsmXzh6wSUWSGhIxCiCgh2d7skS0ysv6wV8mIJDMjK1uf97kP5/05v+dc9/37/Z6n933OVeevc83vue/rvu7vfaYxxWXaFK+fEQCjFTDFEZjoLbAGsBawTN/Hn+Czvs+bwNsT9bt0DcBcwHbAbsAuwPLBwj4GHgTuBx4H/gjaZat1BcAcwAHAmcBK2VnNbPA+cBYwHfiroa//mXcBwK7ABcDqLSf7DnAy8ECbftsEwOVu4ce3meAAXxcDp7S1LdoCYGngNmDLjovvuX8G2A/4omm8NgCw+BeAFZomk2n/EbAJ8Hmm3UzqTQFYEHgaWL9JEg1sXwG2An4s9dEEAPe8DWmH0uAt2T2Sjtmio7IJAKcDZ7dURFM3ZwDnlDgpBcD97rE0X0nQDmx+SceufSFLSgG4F9g9K9KY8g/ALWnKe7Wviy8FrJemRQeohQp8m9OeuXYlAGwNPJkZ6E/girRMvxpiuwTg9joKmDMzjrnZlMNSAsDNacyNBvkO2B94LGqQ9GyutwKLZNiZ24EZ+tmEiEvTc3f+YJCfgM2B14L6VbV1gWeBBYL2PwNup/CxmLsCDgWuDSajmtPaHRn6g1T3BW7P8GGO10f1cwG4O6PRPArsWJPIYsAhfQOUA41Jf1Ojr6/tg0XdA+wV1M3eAu8CqwadbwBYWFV2Bq5JhEj/d5IihwEPDbBx0nw5GNccVwvqZgEwD+Aei3TmN4B1BiSxIfDiOD48LTaqKfZ1YO1AYU6E9qjfA7pZAEhnvRVxClwKHFfRlSQRGP2MJ9JhFlolPy4Bjg3GN4aD2lDJ6QESHVJUETkCuLqi6JZ4KWIMuFKqS/5w4KqgvRRciDjJAWCfjI7uuV/t3HsDdwYLMNZdFV1PFDmHiHhyhGLlALAHYIeNyMHAjRXFbRPBGbGXSH2iongQcEPEOJ1UjsZDJQeAnBFYMrR6U5Q7cIgaNtQ4PEmyVIcZb3ySoxHZBngqopgDwIrABxGnQN0McGS6E4znRp0rByh4749yDzLRH0ZyzQFAf3JwSwYc/wYsC3xd0TWexdnQBolNTgD+rny5OPAp4FE8TL5M4/AwvRnf5wJgD7AXROQi4KQaRU+U0yqT4LnpmjzIRF8nRIKmPtXZJHgicGEwkV/TmR/dNnVuXc7OBvMG45qj1HlIcleAA4oTWVR859s053ZWcezt83lgzWjANIE6cIUkFwCdyslvEfI+pmQ3dgaou+jUufLC5Czg6RMVc5MlDksJANJO3gpzxPc9b3/PBY02S7fDlYP6PTVzC53/PYMSAJzp3wM8FnPlPuCytIqqNLY0uy9LxxTyjR57q+Q+oJYAYNElq6AfLIcc+0PvaUsWx/8NOCyVSvavb6BSALR11M3i30orC9iZi+N3tjQBYOF0PV4uO2q7Bp+k1fN9idsmABjPI86xt8nSLcm7Z+NWkirzcbZImgJgUFnfhycBBIvfKbHGRcU37QH9QScahFaKbxMAfUlD3ZSeuIp/kYChT2o231b+SdbGFujPee70xyj/whIhTwP1/qsiYXp+4gRChGfEedsA9GLK/52abo5NgbBwp7vzMqjxSO0zdLoCoJeAz+hHA77WLBrOakzxW+A64HIg+9k7GqtrAHp5OD7bI/xPj0enrK2XnX7xsiTr7O3Pj7R26/8LrAIzUQBU48rYekPsF29+ssETKiMAJhTu/4KNVsBoC8zmPUAG145fJxsn2rz/e2lvX47rxAtPmOyMbu2umuCgPR7NqU6vk1NiBEDTn6XGfrQCBnT5pljPUltgWBMsAWOWaoIlBU6KTVdNcFKKKQk6AqAEtdnJZsqvgH8Apk7nQRizxhgAAAAASUVORK5CYII="
-        />
-        <img id="btn-open-image" alt="open-image" hidden src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADU0lEQVR4Xu2bSchOURjHfx8bw8IQygZZkUQkFBYkhVggKxk3LMxLkZKyMEUW5iFK2JCFDCXKFBFiZ1grdoYy9Nd96/Z2733P+d57zj33e89ZvX33OcP/d54zPM93bxcdXro6XD8RQPQAewJ9gE3ATEC/XZSfwCXgoovG023aLoERwC1gjOuBJe1vB/a77MsWwF1gtssBZbTtFIINgEnAc8/iG905g2ADYAlw1QOAR8D0jH62AQfK7t8GwFLgStkDyGhvLrAA2OwDQqgA7gAHfUAIGYAcIA/C1uRZ2w4ZOgDnEOoAwCmEugBwBqFOAIogbAEOdWdDqBuA0iHUEUCpEOoKoDQIIQJYDFw3XM9Z94S/wHjgrUkbIQK4DSwEfpkIyLks6dp+zaR+2QCeAReAL0nOYAMwxGQgTTYfgBcW9eYDfVP2y0wDtzIB7AL2AH9SAxmWBFCzLMSUYeodwA1gUc7IhyfrcVAZygzb8A5A8fvjgsEpjtdlxVfxDmBosu7zBK4HjvlSD3gHoGPnTYHA3cDOngzgCLAxR2A/4DUwuicD0M6vTfBmk8jewHFgjUfx6sr7ElCnuoGdAM6l7gE7gCmexVcGoAKduV1W4gERQEAEogdUEQsE5ADVnAIRQEAE4h4Qyh7wCdA7Be+AUcAMYEILT3kFPAQ+AmOBOcBIS++q3AN0K1S+TjfB76nBKwGjLNE+oH+GKP33eXlyq2w8VqZHiRaF06YJnEoBKC5YB5wpmDV5wn2gV4aNgioFV81F8cRJQwiVAZD4tcBZA5ddkcQNWbOaB2F1AiELXLrLSgBIvGZJwZBpEQTN9oCMCtOAJxl/XwWcyvGehrl3ABKv2Tlvqjxlp03xHjC4qW7RKzErgdMFELwD0MwXrflWXCYmp0UawlTgaUFFAReErOIdgDK+31qpbPF8HLA38YSjwOUW9gOBrz0JgC2/CCB6QFwCcQ8IZhN8Cfy23cXatFfKXcdnEMdgm1pKr+79HlC6gjYbjABcJER8vS7f5uT/r+7kFZkqP5iwhTLZ9BUb0wxLYwBVfDJjK16RpdJoRsUWgO+PpoxEpIzeA/OAz6YVbQGoXR+fzZmOv2H3A3gAHAb027h0B4Bx43UwjADqMEsux9jxHvAPwx/cQdZmcYgAAAAASUVORK5CYII="
-        />
+    <span id="hintMSG" class="hintMSG" hidden>Aim at the barcode on the driver's license</span>
+    <h1 id='header'>Read A Driver's License <a href="#" id='readAgain' hidden onclick="backToHome()">Retry</a></h1>
+    <div id="UIElement" class="UIElement">
+        <img id="btn-show-scanner" alt="show-scanner" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFb0lEQVR4Xu2ad8j1YxjHP6+ZlZEZRVayV9krsmXzh6wSUWSGhIxCiCgh2d7skS0ysv6wV8mIJDMjK1uf97kP5/05v+dc9/37/Z6n933OVeevc83vue/rvu7vfaYxxWXaFK+fEQCjFTDFEZjoLbAGsBawTN/Hn+Czvs+bwNsT9bt0DcBcwHbAbsAuwPLBwj4GHgTuBx4H/gjaZat1BcAcwAHAmcBK2VnNbPA+cBYwHfiroa//mXcBwK7ABcDqLSf7DnAy8ECbftsEwOVu4ce3meAAXxcDp7S1LdoCYGngNmDLjovvuX8G2A/4omm8NgCw+BeAFZomk2n/EbAJ8Hmm3UzqTQFYEHgaWL9JEg1sXwG2An4s9dEEAPe8DWmH0uAt2T2Sjtmio7IJAKcDZ7dURFM3ZwDnlDgpBcD97rE0X0nQDmx+SceufSFLSgG4F9g9K9KY8g/ALWnKe7Wviy8FrJemRQeohQp8m9OeuXYlAGwNPJkZ6E/girRMvxpiuwTg9joKmDMzjrnZlMNSAsDNacyNBvkO2B94LGqQ9GyutwKLZNiZ24EZ+tmEiEvTc3f+YJCfgM2B14L6VbV1gWeBBYL2PwNup/CxmLsCDgWuDSajmtPaHRn6g1T3BW7P8GGO10f1cwG4O6PRPArsWJPIYsAhfQOUA41Jf1Ojr6/tg0XdA+wV1M3eAu8CqwadbwBYWFV2Bq5JhEj/d5IihwEPDbBx0nw5GNccVwvqZgEwD+Aei3TmN4B1BiSxIfDiOD48LTaqKfZ1YO1AYU6E9qjfA7pZAEhnvRVxClwKHFfRlSQRGP2MJ9JhFlolPy4Bjg3GN4aD2lDJ6QESHVJUETkCuLqi6JZ4KWIMuFKqS/5w4KqgvRRciDjJAWCfjI7uuV/t3HsDdwYLMNZdFV1PFDmHiHhyhGLlALAHYIeNyMHAjRXFbRPBGbGXSH2iongQcEPEOJ1UjsZDJQeAnBFYMrR6U5Q7cIgaNtQ4PEmyVIcZb3ySoxHZBngqopgDwIrABxGnQN0McGS6E4znRp0rByh4749yDzLRH0ZyzQFAf3JwSwYc/wYsC3xd0TWexdnQBolNTgD+rny5OPAp4FE8TL5M4/AwvRnf5wJgD7AXROQi4KQaRU+U0yqT4LnpmjzIRF8nRIKmPtXZJHgicGEwkV/TmR/dNnVuXc7OBvMG45qj1HlIcleAA4oTWVR859s053ZWcezt83lgzWjANIE6cIUkFwCdyslvEfI+pmQ3dgaou+jUufLC5Czg6RMVc5MlDksJANJO3gpzxPc9b3/PBY02S7fDlYP6PTVzC53/PYMSAJzp3wM8FnPlPuCytIqqNLY0uy9LxxTyjR57q+Q+oJYAYNElq6AfLIcc+0PvaUsWx/8NOCyVSvavb6BSALR11M3i30orC9iZi+N3tjQBYOF0PV4uO2q7Bp+k1fN9idsmABjPI86xt8nSLcm7Z+NWkirzcbZImgJgUFnfhycBBIvfKbHGRcU37QH9QScahFaKbxMAfUlD3ZSeuIp/kYChT2o231b+SdbGFujPee70xyj/whIhTwP1/qsiYXp+4gRChGfEedsA9GLK/52abo5NgbBwp7vzMqjxSO0zdLoCoJeAz+hHA77WLBrOakzxW+A64HIg+9k7GqtrAHp5OD7bI/xPj0enrK2XnX7xsiTr7O3Pj7R26/8LrAIzUQBU48rYekPsF29+ssETKiMAJhTu/4KNVsBoC8zmPUAG145fJxsn2rz/e2lvX47rxAtPmOyMbu2umuCgPR7NqU6vk1NiBEDTn6XGfrQCBnT5pljPUltgWBMsAWOWaoIlBU6KTVdNcFKKKQk6AqAEtdnJZsqvgH8Apk7nQRizxhgAAAAASUVORK5CYII="/>
+        <!-- <img id="btn-open-image" alt="open-image" hidden src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADU0lEQVR4Xu2bSchOURjHfx8bw8IQygZZkUQkFBYkhVggKxk3LMxLkZKyMEUW5iFK2JCFDCXKFBFiZ1grdoYy9Nd96/Z2733P+d57zj33e89ZvX33OcP/d54zPM93bxcdXro6XD8RQPQAewJ9gE3ATEC/XZSfwCXgoovG023aLoERwC1gjOuBJe1vB/a77MsWwF1gtssBZbTtFIINgEnAc8/iG905g2ADYAlw1QOAR8D0jH62AQfK7t8GwFLgStkDyGhvLrAA2OwDQqgA7gAHfUAIGYAcIA/C1uRZ2w4ZOgDnEOoAwCmEugBwBqFOAIogbAEOdWdDqBuA0iHUEUCpEOoKoDQIIQJYDFw3XM9Z94S/wHjgrUkbIQK4DSwEfpkIyLks6dp+zaR+2QCeAReAL0nOYAMwxGQgTTYfgBcW9eYDfVP2y0wDtzIB7AL2AH9SAxmWBFCzLMSUYeodwA1gUc7IhyfrcVAZygzb8A5A8fvjgsEpjtdlxVfxDmBosu7zBK4HjvlSD3gHoGPnTYHA3cDOngzgCLAxR2A/4DUwuicD0M6vTfBmk8jewHFgjUfx6sr7ElCnuoGdAM6l7gE7gCmexVcGoAKduV1W4gERQEAEogdUEQsE5ADVnAIRQEAE4h4Qyh7wCdA7Be+AUcAMYEILT3kFPAQ+AmOBOcBIS++q3AN0K1S+TjfB76nBKwGjLNE+oH+GKP33eXlyq2w8VqZHiRaF06YJnEoBKC5YB5wpmDV5wn2gV4aNgioFV81F8cRJQwiVAZD4tcBZA5ddkcQNWbOaB2F1AiELXLrLSgBIvGZJwZBpEQTN9oCMCtOAJxl/XwWcyvGehrl3ABKv2Tlvqjxlp03xHjC4qW7RKzErgdMFELwD0MwXrflWXCYmp0UawlTgaUFFAReErOIdgDK+31qpbPF8HLA38YSjwOUW9gOBrz0JgC2/CCB6QFwCcQ8IZhN8Cfy23cXatFfKXcdnEMdgm1pKr+79HlC6gjYbjABcJER8vS7f5uT/r+7kFZkqP5iwhTLZ9BUb0wxLYwBVfDJjK16RpdJoRsUWgO+PpoxEpIzeA/OAz6YVbQGoXR+fzZmOv2H3A3gAHAb027h0B4Bx43UwjADqMEsux9jxHvAPwx/cQdZmcYgAAAAASUVORK5CYII="/> -->
+        <div id="div-ui-container" class="div-ui-container" hidden>
+	        <div class="dce-video-container"></div>
+        </div>
     </div>
-    <div id="divNoteMessage" hidden></div>
+    <div class="dialog" id="dialog" hidden>
+        <div class="message_box">
+            <div class="message_box_header">
+                <div class="message_box_title">
+                    <span id="msg_tittle"></span>
+                </div>
+            </div>
+            <div class="message_box_content">
+                <div class="message_box_container">
+                    <div class="message_box_message"><p id="msg_content"></p></div>
+                </div>
+            </div>
+            <div class="message_box_btns">
+                <button type="button" class="message_box_btn message_box_btn--default message_box_btn--small">
+                    <span id="cancel_btn">Cancel</span>
+                </button>
+                <button type="button" class="message_box_btn message_box_btn--default message_box_btn--small message_box_btn_color ">
+                    <span id="confirm_btn">Confirm</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="divNoteMessage" class="divNoteMessage" hidden></div>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js"></script>
     <script>
-        /** LICENSE ALERT - README
-         * The library requires a license to work, you use the API organizationID to tell the program where to fetch your license.
-         * If the Organizaion ID is not specified, a 7-day (public) trial license will be used by default which is the case in this sample.
-         * Note that network connection is required for this license to work.
+        /** LICENSE ALERT - README 
+         * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
 
-        /* When using your own license, uncomment the following line and specify your Organization ID. */
+        Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
+        
+        /** 
+         * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
+         * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.0.0&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+         * LICENSE ALERT - THE END 
+         */
 
-        Dynamsoft.DBR.organizationID = "200000";
-        Dynamsoft.DBR.handshakeCode = "200000-dbr_js_samples";
-
-        /* If you don't have a license yet, you can request a trial on this page: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=samples */
-        /* For more information, please refer to https://www.dynamsoft.com/license-server/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
-
-        /* The API "productKeys" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
-
-        // Dynamsoft.DBR.productKeys = "YOUR-PRODUCT-KEY";
-
-        /** LICENSE ALERT - THE END */
-
+        const showScannerBtn = document.getElementById('btn-show-scanner');
+        const openImageBtn = document.getElementById('btn-open-image');
+        const UIElement = document.getElementById('UIElement');
         // scanner for decoding video
         let pScanner = null;
-        window.onload = async function() {
+        (async () => {
             //Load the library on page load to speed things up.
             try {
                 await Dynamsoft.DBR.BarcodeScanner.loadWasm();
@@ -57,101 +70,110 @@
                 alert(ex.message);
                 throw ex;
             }
-        };
-        // decode an image
-        document.getElementById('btn-open-image').addEventListener('click', async() => {
-            document.getElementById('btn-show-scanner').hidden = true;
-            document.getElementById('btn-open-image').hidden = true;
-            openScanner(true);
-        });
+        })();
         // decode video from camera
-        document.getElementById('btn-show-scanner').addEventListener('click', async() => {
-            document.getElementById('btn-show-scanner').hidden = true;
-            //document.getElementById('btn-open-image').hidden = true;
-            openScanner(false);
+        showScannerBtn.addEventListener('click', () => {
+            showScannerBtn.hidden = true;
+            startScanning(false);
         });
-
-        function readAgain() {
+        function backToHome() {
+            showScannerBtn.hidden = false;
+            document.getElementById('hintMSG').hidden = true;
+            document.getElementById('header').hidden = false;
             document.getElementById('readAgain').hidden = true;
             document.getElementById('divNoteMessage').hidden = true;
-            document.getElementById('UIElement').style.display = "";
-            document.getElementById('btn-show-scanner').hidden = false;
-            //document.getElementById('btn-open-image').hidden = false;
+            document.getElementById('div-ui-container').hidden = true;
+            UIElement.classList.remove("show");
+            UIElement.style.display = "flex";
+            document.getElementById('divNoteMessage').innerHTML = "";
         }
-        async function openScanner(bSingleFrameMode) {
+        async function startScanning(bSingleFrameMode) {
+            let timer = null;
             try {
-                document.getElementById('lib-load').hidden = false;
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                scanner.singleFrameMode = bSingleFrameMode;
-                if (!bSingleFrameMode)
-                    scanner.getRuntimeSettings()
-                    .then(settings => {
-                        settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
-                        settings.region = {
-                            regionLeft: 5,
-                            regionTop: 5,
-                            regionRight: 95,
-                            regionBottom: 95,
-                            regionMeasuredByPercentage: 1
-                        };
-                        settings.localizationModes = [16, 8, 2, 0, 0, 0, 0, 0];
-                        settings.deblurLevel = 7;
-                        scanner.updateRuntimeSettings(settings);
-                    });
-                document.getElementById('lib-load').hidden = true;
-                scanner.onUnduplicatedRead = (txt, result) => {
+                if (scanner.singleFrameMode !== bSingleFrameMode) {
+                    scanner.hide();
+                    scanner.singleFrameMode = bSingleFrameMode;
+                }
+                await scanner.setUIElement(document.getElementById('div-ui-container'));
+                if (!bSingleFrameMode) {
+                    let settings = await scanner.getRuntimeSettings();
+                    settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
+                    settings.localizationModes = [16, 8, 2, 0, 0, 0, 0, 0];
+                    settings.deblurLevel = 7;
+                    await scanner.updateRuntimeSettings(settings);
+                    document.getElementById('header').hidden = true;
+                    UIElement.classList.add("show");
+                }
+                scanner.onUniqueRead = (txt, result) => {
+                    document.getElementById("dialog").hidden = true;
+                    clearTimeout(timer);
                     extractInformation(txt);
                 };
-                document.getElementById('UIElement').appendChild(scanner.getUIElement());
-                document.getElementById('UIElement').style.height = '100vh';
-                document.getElementById('UIElement').style.width = '100vw';
-                document.getElementById('UIElement').style.position = 'absolute';
-                document.getElementById('UIElement').style.top = 0;
-                document.querySelector('#UIElement div').style.background = '';
-                document.getElementsByClassName('dce-sel-camera')[0].hidden = true;
-                document.getElementsByClassName('dce-sel-resolution')[0].hidden = true;
-                document.getElementsByClassName('dce-btn-close')[0].hidden = true;
                 await scanner.show();
-                document.getElementById('hintMSG').hidden = false;
-                document.getElementById('header').hidden = true;
+                if (!bSingleFrameMode) {
+                    document.getElementById('hintMSG').hidden = false;
+                    document.getElementById('div-ui-container').hidden = false;
+                    timer = setTimeout(() => {
+                        alertMsg("Tips:", "Can't scan results for a long time? Try to use the single frame mode to upload high-definition picture for recognition.");
+                    }, 10000);
+                }
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
             }
         }
-
-        function closeMessage() {
-            document.getElementById('divNoteMessage').innerHTML = "";
-        }
-
+        document.getElementById("confirm_btn").addEventListener("click", () => {
+            backToHome();
+            showScannerBtn.hidden = false;
+            startScanning(true);
+            document.getElementById("dialog").hidden = true;
+        });
+        document.getElementById("cancel_btn").addEventListener("click", () => {
+            document.getElementById("dialog").hidden = true;
+        });
         function getField(keyword, barcode_text) {
-            var k = barcode_text.search("\n" + keyword);
+            const k = barcode_text.search("\n" + keyword);
             if (k == -1)
                 return false;
-            var m = barcode_text.indexOf("\n", k + 1);
-            var subtext = barcode_text.substring(k + 4, m);
+            const m = barcode_text.indexOf("\n", k + 1);
+            const subtext = barcode_text.substring(k + 4, m);
             return subtext;
         }
+        function createNode(type, text) {
+            let node = document.createElement(type);
+            if (text)
+                node.innerText = text;
+            return node;
+        }
+        function alertMsg(title, content, confirmCB) {
+            document.getElementById("msg_tittle").innerText = title;
+            document.getElementById("msg_content").innerText = content;
+            document.getElementById("dialog").hidden = false;
+        }
         async function extractInformation(text) {
-            var aryTextToShow = [];
-            for (var i = 0; i < driverLicenseFields.length; i++) {
-                var __item = driverLicenseFields[i];
-                var _fieldValue = getField(__item.abbreviation, text);
-                if (_fieldValue != false) {
-                    document.getElementById('header').hidden = false;
-                    await (await pScanner).hide();
-                    document.getElementById('hintMSG').hidden = true;
-                    document.getElementById('divNoteMessage').hidden = false;
-                    document.getElementById('UIElement').style.display = "none";
-                    document.getElementById('readAgain').hidden = false;
-                    aryTextToShow.push(__item.description + "<br /><strong>" + _fieldValue + "</strong><br />");
-                    aryTextToShow.push("------------------------------<br />");
+            let resultShowNode = document.createElement("p");
+            (await pScanner).hide();
+            document.getElementById('hintMSG').hidden = true;
+            document.getElementById('header').hidden = false;
+            document.getElementById('readAgain').hidden = false;
+            document.getElementById('divNoteMessage').hidden = false;
+            UIElement.style.display = "none";
+            for (let i = 0; i < driverLicenseFields.length; i++) {
+                const item = driverLicenseFields[i];
+                const fieldValue = getField(item.abbreviation, text);
+                if (fieldValue != false) {
+                    resultShowNode.appendChild(createNode("span", item.description));
+                    resultShowNode.appendChild(createNode("br"));
+                    resultShowNode.appendChild(createNode("strong", fieldValue));
+                    resultShowNode.appendChild(createNode("br"));
+                    resultShowNode.appendChild(createNode("span", "------------------------------"));
+                    resultShowNode.appendChild(createNode("br"));
                 }
             }
-            aryTextToShow.splice(0, 0, '<p style="padding:5px; margin:0;">');
-            aryTextToShow.push('</p>');
-            document.getElementById('divNoteMessage').innerHTML = aryTextToShow.join('');
+            document.getElementById('divNoteMessage').appendChild(resultShowNode);
         }
+
         var driverLicenseFields = [{
             'abbreviation': 'DAA',
             'description': 'Full Name'
@@ -408,14 +430,11 @@
     </script>
 </body>
 <style>
-    span#hintMSG {
-        position: absolute;
-        z-index: 10000000;
-        font-size: 1rem;
-        color: #5e35b1;
-        top: 1vh;
+    * {
+        margin: 0;
+        padding: 0;
     }
-    
+
     body {
         display: flex;
         flex-direction: column;
@@ -424,43 +443,61 @@
         overflow: hidden;
         width: 100vw;
         height: 100vh;
-        color: #455A64;
         margin: 0;
     }
-    
-    h2 {
+
+    .hintMSG {
         position: absolute;
-        z-index: 10000000;
-        top: 2vh;
+        font-size: 1rem;
+        color: #5e35b1;
+        top: 1vh;
     }
-    
-    #UIElement {
-        margin: 0;
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .UIElement {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        margin: calc(1vh + 25px) 0 0 0;
     }
-    
-    #UIElement button {
+
+    .UIElement button {
         width: 50%;
         margin: 2vmin;
         padding: 2vmin;
         font-size: xx-large;
     }
-    
-    #UIElement img {
+
+    .UIElement img {
         height: 15vmin;
         float: left;
         margin: 15vmin;
         cursor: pointer;
     }
-    
-    #UIElement img:hover {
-        background-color: cadetblue;
+
+    .UIElement img:hover {
+        background-color: #fe8d14a1;
     }
-    
-    #divNoteMessage {
+
+    .show {
+        position: absolute;
+        height: 100vh;
+        width: 100vw;
+        top: 0;
+    }
+
+    .div-ui-container,
+    .dce-video-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .divNoteMessage {
         font-size: small;
         height: 80vh;
         width: 90vw;
@@ -470,9 +507,119 @@
         background: rgba(34, 34, 34, .8);
         margin-top: 30px;
     }
-    
+
+    .divNoteMessage p {
+        padding: 5px;
+        margin: 0;
+    }
+
     strong {
         color: rgb(254, 142, 20);
+    }
+
+    .dialog {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        z-index: 9999;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .dialog:after {
+        content: "";
+        display: inline-block;
+        height: 100%;
+        width: 0;
+        vertical-align: middle;
+    }
+
+    /* MessageBox */
+    .message_box {
+        display: inline-block;
+        width: 500px;
+        padding-bottom: 10px;
+        vertical-align: middle;
+        background-color: #fff;
+        font-size: 18px;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+        text-align: left;
+        overflow: hidden;
+        backface-visibility: hidden;
+        font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+        z-index: 10000;
+    }
+
+    @media only screen and (max-width: 545px) {
+        .message_box {
+            width: 80vw;
+        }
+    }
+
+    .message_box_header {
+        position: relative;
+        padding: 15px 15px 10px;
+        background-color: #000;
+    }
+
+    .message_box_title {
+        padding-left: 0;
+        margin-bottom: 0;
+        font-size: 18px;
+        line-height: 1;
+        color: #fff;
+    }
+
+    .message_box_content {
+        padding: 10px 15px;
+        color: #000;
+        font-size: 16px;
+    }
+
+    .message_box_btns {
+        padding: 5px 15px 0;
+        text-align: right;
+    }
+
+    .message_box_btn {
+        display: inline-block;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid #dcdfe6;
+        color: #606266;
+        -webkit-appearance: none;
+        text-align: center;
+        box-sizing: border-box;
+        outline: none;
+        margin: 0;
+        transition: .1s;
+        font-weight: 500;
+        user-select: none;
+        padding: 9px 15px;
+        font-size: 12px;
+        border-radius: 3px;
+    }
+
+    .message_box_btn:hover {
+        color: #ff9422;
+        border-color: #ffe4c7;
+        background-color: #ffe4c7;
+    }
+
+    .message_box_btn_color {
+        color: #fff;
+        background-color: #fe8d14;
+        border-color: #fe8d14;
+    }
+
+    .message_box_btn_color:hover {
+        background: #ffa13c;
+        border-color: #ffa13c;
+        color: #fff;
     }
 </style>
 

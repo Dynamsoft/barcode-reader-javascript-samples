@@ -1,26 +1,22 @@
 import React from 'react';
-import BarcodeScanner from './BarcodeScanner';
-import DBR from "../dbr";
+import VideoDecode from './VideoDecode';
+import ImgDecode from './ImgDecode';
+import "../dbr"; // import side effects. The license, engineResourcePath, so on.
+import { BarcodeScanner } from 'dynamsoft-javascript-barcode';
 
 class HelloWorld extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            libLoaded: false,
             resultValue: "",
-            bShowScanner: false
+            bShowScanner: true,
+            bShowImgDecode: false
         };
     }
     async componentDidMount() {
         try {
             //Load the library on page load to speed things up.
-            await DBR.BarcodeScanner.loadWasm();
-            this.setState(state => {
-                state.libLoaded = true;
-                return state;
-            }, () => {
-                this.showScanner();
-            });
+            await BarcodeScanner.loadWasm();
         } catch (ex) {
             alert(ex.message);
             throw ex;
@@ -28,32 +24,25 @@ class HelloWorld extends React.Component {
     }
     showScanner = () => {
         this.setState({
-            bShowScanner: true
+            bShowScanner: true,
+            bShowImgDecode: false
         });
     }
-    appendMessage = (message) => {
-        switch (message.type) {
-            case "result":
-                this.setState(prevState => {
-                    prevState.resultValue = message.format + ": " + message.text;
-                    return prevState;
-                });
-                break;
-            case "error":
-                this.setState(prevState => {
-                    prevState.resultValue = message.msg;
-                    return prevState;
-                });
-                break;
-            default: break;
-        }
+    showImgDecode = () => {
+        this.setState({
+            bShowScanner: false,
+            bShowImgDecode: true
+        });
     }
     render() {
         return (
             <div className="helloWorld" style={{ height: "100%", width: "100%" }}>
-                {!this.state.libLoaded ? (<span style={{ fontSize: "x-large" }}>Loading Library...</span>) : ""}
-                {this.state.bShowScanner ? (<BarcodeScanner appendMessage={this.appendMessage}></BarcodeScanner>) : ""}
-                {this.state.bShowScanner ? (<input type="text" style={{width: "80vw",border: "none",fontSize: "1rem",textAlign: "center"}} value={this.state.resultValue} readOnly={true} id="resultText" />) : ""}
+                <div className="btn-group">
+                    <button style={{marginRight: '10px', backgroundColor: this.state.bShowScanner ? 'rgb(255,174,55)' : 'white'}} onClick={this.showScanner}>Video Decode</button>
+                    <button style={{backgroundColor: this.state.bShowImgDecode ? 'rgb(255,174,55)' : 'white'}} onClick={this.showImgDecode}>Image Decode</button>
+                </div>
+                {this.state.bShowScanner ? (<VideoDecode></VideoDecode>) : ""}
+                {this.state.bShowImgDecode ? (<ImgDecode></ImgDecode>) : ""}
             </div>
         );
     }
