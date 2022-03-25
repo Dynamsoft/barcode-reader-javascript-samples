@@ -100,7 +100,7 @@
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 if (scanner.singleFrameMode !== bSingleFrameMode) {
-                    await scanner.hide();
+                    scanner.hide();
                     scanner.singleFrameMode = bSingleFrameMode;
                 }
                 await scanner.setUIElement(document.getElementById('div-ui-container'));
@@ -109,7 +109,7 @@
                     settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
                     settings.localizationModes = [16, 8, 2, 0, 0, 0, 0, 0];
                     settings.deblurLevel = 7;
-                    scanner.updateRuntimeSettings(settings);
+                    await scanner.updateRuntimeSettings(settings);
                     document.getElementById('header').hidden = true;
                     UIElement.classList.add("show");
                     scanner.onFrameRead = null;
