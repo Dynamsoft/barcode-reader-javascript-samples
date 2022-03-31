@@ -65,21 +65,9 @@
 
         // define html elements needed
         const camOptions = document.getElementById("options_camera");
-        const camArrow = document.getElementById("arrow_camera");
-        const camSelectorInput = document.getElementById("selector_input_camera");
-        const cameraUL = document.getElementById("ul_options_camera");
         const resOptions = document.getElementById("options_resolution");
-        const resArrow = document.getElementById("arrow_resolution");
-        const resSelectorInput = document.getElementById("selector_input_resolution");
-        const gotResolution = document.querySelector("#gotResolution span");
-        // define some required variables
-        let camOptionsViewable = false;
-        let resOptionsViewable = false;
-        let camAnimateTimer = null;
-        let cresAnimateTimer = null;
-        let cameras = {};
-        let currentCamera = null;
-        let currentResolution = null;
+        // timer for animation
+        let animateTimer = null;
         // scanner for decoding video
         let pScanner = null;
         (async () => {
@@ -92,141 +80,149 @@
                 throw ex;
             }
         })();
+        // add the click event to the selector
+        document.getElementById("cam_selector_switch").addEventListener("click", toggleCamView);
+        document.getElementById("res_selector_switch").addEventListener("click", toggleResView);
         // decode video from camera
         async function showScanner() {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                if (currentCamera) {
-                    await scanner.setCurrentCamera(currentCamera);
-                }
-                if (currentResolution) {
-                    await scanner.setResolution(currentResolution);
-                }
-                // when the last two values are judged to be false, it means this is the first time into the function showScanner
-                if (!currentResolution && !currentCamera) {
-                    document.getElementById('UIElement').appendChild(scanner.getUIElement());
-                    scanner.onUniqueRead = (txt, result) => { alert(txt); };
-                    await scanner.open();
-                    cameras = await scanner.getAllCameras();
-                }
-                currentCamera = await scanner.getCurrentCamera();
-                currentResolution = await scanner.getResolution();
-                toggleMaskView();
-                renderSelector();
+                document.getElementById('UIElement').appendChild(scanner.getUIElement());
+                scanner.onUniqueRead = (txt, result) => { alert(txt); };
+                await scanner.open();
+                renderCamreaSelector();
+                renderResolutionSelector();
             } catch (ex) {
                 alert(ex.message);
                 throw ex;
             }
         }
         // initial selector renderer
-        function renderSelector() {
-            // render the selector's options based on the fetched value
-            cameraUL.innerHTML = "";
-            cameras.forEach(item => {
+        async function renderCamreaSelector() {
+            let scanner = await pScanner;
+            const cameras = await scanner.getAllCameras();
+            document.getElementById("ul_options_camera").innerHTML = "";
+            cameras.forEach(camera => {
                 let li = document.createElement("li");
                 let span = document.createElement("span");
-                span.setAttribute("id", item.deviceId);
-                span.innerText = item.label;
+                span.setAttribute("id", camera.deviceId);
+                span.innerText = camera.label;
                 li.appendChild(span);
-                cameraUL.appendChild(li);
+                document.getElementById("ul_options_camera").appendChild(li);
             });
-            gotResolution.innerText = 'got ' + currentResolution[0] + ' x ' + currentResolution[1];
-            gotResolution.id = currentResolution[0] + 'x' + currentResolution[1];
             // highlight and display the selected option and add click event to selector
             const camOption = document.querySelectorAll("#ul_options_camera span");
-            camOption.forEach(item => {
-                item.addEventListener("click", camOptionSelected);
-                if (item.id === currentCamera.deviceId) {
-                    camSelectorInput.value = item.innerText;
-                    item.classList.add("selected");
+            const currentCamera = await scanner.getCurrentCamera();
+            camOption.forEach(sapn => {
+                sapn.addEventListener("click", camOptionSelected);
+                if (sapn.id === currentCamera.deviceId) {
+                    document.getElementById("selector_input_camera").value = sapn.innerText;
+                    sapn.classList.add("selected");
                 }
                 else {
-                    item.classList.remove("selected");
+                    sapn.classList.remove("selected");
                 }
-            })
-            resSelectorInput.value = gotResolution.innerText;
+            });
+        }
+        async function renderResolutionSelector() {
+            let scanner = await pScanner;
+            const currentResolution = await scanner.getResolution();
+            const gotResolution = document.querySelector("#gotResolution span");
+            gotResolution.innerText = 'got ' + currentResolution[0] + ' x ' + currentResolution[1];
+            gotResolution.id = currentResolution[0] + 'x' + currentResolution[1];
+            document.getElementById("selector_input_resolution").value = gotResolution.innerText;
             gotResolution.classList.add("selected");
-            const resOption = document.querySelectorAll("#ul_options_resolution span");
+            let resOption = document.querySelectorAll("#ul_options_resolution span");
             for (let i = 0; i < resOption.length; i++) {
                 resOption[i].addEventListener("click", resOptionSelected);
             };
-            document.getElementById("cam_selector_switch").addEventListener("click", toggleCamView);
-            document.getElementById("res_selector_switch").addEventListener("click", toggleResView);
-
+            toggleMaskView();
         }
         // when the selector is clicked
         function toggleCamView(e) {
             // expanding and collapsing control options by changing the classList
-            clearTimeout(camAnimateTimer);
+            clearTimeout(animateTimer);
             camOptions.classList.toggle("noheight");
-            camArrow.classList.toggle("trans");
-            if (!camOptionsViewable) {
+            document.getElementById("arrow_camera").classList.toggle("trans");
+            const hidden = camOptions.classList.value.search("unshow");
+            if (hidden !== -1) {
                 camOptions.classList.replace("unshow", "show");
                 document.addEventListener("click", clickToHidden);
             }
             else {
                 // remove styles such as shadows after the transition ends
-                camAnimateTimer = setTimeout(() => {
+                animateTimer = setTimeout(() => {
                     camOptions.classList.replace("show", "unshow");
                 }, 200);
             }
-            camOptionsViewable = !camOptionsViewable;
         }
         function toggleResView(e) {
-            clearTimeout(cresAnimateTimer);
+            clearTimeout(animateTimer);
             resOptions.classList.toggle("noheight");
-            resArrow.classList.toggle("trans")
-            if (!resOptionsViewable) {
+            document.getElementById("arrow_resolution").classList.toggle("trans");
+            const hidden = resOptions.classList.value.search("unshow");
+            if (hidden !== -1) {
                 resOptions.classList.replace("unshow", "show");
                 document.addEventListener("click", clickToHidden);
             }
             else {
-                cresAnimateTimer = setTimeout(() => {
+                animateTimer = setTimeout(() => {
                     resOptions.classList.replace("show", "unshow");
                 }, 200);
             }
-            resOptionsViewable = !resOptionsViewable;
         }
         // when option is selected
-        function camOptionSelected(e) {
+        async function camOptionSelected(e) {
+            let scanner = await pScanner;
+            const currentCamera = await scanner.getCurrentCamera();
             if (currentCamera.deviceId === e.target.id) {
                 return;
             }
             toggleMaskView();
-            camSelectorInput.value = e.target.innerText;
-            cameras.forEach(item => {
-                if (item.deviceId === e.target.id) {
-                    currentCamera = item;
-                    return showScanner();
+            const cameras = await scanner.getAllCameras();
+            cameras.forEach(async camera => {
+                if (camera.deviceId === e.target.id) {
+                    try {
+                        await scanner.setCurrentCamera(camera);
+                    } catch (ex) {
+                        alert('Play video failed: ' + (ex.message || ex));
+                    }
+                    renderResolutionSelector();
                 }
             })
         }
-        function resOptionSelected(e) {
+        async function resOptionSelected(e) {
             const data = e.target.id.split("x");
+            let scanner = await pScanner;
+            const currentResolution = await scanner.getResolution();
             if (currentResolution[0] == data[0] && currentResolution[1] == data[1]) {
                 return;
             }
             toggleMaskView();
-            resSelectorInput.value = e.target.innerText;
-            currentResolution = [parseInt(data[0]), parseInt(data[1])];
-            showScanner();
+            const targetResolution = [parseInt(data[0]), parseInt(data[1])];
+            await scanner.setResolution(targetResolution);
+            renderResolutionSelector();
         }
         // camera's styles mask show or not
         function toggleMaskView() {
             let dceLoading = document.getElementById('dce-loading');
             let dceMask = document.getElementById('dce-mask');
+            let dceScanlight = document.getElementById('dce-scanlight');
             dceLoading.style.display = dceLoading.style.display === "none" ? "inline-block" : "none"
             dceMask.hidden = !dceMask.hidden;
+            dceScanlight.hidden = !dceScanlight.hidden;
         }
         // click anywhere outside the options to collapse the options
         function clickToHidden(e) {
-            if (camOptionsViewable && e.target.id != "selector_input_camera" && e.target.id != "arrow_camera" && e.target.parentNode.id != "arrow_camera") {
+            const camViewable = camOptions.classList.value.search("unshow");
+            const resViewable = resOptions.classList.value.search("unshow");
+            if (camViewable === -1 && e.target.id != "selector_input_camera" && e.target.id != "arrow_camera" && e.target.parentNode.id != "arrow_camera") {
                 toggleCamView();
             }
-            if (resOptionsViewable && e.target.id != "selector_input_resolution" && e.target.id != "arrow_resolution" && e.target.parentNode.id != "arrow_resolution") {
+            if (resViewable ===-1 && e.target.id != "selector_input_resolution" && e.target.id != "arrow_resolution" && e.target.parentNode.id != "arrow_resolution") {
                 toggleResView();
             }
-            if (!camOptionsViewable && !resOptionsViewable) {
+            if (camViewable !== -1 && resViewable !== -1) {
                 // trigger only once
                 document.removeEventListener("click", arguments.callee)
             }
