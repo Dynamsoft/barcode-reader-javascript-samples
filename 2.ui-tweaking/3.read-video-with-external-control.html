@@ -73,7 +73,7 @@
          */
 
         Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
-        
+
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
@@ -147,7 +147,7 @@
         });
         document.getElementById("cam_selector_switch").addEventListener("click", toggleCamView);
         document.getElementById("res_selector_switch").addEventListener("click", toggleResView);
-        
+
         function toggleBtnView(boolean) {
             document.getElementById('btn-hide-scanner').hidden = boolean;
             document.getElementById('btn-show-scanner').hidden = !boolean;
@@ -206,6 +206,7 @@
                     }
                     updateOptions();
                     updateCurrentResolution();
+                    return;
                 }
             });
         }
@@ -225,6 +226,7 @@
         async function updateOptions() {
             let scanner = await pScanner;
             const cameras = await scanner.getAllCameras();
+            const currentCamera = await scanner.getCurrentCamera();
             document.getElementById("ul_options_camera").innerHTML = "";
             cameras.forEach(camera => {
                 let li = document.createElement("li");
@@ -234,8 +236,7 @@
                 li.appendChild(span);
                 document.getElementById("ul_options_camera").appendChild(li);
             });
-            const currentCamera = await scanner.getCurrentCamera();
-            let camOption = document.querySelectorAll("#ul_options_camera span");
+            const camOption = document.querySelectorAll("#ul_options_camera span");
             camOption.forEach(sapn => {
                 sapn.addEventListener("click", camOptionSelected);
                 if (!currentCamera || sapn.id === currentCamera.deviceId) {
@@ -268,12 +269,12 @@
             if (camViewable === -1 && e.target.id !== "selector_input_camera" && e.target.id !== "arrow_camera" && e.target.parentNode.id !== "arrow_camera") {
                 toggleCamView();
             }
-            if (resViewable ===-1 && e.target.id !== "selector_input_resolution" && e.target.id !== "arrow_resolution" && e.target.parentNode.id !== "arrow_resolution") {
+            if (resViewable === -1 && e.target.id !== "selector_input_resolution" && e.target.id !== "arrow_resolution" && e.target.parentNode.id !== "arrow_resolution") {
                 toggleResView();
             }
             if (camViewable !== -1 && resViewable !== -1) {
                 // trigger only once
-                document.removeEventListener("click", arguments.callee)
+                document.removeEventListener("click", arguments.callee);
             }
         }
     </script>

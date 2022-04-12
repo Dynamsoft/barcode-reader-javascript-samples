@@ -43,11 +43,6 @@
         document.getElementById('showScanner').addEventListener('click', async () => {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                if(scanner.singleFrameMode) {
-                    scanner.singleFrameMode = false;
-                    document.querySelector('.dce-sel-camera').style.display = "block";
-                    document.querySelector('.dce-sel-resolution').style.display = "block";
-                }
                 scanner.onUniqueRead = (txt, result) => { alert(txt); };
                 document.getElementById('UIElement').appendChild(scanner.getUIElement());
                 await scanner.show();
@@ -62,8 +57,6 @@
                 let scanner = await(pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 scanner.hide();
                 scanner.singleFrameMode = true;
-                document.querySelector('.dce-sel-camera').style.display = "none";
-                document.querySelector('.dce-sel-resolution').style.display = "none";
                 await scanner.show();
             } catch (ex) {
                 alert(ex.message);
