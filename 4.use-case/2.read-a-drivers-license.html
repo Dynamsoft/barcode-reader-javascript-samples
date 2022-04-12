@@ -73,7 +73,7 @@
         });
         document.getElementById("resultAlert_btn").addEventListener("click", closeResultAlert);
         document.getElementById("confirm_btn").addEventListener("click", () => {
-            document.getElementById('hintMSG').innerHTML = "Click the icon below to select a picture to read. <a href='javascript:void(0)' onclick='backToCameraMode()'>Back to camera mode</a>"
+            document.getElementById('hintMSG').innerHTML = "Click below to select a picture to read. <a href='javascript:void(0)' onclick='backToCameraMode()'>Back to camera mode</a>"
             startScanning(true);
             document.getElementById("message_box").style.display = "none";
         });
@@ -117,7 +117,7 @@
                 else {
                     scanner.onFrameRead = (result) => {
                         if (result.length === 0) {
-                            document.getElementById('resultAlert_content').innerText = "No Barcode Found!";
+                            document.getElementById('resultAlert_content').innerText = "No PDF417 Barcode Found!";
                             document.getElementById('resultAlert').hidden = false;
                             document.addEventListener("mousedown", clickToHide);
                         }
