@@ -21,7 +21,7 @@
          */
 
         Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
-        
+
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
@@ -43,14 +43,33 @@
         document.getElementById('showScanner').addEventListener('click', async () => {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+                if(scanner.singleFrameMode) {
+                    scanner.singleFrameMode = false;
+                    document.querySelector('.dce-sel-camera').style.display = "block";
+                    document.querySelector('.dce-sel-resolution').style.display = "block";
+                }
                 scanner.onUniqueRead = (txt, result) => { alert(txt); };
                 document.getElementById('UIElement').appendChild(scanner.getUIElement());
                 await scanner.show();
             } catch (ex) {
                 alert(ex.message);
+                setSingleFrameMode();
                 throw ex;
             }
         });
+        async function setSingleFrameMode() {
+            try {
+                let scanner = await(pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+                scanner.hide();
+                scanner.singleFrameMode = true;
+                document.querySelector('.dce-sel-camera').style.display = "none";
+                document.querySelector('.dce-sel-resolution').style.display = "none";
+                await scanner.show();
+            } catch (ex) {
+                alert(ex.message);
+                throw ex;
+            }
+        }
     </script>
 </body>
 <style>
