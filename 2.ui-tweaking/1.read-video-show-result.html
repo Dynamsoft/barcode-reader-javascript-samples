@@ -55,7 +55,6 @@
         async function setSingleFrameMode() {
             try {
                 let scanner = await(pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                scanner.hide();
                 scanner.singleFrameMode = true;
                 await scanner.show();
             } catch (ex) {
