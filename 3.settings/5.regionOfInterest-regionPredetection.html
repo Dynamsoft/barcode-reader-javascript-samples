@@ -26,7 +26,7 @@
         <!-- Manually defining the div that will contain the video so that the UI doesn't take up the full screen-->
         <div id="div-ui-container">
             <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
-	        <div class="dce-video-container" style="position:absolute;left:0;top:0;width:100%;height:100%;"></div>
+            <div class="dce-video-container" style="position:absolute;left:0;top:0;width:100%;height:100%;"></div>
         </div>
 
         <!-- Settings Menu displayed in a modal -->
@@ -119,36 +119,35 @@
                  * Should the Region of Interest form change (as in the user inputted a value for regionTop, regionLeft, regionBottom, or regionRight) 
                  * update the runtime settings to reflect this change.
                  */
-
-                let scanner = await pScanner;
-                const roiFormInputs = document.querySelectorAll('input[name="regionDef"]');
                 let settings = null;
+                let scanner = await pScanner;
+                settings = await scanner.getRuntimeSettings();
+                settings.region.regionMeasuredByPercentage = 1;
+                settings.region.regionTop = 0;
+                settings.region.regionBottom = 100;
+                settings.region.regionLeft = 0;
+                settings.region.regionRight = 100;
+                await scanner.updateRuntimeSettings(settings);
+                const roiFormInputs = document.querySelectorAll('input[name="regionDef"]');
                 roiFormInputs.forEach(element => {
                     element.addEventListener("input", async function() {
                         try {
                             settings = await scanner.getRuntimeSettings();
-                            if (settings.region.regionMeasuredByPercentage === undefined)
-                                settings.region.regionMeasuredByPercentage = true;
-                            if (settings.region.regionTop === undefined)
-                                settings.region.regionTop = 0;
-                            if (settings.region.regionBottom === undefined)
-                                settings.region.regionBottom = 100;
-                            if (settings.region.regionLeft === undefined)
-                                settings.region.regionLeft = 0;
-                            if (settings.region.regionRight === undefined)
-                                settings.region.regionRight = 100;
+                            let parsedValue = parseInt(this.value);
+                            if (parsedValue > 100) parsedValue = 100;
+                            if (parsedValue < 0) parse = 0;
                             switch (this.id) {
                                 case "regionTop":
-                                    settings.region.regionTop = this.value;
+                                    settings.region.regionTop = parsedValue;
                                     break;
                                 case "regionBottom":
-                                    settings.region.regionBottom = this.value;
+                                    settings.region.regionBottom = parsedValue;
                                     break;
                                 case "regionLeft":
-                                    settings.region.regionLeft = this.value;
+                                    settings.region.regionLeft = parsedValue;
                                     break;
                                 case "regionRight":
-                                    settings.region.regionRight = this.value;
+                                    settings.region.regionRight = parsedValue;
                                     break;
                             }
                             await scanner.updateRuntimeSettings(settings);
