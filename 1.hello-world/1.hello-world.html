@@ -10,8 +10,6 @@
 </head>
 
 <body>
-    <h1 style="font-size: 1.5em;">Read Barcodes from a Camera</h1>
-    <button id="btn-show-scanner">Show Barcode Scanner</button>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README 
@@ -27,10 +25,9 @@
          * LICENSE ALERT - THE END 
          */
 
-        let pScanner = null;
-        document.getElementById('btn-show-scanner').onclick = async function() {
+        window.onload = async function() {
             try {
-                const scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+                const scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
                 /* 
                  * onFrameRead is triggered after the library finishes reading a frame.
                  * There can be multiple barcodes on one frame.
@@ -52,7 +49,6 @@
                 }
                 await scanner.show();
             } catch (ex) {
-                alert(ex.message);
                 throw ex;
             }
         };

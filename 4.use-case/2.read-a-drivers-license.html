@@ -28,7 +28,7 @@
             <svg class="dce-bg-camera" viewBox="0 0 2048 1792">
                 <path d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z" />
             </svg>
-	        <div class="dce-video-container"></div>
+            <div class="dce-video-container"></div>
         </div>
     </div>
     <div id="resultAlert" class="resultAlert" hidden>
@@ -57,7 +57,7 @@
         let timer = null;
         // scanner for decoding video
         let pScanner = null;
-        (async () => {
+        (async() => {
             //Load the library on page load to speed things up.
             try {
                 await Dynamsoft.DBR.BarcodeScanner.loadWasm();
@@ -80,6 +80,7 @@
         document.getElementById("close_btn").addEventListener("click", () => {
             document.getElementById("message_box").style.display = "none";
         });
+
         function backToHome() {
             showScannerBtn.style.display = "block";
             document.getElementById('hintMSG').hidden = true;
@@ -91,6 +92,7 @@
             UIElement.style.display = "flex";
             document.getElementById('resultAlert').innerHTML = "";
         }
+
         function backToCameraMode() {
             closeResultAlert();
             document.getElementById('hintMSG').innerText = "Aim at the barcode on the driver's license.";
@@ -109,12 +111,12 @@
                     settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
                     settings.localizationModes = [16, 8, 2, 0, 0, 0, 0, 0];
                     settings.deblurLevel = 7;
+                    settings.minResultConfidence = 0;
                     await scanner.updateRuntimeSettings(settings);
                     document.getElementById('header').hidden = true;
                     UIElement.classList.add("show");
                     scanner.onFrameRead = null;
-                }
-                else {
+                } else {
                     scanner.onFrameRead = (result) => {
                         if (result.length === 0) {
                             document.getElementById('resultAlert_content').innerText = "No PDF417 Barcode Found!";
@@ -142,6 +144,7 @@
                 throw ex;
             }
         }
+
         function getField(keyword, barcode_text) {
             const k = barcode_text.search("\n" + keyword);
             if (k == -1)
@@ -150,6 +153,7 @@
             const subtext = barcode_text.substring(k + 4, m);
             return subtext;
         }
+
         function createNode(type, txt) {
             let node = document.createElement(type);
             if (txt)
@@ -174,6 +178,7 @@
             document.getElementById('resultAlert').hidden = false;
             document.addEventListener("mousedown", clickToHide);
         }
+
         function clickToHide(e) {
             if (e.target === document.body || e.target.id === "hintMSG") {
                 closeResultAlert();
@@ -450,7 +455,7 @@
         margin: 0;
         padding: 0;
     }
-
+    
     body {
         display: flex;
         flex-direction: column;
@@ -461,33 +466,33 @@
         height: 100vh;
         margin: 0;
     }
-
+    
     .hintMSG {
         position: absolute;
         font-size: 1rem;
         color: #5e35b1;
         top: 1vh;
     }
-
+    
     h1 {
         font-size: 1.5em;
     }
-
+    
     a {
         color: #fe8d14;
     }
-
+    
     a:hover {
         color: #fe8d14a1;
     }
-
+    
     .btn-show-scanner {
         width: 100px;
         height: 100px;
         fill: #aaa;
         cursor: pointer;
     }
-
+    
     .UIElement {
         display: flex;
         flex-direction: row;
@@ -497,31 +502,31 @@
         height: 60vh;
         margin: 0;
     }
-
+    
     .UIElement button {
         width: 50%;
         margin: 2vmin;
         padding: 2vmin;
         font-size: xx-large;
     }
-
+    
     .UIElement img {
         height: 15vmin;
         float: left;
         margin: 15vmin;
         cursor: pointer;
     }
-
+    
     .UIElement img:hover {
         background-color: #fe8d14a1;
     }
-
+    
     .show {
         height: 60vh;
         width: 50vw;
         top: 0;
     }
-
+    
     .dce-bg-camera {
         position: absolute;
         left: 0;
@@ -533,14 +538,14 @@
         height: 40%;
         fill: #aaa;
     }
-
+    
     .div-ui-container,
     .dce-video-container {
         position: relative;
         width: 100%;
         height: 100%;
     }
-
+    
     .resultAlert {
         position: fixed;
         height: 70vh;
@@ -551,7 +556,7 @@
         background: #222222;
         margin-top: 30px;
     }
-
+    
     .resultAlert_title {
         position: fixed;
         width: 50vw;
@@ -562,11 +567,11 @@
         padding-left: 10px;
         box-sizing: border-box;
     }
-
+    
     .resultAlert_title i {
         top: 7px;
     }
-
+    
     .resultAlert_content {
         height: calc(70vh - 30px);
         overflow-y: auto;
@@ -574,17 +579,17 @@
         padding: 5px;
         box-sizing: border-box;
     }
-
+    
     .resultAlert p {
         padding: 5px;
         margin: 0;
     }
-
+    
     strong {
         color: rgb(254, 142, 20);
     }
-
     /* MessageBox */
+    
     .message_box {
         display: none;
         align-items: center;
@@ -599,54 +604,52 @@
         overflow: hidden;
         transition: opacity .2s;
     }
-
     /* Small devices */
+    
     @media only screen and (max-width: 1000px) {
         .message_box {
             width: 90vw;
         }
-
         .UIElement,
         .show {
             width: 80vw;
         }
-
         .resultAlert,
         .resultAlert_title {
             width: 80vw;
         }
     }
-
+    
     .message_box_icon {
         font-size: 28px;
         width: 28px;
         line-height: 0;
     }
-
+    
     .message_box_container {
         display: table-cell;
         padding: 0 8px;
     }
-
+    
     .message_box_title {
         font-weight: 700;
         font-size: 14px;
         line-height: 18px;
     }
-
+    
     .message_box_content {
         font-size: 13px;
         margin: 5px 0 0;
         line-height: 20px;
     }
-
+    
     .api_highlight {
         font-weight: 700;
         background-color: #ddd;
         border-radius: 4px;
         padding: 2px;
     }
-
+    
     .message_box_closebtn {
         position: absolute;
         top: 12px;
