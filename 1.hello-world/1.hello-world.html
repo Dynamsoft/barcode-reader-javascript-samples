@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    Loading...
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README 
@@ -28,9 +29,9 @@
         window.onload = async function() {
             try {
                 const scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
-                /* 
-                 * onFrameRead is triggered after the library finishes reading a frame.
-                 * There can be multiple barcodes on one frame.
+                /** 
+                 * onFrameRead is triggered after the library finishes reading a frame image.
+                 * There can be multiple barcodes on one image.
                  */
                 scanner.onFrameRead = results => {
                     console.log("Barcodes on one frame:");
@@ -38,7 +39,7 @@
                         console.log(result.barcodeFormatString + ": " + result.barcodeText);
                     }
                 };
-                /*
+                /**
                  * onUniqueRead is triggered only when a 'new' barcode is found.
                  * The amount of time that the library 'remembers' a barcode is defined by 
                  * "duplicateForgetTime" in "ScanSettings". By default it is set to 3000 ms.
@@ -47,6 +48,10 @@
                     alert(txt);
                     console.log("Unique Code Found: ", result);
                 }
+                /**
+                 * show() opens the camera and shows the video stream on the page. 
+                 * After that, the library starts to scan the frame images continuously.
+                 */
                 await scanner.show();
             } catch (ex) {
                 throw ex;
