@@ -4,8 +4,7 @@ import { BarcodeReader } from "dynamsoft-javascript-barcode";
  * To use the library, you need to first specify a license key using the API "license" as shown below.
  */
 
-BarcodeReader.organizationID = "200000";
-BarcodeReader.handshakeCode = "200000-dbr_js_samples";
+BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
         
 /** 
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
