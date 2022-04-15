@@ -12,17 +12,22 @@
 <body>
     <div style="width:80vw;margin:0 auto;">
         <h1 style="font-size: 1.5em;">Read Barcode from Images</h1>
-        <input id="ipt-file" type="file" accept="image/png,image/jpeg,image/bmp,image/gif">
+        <input id="ipt-file" type="file" accept="image/png,image/jpeg,image/bmp,image/gif" disabled="disabled">
         <input id="ipt-readonly-last-result" title="Double click to clear!" readonly placeholder="The Last Read Barcode" style="width:80vw;margin-top:20px;">
-        <p id='p-loading' style='font-size:1.5em'>Loading Library...</p>
+        <p id='p-loading' style='font-size:1.5em'>Loading...</p>
         <p id='p-reading' style='font-size:1.5em;display:none;'>Reading Barcodes...</p>
         <div id="div-cvs-container" style="width:80vw;height:40vh;margin-top:20px;display:flex;justify-content:center;"></div>
         <p>All Results:</p>
         <div id="div-results" style="width:80vw;height:15vh;padding:16px;overflow-y:auto;border: 1px dashed grey;"></div>
     </div>
     <style>
-        .sp-resultText { color: #cE5E04 }
-        #div-cvs-container canvas { border: solid 1px gray; }
+        .sp-resultText {
+            color: #cE5E04
+        }
+        
+        #div-cvs-container canvas {
+            border: solid 1px gray;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js"></script>
     <script>
@@ -30,8 +35,7 @@
          * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
 
-        Dynamsoft.DBR.BarcodeReader.organizationID = "200000";
-        Dynamsoft.DBR.BarcodeReader.handshakeCode = "200000-dbr_js_samples";
+        Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
 
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
@@ -44,15 +48,17 @@
         (async() => {
             try {
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
-                document.getElementById('p-loading').style.display = 'none';
+                document.getElementById('p-loading').innerText = "Library loaded and ready!"
+                document.getElementById('ipt-file').disabled = false;
+                setTimeout(function() {
+                    document.getElementById('p-loading').style.display = 'none';
+                }, 1000);
             } catch (ex) {
-                alert(ex.message);
+                document.getElementById('p-loading').innerText = ex;
+                document.getElementById('ipt-file').disabled = true;
                 throw ex;
             }
         })();
-
-
-
 
         // html elements
         const iptFile = document.getElementById('ipt-file');
@@ -60,7 +66,6 @@
         const pReading = document.getElementById('p-reading');
         const divResults = document.getElementById('div-results');
         const divCvsContainer = document.getElementById('div-cvs-container');
-
 
         // reader for decoding pictures
         let pReader = null;
@@ -75,7 +80,7 @@
                 // show image
                 divCvsContainer.innerHTML = '';
                 divCvsContainer.appendChild(reader.getOriginalImageInACanvas());
-                
+
                 // show results
                 divResults.appendChild(createEl('h3', file.name + ": "));
                 if (0 === results.length) {
@@ -95,7 +100,6 @@
                 divResults.appendChild(document.createElement('hr'));
                 divResults.scrollTop = divResults.scrollHeight;
             } catch (ex) {
-                alert(ex.message);
                 throw ex;
             } finally {
                 pReading.style.display = 'none';
@@ -110,7 +114,7 @@
         function createEl(type, txt, className) {
             const el = document.createElement(type);
             el.textContent = txt;
-            if (className){
+            if (className) {
                 el.className = className;
             }
             return el;

@@ -15,9 +15,8 @@ window.onload = async function () {
          * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
 
-        Dynamsoft.DBR.BarcodeReader.organizationID = "200000";
-        Dynamsoft.DBR.BarcodeReader.handshakeCode = "200000-dbr_js_samples";
-        
+        Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
+
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
@@ -26,7 +25,8 @@ window.onload = async function () {
          */
 
         loadingText.hidden = false;
-        let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+        pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance();
+        let scanner = await pScanner;
         initialSettings = await scanner.getRuntimeSettings();
         await scanner.setUIElement(document.getElementById('div-ui-container'));
         startReading();
@@ -53,12 +53,12 @@ window.onload = async function () {
 
     /* The following defines an ontouchstart event for all the tooltip elements. This trigger is being added to take into account that there is no 'hover' event when using a mobile browser. Therefore, this event will be added so that the tooltip appears whenever it is tapped on a mobile browser */
     const tooltips = document.getElementsByClassName("tooltip");
-    for (let i = 0; i < tooltips.length; i++) {
-        tooltips[i].addEventListener('click', function () {
-            var _tip = this;
-            _tip.setAttribute('data-balloon-visible', '');
+    for (let _tip of tooltips) {
+        _tip.addEventListener('click', function () {
+            var _this = this;
+            _this.setAttribute('data-balloon-visible', '');
             setTimeout(function () {
-                _tip.removeAttribute('data-balloon-visible');
+                _this.removeAttribute('data-balloon-visible');
             }, 3000);
         })
     }

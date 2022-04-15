@@ -10,17 +10,16 @@
 </head>
 
 <body>
-    <h1 style="font-size: 1.5em;">Read Barcodes from a Camera</h1>
-    <button id="btn-show-scanner">Show Barcode Scanner</button>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js"></script>
-    <script>
+    <h1 style="font-size: 1.5em;">Hello World for ES6</h1>
+    Loading...
+    <script type="module">
+        import { BarcodeReader, BarcodeScanner } from 'https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.mjs';
         /** LICENSE ALERT - README 
          * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
 
-        Dynamsoft.DBR.BarcodeReader.organizationID = "200000";
-        Dynamsoft.DBR.BarcodeReader.handshakeCode = "200000-dbr_js_samples";
-
+        BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
+        
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
@@ -28,26 +27,28 @@
          * LICENSE ALERT - THE END 
          */
 
+        BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/";
+
         let pScanner = null;
-        document.getElementById('btn-show-scanner').onclick = async function() {
+        window.onload = async () => {
             try {
-                const scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+                const scanner = await (pScanner = pScanner || BarcodeScanner.createInstance());
                 /* 
                  * onFrameRead is triggered after the library finishes reading a frame.
-                 * There can be multiple barcodes on one frame.
+                 * There can be one or multiple barcodes on each frame.
                  */
-                scanner.onFrameRead = results => {
+                 scanner.onFrameRead = results => {
                     console.log("Barcodes on one frame:");
                     for (let result of results) {
                         console.log(result.barcodeFormatString + ": " + result.barcodeText);
                     }
                 };
                 /*
-                 * onUniqueRead is triggered only when a 'new' barcode is found.
+                 * onUnduplicatdRead is triggered only when a 'new' barcode is found.
                  * The amount of time that the library 'remembers' a barcode is defined by 
                  * "duplicateForgetTime" in "ScanSettings". By default it is set to 3000 ms.
                  */
-                scanner.onUniqueRead = (txt, result) => {
+                 scanner.onUniqueRead = (txt, result) => {
                     alert(txt);
                     console.log("Unique Code Found: ", result);
                 }

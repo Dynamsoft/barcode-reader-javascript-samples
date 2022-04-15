@@ -10,7 +10,7 @@
 
 <body>
     <h1 style="font-size: 1.5em;">Hello World for RequireJS</h1>
-    <button id="readBarcode">show scanner</button>
+    Loading...
     <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.js"></script>
     <script>
         requirejs(['https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js'], function({
@@ -21,8 +21,7 @@
              * To use the library, you need to first specify a license key using the API "license" as shown below.
              */
 
-            BarcodeReader.organizationID = "200000";
-            BarcodeReader.handshakeCode = "200000-dbr_js_samples";
+            BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
             
             /** 
              * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
@@ -33,7 +32,7 @@
 
             BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/";
             let pScanner = null;
-            document.getElementById('readBarcode').onclick = async function() {
+            window.onload = async function() {
                 try {
                     const scanner = await (pScanner = pScanner || BarcodeScanner.createInstance());
                     scanner.onFrameRead = results => {
