@@ -6,7 +6,7 @@ This repository contains multiple samples that demonstrates how to use the [Dyna
 
 Get the basic features of the library working with plain/native JavaScript or within a framework like [Angular](https://angular.io/), [React](https://reactjs.org/) or [Vue](https://vuejs.org/), etc.
 
-* **Simplest Implementation**: Minimum necessary JavaScript code to get the BarcodeScanner (video) up and running.
+* **Hello World**: Minimum necessary JavaScript code to get the BarcodeScanner (video) up and running.
 * **Read an Existing Image**: Decode barcodes using images that are stored locally, whether on mobile or desktop.
 * **Hello World in Angular**: Decode video stream in an Angular Application from a USB-connected or built-in camera (mobile or desktop).
 * **Hello World in React**: Decode video stream in a React Application from a USB-connected or built-in camera (mobile or desktop).
@@ -22,9 +22,9 @@ Get the basic features of the library working with plain/native JavaScript or wi
 ## Customize Camera UI
 
 * **Use the Default Camera UI**: Show the default camera UI to decode video stream from a USB-connected or built-in camera (mobile or desktop).
-* **Hide Built-in Controllers**: Hide built-in UI elements (camera selection, resolution selection, etc.) and show only the video stream.
-* **Use External Controllers**: Use custom controllers to manipulate the Camera UI.
-* **Enlarge the Video Stream**: Enlarge the video stream temporarily to read a barcode.
+* **Hide Display Controls**: Hide built-in UI elements (camera selection, resolution selection, etc.) and show only the video stream.
+* **Set up External Controls**: Use custom controllers to manipulate the Camera UI.
+* **Changing Size of Video Viewer**: Enlarge the video stream temporarily to read a barcode.
 * **Customize the Camera UI**: Show the custom camera UI to decode video stream from a USB-connected or built-in camera (mobile or desktop).
 
 ## Parameter Settings
@@ -48,4 +48,6 @@ Use cases of the library.
 
 * **Debug**: Collect the actual image frames for debugging purposes.
 
-If you have any questions with these samples, feel free to submit an issue or [contact us](https://www.dynamsoft.com/company/contact/).
+## Support
+
+If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/overview/) via the "Let's Chat" button.

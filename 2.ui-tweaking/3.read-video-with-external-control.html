@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <h1>Customized UI</h1>
+    <h1 style="font-size: 1.5em;">Customized UI</h1>
     <button id="btn-show-scanner">Start Barcode Scanner</button>
     <button id="btn-hide-scanner" hidden>Hide Barcode Scanner</button>
     <div class="selector_container">
@@ -59,6 +59,7 @@
         </label> Toggle Sound
     </div>
     <div id="UIElement" class="UIElement">
+        <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
         <div id="div-ui-container" class="div-ui-container">
             <div class="dce-video-container"></div>
             <div class="dce-scanarea">
@@ -66,6 +67,7 @@
             </div>
         </div>
     </div>
+    <input type="text" id="result" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README 
@@ -73,7 +75,7 @@
          */
 
         Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
-        
+
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
@@ -88,8 +90,15 @@
         let animateTimer = null;
         // scanner for decoding video
         let pScanner = null;
-        let scanRegions = [[5, 5, 95, 95], [25, 25, 75, 75], [10, 33, 90, 66], [33, 10, 66, 90], [0, 0, 100, 100]], regionIndex = 0;
-        (async () => {
+        let scanRegions = [
+                [5, 5, 95, 95],
+                [25, 25, 75, 75],
+                [10, 33, 90, 66],
+                [33, 10, 66, 90],
+                [0, 0, 100, 100]
+            ],
+            regionIndex = 0;
+        (async() => {
             //Load the library on page load to speed things up.
             try {
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
@@ -98,15 +107,23 @@
                 throw ex;
             }
         })();
-        // add the corresponding event to the controllers
-        document.getElementById('btn-show-scanner').addEventListener('click', async () => {
+        // add the corresponding event to the controls
+        document.getElementById('btn-show-scanner').addEventListener('click', async() => {
             toggleBtnView(false);
             // decode video from camera
             try {
+                document.getElementById('lib-load').hidden = false;
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 await scanner.setUIElement(document.getElementById('div-ui-container'));
-                scanner.onUniqueRead = (txt, result) => { alert(txt); };
+                scanner.onUniqueRead = (txt, result) => {
+                    document.getElementById('result').value = result.barcodeFormatString + ": " + txt;
+                    document.getElementById('result').focus();
+                    setTimeout(() => {
+                        document.getElementById('result').blur();
+                    }, 2000);
+                };
                 await scanner.show();
+                document.getElementById('lib-load').hidden = true;
                 updateOptions();
                 updateCurrentResolution();
             } catch (ex) {
@@ -114,12 +131,12 @@
                 throw ex;
             }
         });
-        document.getElementById('btn-hide-scanner').addEventListener('click', async () => {
+        document.getElementById('btn-hide-scanner').addEventListener('click', async() => {
             toggleBtnView(true);
             let scanner = await pScanner;
             scanner && scanner.hide();
         });
-        document.getElementById('toggleSound').addEventListener("click", async () => {
+        document.getElementById('toggleSound').addEventListener("click", async() => {
             if (pScanner) {
                 (await pScanner).bPlaySoundOnSuccessfulRead = this.checked;
             }
@@ -128,7 +145,7 @@
             let checked = document.getElementById("toggleScanLight").checked;
             setScanLightView(checked);
         });
-        document.getElementById('toggleScanRect').addEventListener("click", async () => {
+        document.getElementById('toggleScanRect').addEventListener("click", async() => {
             if (pScanner) {
                 let scanner = await pScanner;
                 let region = scanRegions[regionIndex];
@@ -147,11 +164,12 @@
         });
         document.getElementById("cam_selector_switch").addEventListener("click", toggleCamView);
         document.getElementById("res_selector_switch").addEventListener("click", toggleResView);
-        
+
         function toggleBtnView(boolean) {
             document.getElementById('btn-hide-scanner').hidden = boolean;
             document.getElementById('btn-show-scanner').hidden = !boolean;
         }
+
         function setScanLightView(boolean) {
             document.querySelector('.dce-scanlight').hidden = !boolean;
         }
@@ -165,14 +183,14 @@
             if (hidden !== -1) {
                 camOptions.classList.replace("unshow", "show");
                 document.addEventListener("click", clickToHidden);
-            }
-            else {
+            } else {
                 // remove styles such as shadows after the transition ends
                 animateTimer = setTimeout(() => {
                     camOptions.classList.replace("show", "unshow");
                 }, 200);
             }
         }
+
         function toggleResView(e) {
             clearTimeout(animateTimer);
             resOptions.classList.toggle("noheight");
@@ -181,8 +199,7 @@
             if (hidden !== -1) {
                 resOptions.classList.replace("unshow", "show");
                 document.addEventListener("click", clickToHidden);
-            }
-            else {
+            } else {
                 animateTimer = setTimeout(() => {
                     resOptions.classList.replace("show", "unshow");
                 }, 200);
@@ -206,6 +223,7 @@
                     }
                     updateOptions();
                     updateCurrentResolution();
+                    return;
                 }
             });
         }
@@ -225,6 +243,7 @@
         async function updateOptions() {
             let scanner = await pScanner;
             const cameras = await scanner.getAllCameras();
+            const currentCamera = await scanner.getCurrentCamera();
             document.getElementById("ul_options_camera").innerHTML = "";
             cameras.forEach(camera => {
                 let li = document.createElement("li");
@@ -234,15 +253,13 @@
                 li.appendChild(span);
                 document.getElementById("ul_options_camera").appendChild(li);
             });
-            const currentCamera = await scanner.getCurrentCamera();
-            let camOption = document.querySelectorAll("#ul_options_camera span");
+            const camOption = document.querySelectorAll("#ul_options_camera span");
             camOption.forEach(sapn => {
                 sapn.addEventListener("click", camOptionSelected);
                 if (!currentCamera || sapn.id === currentCamera.deviceId) {
                     document.getElementById("selector_input_camera").value = sapn.innerText;
                     sapn.classList.add("selected");
-                }
-                else {
+                } else {
                     sapn.classList.remove("selected");
                 }
             })
@@ -262,18 +279,19 @@
             const checked = document.getElementById("toggleScanLight").checked;
             setScanLightView(checked);
         }
+
         function clickToHidden(e) {
             const camViewable = camOptions.classList.value.search("unshow");
             const resViewable = resOptions.classList.value.search("unshow");
             if (camViewable === -1 && e.target.id !== "selector_input_camera" && e.target.id !== "arrow_camera" && e.target.parentNode.id !== "arrow_camera") {
                 toggleCamView();
             }
-            if (resViewable ===-1 && e.target.id !== "selector_input_resolution" && e.target.id !== "arrow_resolution" && e.target.parentNode.id !== "arrow_resolution") {
+            if (resViewable === -1 && e.target.id !== "selector_input_resolution" && e.target.id !== "arrow_resolution" && e.target.parentNode.id !== "arrow_resolution") {
                 toggleResView();
             }
             if (camViewable !== -1 && resViewable !== -1) {
                 // trigger only once
-                document.removeEventListener("click", arguments.callee)
+                document.removeEventListener("click", arguments.callee);
             }
         }
     </script>
@@ -283,7 +301,7 @@
         margin: 0;
         padding: 0;
     }
-
+    
     body {
         display: flex;
         flex-direction: column;
@@ -294,34 +312,34 @@
         height: 90vh;
         color: #455A64;
     }
-
+    
     h1 {
         font-size: 1.5em;
     }
-
+    
     button {
-        font-size: 0.8rem;
+        font-size: 1.1rem;
         margin: 2vh;
     }
-
+    
     .selector_container {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
     }
-
+    
     .selector {
         margin: 10px;
     }
-
     /* Small devices */
+    
     @media only screen and (max-width: 545px) {
         .selector_container {
             flex-direction: column;
         }
     }
-
+    
     .selector_switch {
         position: relative;
         width: 250px;
@@ -332,11 +350,11 @@
         cursor: pointer;
         transition: all 200ms;
     }
-
+    
     .selector_switch:hover {
         border: 1px solid #b4b4b4;
     }
-
+    
     .selector_input {
         position: absolute;
         left: 0;
@@ -351,22 +369,22 @@
         border-radius: 5px;
         color: #606266;
     }
-
+    
     .selector_switch svg {
         height: 30px;
         position: absolute;
         right: 5px;
     }
-
+    
     .arrow {
         transform: rotate(0deg);
         transition: all 200ms;
     }
-
+    
     .trans {
         transform: rotate(-180deg);
     }
-
+    
     .options {
         position: absolute;
         width: 250px;
@@ -379,28 +397,28 @@
         z-index: 2000;
         background-color: #fff;
     }
-
+    
     .show {
         border: 1px solid #e4e7ed;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
         max-height: 200px;
     }
-
+    
     .unshow {
         border: none;
         box-shadow: none;
     }
-
+    
     .noheight {
         max-height: 0;
     }
-
+    
     ul {
         list-style: none;
         margin: 5px auto;
         padding: 0;
     }
-
+    
     ul li {
         height: 30px;
         line-height: 30px;
@@ -410,16 +428,16 @@
         font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
         font-size: 14px;
     }
-
+    
     ul li:hover {
         background-color: #f5f7fa;
     }
-
+    
     .selected {
         color: #fe8e14;
         font-weight: bold;
     }
-
+    
     ul li span {
         display: inline-block;
         width: 100%;
@@ -427,9 +445,8 @@
         padding: 0 20px;
         height: 30px;
     }
-
     /* The switch - the box around the slider */
-
+    
     .switch {
         position: relative;
         display: inline-block;
@@ -437,17 +454,15 @@
         height: 17px;
         margin: 10px;
     }
-
     /* Hide default HTML checkbox */
-
+    
     .switch input {
         opacity: 0;
         width: 0;
         height: 0;
     }
-
     /* The slider */
-
+    
     .slider {
         position: absolute;
         cursor: pointer;
@@ -459,7 +474,7 @@
         -webkit-transition: .4s;
         transition: .4s;
     }
-
+    
     .slider:before {
         position: absolute;
         content: "";
@@ -471,31 +486,30 @@
         -webkit-transition: .4s;
         transition: .4s;
     }
-
+    
     input:checked+.slider {
         background-color: #fe8e14;
     }
-
+    
     input:focus+.slider {
         box-shadow: 0 0 1px #fe8e14;
     }
-
+    
     input:checked+.slider:before {
         -webkit-transform: translateX(13px);
         -ms-transform: translateX(13px);
         transform: translateX(13px);
     }
-
     /* Rounded sliders */
-
+    
     .slider.round {
         border-radius: 17px;
     }
-
+    
     .slider.round:before {
         border-radius: 50%;
     }
-
+    
     .UIElement {
         margin: 2vmin auto;
         text-align: center;
@@ -504,7 +518,7 @@
         height: 40vh;
         max-width: 600px;
     }
-
+    
     .div-ui-container {
         width: 100%;
         height: 100%;
@@ -512,7 +526,7 @@
         min-height: 100px;
         position: relative;
     }
-
+    
     .dce-video-container,
     .dce-scanarea {
         width: 100%;
@@ -521,7 +535,7 @@
         left: 0;
         top: 0;
     }
-
+    
     .dce-scanlight {
         width: 100%;
         height: 3%;
@@ -531,6 +545,49 @@
         box-shadow: 0px 0px 2vw 1px #00e5ff;
         background: #fff;
         user-select: none;
+    }
+    span {
+        font-size: 0.8rem;
+    }
+    
+    .latest-result {
+        display: block;
+        margin: 0;
+        padding: 0.4rem 0.8rem;
+        color: inherit;
+        min-width: 40vw;
+        width: auto;
+        border: none;
+        font-size: 1rem;
+        border-radius: 0.2rem;
+        text-align: center;
+    }
+    
+    .latest-result::placeholder {
+        color: #B0BEC5;
+    }
+    
+    .latest-result:focus {
+        outline: none;
+        box-shadow: 0.1rem 0.4rem 0.8rem #fe8e14;
+    }
+    
+    #results {
+        border: 1px dashed grey;
+        overflow: auto;
+        width: 80vw;
+        padding: 2vmin;
+        margin-bottom: 3vh;
+        height: 15vh;
+    }
+    
+    .resultText {
+        color: #cE5E04
+    }
+    
+    .bigger {
+        font-size: large;
+        margin-bottom: 2%;
     }
 </style>
 
