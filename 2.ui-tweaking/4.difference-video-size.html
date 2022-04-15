@@ -61,14 +61,18 @@
         backToNormal.addEventListener('click', () => {
             exitFullPage();
         });
-        fitPage.addEventListener('click', () => {
+        fitPage.addEventListener('click', async () => {
+            fitPage.hidden = true;
             UIElement.classList.add("fullscreen");
+            await updateDisplayArea();
             backToNormal.hidden = false;
         });
 
-        function exitFullPage() {
-            UIElement.classList.remove("fullscreen");
+        async function exitFullPage() {
             backToNormal.hidden = true;
+            UIElement.classList.remove("fullscreen");
+            await updateDisplayArea();
+            fitPage.hidden = false;
         }
         // decode video from camera
         async function showScanner() {
@@ -77,7 +81,8 @@
                 await scanner.setUIElement(document.getElementById('div-ui-container'));
                 scanner.onUniqueRead = (txt, result) => {
                     document.getElementById('result').value = result.barcodeFormatString + ": " + txt;
-                    exitFullPage();
+                    if(fitPage.hidden)
+                        exitFullPage();
                     document.getElementById('result').focus();
                     setTimeout(() => {
                         document.getElementById('result').blur();
@@ -91,6 +96,12 @@
                 alert(ex.message);
                 throw ex;
             }
+        }
+        async function updateDisplayArea() {
+            let scanner = await pScanner;
+            // trigger the resize event to adjust the positioning of the code area
+            const resizeEvent = new Event('resize');
+            window.dispatchEvent(resizeEvent);
         }
     </script>
 </body>
