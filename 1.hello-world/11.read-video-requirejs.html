@@ -10,7 +10,7 @@
 
 <body>
     <h1 style="font-size: 1.5em;">Hello World for RequireJS</h1>
-    <button id="readBarcode">show scanner</button>
+    Loading...
     <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.js"></script>
     <script>
         requirejs(['https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js'], function({
@@ -32,7 +32,7 @@
 
             BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/";
             let pScanner = null;
-            document.getElementById('readBarcode').onclick = async function() {
+            window.onload = async function() {
                 try {
                     const scanner = await (pScanner = pScanner || BarcodeScanner.createInstance());
                     scanner.onFrameRead = results => {
