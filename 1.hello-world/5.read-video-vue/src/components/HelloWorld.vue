@@ -109,7 +109,7 @@ span {
 
 .latest-result:focus {
   outline: none;
-  box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
+  box-shadow: 0.1rem 0.4rem 0.8rem #fe8e14;
 }
 
 #results {

@@ -86,7 +86,6 @@
                 });
             //Load the library on page load to speed things up.
             try {
-                //Dynamsoft.DBR.BarcodeReader._bUseFullFeature = true;
                 await Dynamsoft.DBR.BarcodeScanner.loadWasm();
             } catch (ex) {
                 alert(ex.message);
@@ -140,7 +139,7 @@
         padding: 0.4rem 0.8rem;
         color: inherit;
         width: 85%;
-        border: 1px solid #5e35b1;
+        border: 1px solid #fe8e14;
         font-size: 1.5rem;
         border-radius: 0.2rem;
         text-align: center;
@@ -152,7 +151,7 @@
     
     .latest-result:focus {
         outline: none;
-        box-shadow: 0.1rem 0.4rem 0.8rem #5e35b1;
+        box-shadow: 0.1rem 0.4rem 0.8rem #fe8e14;
     }
 </style>
 

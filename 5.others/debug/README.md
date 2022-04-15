@@ -2,11 +2,11 @@
 
 It's a sample aim to:
 
-1. Print verbose logs to better assist in problem solving. 
-2. Check whether your device and browser are compatible with the camera, and to what extent. 
-3. Collect the video frames for analysis. 
+1. Print verbose logs to better assist in problem solving.
+2. Check whether your device and browser are compatible with the camera, and to what extent.
+3. Collect the video frames for analysis.
 
-*Quick Debug*: https://dynamsoft.github.io/barcode-reader-javascript-samples/5.others/debug/public/index.html
+*Quick Debug*: [https://dynamsoft.github.io/barcode-reader-javascript-samples/5.others/debug/public/index.html](https://dynamsoft.github.io/barcode-reader-javascript-samples/5.others/debug/public/index.html)
 
 ## Collect the video frames for analysis
 
@@ -34,7 +34,7 @@ Note that we have enabled SSL on this server at the port 4443.
 
 ### Use the sample page
 
-Once the server is up and running, open the page on the device that will do the barcode reading. The URL for the sample is "https://{your-local-ip}:4443/". For example, suppose your ip is 192.168.1.1, the site can be visited at https://192.168.1.1:4443/.
+Once the server is up and running, open the page on the device that will do the barcode reading. The URL for the sample is "https://{your-local-ip}:4443/". For example, suppose your ip is 192.168.1.1, the site can be visited at [https://192.168.1.1:4443/](https://192.168.1.1:4443/).
 
 > Note that the device should be in the same WiFi network as the server machine.
 
