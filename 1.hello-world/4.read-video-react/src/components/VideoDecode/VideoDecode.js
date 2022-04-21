@@ -22,7 +22,7 @@ class VideoDecode extends React.Component {
             }
             await scanner.open();
         } catch (ex) {
-            console.error(ex);
+            alert(ex);
         }
     }
     async componentWillUnmount() {
