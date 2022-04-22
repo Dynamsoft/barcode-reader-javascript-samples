@@ -138,7 +138,10 @@
         });
         document.getElementById('toggleSound').addEventListener("click", async() => {
             if (pScanner) {
-                (await pScanner).bPlaySoundOnSuccessfulRead = this.checked;
+                let scanner = await pScanner;
+                let scanSettings = await scanner.getScanSettings();
+                scanSettings.whenToPlaySoundforSuccessfulRead = this.checked ? "frame" : "never";
+                await scanner.updateScanSettings(scanSettings);
             }
         });
         document.getElementById('toggleScanLight').addEventListener("click", () => {
