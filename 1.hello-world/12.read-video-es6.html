@@ -30,7 +30,7 @@
         BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.1/dist/";
 
         let pScanner = null;
-        window.onload = async () => {
+        (async () => {
             try {
                 const scanner = await (pScanner = pScanner || BarcodeScanner.createInstance());
                 /* 
@@ -57,7 +57,7 @@
                 alert(ex.message);
                 throw ex;
             }
-        };
+        })();
     </script>
 </body>
 
