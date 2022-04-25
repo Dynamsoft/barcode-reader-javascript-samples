@@ -22,7 +22,7 @@ export class VideoDecodeComponent implements OnInit {
       };
       await scanner.open();
     } catch (ex) {
-      console.error(ex);
+      alert(ex);
     }
   }
   async ngOnDestroy() {

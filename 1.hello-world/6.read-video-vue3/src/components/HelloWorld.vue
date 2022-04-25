@@ -29,7 +29,7 @@ export default {
         //Load the library on page load to speed things up.
         await BarcodeScanner.loadWasm();
       } catch (ex) {
-        console.error(ex);
+        alert(ex);
       }
     });
     const showScanner = () => {
