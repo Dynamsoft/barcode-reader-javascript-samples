@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      text-align: center;
+    }
+    .logo {
+      margin-top: 80px;
+      margin-bottom: 20px;
+    }
+    .not-found {
+      margin-top: 65px;
+    }
+    .show-xs {
+      font-family: 'OpenSans-Light';
+      margin-top: 80px;
+    }
+    .countdown-area {
+      margin-top: 30px;
+    }
+    .countdown-area .countdown {
+      color: rgb(254,142,20);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo"><img src="./dynamsoft-192x192.png" alt="logo"></div>
+  <h3>Barcode Reader Samples</h3>
+  <img class="not-found" src="./404.png" alt="404">
+  <h1 class="show-xs">Oops! That page can't be found.</h1>
+  <div class="countdown-area">
+    <span class="countdown-text">Redirecting to the sample home page</span>
+    <span class="countdown">5S</span>
+  </div>
+  <script>
+    let count = 5;
+    let cd = document.querySelector('.countdown');
+    function countdown() {
+      cd.innerText = count + 'S';
+      if(count === 0) {
+        location.href = 'https://demo.dynamsoft.com/samples/dbr/js/';
+      } else if(count > 0) {
+        count--;
+        setTimeout(countdown, 1000);
+      }
+    }
+    countdown()
+  </script>
+</body>
+</html>
