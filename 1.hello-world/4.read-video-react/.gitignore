@@ -9,8 +9,8 @@
 # testing
 /coverage
 
-# production(keep for demoing purpose)
-# /build 
+# production
+# /build (keep for demoing purpose)
 
 # misc
 .DS_Store
