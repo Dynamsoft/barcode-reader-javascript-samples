@@ -18,7 +18,7 @@ class HelloWorld extends React.Component {
         try {
             await BarcodeReader.loadWasm();
         } catch (ex) {
-            alert(ex.message);
+            alert(ex);
             throw ex;
         }
     }

@@ -12,9 +12,10 @@
 <body>
     <h1 style="font-size: 1.5em;">Hello World for Electron</h1>
     <button id='readBarcode'>Read Barcode via Camera</button>
-    <div class="container">
+    <div id="UIElement">
         <div id="barcodeScannerUI"></div>
     </div>
+    <input id="resultText" type="text" readonly="true">
     <script src="./node_modules/dynamsoft-javascript-barcode/dist/dbr.js"></script>
     <script src="action.js"></script>
 </body>
