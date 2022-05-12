@@ -187,6 +187,7 @@
                 resultShowNode.appendChild(createNode("span", "------------------------------"));
                 resultShowNode.appendChild(createNode("br"));
             }
+            document.getElementById('resultAlert_content').innerHTML = "";
             document.getElementById('resultAlert_content').appendChild(resultShowNode);
             document.getElementById('resultAlert').hidden = false;
             document.addEventListener("mousedown", clickToHide);
