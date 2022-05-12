@@ -41,7 +41,7 @@
          * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
 
-       Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLWRicl9qc19zYW1wbGVzIiwib3JnYW5pemF0aW9uSUQiOiIyMDAwMDAifQ==';
+         Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLWRicl9qc19zYW1wbGVzIiwib3JnYW5pemF0aW9uSUQiOiIyMDAwMDAifQ==';
 
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
@@ -145,34 +145,46 @@
             }
         }
 
-        function getField(keyword, barcode_text) {
-            const k = barcode_text.search("\n" + keyword);
-            if (k == -1)
-                return false;
-            const m = barcode_text.indexOf("\n", k + 1);
-            const subtext = barcode_text.substring(k + 4, m);
-            return subtext;
-        }
-
         function createNode(type, txt) {
             let node = document.createElement(type);
             if (txt)
                 node.innerText = txt;
             return node;
         }
-        async function extractResultAlert(text) {
-            let resultShowNode = document.createElement("p");
-            for (let i = 0; i < driverLicenseFields.length; i++) {
-                const item = driverLicenseFields[i];
-                const fieldValue = getField(item.abbreviation, text);
-                if (fieldValue !== false) {
-                    resultShowNode.appendChild(createNode("span", item.description));
-                    resultShowNode.appendChild(createNode("br"));
-                    resultShowNode.appendChild(createNode("strong", fieldValue));
-                    resultShowNode.appendChild(createNode("br"));
-                    resultShowNode.appendChild(createNode("span", "------------------------------"));
-                    resultShowNode.appendChild(createNode("br"));
+
+        function getDLInfo(txt) {
+            let lines = txt.split("\n");
+            let abbrs = Object.keys(DriverLicenseFields);
+            let dlInfo = {};
+            lines.forEach((line, i) => {
+                let abbr;
+                let content;
+                if (i === 1) {
+                    abbr = "DAQ";
+                    content = line.substring(line.indexOf(abbr) + 3);
+                } else {
+                    abbr = line.substring(0, 3);
+                    content = line.substring(3).trim();
                 }
+                if (abbrs.includes(abbr)) {
+                    dlInfo[abbr] = {
+                        description: DriverLicenseFields[abbr],
+                        value: content,
+                    };
+                }
+            });
+            return dlInfo;
+        }
+        async function extractResultAlert(text) {
+            let parsedDLInfo = getDLInfo(text);
+            let resultShowNode = document.createElement("p");
+            for (let o in parsedDLInfo) {
+                resultShowNode.appendChild(createNode("span", parsedDLInfo[o].description));
+                resultShowNode.appendChild(createNode("br"));
+                resultShowNode.appendChild(createNode("strong", parsedDLInfo[o].value));
+                resultShowNode.appendChild(createNode("br"));
+                resultShowNode.appendChild(createNode("span", "------------------------------"));
+                resultShowNode.appendChild(createNode("br"));
             }
             document.getElementById('resultAlert_content').appendChild(resultShowNode);
             document.getElementById('resultAlert').hidden = false;
@@ -195,259 +207,93 @@
                 }, 3000);
             }
         }
-        const driverLicenseFields = [{
-            'abbreviation': 'DAA',
-            'description': 'Full Name'
-        }, {
-            'abbreviation': 'DAB',
-            'description': 'Last Name'
-        }, {
-            'abbreviation': 'DAC',
-            'description': 'First Name'
-        }, {
-            'abbreviation': 'DAD',
-            'description': 'Middle Name'
-        }, {
-            'abbreviation': 'DAE',
-            'description': 'Name Suffix'
-        }, {
-            'abbreviation': 'DAF',
-            'description': 'Name Prefix'
-        }, {
-            'abbreviation': 'DAG',
-            'description': 'Mailing Street Address1'
-        }, {
-            'abbreviation': 'DAH',
-            'description': 'Mailing Street Address2'
-        }, {
-            'abbreviation': 'DAI',
-            'description': 'Mailing City'
-        }, {
-            'abbreviation': 'DAJ',
-            'description': 'Mailing Jurisdiction Code'
-        }, {
-            'abbreviation': 'DAK',
-            'description': 'Mailing Postal Code'
-        }, {
-            'abbreviation': 'DAL',
-            'description': 'Residence Street Address1'
-        }, {
-            'abbreviation': 'DAM',
-            'description': 'Residence Street Address2'
-        }, {
-            'abbreviation': 'DAN',
-            'description': 'Residence City'
-        }, {
-            'abbreviation': 'DAO',
-            'description': 'Residence Jurisdiction Code'
-        }, {
-            'abbreviation': 'DAP',
-            'description': 'Residence Postal Code'
-        }, {
-            'abbreviation': 'DAQ',
-            'description': 'License or ID Number'
-        }, {
-            'abbreviation': 'DAR',
-            'description': 'License Classification Code'
-        }, {
-            'abbreviation': 'DAS',
-            'description': 'License Restriction Code'
-        }, {
-            'abbreviation': 'DAT',
-            'description': 'License Endorsements Code'
-        }, {
-            'abbreviation': 'DAU',
-            'description': 'Height in FT_IN'
-        }, {
-            'abbreviation': 'DAV',
-            'description': 'Height in CM'
-        }, {
-            'abbreviation': 'DAW',
-            'description': 'Weight in LBS'
-        }, {
-            'abbreviation': 'DAX',
-            'description': 'Weight in KG'
-        }, {
-            'abbreviation': 'DAY',
-            'description': 'Eye Color'
-        }, {
-            'abbreviation': 'DAZ',
-            'description': 'Hair Color'
-        }, {
-            'abbreviation': 'DBA',
-            'description': 'License Expiration Date'
-        }, {
-            'abbreviation': 'DBB',
-            'description': 'Date of Birth'
-        }, {
-            'abbreviation': 'DBC',
-            'description': 'Sex'
-        }, {
-            'abbreviation': 'DBD',
-            'description': 'License or ID Document Issue Date'
-        }, {
-            'abbreviation': 'DBE',
-            'description': 'Issue Timestamp'
-        }, {
-            'abbreviation': 'DBF',
-            'description': 'Number of Duplicates'
-        }, {
-            'abbreviation': 'DBG',
-            'description': 'Medical Indicator Codes'
-        }, {
-            'abbreviation': 'DBH',
-            'description': 'Organ Donor'
-        }, {
-            'abbreviation': 'DBI',
-            'description': 'Non-Resident Indicator'
-        }, {
-            'abbreviation': 'DBJ',
-            'description': 'Unique Customer Identifier'
-        }, {
-            'abbreviation': 'DBK',
-            'description': 'Social Security Number'
-        }, {
-            'abbreviation': 'DBL',
-            'description': 'Date Of Birth'
-        }, {
-            'abbreviation': 'DBM',
-            'description': 'Social Security Number'
-        }, {
-            'abbreviation': 'DBN',
-            'description': 'Full Name'
-        }, {
-            'abbreviation': 'DBO',
-            'description': 'Last Name'
-        }, {
-            'abbreviation': 'DBP',
-            'description': 'First Name'
-        }, {
-            'abbreviation': 'DBQ',
-            'description': 'Middle Name'
-        }, {
-            'abbreviation': 'DBR',
-            'description': 'Suffix'
-        }, {
-            'abbreviation': 'DBS',
-            'description': 'Prefix'
-        }, {
-            'abbreviation': 'DCA',
-            'description': 'Virginia Specific Class'
-        }, {
-            'abbreviation': 'DCB',
-            'description': 'Virginia Specific Restrictions'
-        }, {
-            'abbreviation': 'DCD',
-            'description': 'Virginia Specific Endorsements'
-        }, {
-            'abbreviation': 'DCE',
-            'description': 'Physical Description Weight Range'
-        }, {
-            'abbreviation': 'DCF',
-            'description': 'Document Discriminator'
-        }, {
-            'abbreviation': 'DCG',
-            'description': 'Country territory of issuance'
-        }, {
-            'abbreviation': 'DCH',
-            'description': 'Federal Commercial Vehicle Codes'
-        }, {
-            'abbreviation': 'DCI',
-            'description': 'Place of birth'
-        }, {
-            'abbreviation': 'DCJ',
-            'description': 'Audit information'
-        }, {
-            'abbreviation': 'DCK',
-            'description': 'Inventory Control Number'
-        }, {
-            'abbreviation': 'DCL',
-            'description': 'Race Ethnicity'
-        }, {
-            'abbreviation': 'DCM',
-            'description': 'Standard vehicle classification'
-        }, {
-            'abbreviation': 'DCN',
-            'description': 'Standard endorsement code'
-        }, {
-            'abbreviation': 'DCO',
-            'description': 'Standard restriction code'
-        }, {
-            'abbreviation': 'DCP',
-            'description': 'Jurisdiction specific vehicle classification description'
-        }, {
-            'abbreviation': 'DCQ',
-            'description': 'Jurisdiction-specific'
-        }, {
-            'abbreviation': 'DCR',
-            'description': 'Jurisdiction specific restriction code description'
-        }, {
-            'abbreviation': 'DCS',
-            'description': 'Last Name'
-        }, {
-            'abbreviation': 'DCT',
-            'description': 'First Name'
-        }, {
-            'abbreviation': 'DCU',
-            'description': 'Suffix'
-        }, {
-            'abbreviation': 'DDA',
-            'description': 'Compliance Type'
-        }, {
-            'abbreviation': 'DDB',
-            'description': 'Card Revision Date'
-        }, {
-            'abbreviation': 'DDC',
-            'description': 'HazMat Endorsement Expiry Date'
-        }, {
-            'abbreviation': 'DDD',
-            'description': 'Limited Duration Document Indicator'
-        }, {
-            'abbreviation': 'DDE',
-            'description': 'Family Name Truncation'
-        }, {
-            'abbreviation': 'DDF',
-            'description': 'First Names Truncation'
-        }, {
-            'abbreviation': 'DDG',
-            'description': 'Middle Names Truncation'
-        }, {
-            'abbreviation': 'DDH',
-            'description': 'Under 18 Until'
-        }, {
-            'abbreviation': 'DDI',
-            'description': 'Under 19 Until'
-        }, {
-            'abbreviation': 'DDJ',
-            'description': 'Under 21 Until'
-        }, {
-            'abbreviation': 'DDK',
-            'description': 'Organ Donor Indicator'
-        }, {
-            'abbreviation': 'DDL',
-            'description': 'Veteran Indicator'
-        }, {
-            'abbreviation': 'PAA',
-            'description': 'Permit Classification Code'
-        }, {
-            'abbreviation': 'PAB',
-            'description': 'Permit Expiration Date'
-        }, {
-            'abbreviation': 'PAC',
-            'description': 'Permit Identifier'
-        }, {
-            'abbreviation': 'PAD',
-            'description': 'Permit IssueDate'
-        }, {
-            'abbreviation': 'PAE',
-            'description': 'Permit Restriction Code'
-        }, {
-            'abbreviation': 'PAF',
-            'description': 'Permit Endorsement Code'
-        }, {
-            'abbreviation': 'ZVA',
-            'description': 'Court Restriction Code'
-        }];
+        const DriverLicenseFields = {
+            'DCA': 'Jurisdiction-specific vehicle class',
+            'DCB': 'Jurisdiction-specific restriction codes',
+            'DCD': 'Jurisdiction-specific endorsement codes',
+            'DBA': 'Document Expiration Date',
+            'DCS': 'Customer Last Name',
+            'DAC': 'Customer First Name',
+            'DBD': 'Document Issue Date',
+            'DBB': 'Date of Birth',
+            'DBC': 'Physical Description - Sex',
+            'DAY': 'Physical Description - Eye Color',
+            'DAU': 'Physical Description - Height',
+            'DAG': 'Address - Street 1',
+            'DAI': 'Address - City',
+            'DAJ': 'Address - Jurisdiction Code',
+            'DAK': 'Address - Postal Code',
+            'DAQ': 'Customer ID Number',
+            'DCF': 'Document Discriminator',
+            'DCG': 'Country Identification',
+            'DDE': 'Family Name Truncation',
+            'DDF': 'First Names Truncation',
+            'DDG': 'Middle Names Truncation',
+            'DAH': 'Address - Street 2',
+            'DAZ': 'Hair Color',
+            'DCI': 'Place of birth',
+            'DCJ': 'Audit information',
+            'DCK': 'Inventory Control Number',
+            'DBN': 'Alias / AKA Family Name',
+            'DBG': 'Alias / AKA Given Name',
+            'DBS': 'Alias / AKA Suffix Name',
+            'DCU': 'Name Suffix',
+            'DCE': 'Physical Description Weight Range',
+            'DCL': 'Race / Ethnicity',
+            'DCM': 'Standard vehicle classification',
+            'DCN': 'Standard endorsement code',
+            'DCO': 'Standard restriction code',
+            'DCP': 'Jurisdiction-specific vehicle classification description',
+            'DCQ': 'Jurisdiction-specific endorsement code description',
+            'DCR': 'Jurisdiction-specific restriction code description',
+            'DDA': 'Compliance Type',
+            'DDB': 'Card Revision Date',
+            'DDC': 'HazMat Endorsement Expiration Date',
+            'DDD': 'Limited Duration Document Indicator',
+            'DAW': 'Weight(pounds)',
+            'DAX': 'Weight(kilograms)',
+            'DDH': 'Under 18 Until',
+            'DDI': 'Under 19 Until',
+            'DDJ': 'Under 21 Until',
+            'DDK': 'Organ Donor Indicator',
+            'DDL': 'Veteran Indicator',
+            // old standard
+            'DAA': 'Customer Full Name',
+            'DAB': 'Customer Last Name',
+            'DAE': 'Name Suffix',
+            'DAF': 'Name Prefix',
+            'DAL': 'Residence Street Address1',
+            'DAM': 'Residence Street Address2',
+            'DAN': 'Residence City',
+            'DAO': 'Residence Jurisdiction Code',
+            'DAP': 'Residence Postal Code',
+            'DAR': 'License Classification Code',
+            'DAS': 'License Restriction Code',
+            'DAT': 'License Endorsements Code',
+            'DAV': 'Height in CM',
+            'DBE': 'Issue Timestamp',
+            'DBF': 'Number of Duplicates',
+            'DBH': 'Organ Donor',
+            'DBI': 'Non-Resident Indicator',
+            'DBJ': 'Unique Customer Identifier',
+            'DBK': 'Social Security Number',
+            'DBL': 'Date Of Birth',
+            'DBM': 'Social Security Number',
+            'DCH': 'Federal Commercial Vehicle Codes',
+            'DBO': 'Customer Last Name',
+            'DBP': 'Customer First Name',
+            'DBQ': 'Customer Middle Name(s)',
+            'DBR': 'Name Suffix',
+            'PAA': 'Permit Classification Code',
+            'PAB': 'Permit Expiration Date',
+            'PAC': 'Permit Identifier',
+            'PAD': 'Permit IssueDate',
+            'PAE': 'Permit Restriction Code',
+            'PAF': 'Permit Endorsement Code',
+            'ZVA': 'Court Restriction Code',
+            'DCT': 'Customer First Name',
+            'DAD': 'Customer Middle Name(s)'
+        };
     </script>
 </body>
 <style>
