@@ -22,7 +22,11 @@ export class VideoDecodeComponent implements OnInit {
       };
       await scanner.open();
     } catch (ex) {
-      alert(ex);
+      if (ex.message.indexOf("network connection error")) {
+        let customMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        console.log(customMsg);
+        alert(customMsg);
+      }
     }
   }
   async ngOnDestroy() {

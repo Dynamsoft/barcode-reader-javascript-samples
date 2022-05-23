@@ -56,7 +56,11 @@
             } catch (ex) {
                 document.getElementById('p-loading').innerText = ex;
                 document.getElementById('ipt-file').disabled = true;
-                alert(ex);
+                if (ex.message.indexOf("network connection error")) {
+                    let customMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                    console.log(customMsg);
+                    alert(customMsg);
+                }
                 throw ex;
             }
         })();
@@ -101,7 +105,11 @@
                 divResults.appendChild(document.createElement('hr'));
                 divResults.scrollTop = divResults.scrollHeight;
             } catch (ex) {
-                alert(ex);
+                if (ex.message.indexOf("network connection error")) {
+                    let customMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                    console.log(customMsg);
+                    alert(customMsg);
+                }
                 throw ex;
             } finally {
                 pReading.style.display = 'none';
