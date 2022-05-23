@@ -46,16 +46,20 @@
                  * "duplicateForgetTime" in "ScanSettings". By default it is set to 3000 ms.
                  */
                 scanner.onUniqueRead = (txt, result) => {
-                    alert(txt);
-                    console.log("Unique Code Found: ", result);
-                }
-                /**
-                 * show() opens the camera and shows the video stream on the page. 
-                 * After that, the library starts to scan the frame images continuously.
-                 */
+                        alert(txt);
+                        console.log("Unique Code Found: ", result);
+                    }
+                    /**
+                     * show() opens the camera and shows the video stream on the page. 
+                     * After that, the library starts to scan the frame images continuously.
+                     */
                 await scanner.show();
             } catch (ex) {
-                alert(ex);
+                if (ex.message.indexOf("network connection error")) {
+                    let customMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                    console.log(customMsg);
+                    alert(customMsg);
+                }
                 throw ex;
             }
         })();

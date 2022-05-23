@@ -1,8 +1,10 @@
 <template>
   <div class="helloWorld">
     <div class="btn-group">
-        <button :style="{marginRight: '10px', backgroundColor: bShowScanner ? 'rgb(255,174,55)' : 'white'}" @click="showScanner">Video Decode</button>
-        <button :style="{backgroundColor: bShowImgDecode ? 'rgb(255,174,55)' : 'white'}"  @click="showImgDecode">Image Decode</button>
+      <button :style="{ marginRight: '10px', backgroundColor: bShowScanner ? 'rgb(255,174,55)' : 'white' }"
+        @click="showScanner">Video Decode</button>
+      <button :style="{ backgroundColor: bShowImgDecode ? 'rgb(255,174,55)' : 'white' }" @click="showImgDecode">Image
+        Decode</button>
     </div>
     <div class="container">
       <VideoDecode v-if="bShowScanner"></VideoDecode>
@@ -33,7 +35,11 @@ export default {
       //Load the library on page load to speed things up.
       await BarcodeScanner.loadWasm();
     } catch (ex) {
-      alert(ex.message);
+      if (ex.message.indexOf("network connection error")) {
+        let customMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        console.log(customMsg);
+        alert(customMsg);
+      }
       throw ex;
     }
   },
@@ -57,9 +63,11 @@ button {
   margin-bottom: 2vh;
   border: 1px solid black;
 }
+
 .btn-group {
   text-align: center;
 }
+
 .container {
   margin: 2vmin auto;
   text-align: center;

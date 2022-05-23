@@ -2,8 +2,10 @@
   <div class="helloWorld">
     <h1>Hello World for Vue<img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h1>
     <div class="btn-group">
-        <button :style="{marginRight: '10px', backgroundColor: bShowScanner ? 'rgb(255,174,55)' : 'white'}" @click="showScanner">Video Decode</button>
-        <button :style="{backgroundColor: bShowImgDecode ? 'rgb(255,174,55)' : 'white'}"  @click="showImgDecode">Image Decode</button>
+      <button :style="{ marginRight: '10px', backgroundColor: bShowScanner ? 'rgb(255,174,55)' : 'white' }"
+        @click="showScanner">Video Decode</button>
+      <button :style="{ backgroundColor: bShowImgDecode ? 'rgb(255,174,55)' : 'white' }" @click="showImgDecode">Image
+        Decode</button>
     </div>
     <div class="container">
       <VideoDecode v-if="bShowScanner"></VideoDecode>
@@ -31,7 +33,11 @@ export default {
     try {
       await BarcodeReader.loadWasm();
     } catch (ex) {
-      alert(ex.message);
+      if (ex.message.indexOf("network connection error")) {
+        let customMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        console.log(customMsg);
+        alert(customMsg);
+      }
       throw ex;
     }
   },
@@ -61,15 +67,19 @@ ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   margin: 0 10px;
 }
+
 a {
   color: #42b983;
 }
+
 .applogo {
   height: 25px;
 }
+
 .helloWorld {
   display: flex;
   flex-direction: column;
