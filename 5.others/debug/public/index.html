@@ -11,11 +11,11 @@
 <body>
     <h1 style="font-size: 1.5em;">Read Barcodes from Camera - Debug</h1>
     <button id="btn-show-scanner">show scanner</button>
-    <br>
+    <br><br>
     <label><input type="radio" name="video-settings" checked value="default">default</label>
     <label><input type="radio" name="video-settings" value="back-camera">back camera</label>
     <label><input type="radio" name="video-settings" value="only-video">only video</label>
-    <br>
+    <br><br>
     <label><input id="cb-send-img" type="checkbox">send image to</label><input id="ipt-server-url" placeholder="server url, default ./collect">
     <br>
     <div id="div-video-container" style="width:100%;height:calc(100vh - 150px);"></div>
@@ -87,12 +87,14 @@
                 document.getElementById('div-video-container').appendChild(scanner.getUIElement());
                 await scanner.show();
             } catch (ex) {
-                if (ex.message.indexOf("network connection error")) {
-                    let customMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-                    console.log(customMsg);
-                    alert(customMsg);
+                let errMsg;
+                if (ex.message.includes("network connection error")) {
+                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                } else {
+                    errMsg = ex.message||ex;
                 }
-                throw ex;
+                console.error(errMsg);
+                alert(errMsg);
             }
         });
 
