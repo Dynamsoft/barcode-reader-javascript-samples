@@ -56,7 +56,15 @@ class HelloWorldComponent {
                 yield dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_2__["BarcodeScanner"].loadWasm();
             }
             catch (ex) {
-                alert(ex.message);
+                let errMsg;
+                if (ex.message.includes("network connection error")) {
+                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                }
+                else {
+                    errMsg = ex.message || ex;
+                }
+                console.error(errMsg);
+                alert(errMsg);
             }
         });
     }
@@ -147,8 +155,7 @@ __webpack_require__.r(__webpack_exports__);
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "license" as shown below.
  */
-dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["BarcodeReader"].organizationID = "200000";
-dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["BarcodeReader"].handshakeCode = "200000-dbr_js_samples";
+dynamsoft_javascript_barcode__WEBPACK_IMPORTED_MODULE_0__["BarcodeReader"].license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLWRicl9qc19zYW1wbGVzIiwib3JnYW5pemF0aW9uSUQiOiIyMDAwMDAifQ==';
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
  * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
@@ -260,7 +267,15 @@ class VideoDecodeComponent {
                 yield scanner.open();
             }
             catch (ex) {
-                alert(ex);
+                let errMsg;
+                if (ex.message.includes("network connection error")) {
+                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                }
+                else {
+                    errMsg = ex.message || ex;
+                }
+                console.error(errMsg);
+                alert(errMsg);
             }
         });
     }
@@ -354,7 +369,15 @@ class ImgDecodeComponent {
                 }
             }
             catch (ex) {
-                alert(ex);
+                let errMsg;
+                if (ex.message.includes("network connection error")) {
+                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                }
+                else {
+                    errMsg = ex.message || ex;
+                }
+                console.error(errMsg);
+                alert(errMsg);
             }
             e.target.value = '';
         });
