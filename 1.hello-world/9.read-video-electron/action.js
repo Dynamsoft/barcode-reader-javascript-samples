@@ -3,7 +3,7 @@
  */
 
 Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLWRicl9qc19zYW1wbGVzIiwib3JnYW5pemF0aW9uSUQiOiIyMDAwMDAifQ==';
-        
+
 /** 
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
  * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
@@ -27,7 +27,13 @@ document.getElementById('readBarcode').onclick = async () => {
         document.getElementById("barcodeScannerUI").appendChild(scanner.getUIElement());
         await scanner.show();
     } catch (ex) {
-        alert(ex.message);
-        throw ex;
+        let errMsg;
+        if (ex.message.includes("network connection error")) {
+            errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        } else {
+            errMsg = ex.message||ex;
+        }
+        console.error(errMsg);
+        alert(errMsg);
     }
 };

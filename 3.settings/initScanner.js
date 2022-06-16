@@ -31,8 +31,14 @@ window.onload = async function () {
         await scanner.setUIElement(document.getElementById('div-ui-container'));
         startReading();
     } catch (ex) {
-        alert(ex.message);
-        throw ex;
+        let errMsg;
+        if (ex.message.includes("network connection error")) {
+            errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        } else {
+            errMsg = ex.message||ex;
+        }
+        console.error(errMsg);
+        alert(errMsg);
     }
 
     // Open the settings modal menu once the settings button is clicked

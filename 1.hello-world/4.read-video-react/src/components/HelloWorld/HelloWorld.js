@@ -18,8 +18,14 @@ class HelloWorld extends React.Component {
         try {
             await BarcodeReader.loadWasm();
         } catch (ex) {
-            alert(ex);
-            throw ex;
+            let errMsg;
+            if (ex.message.includes("network connection error")) {
+                errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+            } else {
+                errMsg = ex.message||ex;
+            }
+            console.error(errMsg);
+            alert(errMsg);
         }
     }
 
@@ -36,14 +42,14 @@ class HelloWorld extends React.Component {
             bShowImgDecode: true
         });
     }
-    
+
     render() {
         return (
             <div className="helloWorld">
                 <h1>Hello World for React<img src={reactLogo} className="App-logo" alt="logo" /></h1>
                 <div className="btn-group">
-                    <button style={{marginRight: '10px', backgroundColor: this.state.bShowScanner ? 'rgb(255,174,55)' : 'white'}} onClick={this.showScanner}>Video Decode</button>
-                    <button style={{backgroundColor: this.state.bShowImgDecode ? 'rgb(255,174,55)' : 'white'}} onClick={this.showImgDecode}>Image Decode</button>
+                    <button style={{ marginRight: '10px', backgroundColor: this.state.bShowScanner ? 'rgb(255,174,55)' : 'white' }} onClick={this.showScanner}>Video Decode</button>
+                    <button style={{ backgroundColor: this.state.bShowImgDecode ? 'rgb(255,174,55)' : 'white' }} onClick={this.showImgDecode}>Image Decode</button>
                 </div>
                 <div className="container">
                     {this.state.bShowScanner ? (<VideoDecode></VideoDecode>) : ""}

@@ -103,8 +103,14 @@
             try {
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
             } catch (ex) {
-                alert(ex.message);
-                throw ex;
+                let errMsg;
+                if (ex.message.includes("network connection error")) {
+                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                } else {
+                    errMsg = ex.message||ex;
+                }
+                console.error(errMsg);
+                alert(errMsg);
             }
         })();
         // add the corresponding event to the controls
@@ -127,8 +133,14 @@
                 updateOptions();
                 updateCurrentResolution();
             } catch (ex) {
-                alert(ex.message);
-                throw ex;
+                let errMsg;
+                if (ex.message.includes("network connection error")) {
+                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                } else {
+                    errMsg = ex.message||ex;
+                }
+                console.error(errMsg);
+                alert(errMsg);
             }
         });
         document.getElementById('btn-hide-scanner').addEventListener('click', async() => {
@@ -549,6 +561,7 @@
         background: #fff;
         user-select: none;
     }
+    
     span {
         font-size: 0.8rem;
     }
