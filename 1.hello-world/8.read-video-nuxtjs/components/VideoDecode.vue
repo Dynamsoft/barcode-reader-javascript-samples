@@ -2,7 +2,7 @@
   <div v-once class="component-barcode-scanner">
     <svg class="dce-bg-loading" viewBox="0 0 1792 1792">
       <path
-        d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z"></path>
+        d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z">
       </path>
     </svg>
     <svg class="dce-bg-camera" style="display: none" viewBox="0 0 2048 1792">
@@ -85,12 +85,14 @@ export default {
       }
       await scanner.open();
     } catch (ex) {
-      if (ex.message.indexOf("network connection error")) {
-        let customMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-        console.log(customMsg);
-        alert(customMsg);
+      let errMsg;
+      if (ex.message.includes("network connection error")) {
+        errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+      } else {
+        errMsg = ex.message||ex;
       }
-      throw ex;
+      console.error(errMsg);
+      alert(errMsg);
     }
   },
   async beforeDestroy() {

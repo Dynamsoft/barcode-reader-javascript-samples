@@ -18,12 +18,14 @@ class HelloWorld extends React.Component {
         try {
             await BarcodeReader.loadWasm();
         } catch (ex) {
-            if (ex.message.indexOf("network connection error")) {
-                let customMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-                console.log(customMsg);
-                alert(customMsg);
+            let errMsg;
+            if (ex.message.includes("network connection error")) {
+                errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+            } else {
+                errMsg = ex.message||ex;
             }
-            throw ex;
+            console.error(errMsg);
+            alert(errMsg);
         }
     }
 
