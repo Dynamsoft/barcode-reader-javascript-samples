@@ -31,7 +31,7 @@
          */
 
        Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLWRicl9qc19zYW1wbGVzIiwib3JnYW5pemF0aW9uSUQiOiIyMDAwMDAifQ==';
-        
+
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
@@ -81,16 +81,28 @@
                         await scanner.setUIElement(document.getElementById('UIElement'));
                         await scanner.show();
                     } catch (ex) {
-                        alert(ex.message);
-                        throw ex;
+                        let errMsg;
+                        if (ex.message.includes("network connection error")) {
+                            errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                        } else {
+                            errMsg = ex.message||ex;
+                        }
+                        console.error(errMsg);
+                        alert(errMsg);
                     }
                 });
             //Load the library on page load to speed things up.
             try {
                 await Dynamsoft.DBR.BarcodeScanner.loadWasm();
             } catch (ex) {
-                alert(ex.message);
-                throw ex;
+                let errMsg;
+                if (ex.message.includes("network connection error")) {
+                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                } else {
+                    errMsg = ex.message||ex;
+                }
+                console.error(errMsg);
+                alert(errMsg);
             }
             document.getElementById('inputs').hidden = false;
             document.getElementById('lib-load').hidden = true;
@@ -105,10 +117,10 @@
             <path
                 d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z" />
         </svg>
-	    <div class="dce-video-container" style="position:absolute;left:0;top:0;width:100%;height:100%;"></div>
+        <div class="dce-video-container" style="position:absolute;left:0;top:0;width:100%;height:100%;"></div>
         <div class="dce-scanarea" style="position:absolute;left:0;top:0;width:100%;height:100%;">
-		    <div class="dce-scanlight" style="display:none;position:absolute;width:100%;height:3%;border-radius:50%;box-shadow:0px 0px 2vw 1px #00e5ff;background:#fff;animation:3s infinite dce-scanlight;user-select:none;"></div>
-	    </div>
+            <div class="dce-scanlight" style="display:none;position:absolute;width:100%;height:3%;border-radius:50%;box-shadow:0px 0px 2vw 1px #00e5ff;background:#fff;animation:3s infinite dce-scanlight;user-select:none;"></div>
+        </div>
     </div>
 </body>
 <style>
