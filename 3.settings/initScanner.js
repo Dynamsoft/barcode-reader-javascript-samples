@@ -15,8 +15,8 @@ window.onload = async function () {
          * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
 
-       Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLWRicl9qc19zYW1wbGVzIiwib3JnYW5pemF0aW9uSUQiOiIyMDAwMDAifQ==';
- 
+        Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
+
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
