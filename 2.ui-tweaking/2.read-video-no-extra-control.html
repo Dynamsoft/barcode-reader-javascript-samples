@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta name="description" content="Read Barcodes from camera. Hide built-in controls for a simplified ui">
     <meta name="keywords" content="read barcodes from camera, simple ui">
-    <title>Dynamsoft Barcode Reader Simple Sample - Read Video - No Extra Control</title>
+    <title>Dynamsoft Barcode Reader Sample - Hide UI Controls</title>
+    <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/2.ui-tweaking/2.read-video-no-extra-control.html">
 </head>
 
 <body>
@@ -18,7 +19,7 @@
         </div>
     </div>
     <input type="text" id="result" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.2/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README 
          * To use the library, you need to first specify a license key using the API "license" as shown below.
@@ -29,7 +30,7 @@
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.0.0&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.0.2&utm_source=github#specify-the-license or contact support@dynamsoft.com.
          * LICENSE ALERT - THE END 
          */
 
@@ -44,8 +45,14 @@
                 await Dynamsoft.DBR.BarcodeScanner.loadWasm();
                 showScanner();
             } catch (ex) {
-                alert(ex.message);
-                throw ex;
+                let errMsg;
+                if (ex.message.includes("network connection error")) {
+                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                } else {
+                    errMsg = ex.message||ex;
+                }
+                console.error(errMsg);
+                alert(errMsg);
             }
         })();
 
@@ -64,8 +71,14 @@
                 await scanner.show();
                 document.getElementById('lib-load').hidden = true;
             } catch (ex) {
-                alert(ex.message);
-                throw ex;
+                let errMsg;
+                if (ex.message.includes("network connection error")) {
+                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                } else {
+                    errMsg = ex.message||ex;
+                }
+                console.error(errMsg);
+                alert(errMsg);
             }
         }
     </script>
