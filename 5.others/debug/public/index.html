@@ -11,16 +11,16 @@
 <body>
     <h1 style="font-size: 1.5em;">Read Barcodes from Camera - Debug</h1>
     <button id="btn-show-scanner">show scanner</button>
-    <br>
+    <br><br>
     <label><input type="radio" name="video-settings" checked value="default">default</label>
     <label><input type="radio" name="video-settings" value="back-camera">back camera</label>
     <label><input type="radio" name="video-settings" value="only-video">only video</label>
-    <br>
+    <br><br>
     <label><input id="cb-send-img" type="checkbox">send image to</label><input id="ipt-server-url" placeholder="server url, default ./collect">
     <br>
     <div id="div-video-container" style="width:100%;height:calc(100vh - 150px);"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/2.4.1/eruda.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.0/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.2/dist/dbr.js"></script>
     <script>
         eruda.init();
         Dynamsoft.DBR.BarcodeReader._onLog = console.log;
@@ -29,11 +29,11 @@
          */
 
         Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
-        
+
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.0.0&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.0.2&utm_source=github#specify-the-license or contact support@dynamsoft.com.
          * LICENSE ALERT - THE END 
          */
 
@@ -87,8 +87,14 @@
                 document.getElementById('div-video-container').appendChild(scanner.getUIElement());
                 await scanner.show();
             } catch (ex) {
-                alert(ex.message);
-                throw ex;
+                let errMsg;
+                if (ex.message.includes("network connection error")) {
+                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+                } else {
+                    errMsg = ex.message||ex;
+                }
+                console.error(errMsg);
+                alert(errMsg);
             }
         });
 
