@@ -16,8 +16,6 @@ In order to ensure that the scanner picks up only PDF417 barcode types, we first
 
 The core text extraction happens in the function `extractInformation`. Please pay special attention to the `driverLicenseFields` variable, which contains all the mapping defintions for the different abbreviations.
 
-NOTE that a PDF417 barcode is often very dense and may
-
 By following a similar extraction and mapping mechanism, you can easily implement this feature in your own web application.
 
 ## Support
