@@ -36,7 +36,7 @@
         <div class="resultAlert_title">Results: <em id="resultAlert_btn" class="message_box_closebtn"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="4604" width="16" height="16"><path d="M512 456.310154L94.247385 38.557538a39.542154 39.542154 0 0 0-55.689847 0 39.266462 39.266462 0 0 0 0 55.689847L456.310154 512 38.557538 929.752615a39.542154 39.542154 0 0 0 0 55.689847 39.266462 39.266462 0 0 0 55.689847 0L512 567.689846l417.752615 417.752616c15.163077 15.163077 40.290462 15.36 55.689847 0a39.266462 39.266462 0 0 0 0-55.689847L567.689846 512 985.442462 94.247385a39.542154 39.542154 0 0 0 0-55.689847 39.266462 39.266462 0 0 0-55.689847 0L512 456.310154z" p-id="4605" fill="#ffffff"></path></svg></em></div>
         <div id="resultAlert_content" class="resultAlert_content"></div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.2.10/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.2/dist/dbr.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@1.1.0/dist/dcp.js"></script>
     <script>
         /** LICENSE ALERT - README 
@@ -176,13 +176,21 @@
 
                 let parsedDLInfo = await parser.parseData(text);
                 let resultShowNode = document.createElement("p");
-                for (let o in parsedDLInfo) {
-                    resultShowNode.appendChild(createNode("span", parsedDLInfo[o].description));
-                    resultShowNode.appendChild(createNode("br"));
-                    resultShowNode.appendChild(createNode("strong", parsedDLInfo[o].value));
-                    resultShowNode.appendChild(createNode("br"));
-                    resultShowNode.appendChild(createNode("span", "------------------------------"));
-                    resultShowNode.appendChild(createNode("br"));
+                let oriParseInfo;
+                if(parsedDLInfo.resultInfo.AAMVADLInfo) {
+                    oriParseInfo = {...parsedDLInfo.basicPersonalInfo, jurisdictionVehicleCode: parsedDLInfo.resultInfo.jurisdictionVehicleCode, licenseNo: parsedDLInfo.resultInfo.licenseNo,  ...parsedDLInfo.resultInfo.AAMVADLInfo};
+                } else {
+                    oriParseInfo = {...parsedDLInfo.basicPersonalInfo, ...parsedDLInfo.resultInfo};
+                }
+                for (let o in oriParseInfo) {
+                    if(oriParseInfo[o]) {
+                        resultShowNode.appendChild(createNode("span", o));
+                        resultShowNode.appendChild(createNode("br"));
+                        resultShowNode.appendChild(createNode("strong", oriParseInfo[o]));
+                        resultShowNode.appendChild(createNode("br"));
+                        resultShowNode.appendChild(createNode("span", "------------------------------"));
+                        resultShowNode.appendChild(createNode("br"));
+                    }
                 }
                 document.getElementById('resultAlert_content').innerHTML = "";
                 document.getElementById('resultAlert_content').appendChild(resultShowNode);
