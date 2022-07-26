@@ -177,8 +177,9 @@
                 let parsedDLInfo = await parser.parseData(text);
                 let resultShowNode = document.createElement("p");
                 let oriParseInfo;
-                if(parsedDLInfo.resultInfo.AAMVADLInfo) {
-                    oriParseInfo = {...parsedDLInfo.basicPersonalInfo, jurisdictionVehicleCode: parsedDLInfo.resultInfo.jurisdictionVehicleCode, licenseNo: parsedDLInfo.resultInfo.licenseNo,  ...parsedDLInfo.resultInfo.AAMVADLInfo};
+                if(parsedDLInfo.resultInfo && parsedDLInfo.resultInfo.AAMVADLInfo) {
+                    oriParseInfo = {...parsedDLInfo.basicPersonalInfo, ...parsedDLInfo.resultInfo, ...parsedDLInfo.resultInfo.AAMVADLInfo};
+                    delete oriParseInfo.AAMVADLInfo;
                 } else {
                     oriParseInfo = {...parsedDLInfo.basicPersonalInfo, ...parsedDLInfo.resultInfo};
                 }
