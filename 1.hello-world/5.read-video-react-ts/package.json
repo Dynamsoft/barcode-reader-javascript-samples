@@ -1,6 +1,7 @@
 {
   "name": "read-video-react",
   "version": "0.1.0",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -10,8 +11,7 @@
     "@types/node": "^16.11.45",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
-    "keillion-dynamsoft-javascript-barcode": "^0.20220720101353.0",
-    "dynamsoft-javascript-barcode": "9.0.2",
+    "dynamsoft-javascript-barcode": "9.2.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
