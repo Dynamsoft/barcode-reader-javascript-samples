@@ -14,11 +14,7 @@ Another very popular scenario is extracting the driver license info that is enco
 
 In order to ensure that the scanner picks up only PDF417 barcode types, we first ensure that the `barcodeFormatIds` of the `RuntimeSettings` is set to `BF_PDF417`. This way, the scanner is better configured to pick up the driver license barcodes.
 
-The core text extraction happens in the function `extractInformation`. Please pay special attention to the `driverLicenseFields` variable, which contains all the mapping defintions for the different abbreviations.
-
-NOTE that a PDF417 barcode is often very dense and may
-
-By following a similar extraction and mapping mechanism, you can easily implement this feature in your own web application.
+The core information extraction happens in the function `extractResultAlert`, in which we are using the SDK Dynamsoft Code Parser to parse the raw string and get the actual encoded information.
 
 ## Support
 
