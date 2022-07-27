@@ -18,6 +18,7 @@ Get the basic features of the library working with plain/native JavaScript or wi
 * **Hello World in PWA**: Decode video stream in a PWA Application from a USB-connected or built-in camera (mobile or desktop).
 * **Hello World with RequireJS**: Decode video stream in a simple Application using RequireJS from a USB-connected or built-in camera (mobile or desktop).
 * **Hello World with ES6**: Decode video stream in a simple Application using ES6 from a USB-connected or built-in camera (mobile or desktop).
+* **Hello World in React with TypeScript**: Decode video stream in a React Application with TypeScript from a USB-connected or built-in camera (mobile or desktop).
 
 ## Customize Camera UI
 
