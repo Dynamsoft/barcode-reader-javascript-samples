@@ -1,18 +1,18 @@
 # Dynamsoft Barcode Reader samples for the web
 
-This repository contains multiple samples that demonstrates how to use the [Dynamsoft Barcode Reader JavaScript Edition](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) for creating web-based barcode scanning applications.
+This repository contains multiple samples that demonstrates how to use the [Dynamsoft Barcode Reader JavaScript Edition](https://www.dynamsoft.com/barcode-reader/sdk-javascript/?utm_source=sampleReadme) for creating web-based barcode scanning applications.
 
 ## Request a trial license
 
-A default license is included which allows you to test the sample apps for up to 24 hours. You can [request a trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js) via Dynamsoft customer portal to evaluate further.
+A default license is included which allows you to test the sample apps for up to 24 hours. You can [request a trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=sampleReadme) via Dynamsoft customer portal to evaluate further.
 
 ## Documentation
 
-For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/programming/javascript/?ver=latest).
+For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/programming/javascript/?ver=latest&utm_source=sampleReadme).
 
 ## Support
 
-If you have any questions, feel free to [contact Dynamsoft support](https://www.dynamsoft.com/company/contact).
+If you have any questions, feel free to [contact Dynamsoft support](https://www.dynamsoft.com/company/contact?utm_source=sampleReadme).
 
 ## Sample list
 
@@ -51,7 +51,7 @@ How to configure different settings of the barcode scanning library.
 * **Deformed or Incomplete codes**: Set `DeformationResistingModes` or `BarcodeComplementModes` for decoding deformed or incomplete barcodes.
 * **Define or Detect the Region**: Set the region of interest manually or `regionPredetectionModes` to speed up the barcode reading process.
 
-### Use Case
+### Use Cases
 
 * **Read Video and Fill a Form**: Read barcodes to fill a form.
 * **Read a Driver's License**: Read the PDF417 barcode on a driver's license (AAMVA compliant) and parse it.
