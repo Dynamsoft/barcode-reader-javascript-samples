@@ -1,23 +1,26 @@
 # Use Case Sample Set
 
-This sample set explores some of the most popular real world applications of the `DBR` library that our team has encountered throughout our many years of experience.
+This sample set explores some of the most popular real world applications of Dynamsoft's barcode reader library:
 
-## Filling a Form Field with the Barcode Scanner
+- [fill a form with barcode reading](./1.fill-a-form-with-barcode-reading.html)
+- [read driver license](./2.read-a-drivers-license.html)
 
-The first sample will  demonstrate how to implement one of, if not the most common usage scenario our library encounters: Filling a form or form field based on the barcode result.
+## Filling a Form using Barcode Scanner
 
-Usually this scenario involves oopening the video scanner on the click of a button, and then once the barcode is scanned, the barcode result would show up in a corresponding form field. In some cases, the form field would come with a tooltip style of button to allow the user to open the scanner on the click of that icon.
+The first sample demonstrates how to automatically fill out a form using barcode scanning.
 
-## Filling out Driver's License Info via the Barcode Scanner
+Users can click a button to read barcodes from a video, and once a barcode is scanned, the barcode result will be filled to the corresponding form field. You can customize it further to show a tooltip-style button for users to click and open the scanner.
 
-Another very popular scenario is extracting the driver license info that is encoded on the back of driver licenses into a readable text. The text that is normally encoded in the barcode comes as one large string, separated by abbreviations only. The string will in turn require parsing and mapping to have all the info in its corresponding fields.
+## Filling Out Driver's License Info via Barcode Scanner
 
-In order to ensure that the scanner picks up only PDF417 barcode types, we first ensure that the `barcodeFormatIds` of the `RuntimeSettings` is set to `BF_PDF417`. This way, the scanner is better configured to pick up the driver license barcodes.
+Another popular usage scenario is to scan the barcodes on driver licenses for automatic ID data extraction. 
 
-The core text extraction happens in the function `extractInformation`. Please pay special attention to the `driverLicenseFields` variable, which contains all the mapping defintions for the different abbreviations.
+With the barcode reader library, you can get a large text string from the driver license PDF417 barcode. You can then parse the string and get the value of corresponding fields.
 
-By following a similar extraction and mapping mechanism, you can easily implement this feature in your own web application.
+In this use case, we want the scanner to pick up PDF417 barcode only, so we set `barcodeFormatIds` in `RuntimeSettings` to `BF_PDF417`. 
+
+The core information extraction happens in the function `extractResultAlert()`, in which we are using the SDK **Dynamsoft Code Parser** to parse the raw string and get the actual encoded information.
 
 ## Support
 
-If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/overview/) via the "Let's Chat" button.
+If you have any questions, feel free to [contact Dynamsoft](https://www.dynamsoft.com/company/contact/).
