@@ -9,7 +9,7 @@
     },
     "author": "tom@dynamsoft.com",
     "dependencies": {
-        "dynamsoft-javascript-barcode": "9.2.10",
+        "dynamsoft-javascript-barcode": "9.2.11",
         "electron": "14.0.1"
     }
 }
