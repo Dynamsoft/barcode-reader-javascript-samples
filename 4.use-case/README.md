@@ -9,7 +9,7 @@ This sample set explores some of the most popular real world applications of Dyn
 
 The first sample demonstrates how to automatically fill out a form using barcode scanning.
 
-Users can click a button to read barcodes from a video, and once a barcode is scanned, the barcode result will be filled to the corresponding form field. Or the form field can come with a tooltip style of button for users to click and open the scanner.
+Users can click a button to read barcodes from a video, and once a barcode is scanned, the barcode result will be filled to the corresponding form field. You can customize it further to show a tooltip-style button for users to click and open the scanner.
 
 ## Filling Out Driver's License Info via Barcode Scanner
 
@@ -19,9 +19,7 @@ With the barcode reader library, you can get a large text string from the driver
 
 In this use case, we want the scanner to pick up PDF417 barcode only, so we set `barcodeFormatIds` in `RuntimeSettings` to `BF_PDF417`. 
 
-The core text extraction happens in the function `getDLInfo()`. Please pay special attention to the `driverLicenseFields` variable, which contains all the mapping defintions for the different abbreviations.
-
-By following a similar extraction and mapping mechanism, you can easily implement driver license scanning in your own web application.
+The core information extraction happens in the function `extractResultAlert()`, in which we are using the SDK **Dynamsoft Code Parser** to parse the raw string and get the actual encoded information.
 
 ## Support
 
