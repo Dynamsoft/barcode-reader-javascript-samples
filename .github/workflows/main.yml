@@ -33,4 +33,4 @@ jobs:
           password: ${{ secrets.FTP_DEMO_PASSWORD }}
           port: 21 
           local-dir: /home/ubuntu/barcode-reader-javascript-samples/
-          server-dir: /demo6.dynamsoft.com/samples/dbr/js/
+          server-dir: /Demo.dynamsoft.com/Samples/DBR/JS/
