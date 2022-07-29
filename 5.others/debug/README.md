@@ -1,10 +1,10 @@
 # Debug Sample
 
-It's a sample aim to:
+This sample is designed to:
 
-1. Print verbose logs to better assist in problem solving.
-2. Check whether your device and browser are compatible with the camera, and to what extent.
-3. Collect the video frames for analysis.
+1. Print detailed logs in the browser console to better assist in troubleshooting.
+2. Check if your device and browser are compatible with the camera and to what extent.
+3. Collect video frames for analysis.
 
 *Quick Debug*: [https://dynamsoft.github.io/barcode-reader-javascript-samples/5.others/debug/public/index.html](https://dynamsoft.github.io/barcode-reader-javascript-samples/5.others/debug/public/index.html)
 
