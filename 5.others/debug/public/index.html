@@ -42,6 +42,7 @@
         document.getElementById('btn-show-scanner').addEventListener('click', async() => {
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+                scanner.dce.constructor._onLog = console.log;
                 let rs = await scanner.getRuntimeSettings();
                 rs.timeout = 100000;
                 await scanner.updateRuntimeSettings(rs);
