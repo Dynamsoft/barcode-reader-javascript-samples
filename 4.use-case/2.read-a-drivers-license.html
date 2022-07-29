@@ -137,7 +137,7 @@
                 scanner.onUniqueRead = (txt, result) => {
                     document.getElementById("message_box").style.display = "none";
                     clearTimeout(timer);
-                    extractResultAlert(txt);
+                    extractResultAlert(result.barcodeBytes);
                 };
                 await scanner.show();
                 if (!bSingleFrameMode) {
@@ -167,12 +167,12 @@
             return node;
         }
 
-        async function extractResultAlert(text) {
+        async function extractResultAlert(bytesToParse) {
             try {
                 let parser = await (pParser = pParser || Dynamsoft.DCP.CodeParser.createInstance());
                 await parser.setCodeFormat(Dynamsoft.DCP.EnumCodeFormat.CF_AUTO);
 
-                let parsedDLInfo = await parser.parseData(text);
+                let parsedDLInfo = await parser.parseData(bytesToParse);
                 let resultShowNode = document.createElement("p");
                 let oriParseInfo;
                 if(parsedDLInfo.resultInfo && parsedDLInfo.resultInfo.AAMVADLInfo) {
