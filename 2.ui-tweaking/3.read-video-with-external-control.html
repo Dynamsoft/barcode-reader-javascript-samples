@@ -187,7 +187,7 @@
         }
 
         function setScanLightView(boolean) {
-            document.querySelector('.dce-scanlight').hidden = !boolean;
+            document.querySelector('.dce-scanlight').style.display = boolean? "block": "none";
         }
         // when the selector is clicked
         function toggleCamView(e) {
