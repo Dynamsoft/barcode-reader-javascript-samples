@@ -1,9 +1,3 @@
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
 /*!
  *  Spatial Plugin - Adds support for stereo and 3D audio where Web Audio is supported.
  *  
@@ -28,36 +22,30 @@ object-assign
 
 /*!
  * Dynamsoft JavaScript Library
+ * @product Dynamsoft Barcode Reader JS Edition
+ * @website http://www.dynamsoft.com
+ * @copyright Copyright 2022, Dynamsoft Corporation
+ * @author Dynamsoft
+ * @version 9.2.12 (js 20220727)
+ * @fileoverview Dynamsoft JavaScript Library for Barcode Reader
+ * More info on DBR JS: https://www.dynamsoft.com/barcode-reader/sdk-javascript/
+ */
+
+/*!
+ * Dynamsoft JavaScript Library
  * @product Dynamsoft Camera Enhancer JS Edition
  * @website https://www.dynamsoft.com
  * @copyright Copyright 2022, Dynamsoft Corporation
  * @author Dynamsoft
- * @version 3.0.0 (js 20220726)
+ * @version 3.0.1 (js 20220803)
  * @fileoverview Dynamsoft JavaScript Library for Camera Enhancer
  * More info on DCE JS: https://www.dynamsoft.com/camera-enhancer/docs/programming/javascript/?ver=latest
  */
 
-/*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <http://feross.org>
- * @license  MIT
- */
-
-/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
-
 /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
 
-/** @license React v0.20.2
- * scheduler.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-/** @license React v17.0.2
+/**
+ * @license React
  * react-dom.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -66,7 +54,8 @@ object-assign
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @license React v17.0.2
+/**
+ * @license React
  * react-jsx-runtime.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -75,8 +64,19 @@ object-assign
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @license React v17.0.2
+/**
+ * @license React
  * react.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
+ * @license React
+ * scheduler.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
