@@ -113,7 +113,7 @@ export default {
 .component-barcode-scanner {
   width: 100%;
   height: 100%;
-  min-width: 640px;
+  /* min-width: 640px; */
   min-height: 480px;
   background: #eee;
   position: relative;
