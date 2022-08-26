@@ -69,7 +69,8 @@
                 scanner.onFrameRead = (_results) => {
                     for (let result of _results) {
                         let newElements = [];
-                        newElements.push(createASpan(result.barcodeFormatString + ": "));
+                        const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                        newElements.push(createASpan(format + ": "));
                         newElements.push(createASpan(result.barcodeText, "resultText"));
                         newElements.push(document.createElement('br'));
                         if (result.barcodeText.indexOf("Attention(exceptionCode") != -1) {
@@ -83,7 +84,8 @@
                     }
                 };
                 scanner.onUniqueRead = (txt, result) => {
-                    document.getElementById('result').value = result.barcodeFormatString + ": " + txt;
+                    const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                    document.getElementById('result').value = format + ": " + txt;
                     document.getElementById('result').focus();
                     setTimeout(() => {
                         document.getElementById('result').blur();
