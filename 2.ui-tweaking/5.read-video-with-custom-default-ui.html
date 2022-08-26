@@ -90,7 +90,8 @@
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 document.getElementById('UIElement').appendChild(scanner.getUIElement());
                 scanner.onUniqueRead = (txt, result) => {
-                    document.getElementById('result').value = result.barcodeFormatString + ": " + txt;
+                    const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                    document.getElementById('result').value = format + ": " + txt;
                     document.getElementById('result').focus();
                     setTimeout(() => {
                         document.getElementById('result').blur();
