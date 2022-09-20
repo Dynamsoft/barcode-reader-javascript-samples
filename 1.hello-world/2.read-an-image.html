@@ -95,9 +95,10 @@
                     divResults.appendChild(createEl('p', "No Barcode Found!"));
                 }
                 for (let result of results) {
-                    iptReadonlyLastResult.value = result.barcodeFormatString + ": " + result.barcodeText; // show last txt result
+                    const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                    iptReadonlyLastResult.value = format + ": " + result.barcodeText; // show last txt result
                     const p = document.createElement('p');
-                    p.appendChild(createEl('span', result.barcodeFormatString + ": "));
+                    p.appendChild(createEl('span', format + ": "));
                     p.appendChild(createEl('span', result.barcodeText, "sp-resultText"));
                     divResults.appendChild(p);
                     if (result.barcodeText.indexOf("Attention(exceptionCode") != -1) {
