@@ -117,6 +117,7 @@ export default {
 }
 
 .dce-bg-loading {
+  display: none;
   animation: 1s linear infinite dce-rotate;
   width: 40%;
   height: 40%;
