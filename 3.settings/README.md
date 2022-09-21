@@ -65,7 +65,12 @@ Region detection can also be used to pre-detect the region of interest of a larg
 
 ## Dealing with Dense Barcodes
 
+Some barcodes are designed to hold a lot of information which makes them very dense. To read such barcodes, we need to do two things
 
+1. Use a high resolution 
+2. Use the built-in "dense" template
+
+Check out the code for more information.
 
 ## Support
 
