@@ -31,7 +31,7 @@
             try {
                 const scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
                 /** 
-                 * onFrameRead is triggered after the library finishes reading a frame image.
+                 * 'onFrameRead' is triggered after the library finishes reading a frame image.
                  * There can be multiple barcodes on one image.
                  */
                 scanner.onFrameRead = results => {
@@ -42,18 +42,18 @@
                     }
                 };
                 /**
-                 * onUniqueRead is triggered only when a 'new' barcode is found.
+                 * 'onUniqueRead' is  triggered only when a 'new' barcode is found.
                  * The amount of time that the library 'remembers' a barcode is defined by 
                  * "duplicateForgetTime" in "ScanSettings". By default it is set to 3000 ms.
                  */
                 scanner.onUniqueRead = (txt, result) => {
-                        alert(txt);
-                        console.log("Unique Code Found: ", result);
-                    }
-                    /**
-                     * show() opens the camera and shows the video stream on the page. 
-                     * After that, the library starts to scan the frame images continuously.
-                     */
+                    alert(txt);
+                    console.log("Unique Code Found: ", result);
+                }
+                /**
+                 * 'show()' opens the camera and shows the video stream on the page. 
+                 * After that, the library starts to scan the frame images continuously.
+                 */
                 await scanner.show();
             } catch (ex) {
                 let errMsg;

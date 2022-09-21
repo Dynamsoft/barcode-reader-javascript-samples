@@ -34,7 +34,7 @@
             try {
                 const scanner = await (pScanner = pScanner || BarcodeScanner.createInstance());
                 /* 
-                 * onFrameRead is triggered after the library finishes reading a frame.
+                 * 'onFrameRead' is triggered after the library finishes reading a frame.
                  * There can be one or multiple barcodes on each frame.
                  */
                  scanner.onFrameRead = results => {
