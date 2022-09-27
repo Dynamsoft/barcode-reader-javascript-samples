@@ -50,6 +50,7 @@ How to configure different settings of the barcode scanning library.
 * [**Blurry or Small codes**](https://demo.dynamsoft.com/samples/dbr/js/3.settings/3.blurred-small-barcodes.html?utm_source=sampleReadme): Set `DeblurModes` and `ScaleUpModes` for decoding blurry or small barcodes.
 * [**Deformed or Incomplete codes**](https://demo.dynamsoft.com/samples/dbr/js/3.settings/4.deformed-incomplete-barcodes.html?utm_source=sampleReadme): Set `DeformationResistingModes` or `BarcodeComplementModes` for decoding deformed or incomplete barcodes.
 * [**Define or Detect the Region**](https://demo.dynamsoft.com/samples/dbr/js/3.settings/5.regionOfInterest-regionPredetection.html?utm_source=sampleReadme): Set the region of interest manually or `regionPredetectionModes` to speed up the barcode reading process.
+* [**Dense codes**](https://demo.dynamsoft.com/samples/dbr/js/3.settings/6.dense-barcodes.html?utm_source=sampleReadme): Set `dense` template for decoding dense barcodes.
 
 ### Use Cases
 

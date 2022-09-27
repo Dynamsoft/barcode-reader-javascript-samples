@@ -20,7 +20,7 @@ window.onload = async function () {
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.2.13&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.3.0&utm_source=github#specify-the-license or contact support@dynamsoft.com.
          * LICENSE ALERT - THE END 
          */
 
@@ -78,7 +78,8 @@ async function startReading() {
         let scanner = await pScanner;
         scanner.onFrameRead = (_results) => {
             for (let result of _results) {
-                resultBox.value = result.barcodeFormatString + ": " + result.barcodeText;
+                const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                resultBox.value = format + ": " + result.barcodeText;
             }
         };
         await scanner.show();
