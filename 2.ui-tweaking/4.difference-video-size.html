@@ -86,7 +86,7 @@
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 await scanner.setUIElement(document.getElementById('div-ui-container'));
                 scanner.onUniqueRead = (txt, result) => {
-                    const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                    const format = result.barcodeFormatString;
                     document.getElementById('result').value = format + ": " + txt;
                     if (fitPage.hidden)
                         exitFullPage();

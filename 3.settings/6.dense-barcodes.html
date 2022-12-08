@@ -60,9 +60,7 @@
           scanner.onFrameRead = (results) => {
             textareaResults.value = "";
             for (let result of results) {
-              const format = result.barcodeFormat
-                ? result.barcodeFormatString
-                : result.barcodeFormatString_2;
+              const format = result.barcodeFormatString;
               const text = result.barcodeText;
               textareaResults.value += `${format}: ${text}\n`;
             }

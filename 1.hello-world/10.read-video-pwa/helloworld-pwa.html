@@ -56,7 +56,7 @@
                 scanner.onFrameRead = results => {
                     console.log("Barcodes on one frame:");
                     for (let result of results) {
-                        const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                        const format = result.barcodeFormatString;
                         console.log(format + ": " + result.barcodeText);
                     }
                 };
