@@ -61,7 +61,7 @@
             try {
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 scanner.onUniqueRead = (txt, result) => {
-                    const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                    const format = result.barcodeFormatString;
                     document.getElementById('result').value = format + ": " + txt;
                     document.getElementById('result').focus();
                     setTimeout(() => {

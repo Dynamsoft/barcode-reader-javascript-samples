@@ -69,7 +69,7 @@
                 scanner.onFrameRead = (_results) => {
                     for (let result of _results) {
                         let newElements = [];
-                        const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                        const format = result.barcodeFormatString;
                         newElements.push(createASpan(format + ": "));
                         newElements.push(createASpan(result.barcodeText, "resultText"));
                         newElements.push(document.createElement('br'));
@@ -84,7 +84,7 @@
                     }
                 };
                 scanner.onUniqueRead = (txt, result) => {
-                    const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                    const format = result.barcodeFormatString;
                     document.getElementById('result').value = format + ": " + txt;
                     document.getElementById('result').focus();
                     setTimeout(() => {

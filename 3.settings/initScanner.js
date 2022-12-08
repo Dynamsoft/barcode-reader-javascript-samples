@@ -78,7 +78,7 @@ async function startReading() {
         let scanner = await pScanner;
         scanner.onFrameRead = (_results) => {
             for (let result of _results) {
-                const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                const format = result.barcodeFormatString;
                 resultBox.value = format + ": " + result.barcodeText;
             }
         };

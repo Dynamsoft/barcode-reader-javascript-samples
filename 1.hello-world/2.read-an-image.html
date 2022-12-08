@@ -95,7 +95,7 @@
                     divResults.appendChild(createEl('p', "No Barcode Found!"));
                 }
                 for (let result of results) {
-                    const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
+                    const format = result.barcodeFormatString;
                     iptReadonlyLastResult.value = format + ": " + result.barcodeText; // show last txt result
                     const p = document.createElement('p');
                     p.appendChild(createEl('span', format + ": "));
