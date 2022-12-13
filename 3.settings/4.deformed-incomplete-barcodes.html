@@ -49,6 +49,12 @@
                 <label for="autoDR"> Auto (1) </label><br>
                 <input type="checkbox" id="generalDR" name="drMode" value="DRM_GENERAL">
                 <label for="generalDR"> General (2) </label><br>
+                <input type="checkbox" id="broadWarpDR" name="drMode" value="DRM_BROAD_WARP">
+                <label for="broadWarpDR"> Broad Warp (4) </label><br>
+                <input type="checkbox" id="localReferenceDR" name="drMode" value="DRM_LOCAL_REFERENCE">
+                <label for="localReferenceDR"> Local Reference (8) </label><br>
+                <input type="checkbox" id="dewrinkleDR" name="drMode" value="DRM_DEWRINKLE">
+                <label for="dewrinkleDR"> Dewrinkle (16) </label><br>
                 <input type="checkbox" id="skipDR" name="drMode" value="DRM_SKIP">
                 <label for="skipDR"> Skip (0)</label><br>
             </form>
@@ -102,6 +108,15 @@
                                     break;
                                 case "DRM_GENERAL":
                                     settings.furtherModes.deformationResistingModes[DRMCount] = Dynamsoft.DBR.EnumDeformationResistingMode.DRM_GENERAL;
+                                    break;
+                                case "DRM_BROAD_WARP":
+                                    settings.furtherModes.deformationResistingModes[DRMCount] = Dynamsoft.DBR.EnumDeformationResistingMode.DRM_BROAD_WARP;
+                                    break;
+                                case "DRM_LOCAL_REFERENCE":
+                                    settings.furtherModes.deformationResistingModes[DRMCount] = Dynamsoft.DBR.EnumDeformationResistingMode.DRM_LOCAL_REFERENCE;
+                                    break;
+                                case "DRM_DEWRINKLE":
+                                    settings.furtherModes.deformationResistingModes[DRMCount] = Dynamsoft.DBR.EnumDeformationResistingMode.DRM_DEWRINKLE;
                                     break;
                                 case "DRM_SKIP":
                                     settings.furtherModes.deformationResistingModes[DRMCount] = Dynamsoft.DBR.EnumDeformationResistingMode.DRM_SKIP;
