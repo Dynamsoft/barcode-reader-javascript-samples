@@ -81,7 +81,7 @@ export default {
           }
         };
         scanner.onUniqueRead = (txt, result) => {
-          alert(txt, result);
+          alert(txt);
         }
         await scanner.open();
       } catch (ex) {
