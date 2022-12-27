@@ -63,6 +63,15 @@ To learn more about `Region` and how to use them, please refer to this [article]
 
 Region detection can also be used to pre-detect the region of interest of a large image to get several areas where the barcodes may exist to reduce processing time. The different modes of [RegionPredetectionModes](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/interface/FurtherModes.html?ver=latest#regionpredetectionmodes) correspond to different scenarios, some of which are clarified [here](https://www.dynamsoft.com/barcode-reader/parameters/scenario-settings/how-to-use-region-predetection.html).
 
+## Dealing with Dense Barcodes
+
+Some barcodes are designed to hold a lot of information which makes them very dense. To read such barcodes, we need to do two things
+
+1. Use a high resolution 
+2. Use the built-in "dense" template
+
+Check out the code for more information.
+
 ## Support
 
 If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/overview/) via the "Let's Chat" button.

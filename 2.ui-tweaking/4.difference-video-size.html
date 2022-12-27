@@ -24,7 +24,7 @@
     </div>
     <br />
     <input type="text" id="result" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.0.2/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.0/dist/dbr.js"></script>
     <script>
         /** LICENSE ALERT - README 
          * To use the library, you need to first specify a license key using the API "license" as shown below.
@@ -35,7 +35,7 @@
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.0.2&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.6.0&utm_source=github#specify-the-license or contact support@dynamsoft.com.
          * LICENSE ALERT - THE END 
          */
 
@@ -86,7 +86,8 @@
                 let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 await scanner.setUIElement(document.getElementById('div-ui-container'));
                 scanner.onUniqueRead = (txt, result) => {
-                    document.getElementById('result').value = result.barcodeFormatString + ": " + txt;
+                    const format = result.barcodeFormatString;
+                    document.getElementById('result').value = format + ": " + txt;
                     if (fitPage.hidden)
                         exitFullPage();
                     document.getElementById('result').focus();
