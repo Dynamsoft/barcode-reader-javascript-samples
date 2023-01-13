@@ -80,8 +80,8 @@ export default {
             console.log(result.barcodeText);
           }
         };
-        scanner.onUniqueRead = (txt, result) => {
-          alert(txt, result);
+        scanner.onUniqueRead = (txt) => {
+          alert(txt);
         }
         await scanner.open();
       } catch (ex) {
