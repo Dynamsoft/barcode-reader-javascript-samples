@@ -46,11 +46,13 @@
         }
         
         (async function() {
-            Notification.requestPermission().then((result) => {
-                if (result === 'granted') {
-                    startNotificationLoop();
-                }
-            });
+            if(window.Notification) {
+                Notification.requestPermission().then((result) => {
+                    if (result === 'granted') {
+                        startNotificationLoop();
+                    }
+                });
+            }
             try {
                 const scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
                 scanner.onFrameRead = results => {
