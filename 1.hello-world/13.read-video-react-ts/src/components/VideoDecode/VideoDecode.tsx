@@ -3,12 +3,16 @@ import React from 'react';
 import './VideoDecode.css'
 
 class VideoDecode extends React.Component {
-    pScanner: Promise<BarcodeScanner> = BarcodeScanner.createInstance();
+    pScanner: Promise<BarcodeScanner>|null = null;
     elRef: React.RefObject<HTMLDivElement> = React.createRef();
     async componentDidMount() {
         try {
-            const scanner = await this.pScanner;
+            const scanner = await (this.pScanner = BarcodeScanner.createInstance());
+            // Should judge if scanner is destroyed after 'await' in React 18 'StrictMode'. 
+            if(scanner.isContextDestroyed()) return;
             await scanner.setUIElement(this.elRef.current!);
+            // Should judge if scanner is destroyed after 'await' in React 18 'StrictMode'. 
+            if(scanner.isContextDestroyed()) return;
             scanner.onFrameRead = results => {
                 for (let result of results) {
                     console.log(result.barcodeText);
