@@ -28,7 +28,7 @@ In this sample, a listener is set up so that the SDK decodes any image that the 
 
 [`decode`](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=latest#decode) is the main method to go for when using the `BarcodeReader` class, although the class offers a number of other methods should you work with base64 strings, for instance. The rest of the image decoding methods can be found [here](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=latest#decode-barcodes).
 
-## Hello World - Angular
+## Hello World in Angular
 
 Read more on the sample [here](https://www.dynamsoft.com/barcode-reader/programming/javascript/samples-demos/helloworld-angular.html).
 
