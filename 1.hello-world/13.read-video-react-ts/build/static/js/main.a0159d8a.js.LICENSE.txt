@@ -24,9 +24,9 @@
  * Dynamsoft JavaScript Library
  * @product Dynamsoft Barcode Reader JS Edition
  * @website http://www.dynamsoft.com
- * @copyright Copyright 2022, Dynamsoft Corporation
+ * @copyright Copyright 2023, Dynamsoft Corporation
  * @author Dynamsoft
- * @version 9.6.1 (js 20221213)
+ * @version 9.6.2 (js 20230114)
  * @fileoverview Dynamsoft JavaScript Library for Barcode Reader
  * More info on DBR JS: https://www.dynamsoft.com/barcode-reader/sdk-javascript/
  */
