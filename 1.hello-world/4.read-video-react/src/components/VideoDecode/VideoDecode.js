@@ -24,6 +24,14 @@ class VideoDecode extends React.Component {
             scanner.onUniqueRead = (txt, result) => {
                 alert(txt);
             }
+            //Gives you access to the scanners settings.
+            let settings = await scanner.getRuntimeSettings();
+            //updating settings to allow both. balck codes on a white bg & white codes on a black bg
+            settings.furtherModes.grayscaleTransformationModes = [
+              1, 2, 0, 0, 0, 0, 0, 0,
+            ];
+            await scanner.updateRuntimeSettings(settings);
+
             await scanner.open();
         } catch (ex) {
             let errMsg;
