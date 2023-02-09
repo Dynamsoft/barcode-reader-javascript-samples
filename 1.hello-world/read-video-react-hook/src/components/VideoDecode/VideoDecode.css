@@ -1,0 +1,13 @@
+.component-barcode-scanner{width:100%;height:100%;/* min-width:640px; */min-height:480px;background:#eee;position:relative;resize:both;}
+.dce-bg-loading{display:none;animation:1s linear infinite dce-rotate;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;}
+.dce-bg-camera{display:none;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;}
+.dce-video-container{position:absolute;left:0;top:0;width:100%;height:100%;}
+.dce-scanarea{width:100%;height:100%;position:absolute;left:0;top:0;}
+.dce-scanlight{display:none;width:100%;height:3%;position:absolute;animation:3s infinite dce-scanlight;border-radius:50%;box-shadow:0px 0px 2vw 1px #00e5ff;background:#fff;}
+.div-select-container{position:absolute;left:0;top:0;}
+.dce-sel-camera{display:block;}
+.dce-sel-resolution{display:block;margin-top:5px;}
+.dbr-msg-poweredby{position:absolute;left:50%;bottom:10%;transform:translateX(-50%);}
+.dbr-msg-poweredby svg {height:max(3vmin,17px);fill:#FFFFFF;}
+@keyframes dce-rotate{from{transform:rotate(0turn);}to{transform:rotate(1turn);}}
+@keyframes dce-scanlight{from{top:0;}to{top:97%;}}
