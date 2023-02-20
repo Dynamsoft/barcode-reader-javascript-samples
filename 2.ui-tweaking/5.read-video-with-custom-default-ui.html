@@ -10,6 +10,14 @@
 </head>
 
 <body>
+    <script>
+        if(location.protocol === "file:") {
+            const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
+            console.warn(message);
+            alert(message);
+        }
+    </script>
+    
     <h1>Customized Default UI</h1>
     <div class="controler">
         <div class="selector">
@@ -50,13 +58,6 @@
     <br />
     <input type="text" id="result" title="Double click to clear!" readonly="true" class="latest-result" placeholder="The Last Read Barcode">
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.10/dist/dbr.js"></script>
-    <script>
-        if(location.protocol === "file:") {
-            const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
-            console.warn(message);
-            alert(message);
-        }
-    </script>
     <script>
         /** LICENSE ALERT - README 
          * To use the library, you need to first specify a license key using the API "license" as shown below.
