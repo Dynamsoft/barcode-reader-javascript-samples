@@ -1,5 +1,11 @@
 /* The purpose of this file is to combine the DBR Scanner initialization code as well as the common operations among all the samples in the settings folder */
 
+if(location.protocol === "file:") {
+    const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
+    console.warn(message);
+    alert(message);
+}
+
 let pScanner = null;
 let initialSettings = null;
 let loadingText = document.getElementById('lib-load');
