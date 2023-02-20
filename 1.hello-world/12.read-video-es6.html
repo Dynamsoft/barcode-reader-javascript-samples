@@ -12,6 +12,13 @@
 <body>
     <h1 style="font-size: 1.5em;">Hello World for ES6</h1>
     Loading...
+    <script>
+        if(location.protocol === "file:") {
+            const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
+            console.warn(message);
+            alert(message);
+        }
+    </script>
     <script type="module">
         import { BarcodeReader, BarcodeScanner } from 'https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.10/dist/dbr.mjs';
         /** LICENSE ALERT - README 

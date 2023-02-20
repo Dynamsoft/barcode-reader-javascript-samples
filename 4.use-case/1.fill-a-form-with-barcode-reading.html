@@ -26,6 +26,13 @@
     </div>
     <span id='lib-load' style='font-size:x-large'>Loading Library...</span>
     <script>
+        if(location.protocol === "file:") {
+            const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
+            console.warn(message);
+            alert(message);
+        }
+    </script>
+    <script>
         /** LICENSE ALERT - README 
          * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
