@@ -22,23 +22,25 @@
 
 /*!
  * Dynamsoft JavaScript Library
- * @product Dynamsoft Camera Enhancer JS Edition
- * @website https://www.dynamsoft.com
- * @copyright Copyright 2022, Dynamsoft Corporation
+ * @product Dynamsoft Barcode Reader JS Edition
+ * @website http://www.dynamsoft.com
+ * @copyright Copyright 2023, Dynamsoft Corporation
  * @author Dynamsoft
- * @version 3.2.0 (js 20221213)
- * @fileoverview Dynamsoft JavaScript Library for Camera Enhancer
- * More info on DCE JS: https://www.dynamsoft.com/camera-enhancer/docs/programming/javascript/?ver=latest
+ * @version 9.6.10 (js 20230213)
+ * @fileoverview Dynamsoft JavaScript Library for Barcode Reader
+ * More info on DBR JS: https://www.dynamsoft.com/barcode-reader/sdk-javascript/
  */
 
 /*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <http://feross.org>
- * @license  MIT
+ * Dynamsoft JavaScript Library
+ * @product Dynamsoft Camera Enhancer JS Edition
+ * @website https://www.dynamsoft.com
+ * @copyright Copyright 2023, Dynamsoft Corporation
+ * @author Dynamsoft
+ * @version 3.3.1 (js 20230217)
+ * @fileoverview Dynamsoft JavaScript Library for Camera Enhancer
+ * More info on DCE JS: https://www.dynamsoft.com/camera-enhancer/docs/programming/javascript/?ver=latest
  */
-
-/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
 /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
 
