@@ -1,9 +1,47 @@
+<script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref, getCurrentInstance } from "vue";
+import type { Ref } from 'vue'
+import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
+
+const pScanner: Ref<null | Promise<BarcodeScanner>> = ref(null);
+const elRefs: Ref<null | HTMLElement> = ref(null);
+onMounted(async () => {
+  try {
+    const internalInstance = getCurrentInstance();
+    elRefs.value = internalInstance?.refs.elRefs as HTMLElement;
+    const scanner = await (pScanner.value = BarcodeScanner.createInstance());
+    await scanner.setUIElement(elRefs.value);
+    scanner.onFrameRead = (results) => {
+      for (let result of results) {
+        console.log(result.barcodeText);
+      }
+    };
+    scanner.onUniqueRead = (txt) => {
+      alert(txt);
+    }
+    await scanner.open();
+  } catch (ex:any) {
+    let errMsg = ex.message||ex;
+    if (errMsg.includes("network connection error")) {
+      errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+    }
+    console.error(errMsg);
+    alert(errMsg);
+  }
+});
+onBeforeUnmount(async () => {
+  if (pScanner.value) {
+    (await pScanner.value).destroyContext();
+    console.log('BarcodeScanner Component Unmount');
+  }
+});
+</script>
+
 <template>
-  <div v-once class="component-barcode-scanner">
+  <div ref="elRefs" class="component-barcode-scanner">
     <svg class="dce-bg-loading" viewBox="0 0 1792 1792">
       <path
-        d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z">
-      </path>
+        d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z"></path>
     </svg>
     <svg class="dce-bg-camera" viewBox="0 0 2048 1792">
       <path
@@ -62,49 +100,6 @@
   </div>
 </template>
 
-<script>
-import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
-
-export default {
-  data() {
-    return {
-      pScanner: null,
-    };
-  },
-  async mounted() {
-    try {
-      const scanner = await (this.pScanner = BarcodeScanner.createInstance());
-      await scanner.setUIElement(this.$el);
-      scanner.onFrameRead = (results) => {
-        for (let result of results) {
-          console.log(result.barcodeText);
-        }
-      };
-      scanner.onUniqueRead = (txt, result) => {
-        alert(txt, result);
-      }
-      await scanner.open();
-    } catch (ex) {
-      let errMsg;
-      if (ex.message.includes("network connection error")) {
-        errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-      } else {
-        errMsg = ex.message||ex;
-      }
-      console.error(errMsg);
-      alert(errMsg);
-    }
-  },
-  async beforeDestroy() {
-    if (this.pScanner) {
-      (await this.pScanner).destroyContext();
-      console.log('BarcodeSanner Component Unmount');
-    }
-  },
-};
-</script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .component-barcode-scanner {
   width: 100%;
@@ -208,6 +203,16 @@ export default {
 }
 
 @keyframes dce-scanlight {
+  from {
+    top: 0;
+  }
+
+  to {
+    top: 97%;
+  }
+}
+
+@keyframes dbrScanner-scanlight {
   from {
     top: 0;
   }
