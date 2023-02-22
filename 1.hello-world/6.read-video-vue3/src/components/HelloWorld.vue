@@ -1,6 +1,39 @@
+<script setup lang="ts">
+import "../dbr"; // import side effects. The license, engineResourcePath, so on.
+import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
+import VideoDecode from "./VideoDecode.vue";
+import ImgDecode from './ImgDecode.vue'
+import { ref, onMounted } from "vue";
+import type { Ref } from 'vue'
+
+const bShowScanner: Ref<boolean> = ref(true);
+const bShowImgDecode: Ref<boolean> = ref(false)
+onMounted(async () => {
+  try {
+    //Load the library on page load to speed things up.
+    await BarcodeScanner.loadWasm();
+  } catch (ex:any) {
+    let errMsg = ex.message||ex;
+    if (errMsg.includes("network connection error")) {
+      errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+    }
+    console.error(errMsg);
+    alert(errMsg);
+  }
+});
+const showScanner = () => {
+  bShowScanner.value = true;
+  bShowImgDecode.value = false;
+};
+const showImgDecode = () => {
+  bShowScanner.value = false;
+  bShowImgDecode.value = true;
+}
+</script>
+
 <template>
   <div className="helloWorld">
-    <h1>Hello World for Vue 3 <img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h1>
+    <h1>Hello World for Vue 3 <img class="applogo" alt="Vue logo" src="../assets/logo.svg" /></h1>
     <div class="btn-group">
       <button :style="{ marginRight: '10px', backgroundColor: bShowScanner ? 'rgb(255,174,55)' : 'white' }"
         @click="showScanner">Video Decode</button>
@@ -14,55 +47,6 @@
   </div>
 </template>
 
-<script>
-import "../dbr"; // import side effects. The license, engineResourcePath, so on.
-import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
-import VideoDecode from "./VideoDecode";
-import ImgDecode from './ImgDecode'
-import { ref, onMounted } from "vue";
-
-export default {
-  name: "HelloWorld",
-  setup() {
-    const bShowScanner = ref(true);
-    const bShowImgDecode = ref(false)
-    onMounted(async () => {
-      try {
-        //Load the library on page load to speed things up.
-        await BarcodeScanner.loadWasm();
-      } catch (ex) {
-        let errMsg;
-        if (ex.message.includes("network connection error")) {
-          errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-        } else {
-          errMsg = ex.message||ex;
-        }
-        console.error(errMsg);
-        alert(errMsg);
-      }
-    });
-    const showScanner = () => {
-      bShowScanner.value = true;
-      bShowImgDecode.value = false;
-    };
-    const showImgDecode = () => {
-      bShowScanner.value = false;
-      bShowImgDecode.value = true;
-    }
-    return {
-      bShowScanner,
-      showScanner,
-      showImgDecode,
-      bShowImgDecode
-    };
-  },
-  components: {
-    VideoDecode, ImgDecode
-  },
-};
-</script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 button {
   font-size: 1.5rem;
