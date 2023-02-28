@@ -68,6 +68,11 @@ Read more on the sample [here](https://www.dynamsoft.com/barcode-reader/programm
 
 This sample shows how to use the SDK in a web page based on ES6 (also known as ECMAScript 2015 or ECMAScript 6).
 
+
+## Hello World with WebView
+
+This sample shows how to use Mobile SDK in web pages through webview, you can read more in moblie samples repository:[Android](https://github.com/Dynamsoft/barcode-reader-mobile-samples/tree/main/android/JavaScript/WebViewBarcodeScanning)/[iOS](https://github.com/Dynamsoft/barcode-reader-mobile-samples/tree/main/ios/JavaScript/WebViewBarcodeScanning).
+
 ## Support
 
 If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/overview/) via the "Let's Chat" button.
