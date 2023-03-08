@@ -7,7 +7,7 @@ import { BarcodeReader } from 'dynamsoft-javascript-barcode'
   styleUrls: ['./img-decode.component.css']
 })
 export class ImgDecodeComponent implements OnInit {
-  pReader = null;
+  pReader: Promise<BarcodeReader> | null = null;
 
   async ngOnInit(): Promise<void> { }
 
@@ -19,7 +19,7 @@ export class ImgDecodeComponent implements OnInit {
         alert(result.barcodeText);
       }
       if (!results.length) { alert('No barcode found'); }
-    } catch (ex) {
+    } catch (ex: any) {
       let errMsg;
       if (ex.message.includes("network connection error")) {
         errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";

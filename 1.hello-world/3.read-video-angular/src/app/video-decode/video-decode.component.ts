@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
+import { BarcodeScanner } from 'dynamsoft-javascript-barcode';
 @Component({
   selector: 'app-video-decode',
-  templateUrl: './barcode-scanner.component.html',
-  styleUrls: ['./barcode-scanner.component.css']
+  templateUrl: './video-decode.component.html',
+  styleUrls: ['./video-decode.component.css'],
 })
 export class VideoDecodeComponent implements OnInit {
-  pScanner = null;
+  pScanner: Promise<BarcodeScanner> | null = null;
 
   async ngOnInit(): Promise<void> {
     try {
       const scanner = await (this.pScanner = BarcodeScanner.createInstance());
-      await scanner.setUIElement((document.querySelector('.component-barcode-scanner') as any));
+      await scanner.setUIElement(
+        (document.querySelector('.dce-video-container') as HTMLElement).parentElement as HTMLElement
+      );
       scanner.onFrameRead = (results: any) => {
         for (const result of results) {
           console.log(result.barcodeText);
@@ -21,12 +23,13 @@ export class VideoDecodeComponent implements OnInit {
         alert(txt);
       };
       await scanner.open();
-    } catch (ex) {
+    } catch (ex: any) {
       let errMsg;
-      if (ex.message.includes("network connection error")) {
-        errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+      if (ex.message.includes('network connection error')) {
+        errMsg =
+          'Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.';
       } else {
-        errMsg = ex.message||ex;
+        errMsg = ex.message || ex;
       }
       console.error(errMsg);
       alert(errMsg);
