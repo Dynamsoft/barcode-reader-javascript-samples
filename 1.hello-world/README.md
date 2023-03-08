@@ -14,8 +14,8 @@ Let's quickly break down the methods used in order:
 
 * `license`: This property specifies a license key. Read more on Specify the license.
 * `createInstance()`: This method creates a `BarcodeScanner` object. This object can read barcodes directly from a video input with the help of its interactive UI (hidden by default) and the MediaDevices interface.
-* `onFrameRead`: This event is triggered every time the SDK finishes scanning a video frame. The results object contains all the barcode results that the SDK have found on this frame. In this example, we print the results to the browser console.
-* `onUniqueRead`: This event is triggered when the SDK finds a new barcode, which is not a duplicate among multiple frames. txt holds the barcode text value while result is an object that holds details of the barcode. In this example, an alert will be displayed for this new barcode.
+* `onFrameRead`: This event is triggered every time the SDK finishes scanning a video frame. The `results` object contains all the barcode results that the SDK have found on this frame. In this example, we print the results to the browser console.
+* `onUniqueRead`: This event is triggered when the SDK finds a new barcode, which is not a duplicate among multiple frames. `txt` holds the barcode text value while `result` is an object that holds details of the barcode. In this example, an alert will be displayed for this new barcode.
 * `show()`: This method brings up the built-in UI of the `BarcodeScanner` object and starts scanning
 
 In fact, `onFrameRead` and `onUniqueRead` do not have to both be defined in the code. `onUniqueRead` is the more used one between the two as it is triggered when a new barcode is found rather than on every frame.
@@ -24,7 +24,7 @@ In fact, `onFrameRead` and `onUniqueRead` do not have to both be defined in the 
 
 The second sample in this set focuses on the secondary class `BarcodeReader` which is a low-level barcode reader that processes still images and returns barcode results.
 
-In this sample, a listener is set up so that the SDK decodes any image that the user uploads.
+In this sample, a event listener is set up so that the SDK decodes any image that the user uploads.
 
 [`decode`](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=latest#decode) is the main method to go for when using the `BarcodeReader` class, although the class offers a number of other methods should you work with base64 strings, for instance. The rest of the image decoding methods can be found [here](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=latest#decode-barcodes).
 
@@ -75,4 +75,4 @@ This sample shows how to use Mobile SDK in web pages through webview, you can re
 
 ## Support
 
-If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/overview/) via the "Let's Chat" button.
+If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) via the "Let's Chat" button.
