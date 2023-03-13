@@ -11,13 +11,13 @@
 
 <body>
     <script>
-        if(location.protocol === "file:") {
+        if (location.protocol === "file:") {
             const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
             console.warn(message);
             alert(message);
         }
     </script>
-    
+
     <h1>Customized Default UI</h1>
     <div class="controler">
         <div class="selector">
@@ -79,7 +79,7 @@
         let animateTimer = null;
         // scanner for decoding video
         let pScanner = null;
-        (async() => {
+        (async () => {
             try {
                 // use the API defaultUIElementURL to set specified html as the default UIelement
                 await (Dynamsoft.DBR.BarcodeScanner.defaultUIElementURL = "./my.dbr.scanner.html");
@@ -90,8 +90,12 @@
             }
         })();
         // add the click event to the selector
-        document.getElementById("cam_selector_switch").addEventListener("click", toggleCamView);
-        document.getElementById("res_selector_switch").addEventListener("click", toggleResView);
+        document.getElementById("cam_selector_switch").addEventListener("click", () => {
+            toggleOptionsView("camera");
+        });
+        document.getElementById("res_selector_switch").addEventListener("click", () => {
+            toggleOptionsView("resolution");
+        });
         // decode video from camera
         async function showScanner() {
             try {
@@ -106,88 +110,72 @@
                     }, 2000);
                 };
                 await scanner.open();
-                renderCamreaSelector();
+                renderCameraSelector();
                 renderResolutionSelector();
             } catch (ex) {
                 let errMsg;
                 if (ex.message.includes("network connection error")) {
                     errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
                 } else {
-                    errMsg = ex.message||ex;
+                    errMsg = ex.message || ex;
                 }
                 console.error(errMsg);
                 alert(errMsg);
             }
         }
-        // initial selector renderer
-        async function renderCamreaSelector() {
+        // camera selector renderer
+        async function renderCameraSelector() {
             let scanner = await pScanner;
             const cameras = await scanner.getAllCameras();
-            document.getElementById("ul_options_camera").innerHTML = "";
+            const currentCamera = await scanner.getCurrentCamera();
+            const optionsUl = document.getElementById("ul_options_camera");
+            optionsUl.innerHTML = "";
             cameras.forEach(camera => {
                 let li = document.createElement("li");
                 let span = document.createElement("span");
+                span.addEventListener("click", camOptionSelected);
                 span.setAttribute("id", camera.deviceId);
                 span.innerText = camera.label;
-                li.appendChild(span);
-                document.getElementById("ul_options_camera").appendChild(li);
-            });
-            // highlight and display the selected option and add click event to selector
-            const camOption = document.querySelectorAll("#ul_options_camera span");
-            const currentCamera = await scanner.getCurrentCamera();
-            camOption.forEach(sapn => {
-                sapn.addEventListener("click", camOptionSelected);
-                if (sapn.id === currentCamera.deviceId) {
-                    document.getElementById("selector_input_camera").value = sapn.innerText;
-                    sapn.classList.add("selected");
-                } else {
-                    sapn.classList.remove("selected");
+                if (camera.deviceId === currentCamera.deviceId) {
+                    document.getElementById("selector_input_camera").value = camera.label;
+                    span.classList.add("selected");
                 }
+                li.appendChild(span);
+                optionsUl.appendChild(li);
             });
+            const camOptions = document.querySelectorAll("#ul_options_camera span");
         }
+        // resolution selector renderer
         async function renderResolutionSelector() {
             let scanner = await pScanner;
             const currentResolution = await scanner.getResolution();
             const gotResolution = document.querySelector("#gotResolution span");
+            const resOptions = document.querySelectorAll("#ul_options_resolution span");
             gotResolution.innerText = 'got ' + currentResolution[0] + ' x ' + currentResolution[1];
             gotResolution.id = currentResolution[0] + 'x' + currentResolution[1];
-            document.getElementById("selector_input_resolution").value = gotResolution.innerText;
             gotResolution.classList.add("selected");
-            let resOption = document.querySelectorAll("#ul_options_resolution span");
-            for (let i = 0; i < resOption.length; i++) {
-                resOption[i].addEventListener("click", resOptionSelected);
+            document.getElementById("selector_input_resolution").value = gotResolution.innerText;
+            for (let i = 0; i < resOptions.length; i++) {
+                resOptions[i].addEventListener("click", resOptionSelected);
             };
             toggleMaskView();
         }
         // when the selector is clicked
-        function toggleCamView(e) {
+        function toggleOptionsView(selectorType) {
+            const arrowId = selectorType === "camera" ? "arrow_camera" : "arrow_resolution";
+            const options = selectorType === "camera" ? camOptions : resOptions;
             // expanding and collapsing control options by changing the classList
             clearTimeout(animateTimer);
-            camOptions.classList.toggle("noheight");
-            document.getElementById("arrow_camera").classList.toggle("trans");
-            const hidden = camOptions.classList.value.search("unshow");
+            options.classList.toggle("noheight");
+            document.getElementById(arrowId).classList.toggle("trans");
+            const hidden = options.classList.value.search("unshow");
             if (hidden !== -1) {
-                camOptions.classList.replace("unshow", "show");
-                document.addEventListener("click", clickToHidden);
+                options.classList.replace("unshow", "show");
+                document.addEventListener("click", clickToHiddenOptions);
             } else {
                 // remove styles such as shadows after the transition ends
                 animateTimer = setTimeout(() => {
-                    camOptions.classList.replace("show", "unshow");
-                }, 200);
-            }
-        }
-
-        function toggleResView(e) {
-            clearTimeout(animateTimer);
-            resOptions.classList.toggle("noheight");
-            document.getElementById("arrow_resolution").classList.toggle("trans");
-            const hidden = resOptions.classList.value.search("unshow");
-            if (hidden !== -1) {
-                resOptions.classList.replace("unshow", "show");
-                document.addEventListener("click", clickToHidden);
-            } else {
-                animateTimer = setTimeout(() => {
-                    resOptions.classList.replace("show", "unshow");
+                    options.classList.replace("show", "unshow");
                 }, 200);
             }
         }
@@ -200,16 +188,26 @@
             }
             toggleMaskView();
             const cameras = await scanner.getAllCameras();
-            cameras.forEach(async camera => {
-                if (camera.deviceId === e.target.id) {
+            const camOptions = document.querySelectorAll("#ul_options_camera span");
+            for (let i = 0; i < cameras.length; i++) {
+                if (cameras[i].deviceId === e.target.id) {
                     try {
-                        await scanner.setCurrentCamera(camera);
+                        await scanner.setCurrentCamera(cameras[i].deviceId);
                     } catch (ex) {
                         alert('Play video failed: ' + (ex.message || ex));
                     }
-                    renderResolutionSelector();
+                    const _currentCamera = await scanner.getCurrentCamera();
+                    camOptions.forEach(span => {
+                        if (span.id === _currentCamera.deviceId) {
+                            document.getElementById("selector_input_camera").value = span.innerText;
+                            span.classList.add("selected");
+                        } else {
+                            span.classList.remove("selected");
+                        }
+                    });
+                    return renderResolutionSelector();
                 }
-            })
+            }
         }
         async function resOptionSelected(e) {
             const data = e.target.id.split("x");
@@ -221,7 +219,13 @@
             toggleMaskView();
             const targetResolution = [parseInt(data[0]), parseInt(data[1])];
             await scanner.setResolution(targetResolution);
-            renderResolutionSelector();
+            const _currentResolution = await scanner.getResolution();
+            const gotResolution = document.querySelector("#gotResolution span");
+            const resOptions = document.querySelectorAll("#ul_options_resolution span");
+            gotResolution.innerText = 'got ' + _currentResolution[0] + ' x ' + _currentResolution[1];
+            gotResolution.id = _currentResolution[0] + 'x' + _currentResolution[1];
+            document.getElementById("selector_input_resolution").value = gotResolution.innerText;
+            toggleMaskView();
         }
         // camera's styles mask show or not
         function toggleMaskView() {
@@ -233,14 +237,14 @@
             dceScanlight.hidden = !dceScanlight.hidden;
         }
         // click anywhere outside the options to collapse the options
-        function clickToHidden(e) {
+        function clickToHiddenOptions(e) {
             const camViewable = camOptions.classList.value.search("unshow");
             const resViewable = resOptions.classList.value.search("unshow");
             if (camViewable === -1 && e.target.id != "selector_input_camera" && e.target.id != "arrow_camera" && e.target.parentNode.id != "arrow_camera") {
-                toggleCamView();
+                toggleOptionsView("camera");
             }
             if (resViewable === -1 && e.target.id != "selector_input_resolution" && e.target.id != "arrow_resolution" && e.target.parentNode.id != "arrow_resolution") {
-                toggleResView();
+                toggleOptionsView("resolution");
             }
             if (camViewable !== -1 && resViewable !== -1) {
                 // trigger only once
@@ -254,7 +258,7 @@
         margin: 0;
         padding: 0;
     }
-    
+
     body {
         display: flex;
         flex-direction: column;
@@ -265,29 +269,30 @@
         height: 90vh;
         color: #455A64;
     }
-    
+
     h1 {
         font-size: 1.5em;
     }
-    
+
     .controler {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
     }
-    
+
     .selector {
         margin: 10px;
     }
+
     /* Small devices */
-    
+
     @media only screen and (max-width: 545px) {
         .controler {
             flex-direction: column;
         }
     }
-    
+
     .selector_switch {
         position: relative;
         width: 250px;
@@ -298,11 +303,11 @@
         cursor: pointer;
         transition: all 200ms;
     }
-    
+
     .selector_switch:hover {
         border: 1px solid #b4b4b4;
     }
-    
+
     .selector_input {
         position: absolute;
         left: 0;
@@ -317,22 +322,22 @@
         border-radius: 5px;
         color: #606266;
     }
-    
+
     .selector_switch svg {
         height: 30px;
         position: absolute;
         right: 5px;
     }
-    
+
     .arrow {
         transform: rotate(0deg);
         transition: all 200ms;
     }
-    
+
     .trans {
         transform: rotate(-180deg);
     }
-    
+
     .options {
         position: absolute;
         width: 250px;
@@ -345,28 +350,28 @@
         z-index: 2000;
         background-color: #fff;
     }
-    
+
     .show {
         border: 1px solid #e4e7ed;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
         max-height: 200px;
     }
-    
+
     .unshow {
         border: none;
         box-shadow: none;
     }
-    
+
     .noheight {
         max-height: 0;
     }
-    
+
     ul {
         list-style: none;
         margin: 5px auto;
         padding: 0;
     }
-    
+
     ul li {
         height: 30px;
         line-height: 30px;
@@ -376,16 +381,16 @@
         font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
         font-size: 14px;
     }
-    
+
     ul li:hover {
         background-color: #f5f7fa;
     }
-    
+
     .selected {
         color: #fe8e14;
         font-weight: bold;
     }
-    
+
     ul li span {
         display: inline-block;
         width: 100%;
@@ -393,7 +398,7 @@
         box-sizing: border-box;
         padding: 0 20px;
     }
-    
+
     .UIElement {
         width: 80vw;
         height: 60vh;
@@ -402,12 +407,12 @@
         text-align: center;
         font-size: medium;
     }
-    
+
     .UIElement>div {
         width: 100%;
         height: 100%;
     }
-    
+
     .latest-result {
         display: block;
         margin: 0;
@@ -420,11 +425,11 @@
         border-radius: 0.2rem;
         text-align: center;
     }
-    
+
     .latest-result::placeholder {
         color: #B0BEC5;
     }
-    
+
     .latest-result:focus {
         outline: none;
         box-shadow: 0.1rem 0.4rem 0.8rem #fe8e14;
