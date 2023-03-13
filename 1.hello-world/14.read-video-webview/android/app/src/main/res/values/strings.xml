@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">WebViewBarcodeScanning</string>
+    <string name="app_name">ReadVideoWebView</string>
+    <string name="btn_start">Start</string>
+    <string name="btn_stop">Stop</string>
 </resources>
