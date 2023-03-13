@@ -1,2 +1,2 @@
-rootProject.name = "WebViewBarcodeScanning"
+rootProject.name = "ReadVideoWebView"
 include ':app'
