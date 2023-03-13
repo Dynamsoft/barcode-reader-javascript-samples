@@ -144,14 +144,6 @@
                 optionsUl.appendChild(li);
             });
             const camOptions = document.querySelectorAll("#ul_options_camera span");
-            camOptions.forEach(span => {
-
-                if (span.id === currentCamera.deviceId) {
-
-                } else {
-                    span.classList.remove("selected");
-                }
-            });
         }
         // resolution selector renderer
         async function renderResolutionSelector() {
@@ -237,8 +229,12 @@
         }
         // camera's styles mask show or not
         function toggleMaskView() {
+            let dceLoading = document.getElementById('dce-loading');
             let dceMask = document.getElementById('dce-mask');
+            let dceScanlight = document.getElementById('dce-scanlight');
+            dceLoading.style.display = dceLoading.style.display === "none" ? "inline-block" : "none"
             dceMask.hidden = !dceMask.hidden;
+            dceScanlight.hidden = !dceScanlight.hidden;
         }
         // click anywhere outside the options to collapse the options
         function clickToHiddenOptions(e) {
