@@ -19,7 +19,7 @@ Make sure you have [node](https://nodejs.org/) and [Angular CLI](https://cli.ang
 ng new read-video-angular
 ```
 
-### **CD** to the root directory of the application and install the dependencies
+### **CD** to the root directory of the application and install the library
 
 ```cmd
 cd read-video-angular
@@ -293,7 +293,7 @@ export class HelloWorldComponent implements OnInit {
 
 > NOTE :
 >
-> * The method `loadWasm()` initializes the library in the background. The `BarcodeScanner` UI is only shown when the initialization finishes.
+> * The method `loadWasm()` initializes the library in the background.
 
 ### Add the hello-world component to `app.component.html`
 
