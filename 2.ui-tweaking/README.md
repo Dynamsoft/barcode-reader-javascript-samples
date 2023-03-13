@@ -2,8 +2,6 @@
 
 Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") provides a built-in GUI to help developers build an interactive barcode reading interface.
 
-In this sample set, we will focus on the library's flexible UI that allows developers to create the look and feel for their web application that they desire. To learn more about UI customization, please refer to its corresponding [section](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/?ver=latest#customize-the-ui-optional) in the user guide.
-
 ## Default GUI
 
 The following official sample demonstrates the default GUI built into the library.
@@ -102,7 +100,12 @@ Check out the following sample on how to enlarge the video stream to read a barc
 
 ## Customize the Default Ui
 
-In the last sample of the set, we show a customized viewer that differs greatly from the default one which demonstrates the possibility in the customization.
+Check out the following sample, that shows a customized viewer that differs greatly from the default one which demonstrates the possibility in the customization:
+
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/2.ui-tweaking/5.read-video-with-custom-default-ui.html">Customize the Default Ui - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/2.ui-tweaking/5.read-video-with-custom-default-ui.html">Customize the Default Ui - Source Code</a>
+
+To learn more about UI customization, please refer to its corresponding [section](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/?ver=latest#customize-the-ui-optional) in the user guide.
 
 ## Support
 
