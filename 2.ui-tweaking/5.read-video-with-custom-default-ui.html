@@ -135,7 +135,7 @@
                 let span = document.createElement("span");
                 span.addEventListener("click", camOptionSelected);
                 span.setAttribute("id", camera.deviceId);
-                span.innerText = camera.label;
+                span.textContent = camera.label;
                 if (camera.deviceId === currentCamera.deviceId) {
                     document.getElementById("selector_input_camera").value = camera.label;
                     span.classList.add("selected");
@@ -151,10 +151,10 @@
             const currentResolution = await scanner.getResolution();
             const gotResolution = document.querySelector("#gotResolution span");
             const resOptions = document.querySelectorAll("#ul_options_resolution span");
-            gotResolution.innerText = 'got ' + currentResolution[0] + ' x ' + currentResolution[1];
+            gotResolution.textContent = 'got ' + currentResolution[0] + ' x ' + currentResolution[1];
             gotResolution.id = currentResolution[0] + 'x' + currentResolution[1];
             gotResolution.classList.add("selected");
-            document.getElementById("selector_input_resolution").value = gotResolution.innerText;
+            document.getElementById("selector_input_resolution").value = gotResolution.textContent;
             for (let i = 0; i < resOptions.length; i++) {
                 resOptions[i].addEventListener("click", resOptionSelected);
             };
@@ -199,7 +199,7 @@
                     const _currentCamera = await scanner.getCurrentCamera();
                     camOptions.forEach(span => {
                         if (span.id === _currentCamera.deviceId) {
-                            document.getElementById("selector_input_camera").value = span.innerText;
+                            document.getElementById("selector_input_camera").value = span.textContent;
                             span.classList.add("selected");
                         } else {
                             span.classList.remove("selected");
@@ -222,9 +222,9 @@
             const _currentResolution = await scanner.getResolution();
             const gotResolution = document.querySelector("#gotResolution span");
             const resOptions = document.querySelectorAll("#ul_options_resolution span");
-            gotResolution.innerText = 'got ' + _currentResolution[0] + ' x ' + _currentResolution[1];
+            gotResolution.textContent = 'got ' + _currentResolution[0] + ' x ' + _currentResolution[1];
             gotResolution.id = _currentResolution[0] + 'x' + _currentResolution[1];
-            document.getElementById("selector_input_resolution").value = gotResolution.innerText;
+            document.getElementById("selector_input_resolution").value = gotResolution.textContent;
             toggleMaskView();
         }
         // camera's styles mask show or not
