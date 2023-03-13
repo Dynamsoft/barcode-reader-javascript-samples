@@ -158,11 +158,11 @@
             let scanner = await pScanner;
             scanner && scanner.hide();
         });
-        document.getElementById('toggleSound').addEventListener("click", async() => {
+        document.getElementById('toggleSound').addEventListener("click", async(e) => {
             if (pScanner) {
                 let scanner = await pScanner;
                 let scanSettings = await scanner.getScanSettings();
-                scanSettings.whenToPlaySoundforSuccessfulRead = this.checked ? "frame" : "never";
+                scanSettings.whenToPlaySoundforSuccessfulRead = document.getElementById("toggleSound").checked ? "frame" : "never";
                 await scanner.updateScanSettings(scanSettings);
             }
         });
@@ -274,7 +274,7 @@
                 let li = document.createElement("li");
                 let span = document.createElement("span");
                 span.setAttribute("id", camera.deviceId);
-                span.innerText = camera.label;
+                span.textContent = camera.label;
                 li.appendChild(span);
                 document.getElementById("ul_options_camera").appendChild(li);
             });
@@ -282,7 +282,7 @@
             camOption.forEach(sapn => {
                 sapn.addEventListener("click", camOptionSelected);
                 if (!currentCamera || sapn.id === currentCamera.deviceId) {
-                    document.getElementById("selector_input_camera").value = sapn.innerText;
+                    document.getElementById("selector_input_camera").value = sapn.textContent;
                     sapn.classList.add("selected");
                 } else {
                     sapn.classList.remove("selected");
@@ -297,10 +297,10 @@
             let scanner = await pScanner;
             const currentResolution = await scanner.getResolution();
             let gotResolution = document.querySelector("#gotResolution span");
-            gotResolution.innerText = 'got ' + currentResolution[0] + ' x ' + currentResolution[1];
+            gotResolution.textContent = 'got ' + currentResolution[0] + ' x ' + currentResolution[1];
             gotResolution.id = currentResolution[0] + 'x' + currentResolution[1];
             gotResolution.classList.add("selected");
-            document.getElementById("selector_input_resolution").value = gotResolution.innerText;
+            document.getElementById("selector_input_resolution").value = gotResolution.textContent;
             const checked = document.getElementById("toggleScanLight").checked;
             setScanLightView(checked);
         }
