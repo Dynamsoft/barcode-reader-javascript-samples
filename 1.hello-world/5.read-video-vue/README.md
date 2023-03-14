@@ -9,7 +9,7 @@
 
 ## Preparation
 
-Make sure you have [node](https://nodejs.org/) is installed. `node 14.21.3` and `vue 2.7.7` are used in the example below. 
+Make sure you have [node](https://nodejs.org/) installed. `node 14.21.3` and `vue 2.7.7` are used in the example below. 
 
 ## Create the sample project
 
@@ -22,6 +22,7 @@ npm create vue@2
 ### **CD** to the root directory of the application and install the dependencies
 
 ```cmd
+npm install
 npm install dynamsoft-javascript-barcode
 ```
 
