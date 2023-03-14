@@ -9,12 +9,19 @@
     <title>Dynamsoft Barcode Reader PWA Sample - Hello World (Decoding via Camera)</title>
     <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/1.hello-world/10.read-video-pwa/helloworld-pwa.html">
     <link rel="manifest" href="./helloworld-pwa.json">
+    <meta name="theme-color" content="#B12A34">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="sample for ios">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" sizes="192x192" href="./dynamsoft-192x192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="./dynamsoft-512x512.png" />
 </head>
 
 <body>
     <h1 style="font-size: 1.5em;">Hello World for PWA</h1>
     Loading...
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.10/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.11/dist/dbr.js"></script>
     <script>
         if(location.protocol === "file:") {
             const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
@@ -36,32 +43,13 @@
          * LICENSE ALERT - THE END 
          */
 
-        let pScanner = null;
-        let latestResult = null;
-        
-        function startNotificationLoop() {
-            if (latestResult != null) {
-                const title = "New Barcode Found!";
-                const notifBody = `Barcode Text: ${latestResult}.`;
-                const options = {
-                    body: notifBody,
-                };
-                new Notification(title, options);
-                latestResult = null;
-            }
-            setTimeout(startNotificationLoop, 100);
-        }
-        
         (async function() {
-            if(window.Notification) {
-                Notification.requestPermission().then((result) => {
-                    if (result === 'granted') {
-                        startNotificationLoop();
-                    }
-                });
-            }
             try {
-                const scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+                const scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                /** 
+                 * 'onFrameRead' is triggered after the library finishes reading a frame image.
+                 * There can be multiple barcodes on one image.
+                 */
                 scanner.onFrameRead = results => {
                     console.log("Barcodes on one frame:");
                     for (let result of results) {
@@ -69,17 +57,22 @@
                         console.log(format + ": " + result.barcodeText);
                     }
                 };
+                /**
+                 * 'onUniqueRead' is  triggered only when a 'new' barcode is found.
+                 * The amount of time that the library 'remembers' a barcode is defined by 
+                 * "duplicateForgetTime" in "ScanSettings". By default it is set to 3000 ms.
+                 */
                 scanner.onUniqueRead = (txt, result) => {
-                    latestResult = txt;
+                    alert(txt);
+                    console.log("Unique Code Found: ", result);
                 }
+                /**
+                 * 'show()' opens the camera and shows the video stream on the page. 
+                 * After that, the library starts to scan the frame images continuously.
+                 */
                 await scanner.show();
             } catch (ex) {
-                let errMsg;
-                if (ex.message.includes("network connection error")) {
-                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-                } else {
-                    errMsg = ex.message||ex;
-                }
+                let errMsg = ex.message||ex;
                 console.error(errMsg);
                 alert(errMsg);
             }
