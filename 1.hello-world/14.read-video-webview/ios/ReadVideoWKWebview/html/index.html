@@ -7,7 +7,7 @@
     <meta name="description" content="Quickly read barcodes with Dynamsoft Barcode Reader from a live camera stream.">
     <meta name="keywords" content="camera based barcode reading">
     <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/1.hello-world/14.read-video-webview">
-    <title>Dynamsoft Barcode Reader Sample - Read Video WebView(Android)</title>
+    <title>Dynamsoft Barcode Reader Sample - Read Video WKWebView(iOS)</title>
 </head>
 
 <body style="margin: 0;padding: 0;">
@@ -19,24 +19,24 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.11/dist/dbr.js"></script>
     <script>
-        /** LICENSE ALERT - README 
+        /** LICENSE ALERT - README
          * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
 
         Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
 
-        /** 
-         * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
+        /**
+         * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
          * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.6.11&utm_source=github#specify-the-license or contact support@dynamsoft.com.
-         * LICENSE ALERT - THE END 
+         * LICENSE ALERT - THE END
          */
 
         let pScanner = null;
         (async function () {
             try {
                 await Dynamsoft.DBR.BarcodeReader.loadWasm();
-                window.DBR_Android.onWasmLoaded();
+                window.webkit.messageHandlers.onWasmLoaded.postMessage("");
             } catch (ex) {
                 let errMsg;
                 if (ex.message.includes("network connection error")) {
@@ -54,7 +54,7 @@
             await scanner.setUIElement(document.getElementById('div-ui-container'));
             scanner.onUniqueRead = (txt, result) => {
                 const format = result.barcodeFormatString;
-                window.DBR_Android.onUniqueRead(format + " " + txt)
+                window.webkit.messageHandlers.onUniqueRead.postMessage(format + " " + txt);
             };
             await scanner.show();
         }
