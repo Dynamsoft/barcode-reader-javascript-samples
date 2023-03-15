@@ -38,7 +38,7 @@ Read more in the README under "4.read-video-react".
 
 ## Hello World in React with Hooks
 
-Read more in the README under "13.read-video-react-hook".
+Read more in the README under "13.read-video-react-hooks".
 
 ## Hello World in Vue 2
 
