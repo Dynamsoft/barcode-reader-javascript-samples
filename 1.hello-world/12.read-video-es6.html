@@ -36,10 +36,9 @@
 
         BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.10/dist/";
 
-        let pScanner = null;
         (async () => {
             try {
-                const scanner = await (pScanner = pScanner || BarcodeScanner.createInstance());
+                const scanner = await BarcodeScanner.createInstance();
                 /* 
                  * 'onFrameRead' is triggered after the library finishes reading a frame.
                  * There can be one or multiple barcodes on each frame.

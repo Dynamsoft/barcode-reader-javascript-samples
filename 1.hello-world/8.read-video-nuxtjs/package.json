@@ -8,9 +8,9 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "nuxt": "^3.2.0"
+    "nuxt": "^3.2.3"
   },
   "dependencies": {
-    "dynamsoft-javascript-barcode": "9.6.10"
+    "dynamsoft-javascript-barcode": "^9.6.11"
   }
 }

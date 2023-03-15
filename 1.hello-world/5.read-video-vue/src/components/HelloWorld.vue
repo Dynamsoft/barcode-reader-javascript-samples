@@ -1,6 +1,6 @@
 <template>
   <div class="helloWorld">
-    <h1>Hello World for Vue<img class="applogo" alt="Vue logo" src="../assets/logo.png" /></h1>
+    <h1>Hello World for Vue<img class="applogo" alt="Vue logo" src="../assets/logo.svg" /></h1>
     <div class="btn-group">
       <button :style="{ marginRight: '10px', backgroundColor: bShowScanner ? 'rgb(255,174,55)' : 'white' }"
         @click="showScanner">Video Decode</button>
@@ -17,7 +17,7 @@
 <script>
 import "../dbr"; // import side effects. The license, engineResourcePath, so on.
 import { BarcodeReader } from "dynamsoft-javascript-barcode";
-import VideoDecode from "./VideoDecode";
+import VideoDecode from "./VideoDecode.vue";
 import ImgDecode from './ImgDecode.vue'
 
 export default {
