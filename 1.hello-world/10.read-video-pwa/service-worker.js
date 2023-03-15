@@ -1,9 +1,17 @@
+const dbrVersion = "9.6.11";
+const dbrCdn = `https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@${dbrVersion}/dist/`;
+
 // Files to cache
 const cacheName = 'helloworld-pwa';
 const appShellFiles = [
     './helloworld-pwa.html',
-    './dbr-big.png',
+    './dynamsoft-192x192.png',
+    './dynamsoft-512x512.png',
     './helloworld-pwa.json',
+    `${dbrCdn}dbr.js`,
+    `${dbrCdn}dbr-${dbrVersion}.full.wasm`,
+    `${dbrCdn}dbr-${dbrVersion}.full.wasm.js`,
+    `${dbrCdn}dbr-${dbrVersion}.browser.worker.js`,
 ];
 
 // Installing Service Worker
@@ -29,3 +37,7 @@ self.addEventListener('fetch', (e) => {
         return response;
     })());
 });
+
+
+
+
