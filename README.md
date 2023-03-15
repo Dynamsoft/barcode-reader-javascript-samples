@@ -21,10 +21,11 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 Get the basic features of the library working with plain/native JavaScript or within a framework like [Angular](https://angular.io/), [React](https://reactjs.org/) or [Vue](https://vuejs.org/), etc.
 
 * [**Hello World**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/1.hello-world.html?utm_source=sampleReadme): Scan barcodes from video stream with minimum code in JavaScript.
-* [**Read an Existing Image**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/2.read-an-image.html?utm_source=sampleReadme): Decode barcodes from existing images that are stored locally, whether on mobile or desktop.
+* [**Read an Image**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/2.read-an-image.html?utm_source=sampleReadme): Decode barcodes from existing images that are stored locally, whether on mobile or desktop.
 * [**Hello World in Angular**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/3.read-video-angular/dist/hello-world/?utm_source=sampleReadme): Decode video stream in an Angular application from a USB-connected or built-in camera (mobile or desktop).
 * [**Hello World in React**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/4.read-video-react/build/?utm_source=sampleReadme): Decode video stream in a React application from a USB-connected or built-in camera (mobile or desktop).
-* [**Hello World in Vue 2**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/5.read-video-vue/dist/?utm_source=sampleReadme): Decode video stream in a Vue 2 application from a USB-connected or built-in camera (mobile or desktop).
+* [**Hello World in React using Hooks**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/13.read-video-react-hooks/build/?utm_source=sampleReadme): Decode video stream in a React application from a USB-connected or built-in camera (mobile or desktop) and use the Hooks charactor of React.
+* [**Hello World in Vue**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/5.read-video-vue/dist/?utm_source=sampleReadme): Decode video stream in a Vue 2 application from a USB-connected or built-in camera (mobile or desktop).
 * [**Hello World in Vue 3**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/6.read-video-vue3/dist/?utm_source=sampleReadme): Decode video stream in a Vue 3 application from a USB-connected or built-in camera (mobile or desktop).
 * [**Hello World in Next.js**](https://www.dynamsoft.com/barcode-reader/programming/javascript/samples-demos/helloworld-nextjs.html?utm_source=sampleReadme): Decode video stream in a Next.js application from a USB-connected or built-in camera (mobile or desktop).
 * [**Hello World in Nuxt**](https://www.dynamsoft.com/barcode-reader/programming/javascript/samples-demos/helloworld-nuxtjs.html?utm_source=sampleReadme): Decode video stream in a Nuxt application from a USB-connected or built-in camera (mobile or desktop).
@@ -32,7 +33,8 @@ Get the basic features of the library working with plain/native JavaScript or wi
 * [**Hello World in PWA**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/10.read-video-pwa/helloworld-pwa.html?utm_source=sampleReadme): Decode video stream in a PWA application from a USB-connected or built-in camera (mobile or desktop).
 * [**Hello World with RequireJS**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/11.read-video-requirejs.html?utm_source=sampleReadme): Decode video stream in an application using RequireJS from a USB-connected or built-in camera (mobile or desktop).
 * [**Hello World with ES6**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/12.read-video-es6.html?utm_source=sampleReadme): Decode video stream in an application using ES6 from a USB-connected or built-in camera (mobile or desktop).
-
+<!-- TODO: update the link -->
+* [**Hello World in WebView**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/12.read-video-es6.html?utm_source=sampleReadme): Decode video stream in an application in WebView from camera. 
 ### Customize Camera UI
 
 * [**Use the Default Camera UI**](https://demo.dynamsoft.com/samples/dbr/js/2.ui-tweaking/1.read-video-show-result.html?utm_source=sampleReadme): Show the default camera UI to decode video stream from a USB-connected or built-in camera (mobile or desktop).
