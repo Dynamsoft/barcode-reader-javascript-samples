@@ -36,7 +36,7 @@ Read more in the README under "3.read-video-angular".
 
 Read more in the README under "4.read-video-react".
 
-## Hello World in React with Hooks
+## Hello World in React using Hooks
 
 Read more in the README under "13.read-video-react-hooks".
 
