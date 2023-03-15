@@ -16,13 +16,13 @@ Make sure you have [node](https://nodejs.org/) installed. `node 14.21.3` and `re
 ### Create a Bootstrapped Raw React Application with TypeScript
 
 ```cmd
-npx create-react-app read-video-react-hook --template typescript
+npx create-react-app read-video-react-hooks --template typescript
 ```
 
 ### **CD** to the root directory of the application and install the library
 
 ```cmd
-cd read-video-react-hook
+cd read-video-react-hooks
 npm install dynamsoft-javascript-barcode
 ```
 
