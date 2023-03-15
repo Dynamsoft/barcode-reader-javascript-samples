@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		68306D50294073E500020E5B /* html in Resources */ = {isa = PBXBuildFile; fileRef = 68306D4F294073E500020E5B /* html */; };
+		683A144029C19A4300C80931 /* DynamsoftBarcodeReader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683A143F29C19A4300C80931 /* DynamsoftBarcodeReader.framework */; };
+		683A144129C19A4300C80931 /* DynamsoftBarcodeReader.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 683A143F29C19A4300C80931 /* DynamsoftBarcodeReader.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		683A144329C19A4B00C80931 /* DynamsoftCameraEnhancer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683A144229C19A4A00C80931 /* DynamsoftCameraEnhancer.framework */; };
+		683A144429C19A4B00C80931 /* DynamsoftCameraEnhancer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 683A144229C19A4A00C80931 /* DynamsoftCameraEnhancer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		68F2F6762938471F00318579 /* DBRWKWebViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F2F6752938471F00318579 /* DBRWKWebViewHelper.swift */; };
 		C42699C7262579AF00DA60E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42699C6262579AF00DA60E9 /* AppDelegate.swift */; };
 		C42699CB262579AF00DA60E9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42699CA262579AF00DA60E9 /* ViewController.swift */; };
@@ -23,6 +27,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				683A144129C19A4300C80931 /* DynamsoftBarcodeReader.framework in Embed Frameworks */,
+				683A144429C19A4B00C80931 /* DynamsoftCameraEnhancer.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -31,15 +37,16 @@
 
 /* Begin PBXFileReference section */
 		68306D4F294073E500020E5B /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
+		683A143F29C19A4300C80931 /* DynamsoftBarcodeReader.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DynamsoftBarcodeReader.framework; sourceTree = "<group>"; };
+		683A144229C19A4A00C80931 /* DynamsoftCameraEnhancer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DynamsoftCameraEnhancer.framework; sourceTree = "<group>"; };
 		68F2F6752938471F00318579 /* DBRWKWebViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBRWKWebViewHelper.swift; sourceTree = "<group>"; };
-		C42699C3262579AF00DA60E9 /* WebViewBarcodeScanning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebViewBarcodeScanning.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C42699C3262579AF00DA60E9 /* ReadVideoWKWebview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReadVideoWKWebview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C42699C6262579AF00DA60E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C42699CA262579AF00DA60E9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C42699CD262579AF00DA60E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C42699CF262579B300DA60E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C42699D2262579B300DA60E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C42699D4262579B300DA60E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C45B6DF2267CA8D100D6FCC3 /* DBRSample_Bridging_Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBRSample_Bridging_Header.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,34 +54,44 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				683A144029C19A4300C80931 /* DynamsoftBarcodeReader.framework in Frameworks */,
+				683A144329C19A4B00C80931 /* DynamsoftCameraEnhancer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		683A143E29C19A4200C80931 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				683A144229C19A4A00C80931 /* DynamsoftCameraEnhancer.framework */,
+				683A143F29C19A4300C80931 /* DynamsoftBarcodeReader.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C42699BA262579AF00DA60E9 = {
 			isa = PBXGroup;
 			children = (
-				C42699C5262579AF00DA60E9 /* WebViewBarcodeScanning */,
+				C42699C5262579AF00DA60E9 /* ReadVideoWKWebview */,
 				C42699C4262579AF00DA60E9 /* Products */,
-				C42699DC26257A2C00DA60E9 /* Frameworks */,
+				683A143E29C19A4200C80931 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		C42699C4262579AF00DA60E9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C42699C3262579AF00DA60E9 /* WebViewBarcodeScanning.app */,
+				C42699C3262579AF00DA60E9 /* ReadVideoWKWebview.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C42699C5262579AF00DA60E9 /* WebViewBarcodeScanning */ = {
+		C42699C5262579AF00DA60E9 /* ReadVideoWKWebview */ = {
 			isa = PBXGroup;
 			children = (
 				68306D4F294073E500020E5B /* html */,
-				C45B6DF2267CA8D100D6FCC3 /* DBRSample_Bridging_Header.h */,
 				C42699C6262579AF00DA60E9 /* AppDelegate.swift */,
 				C42699CA262579AF00DA60E9 /* ViewController.swift */,
 				68F2F6752938471F00318579 /* DBRWKWebViewHelper.swift */,
@@ -83,22 +100,15 @@
 				C42699D1262579B300DA60E9 /* LaunchScreen.storyboard */,
 				C42699D4262579B300DA60E9 /* Info.plist */,
 			);
-			path = WebViewBarcodeScanning;
-			sourceTree = "<group>";
-		};
-		C42699DC26257A2C00DA60E9 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
+			path = ReadVideoWKWebview;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C42699C2262579AF00DA60E9 /* WebViewBarcodeScanning */ = {
+		C42699C2262579AF00DA60E9 /* ReadVideoWKWebview */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C42699D7262579B300DA60E9 /* Build configuration list for PBXNativeTarget "WebViewBarcodeScanning" */;
+			buildConfigurationList = C42699D7262579B300DA60E9 /* Build configuration list for PBXNativeTarget "ReadVideoWKWebview" */;
 			buildPhases = (
 				C42699BF262579AF00DA60E9 /* Sources */,
 				C42699C0262579AF00DA60E9 /* Frameworks */,
@@ -109,9 +119,9 @@
 			);
 			dependencies = (
 			);
-			name = WebViewBarcodeScanning;
+			name = ReadVideoWKWebview;
 			productName = WebViewBarcodeScanningSwift;
-			productReference = C42699C3262579AF00DA60E9 /* WebViewBarcodeScanning.app */;
+			productReference = C42699C3262579AF00DA60E9 /* ReadVideoWKWebview.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -128,7 +138,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C42699BE262579AF00DA60E9 /* Build configuration list for PBXProject "WebViewBarcodeScanning" */;
+			buildConfigurationList = C42699BE262579AF00DA60E9 /* Build configuration list for PBXProject "ReadVideoWKWebview" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -141,7 +151,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C42699C2262579AF00DA60E9 /* WebViewBarcodeScanning */,
+				C42699C2262579AF00DA60E9 /* ReadVideoWKWebview */,
 			);
 		};
 /* End PBXProject section */
@@ -319,18 +329,18 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					../../../Frameworks/,
-					"$(PROJECT_DIR)/WebViewBarcodeScanning",
+					"$(PROJECT_DIR)/ReadVideoWKWebview",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = WebViewBarcodeScanning/Info.plist;
+				INFOPLIST_FILE = ReadVideoWKWebview/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Dynamsoft.WebViewBarcodeScanning;
-				PRODUCT_NAME = WebViewBarcodeScanning;
-				SWIFT_OBJC_BRIDGING_HEADER = WebViewBarcodeScanning/DBRSample_Bridging_Header.h;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Dynamsoft.ReadVideoWKWebview;
+				PRODUCT_NAME = ReadVideoWKWebview;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_WORKSPACE = YES;
@@ -347,18 +357,18 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					../../../Frameworks/,
-					"$(PROJECT_DIR)/WebViewBarcodeScanning",
+					"$(PROJECT_DIR)/ReadVideoWKWebview",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = WebViewBarcodeScanning/Info.plist;
+				INFOPLIST_FILE = ReadVideoWKWebview/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Dynamsoft.WebViewBarcodeScanning;
-				PRODUCT_NAME = WebViewBarcodeScanning;
-				SWIFT_OBJC_BRIDGING_HEADER = WebViewBarcodeScanning/DBRSample_Bridging_Header.h;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Dynamsoft.ReadVideoWKWebview;
+				PRODUCT_NAME = ReadVideoWKWebview;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_WORKSPACE = YES;
@@ -368,7 +378,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C42699BE262579AF00DA60E9 /* Build configuration list for PBXProject "WebViewBarcodeScanning" */ = {
+		C42699BE262579AF00DA60E9 /* Build configuration list for PBXProject "ReadVideoWKWebview" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C42699D5262579B300DA60E9 /* Debug */,
@@ -377,7 +387,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C42699D7262579B300DA60E9 /* Build configuration list for PBXNativeTarget "WebViewBarcodeScanning" */ = {
+		C42699D7262579B300DA60E9 /* Build configuration list for PBXNativeTarget "ReadVideoWKWebview" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C42699D8262579B300DA60E9 /* Debug */,

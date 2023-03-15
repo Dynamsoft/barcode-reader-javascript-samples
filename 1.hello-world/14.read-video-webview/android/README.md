@@ -1,4 +1,4 @@
-# Hello-world for WebView - Dynamsoft Barcode Reader Sample
+# Hello-world for Android WebView - Dynamsoft Barcode Reader Sample
 
 This sample demonstrates how to use the [Dynamsoft Barcode Reader](https://www.dynamsoft.com/barcode-reader/overview/) JS Edition in Android.
 
@@ -26,7 +26,7 @@ Don't forget to load this page using webview in your Android project.
 
 Copy the file 'DBRWebViewHelper.java' in the sample to your Android project.
 
-This file provides a class: `DBRWebViewHelper`, which will make it very convenient to let the javascript code in your WebView use DBR Android by providing some methods.
+This file provides a class: `DBRWebViewHelper`, which will make it very convenient to let the java code use DBR JS by providing some methods.
 
 ```java
 DBRWebViewHelper dbrWebViewHelper = new DBRWebViewHelper();
@@ -88,8 +88,8 @@ public class WebAppInterface {
 `DBRWebViewHelper` has an `evaluateJavascript()` method, which executes javascript code through `WebView.evaluateJavascript()`, you can use it to complete the interaction like the following code.
 
 ```java
-public void stopScanner() {
-    evaluateJavascript("stopScanner()");
+public void startScanner() {
+    evaluateJavascript("startScanner()");
 }
 ```
 
