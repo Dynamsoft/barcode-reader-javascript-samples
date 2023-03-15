@@ -38,10 +38,13 @@
              */
 
             BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.10/dist/";
-            let pScanner = null;
             (async function() {
                 try {
-                    const scanner = await (pScanner = pScanner || BarcodeScanner.createInstance());
+                    const scanner = await BarcodeScanner.createInstance();
+                    /* 
+                    * 'onFrameRead' is triggered after the library finishes reading a frame.
+                    * There can be one or multiple barcodes on each frame.
+                    */
                     scanner.onFrameRead = results => {
                         console.log("Barcodes on one frame:");
                         for (let result of results) {
@@ -49,6 +52,11 @@
                             console.log(format + ": " + result.barcodeText);
                         }
                     };
+                    /*
+                    * onUnduplicatdRead is triggered only when a 'new' barcode is found.
+                    * The amount of time that the library 'remembers' a barcode is defined by 
+                    * "duplicateForgetTime" in "ScanSettings". By default it is set to 3000 ms.
+                    */
                     scanner.onUniqueRead = (txt, result) => {
                         alert(txt);
                         console.log("Unique Code Found: ", result);
