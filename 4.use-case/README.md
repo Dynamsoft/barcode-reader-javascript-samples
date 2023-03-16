@@ -50,8 +50,8 @@ When the SDK find barcodes in camera, it will highlight them with built-in style
 
 The following official sample shows how to hightlight results with custom style.
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/4.use-case/3.3.highlight-results-with-custom-style.html">Read the PDF417 Barcode on the Driver&apos;s License - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/4.use-case/3.highlight-results-with-custom-style.html">Read the PDF417 Barcode on the Driver&apos;s License - Source Code</a>
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/4.use-case/3.highlight-results-with-custom-style.html">Read barcodes via camera and highlight results with custom style - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/4.use-case/3.highlight-results-with-custom-style.html">Read barcodes via camera and highlight results with custom style - Source Code</a>
 
 ## Support
 
