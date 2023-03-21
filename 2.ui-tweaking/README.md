@@ -22,12 +22,12 @@ If you check the GUI on the demo page, you will find that it consists of the fol
 There are a few other elements
 
 * Before the video starts streaming, there is a spinner that indicates the loading process
-* When a barcode is found, the location of the barcode is highlighted in the video stream
+* When a barcode is found, the barcode is highlighted with an overlay
 * If no camera is found on the device or camera access is denied on the page, the GUI will show a camera icon, which, when clicked, allows the user to select a local image or invoke the system camera interface
 
 ## Hide Built-in Controllers
 
-As mentioned above, the default UI comes with quite a few elements. Some of them might not fit the style of your own application. The following code snippet removes the camera selector, the resolution selector, the close button as well as changes the backgournd color.
+The default UI of the BarcodeReader class includes several elements that may not match the style of your application. The following code snippet demonstrates how to remove the camera selector, resolution selector, and close button, as well as change the background color:
 
 ```html
 <div id="UIElement">
@@ -85,7 +85,7 @@ For more related customization, check out the following official sample:
 
 The library is usually used on mobile devices which have small screens. When scanning barcodes with the mobile camera, the video stream will be limited in the video element and may not be clear enough. Ideally, we should use the whole screen to play the video and find barcodes.
 
-The GUI is pure HTML, so changing the size of the element is very easy. For example, the following enlarges the element to be the full size of the viewport.
+The GUI is pure HTML. Thus modifying the size of the element is easy. The following code expands the element to fill the entire viewport:
 
 ```javascript
 document.getElementById('UIElement').style.height = '100vh';
@@ -93,14 +93,14 @@ document.getElementById('UIElement').style.width = '100vw';
 document.getElementById('UIElement').style.position = 'absolute';
 ```
 
-Check out the following sample on how to enlarge the video stream to read a barcode and then change it back to its normal size.
+Check out the following example code to see how you can expand the video stream to read a barcode and then restore it to its normal size:
 
 * <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/2.ui-tweaking/4.difference-video-size.html">Enlarge the Video Stream - Demo</a>
 * <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/2.ui-tweaking/4.difference-video-size.html">Enlarge the Video Stream - Source Code</a>
 
 ## Customize the Default Ui
 
-Check out the following sample, that shows a customized viewer that differs greatly from the default one which demonstrates the possibility in the customization:
+Check out the following example code that demonstrates how to create a custom viewer that is vastly different from the default one. You can feel the possibilities of customization:
 
 * <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/2.ui-tweaking/5.read-video-with-custom-default-ui.html">Customize the Default Ui - Demo</a>
 * <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/2.ui-tweaking/5.read-video-with-custom-default-ui.html">Customize the Default Ui - Source Code</a>
