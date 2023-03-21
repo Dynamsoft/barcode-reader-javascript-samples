@@ -112,11 +112,10 @@ export class VideoDecodeComponent implements OnInit {
 >
 > * The method `createInstance()` is called to initialize the library as soon as the component initializes.
 > * To release resources timely, the `BarcodeScanner` instance is destroyed with the component in the callback `ngOnDestroy` .
-> * The method `setUIElement()` specifies the UI for the library with the native element in `video-decode.component.html` which we just copied over in the previous step.
-
+> * The `setUIElement()` method is used to define the user interface (UI) for the library using the native element in `video-decode.component.html`, which was copied in the previous step.
 ### Edit the img-decode component
 
-* Replace the original code in `img-decode.component.html` with code below for offering a `input` element to select a local image.
+* Replace the original code in `img-decode.component.html` with code below to select a local image via `input` element.
 
 ```html
 <div class="ImgDecode"><input type="file" (change)="decodeImg($event)"/></div>
@@ -309,7 +308,7 @@ Edit the file `app.component.html` to contain nothing but the following
 ng serve
 ```
 
-If you followed all the steps correctly, you will have a working page that turns one of the cameras hooked to or built in your computer or mobile device into a barcode scanner. Also, if you want to decode a local image, just click the `Image Decode` button and select the image you want to decode. Once barcodes are found, the results will show in a dialog. 
+If you have followed all the steps correctly, you should now have a functioning page that allows you to scan barcodes from a webcam or a built-in camera. Additionally, if you want to decode a local image, you can click the `Image Decode` button and select the image you want to decode. Any barcodes that are detected will be displayed in a dialog.
 
 ## Development server
 

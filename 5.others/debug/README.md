@@ -12,7 +12,7 @@ Item 3 we will introduce in detail.
 
 ## Collect the video frames for analysis
 
-Barcode reading is a one-time job, the application either succeeds or fails to read the barcode(s). For the failed cases, it's possible to make them successful by adjusting some of the many settings provided by the Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library"). However, adjusting the settings could be a bit overwhelming for the users. Therefore, Dynamsoft provides this debug sample which allows a user to collect runtime video frames to be sent to the Dynamsoft Team. Since these frames represent the actual usage scenario, the team can test them to see how the settings can be optimized to best process them.
+Barcode reading is a one-time job, the application either succeeds or fails to read the barcode(s). For the failed scenario, it's possible to make them successful by adjusting the settings provided by the Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library"). However, adjusting the settings could be a bit overwhelming. Therefore, Dynamsoft offers the debug sample that enables customers to capture and save runtime video frames for sending to the Dynamsoft team. With the original images, the team can test and optimize settings for customers.
 
 The following shows how to host the sample and collect frames.
 
@@ -50,8 +50,8 @@ Once the server is up and running, open the page on the device that will do the 
 
 > Note that the device should be in the same WiFi network as the server machine. 
 
-You will see a warning when you visit the page. This is caused by self-signing. Ignore and keep processing.
+You will see a warning due to self-signing. Please ignore and keep processing.
 
-Click the button "show scanner" and try to read barcodes as you normally do, the frames will then be uploaded to the folder "debug\public\collect" as images (.png) on the server. When you have collected enough frames, don't forget to turn off the scanner, otherwise, new frames will continue to flood in.
+Click the button "show scanner" and try to read barcodes, the frames will then be uploaded to the folder "debug\public\collect" as images (.png) on the server. When you have collected enough frames, please turn off the scanner, otherwise, new frames will continue to flood in.
 
 Check the images to make sure that they correctly represent the actual usage scenario, then zip and send them to Dynamsoft for technical assistance.

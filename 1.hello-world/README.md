@@ -1,32 +1,32 @@
 # The Hello World Sample Set
 
-As you have gone through the [user guide](https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#getting-started---hello-world), you might have seen some basic "Hello World" code to help you quickly create a basic web application that uses our SDK.
+As you have already gone through the [user guide](https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#getting-started---hello-world), you may have come across some basic "Hello World" code that can help you create a simple web application using our SDK quickly.
 
-This sample set will revisit the Hello World code, and its implementation in some of the popular frameworks such as Angular, React, an Vue.
+In this set of samples, we will revisit the "Hello World" code and show how to implement it using some popular frameworks, such as Angular, React, and Vue.
 
-Let's break down each of the samples
+Let's now go through each of the samples.
 
 ## Hello World - Read Barcodes via Video
 
-In this sample, you will find the basic lines of code necessary to initialize the SDK and set it up.
+In this example, you will learn the minimum codes required to initialize and set up the SDK.
 
 Let's quickly break down the methods used in order:
 
-* `license`: This property specifies a license key. Read more on Specify the license.
+* `license`: This property specifies a license key.
 * `createInstance()`: This method creates a `BarcodeScanner` object. This object can read barcodes directly from a video input with the help of its interactive UI (hidden by default) and the MediaDevices interface.
 * `onFrameRead`: This event is triggered every time the SDK finishes scanning a video frame. The `results` object contains all the barcode results that the SDK have found on this frame. In this example, we print the results to the browser console.
-* `onUniqueRead`: This event is triggered when the SDK finds a new barcode, which is not a duplicate among multiple frames. `txt` holds the barcode text value while `result` is an object that holds details of the barcode. In this example, an alert will be displayed for this new barcode.
+* `onUniqueRead`: This event is triggered when the SDK finds a new barcode, which is unique among multiple frames. `txt` holds the barcode text value while `result` is an object that holds details of the barcode. In this example, an alert will be displayed on unique reads.
 * `show()`: This method brings up the built-in UI of the `BarcodeScanner` object and starts scanning
 
-In fact, `onFrameRead` and `onUniqueRead` do not have to both be defined in the code. `onUniqueRead` is the more used one between the two as it is triggered when a new barcode is found rather than on every frame.
+Actually, it is not necessary to define both onFrameRead and onUniqueRead in the code. onUniqueRead is more commonly used because it is triggered only when a new barcode is detected, rather than on every frame.
 
 ## Hello World - Read Barcodes from an Image
 
-The second sample in this set focuses on the secondary class `BarcodeReader` which is a low-level barcode reader that processes still images and returns barcode results.
+The second sample in this set focuses on the secondary class `BarcodeReader` which is a low-level barcode reader that processes static images and returns barcode results.
 
-In this sample, a event listener is set up so that the SDK decodes any image that the user uploads.
+In this sample, an event listener is set up so that the SDK decodes any images that the user uploads.
 
-[`decode`](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=latest#decode) is the main method to go for when using the `BarcodeReader` class, although the class offers a number of other methods should you work with base64 strings, for instance. The rest of the image decoding methods can be found [here](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=latest#decode-barcodes).
+When working with the BarcodeReader class, the main method to use is [`decode`](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=latest#decode), although the class provides several other methods if you need to work with base64 strings or other formats. You can find the rest of the image decoding methods [here](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=latest#decode-barcodes).
 
 ## Hello World in Angular
 
@@ -70,13 +70,13 @@ This sample shows how to use the SDK in a web page based on RequireJS.
 
 Let's quickly break down the methods used in order:
 
-* `license`: This property specifies a license key. Read more on Specify the license.
+* `license`: This property specifies a license key.
 * `createInstance()`: This method creates a `BarcodeScanner` object. This object can read barcodes directly from a video input with the help of its interactive UI (hidden by default) and the MediaDevices interface.
 * `onFrameRead`: This event is triggered every time the SDK finishes scanning a video frame. The `results` object contains all the barcode results that the SDK have found on this frame. In this example, we print the results to the browser console.
-* `onUniqueRead`: This event is triggered when the SDK finds a new barcode, which is not a duplicate among multiple frames. `txt` holds the barcode text value while `result` is an object that holds details of the barcode. In this example, an alert will be displayed for this new barcode.
+* `onUniqueRead`: This event is triggered when the SDK finds a new barcode, which is unique among multiple frames. `txt` holds the barcode text value while `result` is an object that holds details of the barcode. In this example, an alert will be displayed on unique reads.
 * `show()`: This method brings up the built-in UI of the `BarcodeScanner` object and starts scanning
 
-In fact, `onFrameRead` and `onUniqueRead` do not have to both be defined in the code. `onUniqueRead` is the more used one between the two as it is triggered when a new barcode is found rather than on every frame.
+Actually, it is not necessary to define both onFrameRead and onUniqueRead in the code. onUniqueRead is more commonly used because it is triggered only when a new barcode is detected, rather than on every frame.
 
 ## Hello World with ES6
 
@@ -84,13 +84,13 @@ This sample shows how to use the SDK in a web page based on ES6 (also known as E
 
 Let's quickly break down the methods used in order:
 
-* `license`: This property specifies a license key. Read more on Specify the license.
+* `license`: This property specifies a license key.
 * `createInstance()`: This method creates a `BarcodeScanner` object. This object can read barcodes directly from a video input with the help of its interactive UI (hidden by default) and the MediaDevices interface.
 * `onFrameRead`: This event is triggered every time the SDK finishes scanning a video frame. The `results` object contains all the barcode results that the SDK have found on this frame. In this example, we print the results to the browser console.
-* `onUniqueRead`: This event is triggered when the SDK finds a new barcode, which is not a duplicate among multiple frames. `txt` holds the barcode text value while `result` is an object that holds details of the barcode. In this example, an alert will be displayed for this new barcode.
+* `onUniqueRead`: This event is triggered when the SDK finds a new barcode, which is unique among multiple frames. `txt` holds the barcode text value while `result` is an object that holds details of the barcode. In this example, an alert will be displayed on unique reads.
 * `show()`: This method brings up the built-in UI of the `BarcodeScanner` object and starts scanning
 
-In fact, `onFrameRead` and `onUniqueRead` do not have to both be defined in the code. `onUniqueRead` is the more used one between the two as it is triggered when a new barcode is found rather than on every frame.
+Actually, it is not necessary to define both onFrameRead and onUniqueRead in the code. onUniqueRead is more commonly used because it is triggered only when a new barcode is detected, rather than on every frame.
 
 ## Hello World with WebView
 
