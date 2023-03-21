@@ -178,8 +178,6 @@ For compatibility on safari, we need add some `meta` in `<head>`:
 
 Now, if you open the application again in your browser, you will notice an install icon appear on the right side of the address bar. When you click on it, a pop-up will appear asking if you want to install the app.
 
-![Install App](./assets/pwa-1.png)
-
 Once installed, you can use it like a native app.
 
 For offline use, you need to cache more files.
