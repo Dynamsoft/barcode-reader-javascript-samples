@@ -47,7 +47,7 @@ BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javas
 
 ### Create and edit the `VideoDecode` component
 
-* Create `VideoDecode.tsx` and `VideoDecode.css` under "/src/components/VideoDecode/". The `VideoDecode` component uses `BarcodeScanner` class of the library to help decode barcodes via camera.
+* Create `VideoDecode.tsx` and `VideoDecode.css` under "/src/components/VideoDecode/". The `VideoDecode` component uses `BarcodeScanner` class of the library to decode barcodes via camera.
 
 * In `VideoDecode.tsx`, add code for initializing and destroying the `BarcodeScanner` instance.
 
@@ -398,7 +398,7 @@ export default App;
 npm start
 ```
 
-If you followed all the steps correctly, you will have a working page that turns one of the cameras hooked to or built in your computer or mobile device into a barcode scanner. Also, if you want to decode a local image, just click the `Image Decode` button and select the image you want to decode. Once barcodes are found, the results will show in a dialog. 
+If you have followed all the steps correctly, you should now have a functioning page that allows you to scan barcodes from a webcam or a built-in camera. Additionally, if you want to decode a local image, you can click the `Image Decode` button and select the image you want to decode. Any barcodes that are detected will be displayed in a dialog.
 
 ## Development server
 
