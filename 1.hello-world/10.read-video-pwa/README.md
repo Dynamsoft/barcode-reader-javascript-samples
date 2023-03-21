@@ -127,7 +127,7 @@ For more information, refer to [Making PWAs work offline with Service workers](h
 
 ### Use a web manifest file to make the application installable
 
-A web manifest file lists all the information about the website in a JSON format. With this information, the web app can be properly presented for installation.
+A web manifest file contains a list of information about a website in a JSON format. This information is used to present the web app correctly for installation on a device.
 
 In our example, we first create a file "helloworld-pwa.webmanifest" with the following content:
 
@@ -176,7 +176,7 @@ For compatibility on safari, we need add some `meta` in `<head>`:
 <link rel="apple-touch-icon" sizes="512x512" href="./dynamsoft-512x512.png" />
 ```
 
-Now open the application again in the browser, you will notice an install icon appear at the right side of the address bar. When you click it, a pop up will come up and ask whether you want to install this app.
+Now, if you open the application again in your browser, you will notice an install icon appear on the right side of the address bar. When you click on it, a pop-up will appear asking if you want to install the app.
 
 ![Install App](./assets/pwa-1.png)
 

@@ -2,7 +2,7 @@
 
 It's difficult to type long text on mobile devices, but if that text is encoded in a barcode, we can use the sdk to read the barcode and automatically enter the text.
 
-The following code shows how to automatically invoke the sdk to read a barcode and fill an input box.
+The following code shows how to automatically invoke the sdk to read a barcode and fill in an input box.
 
 ```html
 <input id="input-to-fill" type="text" readonly="true" placeholder="Barcode Result">
@@ -28,16 +28,16 @@ Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9'
 })();
 ```
 
-The following official sample shows how to use the sdk to fill multiple fields for a form.
+The following sample demonstrates how to utilize the SDK to fill out form fields.
 
 * <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/4.use-case/1.fill-a-form-with-barcode-reading.html">Read Barcodes and Fill Form Fields - Demo</a>
 * <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/4.use-case/1.fill-a-form-with-barcode-reading.html">Read Barcodes and Fill Form Fields - Source Code</a>
 
 # Read the PDF417 Barcode on the Driver's License
 
-The PDF417 barcode on an AAMVA compatible driver's license contains a lot of information which is encoded following the DL/ID Card Design Standard. Together with a simple parse function, we can use the sdk to read and get the information to be used in our workflow.
+The PDF417 barcode on an AAMVA compatible driver's license contains a lot of information which is encoded following the DL/ID Card Design Standard. Together with a simple parse function, we can use the SDK to read and extract the information.
 
-The following official sample shows how to use the sdk to read a driver's license and extract its information.
+The following official sample shows how to use the sdk to read and extract driver's license information.
 
 * <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/4.use-case/2.read-a-drivers-license.html">Read the PDF417 Barcode on the Driver&apos;s License - Demo</a>
 * <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/4.use-case/2.read-a-drivers-license.html">Read the PDF417 Barcode on the Driver&apos;s License - Source Code</a>
@@ -46,7 +46,7 @@ Also see [Driver's License Scanner SDK for Mobile and Web](https://www.dynamsoft
 
 # Read barcodes via camera and highlight results with custom style
 
-When the SDK find barcodes in camera, it will highlight them with built-in style automatically. But it is also possible to customize the highlight style freely using the method 'convertToClientCoordinates()'.
+When the SDK picks up a barcode in video stream, it will highlight them with built-in style automatically. But it is also possible to customize the highlight style freely using the method 'convertToClientCoordinates()'.
 
 The following official sample shows how to hightlight results with custom style.
 
