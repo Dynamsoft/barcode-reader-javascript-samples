@@ -59,7 +59,7 @@ button {
   text-align: center;
   font-size: medium;
   /* height: 40vh; */
-  width: 80vw;
+  width: 100%;
 }
 
 .applogo {
