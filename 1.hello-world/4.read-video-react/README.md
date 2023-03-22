@@ -62,10 +62,10 @@ class VideoDecode extends React.Component {
     async componentDidMount() {
         try {
             const scanner = await (this.pScanner = BarcodeScanner.createInstance());
-            // Should judge if scanner is destroyed after 'await' in React 18 'StrictMode'. 
+            // Should judge if scanner is destroyed after 'await', as in development React runs setup and cleanup one extra time before the actual setup in Strict Mode. 
             if(scanner.isContextDestroyed()) return;
             await scanner.setUIElement(this.elRef.current!);
-            // Should judge if scanner is destroyed after 'await' in React 18 'StrictMode'. 
+            // Should judge if scanner is destroyed after 'await', as in development React runs setup and cleanup one extra time before the actual setup in Strict Mode. 
             if(scanner.isContextDestroyed()) return;
             scanner.onFrameRead = results => {
                 for (let result of results) {
