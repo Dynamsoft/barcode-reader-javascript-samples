@@ -129,7 +129,7 @@ export class VideoDecodeComponent implements OnInit {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 90%;
+  /* height: 90%; */
   border: 1px solid black
 }
 ```
