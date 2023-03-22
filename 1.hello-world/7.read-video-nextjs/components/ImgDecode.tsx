@@ -1,5 +1,6 @@
 import React, { ChangeEvent, Component } from 'react'
 import { BarcodeReader } from "dynamsoft-javascript-barcode";
+import styles from '@/styles/ImgDecode.module.css'
 
 export default class ImgDecode extends Component {
   pReader: Promise<BarcodeReader> = BarcodeReader.createInstance();
@@ -32,7 +33,7 @@ export default class ImgDecode extends Component {
 
   render() {
     return (
-      <div className="ImgDecode"><input type="file" onChange={this.decodeImg} /></div>
+      <div className={styles.ImgDecode}><input type="file" onChange={this.decodeImg} /></div>
     )
   }
 }
