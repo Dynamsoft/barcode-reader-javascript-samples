@@ -48,7 +48,7 @@ class HelloWorld extends React.Component<any, isState> {
         return (
             <div className="helloWorld">
                 <h1>Hello World for React<img src={reactLogo} className="App-logo" alt="logo" /></h1>
-                <div className="btn-group">
+                <div>
                     <button style={{ marginRight: '10px', backgroundColor: this.state.bShowScanner ? 'rgb(255,174,55)' : 'white' }} onClick={this.showScanner}>Video Decode</button>
                     <button style={{ backgroundColor: this.state.bShowImgDecode ? 'rgb(255,174,55)' : 'white' }} onClick={this.showImgDecode}>Image Decode</button>
                 </div>
