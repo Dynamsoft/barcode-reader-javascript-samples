@@ -341,8 +341,6 @@ onBeforeUnmount(async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 90%;
   border: 1px solid black
 }
 </style>
@@ -387,7 +385,7 @@ const showImgDecode = () => {
 <template>
   <div className="helloWorld">
     <h1>Hello World for Nuxt</h1>
-    <div class="btn-group">
+    <div>
       <button :style="{ marginRight: '10px', backgroundColor: bShowScanner ? 'rgb(255,174,55)' : 'white' }"
         @click="showScanner">Video Decode</button>
       <button :style="{ backgroundColor: bShowImgDecode ? 'rgb(255,174,55)' : 'white' }" @click="showImgDecode">Image
@@ -411,7 +409,6 @@ button {
   margin: 2vmin auto;
   text-align: center;
   font-size: medium;
-  /* height: 40vh; */
   width: 80vw;
 }
 
@@ -424,7 +421,6 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   width: 100%;
   height: 100%;
   color: #455a64;
