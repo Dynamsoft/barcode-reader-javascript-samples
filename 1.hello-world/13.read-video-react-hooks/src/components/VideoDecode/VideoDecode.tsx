@@ -1,54 +1,48 @@
 import { BarcodeScanner, TextResult } from "dynamsoft-javascript-barcode";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./VideoDecode.css";
 
 function VideoDecode() {
-  let [pScanner, setPScanner] = useState(null as null | Promise<BarcodeScanner>);
-  const elRef = useRef(null as any);
+  const pScanner = useRef(null as null | Promise<BarcodeScanner>);
+  const elRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setPScanner((pScanner = BarcodeScanner.createInstance()));
+    (async () => {
+      try {
+        const scanner = (await (pScanner.current = BarcodeScanner.createInstance()));
+        // Should judge if scanner is destroyed after 'await', as in development React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+        if (scanner.isContextDestroyed()) return;
+        await scanner.setUIElement(elRef.current!);
+        // Should judge if scanner is destroyed after 'await', as in development React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+        if (scanner.isContextDestroyed()) return;
+        scanner.onFrameRead = (results: TextResult[]) => {
+          for (let result of results) {
+            console.log(result.barcodeText);
+          }
+        };
+        scanner.onUniqueRead = (txt: string, result: TextResult) => {
+          alert(txt);
+        };
+        await scanner.open();
+      } catch (ex: any) {
+        if (ex.message.indexOf("network connection error")) {
+          let customMsg =
+            "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+          console.log(customMsg);
+          alert(customMsg);
+        }
+        throw ex;
+      }
+    })();
     return () => {
       (async () => {
-        if (pScanner) {
-          (await pScanner).destroyContext();
+        if (pScanner.current) {
+          (await pScanner.current).destroyContext();
           console.log("BarcodeScanner Component Unmount");
         }
       })();
     };
   }, []);
-
-  useEffect(() => {
-    if (elRef.current) {
-      (async () => {
-        try {
-          const scanner = (await pScanner)!;
-          // Should judge if scanner is destroyed after 'await' in React 18 'StrictMode'.
-          if (scanner.isContextDestroyed()) return;
-          await scanner.setUIElement(elRef.current!);
-          // Should judge if scanner is destroyed after 'await' in React 18 'StrictMode'.
-          if (scanner.isContextDestroyed()) return;
-          scanner.onFrameRead = (results: TextResult[]) => {
-            for (let result of results) {
-              console.log(result.barcodeText);
-            }
-          };
-          scanner.onUniqueRead = (txt: string, result: TextResult) => {
-            alert(txt);
-          };
-          await scanner.open();
-        } catch (ex: any) {
-          if (ex.message.indexOf("network connection error")) {
-            let customMsg =
-              "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-            console.log(customMsg);
-            alert(customMsg);
-          }
-          throw ex;
-        }
-      })();
-    }
-  }, [!!elRef.current]);
 
   return (
     <div ref={elRef} className="component-barcode-scanner">

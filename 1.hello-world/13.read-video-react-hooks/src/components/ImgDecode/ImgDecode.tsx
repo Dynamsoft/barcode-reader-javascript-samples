@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { BarcodeReader } from "dynamsoft-javascript-barcode";
 import "./ImgDecode.css";
 
 function ImgDecode() {
-  let [pReader, setPReader] = useState(null as null | Promise<BarcodeReader>);
+  const pReader = useRef(null as null | Promise<BarcodeReader>);
 
   const decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const reader = (await pReader)!;
+      const reader = (await pReader.current)!;
       let results = await reader.decode(e.target.files![0]);
       for (let result of results) {
         alert(result.barcodeText);
@@ -28,11 +28,11 @@ function ImgDecode() {
   };
 
   useEffect(() => {
-    setPReader((pReader = BarcodeReader.createInstance()));
+    pReader.current = BarcodeReader.createInstance();
     return () => {
       (async () => {
-        if (pReader) {
-          (await pReader).destroyContext();
+        if (pReader.current) {
+          (await pReader.current).destroyContext();
           console.log("ImgDecode Component Unmount");
         }
       })();

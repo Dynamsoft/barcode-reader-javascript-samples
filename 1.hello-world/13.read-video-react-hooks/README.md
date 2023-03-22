@@ -53,56 +53,50 @@ BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javas
 
 ```tsx
 import { BarcodeScanner, TextResult } from "dynamsoft-javascript-barcode";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./VideoDecode.css";
 
 function VideoDecode() {
-  let [pScanner, setPScanner] = useState(null as null | Promise<BarcodeScanner>);
-  const elRef = useRef(null as any);
+  const pScanner = useRef(null as null | Promise<BarcodeScanner>);
+  const elRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setPScanner((pScanner = BarcodeScanner.createInstance()));
+    (async () => {
+      try {
+        const scanner = (await (pScanner.current = BarcodeScanner.createInstance()));
+        // Should judge if scanner is destroyed after 'await', as in development React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+        if (scanner.isContextDestroyed()) return;
+        await scanner.setUIElement(elRef.current!);
+        // Should judge if scanner is destroyed after 'await', as in development React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+        if (scanner.isContextDestroyed()) return;
+        scanner.onFrameRead = (results: TextResult[]) => {
+          for (let result of results) {
+            console.log(result.barcodeText);
+          }
+        };
+        scanner.onUniqueRead = (txt: string, result: TextResult) => {
+          alert(txt);
+        };
+        await scanner.open();
+      } catch (ex: any) {
+        if (ex.message.indexOf("network connection error")) {
+          let customMsg =
+            "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+          console.log(customMsg);
+          alert(customMsg);
+        }
+        throw ex;
+      }
+    })();
     return () => {
       (async () => {
-        if (pScanner) {
-          (await pScanner).destroyContext();
+        if (pScanner.current) {
+          (await pScanner.current).destroyContext();
           console.log("BarcodeScanner Component Unmount");
         }
       })();
     };
   }, []);
-
-  useEffect(() => {
-    if (elRef.current) {
-      (async () => {
-        try {
-          const scanner = (await pScanner)!;
-          // Should judge if scanner is destroyed after 'await' in React 18 'StrictMode'.
-          if (scanner.isContextDestroyed()) return;
-          await scanner.setUIElement(elRef.current!);
-          // Should judge if scanner is destroyed after 'await' in React 18 'StrictMode'.
-          if (scanner.isContextDestroyed()) return;
-          scanner.onFrameRead = (results: TextResult[]) => {
-            for (let result of results) {
-              console.log(result.barcodeText);
-            }
-          };
-          scanner.onUniqueRead = (txt: string, result: TextResult) => {
-            alert(txt);
-          };
-          await scanner.open();
-        } catch (ex: any) {
-          if (ex.message.indexOf("network connection error")) {
-            let customMsg =
-              "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-            console.log(customMsg);
-            alert(customMsg);
-          }
-          throw ex;
-        }
-      })();
-    }
-  }, [!!elRef.current]);
 
   return (
     <div ref={elRef} className="component-barcode-scanner">
@@ -186,16 +180,16 @@ export default VideoDecode;
 * In `ImgDecode.tsx`, add code for initializing and destroying the `BarcodeReader` instance.
 
 ```tsx
-import React, { useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { BarcodeReader } from "dynamsoft-javascript-barcode";
 import "./ImgDecode.css";
 
 function ImgDecode() {
-  let [pReader, setPReader] = useState(null as null | Promise<BarcodeReader>);
+  const pReader = useRef(null as null | Promise<BarcodeReader>);
 
   const decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const reader = (await pReader)!;
+      const reader = (await pReader.current)!;
       let results = await reader.decode(e.target.files![0]);
       for (let result of results) {
         alert(result.barcodeText);
@@ -216,11 +210,11 @@ function ImgDecode() {
   };
 
   useEffect(() => {
-    setPReader((pReader = BarcodeReader.createInstance()));
+    pReader.current = BarcodeReader.createInstance();
     return () => {
       (async () => {
-        if (pReader) {
-          (await pReader).destroyContext();
+        if (pReader.current) {
+          (await pReader.current).destroyContext();
           console.log("ImgDecode Component Unmount");
         }
       })();
