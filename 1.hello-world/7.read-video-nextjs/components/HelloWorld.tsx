@@ -3,6 +3,7 @@ import VideoDecode from './VideoDecode';
 import ImgDecode from './ImgDecode';
 import "../dbr"; // import side effects. The license, engineResourcePath, so on.
 import { BarcodeReader } from "dynamsoft-javascript-barcode";
+import styles from '@/styles/HelloWorld.module.css'
 
 interface isState {
     bShowScanner: boolean,
@@ -44,13 +45,16 @@ class HelloWorld extends React.Component<any, isState> {
 
     render() {
         return (
-            <div className="helloWorld" style={{ height: "100%", width: "100%" }}>
-                <div className="btn-group">
-                    <button style={{ marginRight: '10px', backgroundColor: this.state.bShowScanner ? 'rgb(255,174,55)' : 'white' }} onClick={this.showScanner}>Video Decode</button>
-                    <button style={{ backgroundColor: this.state.bShowImgDecode ? 'rgb(255,174,55)' : 'white' }} onClick={this.showImgDecode}>Image Decode</button>
+            <div className={styles.helloWorld}>
+                <h1 className={styles.header}>Hello World for Next.js</h1>
+                <div>
+                    <button className={styles.button} style={{ marginRight: '10px', backgroundColor: this.state.bShowScanner ? 'rgb(255,174,55)' : 'white' }} onClick={this.showScanner}>Video Decode</button>
+                    <button className={styles.button} style={{ backgroundColor: this.state.bShowImgDecode ? 'rgb(255,174,55)' : 'white' }} onClick={this.showImgDecode}>Image Decode</button>
                 </div>
-                {this.state.bShowScanner ? (<VideoDecode></VideoDecode>) : ""}
-                {this.state.bShowImgDecode ? (<ImgDecode></ImgDecode>) : ""}
+                <div className={styles.container}>
+                    {this.state.bShowScanner ? (<VideoDecode></VideoDecode>) : ""}
+                    {this.state.bShowImgDecode ? (<ImgDecode></ImgDecode>) : ""}
+                </div>
             </div>
         );
     }
