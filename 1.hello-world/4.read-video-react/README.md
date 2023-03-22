@@ -204,8 +204,6 @@ export default class ImgDecode extends Component {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 90%;
   border: 1px solid black
 }
 ```
@@ -267,7 +265,7 @@ class HelloWorld extends React.Component<any, isState> {
         return (
             <div className="helloWorld">
                 <h1>Hello World for React<img src={reactLogo} className="App-logo" alt="logo" /></h1>
-                <div className="btn-group">
+                <div>
                     <button style={{ marginRight: '10px', backgroundColor: this.state.bShowScanner ? 'rgb(255,174,55)' : 'white' }} onClick={this.showScanner}>Video Decode</button>
                     <button style={{ backgroundColor: this.state.bShowImgDecode ? 'rgb(255,174,55)' : 'white' }} onClick={this.showImgDecode}>Image Decode</button>
                 </div>
@@ -294,7 +292,6 @@ export default HelloWorld;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
     width: 100%;
     height: 100%;
     color: #455A64;
@@ -312,62 +309,10 @@ button {
     color: black;
 }
 
-span {
-    font-size: 0.8rem;
-}
-
-.latest-result {
-    display: block;
-    margin: 0;
-    padding: 0.4rem 0.8rem;
-    color: inherit;
-    width: 80vw;
-    border: none;
-    font-size: 1rem;
-    border-radius: 0.2rem;
-    text-align: center;
-}
-
-.latest-result::placeholder {
-    color: #B0BEC5;
-}
-
-.latest-result:focus {
-    outline: none;
-    box-shadow: 0.1rem 0.4rem 0.8rem #fe8e14;
-}
-
-#results {
-    border: 1px dashed grey;
-    overflow: auto;
-    width: 80vw;
-    padding: 2vmin;
-    margin-bottom: 3vh;
-    height: 15vh;
-}
-
-#results ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    text-align: left;
-    font-size: 0.8rem;
-}
-
-.resultText {
-    color: #cE5E04
-}
-
-.bigger {
-    font-size: large;
-    margin-bottom: 2%;
-}
-
 .container {
     margin: 2vmin auto;
     text-align: center;
     font-size: medium;
-    /* height: 40vh; */
     width: 80vw;
 }
 ```
