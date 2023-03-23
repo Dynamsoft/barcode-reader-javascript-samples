@@ -31,7 +31,7 @@ function HelloWorld() {
         Hello World for React
         <img src={reactLogo} className="App-logo" alt="logo" />
       </h1>
-      <div className="btn-group">
+      <div>
         <button
           style={{
             marginRight: "10px",
