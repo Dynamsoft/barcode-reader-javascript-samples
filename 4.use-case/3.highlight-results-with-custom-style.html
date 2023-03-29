@@ -87,10 +87,10 @@
               const convertedP2 = scanner.convertToClientCoordinates(p2);
               mask = document.createElement("div");
               mask.style.position = "fixed";
-              mask.style.left = convertedP1.x+"px";
-              mask.style.top = convertedP1.y+"px";
-              mask.style.width = convertedP2.x-convertedP1.x+"px";
-              mask.style.height = convertedP2.y-convertedP1.y+"px";
+              mask.style.left = Math.min(convertedP1.x, convertedP2.x)+"px";
+              mask.style.top = Math.min(convertedP1.y, convertedP2.y)+"px";
+              mask.style.width = Math.abs(convertedP2.x-convertedP1.x)+"px";
+              mask.style.height = Math.abs(convertedP2.y-convertedP1.y)+"px";
               mask.style.border = "2px dashed red";
               document.body.append(mask);
               highlightResultMasks.push(mask);
