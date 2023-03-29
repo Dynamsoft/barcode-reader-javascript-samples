@@ -12,7 +12,9 @@
       rel="canonical"
       href="https://demo.dynamsoft.com/Samples/DBR/JS/4.use-case/3.highlight-results-with-custom-style.html"
     />
-    <title>Dynamsoft Barcode Reader Sample - Highlight Results with Custom Style</title>
+    <title>
+      Dynamsoft Barcode Reader Sample - Highlight Results with Custom Style
+    </title>
     <!--
     This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
     library offline. Please see the guide on how to host the library: 
@@ -23,7 +25,7 @@
   <body>
     <div id="div-ui-container" style="width: 100%; height: 100vh"></div>
     <script>
-      if(location.protocol === "file:") {
+      if (location.protocol === "file:") {
         const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
         console.warn(message);
         alert(message);
@@ -34,7 +36,8 @@
        * To use the library, you need to first specify a license key using the API "license" as shown below.
        */
 
-      Dynamsoft.DBR.BarcodeReader.license = "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9";
+      Dynamsoft.DBR.BarcodeReader.license =
+        "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9";
 
       /**
        * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
@@ -61,7 +64,7 @@
           scanner.barcodeFillStyleBeforeVerification = "transparent";
           scanner.barcodeStrokeStyleBeforeVerification = "transparent";
 
-          /** 
+          /**
            * 'onFrameRead' is triggered after the library finishes reading a frame image.
            * There can be multiple barcodes on one image.
            */
@@ -69,19 +72,39 @@
             console.log(results);
 
             // Clear previous highlight result masks.
-            highlightResultMasks.forEach(mask => mask.remove());
+            highlightResultMasks.forEach((mask) => mask.remove());
             highlightResultMasks.length = 0;
 
             for (let result of results) {
               const p1 = {
-                x: result.localizationResult.x1,
-                y: result.localizationResult.y1
+                x: Math.min(
+                  result.localizationResult.x1,
+                  result.localizationResult.x2,
+                  result.localizationResult.x3,
+                  result.localizationResult.x4
+                ),
+                y: Math.min(
+                  result.localizationResult.y1,
+                  result.localizationResult.y2,
+                  result.localizationResult.y3,
+                  result.localizationResult.y4
+                ),
               };
               const p2 = {
-                x: result.localizationResult.x3,
-                y: result.localizationResult.y3
+                x: Math.max(
+                  result.localizationResult.x1,
+                  result.localizationResult.x2,
+                  result.localizationResult.x3,
+                  result.localizationResult.x4
+                ),
+                y: Math.max(
+                  result.localizationResult.y1,
+                  result.localizationResult.y2,
+                  result.localizationResult.y3,
+                  result.localizationResult.y4
+                ),
               };
-              /** 
+              /**
                * 'convertToClientCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the viewport.
                * Then we can place a div element according to the converted coordinate.
                */
@@ -89,10 +112,10 @@
               const convertedP2 = scanner.convertToClientCoordinates(p2);
               mask = document.createElement("div");
               mask.style.position = "fixed";
-              mask.style.left = Math.min(convertedP1.x, convertedP2.x)+"px";
-              mask.style.top = Math.min(convertedP1.y, convertedP2.y)+"px";
-              mask.style.width = Math.abs(convertedP2.x-convertedP1.x)+"px";
-              mask.style.height = Math.abs(convertedP2.y-convertedP1.y)+"px";
+              mask.style.left = convertedP1.x + "px";
+              mask.style.top = convertedP1.y + "px";
+              mask.style.width = convertedP2.x - convertedP1.x + "px";
+              mask.style.height = convertedP2.y - convertedP1.y + "px";
               mask.style.border = "2px dashed red";
               document.body.append(mask);
               highlightResultMasks.push(mask);
@@ -100,7 +123,7 @@
           };
 
           /**
-           * 'open()' opens the camera. 
+           * 'open()' opens the camera.
            * After that, the library starts to scan the frame images continuously.
            */
           await scanner.open();
