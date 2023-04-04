@@ -11,6 +11,7 @@ import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.WebSettings;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -22,10 +23,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        if (ContextCompat.checkSelfPermission(mActivity, "android.permission.CAMERA") != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(mActivity, new String[]{"android.permission.CAMERA"}, Camera_Permission_Request_Code);
+        }
 
         // Initialize WebView
         mWebView = findViewById(R.id.myWebview);
-        WebSettings settings = webView.getSettings();
+        WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setMediaPlaybackRequiresUserGesture(false);
@@ -35,24 +40,17 @@ public class MainActivity extends AppCompatActivity {
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onPermissionRequest(final PermissionRequest request) {
-                if (ContextCompat.checkSelfPermission(mActivity, "android.permission.CAMERA") != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(mActivity, new String[]{"android.permission.CAMERA"}, Camera_Permission_Request_Code);
-                }
-                // else {
-                //     evaluateJavascript("startScanner()");
-                // }
-                request.grant(request.getResources());
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        request.grant(request.getResources());
+                    }
+                });
             }
         });
         mWebView.setWebViewClient(new WebViewClient());
         // load local or remote web page
         mWebView.loadUrl("file:///android_asset/index.html");
     }
-
-    // @Override
-    // public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-    //     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    //     //dbrWebViewHelper.cameraPermissionHandler(requestCode, permissions, grantResults);
-
-    // }
+    
 }
