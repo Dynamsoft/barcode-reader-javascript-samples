@@ -32,37 +32,45 @@
          * LICENSE ALERT - THE END 
          */
 
-        let pScanner = null;
-        (async function () {
+         (async function() {
             try {
-                await Dynamsoft.DBR.BarcodeReader.loadWasm();
-                window.DBR_Android.onWasmLoaded();
+                const scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                /** 
+                 * 'onFrameRead' is triggered after the library finishes reading a frame image.
+                 * There can be multiple barcodes on one image.
+                 */
+                scanner.onFrameRead = results => {
+                    console.log("Barcodes on one frame:");
+                    for (let result of results) {
+                        const format = result.barcodeFormatString;
+                        console.log(format + ": " + result.barcodeText);
+                    }
+                };
+                /**
+                 * 'onUniqueRead' is  triggered only when a 'new' barcode is found.
+                 * The amount of time that the library 'remembers' a barcode is defined by 
+                 * "duplicateForgetTime" in "ScanSettings". By default it is set to 3000 ms.
+                 */
+                scanner.onUniqueRead = (txt, result) => {
+                    alert(txt);
+                    console.log("Unique Code Found: ", result);
+                }
+                /**
+                 * 'show()' opens the camera and shows the video stream on the page. 
+                 * After that, the library starts to scan the frame images continuously.
+                 */
+                await scanner.show();
             } catch (ex) {
                 let errMsg;
                 if (ex.message.includes("network connection error")) {
                     errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
                 } else {
-                    errMsg = ex.message || ex;
+                    errMsg = ex.message||ex;
                 }
                 console.error(errMsg);
                 alert(errMsg);
             }
         })();
-
-        async function startScanner() {
-            let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-            await scanner.setUIElement(document.getElementById('div-ui-container'));
-            scanner.onUniqueRead = (txt, result) => {
-                const format = result.barcodeFormatString;
-                window.DBR_Android.onUniqueRead(format + " " + txt)
-            };
-            await scanner.show();
-        }
-
-        async function stopScanner() {
-            let scanner = await pScanner;
-            scanner && scanner.hide();
-        }
     </script>
 </body>
 
