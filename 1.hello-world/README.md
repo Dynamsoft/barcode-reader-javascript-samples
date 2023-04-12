@@ -92,10 +92,6 @@ Let's quickly break down the methods used in order:
 
 Actually, it is not necessary to define both onFrameRead and onUniqueRead in the code. onUniqueRead is more commonly used because it is triggered only when a new barcode is detected, rather than on every frame.
 
-## Hello World with WebView
-
-Read more in the README under "14.read-video-webview".
-
 ## Support
 
 If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) via the "Let's Chat" button.
