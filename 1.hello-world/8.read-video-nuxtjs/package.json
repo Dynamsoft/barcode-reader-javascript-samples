@@ -1,17 +1,16 @@
 {
-    "name": "read-video-nuxtjs",
-    "version": "1.0.0",
-    "private": true,
-    "scripts": {
-        "dev": "nuxt",
-        "build": "nuxt build",
-        "start": "nuxt start",
-        "generate": "nuxt generate"
-    },
-    "dependencies": {
-        "core-js": "^3.15.1",
-        "dynamsoft-javascript-barcode": "9.6.11",
-        "nuxt": "^2.15.7"
-    },
-    "devDependencies": {}
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "nuxt": "^3.2.3"
+  },
+  "dependencies": {
+    "dynamsoft-javascript-barcode": "9.6.20"
+  }
 }
