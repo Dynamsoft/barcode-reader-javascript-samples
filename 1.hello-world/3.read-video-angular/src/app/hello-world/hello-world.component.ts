@@ -14,7 +14,7 @@ export class HelloWorldComponent implements OnInit {
     // Load the library on page load to speed things up.
     try {
       await BarcodeScanner.loadWasm();
-    } catch (ex) {
+    } catch (ex: any) {
       let errMsg;
       if (ex.message.includes("network connection error")) {
         errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";

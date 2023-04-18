@@ -20,7 +20,7 @@
         }
     </script>
     <script type="module">
-        import { BarcodeReader, BarcodeScanner } from 'https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.11/dist/dbr.mjs';
+        import { BarcodeReader, BarcodeScanner } from 'https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.20/dist/dbr.mjs';
         /** LICENSE ALERT - README 
          * To use the library, you need to first specify a license key using the API "license" as shown below.
          */
@@ -30,16 +30,15 @@
         /** 
          * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
          * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.6.11&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.6.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
          * LICENSE ALERT - THE END 
          */
 
-        BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.11/dist/";
+        BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.20/dist/";
 
-        let pScanner = null;
         (async () => {
             try {
-                const scanner = await (pScanner = pScanner || BarcodeScanner.createInstance());
+                const scanner = await BarcodeScanner.createInstance();
                 /* 
                  * 'onFrameRead' is triggered after the library finishes reading a frame.
                  * There can be one or multiple barcodes on each frame.

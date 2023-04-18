@@ -1,25 +1,57 @@
-# Use Case Sample Set
+# Read Barcodes and Fill Form Fields
 
-This sample set explores some of the most popular real world applications of Dynamsoft's barcode reader library:
+It's difficult to type long text on mobile devices, but if that text is encoded in a barcode, we can use the sdk to read the barcode and automatically enter the text.
 
-- [fill a form with barcode reading](./1.fill-a-form-with-barcode-reading.html)
-- [read driver license](./2.read-a-drivers-license.html)
+The following code shows how to automatically invoke the sdk to read a barcode and fill in an input box.
 
-## Filling a Form using Barcode Scanner
+```html
+<input id="input-to-fill" type="text" readonly="true" placeholder="Barcode Result">
+```
 
-The first sample demonstrates how to automatically fill out a form using barcode scanning.
+```javascript
+let scanner = null;
+Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
+(async function () {
+    document.getElementById("input-to-fill").addEventListener('click', async function () {
+        try {
+            scanner = scanner || await Dynamsoft.DBR.BarcodeScanner.createInstance();
+            scanner.onUniqueRead = (txt, result) => {
+                this.value = result.barcodeText;
+                scanner.hide();
+            };
+            await scanner.show();
+        } catch (ex) {
+            alert(ex.message);
+            throw ex;
+        }
+    });
+})();
+```
 
-Users can click a button to read barcodes from a video, and once a barcode is scanned, the barcode result will be filled to the corresponding form field. You can customize it further to show a tooltip-style button for users to click and open the scanner.
+The following sample demonstrates how to utilize the SDK to fill out form fields.
 
-## Filling Out Driver's License Info via Barcode Scanner
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/4.use-case/1.fill-a-form-with-barcode-reading.html">Read Barcodes and Fill Form Fields - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/4.use-case/1.fill-a-form-with-barcode-reading.html">Read Barcodes and Fill Form Fields - Source Code</a>
 
-Another popular usage scenario is to scan the barcodes on driver licenses for automatic ID data extraction. 
+# Read the PDF417 Barcode on the Driver's License
 
-With the barcode reader library, you can get a large text string from the driver license PDF417 barcode. You can then parse the string and get the value of corresponding fields.
+The PDF417 barcode on an AAMVA compatible driver's license contains a lot of information which is encoded following the DL/ID Card Design Standard. Together with a simple parse function, we can use the SDK to read and extract the information.
 
-In this use case, we want the scanner to pick up PDF417 barcode only, so we set `barcodeFormatIds` in `RuntimeSettings` to `BF_PDF417`. 
+The following official sample shows how to use the sdk to read and extract driver's license information.
 
-The core information extraction happens in the function `extractResultAlert()`, in which we are using the SDK **Dynamsoft Code Parser** to parse the raw string and get the actual encoded information.
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/4.use-case/2.read-a-drivers-license.html">Read the PDF417 Barcode on the Driver&apos;s License - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/4.use-case/2.read-a-drivers-license.html">Read the PDF417 Barcode on the Driver&apos;s License - Source Code</a>
+
+Also see [Driver's License Scanner SDK for Mobile and Web](https://www.dynamsoft.com/use-cases/driver-license/).
+
+# Read barcodes via camera and highlight results with custom style
+
+When the SDK picks up a barcode in video stream, it will highlight them with built-in style automatically. But it is also possible to customize the highlight style freely using the method 'convertToClientCoordinates()'.
+
+The following official sample shows how to hightlight results with custom style.
+
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/4.use-case/3.highlight-results-with-custom-style.html">Read barcodes via camera and highlight results with custom style - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/4.use-case/3.highlight-results-with-custom-style.html">Read barcodes via camera and highlight results with custom style - Source Code</a>
 
 ## Support
 

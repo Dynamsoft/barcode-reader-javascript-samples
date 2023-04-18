@@ -1,49 +1,112 @@
-# UI Customization Sample Set
+# JavaScript UI Customization Samples
 
-In this sample set, we will focus on the library's flexible UI that allows developers to create the look and feel for their web application that they desire. To learn more about UI customization, please refer to its corresponding [section](https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#customize-the-ui) in the user guide.
+Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") provides a built-in GUI to help developers build an interactive barcode reading interface.
 
-Let's begin by breaking down each of the samples in this set
+## Default GUI
 
-## Use the Default Camera UI and Display Barcode Results in Real-Time
+The following official sample demonstrates the default GUI built into the library.
 
-In this sample, we perform simple tweak of the default UI to include a couple of `span` elements that will display the barcode text and barcode format as they are detected via video. Our basic 'Hello World' samples displayed the results in the console or via an alert box, so this sample will offer a more user-friendly way of showing the results as they are found.
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/2.ui-tweaking/1.read-video-show-result.html">Use the Default Camera UI - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/2.ui-tweaking/1.read-video-show-result.html">Use the Default Camera UI - Source Code</a>
 
-In the `onFrameRead` event function, a pair of `span` elements are created for each found barcode. The `span` elements are then populated with the barcode text and the barcode format.
+**GUI Elements**
 
-This is a simple tweak to the UI, but offers a much less intrusive way of displaying the barcode results as they are acquired.
+If you check the GUI on the demo page, you will find that it consists of the following elements
 
-## Hide Display Controls
+* The video element that streams the video from a camera
+* A laser beam moving vertically which indicates the working status of the library
+* A dropdown box for selecting a camera
+* A dropdown box for specifying the resolution for the selected camera
+* A close button that closes the GUI when clicked
 
-As explained in the user guide, the default UI comes with 3 core components: a video viewer, a source select dropdown, and a resolution select dropdown. The UI also comes with a built-in close button which allows the user to close the video viewer and barcode scanner.
+There are a few other elements
 
-However, you might encounter a situation where you do not require those extra components and would like to simply display the video viewer, and perhaps automatically close it when a barcode is found.
+* Before the video starts streaming, there is a spinner that indicates the loading process
+* When a barcode is found, the barcode is highlighted with an overlay
+* If no camera is found on the device or camera access is denied on the page, the GUI will show a camera icon, which, when clicked, allows the user to select a local image or invoke the system camera interface
 
-In this sample, we've chosen to hide the source select dropdown, the resolution select, and the close button which leaves only the video viewer when `scanner.show()` is called.
+## Hide Built-in Controllers
 
-## Set up External Controls
+The default UI of the BarcodeReader class includes several elements that may not match the style of your application. The following code snippet demonstrates how to remove the camera selector, resolution selector, and close button, as well as change the background color:
 
-In the last sample, we chose to hide the extra control options that come with the default UI. This time around, we will choose to hide the default control elements that come with the UI and set up our own controls instead using simple HTML elements.
+```html
+<div id="UIElement">
+    <span id='lib-load' style='font-size:x-large' hidden>Loading Library...</span>
+    <div id="div-ui-container" style="width:100%;height:100%;">
+        <div class="dce-video-container" style="position:relative;width:100%;height:100%;"></div>
+    </div>
+</div>
+```
 
-First off, the external elements must be included in the HTML body, whether they are created programatically in JS or declared manually in the HTML code. In our sample, the following external controls are set up:
+```javascript
+await scanner.setUIElement(document.getElementById('div-ui-container'));
+```
 
-* `cam_selector_switch` and `options_camera`: These two elements will function together to show all the currently connected and available cameras.
-* `res_selector_switch` and `options_resolution`: These two elements will function together to show all the currently connected and available cameras.
-* `toggleScanRect`: Cycles through various scan regions, where the scan region will be a subset of the total video viewer. This control is not found in the default UI of the scanner, but can be easily configured using the `region` property of the `RuntimeSettings`. In this sample, we assigned a set of 5 scan regions and each time the user clicks the button, the library cycles to the next scan region.
-* `toggleScanLight`: Controls whether the scan "light" is toggled on. Please note that this light does not actually improve the performance of the scanning process, but offers a user-friendly visual representation of the scanning process that is ocurring.
-* `toggleSound`: Controls whether the library beeps or not on a found barcode.
+Official sample:
 
-These are just a few of the external controls that you can easily set up using the library API, offering your users more control over the scanner.
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/2.ui-tweaking/2.read-video-no-extra-control.html">Hide Built-in Controllers - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/2.ui-tweaking/2.read-video-no-extra-control.html">Hide Built-in Controllers - Source Code</a>
 
-## Changing Size of Video Viewer
+## Use External Controllers
 
-In this sample, we explore how to switch the video viewer from occupying a limited screen area to a full screen view.
+Based on the previous sample, you can build your own UI elements to control the barcode scanning process.
 
-This customization does not involve any of the library API directly, and is done simply via `class` of the viewer, as shown in the click event listener of the `fitPage` button or the `exitFullPage` function.
+For example, the following code adds a camera selector
 
-## Customize the Camera UI
+```html
+<select id="cameraList"></select>
+```
 
-In the last sample of the set, we show a customized viewer that differs greatly from the default one which demonstrates the possibility in the customization.
+```javascript
+async function updateCameras() {
+    let cameras = await scanner.getAllCameras();
+    let cameraList = document.getElementById('cameraList');
+    cameraList.options.length = 0;
+    for (let camera of cameras) {
+        let opt = new Option(camera.label, camera.deviceId);
+        cameraList.options.add(opt);
+    }
+}
+document.getElementById('cameraList').onchange = async function() {
+    try {
+        await scanner.setCurrentCamera(document.getElementById('cameraList').value);
+    } catch (ex) {
+        alert('Play video failed: ' + (ex.message || ex));
+    }
+};
+```
+
+For more related customization, check out the following official sample:
+
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/2.ui-tweaking/3.read-video-with-external-control.html">Use External Controllers - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/2.ui-tweaking/3.read-video-with-external-control.html">Use External Controllers - Source Code</a>
+
+## Enlarge the Video Stream
+
+The library is usually used on mobile devices which have small screens. When scanning barcodes with the mobile camera, the video stream will be limited in the video element and may not be clear enough. Ideally, we should use the whole screen to play the video and find barcodes.
+
+The GUI is pure HTML. Thus modifying the size of the element is easy. The following code expands the element to fill the entire viewport:
+
+```javascript
+document.getElementById('UIElement').style.height = '100vh';
+document.getElementById('UIElement').style.width = '100vw';
+document.getElementById('UIElement').style.position = 'absolute';
+```
+
+Check out the following example code to see how you can expand the video stream to read a barcode and then restore it to its normal size:
+
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/2.ui-tweaking/4.difference-video-size.html">Enlarge the Video Stream - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/2.ui-tweaking/4.difference-video-size.html">Enlarge the Video Stream - Source Code</a>
+
+## Customize the Default Ui
+
+Check out the following example code that demonstrates how to create a custom viewer that is vastly different from the default one. You can feel the possibilities of customization:
+
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/2.ui-tweaking/5.read-video-with-custom-default-ui.html">Customize the Default Ui - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/2.ui-tweaking/5.read-video-with-custom-default-ui.html">Customize the Default Ui - Source Code</a>
+
+To learn more about UI customization, please refer to its corresponding [section](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/?ver=latest#customize-the-ui-optional) in the user guide.
 
 ## Support
 
-If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/overview/) via the "Let's Chat" button.
+If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) via the "Let's Chat" button.
