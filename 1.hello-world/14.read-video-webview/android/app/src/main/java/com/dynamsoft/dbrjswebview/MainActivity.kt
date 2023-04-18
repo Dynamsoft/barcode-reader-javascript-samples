@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.webkit.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -24,8 +23,6 @@ class MainActivity : AppCompatActivity() {
         myWebView.settings.javaScriptEnabled = true
         myWebView.settings.mediaPlaybackRequiresUserGesture = false
         myWebView.settings.domStorageEnabled = true
-        Log.d("keillion Debug", "`myWebView.settings.cacheMode` default value: " + myWebView.settings.cacheMode.toString())
-        myWebView.settings.cacheMode = WebSettings.LOAD_DEFAULT
 
         myWebView.webViewClient = MyWebViewClient()
         myWebView.webChromeClient = MyWebChromeClient()
