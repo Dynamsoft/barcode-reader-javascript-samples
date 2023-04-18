@@ -11,9 +11,7 @@ describe('HelloWorldComponent', () => {
       declarations: [ HelloWorldComponent ]
     })
     .compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(HelloWorldComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
