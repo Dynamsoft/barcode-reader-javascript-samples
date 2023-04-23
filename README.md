@@ -32,7 +32,7 @@ Get the basic features of the library working with plain/native JavaScript or wi
 * [**Hello World in Electron**](https://www.dynamsoft.com/barcode-reader/programming/javascript/samples-demos/helloworld-electron.html?utm_source=sampleReadme): Decode video stream in a Electron application from a webcam or a built-in camera**Hello World in PWA**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/10.read-video-pwa/helloworld-pwa.html?utm_source=sampleReadme): Decode video stream in a PWA application from a webcam or a built-in camera.
 * [**Hello World with RequireJS**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/11.read-video-requirejs.html?utm_source=sampleReadme): Decode video stream in an application using RequireJS from a webcam or a built-in camera.
 * [**Hello World with ES6**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/12.read-video-es6.html?utm_source=sampleReadme): Decode video stream in an application using ES6 from a webcam or a built-in camera.
-
+* [**Hello World in WebView**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/1.hello-world/14.read-video-webview): Decode video stream in an application in WebView from camera. 
 ### Customize Camera UI
 
 * [**Use the Default Camera UI**](https://demo.dynamsoft.com/samples/dbr/js/2.ui-tweaking/1.read-video-show-result.html?utm_source=sampleReadme): Show the default camera UI to decode video stream from a webcam or a built-in camera.
