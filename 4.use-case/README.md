@@ -44,14 +44,14 @@ The following official sample shows how to use the sdk to read and extract drive
 
 Also see [Driver's License Scanner SDK for Mobile and Web](https://www.dynamsoft.com/use-cases/driver-license/).
 
-# Read barcodes via camera and highlight results with custom style
+# Read barcodes via camera and show result texts on the video
 
-When the SDK picks up a barcode in video stream, it will highlight them with built-in style automatically. But it is also possible to customize the highlight style freely using the method 'convertToClientCoordinates()'.
+When the SDK picks up a barcode in video stream, it will highlight them with built-in style automatically. But it is also possible to show the text of the barcode on the video with the help of the function 'convertToPageCoordinates()' or 'convertToClientCoordinates()'.
 
-The following official sample shows how to hightlight results with custom style.
+The following official sample shows how to show result texts on the video.
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/4.use-case/3.highlight-results-with-custom-style.html">Read barcodes via camera and highlight results with custom style - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/4.use-case/3.highlight-results-with-custom-style.html">Read barcodes via camera and highlight results with custom style - Source Code</a>
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/4.use-case/3.show-result-texts-on-the-video.html">Read barcodes via camera and show result texts on the video - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/4.use-case/3.show-result-texts-on-the-video.html">Read barcodes via camera and show result texts on the video - Source Code</a>
 
 ## Support
 
