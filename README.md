@@ -56,7 +56,7 @@ How to configure different settings of the barcode scanning library.
 
 * [**Read Video and Fill a Form**](https://demo.dynamsoft.com/samples/dbr/js/4.use-case/1.fill-a-form-with-barcode-reading.html?utm_source=sampleReadme): Read barcodes to fill a form.
 * [**Read a Driver's License**](https://demo.dynamsoft.com/samples/dbr/js/4.use-case/2.read-a-drivers-license.html?utm_source=sampleReadme): Read the PDF417 barcode on a driver's license (AAMVA compliant) and parse it.
-* [**Highlight Results with Custom Style**](https://demo.dynamsoft.com/samples/dbr/js/4.use-case/3.highlight-results-with-custom-style.html?utm_source=sampleReadme): Read barcodes via camera and highlight results with custom style.
+* [**Show result texts on the video**](https://demo.dynamsoft.com/samples/dbr/js/4.use-case/3.show-result-texts-on-the-video.html?utm_source=sampleReadme): Read barcodes via camera and show result texts on the video.
 
 ### Others
 

@@ -13,7 +13,7 @@ Make sure you have [node](https://nodejs.org/) installed. `node 14.21.3` and `vu
 
 ## Create the sample project
 
-### Create a Bootstrapped Raw React Application
+### Create a Bootstrapped Raw Vue Application
 
 ```cmd
 npm create vue@2
