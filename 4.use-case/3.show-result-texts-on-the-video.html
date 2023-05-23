@@ -10,10 +10,10 @@
     <meta name="keywords" content="read barcode from camera, custom style" />
     <link
       rel="canonical"
-      href="https://demo.dynamsoft.com/Samples/DBR/JS/4.use-case/3.highlight-results-with-custom-style.html"
+      href="https://demo.dynamsoft.com/Samples/DBR/JS/4.use-case/3.show-result-texts-on-the-video.html"
     />
     <title>
-      Dynamsoft Barcode Reader Sample - Highlight Results with Custom Style
+      Dynamsoft Barcode Reader Sample - Show result texts on the video
     </title>
     <!--
     This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
@@ -21,9 +21,19 @@
     https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.20/dist/dbr.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        position: relative;
+      }
+    </style>
   </head>
   <body>
     <div id="div-ui-container" style="width: 100%; height: 100vh"></div>
+    <div id="div-text-containers" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%"></div>
     <script>
       if (location.protocol === "file:") {
         const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
@@ -46,23 +56,18 @@
        * LICENSE ALERT - THE END
        */
 
+      const divTextContainers = document.querySelector("#div-text-containers");
       let scanner;
-      const highlightResultMasks = [];
 
       (async () => {
         try {
           scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
+          await scanner.updateRuntimeSettings("speed");
 
           // Get ui by 'getUIElement()' and append it to DOM.
           document
             .querySelector("#div-ui-container")
             .append(scanner.getUIElement());
-
-          // Hide the built-in shape which highlights a found barcode.
-          scanner.barcodeFillStyle = "transparent";
-          scanner.barcodeStrokeStyle = "transparent";
-          scanner.barcodeFillStyleBeforeVerification = "transparent";
-          scanner.barcodeStrokeStyleBeforeVerification = "transparent";
 
           /**
            * 'onFrameRead' is triggered after the library finishes reading a frame image.
@@ -71,9 +76,8 @@
           scanner.onFrameRead = (results) => {
             console.log(results);
 
-            // Clear previous highlight result masks.
-            highlightResultMasks.forEach((mask) => mask.remove());
-            highlightResultMasks.length = 0;
+            // Clear previous result text elements.
+            divTextContainers.innerText = "";
 
             for (let result of results) {
               const p1 = {
@@ -105,20 +109,19 @@
                 ),
               };
               /**
-               * 'convertToClientCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the viewport.
+               * 'convertToPageCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the document.
                * Then we can place a div element according to the converted coordinate.
                */
-              const convertedP1 = scanner.convertToClientCoordinates(p1);
-              const convertedP2 = scanner.convertToClientCoordinates(p2);
-              mask = document.createElement("div");
-              mask.style.position = "fixed";
-              mask.style.left = convertedP1.x + "px";
-              mask.style.top = convertedP1.y + "px";
-              mask.style.width = convertedP2.x - convertedP1.x + "px";
-              mask.style.height = convertedP2.y - convertedP1.y + "px";
-              mask.style.border = "2px dashed red";
-              document.body.append(mask);
-              highlightResultMasks.push(mask);
+              const convertedP1 = scanner.convertToPageCoordinates(p1);
+              const convertedP2 = scanner.convertToPageCoordinates(p2);
+              textContainer = document.createElement("div");
+              textContainer.style.position = "absolute";
+              textContainer.style.left = convertedP1.x + "px";
+              textContainer.style.right = document.body.clientWidth - convertedP2.x + "px";
+              textContainer.style.bottom = document.body.clientHeight - convertedP1.y + "px";
+              textContainer.style.color = "#FE8E14";
+              textContainer.innerText = result.barcodeText;
+              divTextContainers.append(textContainer);
             }
           };
 
