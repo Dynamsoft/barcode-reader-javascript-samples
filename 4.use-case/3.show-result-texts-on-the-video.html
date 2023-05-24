@@ -25,7 +25,7 @@
         word-break: break-all;
         word-wrap: break-word;
         box-shadow: 5px 5px 5px 3px rgba(0,0,0,0.2);
-        transform: translateX(-50%);
+        transform: translate(-50%, -4px);
       }
       .bubble-box::after{
         content: '';
@@ -112,12 +112,11 @@
               
               divInf = document.createElement("div");
               divInf.className = 'bubble-box';
-              const divInfVerticalOffset = 4; //px
               const bodyStyle = getComputedStyle(document.body);
               if (bodyStyle.position === "static") {
                 Object.assign(divInf.style, {
                   left: `${(convertedP1.x + convertedP2.x) / 2}px`,
-                  bottom: `${document.documentElement.clientHeight  - convertedP1.y + divInfVerticalOffset}px`,
+                  bottom: `${document.documentElement.clientHeight  - convertedP1.y}px`,
                 });
               } else { // if you set body `position` as `relative`, `absolute`, things can get complicated
                 const bodyRect = document.body.getBoundingClientRect();
@@ -125,7 +124,7 @@
                 const bodyBorderBottom = parseFloat(bodyStyle.borderBottomWidth);
                 Object.assign(divInf.style, {
                   left: `${(convertedP1.x + convertedP2.x) / 2 - bodyRect.left - bodyBorderLeft}px`,
-                  bottom: `${bodyRect.bottom - convertedP1.y - bodyBorderBottom + divInfVerticalOffset}px`,
+                  bottom: `${bodyRect.bottom - convertedP1.y - bodyBorderBottom}px`,
                 });
               }
               divInf.innerText = result.barcodeText;
