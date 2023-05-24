@@ -17,6 +17,7 @@
     </title>
     <style>
       .bubble-box{
+        max-width: 20rem; /* You are likely to change it */
         position: absolute;
         background: white;
         border-radius: 4px; 
@@ -24,6 +25,7 @@
         word-break: break-all;
         word-wrap: break-word;
         box-shadow: 5px 5px 5px 3px rgba(0,0,0,0.2);
+        transform: translateX(-50%);
       }
       .bubble-box::after{
         content: '';
@@ -110,25 +112,20 @@
               
               divInf = document.createElement("div");
               divInf.className = 'bubble-box';
-              // define width of the bubble box
-              const divInfWidth = "20rem";
-              divInf.style.width = divInfWidth;
               const divInfVerticalOffset = 4; //px
               const bodyStyle = getComputedStyle(document.body);
               if (bodyStyle.position === "static") {
                 Object.assign(divInf.style, {
-                  left: `calc(${(convertedP1.x + convertedP2.x) / 2}px - ${divInfWidth} / 2)`,
+                  left: `${(convertedP1.x + convertedP2.x) / 2}px`,
                   bottom: `${document.documentElement.clientHeight  - convertedP1.y + divInfVerticalOffset}px`,
                 });
               } else { // if you set body `position` as `relative`, `absolute`, things can get complicated
                 const bodyRect = document.body.getBoundingClientRect();
                 const bodyBorderLeft = parseFloat(bodyStyle.borderLeftWidth);
                 const bodyBorderBottom = parseFloat(bodyStyle.borderBottomWidth);
-                const bodyPaddingLeft = parseFloat(bodyStyle.paddingLeft);
-                const bodyPaddingBottom = parseFloat(bodyStyle.paddingBottom);
                 Object.assign(divInf.style, {
-                  left: `calc(${(convertedP1.x + convertedP2.x) / 2 - bodyRect.left - bodyBorderLeft - bodyPaddingLeft}px - ${divInfWidth} / 2)`,
-                  bottom: `${bodyRect.bottom - convertedP1.y - bodyBorderBottom - bodyPaddingBottom + divInfVerticalOffset}px`,
+                  left: `${(convertedP1.x + convertedP2.x) / 2 - bodyRect.left - bodyBorderLeft}px`,
+                  bottom: `${bodyRect.bottom - convertedP1.y - bodyBorderBottom + divInfVerticalOffset}px`,
                 });
               }
               divInf.innerText = result.barcodeText;
