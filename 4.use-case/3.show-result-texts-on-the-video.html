@@ -121,10 +121,10 @@
               } else { // if you set body `position` as `relative`, `absolute`, things can get complicated
                 const bodyRect = document.body.getBoundingClientRect();
                 const bodyBorderLeft = parseFloat(bodyStyle.borderLeftWidth);
-                const bodyBorderBottom = parseFloat(bodyStyle.borderBottomWidth);
+                const bodyBorderTop = parseFloat(bodyStyle.borderTopWidth);
                 Object.assign(divInf.style, {
                   left: `${(convertedP1.x + convertedP2.x) / 2 - bodyRect.left - bodyBorderLeft}px`,
-                  top: `${convertedP1.y - bodyRect.top - bodyBorderBottom}px`,
+                  top: `${convertedP1.y - bodyRect.top - bodyBorderTop}px`,
                 });
               }
               divInf.innerText = result.barcodeText;
