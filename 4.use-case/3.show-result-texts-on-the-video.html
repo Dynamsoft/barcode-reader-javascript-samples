@@ -21,18 +21,9 @@
     https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.20/dist/dbr.js"></script>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        position: relative;
-      }
-    </style>
   </head>
   <body>
-    <div id="div-ui-container" style="width: 100%; height: 100vh"></div>
+    <div id="div-ui-container" style="width: 100%; height: 90vh"></div>
     <div id="div-text-containers"></div>
     <script>
       if (location.protocol === "file:") {
@@ -80,48 +71,50 @@
             divTextContainers.innerText = "";
 
             for (let result of results) {
+              const l = result.localizationResult;
               const p1 = {
-                x: Math.min(
-                  result.localizationResult.x1,
-                  result.localizationResult.x2,
-                  result.localizationResult.x3,
-                  result.localizationResult.x4
-                ),
-                y: Math.min(
-                  result.localizationResult.y1,
-                  result.localizationResult.y2,
-                  result.localizationResult.y3,
-                  result.localizationResult.y4
-                ),
+                x: Math.min(l.x1, l.x2, l.x3, l.x4),
+                y: Math.min(l.y1, l.y2, l.y3, l.y4),
               };
               const p2 = {
-                x: Math.max(
-                  result.localizationResult.x1,
-                  result.localizationResult.x2,
-                  result.localizationResult.x3,
-                  result.localizationResult.x4
-                ),
-                y: Math.max(
-                  result.localizationResult.y1,
-                  result.localizationResult.y2,
-                  result.localizationResult.y3,
-                  result.localizationResult.y4
-                ),
+                x: Math.max(l.x1, l.x2, l.x3, l.x4),
+                y: Math.max(l.y1, l.y2, l.y3, l.y4),
               };
+              
               /**
                * 'convertToPageCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the document.
                * Then we can place a div element according to the converted coordinate.
                */
               const convertedP1 = scanner.convertToPageCoordinates(p1);
               const convertedP2 = scanner.convertToPageCoordinates(p2);
+              
               textContainer = document.createElement("div");
-              textContainer.style.position = "absolute";
-              textContainer.style.left = convertedP1.x + "px";
-              textContainer.style.right = document.body.clientWidth - convertedP2.x + "px";
-              textContainer.style.bottom = document.body.clientHeight - convertedP1.y + "px";
-              textContainer.style.color = "#FE8E14";
+              const bodyStyle = getComputedStyle(document.body);
+              if (bodyStyle.position !== "static") {
+                const rect = document.body.getBoundingClientRect();
+                const borderWidth = parseInt(bodyStyle.borderWidth);
+                Object.assign(textContainer.style, {
+                  position: "absolute",
+                  left: convertedP1.x - rect.left - borderWidth + "px",
+                  right: rect.right - convertedP2.x - borderWidth + "px",
+                  bottom: rect.bottom - convertedP1.y - borderWidth + "px",
+                  color: "#FE8E14",
+                });
+              } else {
+                Object.assign(textContainer.style, {
+                  position: "absolute",
+                  left: convertedP1.x + "px",
+                  right: document.documentElement.clientWidth - convertedP2.x + "px",
+                  bottom: document.documentElement.clientHeight  - convertedP1.y + "px",
+                  color: "#FE8E14",
+                });
+              }
               textContainer.innerText = result.barcodeText;
               divTextContainers.append(textContainer);
+
+              /**
+               * You can also add more information, such as displaying product images.
+               */
             }
           };
 
