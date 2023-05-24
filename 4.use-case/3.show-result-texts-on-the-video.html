@@ -16,19 +16,23 @@
       Dynamsoft Barcode Reader Sample - Show result texts on the video
     </title>
     <style>
-      .div-inf{
+      .bubble-box{
         position: absolute;
         background: white;
+        border-radius: 4px; 
         padding: 4px;
+        word-break: break-all;
+        word-wrap: break-word;
+        box-shadow: 5px 5px 5px 3px rgba(0,0,0,0.2);
       }
-      .div-inf::after{
+      .bubble-box::after{
         content: '';
         position: absolute;
         bottom: -8px;
-        background: white;
-        border-left: 8px solid white;
-        border-bottom: 8px solid white;
-        border-right: 8px solid white;
+        left: calc(50% - 8px);
+        border-left: 8px solid transparent;
+        border-top: 8px solid white;
+        border-right: 8px solid transparent;
       }
     </style>
   </head>
@@ -105,21 +109,26 @@
               const convertedP2 = scanner.convertToPageCoordinates(p2);
               
               divInf = document.createElement("div");
-              divInf.className = 'div-inf';
+              divInf.className = 'bubble-box';
+              // define width of the bubble box
+              const divInfWidth = "20rem";
+              divInf.style.width = divInfWidth;
+              const divInfVerticalOffset = 4; //px
               const bodyStyle = getComputedStyle(document.body);
-              if (bodyStyle.position !== "static") {
-                const rect = document.body.getBoundingClientRect();
-                const borderWidth = parseInt(bodyStyle.borderWidth);
+              if (bodyStyle.position === "static") {
                 Object.assign(divInf.style, {
-                  left: convertedP1.x - rect.left - borderWidth + "px",
-                  right: rect.right - convertedP2.x - borderWidth + "px",
-                  bottom: rect.bottom - convertedP1.y - borderWidth + "px",
+                  left: `calc(${(convertedP1.x + convertedP2.x) / 2}px - ${divInfWidth} / 2)`,
+                  bottom: `${document.documentElement.clientHeight  - convertedP1.y + divInfVerticalOffset}px`,
                 });
-              } else {
+              } else { // if you set body `position` as `relative`, `absolute`, things can get complicated
+                const bodyRect = document.body.getBoundingClientRect();
+                const bodyBorderLeft = parseInt(bodyStyle.borderLeftWidth);
+                const bodyBorderBottom = parseInt(bodyStyle.borderBottomWidth);
+                const bodyPaddingLeft = parseInt(bodyStyle.paddingLeft);
+                const bodyPaddingBottom = parseInt(bodyStyle.paddingBottom);
                 Object.assign(divInf.style, {
-                  left: convertedP1.x + "px",
-                  right: document.documentElement.clientWidth - convertedP2.x + "px",
-                  bottom: document.documentElement.clientHeight  - convertedP1.y + "px",
+                  left: `calc(${(convertedP1.x + convertedP2.x) / 2 - bodyRect.left - bodyBorderLeft - bodyPaddingLeft}px - ${divInfWidth} / 2)`,
+                  bottom: `${bodyRect.bottom - convertedP1.y - bodyBorderBottom - bodyPaddingBottom + divInfVerticalOffset}px`,
                 });
               }
               divInf.innerText = result.barcodeText;
