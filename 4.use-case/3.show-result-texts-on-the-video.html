@@ -123,8 +123,8 @@
                 const bodyBorderLeft = parseFloat(bodyStyle.borderLeftWidth);
                 const bodyBorderTop = parseFloat(bodyStyle.borderTopWidth);
                 Object.assign(divInf.style, {
-                  left: `${(convertedP1.x + convertedP2.x) / 2 - bodyRect.left - bodyBorderLeft}px`,
-                  top: `${convertedP1.y - bodyRect.top - bodyBorderTop}px`,
+                  left: `${(convertedP1.x + convertedP2.x) / 2 - (bodyRect.left + document.documentElement.scrollLeft) - bodyBorderLeft}px`,
+                  top: `${convertedP1.y - (bodyRect.top + document.documentElement.scrollTop) - bodyBorderTop}px`,
                 });
               }
               divInf.innerText = result.barcodeText;
