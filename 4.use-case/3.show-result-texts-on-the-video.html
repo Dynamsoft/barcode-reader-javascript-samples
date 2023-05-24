@@ -15,16 +15,33 @@
     <title>
       Dynamsoft Barcode Reader Sample - Show result texts on the video
     </title>
+    <style>
+      .div-inf{
+        position: absolute;
+        background: white;
+        border: 4px solid black;
+        padding: 4px;
+      }
+      .div-inf::after{
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        background: white;
+        border-left: 8px solid white;
+        border-bottom: 8px solid white;
+        border-right: 8px solid white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="div-ui-container" style="width: 100%; height: 90vh"></div>
+    <div id="div-information-containers"></div>
     <!--
     This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
     library offline. Please see the guide on how to host the library: 
     https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.20/dist/dbr.js"></script>
-  </head>
-  <body>
-    <div id="div-ui-container" style="width: 100%; height: 90vh"></div>
-    <div id="div-text-containers"></div>
     <script>
       if (location.protocol === "file:") {
         const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
@@ -47,7 +64,7 @@
        * LICENSE ALERT - THE END
        */
 
-      const divTextContainers = document.querySelector("#div-text-containers");
+      const divInfContainers = document.querySelector("#div-information-containers");
       let scanner;
 
       (async () => {
@@ -68,7 +85,7 @@
             console.log(results);
 
             // Clear previous result text elements.
-            divTextContainers.innerText = "";
+            divInfContainers.innerText = "";
 
             for (let result of results) {
               const l = result.localizationResult;
@@ -88,29 +105,26 @@
               const convertedP1 = scanner.convertToPageCoordinates(p1);
               const convertedP2 = scanner.convertToPageCoordinates(p2);
               
-              textContainer = document.createElement("div");
+              divInf = document.createElement("div");
+              divInf.className = 'div-inf';
               const bodyStyle = getComputedStyle(document.body);
               if (bodyStyle.position !== "static") {
                 const rect = document.body.getBoundingClientRect();
                 const borderWidth = parseInt(bodyStyle.borderWidth);
-                Object.assign(textContainer.style, {
-                  position: "absolute",
+                Object.assign(divInf.style, {
                   left: convertedP1.x - rect.left - borderWidth + "px",
                   right: rect.right - convertedP2.x - borderWidth + "px",
                   bottom: rect.bottom - convertedP1.y - borderWidth + "px",
-                  color: "#FE8E14",
                 });
               } else {
-                Object.assign(textContainer.style, {
-                  position: "absolute",
+                Object.assign(divInf.style, {
                   left: convertedP1.x + "px",
                   right: document.documentElement.clientWidth - convertedP2.x + "px",
                   bottom: document.documentElement.clientHeight  - convertedP1.y + "px",
-                  color: "#FE8E14",
                 });
               }
-              textContainer.innerText = result.barcodeText;
-              divTextContainers.append(textContainer);
+              divInf.innerText = result.barcodeText;
+              divInfContainers.append(divInf);
 
               /**
                * You can also add more information, such as displaying product images.
