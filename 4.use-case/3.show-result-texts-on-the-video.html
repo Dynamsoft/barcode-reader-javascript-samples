@@ -122,10 +122,10 @@
                 });
               } else { // if you set body `position` as `relative`, `absolute`, things can get complicated
                 const bodyRect = document.body.getBoundingClientRect();
-                const bodyBorderLeft = parseInt(bodyStyle.borderLeftWidth);
-                const bodyBorderBottom = parseInt(bodyStyle.borderBottomWidth);
-                const bodyPaddingLeft = parseInt(bodyStyle.paddingLeft);
-                const bodyPaddingBottom = parseInt(bodyStyle.paddingBottom);
+                const bodyBorderLeft = parseFloat(bodyStyle.borderLeftWidth);
+                const bodyBorderBottom = parseFloat(bodyStyle.borderBottomWidth);
+                const bodyPaddingLeft = parseFloat(bodyStyle.paddingLeft);
+                const bodyPaddingBottom = parseFloat(bodyStyle.paddingBottom);
                 Object.assign(divInf.style, {
                   left: `calc(${(convertedP1.x + convertedP2.x) / 2 - bodyRect.left - bodyBorderLeft - bodyPaddingLeft}px - ${divInfWidth} / 2)`,
                   bottom: `${bodyRect.bottom - convertedP1.y - bodyBorderBottom - bodyPaddingBottom + divInfVerticalOffset}px`,
