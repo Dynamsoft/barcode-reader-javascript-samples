@@ -21,15 +21,9 @@
     https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
     -->
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.20/dist/dbr.js"></script>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-    </style>
   </head>
   <body>
-    <div id="div-ui-container" style="width: 100%; height: 100vh"></div>
+    <div id="div-ui-container" style="width: 100%; height: 90vh"></div>
     <div id="div-text-containers"></div>
     <script>
       if (location.protocol === "file:") {
@@ -95,13 +89,26 @@
               const convertedP2 = scanner.convertToPageCoordinates(p2);
               
               textContainer = document.createElement("div");
-              Object.assign(textContainer.style, {
-                position: "absolute",
-                left: convertedP1.x + "px",
-                right: document.documentElement.clientWidth - convertedP2.x + "px",
-                bottom: document.documentElement.clientHeight  - convertedP1.y + "px",
-                color: "#FE8E14",
-              });
+              const bodyStyle = getComputedStyle(document.body);
+              if (bodyStyle.position === "relative") {
+                const rect = document.body.getBoundingClientRect();
+                const borderWidth = parseInt(bodyStyle.borderWidth);
+                Object.assign(textContainer.style, {
+                  position: "absolute",
+                  left: convertedP1.x - rect.left - borderWidth + "px",
+                  right: rect.right - convertedP2.x - borderWidth + "px",
+                  bottom: rect.bottom - convertedP1.y - borderWidth + "px",
+                  color: "#FE8E14",
+                });
+              } else {
+                Object.assign(textContainer.style, {
+                  position: "absolute",
+                  left: convertedP1.x + "px",
+                  right: document.documentElement.clientWidth - convertedP2.x + "px",
+                  bottom: document.documentElement.clientHeight  - convertedP1.y + "px",
+                  color: "#FE8E14",
+                });
+              }
               textContainer.innerText = result.barcodeText;
               divTextContainers.append(textContainer);
 
