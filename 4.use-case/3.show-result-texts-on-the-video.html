@@ -17,15 +17,19 @@
     </title>
     <style>
       .bubble-box{
-        max-width: 20rem; /* You are likely to change it */
         position: absolute;
-        right: -999px;
         background: white;
         border-radius: 4px; 
         padding: 4px;
         word-break: break-all;
         word-wrap: break-word;
         box-shadow: 5px 5px 5px 3px rgba(0,0,0,0.2);
+      }
+      .bubble-box.adaptive-width{ /*complicated*/
+        max-width: 20rem; /* change to value you like */
+      }
+      .bubble-box.fixed-width{ /*easy*/
+        width: 20rem; /* change to value you like */
         transform: translate(-50%, calc(-100% - 4px));
       }
       .bubble-box::after{
@@ -105,33 +109,51 @@
               };
               
               divInf = document.createElement("div");
-              divInf.className = 'bubble-box';
+              divInf.classList.add('bubble-box', 'adaptive-width'); // or 'fixed-width'
               const bodyStyle = getComputedStyle(document.body);
               if (bodyStyle.position === "static") {
                 /**
                  * 'convertToPageCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the document.
                  * Then we can place a div element according to the converted coordinate.
                  */
-                const convertedP1 = scanner.convertToPageCoordinates(p1);
-                const convertedP2 = scanner.convertToPageCoordinates(p2);
-                Object.assign(divInf.style, {
-                  left: `${(convertedP1.x + convertedP2.x) / 2}px`,
-                  top: `${convertedP1.y}px`,
-                });
-              } else { // if you set body `position` as `relative`, `absolute`, things can get complicated
+                const pageP1 = scanner.convertToPageCoordinates(p1);
+                const pageP2 = scanner.convertToPageCoordinates(p2);
+                const pageMidX = (pageP1.x + pageP2.x) / 2;
+                divInf.style.top = `${pageP1.y}px`;
+                if(divInf.classList.contains('fixed-width')){
+                  // fixed-width, easy
+                  divInf.style.left = `${pageMidX}px`;
+                }else if(pageMidX < document.documentElement.clientWidth / 2){
+                  // adaptive-width, near left
+                  divInf.style.left = `${pageMidX}px`;
+                  divInf.style.transform = `translate(-50%, calc(-100% - 4px))`;
+                }else{
+                  // adaptive-width, near right
+                  divInf.style.right = `${document.documentElement.clientWidth - pageMidX}px`;
+                  divInf.style.transform = `translate(50%, calc(-100% - 4px))`;
+                }
+              } else { // if you set body `position` as `relative`, `absolute`, and so on, things can get complicated.
                 /**
                  * 'convertToClientCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the viewport.
                  * Then we can place a div element according to the converted coordinate.
                  */
-                const convertedP1 = scanner.convertToClientCoordinates(p1);
-                const convertedP2 = scanner.convertToClientCoordinates(p2);
+                const clientP1 = scanner.convertToClientCoordinates(p1);
+                const clientP2 = scanner.convertToClientCoordinates(p2);
+                const clientMidX = (clientP1.x + clientP2.x) / 2;
                 const bodyRect = document.body.getBoundingClientRect();
-                const bodyBorderLeft = parseFloat(bodyStyle.borderLeftWidth);
-                const bodyBorderTop = parseFloat(bodyStyle.borderTopWidth);
-                Object.assign(divInf.style, {
-                  left: `${(convertedP1.x + convertedP2.x) / 2 - bodyRect.left - bodyBorderLeft}px`,
-                  top: `${convertedP1.y - bodyRect.top - bodyBorderTop}px`,
-                });
+                divInf.style.top = `${clientP1.y - bodyRect.top - parseFloat(bodyStyle.borderTopWidth)}px`;
+                if(divInf.classList.contains('fixed-width')){
+                  // fixed-width, easy
+                  divInf.style.left = `${clientMidX - bodyRect.left - parseFloat(bodyStyle.borderLeftWidth)}px`;
+                }else if(clientMidX < bodyRect.left + bodyRect.width / 2){
+                  // adaptive-width, near left
+                  divInf.style.left = `${clientMidX - bodyRect.left - parseFloat(bodyStyle.borderLeftWidth)}px`;
+                  divInf.style.transform = `translate(-50%, calc(-100% - 4px))`;
+                }else{
+                  // adaptive-width, near right
+                  divInf.style.right = `${bodyRect.left + bodyRect.width - clientMidX}px`;
+                  divInf.style.transform = `translate(50%, calc(-100% - 4px))`;
+                }
               }
               divInf.innerText = result.barcodeText;
               divInfContainers.append(divInf);
