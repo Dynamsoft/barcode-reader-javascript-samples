@@ -19,13 +19,14 @@
       .bubble-box{
         max-width: 20rem; /* You are likely to change it */
         position: absolute;
+        right: -999px;
         background: white;
         border-radius: 4px; 
         padding: 4px;
         word-break: break-all;
         word-wrap: break-word;
         box-shadow: 5px 5px 5px 3px rgba(0,0,0,0.2);
-        transform: translate(-50%, -4px);
+        transform: translate(-50%, calc(-100% - 4px));
       }
       .bubble-box::after{
         content: '';
@@ -103,28 +104,33 @@
                 y: Math.max(l.y1, l.y2, l.y3, l.y4),
               };
               
-              /**
-               * 'convertToPageCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the document.
-               * Then we can place a div element according to the converted coordinate.
-               */
-              const convertedP1 = scanner.convertToPageCoordinates(p1);
-              const convertedP2 = scanner.convertToPageCoordinates(p2);
-              
               divInf = document.createElement("div");
               divInf.className = 'bubble-box';
               const bodyStyle = getComputedStyle(document.body);
               if (bodyStyle.position === "static") {
+                /**
+                 * 'convertToPageCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the document.
+                 * Then we can place a div element according to the converted coordinate.
+                 */
+                const convertedP1 = scanner.convertToPageCoordinates(p1);
+                const convertedP2 = scanner.convertToPageCoordinates(p2);
                 Object.assign(divInf.style, {
                   left: `${(convertedP1.x + convertedP2.x) / 2}px`,
-                  bottom: `${document.documentElement.clientHeight  - convertedP1.y}px`,
+                  top: `${convertedP1.y}px`,
                 });
               } else { // if you set body `position` as `relative`, `absolute`, things can get complicated
+                /**
+                 * 'convertToClientCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the viewport.
+                 * Then we can place a div element according to the converted coordinate.
+                 */
+                const convertedP1 = scanner.convertToClientCoordinates(p1);
+                const convertedP2 = scanner.convertToClientCoordinates(p2);
                 const bodyRect = document.body.getBoundingClientRect();
                 const bodyBorderLeft = parseFloat(bodyStyle.borderLeftWidth);
-                const bodyBorderBottom = parseFloat(bodyStyle.borderBottomWidth);
+                const bodyBorderTop = parseFloat(bodyStyle.borderTopWidth);
                 Object.assign(divInf.style, {
                   left: `${(convertedP1.x + convertedP2.x) / 2 - bodyRect.left - bodyBorderLeft}px`,
-                  bottom: `${bodyRect.bottom - convertedP1.y - bodyBorderBottom}px`,
+                  top: `${convertedP1.y - bodyRect.top - bodyBorderTop}px`,
                 });
               }
               divInf.innerText = result.barcodeText;
