@@ -104,28 +104,33 @@
                 y: Math.max(l.y1, l.y2, l.y3, l.y4),
               };
               
-              /**
-               * 'convertToPageCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the document.
-               * Then we can place a div element according to the converted coordinate.
-               */
-              const convertedP1 = scanner.convertToPageCoordinates(p1);
-              const convertedP2 = scanner.convertToPageCoordinates(p2);
-              
               divInf = document.createElement("div");
               divInf.className = 'bubble-box';
               const bodyStyle = getComputedStyle(document.body);
               if (bodyStyle.position === "static") {
+                /**
+                 * 'convertToPageCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the document.
+                 * Then we can place a div element according to the converted coordinate.
+                 */
+                const convertedP1 = scanner.convertToPageCoordinates(p1);
+                const convertedP2 = scanner.convertToPageCoordinates(p2);
                 Object.assign(divInf.style, {
                   left: `${(convertedP1.x + convertedP2.x) / 2}px`,
                   top: `${convertedP1.y}px`,
                 });
               } else { // if you set body `position` as `relative`, `absolute`, things can get complicated
+                /**
+                 * 'convertToClientCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the viewport.
+                 * Then we can place a div element according to the converted coordinate.
+                 */
+                const convertedP1 = scanner.convertToClientCoordinates(p1);
+                const convertedP2 = scanner.convertToClientCoordinates(p2);
                 const bodyRect = document.body.getBoundingClientRect();
                 const bodyBorderLeft = parseFloat(bodyStyle.borderLeftWidth);
                 const bodyBorderTop = parseFloat(bodyStyle.borderTopWidth);
                 Object.assign(divInf.style, {
-                  left: `${(convertedP1.x + convertedP2.x) / 2 - (bodyRect.left + document.documentElement.scrollLeft) - bodyBorderLeft}px`,
-                  top: `${convertedP1.y - (bodyRect.top + document.documentElement.scrollTop) - bodyBorderTop}px`,
+                  left: `${(convertedP1.x + convertedP2.x) / 2 - bodyRect.left - bodyBorderLeft}px`,
+                  top: `${convertedP1.y - bodyRect.top - bodyBorderTop}px`,
                 });
               }
               divInf.innerText = result.barcodeText;
