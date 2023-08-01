@@ -434,7 +434,7 @@ button {
   margin: 2vmin auto;
   text-align: center;
   font-size: medium;
-  width: 80vw;
+  width: 100%;
 }
 </style>
 ```
