@@ -1,4 +1,4 @@
-const dbrVersion = "9.6.20";
+const dbrVersion = "9.6.21";
 const dbrCdn = `https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@${dbrVersion}/dist/`;
 
 // Files to cache
