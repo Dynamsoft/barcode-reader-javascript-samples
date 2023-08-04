@@ -211,14 +211,4 @@ onBeforeUnmount(async () => {
     top: 97%;
   }
 }
-
-@keyframes dbrScanner-scanlight {
-  from {
-    top: 0;
-  }
-
-  to {
-    top: 97%;
-  }
-}
 </style>
