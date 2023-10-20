@@ -7,7 +7,7 @@
       name="description"
       content="Quickly read barcodes with Dynamsoft Barcode Reader from a live camera stream."
     />
-    <meta name="keywords" content="camera based barcode reading" />
+    <meta name="keywords" content="barcode, camera, es6" />
     <link
       rel="canonical"
       href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html"
@@ -40,7 +40,6 @@
       }
     </script>
     <script type="module">
-      import { CoreModule } from "@dynamsoft/dynamsoft-core";
       import { BarcodeReaderModule } from "@dynamsoft/dynamsoft-barcode-reader";
       import {
         LicenseManager,
@@ -73,7 +72,6 @@
         "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231019180228/dist/";
       CaptureVisionRouter.engineResourcePath =
         "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231019180504/dist/";
-
       (async function () {
         try {
           // Create a `CameraEnhancer` instance for camera control.
