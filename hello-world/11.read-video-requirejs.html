@@ -13,13 +13,15 @@
       href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html"
     />
     <title>
-      Dynamsoft Barcode Reader Sample - Hello World for RequireJS (Read Video)
+      Dynamsoft Barcode Reader Sample - Hello World for RequireJS (Decode via Camera)
     </title>
     <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.js"></script>
   </head>
 
   <body>
-    <div id="div-ui-container" style="width: 80vw; height: 80vh"></div>
+    <h1>Hello World for RequireJS (Decode via Camera)</h1>
+    <div id="div-ui-container" style="width: 100%; height: 80vh"></div>
+    <div id="div-result-container" style="margin-top: 6px"></div>
     <script>
       if (location.protocol === "file:") {
         const message = `The page is opened via file:// and some SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
@@ -35,15 +37,15 @@
           "dynamsoft-core":
             "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.10/dist/core",
           "@dynamsoft/dynamsoft-barcode-reader":
-            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231019180228/dist/dbr",
+            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020140243/dist/dbr",
           "@dynamsoft/dynamsoft-document-normalizer":
             "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-document-normalizer@2.0.12-dev-20231019180133/dist/ddn",
           "@dynamsoft/dynamsoft-capture-vision-router":
-            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231019180504/dist/cvr",
+            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231020152445/dist/cvr",
           "dynamsoft-capture-vision-router":
             "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.11/dist/cvr",
           "@dynamsoft/dynamsoft-camera-enhancer":
-            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231016143906/dist/dce",
+            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231020132130/dist/dce",
         },
       });
 
@@ -97,7 +99,12 @@
               // Define a callback for results.
               const resultReceiver = new CapturedResultReceiver();
               resultReceiver.onCapturedResultReceived = (result) => {
+                const divResultContainer = document.querySelector(
+                  "#div-result-container"
+                );
+                divResultContainer.innerText = "Result:\n";
                 for (let item of result.items) {
+                  divResultContainer.innerText += item.text + "\n";
                   console.log(item.text);
                 }
               };
