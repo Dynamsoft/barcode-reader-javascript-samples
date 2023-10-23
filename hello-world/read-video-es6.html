@@ -91,12 +91,12 @@
 
           // Define a callback for results.
           const resultReceiver = new CapturedResultReceiver();
-          resultReceiver.onCapturedResultReceived = (result) => {
+          resultReceiver.onDecodedBarcodesReceived = (result) => {
             const divResultContainer = document.querySelector(
               "#div-result-container"
             );
             divResultContainer.innerText = "Result:\n";
-            for (let item of result.items) {
+            for (let item of result.barcodesResultItems) {
               divResultContainer.innerText += item.text + "\n";
               console.log(item.text);
             }

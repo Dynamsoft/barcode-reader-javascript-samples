@@ -66,8 +66,8 @@
 
           // Define a callback for results.
           const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
-          resultReceiver.onCapturedResultReceived = (result) => {
-            for (let item of result.items) {
+          resultReceiver.onDecodedBarcodesReceived = (result) => {
+            for (let item of result.barcodesResultItems) {
               console.log(item.text);
               alert(item.text);
             }
