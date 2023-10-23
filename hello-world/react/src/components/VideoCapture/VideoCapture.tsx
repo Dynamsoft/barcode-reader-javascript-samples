@@ -66,7 +66,7 @@ export class VideoCapture extends React.Component {
       );
       await router.addResultFilter(filter);
 
-      // Open camera and start scanning.
+      // Open camera and start scanning single barcode.
       await cameraEnhancer.open();
       await router.startCapturing("ReadSingleBarcode");
       return {

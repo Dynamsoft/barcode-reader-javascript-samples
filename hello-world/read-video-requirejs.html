@@ -10,10 +10,11 @@
     <meta name="keywords" content="barcode, camera, RequireJS" />
     <link
       rel="canonical"
-      href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html"
+      href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/read-video-requirejs.html"
     />
     <title>
-      Dynamsoft Barcode Reader Sample - Hello World for RequireJS (Decode via Camera)
+      Dynamsoft Barcode Reader Sample - Hello World for RequireJS (Decode via
+      Camera)
     </title>
     <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.js"></script>
   </head>
@@ -21,7 +22,6 @@
   <body>
     <h1>Hello World for RequireJS (Decode via Camera)</h1>
     <div id="div-ui-container" style="width: 100%; height: 80vh"></div>
-    <div id="div-result-container" style="margin-top: 6px"></div>
     <script>
       if (location.protocol === "file:") {
         const message = `The page is opened via file:// and some SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
@@ -36,6 +36,8 @@
             "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231010152155/dist/core",
           "dynamsoft-core":
             "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.10/dist/core",
+          "@dynamsoft/dynamsoft-utility":
+            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20231023103736/dist/utility",
           "@dynamsoft/dynamsoft-barcode-reader":
             "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020140243/dist/dbr",
           "@dynamsoft/dynamsoft-document-normalizer":
@@ -51,11 +53,15 @@
 
       requirejs(
         [
+          "@dynamsoft/dynamsoft-core",
+          "@dynamsoft/dynamsoft-utility",
           "@dynamsoft/dynamsoft-barcode-reader",
           "@dynamsoft/dynamsoft-capture-vision-router",
           "@dynamsoft/dynamsoft-camera-enhancer",
         ],
         function (
+          { EnumCapturedResultItemType },
+          { MultiFrameResultCrossFilter },
           { BarcodeReaderModule },
           { LicenseManager, CaptureVisionRouter, CapturedResultReceiver },
           { CameraView, CameraEnhancer }
@@ -99,18 +105,31 @@
               // Define a callback for results.
               const resultReceiver = new CapturedResultReceiver();
               resultReceiver.onDecodedBarcodesReceived = (result) => {
-                const divResultContainer = document.querySelector(
-                  "#div-result-container"
-                );
-                divResultContainer.innerText = "Result:\n";
                 for (let item of result.barcodesResultItems) {
-                  divResultContainer.innerText += item.text + "\n";
                   console.log(item.text);
+                  alert(item.text);
                 }
               };
               router.addResultReceiver(resultReceiver);
 
-              // Open camera and start scanning.
+              // Filter out unchecked and duplicate results.
+              const filter = new MultiFrameResultCrossFilter();
+              filter.enableResultCrossVerification(
+                EnumCapturedResultItemType.CRIT_BARCODE,
+                true
+              ); // Filter out unchecked barcodes.
+              // Filter out duplicate barcodes within 3 seconds.
+              filter.enableResultDeduplication(
+                EnumCapturedResultItemType.CRIT_BARCODE,
+                true
+              );
+              filter.setDuplicateForgetTime(
+                EnumCapturedResultItemType.CRIT_BARCODE,
+                3000
+              );
+              await router.addResultFilter(filter);
+
+              // Open camera and start scanning single barcode.
               await cameraEnhancer.open();
               await router.startCapturing("ReadBarcodes_SpeedFirst");
             } catch (ex) {

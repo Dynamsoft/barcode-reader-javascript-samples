@@ -21,6 +21,7 @@ export class ImageCapture extends React.Component {
   decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const router = await this.pInit;
+      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
       const result = await router!.capture(
         e.target.files![0],
         'ReadBarcodes_SpeedFirst'

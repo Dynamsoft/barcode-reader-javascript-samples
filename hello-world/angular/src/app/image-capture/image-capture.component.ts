@@ -13,6 +13,7 @@ export class ImageCaptureComponent {
   decodeImg = async (e: any) => {
     try {
       const router = await this.pInit;
+      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
       const result = await router!.capture(
         e.target.files[0],
         'ReadBarcodes_SpeedFirst'

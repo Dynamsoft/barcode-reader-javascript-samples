@@ -21,6 +21,7 @@ function ImageCapture() {
   const decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const router = (await pInit.current)!;
+      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
       const result = await router.capture(
         e.target.files![0],
         "ReadBarcodes_SpeedFirst"

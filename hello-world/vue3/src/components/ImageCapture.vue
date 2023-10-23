@@ -8,6 +8,7 @@ const pInit: Ref<Promise<CaptureVisionRouter> | null> = ref(null);
 const decodeImg = async (e: Event) => {
   try {
     const router = await pInit.value;
+    // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
     const result = await router.capture(
       (e.target as any).files[0],
       "ReadBarcodes_SpeedFirst"
