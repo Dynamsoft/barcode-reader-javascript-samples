@@ -1,30 +1,26 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { EnumCapturedResultItemType } from '@dynamsoft/dynamsoft-core'
-import { DecodedBarcodesResult } from '@dynamsoft/dynamsoft-barcode-reader';
+import React from "react";
+import { EnumCapturedResultItemType } from "@dynamsoft/dynamsoft-core"
+import { DecodedBarcodesResult } from "@dynamsoft/dynamsoft-barcode-reader";
 import {
   CameraEnhancer,
   CameraView,
-} from '@dynamsoft/dynamsoft-camera-enhancer';
+} from "@dynamsoft/dynamsoft-camera-enhancer";
 import {
   CapturedResultReceiver,
   CaptureVisionRouter,
-} from '@dynamsoft/dynamsoft-capture-vision-router';
-import { MultiFrameResultCrossFilter } from '@dynamsoft/dynamsoft-utility';
+} from "@dynamsoft/dynamsoft-capture-vision-router";
+import "./VideoCapture.css";
+import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
 
-@Component({
-  selector: 'app-video-capture',
-  templateUrl: './video-capture.component.html',
-  styleUrls: ['./video-capture.component.css'],
-})
-export class VideoCaptureComponent {
+export class VideoCapture extends React.Component {
   pInit: Promise<{
     cameraView: CameraView;
     cameraEnhancer: CameraEnhancer;
     router: CaptureVisionRouter;
   }> | null = null;
+  pDestroy: Promise<void> | null = null;
 
-  @ViewChild('uiContainer') uiContainer: ElementRef<HTMLDivElement> | null =
-    null;
+  elRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   async init(): Promise<{
     cameraView: CameraView;
@@ -35,22 +31,24 @@ export class VideoCaptureComponent {
       // Create a `CameraEnhancer` instance for camera control.
       const cameraView = await CameraView.createInstance();
       const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-      this.uiContainer!.nativeElement.append(cameraView.getUIElement());
-      
+      this.elRef.current!.innerText = "";
+      this.elRef.current!.append(cameraView.getUIElement());
+
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
       const router = await CaptureVisionRouter.createInstance();
       router.setInput(cameraEnhancer);
-      
+
       // Define a callback for results.
       const resultReceiver = new CapturedResultReceiver();
-      resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
+      resultReceiver.onDecodedBarcodesReceived = (
+        result: DecodedBarcodesResult
+      ) => {
         for (let item of result.barcodesResultItems) {
           console.log(item.text);
-          alert(item.text);
         }
       };
       router.addResultReceiver(resultReceiver);
-
+      
       // Filter out unchecked and duplicate results.
       const filter = new MultiFrameResultCrossFilter();
       filter.enableResultCrossVerification(
@@ -70,7 +68,7 @@ export class VideoCaptureComponent {
 
       // Open camera and start scanning.
       await cameraEnhancer.open();
-      await router.startCapturing('ReadSingleBarcode');
+      await router.startCapturing("ReadSingleBarcode");
       return {
         cameraView,
         cameraEnhancer,
@@ -78,9 +76,9 @@ export class VideoCaptureComponent {
       };
     } catch (ex: any) {
       let errMsg;
-      if (ex.message.includes('network connection error')) {
+      if (ex.message.includes("network connection error")) {
         errMsg =
-          'Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.';
+          "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
       } else {
         errMsg = ex.message || ex;
       }
@@ -90,18 +88,36 @@ export class VideoCaptureComponent {
     }
   }
 
-  async ngOnInit(): Promise<void> {
-    this.pInit = this.init();
-  }
-
-  async ngOnDestroy() {
+  async destroy(): Promise<void> {
     if (this.pInit) {
       const { cameraView, cameraEnhancer, router } = await this.pInit;
       router.dispose();
       cameraEnhancer.dispose();
       cameraView.dispose();
     }
-    this.uiContainer!.nativeElement.innerText = "";
-    console.log('VideoCaptureComponent Unmount');
+  }
+
+  async componentDidMount() {
+    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode. 
+    if (this.pDestroy) {
+      await this.pDestroy;
+      this.pInit = this.init();
+    } else {
+      this.pInit = this.init();
+    }
+  }
+
+  async componentWillUnmount() {
+    await (this.pDestroy = this.destroy());
+    console.log("VideoCaptureComponent Unmount");
+  }
+
+  shouldComponentUpdate() {
+    // Never update UI after mount, sdk use native way to bind event, update will remove it.
+    return false;
+  }
+
+  render() {
+    return <div ref={this.elRef} className="div-ui-container"></div>;
   }
 }

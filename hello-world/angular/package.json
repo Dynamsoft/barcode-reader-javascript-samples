@@ -1,5 +1,5 @@
 {
-  "name": "angular",
+  "name": "hello-world",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -21,6 +21,7 @@
     "@dynamsoft/dynamsoft-barcode-reader": "^10.0.20-dev-20231020180049",
     "@dynamsoft/dynamsoft-camera-enhancer": "^4.0.1-dev-20231020132130",
     "@dynamsoft/dynamsoft-capture-vision-router": "^2.0.20-dev-20231023103654",
+    "@dynamsoft/dynamsoft-utility": "^1.0.10-dev-20231023103736",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
