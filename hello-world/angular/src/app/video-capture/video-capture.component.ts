@@ -32,13 +32,17 @@ export class VideoCaptureComponent {
     try {
       // Create a `CameraEnhancer` instance for camera control.
       const cameraView = await CameraView.createInstance();
+      console.log(1);
+      
       const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
+      console.log(2);
       this.uiContainer!.nativeElement.append(cameraView.getUIElement());
-
+      
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
       const router = await CaptureVisionRouter.createInstance();
+      console.log(3);
       router.setInput(cameraEnhancer);
-
+      
       // Define a callback for results.
       const resultReceiver = new CapturedResultReceiver();
       resultReceiver.onCapturedResultReceived = (result) => {
@@ -50,7 +54,10 @@ export class VideoCaptureComponent {
 
       // Open camera and start scanning.
       await cameraEnhancer.open();
+      console.log(4);
+      
       await router.startCapturing('ReadSingleBarcode');
+      console.log(5);
       return {
         cameraView,
         cameraEnhancer,
@@ -76,10 +83,12 @@ export class VideoCaptureComponent {
 
   async ngOnDestroy() {
     if (this.pInit) {
+      console.log(6);
+      
       const { cameraView, cameraEnhancer, router } = await this.pInit;
-      cameraView.dispose();
-      cameraEnhancer.dispose();
       router.dispose();
+      cameraEnhancer.dispose();
+      cameraView.dispose();
       this.pInit = null;
       console.log('VideoCaptureComponent Unmount');
     }

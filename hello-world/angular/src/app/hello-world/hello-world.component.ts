@@ -12,15 +12,15 @@ import '../../dce'; // import side effects. The license, engineResourcePath, so 
   styleUrls: ['./hello-world.component.css']
 })
 export class HelloWorldComponent {
-  bShowScanner = true;
-  bShowImgDecode = false;
+  bShowVideoCapture = true;
+  bShowImageCapture = false;
   
-  showScanner(): void {
-    this.bShowScanner = true;
-    this.bShowImgDecode = false;
+  showVideoCapture(): void {
+    this.bShowVideoCapture = true;
+    this.bShowImageCapture = false;
   }
-  showImgDecode(): void {
-    this.bShowScanner = false;
-    this.bShowImgDecode = true;
+  showImageCapture(): void {
+    this.bShowVideoCapture = false;
+    this.bShowImageCapture = true;
   }
 }
