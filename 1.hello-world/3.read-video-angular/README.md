@@ -16,13 +16,14 @@ Make sure you have [node](https://nodejs.org/) and [Angular CLI](https://cli.ang
 ### Create an out-of-the-box raw Angular application 
 
 ```cmd
-ng new read-video-angular
+npm install -g @angular/cli
+ng new my-app
 ```
 
 ### **CD** to the root directory of the application and install the library
 
 ```cmd
-cd read-video-angular
+cd my-app
 npm install dynamsoft-javascript-barcode
 ```
 
