@@ -1,20 +1,28 @@
-import { Component } from '@angular/core';
+import React from 'react'
 import { BarcodeResultItem } from '@dynamsoft/dynamsoft-barcode-reader';
 import { CaptureVisionRouter } from '@dynamsoft/dynamsoft-capture-vision-router';
+import './ImageCapture.css'
 
-@Component({
-  selector: 'app-image-capture',
-  templateUrl: './image-capture.component.html',
-  styleUrls: ['./image-capture.component.css'],
-})
-export class ImageCaptureComponent {
+export class ImageCapture extends React.Component {
   pInit: Promise<CaptureVisionRouter> | null = null;
+  pDestroy: Promise<void> | null = null;
 
-  decodeImg = async (e: any) => {
+  async init(): Promise<CaptureVisionRouter> {
+    const router = await CaptureVisionRouter.createInstance();
+    return router;
+  }
+
+  async destroy(): Promise<void> {
+    if (this.pInit) {
+      (await this.pInit).dispose();
+    }
+  }
+
+  decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const router = await this.pInit;
       const result = await router!.capture(
-        e.target.files[0],
+        e.target.files![0],
         'ReadBarcodes_SpeedFirst'
       );
       for (let item of result.items) {
@@ -35,16 +43,26 @@ export class ImageCaptureComponent {
       alert(errMsg);
     }
     e.target.value = '';
-  };
-
-  async ngOnInit(): Promise<void> {
-    this.pInit = CaptureVisionRouter.createInstance();
   }
 
-  async ngOnDestroy() {
-    if (this.pInit) {
-      (await this.pInit).dispose();
+  async componentDidMount() {
+    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode. 
+    if (this.pDestroy) {
+      await this.pDestroy;
+      this.pInit = this.init();
+    } else {
+      this.pInit = this.init();
     }
+  }
+
+  async componentWillUnmount() {
+    await (this.pDestroy = this.destroy());
     console.log('ImageCaptureComponent Unmount');
+  }
+
+  render() {
+    return (
+      <div className="div-image-capture"><input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={this.decodeImg} /></div>
+    )
   }
 }
