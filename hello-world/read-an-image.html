@@ -57,6 +57,7 @@
       );
       document.querySelector("input").onchange = async function () {
         const router = await promise;
+        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
         const result = await router.capture(
           this.files[0],
           "ReadBarcodes_SpeedFirst"
