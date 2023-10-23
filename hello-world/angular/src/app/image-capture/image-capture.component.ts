@@ -8,15 +8,15 @@ import { CaptureVisionRouter } from '@dynamsoft/dynamsoft-capture-vision-router'
   styleUrls: ['./image-capture.component.css'],
 })
 export class ImageCaptureComponent {
-  promise: Promise<CaptureVisionRouter> | null = null;
+  pInit: Promise<CaptureVisionRouter> | null = null;
 
   async ngOnInit(): Promise<void> {
-    this.promise = CaptureVisionRouter.createInstance();
+    this.pInit = CaptureVisionRouter.createInstance();
   }
 
   decodeImg = async (e: any) => {
     try {
-      const router = await this.promise;
+      const router = await this.pInit;
       const result = await router!.capture(
         e.target.files[0],
         'ReadBarcodes_SpeedFirst'
@@ -42,10 +42,10 @@ export class ImageCaptureComponent {
   };
 
   async ngOnDestroy() {
-    if (this.promise) {
-      (await this.promise).dispose();
-      this.promise = null;
-      console.log('ImageCaptureComponent Unmount');
+    if (this.pInit) {
+      (await this.pInit).dispose();
+      this.pInit = null;
     }
+    console.log('ImageCaptureComponent Unmount');
   }
 }
