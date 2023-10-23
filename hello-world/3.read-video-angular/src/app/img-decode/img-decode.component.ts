@@ -9,11 +9,13 @@ import { BarcodeReader } from 'dynamsoft-javascript-barcode'
 export class ImgDecodeComponent implements OnInit {
   pReader: Promise<BarcodeReader> | null = null;
 
-  async ngOnInit(): Promise<void> { }
+  async ngOnInit(): Promise<void> { 
+    this.pReader = BarcodeReader.createInstance();
+  }
 
   decodeImg = async (e: any) => {
     try {
-      const reader = await (this.pReader = this.pReader || BarcodeReader.createInstance());
+      const reader = await this.pReader;
       const results = await reader.decode(e.target.files[0]);
       for (const result of results) {
         alert(result.barcodeText);
@@ -35,6 +37,7 @@ export class ImgDecodeComponent implements OnInit {
   async ngOnDestroy() {
     if (this.pReader) {
       (await this.pReader).destroyContext();
+      this.pReader = null;
       console.log('ImgDecode Component Unmount');
     }
   }

@@ -33,9 +33,9 @@
         "imports": {
           "@dynamsoft/dynamsoft-core": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231010152155/dist/core.mjs",
           "dynamsoft-core": "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.10/dist/core.mjs",
-          "@dynamsoft/dynamsoft-barcode-reader": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020140243/dist/dbr.mjs",
+          "@dynamsoft/dynamsoft-barcode-reader": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020180049/dist/dbr.mjs",
           "@dynamsoft/dynamsoft-document-normalizer": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-document-normalizer@2.0.12-dev-20231019180133/dist/ddn.mjs",
-          "@dynamsoft/dynamsoft-capture-vision-router": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231020152445/dist/cvr.mjs",
+          "@dynamsoft/dynamsoft-capture-vision-router": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231020175706/dist/cvr.mjs",
           "dynamsoft-capture-vision-router": "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.11/dist/cvr.mjs",
           "@dynamsoft/dynamsoft-camera-enhancer": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231020132130/dist/dce.mjs"
         }
@@ -105,7 +105,7 @@
 
           // Open camera and start scanning.
           await cameraEnhancer.open();
-          await router.startCapturing("ReadBarcodes_SpeedFirst");
+          await router.startCapturing("ReadSingleBarcode");
         } catch (ex) {
           let errMsg;
           if (ex.message.includes("network connection error")) {
