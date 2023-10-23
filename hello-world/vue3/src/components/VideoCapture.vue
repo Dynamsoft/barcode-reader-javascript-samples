@@ -33,13 +33,10 @@ const init = async (): Promise<{
   router: CaptureVisionRouter;
 }> => {
   try {
-    // Create a `CameraEnhancer` instance for camera control.
+    // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
     const cameraView = await CameraView.createInstance();
     const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-    const ui = cameraView.getUIElement();
-    (window as any).ui = ui;
-    // elRefs.value = internalInstance?.refs.elRefs as HTMLElement;
-    elRefs.value.append(ui);
+    elRefs.value.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
     const router = await CaptureVisionRouter.createInstance();
@@ -112,17 +109,24 @@ onBeforeUnmount(async () => {
 </script>
 
 <template>
-  <div ref="elRefs" class="div-ui-container"></div>
+  <div ref="elRefs" class="div-ui-container">
+    <!-- <div class="dce-video-container"></div> -->
+  </div>
 </template>
 
 <style scoped>
 .div-ui-container {
   width: 100%;
-  height: 100%;
+  height: 70vh;
   /* min-width: 640px; */
-  min-height: 480px;
+  /* min-height: 480px; */
   background: #eee;
   position: relative;
   resize: both;
 }
+
+/* .dce-video-container {
+  width: 100%;
+  height: 100%;
+} */
 </style>

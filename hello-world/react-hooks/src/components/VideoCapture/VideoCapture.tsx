@@ -28,11 +28,11 @@ function VideoCapture() {
     router: CaptureVisionRouter;
   }> => {
     try {
-      // Create a `CameraEnhancer` instance for camera control.
+      // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
       const cameraView = await CameraView.createInstance();
       const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
       elRef.current!.innerText = "";
-      elRef.current!.append(cameraView.getUIElement());
+      elRef.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
       const router = await CaptureVisionRouter.createInstance();
