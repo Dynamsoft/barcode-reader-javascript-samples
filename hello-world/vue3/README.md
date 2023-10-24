@@ -85,7 +85,7 @@ import {
   type Ref,
 } from "vue";
 import { EnumCapturedResultItemType } from "@dynamsoft/dynamsoft-core";
-import { DecodedBarcodesResult } from "@dynamsoft/dynamsoft-barcode-reader";
+import { type DecodedBarcodesResult } from "@dynamsoft/dynamsoft-barcode-reader";
 import {
   CameraEnhancer,
   CameraView,
@@ -96,13 +96,11 @@ import {
 } from "@dynamsoft/dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
 
-const pInit: Ref<
-  Promise<{
-    cameraView: CameraView;
-    cameraEnhancer: CameraEnhancer;
-    router: CaptureVisionRouter;
-  } | null>
-> = ref(null);
+const pInit: Ref<Promise<{
+  cameraView: CameraView;
+  cameraEnhancer: CameraEnhancer;
+  router: CaptureVisionRouter;
+}> | null> = ref(null);
 const elRefs: Ref<HTMLElement | null> = ref(null);
 
 const init = async (): Promise<{
@@ -114,7 +112,7 @@ const init = async (): Promise<{
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
     const cameraView = await CameraView.createInstance();
     const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-    elRefs.value.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+    elRefs.value!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
     const router = await CaptureVisionRouter.createInstance();
@@ -207,12 +205,12 @@ onBeforeUnmount(async () => {
 
 * Add a file `ImageCapture.vue` under "/components/" as the `ImageCapture` component. The `ImageCapture` component help decode barcodes in an image.
 
-* In `ImageCapture.vue`, add code for initializing and destroying some instances.
+* In `ImageCapture.vue`, add code for initializing and destroying `CaptureVisionRouter` instance.
 
 ```vue
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, type Ref } from "vue";
-import { BarcodeResultItem } from "@dynamsoft/dynamsoft-barcode-reader";
+import { type BarcodeResultItem } from "@dynamsoft/dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "@dynamsoft/dynamsoft-capture-vision-router";
 
 const pInit: Ref<Promise<CaptureVisionRouter> | null> = ref(null);
@@ -221,7 +219,7 @@ const decodeImg = async (e: Event) => {
   try {
     const router = await pInit.value;
     // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-    const result = await router.capture(
+    const result = await router!.capture(
       (e.target as any).files[0],
       "ReadBarcodes_SpeedFirst"
     );
@@ -374,6 +372,23 @@ npm run dev
 ```
 
 If you have followed all the steps correctly, you should now have a functioning page that allows you to scan barcodes from a webcam or a built-in camera. Additionally, if you want to decode a local image, click the `Decode Image` button and select the image you want to decode. Any barcodes that are detected will be displayed in a dialog.
+
+### Comment out the following code in `assets/main.css`. (optional)
+
+```css
+@media (min-width: 1024px) {
+  /* body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  } */
+}
+```
 
 ## Project Setup
 
