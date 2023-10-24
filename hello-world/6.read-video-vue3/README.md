@@ -1,4 +1,4 @@
-# JavaScript Hello World Sample - Vue 3
+# Hello World Sample for Vue3
 
 [Vue 3](https://v3.vuejs.org/) is version 3 of Vue which is a progressive framework for building user interfaces. Check out the following guide on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Vue 3 application. Note that in this sample we will use `TypeScript`.
 

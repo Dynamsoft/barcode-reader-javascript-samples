@@ -109,9 +109,7 @@ onBeforeUnmount(async () => {
 </script>
 
 <template>
-  <div ref="elRefs" class="div-ui-container">
-    <!-- <div class="dce-video-container"></div> -->
-  </div>
+  <div ref="elRefs" class="div-ui-container"></div>
 </template>
 
 <style scoped>
@@ -124,9 +122,4 @@ onBeforeUnmount(async () => {
   position: relative;
   resize: both;
 }
-
-/* .dce-video-container {
-  width: 100%;
-  height: 100%;
-} */
 </style>

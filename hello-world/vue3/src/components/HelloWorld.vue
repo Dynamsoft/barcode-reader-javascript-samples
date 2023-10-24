@@ -24,9 +24,8 @@ const showImageCapture = () => {
     <h1>Hello World for Vue 3</h1>
     <div>
       <button :style="{ marginRight: '10px', backgroundColor: bShowVideoCapture ? 'rgb(255,174,55)' : 'white' }"
-        @click="showVideoCapture">Video Decode</button>
-      <button :style="{ backgroundColor: bShowImageCapture ? 'rgb(255,174,55)' : 'white' }" @click="showImageCapture">Image
-        Decode</button>
+        @click="showVideoCapture">Decode Video</button>
+      <button :style="{ backgroundColor: bShowImageCapture ? 'rgb(255,174,55)' : 'white' }" @click="showImageCapture">Decode Image</button>
     </div>
     <div class="container">
       <VideoCapture v-if="bShowVideoCapture"></VideoCapture>
