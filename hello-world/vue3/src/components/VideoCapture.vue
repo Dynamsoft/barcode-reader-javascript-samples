@@ -7,7 +7,7 @@ import {
   type Ref,
 } from "vue";
 import { EnumCapturedResultItemType } from "@dynamsoft/dynamsoft-core";
-import { DecodedBarcodesResult } from "@dynamsoft/dynamsoft-barcode-reader";
+import { type DecodedBarcodesResult } from "@dynamsoft/dynamsoft-barcode-reader";
 import {
   CameraEnhancer,
   CameraView,
@@ -18,13 +18,11 @@ import {
 } from "@dynamsoft/dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
 
-const pInit: Ref<
-  Promise<{
-    cameraView: CameraView;
-    cameraEnhancer: CameraEnhancer;
-    router: CaptureVisionRouter;
-  } | null>
-> = ref(null);
+const pInit: Ref<Promise<{
+  cameraView: CameraView;
+  cameraEnhancer: CameraEnhancer;
+  router: CaptureVisionRouter;
+}> | null> = ref(null);
 const elRefs: Ref<HTMLElement | null> = ref(null);
 
 const init = async (): Promise<{
@@ -36,7 +34,7 @@ const init = async (): Promise<{
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
     const cameraView = await CameraView.createInstance();
     const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-    elRefs.value.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+    elRefs.value!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
     const router = await CaptureVisionRouter.createInstance();

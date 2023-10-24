@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, type Ref } from "vue";
-import { BarcodeResultItem } from "@dynamsoft/dynamsoft-barcode-reader";
+import { type BarcodeResultItem } from "@dynamsoft/dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "@dynamsoft/dynamsoft-capture-vision-router";
 
 const pInit: Ref<Promise<CaptureVisionRouter> | null> = ref(null);
@@ -9,7 +9,7 @@ const decodeImg = async (e: Event) => {
   try {
     const router = await pInit.value;
     // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-    const result = await router.capture(
+    const result = await router!.capture(
       (e.target as any).files[0],
       "ReadBarcodes_SpeedFirst"
     );
