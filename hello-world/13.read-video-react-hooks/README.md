@@ -19,7 +19,7 @@ Make sure you have [node](https://nodejs.org/) installed. `node 14.21.3` and `re
 npx create-react-app read-video-react-hooks --template typescript
 ```
 
-### **CD** to the root directory of the application and install the library
+### **CD** to the root directory of the application and install necessary libraries
 
 ```cmd
 cd read-video-react-hooks

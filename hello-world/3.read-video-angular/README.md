@@ -1,10 +1,10 @@
-# Hello-world for Angular - Dynamsoft Barcode Reader Sample
+# Hello World Sample for Angular
 
 [Angular](https://angular.io/) is one of the most popular and mature JavaScript frameworks. Check out the following on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into an Angular application.
 
 ## Official Sample
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/1.hello-world/3.read-video-angular/dist/hello-world/">Hello World in Angular - Demo</a>
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/1.hello-world/3.read-video-angular/dist/read-video-angular/">Hello World in Angular - Demo</a>
 * <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/1.hello-world/3.read-video-angular">Hello World in Angular - Source Code</a>
 
 ## Preparation
@@ -16,11 +16,10 @@ Make sure you have [node](https://nodejs.org/) and [Angular CLI](https://cli.ang
 ### Create an out-of-the-box raw Angular application 
 
 ```cmd
-npm install -g @angular/cli
 ng new my-app
 ```
 
-### **CD** to the root directory of the application and install the library
+### **CD** to the root directory of the application and install necessary libraries
 
 ```cmd
 cd my-app
