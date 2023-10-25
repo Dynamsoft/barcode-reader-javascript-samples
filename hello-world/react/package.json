@@ -2,6 +2,7 @@
   "name": "hello-world",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@dynamsoft/dynamsoft-camera-enhancer": "^4.0.1-dev-20231023131759",
     "@dynamsoft/dynamsoft-capture-vision-router": "^2.0.20-dev-20231023103654",

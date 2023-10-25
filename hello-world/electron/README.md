@@ -174,3 +174,7 @@ Run the application with the following command and see how it goes.
 ```cmd
 npm start
 ```
+
+## Support
+
+If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or the "Chat" button in [homepage](https://www.dynamsoft.com/barcode-reader/sdk-javascript/).
