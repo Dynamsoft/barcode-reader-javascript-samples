@@ -112,7 +112,7 @@ function VideoCapture() {
     return () => {
       (async () => {
         await (pDestroy.current = destroy());
-        console.log("ImageCapture Component Unmount");
+        console.log("VideoCapture Component Unmount");
       })();
     };
   }, []);
