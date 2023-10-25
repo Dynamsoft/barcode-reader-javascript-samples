@@ -9,8 +9,8 @@ import {
   CapturedResultReceiver,
   CaptureVisionRouter,
 } from "@dynamsoft/dynamsoft-capture-vision-router";
-import "./VideoCapture.css";
 import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
+import "./VideoCapture.css";
 
 export class VideoCapture extends React.Component {
   pInit: Promise<{
@@ -109,7 +109,7 @@ export class VideoCapture extends React.Component {
 
   async componentWillUnmount() {
     await (this.pDestroy = this.destroy());
-    console.log("VideoCaptureComponent Unmount");
+    console.log("VideoCapture Component Unmount");
   }
 
   shouldComponentUpdate() {

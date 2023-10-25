@@ -90,8 +90,8 @@ import {
   CapturedResultReceiver,
   CaptureVisionRouter,
 } from "@dynamsoft/dynamsoft-capture-vision-router";
-import "./VideoCapture.css";
 import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
+import "./VideoCapture.css";
 
 export class VideoCapture extends React.Component {
   pInit: Promise<{
@@ -190,7 +190,7 @@ export class VideoCapture extends React.Component {
 
   async componentWillUnmount() {
     await (this.pDestroy = this.destroy());
-    console.log("VideoCaptureComponent Unmount");
+    console.log("VideoCapture Component Unmount");
   }
 
   shouldComponentUpdate() {
@@ -224,10 +224,10 @@ export class VideoCapture extends React.Component {
 * In `ImageCapture.tsx`, add code for initializing and destroying the `CaptureVisionRouter` instance.
 
 ```tsx
-import React from 'react'
-import { BarcodeResultItem } from '@dynamsoft/dynamsoft-barcode-reader';
-import { CaptureVisionRouter } from '@dynamsoft/dynamsoft-capture-vision-router';
-import './ImageCapture.css'
+import React from "react";
+import { BarcodeResultItem } from "@dynamsoft/dynamsoft-barcode-reader";
+import { CaptureVisionRouter } from "@dynamsoft/dynamsoft-capture-vision-router";
+import "./ImageCapture.css";
 
 export class ImageCapture extends React.Component {
   pInit: Promise<CaptureVisionRouter> | null = null;
@@ -240,7 +240,8 @@ export class ImageCapture extends React.Component {
 
   async destroy(): Promise<void> {
     if (this.pInit) {
-      (await this.pInit).dispose();
+      const router = await this.pInit;
+      router.dispose();
     }
   }
 
@@ -250,30 +251,31 @@ export class ImageCapture extends React.Component {
       // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
       const result = await router!.capture(
         e.target.files![0],
-        'ReadBarcodes_SpeedFirst'
+        "ReadBarcodes_SpeedFirst"
       );
+      let texts = "";
       for (let item of result.items) {
-        alert((item as BarcodeResultItem).text);
+        console.log((item as BarcodeResultItem).text);
+        texts += (item as BarcodeResultItem).text + "\n";
       }
-      if (!result.items.length) {
-        alert('No barcode found');
-      }
+      if (texts != "") alert(texts);
+      if (!result.items.length) alert("No barcode found");
     } catch (ex: any) {
       let errMsg;
-      if (ex.message.includes('network connection error')) {
+      if (ex.message.includes("network connection error")) {
         errMsg =
-          'Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.';
+          "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
       } else {
         errMsg = ex.message || ex;
       }
       console.error(errMsg);
       alert(errMsg);
     }
-    e.target.value = '';
-  }
+    e.target.value = "";
+  };
 
   async componentDidMount() {
-    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode. 
+    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
     if (this.pDestroy) {
       await this.pDestroy;
       this.pInit = this.init();
@@ -284,13 +286,19 @@ export class ImageCapture extends React.Component {
 
   async componentWillUnmount() {
     await (this.pDestroy = this.destroy());
-    console.log('ImageCaptureComponent Unmount');
+    console.log("ImageCapture Component Unmount");
   }
 
   render() {
     return (
-      <div className="div-image-capture"><input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={this.decodeImg} /></div>
-    )
+      <div className="div-image-capture">
+        <input
+          type="file"
+          accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
+          onChange={this.decodeImg}
+        />
+      </div>
+    );
   }
 }
 ```
@@ -417,7 +425,6 @@ button {
 Edit the file `App.tsx` to be like this
 
 ```jsx
-import React from 'react';
 import { HelloWorld } from './components/HelloWorld/HelloWorld';
 import './App.css';
 
