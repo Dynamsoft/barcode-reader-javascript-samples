@@ -14,7 +14,8 @@ function ImageCapture() {
 
   const destroy = async (): Promise<void> => {
     if (pInit.current) {
-      (await pInit.current).dispose();
+      const router = (await pInit.current)!;
+      router.dispose();
     }
   };
 
@@ -26,12 +27,13 @@ function ImageCapture() {
         e.target.files![0],
         "ReadBarcodes_SpeedFirst"
       );
+      let texts = "";
       for (let item of result.items) {
-        alert((item as BarcodeResultItem).text);
+        console.log((item as BarcodeResultItem).text);
+        texts += (item as BarcodeResultItem).text + "\n";
       }
-      if (!result.items.length) {
-        alert("No barcode found");
-      }
+      if (texts != "") alert(texts);
+      if (!result.items.length) alert("No barcode found");
     } catch (ex: any) {
       if (ex.message.indexOf("network connection error")) {
         let customMsg =
