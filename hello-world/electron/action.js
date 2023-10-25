@@ -1,3 +1,16 @@
+const { EnumCapturedResultItemType } = require("@dynamsoft/dynamsoft-core");
+const { MultiFrameResultCrossFilter } = require("@dynamsoft/dynamsoft-utility");
+const { BarcodeReaderModule } = require("@dynamsoft/dynamsoft-barcode-reader");
+const {
+  LicenseManager,
+  CaptureVisionRouter,
+  CapturedResultReceiver,
+} = require("@dynamsoft/dynamsoft-capture-vision-router");
+const {
+  CameraView,
+  CameraEnhancer,
+} = require("@dynamsoft/dynamsoft-camera-enhancer");
+
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense" as shown below.
  */

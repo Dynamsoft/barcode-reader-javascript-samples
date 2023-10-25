@@ -1,4 +1,4 @@
-# JavaScript Hello World Sample - Electron
+# Hello World Sample for Electron
 
 [Electron](https://www.electronjs.org/) is a framework for creating native applications with web technologies. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into an Electron application.
 
@@ -12,7 +12,7 @@ Make sure you have [node](https://nodejs.org/) installed. `node 14.16.0` is used
 
 ## Create an empty Application
 
-Create a folder with the name "read-video-electron" and a package.json file inside it with the following content:
+Create a folder with the name "read-video-electron" and a `package.json` file inside it with the following content:
 
 ```json
 {
@@ -42,7 +42,7 @@ npm install
 
 ### Create a `main.js` file
 
-As defined in the package.json file, `main.js` is the entry point of the application, we define it like this:
+As defined in the `package.json` file, `main.js` is the entry point of the application, we define it like this:
 
 ```javascript
 const { app, BrowserWindow } = require('electron')
@@ -76,7 +76,7 @@ Two modules are imported in this file:
 * `app`: controls the application's event lifecycle.
 * `BrowserWindow`: creates and manages application windows.
 
-The code basically opens index.html in a window. For more information, check out [Electron Quick Start](https://www.electronjs.org/docs/latest/tutorial/quick-start).
+The code basically opens `index.html` in a window. For more information, check out [Electron Quick Start](https://www.electronjs.org/docs/latest/tutorial/quick-start).
 
 ### Create an index.html file
 

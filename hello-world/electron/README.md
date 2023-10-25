@@ -1,74 +1,69 @@
-# JavaScript Hello World Sample - Electron
+# Hello World Sample for Electron
 
 [Electron](https://www.electronjs.org/) is a framework for creating native applications with web technologies. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into an Electron application.
 
 ## Official Sample
 
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/1.hello-world/9.read-video-electron">Read Barcodes from Camera - Source Code</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/electron">Hello World in Electron~ - Source Code</a>
 
 ## Preparation
 
-Make sure you have [node](https://nodejs.org/) installed. `node 14.16.0` is used in this article.
+Make sure you have [node](https://nodejs.org/) installed. `node 16.20.1` and `electron 26.4.1` are used in this article.
 
-## Create an empty Application
-
-Create a folder with the name "hello-world" and a package.json file inside it with the following content:
-
-```json
-{
-  "name": "hello-world",
-  "version": "1.0.0",
-  "description": "How to read barcodes from a video input in an Electron App",
-  "main": "main.js",
-  "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
-  },
-  "author": "tom@dynamsoft.com",
-  "dependencies": {
-    "electron": "14.0.1",
-    "dynamsoft-javascript-barcode": "^9.6.31"
-  }
-}
-```
-
-Then, run `npm install` to install the dependencies.
+## Initialize project
 
 ```cmd
-npm install
+mkdir my-app && cd my-app
+npm init
+```
+
+`npm init` will prompt you to configure some fields in your `package.json`. Note that the `entry point` should be `main.js` (it will be created later).
+
+## install necessary libraries
+
+```cmd
+npm install electron --save-dev
+npm install dynamsoft-utility
+npm install dynamsoft-capture-vision-router
+npm install dynamsoft-camera-enhancer
 ```
 
 ## Start to implement
 
 ### Create a main.js file
 
-As defined in the package.json file, main.js is the entry point of the application, we define it like this:
+As defined in the `package.json` file, `main.js` is the entry point of the application, we define it like this:
 
 ```javascript
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require("electron");
 
 function createWindow() {
-    const win = new BrowserWindow({
-        width: 800,
-        height: 600,
-    })
-    win.loadFile('index.html')
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nativeWindowOpen: true,
+    },
+  });
+
+  win.loadFile("index.html");
 }
 
 app.whenReady().then(() => {
-    createWindow()
-    app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) {
-            createWindow()
-        }
-    })
-})
+  createWindow();
 
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit()
+  app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
     }
-})
+  });
+});
+
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});
 ```
 
 Two modules are imported in this file:
@@ -76,9 +71,9 @@ Two modules are imported in this file:
 * `app`: controls the application's event lifecycle.
 * `BrowserWindow`: creates and manages application windows.
 
-The code basically opens index.html in a window. For more information, check out [Electron Quick Start](https://www.electronjs.org/docs/latest/tutorial/quick-start).
+The code basically opens `index.html` in a window. For more information, check out [Electron Quick Start](https://www.electronjs.org/docs/latest/tutorial/quick-start).
 
-### Create an index.html file
+### Create an `index.html` file
 
 Create the page to be loaded in the created window.
 
