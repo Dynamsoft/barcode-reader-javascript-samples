@@ -80,85 +80,119 @@ Create the page to be loaded in the created window.
 ```html
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="UTF-8">
-    <title>Read barcodes from a video input in Electron!</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Read barcodes from camera with Dynamsoft Barcode Reader in an Electron Application.">
+    <meta name="keywords" content="barcode, camera, Electron">
+    <title>Dynamsoft Barcode Reader Sample - Electron</title>
     <link href="style.css" rel="stylesheet">
-</head>
-
-<body>
-    <h1>Read barcodes from a video input</h1>
-    <button id='readBarcode'>Read Barcode via Camera</button>
-    <div id="UIElement">
-        <div id="barcodeScannerUI"></div>
-    </div>
-    <input id="resultText" type="text" readonly="true">
-    <script src="./node_modules/dynamsoft-javascript-barcode/dist/dbr.js"></script>
+    <script src="./node_modules/@dynamsoft/dynamsoft-core/dist/core.js"></script>
+    <script src="./node_modules/@dynamsoft/dynamsoft-utility/dist/utility.js"></script>
+    <script src="./node_modules/@dynamsoft/dynamsoft-barcode-reader/dist/dbr.js"></script>
+    <script src="./node_modules/@dynamsoft/dynamsoft-capture-vision-router/dist/cvr.js"></script>
+    <script src="./node_modules/@dynamsoft/dynamsoft-camera-enhancer/dist/dce.js"></script>
+  </head>
+  <body>
+    <h1>Hello World for Electron</h1>
+    <div id="div-ui-container"></div>
     <script src="action.js"></script>
-</body>
-
+  </body>
 </html>
 ```
 
-The page loads action.js which makes use of the library to create a barcode scanner and read barcodes from a video input:
+### Create an `action.js` file
+
+`index.html` will loads `action.js`, which makes use of libraries to read barcodes from a video input:
 
 ```javascript
+/** LICENSE ALERT - README
+ * To use the library, you need to first specify a license key using the API "initLicense" as shown below.
+ */
+
+Dynamsoft.License.LicenseManager.initLicense(
+  "DLS2eyJoYW5kc2hha2VDb2RlIjoiNjY2Ni03Nzc3IiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vMTkyLjE2OC44LjEyMi9kbHMvIiwib3JnYW5pemF0aW9uSUQiOiI2NjY2IiwiY2hlY2tDb2RlIjoxNTEyMTgzMzg3fQ=="
+);
+
+/**
+ * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+ * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+ * LICENSE ALERT - THE END
+ */
+
+Dynamsoft.DCE.CameraView.engineResourcePath =
+  "./node_modules/@dynamsoft/dynamsoft-camera-enhancer/dist/";
+Dynamsoft.DBR.BarcodeReaderModule.engineResourcePath =
+  "./node_modules/@dynamsoft/dynamsoft-barcode-reader/dist/";
+Dynamsoft.CVR.CaptureVisionRouter.engineResourcePath =
+  "./node_modules/@dynamsoft/dynamsoft-capture-vision-router/dist/";
 (async function () {
-    Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
-    Dynamsoft.DBR.BarcodeReader.loadWasm();
-    let pScanner = null;
-    document.getElementById('readBarcode').onclick = async () => {
-        try {
-            let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-            scanner.onFrameRead = results => {
-                if (results.length) {
-                    console.log(results);
-                }
-            };
-            scanner.onUniqueRead = (txt, result) => {
-                const format = result.barcodeFormat ? result.barcodeFormatString : result.barcodeFormatString_2;
-                document.getElementById('resultText').value = format + ': ' + txt;
-            };
-            document.getElementById("barcodeScannerUI").appendChild(scanner.getUIElement());
-            await scanner.show();
-        } catch (ex) {
-            alert(ex.message);
-            throw ex;
-        }
+  try {
+    // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+    const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+    const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(
+      cameraView
+    );
+    document
+      .querySelector("#div-ui-container")
+      .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+
+    // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+    const router = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+    router.setInput(cameraEnhancer);
+
+    // Define a callback for results.
+    const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+    resultReceiver.onDecodedBarcodesReceived = (result) => {
+      for (let item of result.barcodesResultItems) {
+        console.log(item.text);
+        alert(item.text);
+      }
     };
+    router.addResultReceiver(resultReceiver);
+
+    // Filter out unchecked and duplicate results.
+    const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+    filter.enableResultCrossVerification(
+      Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+      true
+    ); // Filter out unchecked barcodes.
+    // Filter out duplicate barcodes within 3 seconds.
+    filter.enableResultDeduplication(
+      Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+      true
+    );
+    filter.setDuplicateForgetTime(
+      Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+      3000
+    );
+    await router.addResultFilter(filter);
+
+    // Open camera and start scanning single barcode.
+    await cameraEnhancer.open();
+    await router.startCapturing("ReadSingleBarcode");
+  } catch (ex) {
+    let errMsg;
+    if (ex.message.includes("network connection error")) {
+      errMsg =
+        "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+    } else {
+      errMsg = ex.message || ex;
+    }
+    console.error(errMsg);
+    alert(errMsg);
+  }
 })();
 ```
 
-Also, style.css defines the styles for the UI
+### Create an `style.css` file
+
+`index.html` will loads `style.css`, which defines the styles for the UI
 
 ```css
-body {
-    text-align: center;
-}
-
-#barcodeScannerUI {
-    width: 100%;
-    height: 100%;
-}
-
-#UIElement {
-    margin: 2vmin auto;
-    text-align: center;
-    font-size: medium;
-    height: 40vh;
-    width: 80vw;
-}
-#resultText {
-    display: block;
-    margin: 0 auto;
-    padding: 0.4rem 0.8rem;
-    color: inherit;
-    width: 80vw;
-    border: none;
-    font-size: 1rem;
-    border-radius: 0.2rem;
-    text-align: center;
+#div-ui-container {
+  width: 100%;
+  height: 80vh;
 }
 ```
 
