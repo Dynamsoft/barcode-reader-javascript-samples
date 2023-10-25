@@ -19,7 +19,7 @@ Make sure you have [node](https://nodejs.org/) installed. `node 14.21.3` and `re
 npx create-react-app read-video-react-hooks --template typescript
 ```
 
-### **CD** to the root directory of the application and install necessary libraries
+### **CD** to the root directory of the application and install necessary library
 
 ```cmd
 cd read-video-react-hooks
@@ -400,4 +400,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Support
 
-If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) via the "Let's Chat" button.
+If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or the "Chat" button in [homepage](https://www.dynamsoft.com/barcode-reader/sdk-javascript/).
