@@ -68,11 +68,6 @@ CameraView.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-e
 > * `initLicense()` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days. 
 > * `engineResourcePath` tells the library where to get the necessary resources at runtime.
 
-> Note:
->
-> * `license` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days.
-> * `engineResourcePath` tells the library where to get the necessary resources at runtime.
-
 ### Build directory structure
 
 * Create a directory "components" under "/src/", and then create another three directories "HelloWorld", "VideoCapture" and "ImageCapture" under "/src/components/".
