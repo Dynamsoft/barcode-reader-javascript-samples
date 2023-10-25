@@ -102,6 +102,6 @@ export class VideoCaptureComponent {
       cameraView.dispose();
     }
     this.uiContainer!.nativeElement.innerText = "";
-    console.log('VideoCaptureComponent Unmount');
+    console.log('VideoCapture Component Unmount');
   }
 }

@@ -206,7 +206,7 @@ export class VideoCaptureComponent {
       cameraView.dispose();
     }
     this.uiContainer!.nativeElement.innerText = "";
-    console.log('VideoCaptureComponent Unmount');
+    console.log('VideoCapture Component Unmount');
   }
 }
 ```
@@ -254,12 +254,13 @@ export class ImageCaptureComponent {
         e.target.files[0],
         'ReadBarcodes_SpeedFirst'
       );
+      let texts = '';
       for (let item of result.items) {
-        alert((item as BarcodeResultItem).text);
+        console.log((item as BarcodeResultItem).text);
+        texts += (item as BarcodeResultItem).text + '\n';
       }
-      if (!result.items.length) {
-        alert('No barcode found');
-      }
+      if (texts != '') alert(texts);
+      if (!result.items.length) alert('No barcode found');
     } catch (ex: any) {
       let errMsg;
       if (ex.message.includes('network connection error')) {
@@ -280,11 +281,13 @@ export class ImageCaptureComponent {
 
   async ngOnDestroy() {
     if (this.pInit) {
-      (await this.pInit).dispose();
+      const router = await this.pInit;
+      router.dispose();
     }
-    console.log('ImageCaptureComponent Unmount');
+    console.log('ImageCapture Component Unmount');
   }
 }
+
 ```
 
 ### Edit the hello-world component

@@ -45,8 +45,9 @@ export class ImageCaptureComponent {
 
   async ngOnDestroy() {
     if (this.pInit) {
-      (await this.pInit).dispose();
+      const router = await this.pInit;
+      router.dispose();
     }
-    console.log('ImageCaptureComponent Unmount');
+    console.log('ImageCapture Component Unmount');
   }
 }
