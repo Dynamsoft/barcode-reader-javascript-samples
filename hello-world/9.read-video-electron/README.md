@@ -40,9 +40,9 @@ npm install
 
 ## Start to implement
 
-### Create a main.js file
+### Create a `main.js` file
 
-As defined in the package.json file, main.js is the entry point of the application, we define it like this:
+As defined in the package.json file, `main.js` is the entry point of the application, we define it like this:
 
 ```javascript
 const { app, BrowserWindow } = require('electron')
