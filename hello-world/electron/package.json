@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Dynamsoft/barcode-reader-javascript-samples/issues"
   },
-  "homepage": "https://github.com/Dynamsoft/barcode-reader-javascript-samples#readme"
+  "homepage": "https://github.com/Dynamsoft/barcode-reader-javascript-samples#readme",
+  "devDependencies": {
+    "electron": "^26.4.1"
+  }
 }

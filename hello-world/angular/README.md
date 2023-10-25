@@ -69,11 +69,11 @@ CameraView.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-e
 > * `engineResourcePath` tells the library where to get the necessary resources at runtime.
 
 ### Generate three components
-* `video-capture` component help read barcode from camera.
+* `video-capture` component helps read barcode from camera.
 ```cmd
 ng generate component video-capture
 ```
-* `image-capture` component help read barcode from still images.
+* `image-capture` component helps read barcode from still images.
 ```cmd
 ng generate component image-capture
 ```
@@ -391,4 +391,4 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Support
 
-If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) via the "Let's Chat" button.
+If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or the "Chat" button in [homepage](https://www.dynamsoft.com/barcode-reader/sdk-javascript/).
