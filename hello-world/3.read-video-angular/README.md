@@ -19,7 +19,7 @@ Make sure you have [node](https://nodejs.org/) and [Angular CLI](https://cli.ang
 ng new my-app
 ```
 
-### **CD** to the root directory of the application and install necessary libraries
+### **CD** to the root directory of the application and install necessary library
 
 ```cmd
 cd my-app
@@ -42,11 +42,11 @@ BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javas
 > * `engineResourcePath` tells the library where to get the necessary resources at runtime.
 
 ### Generate three components
-* `video-decode` component help read barcode from camera.
+* `video-decode` component helps read barcode from camera.
 ```cmd
 ng generate component video-decode
 ```
-* `img-decode` component help read barcode from still images.
+* `img-decode` component helps read barcode from still images.
 ```cmd
 ng generate component img-decode
 ```
@@ -307,4 +307,4 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Support
 
-If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) via the "Let's Chat" button.
+If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or the "Chat" button in [homepage](https://www.dynamsoft.com/barcode-reader/sdk-javascript/).

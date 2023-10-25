@@ -463,3 +463,7 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Support
+
+If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or the "Chat" button in [homepage](https://www.dynamsoft.com/barcode-reader/sdk-javascript/).

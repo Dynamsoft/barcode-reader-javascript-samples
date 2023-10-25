@@ -71,7 +71,7 @@ CameraView.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-e
 
 ### Create and edit the `VideoCapture` component
 
-* Add a file `VideoCapture.vue` under "/components/" as the `VideoCapture` component. The `VideoCapture` component help decode barcodes via camera.
+* Add a file `VideoCapture.vue` under "/components/" as the `VideoCapture` component. The `VideoCapture` component helps decode barcodes via camera.
 
 * In `VideoCapture.vue`, add the following code for initializing and destroying some instances.
 
@@ -203,7 +203,7 @@ onBeforeUnmount(async () => {
 
 ### Create and edit the `ImageCapture` component
 
-* Add a file `ImageCapture.vue` under "/components/" as the `ImageCapture` component. The `ImageCapture` component help decode barcodes in an image.
+* Add a file `ImageCapture.vue` under "/components/" as the `ImageCapture` component. The `ImageCapture` component helps decode barcodes in an image.
 
 * In `ImageCapture.vue`, add code for initializing and destroying `CaptureVisionRouter` instance.
 
@@ -407,3 +407,7 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Support
+
+If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or the "Chat" button in [homepage](https://www.dynamsoft.com/barcode-reader/sdk-javascript/).
