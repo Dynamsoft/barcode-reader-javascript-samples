@@ -32,18 +32,14 @@ const decodeImg = async (e: Event) => {
   (e.target as HTMLInputElement).value = "";
 };
 
-const init = async (): Promise<CaptureVisionRouter> => {
-  const router = CaptureVisionRouter.createInstance();
-  return router;
-};
-
 onMounted(async () => {
-  pInit.value = init();
+  pInit.value = CaptureVisionRouter.createInstance();
 });
 
 onBeforeUnmount(async () => {
   if (pInit.value) {
-    (await pInit.value).dispose();
+    const router = await pInit.value;
+    router.dispose();
   }
   console.log("ImageCapture Component Unmount");
 });
