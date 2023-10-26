@@ -317,7 +317,7 @@ export default ImageCapture;
 }
 ```
 
-### Create and edit the HelloWorld component
+### Create and edit the `HelloWorld` component
 
 * Create `HelloWorld.tsx` and `HelloWorld.css` under "/src/components/HelloWorld/". The `HelloWorld` component offers buttons to switch components between `VideoCapture` and `ImageCapture`;
 

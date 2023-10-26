@@ -18,7 +18,7 @@ Make sure you have [node](https://nodejs.org/) installed. `node 14.21.3` and `ne
 npx create-next-app@latest --typescript
 ```
 
-### **CD** to the root directory of the application and install the dependencies
+### **CD** to the root directory of the application and install the dependency
 
 ```cmd
 npm install dynamsoft-javascript-barcode
@@ -203,7 +203,7 @@ export default class ImgDecode extends Component {
 }
 ```
 
-### Edit the HelloWorld component
+### Edit the `HelloWorld` component
 
 * Add `VideoDecode` and `ImgDecode` components in HelloWorld.tsx
 
@@ -303,7 +303,7 @@ export default HelloWorld;
 }
 ```
 
-### Add the HelloWorld component to /pages/index.tsx
+### Add the `HelloWorld` component to /pages/index.tsx
 
 In index.tsx, import the `HelloWorld` component:
 
