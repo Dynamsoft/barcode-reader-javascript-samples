@@ -3,7 +3,7 @@ import { BarcodeResultItem } from "@dynamsoft/dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "@dynamsoft/dynamsoft-capture-vision-router";
 import "./ImageCapture.css";
 
-export class ImageCapture extends React.Component {
+class ImageCapture extends React.Component {
   pInit: Promise<CaptureVisionRouter> | null = null;
   pDestroy: Promise<void> | null = null;
 
@@ -75,3 +75,5 @@ export class ImageCapture extends React.Component {
     );
   }
 }
+
+export default ImageCapture;

@@ -1,6 +1,6 @@
-# JavaScript Hello World Sample - Next.js
+# Hello World Sample for Next.js
 
-[Next.js](https://nextjs.org/) is an open-source development framework built on top of Node.js enabling [React](https://reactjs.org/) based web applications functionalities such as server-side rendering and generating static websites. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Next.js application. Note that in this sample we will use `TypeScript`.
+[Next.js](https://nextjs.org/) is an open-source development framework built on top of Node.js enabling [React](https://reactjs.org/) based web applications functionalities such as server-side rendering and generating static websites. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Next.js application. Note that in this sample `TypeScript` is used.
 
 ## Official Sample
 

@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@dynamsoft/dynamsoft-camera-enhancer": "^4.0.1-dev-20231023131759",
-    "@dynamsoft/dynamsoft-capture-vision-router": "^2.0.20-dev-20231023103654",
+    "@dynamsoft/dynamsoft-capture-vision-router": "^2.0.20-dev-20231026103520",
     "@dynamsoft/dynamsoft-utility": "^1.0.10-dev-20231023103736",
     "vue": "^3.3.4"
   },
