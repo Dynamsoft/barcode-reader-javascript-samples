@@ -5,16 +5,32 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <meta
       name="description"
-      content="Quickly read barcodes with Dynamsoft Barcode Reader from a live camera stream."
+      content="Read barcodes from camera with Dynamsoft Barcode Reader in a PWA application."
     />
-    <meta name="keywords" content="barcode, camera" />
+    <meta name="keywords" content="barcode, camera, PWA" />
+    <title>
+      Dynamsoft Barcode Reader PWA Sample - Hello World (Decode via Camera)
+    </title>
     <link
       rel="canonical"
-      href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html"
+      href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/pwa/helloworld-pwa.html"
     />
-    <title>
-      Dynamsoft Barcode Reader Sample - Hello World (Decode via Camera)
-    </title>
+    <link rel="manifest" href="./helloworld-pwa.json" />
+    <meta name="theme-color" content="#B12A34" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="sample for ios" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link
+      rel="apple-touch-icon"
+      sizes="192x192"
+      href="./dynamsoft-192x192.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="512x512"
+      href="./dynamsoft-512x512.png"
+    />
     <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231010152155/dist/core.js"></script>
     <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20231023103736/dist/utility.js"></script>
     <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020140243/dist/dbr.js"></script>
@@ -23,13 +39,18 @@
   </head>
 
   <body>
-    <h1>Hello World (Decode via Camera)</h1>
+    <h1>Hello World for PWA</h1>
     <div id="div-ui-container" style="width: 100%; height: 80vh"></div>
     <script>
       if (location.protocol === "file:") {
         const message = `The page is opened via file:// and some SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
         console.warn(message);
         alert(message);
+      }
+    </script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./service-worker.js");
       }
     </script>
     <script>
