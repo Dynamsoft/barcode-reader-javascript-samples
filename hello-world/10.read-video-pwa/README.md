@@ -1,4 +1,4 @@
-# JavaScript Hello World Sample - PWA
+# Hello World Sample for PWA
 
 [PWA](https://web.dev/progressive-web-apps/) is short for Progressive Web Apps which stand for web applications that have been designed to behave like platform-specific (native) applications. Check out the following on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a PWA application.
 
@@ -129,7 +129,7 @@ For more information, refer to [Making PWAs work offline with Service workers](h
 
 A web manifest file contains a list of information about a website in a JSON format. This information is used to present the web app correctly for installation on a device.
 
-In our example, we first create a file "helloworld-pwa.webmanifest" with the following content:
+In our example, we first create a file "helloworld-pwa.json" with the following content:
 
 ```json
 {
@@ -161,7 +161,7 @@ In our example, we first create a file "helloworld-pwa.webmanifest" with the fol
 Then we include the file in the &lt;head&gt; block of the helloworld-pwa.html file:
 
 ```html
-<link rel="manifest" href="helloworld-pwa.webmanifest">
+<link rel="manifest" href="helloworld-pwa.json">
 ```
 
 For compatibility on safari, we need add some `meta` in `<head>`:
