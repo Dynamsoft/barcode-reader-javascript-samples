@@ -39,7 +39,7 @@ BarcodeReaderModule.engineResourcePath = "https://npm.scannerproxy.com/cdn/@dyna
 ```typescript
 // cvr.ts
 import { CaptureVisionRouter, LicenseManager } from '@dynamsoft/dynamsoft-capture-vision-router';
-CaptureVisionRouter.engineResourcePath = 'https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231026103520/dist/';
+CaptureVisionRouter.engineResourcePath = 'https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231026110217/dist/';
 LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9');
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
 CaptureVisionRouter.preloadModule(['DBR']).catch((ex) => {
@@ -352,7 +352,7 @@ function HelloWorld() {
 
   return (
     <div className="div-hello-world">
-      <h1>Hello World for React(Hooks)</h1>
+      <h1>Hello World for Next</h1>
       <div>
         <button
           style={{

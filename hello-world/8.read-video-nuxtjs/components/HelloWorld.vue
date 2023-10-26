@@ -32,7 +32,7 @@ const showImgDecode = () => {
 </script>
 
 <template>
-  <div className="helloWorld">
+  <div class="helloWorld">
     <h1>Hello World for Nuxt</h1>
     <div>
       <button :style="{ marginRight: '10px', backgroundColor: bShowScanner ? 'rgb(255,174,55)' : 'white' }"

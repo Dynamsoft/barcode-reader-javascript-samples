@@ -4,7 +4,7 @@ import {
 } from '@dynamsoft/dynamsoft-capture-vision-router';
 
 CaptureVisionRouter.engineResourcePath =
-  'https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231026103520/dist/';
+  'https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231026110217/dist/';
 
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense" as shown below.

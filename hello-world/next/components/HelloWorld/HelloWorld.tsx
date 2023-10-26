@@ -24,7 +24,7 @@ function HelloWorld() {
 
   return (
     <div className="div-hello-world">
-      <h1>Hello World for React(Hooks)</h1>
+      <h1>Hello World for Next</h1>
       <div>
         <button
           style={{
