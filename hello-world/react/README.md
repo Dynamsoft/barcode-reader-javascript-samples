@@ -41,7 +41,7 @@ BarcodeReaderModule.engineResourcePath = "https://npm.scannerproxy.com/cdn/@dyna
 ```typescript
 // cvr.ts
 import { CaptureVisionRouter, LicenseManager } from '@dynamsoft/dynamsoft-capture-vision-router';
-CaptureVisionRouter.engineResourcePath = 'https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231023103654/dist/';
+CaptureVisionRouter.engineResourcePath = 'https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231026103520/dist/';
 LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9');
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
 CaptureVisionRouter.preloadModule(['DBR']).catch((ex) => {
@@ -80,7 +80,7 @@ CameraView.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-e
 
 ```tsx
 import React from "react";
-import { EnumCapturedResultItemType } from "@dynamsoft/dynamsoft-core"
+import { EnumCapturedResultItemType } from "@dynamsoft/dynamsoft-core";
 import { DecodedBarcodesResult } from "@dynamsoft/dynamsoft-barcode-reader";
 import {
   CameraEnhancer,
@@ -93,7 +93,7 @@ import {
 import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
 import "./VideoCapture.css";
 
-export class VideoCapture extends React.Component {
+class VideoCapture extends React.Component {
   pInit: Promise<{
     cameraView: CameraView;
     cameraEnhancer: CameraEnhancer;
@@ -129,7 +129,7 @@ export class VideoCapture extends React.Component {
         }
       };
       router.addResultReceiver(resultReceiver);
-      
+
       // Filter out unchecked and duplicate results.
       const filter = new MultiFrameResultCrossFilter();
       filter.enableResultCrossVerification(
@@ -179,7 +179,7 @@ export class VideoCapture extends React.Component {
   }
 
   async componentDidMount() {
-    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode. 
+    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
     if (this.pDestroy) {
       await this.pDestroy;
       this.pInit = this.init();
@@ -202,6 +202,8 @@ export class VideoCapture extends React.Component {
     return <div ref={this.elRef} className="div-ui-container"></div>;
   }
 }
+
+export default VideoCapture;
 ```
 
 > Note:
@@ -229,7 +231,7 @@ import { BarcodeResultItem } from "@dynamsoft/dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "@dynamsoft/dynamsoft-capture-vision-router";
 import "./ImageCapture.css";
 
-export class ImageCapture extends React.Component {
+class ImageCapture extends React.Component {
   pInit: Promise<CaptureVisionRouter> | null = null;
   pDestroy: Promise<void> | null = null;
 
@@ -301,6 +303,8 @@ export class ImageCapture extends React.Component {
     );
   }
 }
+
+export default ImageCapture;
 ```
 
 * Define the style of the element in `ImageCapture.css`
@@ -326,11 +330,11 @@ import React from "react";
 import "../../dbr"; // import side effects. The license, engineResourcePath, so on.
 import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
 import "../../dce"; // import side effects. The license, engineResourcePath, so on.
-import { VideoCapture } from "../VideoCapture/VideoCapture";
-import { ImageCapture } from "../ImageCapture/ImageCapture";
+import VideoCapture from "../VideoCapture/VideoCapture";
+import ImageCapture from "../ImageCapture/ImageCapture";
 import "./HelloWorld.css";
 
-export class HelloWorld extends React.Component {
+class HelloWorld extends React.Component {
   state = {
     bShowVideoCapture: true,
     bShowImageCapture: false,
@@ -385,6 +389,8 @@ export class HelloWorld extends React.Component {
     );
   }
 }
+
+export default HelloWorld;
 ```
 
 * Define the style of the element in `HelloWorld.css`
@@ -425,7 +431,7 @@ button {
 Edit the file `App.tsx` to be like this
 
 ```jsx
-import { HelloWorld } from './components/HelloWorld/HelloWorld';
+import HelloWorld from './components/HelloWorld/HelloWorld';
 import './App.css';
 
 function App() {

@@ -2,11 +2,11 @@ import React from "react";
 import "../../dbr"; // import side effects. The license, engineResourcePath, so on.
 import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
 import "../../dce"; // import side effects. The license, engineResourcePath, so on.
-import { VideoCapture } from "../VideoCapture/VideoCapture";
-import { ImageCapture } from "../ImageCapture/ImageCapture";
+import VideoCapture from "../VideoCapture/VideoCapture";
+import ImageCapture from "../ImageCapture/ImageCapture";
 import "./HelloWorld.css";
 
-export class HelloWorld extends React.Component {
+class HelloWorld extends React.Component {
   state = {
     bShowVideoCapture: true,
     bShowImageCapture: false,
@@ -61,3 +61,5 @@ export class HelloWorld extends React.Component {
     );
   }
 }
+
+export default HelloWorld;

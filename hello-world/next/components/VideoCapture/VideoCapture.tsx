@@ -1,4 +1,6 @@
-import React from "react";
+"use client"
+
+import React, { useEffect, useRef } from "react";
 import { EnumCapturedResultItemType } from "@dynamsoft/dynamsoft-core";
 import { DecodedBarcodesResult } from "@dynamsoft/dynamsoft-barcode-reader";
 import {
@@ -12,27 +14,27 @@ import {
 import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
 import "./VideoCapture.css";
 
-class VideoCapture extends React.Component {
-  pInit: Promise<{
+function VideoCapture() {
+  const pInit = useRef(
+    null as Promise<{
+      cameraView: CameraView;
+      cameraEnhancer: CameraEnhancer;
+      router: CaptureVisionRouter;
+    }> | null
+  );
+  const pDestroy = useRef(null as Promise<void> | null);
+
+  const init = async (): Promise<{
     cameraView: CameraView;
     cameraEnhancer: CameraEnhancer;
     router: CaptureVisionRouter;
-  }> | null = null;
-  pDestroy: Promise<void> | null = null;
-
-  elRef: React.RefObject<HTMLDivElement> = React.createRef();
-
-  async init(): Promise<{
-    cameraView: CameraView;
-    cameraEnhancer: CameraEnhancer;
-    router: CaptureVisionRouter;
-  }> {
+  }> => {
     try {
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
       const cameraView = await CameraView.createInstance();
       const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-      this.elRef.current!.innerText = "";
-      this.elRef.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+      elRef.current!.innerText = "";
+      elRef.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
       const router = await CaptureVisionRouter.createInstance();
@@ -86,40 +88,38 @@ class VideoCapture extends React.Component {
       alert(errMsg);
       throw ex;
     }
-  }
+  };
 
-  async destroy(): Promise<void> {
-    if (this.pInit) {
-      const { cameraView, cameraEnhancer, router } = await this.pInit;
+  const destroy = async (): Promise<void> => {
+    if (pInit.current) {
+      const { cameraView, cameraEnhancer, router } = await pInit.current;
       router.dispose();
       cameraEnhancer.dispose();
       cameraView.dispose();
     }
-  }
+  };
+  const elRef = useRef<HTMLDivElement>(null);
 
-  async componentDidMount() {
-    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-    if (this.pDestroy) {
-      await this.pDestroy;
-      this.pInit = this.init();
-    } else {
-      this.pInit = this.init();
-    }
-  }
+  useEffect(() => {
+    (async () => {
+      // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+      if (pDestroy.current) {
+        await pDestroy.current;
+        pInit.current = init();
+      } else {
+        pInit.current = init();
+      }
+    })();
 
-  async componentWillUnmount() {
-    await (this.pDestroy = this.destroy());
-    console.log("VideoCapture Component Unmount");
-  }
+    return () => {
+      (async () => {
+        await (pDestroy.current = destroy());
+        console.log("VideoCapture Component Unmount");
+      })();
+    };
+  }, []);
 
-  shouldComponentUpdate() {
-    // Never update UI after mount, sdk use native way to bind event, update will remove it.
-    return false;
-  }
-
-  render() {
-    return <div ref={this.elRef} className="div-ui-container"></div>;
-  }
+  return <div ref={elRef} className="div-ui-container"></div>;
 }
 
 export default VideoCapture;
