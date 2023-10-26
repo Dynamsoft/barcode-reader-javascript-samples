@@ -6,7 +6,7 @@ In this set of samples, we will revisit the "Hello World" code and show how to i
 
 Let's now go through each of the samples.
 
-## Hello World - Read Barcodes via Video
+## Hello World
 
 In this example, you will learn the minimum codes required to initialize and set up the SDK.
 
