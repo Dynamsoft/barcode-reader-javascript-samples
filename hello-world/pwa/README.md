@@ -1,11 +1,11 @@
-# JavaScript Hello World Sample - PWA
+# Hello World Sample for PWA
 
 [PWA](https://web.dev/progressive-web-apps/) is short for Progressive Web Apps which stand for web applications that have been designed to behave like platform-specific (native) applications. Check out the following on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a PWA application.
 
 ## Official Sample
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/1.hello-world/10.read-video-pwa/helloworld-pwa.html">Hello World in PWA - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/1.hello-world/10.read-video-pwa">Hello World in PWA - Source Code</a>
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/pwa/helloworld-pwa.html">Hello World in PWA - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/pwa">Hello World in PWA - Source Code</a>
 
 ## Preparation
 
@@ -20,41 +20,93 @@ First, create a file with the name "helloworld-pwa.html" and fill it with the fo
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Dynamsoft Barcode Reader PWA Sample - Hello World (Decoding via Camera)</title>
+    <title>Hello World</title>
 </head>
 
 <body>
-    <h1 style="font-size: 1.5em;">Hello World for PWA</h1>
-    Loading...
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.31/dist/dbr.js"></script>
-    <script>
-        Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
-        (async function() {
-            try {
-                const scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
-                scanner.onFrameRead = results => {
-                    console.log("Barcodes on one frame:");
-                    for (let result of results) {
-                        const format = result.barcodeFormatString;
-                        console.log(format + ": " + result.barcodeText);
-                    }
-                };
-                scanner.onUniqueRead = (txt, result) => {
-                    alert(txt);
-                    console.log("Unique Code Found: ", result);
-                }
-                await scanner.show();
-            } catch (ex) {
-                let errMsg = ex.message||ex;
-                console.error(errMsg);
-                alert(errMsg);
-            }
-        })();
-        
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./service-worker.js');
+<h1>Hello World for PWA</h1>
+<div id="div-ui-container" style="width: 100%; height: 80vh"></div>
+<script>
+    if (location.protocol === "file:") {
+    const message = `The page is opened via file:// and some SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
+    console.warn(message);
+    alert(message);
+    }
+</script>
+<script>
+    /** LICENSE ALERT - README
+     * To use the library, you need to first specify a license key using the API "initLicense" as shown below.
+     */
+
+    Dynamsoft.License.LicenseManager.initLicense(
+    "DLS2eyJoYW5kc2hha2VDb2RlIjoiNjY2Ni03Nzc3IiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vMTkyLjE2OC44LjEyMi9kbHMvIiwib3JnYW5pemF0aW9uSUQiOiI2NjY2IiwiY2hlY2tDb2RlIjoxNTEyMTgzMzg3fQ=="
+    );
+
+    /**
+     * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+     * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+     * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+     * LICENSE ALERT - THE END
+     */
+
+    (async function () {
+    try {
+        // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+        const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+        const cameraEnhancer =
+        await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+        document
+        .querySelector("#div-ui-container")
+        .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+
+        // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+        const router =
+        await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+        router.setInput(cameraEnhancer);
+
+        // Define a callback for results.
+        const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+        resultReceiver.onDecodedBarcodesReceived = (result) => {
+        for (let item of result.barcodesResultItems) {
+            console.log(item.text);
+            alert(item.text);
+        }
         };
-    </script>
+        router.addResultReceiver(resultReceiver);
+
+        // Filter out unchecked and duplicate results.
+        const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+        filter.enableResultCrossVerification(
+        Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+        true
+        ); // Filter out unchecked barcodes.
+        // Filter out duplicate barcodes within 3 seconds.
+        filter.enableResultDeduplication(
+        Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+        true
+        );
+        filter.setDuplicateForgetTime(
+        Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+        3000
+        );
+        await router.addResultFilter(filter);
+
+        // Open camera and start scanning single barcode.
+        await cameraEnhancer.open();
+        await router.startCapturing("ReadSingleBarcode");
+    } catch (ex) {
+        let errMsg;
+        if (ex.message.includes("network connection error")) {
+        errMsg =
+            "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        } else {
+        errMsg = ex.message || ex;
+        }
+        console.error(errMsg);
+        alert(errMsg);
+    }
+    })();
+</script>
 </body>
 
 </html>
@@ -129,7 +181,7 @@ For more information, refer to [Making PWAs work offline with Service workers](h
 
 A web manifest file contains a list of information about a website in a JSON format. This information is used to present the web app correctly for installation on a device.
 
-In our example, we first create a file "helloworld-pwa.webmanifest" with the following content:
+In our example, we first create a file "helloworld-pwa.json" with the following content:
 
 ```json
 {
@@ -161,7 +213,7 @@ In our example, we first create a file "helloworld-pwa.webmanifest" with the fol
 Then we include the file in the &lt;head&gt; block of the helloworld-pwa.html file:
 
 ```html
-<link rel="manifest" href="helloworld-pwa.webmanifest">
+<link rel="manifest" href="helloworld-pwa.json">
 ```
 
 For compatibility on safari, we need add some `meta` in `<head>`:
@@ -184,21 +236,46 @@ For offline use, you need to cache more files.
 
 service-worker.js
 ```javascript
-const dbrVersion = "9.6.31";
-const dbrCdn = `https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@${dbrVersion}/dist/`;
+const coreResourcesDir =
+    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231010152155/dist/",
+  utilityResourcesDir =
+    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20231023103736/dist/",
+  dbrResourcesDir =
+    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020140243/dist/",
+  dbrResourcesDir =
+    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020140243/dist/",
+  cvrResourcesDir =
+    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231026110217/dist/",
+  dceResourcesDir =
+    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231023131759/dist/";
 
+// Files to cache
+const cacheName = "helloworld-pwa";
 const appShellFiles = [
-    './helloworld-pwa.html',
-    './dynamsoft-192x192.png',
-    './dynamsoft-512x512.png',
-    './helloworld-pwa.json',
-    `${dbrCdn}dbr.js`,
-    `${dbrCdn}dbr-${dbrVersion}.full.wasm`,
-    `${dbrCdn}dbr-${dbrVersion}.full.wasm.js`,
-    `${dbrCdn}dbr-${dbrVersion}.browser.worker.js`,
+  "./helloworld-pwa.html",
+  "./dynamsoft-192x192.png",
+  "./dynamsoft-512x512.png",
+  "./helloworld-pwa.json",
+  `${coreResourcesDir}core.js`,
+  `${utilityResourcesDir}utility.js`,
+  `${dbrResourcesDir}dbr.js`,
+  `${dbrResourcesDir}dbr.wasm`,
+  `${dbrResourcesDir}DBR-PresetTemplates.json`,
+  `${cvrResourcesDir}cvr.js`,
+  `${cvrResourcesDir}cvr.wasm`,
+  `${cvrResourcesDir}cvr.wasm.js`,
+  `${cvrResourcesDir}cvr_wasm_glue.js`,
+  `${cvrResourcesDir}cvr.browser.worker.js`,
+  `${cvrResourcesDir}dls.license.dialog.html`,
+  `${cvrResourcesDir}dce.js`,
+  `${cvrResourcesDir}dce.ui.html`,
 ];
 ```
 
 ## Summary
 
 In this article we took a look at how you can turn a simple barcode reading page into a PWA that is installable, re-engageable and capable of working offline. To learn more about Progressive web apps, you can click [here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps).
+
+## Support
+
+If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or the "Chat" button in [homepage](https://www.dynamsoft.com/barcode-reader/sdk-javascript/).

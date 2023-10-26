@@ -49,11 +49,6 @@
       }
     </script>
     <script>
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("./service-worker.js");
-      }
-    </script>
-    <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense" as shown below.
        */
@@ -126,6 +121,11 @@
           alert(errMsg);
         }
       })();
+    </script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./service-worker.js");
+      }
     </script>
   </body>
 </html>
