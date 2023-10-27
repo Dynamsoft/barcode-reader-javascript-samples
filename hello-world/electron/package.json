@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@dynamsoft/dynamsoft-camera-enhancer": "^4.0.1-dev-20231023154255",
-    "@dynamsoft/dynamsoft-capture-vision-router": "^2.0.20-dev-20231026110217",
+    "@dynamsoft/dynamsoft-capture-vision-router": "^2.0.20-dev-20231027145739",
     "@dynamsoft/dynamsoft-utility": "^1.0.10-dev-20231023103736"
   }
 }

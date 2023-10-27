@@ -14,6 +14,7 @@
   <body>
     <h1 style="font-size: 1.5em">Read Barcodes from Camera - Debug</h1>
     <button id="btn-start-capturing">start capturing</button>
+    <button id="btn-stop-capturing">stop capturing</button>
     <br /><br />
     <label
       ><input
@@ -43,7 +44,7 @@
     <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231010152155/dist/core.js"></script>
     <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20231023103736/dist/utility.js"></script>
     <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020140243/dist/dbr.js"></script>
-    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231026110217/dist/cvr.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231027145739/dist/cvr.js"></script>
     <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231023131759/dist/dce.js"></script>
     <script>
       if (location.protocol === "file:") {
@@ -102,44 +103,39 @@
             await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
           router.setInput(cameraEnhancer);
 
-          // Define a callback for results.
-          const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
-          resultReceiver.onDecodedBarcodesReceived = (result) => {
-            for (let item of result.barcodesResultItems) {
-              console.log(item.text);
-              alert(item.text);
-            }
-          };
-          router.addResultReceiver(resultReceiver);
-
-          // Filter out unchecked and duplicate results.
+          // Filter out unchecked results.
           const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
           filter.enableResultCrossVerification(
             Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
             true
           ); // Filter out unchecked barcodes.
-          // Filter out duplicate barcodes within 3 seconds.
-          filter.enableResultDeduplication(
-            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
-            true
-          );
-          filter.setDuplicateForgetTime(
-            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
-            3000
-          );
           await router.addResultFilter(filter);
 
-          // TODO
-          let rs = await scanner.getRuntimeSettings();
-          rs.timeout = 100000;
-          await scanner.updateRuntimeSettings(rs);
-          let ss = await scanner.getScanSettings();
-          ss.intervalTime = 100;
-          ss.whenToPlaySoundforSuccessfulRead = "frame";
-          await scanner.updateScanSettings(ss);
-          scanner.ifSaveOriginalImageInACanvas = true;
+          let ss = await router.getSimplifiedSettings("ReadSingleBarcode");
+          ss.timeout = 100000;
+          ss.minImageCaptureInterval = 100;
+          ss.capturedResultItemTypes =
+            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE |
+            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE;
+          await router.updateSettings("ReadSingleBarcode", ss);
+
+          // Define a callback for results.
+          const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
           let processingCount = 0;
-          scanner.onFrameRead = async (results) => {
+          resultReceiver.onCapturedResultReceived = async (result) => {
+            const resultItems = result.items;
+            if (!resultItems.length) return;
+
+            if (
+              resultItems.some(
+                (item) =>
+                  item.type ===
+                  Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE
+              )
+            ) {
+              Dynamsoft.DCE.Feedback.beep();
+            }
+
             let bSendImg = !!document.getElementById("cb-send-img").checked;
             /**
              * The barcode reading speed is very fast, we must limit
@@ -149,10 +145,22 @@
               ++processingCount;
               try {
                 /**
-                 * The original image is the one the reader worked on,
+                 * The 'cvs' is the one the sdk worked on,
                  * we can collect it for futher testing and debugging.
                  */
-                let cvs = scanner.getOriginalImageInACanvas();
+                let cvs;
+                for (let item of resultItems) {
+                  if (
+                    item.type !==
+                    Dynamsoft.Core.EnumCapturedResultItemType
+                      .CRIT_ORIGINAL_IMAGE
+                  )
+                    continue;
+                  const imageData = item.imageData;
+                  console.log(item);
+                  cvs = imageData.toCanvas();
+                }
+
                 let fd = new FormData();
                 if (cvs != null) {
                   let blob = cvs.convertToBlob
@@ -176,6 +184,7 @@
               --processingCount;
             }
           };
+          router.addResultReceiver(resultReceiver);
 
           return {
             cameraView,
@@ -204,6 +213,15 @@
           // Open camera and start scanning single barcode.
           await cameraEnhancer.open();
           await router.startCapturing("ReadSingleBarcode");
+        });
+
+      document
+        .getElementById("btn-stop-capturing")
+        .addEventListener("click", async () => {
+          const { cameraEnhancer, router } = await pInit;
+
+          await router.stopCapturing();
+          await cameraEnhancer.close();
         });
 
       let switchVideoSettings = async () => {
