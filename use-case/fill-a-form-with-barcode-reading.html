@@ -20,8 +20,51 @@
     <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020140243/dist/dbr.js"></script>
     <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231027145739/dist/cvr.js"></script>
     <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231023131759/dist/dce.js"></script>
-  </head>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        width: 100vw;
+        height: 80vh;
+        color: #455a64;
+        margin: 0;
+      }
 
+      #div-ui-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        text-align: center;
+        font-size: medium;
+        height: 100%;
+        width: 100%;
+      }
+
+      .latest-result {
+        display: block;
+        margin: 2vh auto;
+        padding: 0.4rem 0.8rem;
+        color: inherit;
+        width: 85%;
+        border: 1px solid #fe8e14;
+        font-size: 1.5rem;
+        border-radius: 0.2rem;
+        text-align: center;
+      }
+
+      .latest-result::placeholder {
+        color: #b0bec5;
+      }
+
+      .latest-result:focus {
+        outline: none;
+        box-shadow: 0.1rem 0.4rem 0.8rem #fe8e14;
+      }
+    </style>
+  </head>
   <body>
     <h1 style="font-size: 1.5em">Read Barcodes as Input</h1>
     <div id="inputs" style="text-align: center" hidden>
@@ -46,6 +89,11 @@
       />
     </div>
     <span id="lib-load" style="font-size: x-large">Loading Library...</span>
+    <div
+      id="div-ui-container"
+      style="width: 100%; height: 100%; background: #eee"
+      hidden
+    ></div>
     <script>
       if (location.protocol === "file:") {
         const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
@@ -69,63 +117,78 @@
        * LICENSE ALERT - THE END
        */
 
-      // scanner for decoding video
-      let pScanner = null;
-      (async function () {
-        let allInputs = document.getElementsByClassName("latest-result");
-        for (let input of allInputs)
-          input.addEventListener("click", async function () {
-            try {
-              let scanner = await (pScanner =
-                pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-              let scanSettings = await scanner.getScanSettings();
-              scanSettings.whenToPlaySoundforSuccessfulRead = "frame";
-              await scanner.updateScanSettings(scanSettings);
-              scanner.onUniqueRead = (txt, result) => {
-                this.value = result.barcodeText;
-                scanner.hide();
-                document.getElementById("UIElement").hidden = true;
-              };
-              settings = await scanner.getRuntimeSettings();
-              settings.region = {
-                regionLeft: 5,
-                regionTop: 5,
-                regionRight: 95,
-                regionBottom: 95,
-                regionMeasuredByPercentage: 1,
-              };
-              await scanner.updateRuntimeSettings(settings);
-              await scanner.updateVideoSettings({
-                video: {
-                  width: {
-                    ideal: 1280,
-                  },
-                  height: {
-                    ideal: 720,
-                  },
-                  facingMode: {
-                    ideal: "environment",
-                  },
-                },
-              });
-              document.getElementById("UIElement").hidden = false;
-              await scanner.setUIElement(document.getElementById("UIElement"));
-              await scanner.show();
-            } catch (ex) {
-              let errMsg;
-              if (ex.message.includes("network connection error")) {
-                errMsg =
-                  "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-              } else {
-                errMsg = ex.message || ex;
-              }
-              console.error(errMsg);
-              alert(errMsg);
-            }
-          });
-        //Load the library on page load to speed things up.
+      // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
+      Dynamsoft.CVR.CaptureVisionRouter.preloadModule(["DBR"]).catch((ex) => {
+        let errMsg;
+        if (ex.message.includes("network connection error")) {
+          errMsg =
+            "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        } else {
+          errMsg = ex.message || ex;
+        }
+        console.error(errMsg);
+        alert(errMsg);
+      });
+
+      const divUIContainer = document.getElementById("div-ui-container");
+
+      const init = async () => {
         try {
-          await Dynamsoft.DBR.BarcodeScanner.loadWasm();
+          // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+          const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+          const cameraEnhancer =
+            await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+          document
+            .querySelector("#div-ui-container")
+            .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+          cameraEnhancer.setScanRegion({
+            x: 5,
+            y: 5,
+            width: 90,
+            height: 90,
+            isMeasuredInPercentage: true,
+          }); // Set a scan region
+
+          // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+          const router =
+            await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+          router.setInput(cameraEnhancer);
+
+          // Filter out unchecked and duplicate results.
+          const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+          filter.enableResultCrossVerification(
+            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            true
+          ); // Filter out unchecked barcodes.
+          // Filter out duplicate barcodes within 3 seconds.
+          filter.enableResultDeduplication(
+            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            true
+          );
+          filter.setDuplicateForgetTime(
+            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            3000
+          );
+          await router.addResultFilter(filter);
+
+          // Define a callback for results.
+          const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+          resultReceiver.onDecodedBarcodesReceived = async (result) => {
+            const resultItems = result.barcodesResultItems;
+            if (!resultItems.length) return;
+
+            Dynamsoft.DCE.Feedback.beep(); // Trigger a beep.
+          };
+          router.addResultReceiver(resultReceiver);
+
+          document.getElementById("inputs").hidden = false;
+          document.getElementById("lib-load").hidden = true;
+
+          return {
+            cameraView,
+            cameraEnhancer,
+            router,
+          };
         } catch (ex) {
           let errMsg;
           if (ex.message.includes("network connection error")) {
@@ -137,129 +200,36 @@
           console.error(errMsg);
           alert(errMsg);
         }
-        document.getElementById("inputs").hidden = false;
-        document.getElementById("lib-load").hidden = true;
-      })();
+      };
+      const pInit = init();
+
+      const allInputs = document.getElementsByClassName("latest-result");
+      for (let input of allInputs) {
+        input.addEventListener("click", async function () {
+          const { cameraView, cameraEnhancer, router } = await pInit;
+
+          // Define a callback for results.
+          const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+          resultReceiver.onDecodedBarcodesReceived = async (result) => {
+            const resultItems = result.barcodesResultItems;
+            if (!resultItems.length) return;
+
+            this.value = resultItems[0].text;
+            router.stopCapturing();
+            cameraEnhancer.close();
+            divUIContainer.hidden = true;
+
+            router.removeResultReceiver(resultReceiver);
+          };
+          router.addResultReceiver(resultReceiver);
+
+          divUIContainer.hidden = false;
+
+          // Open camera and start scanning single barcode.
+          await cameraEnhancer.open();
+          await router.startCapturing("ReadSingleBarcode");
+        });
+      }
     </script>
-    <div
-      id="UIElement"
-      style="
-        width: 100%;
-        height: 100%;
-        min-width: 100px;
-        min-height: 100px;
-        background: #eee;
-      "
-      hidden
-    >
-      <svg
-        class="dce-bg-loading"
-        style="
-          display: none;
-          animation: 1s linear infinite dce-rotate;
-          width: 40%;
-          height: 40%;
-          position: absolute;
-          margin: auto;
-          left: 0;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          fill: #aaa;
-        "
-        viewBox="0 0 1792 1792"
-      >
-        <path
-          d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z"
-        />
-      </svg>
-      <svg
-        class="dce-bg-camera"
-        style="
-          display: none;
-          width: 40%;
-          height: 40%;
-          position: absolute;
-          margin: auto;
-          left: 0;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          fill: #aaa;
-        "
-        viewBox="0 0 2048 1792"
-      >
-        <path
-          d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z"
-        />
-      </svg>
-      <div
-        class="dce-video-container"
-        style="position: absolute; left: 0; top: 0; width: 100%; height: 100%"
-      ></div>
-      <div
-        class="dce-scanarea"
-        style="position: absolute; left: 0; top: 0; width: 100%; height: 100%"
-      >
-        <div
-          class="dce-scanlight"
-          style="
-            display: none;
-            position: absolute;
-            width: 100%;
-            height: 3%;
-            border-radius: 50%;
-            box-shadow: 0px 0px 2vw 1px #00e5ff;
-            background: #fff;
-            animation: 3s infinite dce-scanlight;
-            user-select: none;
-          "
-        ></div>
-      </div>
-    </div>
   </body>
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      width: 100vw;
-      height: 80vh;
-      color: #455a64;
-      margin: 0;
-    }
-
-    #UIElement {
-      position: absolute;
-      left: 0;
-      top: 0;
-      text-align: center;
-      font-size: medium;
-      height: 100%;
-      width: 100%;
-    }
-
-    .latest-result {
-      display: block;
-      margin: 2vh auto;
-      padding: 0.4rem 0.8rem;
-      color: inherit;
-      width: 85%;
-      border: 1px solid #fe8e14;
-      font-size: 1.5rem;
-      border-radius: 0.2rem;
-      text-align: center;
-    }
-
-    .latest-result::placeholder {
-      color: #b0bec5;
-    }
-
-    .latest-result:focus {
-      outline: none;
-      box-shadow: 0.1rem 0.4rem 0.8rem #fe8e14;
-    }
-  </style>
 </html>
