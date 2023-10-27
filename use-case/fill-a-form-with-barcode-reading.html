@@ -1,178 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Read barcodes and fill form fields using barcode with Barcode Reader. Get quick and accurate results in no time."
+    />
+    <meta name="keywords" content="fill form fields using barcodes" />
+    <link
+      rel="canonical"
+      href="https://demo.dynamsoft.com/samples/dbr/js/use-case/fill-a-form-with-barcode-reading.html"
+    />
+    <title>
+      Dynamsoft Barcode Reader Simple Sample - Read Video - Fill Form
+    </title>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231010152155/dist/core.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20231023103736/dist/utility.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020140243/dist/dbr.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231027145739/dist/cvr.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231023131759/dist/dce.js"></script>
+  </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta name="description" content="Read barcodes and fill form fields using barcode with Barcode Reader. Get quick and accurate results in no time.">
-    <meta name="keywords" content="fill form fields using barcodes">
-    <link rel="canonical" href="https://demo.dynamsoft.com/samples/dbr/js/4.use-case/1.fill-a-form-with-barcode-reading.html">
-    <title>Dynamsoft Barcode Reader Simple Sample - Read Video - Fill Form</title>
-    <!--
-      This sample makes use of the library hosted by the CDN jsDelivr. If you would rather use the
-      library offline. Please see the guide on how to host the library: 
-      https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#host-the-library-yourself-recommended
-    -->
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.31/dist/dbr.js"></script>
-</head>
-
-<body>
-    <h1 style="font-size: 1.5em;">Read Barcodes as Input</h1>
-    <div id='inputs' style="text-align: center;" hidden>
-        <h3>Click each input box to fill in!</h3>
-        <input type="text" class="latest-result" readonly="true" placeholder="Barcode Result 1">
-        <input type="text" class="latest-result" readonly="true" placeholder="Barcode Result 2">
-        <input type="text" class="latest-result" readonly="true" placeholder="Barcode Result 3">
+  <body>
+    <h1 style="font-size: 1.5em">Read Barcodes as Input</h1>
+    <div id="inputs" style="text-align: center" hidden>
+      <h3>Click each input box to fill in!</h3>
+      <input
+        type="text"
+        class="latest-result"
+        readonly="true"
+        placeholder="Barcode Result 1"
+      />
+      <input
+        type="text"
+        class="latest-result"
+        readonly="true"
+        placeholder="Barcode Result 2"
+      />
+      <input
+        type="text"
+        class="latest-result"
+        readonly="true"
+        placeholder="Barcode Result 3"
+      />
     </div>
-    <span id='lib-load' style='font-size:x-large'>Loading Library...</span>
+    <span id="lib-load" style="font-size: x-large">Loading Library...</span>
     <script>
-        if(location.protocol === "file:") {
-            const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
-            console.warn(message);
-            alert(message);
-        }
+      if (location.protocol === "file:") {
+        const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
+        console.warn(message);
+        alert(message);
+      }
     </script>
     <script>
-        /** LICENSE ALERT - README 
-         * To use the library, you need to first specify a license key using the API "license" as shown below.
-         */
+      /** LICENSE ALERT - README
+       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+       */
 
-        Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
+      Dynamsoft.License.LicenseManager.initLicense(
+        "DLS2eyJoYW5kc2hha2VDb2RlIjoiNjY2Ni03Nzc3IiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vMTkyLjE2OC44LjEyMi9kbHMvIiwib3JnYW5pemF0aW9uSUQiOiI2NjY2IiwiY2hlY2tDb2RlIjoxNTEyMTgzMzg3fQ=="
+      );
 
-        /** 
-         * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
-         * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.6.31&utm_source=github#specify-the-license or contact support@dynamsoft.com.
-         * LICENSE ALERT - THE END 
-         */
+      /**
+       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+       * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+       * LICENSE ALERT - THE END
+       */
 
-        // scanner for decoding video
-        let pScanner = null;
-        (async function() {
-            let allInputs = document.getElementsByClassName('latest-result');
-            for (let input of allInputs)
-                input.addEventListener('click', async function() {
-                    try {
-                        let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                        let scanSettings = await scanner.getScanSettings();
-                        scanSettings.whenToPlaySoundforSuccessfulRead = "frame";
-                        await scanner.updateScanSettings(scanSettings);
-                        scanner.onUniqueRead = (txt, result) => {
-                            this.value = result.barcodeText;
-                            scanner.hide();
-                            document.getElementById('UIElement').hidden = true;
-                        };
-                        settings = await scanner.getRuntimeSettings();
-                        settings.region = {
-                            regionLeft: 5,
-                            regionTop: 5,
-                            regionRight: 95,
-                            regionBottom: 95,
-                            regionMeasuredByPercentage: 1
-                        };
-                        await scanner.updateRuntimeSettings(settings);
-                        await scanner.updateVideoSettings({
-                            video: {
-                                width: {
-                                    ideal: 1280
-                                },
-                                height: {
-                                    ideal: 720
-                                },
-                                facingMode: {
-                                    ideal: "environment"
-                                }
-                            }
-                        });
-                        document.getElementById('UIElement').hidden = false;
-                        await scanner.setUIElement(document.getElementById('UIElement'));
-                        await scanner.show();
-                    } catch (ex) {
-                        let errMsg;
-                        if (ex.message.includes("network connection error")) {
-                            errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-                        } else {
-                            errMsg = ex.message||ex;
-                        }
-                        console.error(errMsg);
-                        alert(errMsg);
-                    }
-                });
-            //Load the library on page load to speed things up.
+      // scanner for decoding video
+      let pScanner = null;
+      (async function () {
+        let allInputs = document.getElementsByClassName("latest-result");
+        for (let input of allInputs)
+          input.addEventListener("click", async function () {
             try {
-                await Dynamsoft.DBR.BarcodeScanner.loadWasm();
+              let scanner = await (pScanner =
+                pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
+              let scanSettings = await scanner.getScanSettings();
+              scanSettings.whenToPlaySoundforSuccessfulRead = "frame";
+              await scanner.updateScanSettings(scanSettings);
+              scanner.onUniqueRead = (txt, result) => {
+                this.value = result.barcodeText;
+                scanner.hide();
+                document.getElementById("UIElement").hidden = true;
+              };
+              settings = await scanner.getRuntimeSettings();
+              settings.region = {
+                regionLeft: 5,
+                regionTop: 5,
+                regionRight: 95,
+                regionBottom: 95,
+                regionMeasuredByPercentage: 1,
+              };
+              await scanner.updateRuntimeSettings(settings);
+              await scanner.updateVideoSettings({
+                video: {
+                  width: {
+                    ideal: 1280,
+                  },
+                  height: {
+                    ideal: 720,
+                  },
+                  facingMode: {
+                    ideal: "environment",
+                  },
+                },
+              });
+              document.getElementById("UIElement").hidden = false;
+              await scanner.setUIElement(document.getElementById("UIElement"));
+              await scanner.show();
             } catch (ex) {
-                let errMsg;
-                if (ex.message.includes("network connection error")) {
-                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-                } else {
-                    errMsg = ex.message||ex;
-                }
-                console.error(errMsg);
-                alert(errMsg);
+              let errMsg;
+              if (ex.message.includes("network connection error")) {
+                errMsg =
+                  "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+              } else {
+                errMsg = ex.message || ex;
+              }
+              console.error(errMsg);
+              alert(errMsg);
             }
-            document.getElementById('inputs').hidden = false;
-            document.getElementById('lib-load').hidden = true;
-        })();
+          });
+        //Load the library on page load to speed things up.
+        try {
+          await Dynamsoft.DBR.BarcodeScanner.loadWasm();
+        } catch (ex) {
+          let errMsg;
+          if (ex.message.includes("network connection error")) {
+            errMsg =
+              "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+          } else {
+            errMsg = ex.message || ex;
+          }
+          console.error(errMsg);
+          alert(errMsg);
+        }
+        document.getElementById("inputs").hidden = false;
+        document.getElementById("lib-load").hidden = true;
+      })();
     </script>
-    <div id="UIElement" style="width:100%;height:100%;min-width:100px;min-height:100px;background:#eee;" hidden>
-        <svg class="dce-bg-loading" style="display:none;animation:1s linear infinite dce-rotate;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;" viewBox="0 0 1792 1792">
-            <path
-                d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z" />
-        </svg>
-        <svg class="dce-bg-camera" style="display:none;width:40%;height:40%;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;fill:#aaa;" viewBox="0 0 2048 1792">
-            <path
-                d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z" />
-        </svg>
-        <div class="dce-video-container" style="position:absolute;left:0;top:0;width:100%;height:100%;"></div>
-        <div class="dce-scanarea" style="position:absolute;left:0;top:0;width:100%;height:100%;">
-            <div class="dce-scanlight" style="display:none;position:absolute;width:100%;height:3%;border-radius:50%;box-shadow:0px 0px 2vw 1px #00e5ff;background:#fff;animation:3s infinite dce-scanlight;user-select:none;"></div>
-        </div>
-    </div>
-</body>
-<style>
-    body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        width: 100vw;
-        height: 80vh;
-        color: #455A64;
-        margin: 0;
-    }
-    
-    #UIElement {
-        position: absolute;
-        left: 0;
-        top: 0;
-        text-align: center;
-        font-size: medium;
-        height: 100%;
+    <div
+      id="UIElement"
+      style="
         width: 100%;
+        height: 100%;
+        min-width: 100px;
+        min-height: 100px;
+        background: #eee;
+      "
+      hidden
+    >
+      <svg
+        class="dce-bg-loading"
+        style="
+          display: none;
+          animation: 1s linear infinite dce-rotate;
+          width: 40%;
+          height: 40%;
+          position: absolute;
+          margin: auto;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          fill: #aaa;
+        "
+        viewBox="0 0 1792 1792"
+      >
+        <path
+          d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z"
+        />
+      </svg>
+      <svg
+        class="dce-bg-camera"
+        style="
+          display: none;
+          width: 40%;
+          height: 40%;
+          position: absolute;
+          margin: auto;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          fill: #aaa;
+        "
+        viewBox="0 0 2048 1792"
+      >
+        <path
+          d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z"
+        />
+      </svg>
+      <div
+        class="dce-video-container"
+        style="position: absolute; left: 0; top: 0; width: 100%; height: 100%"
+      ></div>
+      <div
+        class="dce-scanarea"
+        style="position: absolute; left: 0; top: 0; width: 100%; height: 100%"
+      >
+        <div
+          class="dce-scanlight"
+          style="
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 3%;
+            border-radius: 50%;
+            box-shadow: 0px 0px 2vw 1px #00e5ff;
+            background: #fff;
+            animation: 3s infinite dce-scanlight;
+            user-select: none;
+          "
+        ></div>
+      </div>
+    </div>
+  </body>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      width: 100vw;
+      height: 80vh;
+      color: #455a64;
+      margin: 0;
     }
-    
-    .latest-result {
-        display: block;
-        margin: 2vh auto;
-        padding: 0.4rem 0.8rem;
-        color: inherit;
-        width: 85%;
-        border: 1px solid #fe8e14;
-        font-size: 1.5rem;
-        border-radius: 0.2rem;
-        text-align: center;
-    }
-    
-    .latest-result::placeholder {
-        color: #B0BEC5;
-    }
-    
-    .latest-result:focus {
-        outline: none;
-        box-shadow: 0.1rem 0.4rem 0.8rem #fe8e14;
-    }
-</style>
 
+    #UIElement {
+      position: absolute;
+      left: 0;
+      top: 0;
+      text-align: center;
+      font-size: medium;
+      height: 100%;
+      width: 100%;
+    }
+
+    .latest-result {
+      display: block;
+      margin: 2vh auto;
+      padding: 0.4rem 0.8rem;
+      color: inherit;
+      width: 85%;
+      border: 1px solid #fe8e14;
+      font-size: 1.5rem;
+      border-radius: 0.2rem;
+      text-align: center;
+    }
+
+    .latest-result::placeholder {
+      color: #b0bec5;
+    }
+
+    .latest-result:focus {
+      outline: none;
+      box-shadow: 0.1rem 0.4rem 0.8rem #fe8e14;
+    }
+  </style>
 </html>

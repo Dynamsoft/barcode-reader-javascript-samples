@@ -48,7 +48,7 @@
     <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231023131759/dist/dce.js"></script>
     <script>
       if (location.protocol === "file:") {
-        const message = `The page is opened via file:// and some SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
+        const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
         console.warn(message);
         alert(message);
       }
@@ -61,7 +61,7 @@
       Dynamsoft.DCE.CameraEnhancer._onLog = console.log;
 
       /** LICENSE ALERT - README
-       * To use the library, you need to first specify a license key using the API "initLicense" as shown below.
+       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
        */
 
       Dynamsoft.License.LicenseManager.initLicense(
