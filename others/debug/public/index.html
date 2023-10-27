@@ -220,8 +220,8 @@
         .addEventListener("click", async () => {
           const { cameraEnhancer, router } = await pInit;
 
-          await router.stopCapturing();
-          await cameraEnhancer.close();
+          router.stopCapturing();
+          cameraEnhancer.close();
         });
 
       let switchVideoSettings = async () => {
