@@ -7,7 +7,7 @@ const coreResourcesDir =
   dbrResourcesDir =
     "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020140243/dist/",
   cvrResourcesDir =
-    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231026110217/dist/",
+    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231027145739/dist/",
   dceResourcesDir =
     "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231023131759/dist/";
 
