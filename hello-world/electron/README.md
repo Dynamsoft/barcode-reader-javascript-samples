@@ -106,7 +106,7 @@ Create the page to be loaded in the created window.
 
 ```javascript
 /** LICENSE ALERT - README
- * To use the library, you need to first specify a license key using the API "initLicense" as shown below.
+ * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
  */
 
 Dynamsoft.License.LicenseManager.initLicense(
