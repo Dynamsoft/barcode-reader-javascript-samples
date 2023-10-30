@@ -1,6 +1,6 @@
 # JavaScript Hello World Sample - NuxtJS
 
-[Nuxt](https://nuxtjs.org/) is a higher-level framework that builds on top of [Vue](https://vuejs.org/). Check out the following guide on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Nuxt application. Note that in this sample we will use `TypeScript`.
+[Nuxt](https://nuxtjs.org/) is a higher-level framework that builds on top of [Vue](https://vuejs.org/). Check out the following guide on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Nuxt application. Note that in this sample `TypeScript` is used.
 
 ## Official Sample
 
@@ -24,6 +24,7 @@ You will be asked to configure quite a few things for the application during the
 
 ```cmd
 cd read-video-nuxtjs
+npm install
 npm install dynamsoft-javascript-barcode
 ```
 
@@ -50,9 +51,7 @@ BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javas
 
 ### Edit the `VideoDecode` component
 
-* Add a file `VideoDecode.vue` under "/components/" as the `VideoDecode` component. The `VideoDecode` component uses `BarcodeScanner` class of the library to help decode barcodes via camera.
-
-* In `VideoDecode.vue`, add code for initializing and destroying the `BarcodeScanner` instance.
+* In `VideoDecode.vue`, add code for initializing and destroying the `BarcodeScanner` instance. The `VideoDecode` component uses `BarcodeScanner` class of the library to help decode barcodes via camera.
 
 ```vue
 <script setup lang="ts">
@@ -283,9 +282,7 @@ onBeforeUnmount(async () => {
 
 ### Edit the `ImgDecode` component
 
-* Add a file `ImgDecode.vue` under "/components/" as the `ImgDecode` component. The `ImgDecode` component uses `BarcodeReader` class of the library to help decode barcodes in an image.
-
-* In `ImgDecode.vue`, add code for initializing and destroying the `BarcodeReader` instance.
+* In `ImgDecode.vue`, add code for initializing and destroying the `BarcodeReader` instance. The `ImgDecode` component uses `BarcodeReader` class of the library to help decode barcodes in an image.
 
 ```vue
 <script setup lang="ts">
@@ -428,7 +425,7 @@ h1 {
 
 ### Add the `HelloWorld` component to `app.vue`
 
-Edit the file `App.vue` to be like this
+Edit the file `app.vue` to be like this
 
 ```vue
 <template>
@@ -463,3 +460,7 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Support
+
+If you have any questions, feel free to [contact Dynamsoft support](https://www.dynamsoft.com/company/contact?utm_source=sampleReadme).
