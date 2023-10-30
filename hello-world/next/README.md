@@ -44,7 +44,7 @@ LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9');
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
 CaptureVisionRouter.preloadModule(['DBR']).catch((ex) => {
   let errMsg;
-  if (ex.message.includes('network connection error')) {
+  if (ex.?message.includes('network connection error')) {
     errMsg =
       'Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.';
   } else {
@@ -157,7 +157,7 @@ function VideoCapture() {
       };
     } catch (ex: any) {
       let errMsg;
-      if (ex.message.includes("network connection error")) {
+      if (ex.?message.includes("network connection error")) {
         errMsg =
           "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
       } else {
