@@ -338,13 +338,13 @@
           const cameraEnhancer =
             await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
           divUIContainer.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
-          // cameraEnhancer.setScanRegion({
-          //   x: 5,
-          //   y: 5,
-          //   width: 90,
-          //   height: 90,
-          //   isMeasuredInPercentage: true,
-          // }); // Set a scan region
+          cameraEnhancer.setScanRegion({
+            x: 5,
+            y: 5,
+            width: 90,
+            height: 90,
+            isMeasuredInPercentage: true,
+          }); // Set a scan region
 
           // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
           const router =
@@ -392,28 +392,6 @@
             extractResultAlert(barcodeResult.bytes);
           };
           router.addResultReceiver(resultReceiver);
-
-          //   const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
-          //   resultReceiver.onDecodedBarcodesReceived = async (result) => {
-          //     const resultItems = result.barcodesResultItems;
-          //     if (!resultItems.length) {
-          //       document.querySelector(".div-result-body").innerText =
-          //         "No PDF417 Barcode Found!";
-          //       divResultContainer.style.display = "block";
-          //       document.addEventListener("mousedown", clickToHide);
-          //       return;
-          //     }
-
-          //     if (cameraEnhancer.singleFrameMode === "disabled") {
-          //       Dynamsoft.DCE.Feedback.beep(); // Trigger a beep.
-          //     }
-
-          //     document.querySelector("#div-message-container").style.display =
-          //       "none";
-          //     clearTimeout(timer);
-          //     extractResultAlert(resultItems[0].bytes);
-          //   };
-          //   router.addResultReceiver(resultReceiver);
 
           let ss = await router.getSimplifiedSettings("ReadDenseBarcodes");
           ss.barcodeSettings.barcodeFormatIds =
@@ -508,13 +486,13 @@
         }, 3000);
       }
 
-      function createNode(type, txt) {
-        let node = document.createElement(type);
-        if (txt) node.innerText = txt;
-        return node;
-      }
-
       async function extractResultAlert(bytesToParse) {
+        function createNode(type, txt) {
+          let node = document.createElement(type);
+          if (txt) node.innerText = txt;
+          return node;
+        }
+
         try {
           const { parser } = await pInit;
           let parsedDLInfo = await parser.parseData(bytesToParse);
@@ -562,6 +540,7 @@
           document.removeEventListener("click", arguments.callee);
         }
       }
+
       async function closeResultAlert() {
         divResultContainer.style.display = "none";
         document.querySelector(".div-result-body").innerText = "";
