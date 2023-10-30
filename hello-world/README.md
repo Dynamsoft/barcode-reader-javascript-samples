@@ -30,71 +30,47 @@ When working with the BarcodeReader class, the main method to use is [`decode`](
 
 ## Hello World in Angular
 
-Read more in the README under "3.read-video-angular".
+Read more in the README under "angular".
 
 ## Hello World in React
 
-Read more in the README under "4.read-video-react".
+Read more in the README under "react".
 
 ## Hello World in React using Hooks
 
-Read more in the README under "13.read-video-react-hooks".
+Read more in the README under "react-hooks".
 
-## Hello World in Vue 2
+## Hello World in Vue
 
-Read more in the README under "5.read-video-vue".
-
-## Hello World in Vue 3
-
-Read more in the README under "6.read-video-vue3".
+Read more in the README under "vue".
 
 ## Hello World in Next.js
 
-Read more in the README under "7.read-video-nextjs".
+Read more in the README under "next".
 
 ## Hello World in NuxtJS
 
-Read more in the README under "8.read-video-nuxtjs".
+Read more in the README under "nuxt".
 
 ## Hello World in Electron
 
-Read more in the README under "9.read-video-electron".
+Read more in the README under "electron".
 
 ## Hello World in PWA
 
-Read more in the README under "10.read-video-pwa".
+Read more in the README under "pwa".
 
 ## Hello World with RequireJS
 
 This sample shows how to use the SDK in a web page based on RequireJS.
 
-Let's quickly break down the methods used in order:
-
-* `license`: This property specifies a license key.
-* `createInstance()`: This method creates a `BarcodeScanner` object. This object can read barcodes directly from a video input with the help of its interactive UI (hidden by default) and the MediaDevices interface.
-* `onFrameRead`: This event is triggered every time the SDK finishes scanning a video frame. The `results` object contains all the barcode results that the SDK have found on this frame. In this example, we print the results to the browser console.
-* `onUniqueRead`: This event is triggered when the SDK finds a new barcode, which is unique among multiple frames. `txt` holds the barcode text value while `result` is an object that holds details of the barcode. In this example, an alert will be displayed on unique reads.
-* `show()`: This method brings up the built-in UI of the `BarcodeScanner` object and starts scanning
-
-Actually, it is not necessary to define both onFrameRead and onUniqueRead in the code. onUniqueRead is more commonly used because it is triggered only when a new barcode is detected, rather than on every frame.
-
 ## Hello World with ES6
 
 This sample shows how to use the SDK in a web page based on ES6 (also known as ECMAScript 2015 or ECMAScript 6).
 
-Let's quickly break down the methods used in order:
-
-* `license`: This property specifies a license key.
-* `createInstance()`: This method creates a `BarcodeScanner` object. This object can read barcodes directly from a video input with the help of its interactive UI (hidden by default) and the MediaDevices interface.
-* `onFrameRead`: This event is triggered every time the SDK finishes scanning a video frame. The `results` object contains all the barcode results that the SDK have found on this frame. In this example, we print the results to the browser console.
-* `onUniqueRead`: This event is triggered when the SDK finds a new barcode, which is unique among multiple frames. `txt` holds the barcode text value while `result` is an object that holds details of the barcode. In this example, an alert will be displayed on unique reads.
-* `show()`: This method brings up the built-in UI of the `BarcodeScanner` object and starts scanning
-
-Actually, it is not necessary to define both onFrameRead and onUniqueRead in the code. onUniqueRead is more commonly used because it is triggered only when a new barcode is detected, rather than on every frame.
-
 ## Hello World with WebView
 
-Read more in the README under "14.read-video-webview".
+Read more in the README under "webview".
 
 ## Support
 
