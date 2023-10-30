@@ -1,239 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta name="description" content="Read the PDF417 barcode on Driver's Licenses instantly with this barcode reader.">
-    <meta name="keywords" content="read driver's license barcode">
-    <link rel="canonical" href="https://demo.dynamsoft.com/samples/dbr/js/4.use-case/2.read-a-drivers-license.html">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Read the PDF417 barcode on Driver's Licenses instantly with this barcode reader."
+    />
+    <meta name="keywords" content="read driver's license barcode" />
+    <link
+      rel="canonical"
+      href="https://demo.dynamsoft.com/samples/dbr/js/use-case/read-a-drivers-license.html"
+    />
     <title>Dynamsoft Barcode Reader Simple Sample - Read Driver License</title>
-</head>
-
-<body>
-    <script>
-        if(location.protocol === "file:") {
-            const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
-            console.warn(message);
-            alert(message);
-        }
-    </script>
-    
-    <span id="hintMSG" class="hintMSG">Aim at the barcode on the driver's license.</span>
-    <h1 id='header'>Read A Driver's License <a href="javascript:void(0)" id='readAgain' hidden onclick="backToHome()">Retry</a></h1>
-    <div id="message_box" class="message_box">
-        <em class="message_box_icon"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="3665" width="32" height="32"><path d="M544 789.333333h105.173333a10.666667 10.666667 0 0 0 10.666667-10.666666v-0.362667l-3.232-94.304a32 32 0 0 1 14.293333-27.765333C750.933333 603.189333 800 513.792 800 416c0-159.061333-128.938667-288-288-288S224 256.938667 224 416c0 97.813333 49.098667 187.232 129.141333 240.266667a32 32 0 0 1 14.314667 25.578666l3.338667 97.184a10.666667 10.666667 0 0 0 10.666666 10.304H480V572.693333l-76.64-81.429333a32 32 0 0 1 46.613333-43.861333l63.36 67.328 72.693334-68.661334a32 32 0 0 1 43.946666 46.528L544 573.792V789.333333z m320-373.333333a351.530667 351.530667 0 0 1-142.826667 283.146667l2.634667 76.96A74.666667 74.666667 0 0 1 649.173333 853.333333h-267.733333a74.666667 74.666667 0 0 1-74.624-72.106666l-2.784-81.194667A351.541333 351.541333 0 0 1 160 416C160 221.6 317.6 64 512 64s352 157.6 352 352zM416 960a32 32 0 0 1 0-64h192a32 32 0 0 1 0 64H416z" p-id="3666" fill="#909399"></path></svg></em>
-        <div class="message_box_container">
-            <span class="message_box_title">Can't get scanning result for a long time?</span>
-            <p class="message_box_content">After setting the <span class="api_highlight">singleFrameMode</span> as true, you can open the camera to shoot (mobile device) or choose from local to get a high-definition picture for recognition. <a href="javascript:void(0)" id="confirm_btn">Have a try</a></p>
-            <em id="close_btn" class="message_box_closebtn"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="4604" width="10" height="10"><path d="M512 456.310154L94.247385 38.557538a39.542154 39.542154 0 0 0-55.689847 0 39.266462 39.266462 0 0 0 0 55.689847L456.310154 512 38.557538 929.752615a39.542154 39.542154 0 0 0 0 55.689847 39.266462 39.266462 0 0 0 55.689847 0L512 567.689846l417.752615 417.752616c15.163077 15.163077 40.290462 15.36 55.689847 0a39.266462 39.266462 0 0 0 0-55.689847L567.689846 512 985.442462 94.247385a39.542154 39.542154 0 0 0 0-55.689847 39.266462 39.266462 0 0 0-55.689847 0L512 456.310154z" p-id="4605" fill="#c0c4cc"></path></svg></em>
-        </div>
-    </div>
-    <div id="UIElement" class="UIElement">
-        <svg id="btn-show-scanner" class="btn-show-scanner" viewBox="0 0 2048 1792">
-            <path d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z" />
-        </svg>
-        <div id="div-ui-container" class="div-ui-container" hidden>
-            <svg class="dce-bg-camera" viewBox="0 0 2048 1792">
-                <path d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z" />
-            </svg>
-            <div class="dce-video-container"></div>
-        </div>
-    </div>
-    <div id="resultAlert" class="resultAlert" hidden>
-        <div class="resultAlert_title">Results: <em id="resultAlert_btn" class="message_box_closebtn"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="4604" width="16" height="16"><path d="M512 456.310154L94.247385 38.557538a39.542154 39.542154 0 0 0-55.689847 0 39.266462 39.266462 0 0 0 0 55.689847L456.310154 512 38.557538 929.752615a39.542154 39.542154 0 0 0 0 55.689847 39.266462 39.266462 0 0 0 55.689847 0L512 567.689846l417.752615 417.752616c15.163077 15.163077 40.290462 15.36 55.689847 0a39.266462 39.266462 0 0 0 0-55.689847L567.689846 512 985.442462 94.247385a39.542154 39.542154 0 0 0 0-55.689847 39.266462 39.266462 0 0 0-55.689847 0L512 456.310154z" p-id="4605" fill="#ffffff"></path></svg></em></div>
-        <div id="resultAlert_content" class="resultAlert_content"></div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.31/dist/dbr.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231010152155/dist/core.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20231023103736/dist/utility.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020140243/dist/dbr.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231027145739/dist/cvr.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231023131759/dist/dce.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@1.1.0/dist/dcp.js"></script>
-    <script>
-        /** LICENSE ALERT - README 
-         * To use the library, you need to first specify a license key using the API "license" as shown below.
-         */
-
-        Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
-        Dynamsoft.DCP.CodeParser.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
-
-        /** 
-         * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days. 
-         * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-         * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.6.31&utm_source=github#specify-the-license or contact support@dynamsoft.com.
-         * LICENSE ALERT - THE END 
-         */
-
-        const showScannerBtn = document.getElementById('btn-show-scanner');
-        const openImageBtn = document.getElementById('btn-open-image');
-        const UIElement = document.getElementById('UIElement');
-        // timer for displaying MessageBox
-        let timer = null;
-        // scanner for decoding video
-        let pScanner = null;
-        // parser for parsing code
-        let pParser = null;
-        (async() => {
-            //Load the library on page load to speed things up.
-            try {
-                await Dynamsoft.DBR.BarcodeScanner.loadWasm();
-            } catch (ex) {
-                let errMsg;
-                if (ex.message.includes("network connection error")) {
-                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-                } else {
-                    errMsg = ex.message||ex;
-                }
-                console.error(errMsg);
-                alert(errMsg);
-            }
-        })();
-        // decode video from camera
-        showScannerBtn.addEventListener('click', () => {
-            showScannerBtn.style.display = "none";
-            startScanning(false);
-        });
-        document.getElementById("resultAlert_btn").addEventListener("click", closeResultAlert);
-        document.getElementById("confirm_btn").addEventListener("click", () => {
-            document.getElementById('hintMSG').innerHTML = "Click below to select a picture to read. <a href='javascript:void(0)' onclick='backToCameraMode()'>Back to camera mode</a>"
-            startScanning(true);
-            document.getElementById("message_box").style.display = "none";
-        });
-        document.getElementById("close_btn").addEventListener("click", () => {
-            document.getElementById("message_box").style.display = "none";
-        });
-
-        function backToHome() {
-            showScannerBtn.style.display = "block";
-            document.getElementById('hintMSG').hidden = true;
-            document.getElementById('header').hidden = false;
-            document.getElementById('readAgain').hidden = true;
-            document.getElementById('resultAlert').hidden = true;
-            document.getElementById('div-ui-container').hidden = true;
-            UIElement.classList.remove("show");
-            UIElement.style.display = "flex";
-            document.getElementById('resultAlert').innerHTML = "";
-        }
-
-        function backToCameraMode() {
-            closeResultAlert();
-            document.getElementById('hintMSG').innerText = "Aim at the barcode on the driver's license.";
-            startScanning(false);
-        }
-        async function startScanning(bSingleFrameMode) {
-            try {
-                let scanner = await (pScanner = pScanner || Dynamsoft.DBR.BarcodeScanner.createInstance());
-                if (scanner.singleFrameMode !== bSingleFrameMode) {
-                    scanner.hide();
-                    scanner.singleFrameMode = bSingleFrameMode;
-                }
-                await scanner.setUIElement(document.getElementById('div-ui-container'));
-                if (!bSingleFrameMode) {
-                    await scanner.updateRuntimeSettings("dense");
-                    let settings = await scanner.getRuntimeSettings();
-                    settings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
-                    await scanner.updateRuntimeSettings(settings);
-                    document.getElementById('header').hidden = true;
-                    UIElement.classList.add("show");
-                    scanner.onFrameRead = null;
-                } else {
-                    scanner.onFrameRead = (result) => {
-                        if (result.length === 0) {
-                            document.getElementById('resultAlert_content').innerText = "No PDF417 Barcode Found!";
-                            document.getElementById('resultAlert').hidden = false;
-                            document.addEventListener("mousedown", clickToHide);
-                        }
-                    }
-                }
-                scanner.onUniqueRead = (txt, result) => {
-                    document.getElementById("message_box").style.display = "none";
-                    clearTimeout(timer);
-                    extractResultAlert(result.barcodeBytes);
-                };
-                await scanner.show();
-                if (!bSingleFrameMode) {
-                    document.getElementById('hintMSG').innerText = "Aim at the barcode on the driver's license."
-                    document.getElementById('hintMSG').hidden = false;
-                    document.getElementById('div-ui-container').hidden = false;
-                    timer = setTimeout(() => {
-                        document.getElementById("message_box").style.display = "flex";
-                    }, 3000);
-                }
-            } catch (ex) {
-                let errMsg;
-                if (ex.message.includes("network connection error")) {
-                    errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-                } else {
-                    errMsg = ex.message||ex;
-                }
-                console.error(errMsg);
-                alert(errMsg);
-            }
-        }
-
-        function createNode(type, txt) {
-            let node = document.createElement(type);
-            if (txt)
-                node.innerText = txt;
-            return node;
-        }
-
-        async function extractResultAlert(bytesToParse) {
-            try {
-                let parser = await (pParser = pParser || Dynamsoft.DCP.CodeParser.createInstance());
-                await parser.setCodeFormat(Dynamsoft.DCP.EnumCodeFormat.CF_AUTO);
-
-                let parsedDLInfo = await parser.parseData(bytesToParse);
-                let resultShowNode = document.createElement("p");
-                let oriParseInfo;
-                if(parsedDLInfo.resultInfo && parsedDLInfo.resultInfo.AAMVADLInfo) {
-                    oriParseInfo = {...parsedDLInfo.basicPersonalInfo, ...parsedDLInfo.resultInfo, ...parsedDLInfo.resultInfo.AAMVADLInfo};
-                    delete oriParseInfo.AAMVADLInfo;
-                } else {
-                    oriParseInfo = {...parsedDLInfo.basicPersonalInfo, ...parsedDLInfo.resultInfo};
-                }
-                for (let o in oriParseInfo) {
-                    if(oriParseInfo[o]) {
-                        resultShowNode.appendChild(createNode("span", o));
-                        resultShowNode.appendChild(createNode("br"));
-                        resultShowNode.appendChild(createNode("strong", oriParseInfo[o]));
-                        resultShowNode.appendChild(createNode("br"));
-                        resultShowNode.appendChild(createNode("span", "------------------------------"));
-                        resultShowNode.appendChild(createNode("br"));
-                    }
-                }
-                document.getElementById('resultAlert_content').innerHTML = "";
-                document.getElementById('resultAlert_content').appendChild(resultShowNode);
-                document.getElementById('resultAlert').hidden = false;
-                document.addEventListener("mousedown", clickToHide);
-            } catch(ex) {
-                alert(ex.message);
-            }
-        }
-
-        function clickToHide(e) {
-            if (e.target === document.body || e.target.id === "hintMSG") {
-                closeResultAlert();
-                document.removeEventListener("click", arguments.callee);
-            }
-        }
-        async function closeResultAlert() {
-            document.getElementById('resultAlert').hidden = true;
-            document.getElementById('resultAlert_content').innerText = "";
-            let scanner = await pScanner;
-            if (!scanner.singleFrameMode) {
-                timer = setTimeout(() => {
-                    document.getElementById("message_box").style.display = "flex";
-                }, 3000);
-            }
-        }
-
-    </script>
-</body>
-<style>
-    * {
+    <style>
+      * {
         margin: 0;
         padding: 0;
-    }
-    
-    body {
+      }
+
+      body {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -241,70 +33,48 @@
         overflow: hidden;
         width: 100vw;
         height: 100vh;
-        margin: 0;
-    }
-    
-    .hintMSG {
+      }
+
+      #span-tip {
         position: absolute;
         font-size: 1rem;
         color: #fe8e14;
         top: 1vh;
-    }
-    
-    h1 {
+      }
+
+      h1 {
         font-size: 1.5em;
-    }
-    
-    a {
+      }
+
+      a {
         color: #fe8d14;
-    }
-    
-    a:hover {
+      }
+
+      a:hover {
         color: #fe8d14a1;
-    }
-    
-    .btn-show-scanner {
+      }
+
+      strong {
+        color: rgb(254, 142, 20);
+      }
+
+      #svg-start {
         width: 100px;
         height: 100px;
         fill: #aaa;
         cursor: pointer;
-    }
-    
-    .UIElement {
+      }
+
+      #div-main {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
         width: 50vw;
         height: 60vh;
-        margin: 0;
-    }
-    
-    .UIElement button {
-        width: 50%;
-        margin: 2vmin;
-        padding: 2vmin;
-        font-size: xx-large;
-    }
-    
-    .UIElement img {
-        height: 15vmin;
-        float: left;
-        margin: 15vmin;
-        cursor: pointer;
-    }
-    
-    .UIElement img:hover {
-        background-color: #fe8d14a1;
-    }
-    
-    .show {
-        height: 60vh;
-        width: 50vw;
-        top: 0;
-    }
-    
-    .dce-bg-camera {
+      }
+
+      .dce-bg-camera {
         position: absolute;
         left: 0;
         top: 0;
@@ -314,60 +84,49 @@
         width: 40%;
         height: 40%;
         fill: #aaa;
-    }
-    
-    .div-ui-container,
-    .dce-video-container {
-        position: relative;
+      }
+
+      #div-ui-container {
+        display: none;
         width: 100%;
         height: 100%;
-    }
-    
-    .resultAlert {
+      }
+
+      #div-result-container {
+        display: none;
         position: fixed;
-        height: 70vh;
         width: 50vw;
+        height: 70vh;
         z-index: 10;
         color: white;
         font-size: small;
         background: #222222;
         margin-top: 30px;
-    }
-    
-    .resultAlert_title {
-        position: fixed;
-        width: 50vw;
+      }
+
+      #div-result-container .div-result-header {
+        width: 100%;
         height: 30px;
         background-color: #000;
         font-size: 16px;
         line-height: 30px;
         padding-left: 10px;
         box-sizing: border-box;
-    }
-    
-    .resultAlert_title i {
-        top: 7px;
-    }
-    
-    .resultAlert_content {
+      }
+
+      #div-result-container .div-result-body {
         height: calc(70vh - 30px);
         overflow-y: auto;
-        margin-top: 30px;
         padding: 5px;
         box-sizing: border-box;
-    }
-    
-    .resultAlert p {
+      }
+
+      #div-result-container p {
         padding: 5px;
         margin: 0;
-    }
-    
-    strong {
-        color: rgb(254, 142, 20);
-    }
-    /* MessageBox */
-    
-    .message_box {
+      }
+
+      #div-message-container {
         display: none;
         align-items: center;
         width: 50vw;
@@ -379,61 +138,443 @@
         background-color: #f4f4f5;
         color: #909399;
         overflow: hidden;
-        transition: opacity .2s;
-    }
-    /* Small devices */
-    
-    @media only screen and (max-width: 1000px) {
-        .message_box {
-            width: 90vw;
-        }
-        .UIElement,
-        .show {
-            width: 80vw;
-        }
-        .resultAlert,
-        .resultAlert_title {
-            width: 80vw;
-        }
-    }
-    
-    .message_box_icon {
+        transition: opacity 0.2s;
+      }
+
+      #div-message-container .em-icon {
         font-size: 28px;
         width: 28px;
         line-height: 0;
-    }
-    
-    .message_box_container {
+      }
+
+      #div-message-container .div-message-content {
         display: table-cell;
         padding: 0 8px;
-    }
-    
-    .message_box_title {
+      }
+
+      .div-message-content > span {
         font-weight: 700;
         font-size: 14px;
         line-height: 18px;
-    }
-    
-    .message_box_content {
+      }
+
+      .div-message-content > p {
         font-size: 13px;
         margin: 5px 0 0;
         line-height: 20px;
-    }
-    
-    .api_highlight {
+      }
+
+      .api_highlight {
         font-weight: 700;
         background-color: #ddd;
         border-radius: 4px;
         padding: 2px;
-    }
-    
-    .message_box_closebtn {
+      }
+
+      .em-close {
         position: absolute;
         top: 12px;
         right: 15px;
         cursor: pointer;
         line-height: 0;
-    }
-</style>
+      }
 
+      /* Small devices */
+      @media only screen and (max-width: 1000px) {
+        #div-message-container {
+          width: 90vw;
+        }
+        #div-main {
+          width: 80vw;
+        }
+        #div-result-container {
+          width: 80vw;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <span id="span-tip">Aim at the barcode on the driver's license.</span>
+    <h1>Read A Driver's License</h1>
+    <div id="div-message-container">
+      <em class="em-icon"
+        ><svg
+          viewBox="0 0 1024 1024"
+          xmlns="http://www.w3.org/2000/svg"
+          p-id="3665"
+          width="32"
+          height="32"
+        >
+          <path
+            d="M544 789.333333h105.173333a10.666667 10.666667 0 0 0 10.666667-10.666666v-0.362667l-3.232-94.304a32 32 0 0 1 14.293333-27.765333C750.933333 603.189333 800 513.792 800 416c0-159.061333-128.938667-288-288-288S224 256.938667 224 416c0 97.813333 49.098667 187.232 129.141333 240.266667a32 32 0 0 1 14.314667 25.578666l3.338667 97.184a10.666667 10.666667 0 0 0 10.666666 10.304H480V572.693333l-76.64-81.429333a32 32 0 0 1 46.613333-43.861333l63.36 67.328 72.693334-68.661334a32 32 0 0 1 43.946666 46.528L544 573.792V789.333333z m320-373.333333a351.530667 351.530667 0 0 1-142.826667 283.146667l2.634667 76.96A74.666667 74.666667 0 0 1 649.173333 853.333333h-267.733333a74.666667 74.666667 0 0 1-74.624-72.106666l-2.784-81.194667A351.541333 351.541333 0 0 1 160 416C160 221.6 317.6 64 512 64s352 157.6 352 352zM416 960a32 32 0 0 1 0-64h192a32 32 0 0 1 0 64H416z"
+            p-id="3666"
+            fill="#909399"
+          ></path>
+        </svg>
+      </em>
+      <div class="div-message-content">
+        <span>Can't get scanning result for a long time?</span>
+        <p>
+          After setting the
+          <span class="api_highlight">singleFrameMode</span> as true, you can
+          open the camera to shoot (mobile device) or choose from local to get a
+          high-definition picture for recognition.
+          <a href="javascript:void(0)" id="a-switch">Have a try</a>
+        </p>
+        <em class="em-close"
+          ><svg
+            viewBox="0 0 1024 1024"
+            xmlns="http://www.w3.org/2000/svg"
+            p-id="4604"
+            width="10"
+            height="10"
+          >
+            <path
+              d="M512 456.310154L94.247385 38.557538a39.542154 39.542154 0 0 0-55.689847 0 39.266462 39.266462 0 0 0 0 55.689847L456.310154 512 38.557538 929.752615a39.542154 39.542154 0 0 0 0 55.689847 39.266462 39.266462 0 0 0 55.689847 0L512 567.689846l417.752615 417.752616c15.163077 15.163077 40.290462 15.36 55.689847 0a39.266462 39.266462 0 0 0 0-55.689847L567.689846 512 985.442462 94.247385a39.542154 39.542154 0 0 0 0-55.689847 39.266462 39.266462 0 0 0-55.689847 0L512 456.310154z"
+              p-id="4605"
+              fill="#c0c4cc"
+            ></path>
+          </svg>
+        </em>
+      </div>
+    </div>
+    <div id="div-main">
+      <svg id="svg-start" viewBox="0 0 2048 1792">
+        <path
+          d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z"
+        />
+      </svg>
+      <div id="div-ui-container"></div>
+    </div>
+    <div id="div-result-container">
+      <div class="div-result-header">
+        Results:
+        <em class="em-close" class="message_box_closebtn"
+          ><svg
+            viewBox="0 0 1024 1024"
+            xmlns="http://www.w3.org/2000/svg"
+            p-id="4604"
+            width="16"
+            height="16"
+          >
+            <path
+              d="M512 456.310154L94.247385 38.557538a39.542154 39.542154 0 0 0-55.689847 0 39.266462 39.266462 0 0 0 0 55.689847L456.310154 512 38.557538 929.752615a39.542154 39.542154 0 0 0 0 55.689847 39.266462 39.266462 0 0 0 55.689847 0L512 567.689846l417.752615 417.752616c15.163077 15.163077 40.290462 15.36 55.689847 0a39.266462 39.266462 0 0 0 0-55.689847L567.689846 512 985.442462 94.247385a39.542154 39.542154 0 0 0 0-55.689847 39.266462 39.266462 0 0 0-55.689847 0L512 456.310154z"
+              p-id="4605"
+              fill="#ffffff"
+            ></path>
+          </svg>
+        </em>
+      </div>
+      <div class="div-result-body"></div>
+    </div>
+    <script>
+      if (location.protocol === "file:") {
+        const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
+        console.warn(message);
+        alert(message);
+      }
+    </script>
+    <script>
+      /** LICENSE ALERT - README
+       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+       */
+
+      Dynamsoft.License.LicenseManager.initLicense(
+        "DLS2eyJoYW5kc2hha2VDb2RlIjoiNjY2Ni03Nzc3IiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vMTkyLjE2OC44LjEyMi9kbHMvIiwib3JnYW5pemF0aW9uSUQiOiI2NjY2IiwiY2hlY2tDb2RlIjoxNTEyMTgzMzg3fQ=="
+      );
+      Dynamsoft.DCP.CodeParser.license =
+        "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9";
+
+      /**
+       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+       * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+       * LICENSE ALERT - THE END
+       */
+
+      // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
+      Dynamsoft.CVR.CaptureVisionRouter.preloadModule(["DBR"]).catch((ex) => {
+        let errMsg;
+        if (ex.message.includes("network connection error")) {
+          errMsg =
+            "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        } else {
+          errMsg = ex.message || ex;
+        }
+        console.error(errMsg);
+        alert(errMsg);
+      });
+
+      // Preload "CodePaser" module for code parsing. It will save time on the initial parsing by skipping the module loading.
+      Dynamsoft.DCP.CodeParser.loadWasm().catch((ex) => {
+        let errMsg;
+        if (ex.message.includes("network connection error")) {
+          errMsg =
+            "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        } else {
+          errMsg = ex.message || ex;
+        }
+        console.error(errMsg);
+        alert(errMsg);
+      });
+
+      const svgStart = document.querySelector("#svg-start");
+      const openImageBtn = document.querySelector("#btn-open-image");
+      const divUIContainer = document.querySelector("#div-ui-container");
+      const divResultContainer = document.querySelector(
+        "#div-result-container"
+      );
+      // timer for displaying MessageBox
+      let timer;
+
+      const init = async () => {
+        try {
+          const parser = await Dynamsoft.DCP.CodeParser.createInstance();
+          await parser.setCodeFormat(Dynamsoft.DCP.EnumCodeFormat.CF_AUTO);
+
+          // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+          const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+          const cameraEnhancer =
+            await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+          divUIContainer.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+          // cameraEnhancer.setScanRegion({
+          //   x: 5,
+          //   y: 5,
+          //   width: 90,
+          //   height: 90,
+          //   isMeasuredInPercentage: true,
+          // }); // Set a scan region
+
+          // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+          const router =
+            await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+          router.setInput(cameraEnhancer);
+
+          // Filter out unchecked and duplicate results.
+          const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+          filter.enableResultCrossVerification(
+            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            true
+          ); // Filter out unchecked barcodes.
+          await router.addResultFilter(filter);
+
+          // Define a callback for results.
+          const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+          resultReceiver.onCapturedResultReceived = async (result) => {
+            const resultItems = result.items;
+            const barcodeResult = resultItems.find(
+              (item) =>
+                item.type ===
+                Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE
+            );
+
+            if (!barcodeResult) {
+              if (cameraEnhancer.singleFrameMode !== "disabled") {
+                document.querySelector(".div-result-body").innerText =
+                  "No PDF417 Barcode Found!";
+                divResultContainer.style.display = "block";
+                document.addEventListener("mousedown", clickToHide);
+              }
+              return;
+            }
+
+            if (
+              barcodeResult &&
+              cameraEnhancer.singleFrameMode === "disabled"
+            ) {
+              Dynamsoft.DCE.Feedback.beep(); // Trigger a beep.
+            }
+
+            document.querySelector("#div-message-container").style.display =
+              "none";
+            clearTimeout(timer);
+            extractResultAlert(barcodeResult.bytes);
+          };
+          router.addResultReceiver(resultReceiver);
+
+          //   const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+          //   resultReceiver.onDecodedBarcodesReceived = async (result) => {
+          //     const resultItems = result.barcodesResultItems;
+          //     if (!resultItems.length) {
+          //       document.querySelector(".div-result-body").innerText =
+          //         "No PDF417 Barcode Found!";
+          //       divResultContainer.style.display = "block";
+          //       document.addEventListener("mousedown", clickToHide);
+          //       return;
+          //     }
+
+          //     if (cameraEnhancer.singleFrameMode === "disabled") {
+          //       Dynamsoft.DCE.Feedback.beep(); // Trigger a beep.
+          //     }
+
+          //     document.querySelector("#div-message-container").style.display =
+          //       "none";
+          //     clearTimeout(timer);
+          //     extractResultAlert(resultItems[0].bytes);
+          //   };
+          //   router.addResultReceiver(resultReceiver);
+
+          let ss = await router.getSimplifiedSettings("ReadDenseBarcodes");
+          ss.barcodeSettings.barcodeFormatIds =
+            Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
+          await router.updateSettings("ReadDenseBarcodes", ss);
+
+          return {
+            parser,
+            cameraView,
+            cameraEnhancer,
+            router,
+          };
+        } catch (ex) {
+          let errMsg;
+          if (ex.message.includes("network connection error")) {
+            errMsg =
+              "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+          } else {
+            errMsg = ex.message || ex;
+          }
+          console.error(errMsg);
+          alert(errMsg);
+        }
+      };
+      const pInit = init();
+
+      // decode video from camera
+      svgStart.addEventListener("click", async () => {
+        document.querySelector("h1").style.display = "none";
+        svgStart.style.display = "none";
+        await switchToVideo();
+      });
+
+      document
+        .querySelector("#div-result-container .em-close")
+        .addEventListener("click", closeResultAlert);
+
+      document
+        .querySelector("#a-switch")
+        .addEventListener("click", async () => {
+          document.querySelector("#span-tip").innerHTML =
+            "Click below to select a picture to read. <a href='javascript:void(0)' onclick='backToCameraMode()'>Back to camera mode</a>";
+
+          await switchToSingleFrameMode();
+          document.querySelector("#div-message-container").style.display =
+            "none";
+        });
+
+      document
+        .querySelector(".div-message-content .em-close")
+        .addEventListener("click", () => {
+          document.querySelector("#div-message-container").style.display =
+            "none";
+        });
+
+      async function backToCameraMode() {
+        closeResultAlert();
+        document.querySelector("#span-tip").innerText =
+          "Aim at the barcode on the driver's license.";
+
+        await switchToVideo();
+      }
+
+      async function switchToSingleFrameMode() {
+        const { cameraEnhancer, router } = await pInit;
+        router.stopCapturing();
+        cameraEnhancer.close();
+        cameraEnhancer.singleFrameMode = "image";
+        await cameraEnhancer.open();
+        await router.startCapturing("ReadDenseBarcodes");
+      }
+
+      async function switchToVideo() {
+        document.querySelector("#div-main").style.display = "block";
+        document.querySelector("#span-tip").innerText =
+          "Aim at the barcode on the driver's license.";
+        document.querySelector("#span-tip").hidden = false;
+        divUIContainer.style.display = "block";
+
+        const { cameraEnhancer, router } = await pInit;
+        router.stopCapturing();
+        cameraEnhancer.close();
+        cameraEnhancer.singleFrameMode = "disabled";
+        await cameraEnhancer.open();
+        await router.startCapturing("ReadSingleBarcode");
+
+        timer = setTimeout(() => {
+          if (cameraEnhancer.singleFrameMode === "disabled") {
+            document.querySelector("#div-message-container").style.display =
+              "flex";
+          }
+        }, 3000);
+      }
+
+      function createNode(type, txt) {
+        let node = document.createElement(type);
+        if (txt) node.innerText = txt;
+        return node;
+      }
+
+      async function extractResultAlert(bytesToParse) {
+        try {
+          const { parser } = await pInit;
+          let parsedDLInfo = await parser.parseData(bytesToParse);
+          let resultShowNode = document.createElement("p");
+          let oriParseInfo;
+          if (parsedDLInfo.resultInfo && parsedDLInfo.resultInfo.AAMVADLInfo) {
+            oriParseInfo = {
+              ...parsedDLInfo.basicPersonalInfo,
+              ...parsedDLInfo.resultInfo,
+              ...parsedDLInfo.resultInfo.AAMVADLInfo,
+            };
+            delete oriParseInfo.AAMVADLInfo;
+          } else {
+            oriParseInfo = {
+              ...parsedDLInfo.basicPersonalInfo,
+              ...parsedDLInfo.resultInfo,
+            };
+          }
+          for (let o in oriParseInfo) {
+            if (oriParseInfo[o]) {
+              resultShowNode.appendChild(createNode("span", o));
+              resultShowNode.appendChild(createNode("br"));
+              resultShowNode.appendChild(createNode("strong", oriParseInfo[o]));
+              resultShowNode.appendChild(createNode("br"));
+              resultShowNode.appendChild(
+                createNode("span", "------------------------------")
+              );
+              resultShowNode.appendChild(createNode("br"));
+            }
+          }
+          document.querySelector(".div-result-body").innerHTML = "";
+          document
+            .querySelector(".div-result-body")
+            .appendChild(resultShowNode);
+          divResultContainer.style.display = "block";
+          document.addEventListener("mousedown", clickToHide);
+        } catch (ex) {
+          alert(ex.message);
+        }
+      }
+
+      function clickToHide(e) {
+        if (e.target === document.body || e.target.id === "span-tip") {
+          closeResultAlert();
+          document.removeEventListener("click", arguments.callee);
+        }
+      }
+      async function closeResultAlert() {
+        divResultContainer.style.display = "none";
+        document.querySelector(".div-result-body").innerText = "";
+        const { cameraEnhancer } = await pInit;
+        if (cameraEnhancer.singleFrameMode === "disabled") {
+          timer = setTimeout(() => {
+            if (cameraEnhancer.singleFrameMode === "disabled") {
+              document.querySelector("#div-message-container").style.display =
+                "flex";
+            }
+          }, 3000);
+        }
+      }
+    </script>
+  </body>
 </html>
