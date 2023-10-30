@@ -1,6 +1,6 @@
-# JavaScript Hello World Sample - Vue 3
+# Hello World Sample for Vue3
 
-[Vue 3](https://v3.vuejs.org/) is version 3 of Vue which is a progressive framework for building user interfaces. Check out the following guide on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Vue 3 application. Note that in this sample we will use `TypeScript`.
+[Vue 3](https://v3.vuejs.org/) is version 3 of Vue which is a progressive framework for building user interfaces. Check out the following guide on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Vue 3 application. Note that in this sample, `TypeScript` is used.
 
 ## Official Sample
 
@@ -20,7 +20,7 @@ npm create vue@3
 # When asked 'Add TypeScript?', select 'Yes'.
 ```
 
-### **CD** to the root directory of the application and install the dependencies
+### **CD** to the root directory of the application and install necessary libraries
 
 ```cmd
 npm install
@@ -445,6 +445,23 @@ npm run dev
 
 If you have followed all the steps correctly, you should now have a functioning page that allows you to scan barcodes from a webcam or a built-in camera. Additionally, if you want to decode a local image, you can click the `Image Decode` button and select the image you want to decode. Any barcodes that are detected will be displayed in a dialog.
 
+### Comment out the following code in `assets/main.css`. (optional)
+
+```css
+@media (min-width: 1024px) {
+  /* body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  } */
+}
+```
+
 ## Project Setup
 
 ```sh
@@ -462,3 +479,7 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Support
+
+If you have any questions, feel free to [contact Dynamsoft support](https://www.dynamsoft.com/company/contact?utm_source=sampleReadme).

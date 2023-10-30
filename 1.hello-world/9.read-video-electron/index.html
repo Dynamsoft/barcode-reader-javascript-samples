@@ -17,13 +17,6 @@
     </div>
     <input id="resultText" type="text" readonly="true">
     <script src="./node_modules/dynamsoft-javascript-barcode/dist/dbr.js"></script>
-    <script>
-        if(location.protocol === "file:") {
-            const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
-            console.warn(message);
-            alert(message);
-        }
-    </script>
     <script src="action.js"></script>
 </body>
 
