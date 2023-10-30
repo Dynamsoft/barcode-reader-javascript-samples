@@ -76,7 +76,7 @@ class VideoCapture extends React.Component {
       };
     } catch (ex: any) {
       let errMsg;
-      if (ex.message.includes("network connection error")) {
+      if (ex?.message.includes("network connection error")) {
         errMsg =
           "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
       } else {
