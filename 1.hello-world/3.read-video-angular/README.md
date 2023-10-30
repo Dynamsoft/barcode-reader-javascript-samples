@@ -1,10 +1,10 @@
-# Hello-world for Angular - Dynamsoft Barcode Reader Sample
+# Hello World Sample for Angular
 
 [Angular](https://angular.io/) is one of the most popular and mature JavaScript frameworks. Check out the following on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into an Angular application.
 
 ## Official Sample
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/1.hello-world/3.read-video-angular/dist/hello-world/">Hello World in Angular - Demo</a>
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/1.hello-world/3.read-video-angular/dist/read-video-angular/">Hello World in Angular - Demo</a>
 * <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/1.hello-world/3.read-video-angular">Hello World in Angular - Source Code</a>
 
 ## Preparation
@@ -16,11 +16,10 @@ Make sure you have [node](https://nodejs.org/) and [Angular CLI](https://cli.ang
 ### Create an out-of-the-box raw Angular application 
 
 ```cmd
-npm install -g @angular/cli
 ng new my-app
 ```
 
-### **CD** to the root directory of the application and install the library
+### **CD** to the root directory of the application and install necessary library
 
 ```cmd
 cd my-app
@@ -43,11 +42,11 @@ BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javas
 > * `engineResourcePath` tells the library where to get the necessary resources at runtime.
 
 ### Generate three components
-* `video-decode` component help read barcode from camera.
+* `video-decode` component helps read barcode from camera.
 ```cmd
 ng generate component video-decode
 ```
-* `img-decode` component help read barcode from still images.
+* `img-decode` component helps read barcode from still images.
 ```cmd
 ng generate component img-decode
 ```
@@ -90,7 +89,7 @@ export class VideoDecodeComponent implements OnInit {
       await scanner.open();
     } catch (ex: any) {
       let errMsg;
-      if (ex.message.includes('network connection error')) {
+      if (ex?.message.includes('network connection error')) {
         errMsg =
           'Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.';
       } else {
@@ -160,7 +159,7 @@ export class ImgDecodeComponent implements OnInit {
       if (!results.length) { alert('No barcode found'); }
     } catch (ex: any) {
       let errMsg;
-      if (ex.message.includes("network connection error")) {
+      if (ex?.message.includes("network connection error")) {
         errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
       } else {
         errMsg = ex.message||ex;
@@ -258,7 +257,7 @@ export class HelloWorldComponent implements OnInit {
       await BarcodeScanner.loadWasm();
     } catch (ex: any) {
       let errMsg;
-      if (ex.message.includes("network connection error")) {
+      if (ex?.message.includes("network connection error")) {
         errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
       } else {
         errMsg = ex.message||ex;
@@ -308,4 +307,4 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Support
 
-If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) via the "Let's Chat" button.
+If you have any questions, feel free to [contact Dynamsoft support](https://www.dynamsoft.com/company/contact?utm_source=sampleReadme).
