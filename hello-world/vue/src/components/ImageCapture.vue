@@ -18,7 +18,7 @@ const decodeImg = async (e: Event) => {
       console.log((item as BarcodeResultItem).text);
       texts += (item as BarcodeResultItem).text + "\n";
     }
-    if (texts != "") alert(texts);
+    if (texts !== "") alert(texts);
     if (!result.items.length) alert("No barcode found");
   } catch (ex: any) {
     let errMsg = ex.message || ex;

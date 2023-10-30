@@ -32,7 +32,7 @@ function ImageCapture() {
         console.log((item as BarcodeResultItem).text);
         texts += (item as BarcodeResultItem).text + "\n";
       }
-      if (texts != "") alert(texts);
+      if (texts !== "") alert(texts);
       if (!result.items.length) alert("No barcode found");
     } catch (ex: any) {
       if (ex.message.indexOf("network connection error")) {
