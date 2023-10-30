@@ -8,8 +8,8 @@ import "./HelloWorld.css";
 
 class HelloWorld extends React.Component {
   state = {
-    bShowVideoCapture: true,
-    bShowImageCapture: false,
+    bShowVideoCapture: false,
+    bShowImageCapture: true,
   };
 
   showVideoCapture = () => {
