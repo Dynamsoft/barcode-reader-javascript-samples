@@ -1,6 +1,6 @@
-# JavaScript Hello World Sample - React
+# Hello World Sample for React
 
-[React](https://reactjs.org/) is a JavaScript library meant explicitly for creating interactive UIs. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a React application. Note that in this sample we will use `TypeScript` and define components as classes. Also, there is another sample `read-video-react-hooks` showing using `Hooks` in React.
+[React](https://reactjs.org/) is a JavaScript library meant explicitly for creating interactive UIs. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a React application. Note that in this sample we will use `TypeScript` and define components as classes. Also, there is another sample `read-video-react-hooks` using `Hooks` in React.
 
 ## Official Sample
 
@@ -9,7 +9,7 @@
 
 ## Preparation
 
-Make sure you have [node](https://nodejs.org/) installed. `node 14.21.3` and `react 18.2.0` used in the example below.
+Make sure you have [node](https://nodejs.org/) installed. `node 14.21.3` and `react 18.2.0` are used in the example below.
 
 ## Create the sample project
 
@@ -19,7 +19,7 @@ Make sure you have [node](https://nodejs.org/) installed. `node 14.21.3` and `re
 npx create-react-app read-video-react --template typescript
 ```
 
-### **CD** to the root directory of the application and install the library
+### **CD** to the root directory of the application and install necessary library
 
 ```cmd
 cd read-video-react
@@ -365,4 +365,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Support
 
-If you have any questions, feel free to contact Dynamsoft support via [email](mailto:support@dynamsoft.com) or [live chat](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) via the "Let's Chat" button.
+If you have any questions, feel free to [contact Dynamsoft support](https://www.dynamsoft.com/company/contact?utm_source=sampleReadme).

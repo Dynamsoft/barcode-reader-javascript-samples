@@ -1,6 +1,6 @@
-# JavaScript Hello World Sample - Next.js
+# Hello World Sample for Next.js
 
-[Next.js](https://nextjs.org/) is an open-source development framework built on top of Node.js enabling [React](https://reactjs.org/) based web applications functionalities such as server-side rendering and generating static websites. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Next.js application. Note that in this sample we will use `TypeScript`.
+[Next.js](https://nextjs.org/) is an open-source development framework built on top of Node.js enabling [React](https://reactjs.org/) based web applications functionalities such as server-side rendering and generating static websites. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Next.js application. Note that in this sample `TypeScript` is used.
 
 ## Official Sample
 
@@ -18,7 +18,7 @@ Make sure you have [node](https://nodejs.org/) installed. `node 14.21.3` and `ne
 npx create-next-app@latest --typescript
 ```
 
-### **CD** to the root directory of the application and install the dependencies
+### **CD** to the root directory of the application and install the dependency
 
 ```cmd
 npm install dynamsoft-javascript-barcode
@@ -203,7 +203,7 @@ export default class ImgDecode extends Component {
 }
 ```
 
-### Edit the HelloWorld component
+### Edit the `HelloWorld` component
 
 * Add `VideoDecode` and `ImgDecode` components in HelloWorld.tsx
 
@@ -303,7 +303,7 @@ export default HelloWorld;
 }
 ```
 
-### Add the HelloWorld component to /pages/index.tsx
+### Add the `HelloWorld` component to /pages/index.tsx
 
 In index.tsx, import the `HelloWorld` component:
 
@@ -357,3 +357,7 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Support
+
+If you have any questions, feel free to [contact Dynamsoft support](https://www.dynamsoft.com/company/contact?utm_source=sampleReadme).
