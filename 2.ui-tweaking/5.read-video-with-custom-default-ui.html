@@ -143,7 +143,6 @@
                 li.appendChild(span);
                 optionsUl.appendChild(li);
             });
-            const camOptions = document.querySelectorAll("#ul_options_camera span");
         }
         // resolution selector renderer
         async function renderResolutionSelector() {
@@ -221,7 +220,6 @@
             await scanner.setResolution(targetResolution);
             const _currentResolution = await scanner.getResolution();
             const gotResolution = document.querySelector("#gotResolution span");
-            const resOptions = document.querySelectorAll("#ul_options_resolution span");
             gotResolution.textContent = 'got ' + _currentResolution[0] + ' x ' + _currentResolution[1];
             gotResolution.id = _currentResolution[0] + 'x' + _currentResolution[1];
             document.getElementById("selector_input_resolution").value = gotResolution.textContent;
