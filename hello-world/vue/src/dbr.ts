@@ -1,3 +1,3 @@
-import { BarcodeReaderModule } from "@dynamsoft/dynamsoft-barcode-reader";
+import { BarcodeReaderModule } from "dynamsoft-barcode-reader";
 
-BarcodeReaderModule.engineResourcePath = "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020180049/dist/";
+BarcodeReaderModule.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@9.6.20/dist/";
