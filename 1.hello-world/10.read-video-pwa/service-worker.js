@@ -1,5 +1,5 @@
 const dbrCdn = `https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.31/dist/`;
-const dbrVersion = dbrCdn.slice(dbrCdn.search(/(?<=dynamsoft-javascript-barcode@)./), dbrCdn.search(/\/dist/));
+const dbrVersion = dbrCdn.match(/(?<=dynamsoft-javascript-barcode@).+(?=\/dist)/)[0];
 
 // Files to cache
 const cacheName = 'helloworld-pwa';
