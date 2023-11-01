@@ -30,28 +30,28 @@
     <script type="importmap">
       {
         "imports": {
-          "@dynamsoft/dynamsoft-core": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231010152155/dist/core.mjs",
-          "@dynamsoft/dynamsoft-utility": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20231023103736/dist/utility.mjs",
-          "@dynamsoft/dynamsoft-barcode-reader": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020180049/dist/dbr.mjs",
-          "@dynamsoft/dynamsoft-document-normalizer": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-document-normalizer@2.0.12-dev-20231019180133/dist/ddn.mjs",
-          "@dynamsoft/dynamsoft-capture-vision-router": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231027145739/dist/cvr.mjs",
-          "@dynamsoft/dynamsoft-camera-enhancer": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231023131759/dist/dce.mjs"
+          "dynamsoft-core": "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.20/dist/core.mjs",
+          "dynamsoft-utility": "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.0.10/dist/utility.mjs",
+          "dynamsoft-barcode-reader": "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@9.6.20/dist/dbr.mjs",
+          "dynamsoft-document-normalizer": "https://cdn.jsdelivr.net/npm/dynamsoft-document-normalizer@2.0.12/dist/ddn.mjs",
+          "dynamsoft-capture-vision-router": "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.20/dist/cvr.mjs",
+          "dynamsoft-camera-enhancer": "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/dce.mjs"
         }
       }
     </script>
     <script type="module">
-      import { EnumCapturedResultItemType } from "@dynamsoft/dynamsoft-core";
-      import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
-      import { BarcodeReaderModule } from "@dynamsoft/dynamsoft-barcode-reader";
+      import { EnumCapturedResultItemType } from "dynamsoft-core";
+      import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
+      import { BarcodeReaderModule } from "dynamsoft-barcode-reader";
       import {
         LicenseManager,
         CaptureVisionRouter,
         CapturedResultReceiver,
-      } from "@dynamsoft/dynamsoft-capture-vision-router";
+      } from "dynamsoft-capture-vision-router";
       import {
         CameraView,
         CameraEnhancer,
-      } from "@dynamsoft/dynamsoft-camera-enhancer";
+      } from "dynamsoft-camera-enhancer";
 
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -64,16 +64,16 @@
       /**
        * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
        * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.6.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
        * LICENSE ALERT - THE END
        */
 
       CameraView.engineResourcePath =
-        "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.0/dist/";
+        "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/";
       BarcodeReaderModule.engineResourcePath =
-        "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231019180228/dist/";
+        "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@9.6.20/dist/";
       CaptureVisionRouter.engineResourcePath =
-        "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231019180504/dist/";
+        "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.20/dist/";
       (async function () {
         try {
           // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.

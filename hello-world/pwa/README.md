@@ -45,7 +45,7 @@ First, create a file with the name "helloworld-pwa.html" and fill it with the fo
     /**
      * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
      * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-     * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+     * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.6.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
      * LICENSE ALERT - THE END
      */
 
@@ -237,15 +237,15 @@ For offline use, you need to cache more files.
 service-worker.js
 ```javascript
 const coreResourcesDir =
-    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231010152155/dist/",
+    "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.20/dist/",
   utilityResourcesDir =
-    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20231023103736/dist/",
+    "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.0.10/dist/",
   dbrResourcesDir =
-    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020140243/dist/",
+    "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@9.6.20/dist/",
   cvrResourcesDir =
-    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231027145739/dist/",
+    "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.20/dist/",
   dceResourcesDir =
-    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231023131759/dist/";
+    "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/";
 
 // Files to cache
 const cacheName = "helloworld-pwa";
