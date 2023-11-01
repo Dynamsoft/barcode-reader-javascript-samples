@@ -39,7 +39,7 @@ First, create a file with the name "helloworld-pwa.html" and fill it with the fo
      */
 
     Dynamsoft.License.LicenseManager.initLicense(
-    "DLS2eyJoYW5kc2hha2VDb2RlIjoiNjY2Ni03Nzc3IiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vMTkyLjE2OC44LjEyMi9kbHMvIiwib3JnYW5pemF0aW9uSUQiOiI2NjY2IiwiY2hlY2tDb2RlIjoxNTEyMTgzMzg3fQ=="
+    "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
     );
 
     /**
