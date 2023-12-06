@@ -1,6 +1,6 @@
 # The Hello World Sample Set
 
-As you have already gone through the [user guide](https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=latest#getting-started---hello-world), you may have come across some basic "Hello World" code that can help you create a simple web application using our SDK quickly.
+As you have already gone through the [user guide](https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.6.32#getting-started---hello-world), you may have come across some basic "Hello World" code that can help you create a simple web application using our SDK quickly.
 
 In this set of samples, we will revisit the "Hello World" code and show how to implement it using some popular frameworks, such as Angular, React, and Vue.
 
@@ -26,7 +26,7 @@ The second sample in this set focuses on the secondary class `BarcodeReader` whi
 
 In this sample, an event listener is set up so that the SDK decodes any images that the user uploads.
 
-When working with the BarcodeReader class, the main method to use is [`decode`](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=latest#decode), although the class provides several other methods if you need to work with base64 strings or other formats. You can find the rest of the image decoding methods [here](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=latest#decode-barcodes).
+When working with the BarcodeReader class, the main method to use is [`decode`](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=9.6.32#decode), although the class provides several other methods if you need to work with base64 strings or other formats. You can find the rest of the image decoding methods [here](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=9.6.32#decode-barcodes).
 
 ## Hello World in Angular
 
