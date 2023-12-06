@@ -12,7 +12,7 @@
     "@types/node": "18.15.3",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
-    "dynamsoft-javascript-barcode": "^9.6.31",
+    "dynamsoft-javascript-barcode": "^9.6.32",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
