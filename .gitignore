@@ -28,6 +28,7 @@ __pycache__
 package-lock.json
 yarn.lock
 .git
+.npmrc
 /*.zip
 /*.py
 /*.exe

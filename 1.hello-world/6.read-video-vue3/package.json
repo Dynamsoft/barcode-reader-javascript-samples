@@ -10,7 +10,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "dynamsoft-javascript-barcode": "^9.6.31",
+    "dynamsoft-javascript-barcode": "^9.6.32",
     "vue": "^3.2.47"
   },
   "devDependencies": {

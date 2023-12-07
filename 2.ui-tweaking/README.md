@@ -105,7 +105,7 @@ Check out the following example code that demonstrates how to create a custom vi
 * <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/2.ui-tweaking/5.read-video-with-custom-default-ui.html">Customize the Default Ui - Demo</a>
 * <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/2.ui-tweaking/5.read-video-with-custom-default-ui.html">Customize the Default Ui - Source Code</a>
 
-To learn more about UI customization, please refer to its corresponding [section](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/?ver=latest#customize-the-ui-optional) in the user guide.
+To learn more about UI customization, please refer to its corresponding [section](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/?ver=9.6.32#customize-the-ui-optional) in the user guide.
 
 ## Support
 

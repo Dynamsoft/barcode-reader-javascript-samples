@@ -26,7 +26,7 @@ First, create a file with the name "helloworld-pwa.html" and fill it with the fo
 <body>
     <h1 style="font-size: 1.5em;">Hello World for PWA</h1>
     Loading...
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.31/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.32/dist/dbr.js"></script>
     <script>
         Dynamsoft.DBR.BarcodeReader.license = 'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9';
         (async function() {
@@ -184,9 +184,11 @@ For offline use, you need to cache more files.
 
 service-worker.js
 ```javascript
-const dbrVersion = "9.6.31";
-const dbrCdn = `https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@${dbrVersion}/dist/`;
+const dbrCdn = `https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.32/dist/`;
+const dbrVersion = dbrCdn.match(/(?<=dynamsoft-javascript-barcode@).+(?=\/dist)/)[0];
 
+// Files to cache
+const cacheName = 'helloworld-pwa';
 const appShellFiles = [
     './helloworld-pwa.html',
     './dynamsoft-192x192.png',
