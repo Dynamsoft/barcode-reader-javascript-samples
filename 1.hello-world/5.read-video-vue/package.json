@@ -7,7 +7,7 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
-    "dynamsoft-javascript-barcode": "^9.6.31",
+    "dynamsoft-javascript-barcode": "^9.6.32",
     "vue": "^2.7.7"
   },
   "devDependencies": {

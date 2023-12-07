@@ -11,6 +11,6 @@
     "nuxt": "^3.2.3"
   },
   "dependencies": {
-    "dynamsoft-javascript-barcode": "^9.6.31"
+    "dynamsoft-javascript-barcode": "^9.6.32"
   }
 }
