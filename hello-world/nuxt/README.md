@@ -36,14 +36,14 @@ npm install dynamsoft-camera-enhancer
 
 ```typescript
 // dbr.ts
-import { BarcodeReaderModule } from "@dynamsoft/dynamsoft-barcode-reader";
-BarcodeReaderModule.engineResourcePath = "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231020180049/dist/";
+import { BarcodeReaderModule } from "dynamsoft-barcode-reader";
+BarcodeReaderModule.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@9.6.20/dist/";
 ```
 
 ```typescript
 // cvr.ts
-import { CaptureVisionRouter, LicenseManager } from '@dynamsoft/dynamsoft-capture-vision-router';
-CaptureVisionRouter.engineResourcePath = 'https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231027145739/dist/';
+import { CaptureVisionRouter, LicenseManager } from 'dynamsoft-capture-vision-router';
+CaptureVisionRouter.engineResourcePath = 'https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.20/dist/';
 LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9');
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
 CaptureVisionRouter.preloadModule(['DBR']).catch((ex) => {
@@ -61,8 +61,8 @@ CaptureVisionRouter.preloadModule(['DBR']).catch((ex) => {
 
 ```typescript
 // dce.ts
-import { CameraView } from "@dynamsoft/dynamsoft-camera-enhancer";
-CameraView.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.0/dist/";
+import { CameraView } from "dynamsoft-camera-enhancer";
+CameraView.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/";
 ```
 
 > Note:
@@ -91,17 +91,17 @@ import {
   getCurrentInstance,
   type Ref,
 } from "vue";
-import { EnumCapturedResultItemType } from "@dynamsoft/dynamsoft-core";
-import { type DecodedBarcodesResult } from "@dynamsoft/dynamsoft-barcode-reader";
+import { EnumCapturedResultItemType } from "dynamsoft-core";
+import { type DecodedBarcodesResult } from "dynamsoft-barcode-reader";
 import {
   CameraEnhancer,
   CameraView,
-} from "@dynamsoft/dynamsoft-camera-enhancer";
+} from "dynamsoft-camera-enhancer";
 import {
   CapturedResultReceiver,
   CaptureVisionRouter,
-} from "@dynamsoft/dynamsoft-capture-vision-router";
-import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
+} from "dynamsoft-capture-vision-router";
+import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 
 const pInit: Ref<Promise<{
   cameraView: CameraView;
@@ -217,8 +217,8 @@ onBeforeUnmount(async () => {
 ```vue
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, type Ref } from "vue";
-import { type BarcodeResultItem } from "@dynamsoft/dynamsoft-barcode-reader";
-import { CaptureVisionRouter } from "@dynamsoft/dynamsoft-capture-vision-router";
+import { type BarcodeResultItem } from "dynamsoft-barcode-reader";
+import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 
 const pInit: Ref<Promise<CaptureVisionRouter> | null> = ref(null);
 
