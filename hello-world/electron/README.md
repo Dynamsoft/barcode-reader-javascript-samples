@@ -86,11 +86,11 @@ Create the page to be loaded in the created window.
     <meta name="keywords" content="barcode, camera, Electron">
     <title>Dynamsoft Barcode Reader Sample - Electron</title>
     <link href="style.css" rel="stylesheet">
-    <script src="./node_modules/@dynamsoft/dynamsoft-core/dist/core.js"></script>
-    <script src="./node_modules/@dynamsoft/dynamsoft-utility/dist/utility.js"></script>
-    <script src="./node_modules/@dynamsoft/dynamsoft-barcode-reader/dist/dbr.js"></script>
-    <script src="./node_modules/@dynamsoft/dynamsoft-capture-vision-router/dist/cvr.js"></script>
-    <script src="./node_modules/@dynamsoft/dynamsoft-camera-enhancer/dist/dce.js"></script>
+    <script src="./node_modules/dynamsoft-core/dist/core.js"></script>
+    <script src="./node_modules/dynamsoft-utility/dist/utility.js"></script>
+    <script src="./node_modules/dynamsoft-barcode-reader/dist/dbr.js"></script>
+    <script src="./node_modules/dynamsoft-capture-vision-router/dist/cvr.js"></script>
+    <script src="./node_modules/dynamsoft-camera-enhancer/dist/dce.js"></script>
   </head>
   <body>
     <h1>Hello World for Electron</h1>
@@ -110,22 +110,22 @@ Create the page to be loaded in the created window.
  */
 
 Dynamsoft.License.LicenseManager.initLicense(
-  "DLS2eyJoYW5kc2hha2VDb2RlIjoiNjY2Ni03Nzc3IiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vMTkyLjE2OC44LjEyMi9kbHMvIiwib3JnYW5pemF0aW9uSUQiOiI2NjY2IiwiY2hlY2tDb2RlIjoxNTEyMTgzMzg3fQ=="
+  "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
 );
 
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
  * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.6.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
  * LICENSE ALERT - THE END
  */
 
 Dynamsoft.DCE.CameraView.engineResourcePath =
-  "./node_modules/@dynamsoft/dynamsoft-camera-enhancer/dist/";
+  "./node_modules/dynamsoft-camera-enhancer/dist/";
 Dynamsoft.DBR.BarcodeReaderModule.engineResourcePath =
-  "./node_modules/@dynamsoft/dynamsoft-barcode-reader/dist/";
+  "./node_modules/dynamsoft-barcode-reader/dist/";
 Dynamsoft.CVR.CaptureVisionRouter.engineResourcePath =
-  "./node_modules/@dynamsoft/dynamsoft-capture-vision-router/dist/";
+  "./node_modules/dynamsoft-capture-vision-router/dist/";
 (async function () {
   try {
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
