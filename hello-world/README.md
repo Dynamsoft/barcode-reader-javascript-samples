@@ -12,21 +12,38 @@ In this example, you will learn the minimum codes required to initialize and set
 
 Let's quickly break down the methods used in order:
 
-* `license`: This property specifies a license key.
-* `createInstance()`: This method creates a `BarcodeScanner` object. This object can read barcodes directly from a video input with the help of its interactive UI (hidden by default) and the MediaDevices interface.
-* `onFrameRead`: This event is triggered every time the SDK finishes scanning a video frame. The `results` object contains all the barcode results that the SDK have found on this frame. In this example, we print the results to the browser console.
-* `onUniqueRead`: This event is triggered when the SDK finds a new barcode, which is unique among multiple frames. `txt` holds the barcode text value while `result` is an object that holds details of the barcode. In this example, an alert will be displayed on unique reads.
-* `show()`: This method brings up the built-in UI of the `BarcodeScanner` object and starts scanning
+- `Dynamsoft.License.LicenseManager.initLicense()`: This method initializes the license for using the SDK in the application.
+- `Dynamsoft.CVR.CaptureVisionRouter.createInstance()`: This method creates a `CaptureVisionRouter` object `router` which controls the entire process in three steps:
+  - **Retrieve Images from the Image Source**
+    - `router` connects to the image source through the [`Image Source Adapter`](https://www.dynamsoft.com/capture-vision/docs/core/architecture/input.html#image-source-adapter?lang=js) interface with the method `setInput()`.
+      ```js
+      router.setInput(cameraEnhancer);
+      ```
+    > The image source in our case is a CameraEnhancer object created with `Dynamsoft.DCE.CameraEnhancer.createInstance(view)`
+  - **Coordinate Image-Processing Tasks**
+    - The coordination happens behind the scenes. `router` starts the process by specifying a preset template "ReadSingleBarcode" with the method `startCapturing()`.
+      ```js
+      router.startCapturing("ReadSingleBarcode");
+      ```
+  - **Dispatch Results to Listening Objects**
+    - The processing results are returned through the [`CapturedResultReceiver`](https://www.dynamsoft.com/capture-vision/docs/core/architecture/output.html#captured-result-receiver?lang=js) interface. The `CapturedResultReceiver` object `resultReceiver` is registered to `router` via the method `addResultReceiver()`.
+      ```js
+      router.addResultReceiver(resultReceiver);
+      ```
+    - Also note that reading from video is extremely fast and there could be many duplicate results. We can use a `MultiFrameResultCrossFilter` object with result deduplication enabled to filter out the duplicate results. The object is registered to `router` via the method `addResultFilter()`.
+      ```js
+      router.addResultFilter(filter);
+      ```
 
-Actually, it is not necessary to define both onFrameRead and onUniqueRead in the code. onUniqueRead is more commonly used because it is triggered only when a new barcode is detected, rather than on every frame.
+> Read more on [Capture Vision Router](https://www.dynamsoft.com/capture-vision/docs/core/architecture/#capture-vision-router).
 
 ## Hello World - Read Barcodes from an Image
 
-The second sample in this set focuses on the secondary class `BarcodeReader` which is a low-level barcode reader that processes static images and returns barcode results.
+The second sample processes static images and returns barcode results.
 
 In this sample, an event listener is set up so that the SDK decodes any images that the user uploads.
 
-When working with the BarcodeReader class, the main method to use is [`decode`](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=9.6.20#decode), although the class provides several other methods if you need to work with base64 strings or other formats. You can find the rest of the image decoding methods [here](https://www.dynamsoft.com/barcode-reader/programming/javascript/api-reference/BarcodeReader.html?ver=9.6.20#decode-barcodes).
+When working with the CaptureVisionRouter class for single image processing, the main method to use is [`capture`](https://officecn.dynamsoft.com:808/capture-vision/docs/web/programming/javascript/api-reference/capture-vision-router/single-file-processing.html?product=dbr&repoType=web#capture), You can find more details about this method at the link above.
 
 ## Hello World in Angular
 
