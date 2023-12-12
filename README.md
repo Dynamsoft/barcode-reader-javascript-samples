@@ -22,7 +22,7 @@ Get the basic features of the library working with plain/native JavaScript or wi
 
 * [**Hello World**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/1.hello-world.html?utm_source=sampleReadme): Scan barcodes from video stream with minimum code in JavaScript.
 * [**Read an Image**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/2.read-an-image.html?utm_source=sampleReadme): Decode barcodes from images in mobile album or desktop file system.
-* [**Hello World in Angular**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/3.read-video-angular/dist/read-video-angular/?utm_source=sampleReadme): Decode video stream in an Angular application from a webcam or a built-in camera.
+* [**Hello World in Angular**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/3.read-video-angular/dist/hello-world/?utm_source=sampleReadme): Decode video stream in an Angular application from a webcam or a built-in camera.
 * [**Hello World in React**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/4.read-video-react/build/?utm_source=sampleReadme): Decode video stream in a React application from a webcam or a built-in camera.
 * [**Hello World in React using Hooks**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/13.read-video-react-hooks/build/?utm_source=sampleReadme): Decode video stream in a React application from a webcam or a built-in camera and use the Hooks charactor of React.
 * [**Hello World in Vue**](https://demo.dynamsoft.com/samples/dbr/js/1.hello-world/5.read-video-vue/dist/?utm_source=sampleReadme): Decode video stream in a Vue 2 application from a webcam or a built-in camera.
