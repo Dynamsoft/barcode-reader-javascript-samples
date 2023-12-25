@@ -10,9 +10,12 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
-    "dynamsoft-camera-enhancer": "^4.0.1",
-    "dynamsoft-capture-vision-router": "^2.0.20",
-    "dynamsoft-utility": "^1.0.10",
+    "@dynamsoft/dynamsoft-barcode-reader": "^10.0.20-dev-20231222153407",
+    "@dynamsoft/dynamsoft-camera-enhancer": "^4.0.1-dev-20231222174818",
+    "@dynamsoft/dynamsoft-capture-vision-router": "^2.0.20-dev-20231222144235",
+    "@dynamsoft/dynamsoft-core": "^3.0.20-dev-20231222173812",
+    "@dynamsoft/dynamsoft-license": "^3.0.0-dev-20231222153411",
+    "@dynamsoft/dynamsoft-utility": "^1.0.10-dev-20231220174819",
     "vue": "^3.3.4"
   },
   "devDependencies": {

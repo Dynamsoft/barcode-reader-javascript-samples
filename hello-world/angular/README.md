@@ -23,28 +23,50 @@ ng new my-app
 
 ```cmd
 cd my-app
-npm install dynamsoft-utility
-npm install dynamsoft-capture-vision-router
-npm install dynamsoft-camera-enhancer
+npm install @dynamsoft/dynamsoft-core
+npm install @dynamsoft/dynamsoft-license
+npm install @dynamsoft/dynamsoft-utility
+npm install @dynamsoft/dynamsoft-barcode-reader
+npm install @dynamsoft/dynamsoft-capture-vision-router
+npm install @dynamsoft/dynamsoft-camera-enhancer
 ```
 
 ## Start to implement
 
-### Add files "dbr.ts", "cvr.ts" and "dce.ts" under "/src/" to configure libraries
+### Add file "cvr.ts" under "/src/" to configure libraries
 
 ```typescript
-// dbr.ts
-import { BarcodeReaderModule } from "dynamsoft-barcode-reader";
-BarcodeReaderModule.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@9.6.20/dist/";
-```
+import { CoreModule } from '@dynamsoft/dynamsoft-core';
+import { LicenseManager } from '@dynamsoft/dynamsoft-license';
+import '@dynamsoft/dynamsoft-barcode-reader';
 
-```typescript
-// cvr.ts
-import { CaptureVisionRouter, LicenseManager } from 'dynamsoft-capture-vision-router';
-CaptureVisionRouter.engineResourcePath = 'https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.20/dist/';
-LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9');
+/** LICENSE ALERT - README
+ * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+ */
+
+LicenseManager.initLicense(
+  'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9'
+);
+
+/**
+ * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+ * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.6.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+ * LICENSE ALERT - THE END
+ */
+
+CoreModule.engineResourcePaths = {
+  std: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-std@1.0.0-dev-20231222202916/dist/",
+  dip: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-image-processing@2.0.30-dev-20231219135109/dist/",
+  core: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231222181259/dist/",
+  license: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-license@3.0.0-dev-20231222153411/dist/",
+  cvr: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231222144235/dist/",
+  dbr: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231222153407/dist/",
+  dce: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231222174818/dist/"
+};
+
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
-CaptureVisionRouter.preloadModule(['DBR']).catch((ex) => {
+CoreModule.loadWasm(['DBR']).catch((ex) => {
   let errMsg;
   if (ex.message?.includes('network connection error')) {
     errMsg =
@@ -57,16 +79,10 @@ CaptureVisionRouter.preloadModule(['DBR']).catch((ex) => {
 });
 ```
 
-```typescript
-// dce.ts
-import { CameraView } from "dynamsoft-camera-enhancer";
-CameraView.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/";
-```
-
 > Note:
 >
 > * `initLicense()` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days. 
-> * `engineResourcePath` tells the library where to get the necessary resources at runtime.
+> * `engineResourcePaths` tells the library where to get the necessary resources at runtime.
 
 ### Generate three components
 * `video-capture` component helps read barcode from camera.
@@ -103,17 +119,17 @@ ng generate component hello-world
 
 ```typescript
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { EnumCapturedResultItemType } from 'dynamsoft-core'
-import { DecodedBarcodesResult } from 'dynamsoft-barcode-reader';
+import { EnumCapturedResultItemType } from '@dynamsoft/dynamsoft-core'
+import { DecodedBarcodesResult } from '@dynamsoft/dynamsoft-barcode-reader';
 import {
   CameraEnhancer,
   CameraView,
-} from 'dynamsoft-camera-enhancer';
+} from '@dynamsoft/dynamsoft-camera-enhancer';
 import {
   CapturedResultReceiver,
   CaptureVisionRouter,
-} from 'dynamsoft-capture-vision-router';
-import { MultiFrameResultCrossFilter } from 'dynamsoft-utility';
+} from '@dynamsoft/dynamsoft-capture-vision-router';
+import { MultiFrameResultCrossFilter } from '@dynamsoft/dynamsoft-utility';
 
 @Component({
   selector: 'app-video-capture',
@@ -235,8 +251,8 @@ export class VideoCaptureComponent {
 
 ```typescript
 import { Component } from '@angular/core';
-import { BarcodeResultItem } from 'dynamsoft-barcode-reader';
-import { CaptureVisionRouter } from 'dynamsoft-capture-vision-router';
+import { BarcodeResultItem } from '@dynamsoft/dynamsoft-barcode-reader';
+import { CaptureVisionRouter } from '@dynamsoft/dynamsoft-capture-vision-router';
 
 @Component({
   selector: 'app-image-capture',
@@ -344,9 +360,7 @@ h1 {
 
 ```typescript
 import { Component } from '@angular/core';
-import '../../dbr'; // import side effects. The license, engineResourcePath, so on.
 import '../../cvr'; // import side effects. The license, engineResourcePath, so on.
-import '../../dce'; // import side effects. The license, engineResourcePath, so on.
 
 @Component({
   selector: 'app-hello-world',

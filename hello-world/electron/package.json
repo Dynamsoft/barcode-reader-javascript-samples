@@ -21,8 +21,13 @@
     "electron": "^26.4.1"
   },
   "dependencies": {
-    "dynamsoft-camera-enhancer": "^4.0.1",
-    "dynamsoft-capture-vision-router": "^2.0.20",
-    "dynamsoft-utility": "^1.0.10"
+    "@dynamsoft/dynamsoft-barcode-reader": "^10.0.20-dev-20231222153407",
+    "@dynamsoft/dynamsoft-camera-enhancer": "^4.0.1-dev-20231222174818",
+    "@dynamsoft/dynamsoft-capture-vision-router": "^2.0.20-dev-20231222144235",
+    "@dynamsoft/dynamsoft-capture-vision-std": "^1.0.0-dev-20231222202916",
+    "@dynamsoft/dynamsoft-core": "^3.0.20-dev-20231222181259",
+    "@dynamsoft/dynamsoft-image-processing": "^2.0.30-dev-20231219135109",
+    "@dynamsoft/dynamsoft-license": "^3.0.0-dev-20231222153411",
+    "@dynamsoft/dynamsoft-utility": "^1.0.10-dev-20231220174819"
   }
 }

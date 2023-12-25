@@ -1,13 +1,13 @@
-const coreResourcesDir =
-    "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.20/dist/",
-  utilityResourcesDir =
-    "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.0.10/dist/",
-  dbrResourcesDir =
-    "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@9.6.20/dist/",
-  cvrResourcesDir =
-    "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.20/dist/",
-  dceResourcesDir =
-    "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/";
+const resourcePaths = {
+  std: Dynamsoft.Core.engineResourcePaths.std.path || Dynamsoft.Core.engineResourcePaths.std,
+  dip: Dynamsoft.Core.engineResourcePaths.dip.path || Dynamsoft.Core.engineResourcePaths.dip,
+  core: Dynamsoft.Core.engineResourcePaths.core.path || Dynamsoft.Core.engineResourcePaths.core,
+  license: Dynamsoft.Core.engineResourcePaths.license.path || Dynamsoft.Core.engineResourcePaths.license,
+  utility: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20231220174819/dist/",
+  dbr: Dynamsoft.Core.engineResourcePaths.dbr.path || Dynamsoft.Core.engineResourcePaths.dbr,
+  cvr: Dynamsoft.Core.engineResourcePaths.cvr.path || Dynamsoft.Core.engineResourcePaths.cvr,
+  dce: Dynamsoft.Core.engineResourcePaths.dce.path || Dynamsoft.Core.engineResourcePaths.dce,
+}
 
 // Files to cache
 const cacheName = "helloworld-pwa";
@@ -16,19 +16,24 @@ const appShellFiles = [
   "./dynamsoft-192x192.png",
   "./dynamsoft-512x512.png",
   "./helloworld-pwa.json",
-  `${coreResourcesDir}core.js`,
-  `${utilityResourcesDir}utility.js`,
-  `${dbrResourcesDir}dbr.js`,
-  `${dbrResourcesDir}dbr.wasm`,
-  `${dbrResourcesDir}DBR-PresetTemplates.json`,
-  `${cvrResourcesDir}cvr.js`,
-  `${cvrResourcesDir}cvr.wasm`,
-  `${cvrResourcesDir}cvr.wasm.js`,
-  `${cvrResourcesDir}cvr_wasm_glue.js`,
-  `${cvrResourcesDir}cvr.browser.worker.js`,
-  `${cvrResourcesDir}dls.license.dialog.html`,
-  `${cvrResourcesDir}dce.js`,
-  `${cvrResourcesDir}dce.ui.html`,
+  `${resourcePaths.std}std.js`,
+  `${resourcePaths.std}std.wasm`,
+  `${resourcePaths.dip}dip.wasm`,
+  `${resourcePaths.core}core.js`,
+  `${resourcePaths.core}core.worker.js`,
+  `${resourcePaths.core}core.wasm`,
+  `${resourcePaths.license}license.js`,
+  `${resourcePaths.license}dls.license.dialog.html`,
+  `${resourcePaths.license}license.wasm`,
+  `${resourcePaths.utility}utility.js`,
+  `${resourcePaths.dbr}dbr.js`,
+  `${resourcePaths.dbr}dbr.wasm`,
+  `${resourcePaths.dbr}DBR-PresetTemplates.json`,
+  `${resourcePaths.cvr}cvr.js`,
+  `${resourcePaths.cvr}cvr.wasm`,
+  `${resourcePaths.cvr}cvr.worker.js`,
+  `${resourcePaths.dce}dce.js`,
+  `${resourcePaths.dce}dce.ui.html`,
 ];
 
 // Installing Service Worker

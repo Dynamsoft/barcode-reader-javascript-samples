@@ -1,15 +1,15 @@
 import React from "react";
-import { EnumCapturedResultItemType } from "dynamsoft-core";
-import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
+import { EnumCapturedResultItemType } from "@dynamsoft/dynamsoft-core";
+import { DecodedBarcodesResult } from "@dynamsoft/dynamsoft-barcode-reader";
 import {
   CameraEnhancer,
   CameraView,
-} from "dynamsoft-camera-enhancer";
+} from "@dynamsoft/dynamsoft-camera-enhancer";
 import {
   CapturedResultReceiver,
   CaptureVisionRouter,
-} from "dynamsoft-capture-vision-router";
-import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
+} from "@dynamsoft/dynamsoft-capture-vision-router";
+import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
 import "./VideoCapture.css";
 
 class VideoCapture extends React.Component {
