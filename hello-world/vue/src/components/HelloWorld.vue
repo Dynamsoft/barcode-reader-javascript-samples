@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, type Ref } from "vue";
-import "../dbr"; // import side effects. The license, engineResourcePath, so on.
 import "../cvr"; // import side effects. The license, engineResourcePath, so on.
-import "../dce"; // import side effects. The license, engineResourcePath, so on.
 import VideoCapture from "./VideoCapture.vue";
 import ImageCapture from './ImageCapture.vue'
 

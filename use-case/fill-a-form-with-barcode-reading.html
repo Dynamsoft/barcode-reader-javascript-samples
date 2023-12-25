@@ -15,11 +15,12 @@
     <title>
       Dynamsoft Barcode Reader Simple Sample - Read Video - Fill Form
     </title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.20/dist/core.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.0.10/dist/utility.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@9.6.20/dist/dbr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.20/dist/cvr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/dce.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231222173812/dist/core.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-license@3.0.0-dev-20231222153411/dist/license.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20231220174819/dist/utility.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231222153407/dist/dbr.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231222144235/dist/cvr.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231222174818/dist/dce.js"></script>
     <style>
       body {
         display: flex;
@@ -118,7 +119,7 @@
        */
 
       // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
-      Dynamsoft.CVR.CaptureVisionRouter.preloadModule(["DBR"]).catch((ex) => {
+      Dynamsoft.Core.CoreModule.loadWasm(["DBR"]).catch((ex) => {
         let errMsg;
         if (ex.message?.includes("network connection error")) {
           errMsg =
