@@ -14,13 +14,13 @@ Dynamsoft.License.LicenseManager.initLicense(
  */
 
 Dynamsoft.Core.CoreModule.engineResourcePaths = {
-  std: "./node_modules/@dynamsoft/dynamsoft-capture-vision-std/dist/",
-  dip: "./node_modules/@dynamsoft/dynamsoft-image-processing/dist/",
-  core: "./node_modules/@dynamsoft/dynamsoft-core/dist/",
-  license: "./node_modules/@dynamsoft/dynamsoft-license/dist/",
-  cvr: "./node_modules/@dynamsoft/dynamsoft-capture-vision-router/dist/",
+  std: "./node_modules/dynamsoft-capture-vision-std/dist/",
+  dip: "./node_modules/dynamsoft-image-processing/dist/",
+  core: "./node_modules/dynamsoft-core/dist/",
+  license: "./node_modules/dynamsoft-license/dist/",
+  cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
   dbr: "./node_modules/@dynamsoft/dynamsoft-barcode-reader/dist/",
-  dce: "./node_modules/@dynamsoft/dynamsoft-camera-enhancer/dist/"
+  dce: "./node_modules/dynamsoft-camera-enhancer/dist/"
 };
 (async function () {
   try {

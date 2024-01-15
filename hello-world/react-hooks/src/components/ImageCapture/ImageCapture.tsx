@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { BarcodeResultItem } from "@dynamsoft/dynamsoft-barcode-reader";
-import { CaptureVisionRouter } from "@dynamsoft/dynamsoft-capture-vision-router";
+import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import "./ImageCapture.css";
 
 function ImageCapture() {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BarcodeResultItem } from '@dynamsoft/dynamsoft-barcode-reader';
-import { CaptureVisionRouter } from '@dynamsoft/dynamsoft-capture-vision-router';
+import { CaptureVisionRouter } from 'dynamsoft-capture-vision-router';
 
 @Component({
   selector: 'app-image-capture',

@@ -22,6 +22,9 @@
   <body>
     <h1>Hello World for RequireJS (Decode via Camera)</h1>
     <div id="div-ui-container" style="width: 100%; height: 80vh"></div>
+    Results:
+    <br>
+    <div id="div-results-container" style="width: 100%; height: 10vh; overflow: auto;"></div>
     <script>
       if (location.protocol === "file:") {
         const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
@@ -32,29 +35,29 @@
     <script>
       requirejs.config({
         paths: {
-          "@dynamsoft/dynamsoft-core":
-            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231222181259/dist/core",
-          "@dynamsoft/dynamsoft-license":
-            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-license@3.0.0-dev-20231222153411/dist/license",
+          "dynamsoft-core":
+            "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.30/dist/core",
+          "dynamsoft-license":
+            "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.0.20/dist/license",
           "@dynamsoft/dynamsoft-utility":
-            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20231220174819/dist/utility",
+            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.20-dev-20240115141008/dist/utility",
           "@dynamsoft/dynamsoft-barcode-reader":
-            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231222153407/dist/dbr",
-          "@dynamsoft/dynamsoft-capture-vision-router":
-            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231222144235/dist/cvr",
-          "@dynamsoft/dynamsoft-camera-enhancer":
-            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231222174818/dist/dce",
+            "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20240115142402/dist/dbr",
+          "dynamsoft-capture-vision-router":
+            "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.30/dist/cvr",
+          "dynamsoft-camera-enhancer":
+            "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/dce",
         },
       });
 
       requirejs(
         [
-          "@dynamsoft/dynamsoft-core",
-          "@dynamsoft/dynamsoft-license",
+          "dynamsoft-core",
+          "dynamsoft-license",
           "@dynamsoft/dynamsoft-utility",
           "@dynamsoft/dynamsoft-barcode-reader",
-          "@dynamsoft/dynamsoft-capture-vision-router",
-          "@dynamsoft/dynamsoft-camera-enhancer",
+          "dynamsoft-capture-vision-router",
+          "dynamsoft-camera-enhancer",
         ],
         function (
           { CoreModule, EnumCapturedResultItemType },
@@ -80,13 +83,13 @@
            */
 
           CoreModule.engineResourcePaths = {
-            std: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-std@1.0.0-dev-20231222202916/dist/",
-            dip: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-image-processing@2.0.30-dev-20231219135109/dist/",
-            core: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231222181259/dist/",
-            license: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-license@3.0.0-dev-20231222153411/dist/",
-            cvr: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231222144235/dist/",
-            dbr: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231222153407/dist/",
-            dce: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231222174818/dist/"
+            std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.0.0/dist/",
+            dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.0.30/dist/",
+            core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.30/dist/",
+            license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.0.20/dist/",
+            cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.30/dist/",
+            dbr: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20240115142402/dist/",
+            dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/"
           };
           (async function () {
             try {
@@ -106,9 +109,13 @@
               // Define a callback for results.
               const resultReceiver = new CapturedResultReceiver();
               resultReceiver.onDecodedBarcodesReceived = (result) => {
+                if (!result.barcodesResultItems.length) return;
+
+                const resultsContainer = document.querySelector("#div-results-container");
+                resultsContainer.innerHTML = "";
+                console.log(result);
                 for (let item of result.barcodesResultItems) {
-                  console.log(item.text);
-                  alert(item.text);
+                  resultsContainer.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
                 }
               };
               router.addResultReceiver(resultReceiver);

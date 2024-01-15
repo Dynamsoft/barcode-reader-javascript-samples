@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, type Ref } from "vue";
 import { type BarcodeResultItem } from "@dynamsoft/dynamsoft-barcode-reader";
-import { CaptureVisionRouter } from "@dynamsoft/dynamsoft-capture-vision-router";
+import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 
 const pInit: Ref<Promise<CaptureVisionRouter> | null> = ref(null);
 

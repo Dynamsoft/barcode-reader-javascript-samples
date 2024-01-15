@@ -23,12 +23,12 @@ ng new my-app
 
 ```cmd
 cd my-app
-npm install @dynamsoft/dynamsoft-core
-npm install @dynamsoft/dynamsoft-license
+npm install dynamsoft-core
+npm install dynamsoft-license
 npm install @dynamsoft/dynamsoft-utility
 npm install @dynamsoft/dynamsoft-barcode-reader
-npm install @dynamsoft/dynamsoft-capture-vision-router
-npm install @dynamsoft/dynamsoft-camera-enhancer
+npm install dynamsoft-capture-vision-router
+npm install dynamsoft-camera-enhancer
 ```
 
 ## Start to implement
@@ -36,8 +36,8 @@ npm install @dynamsoft/dynamsoft-camera-enhancer
 ### Add file "cvr.ts" under "/src/" to configure libraries
 
 ```typescript
-import { CoreModule } from '@dynamsoft/dynamsoft-core';
-import { LicenseManager } from '@dynamsoft/dynamsoft-license';
+import { CoreModule } from 'dynamsoft-core';
+import { LicenseManager } from 'dynamsoft-license';
 import '@dynamsoft/dynamsoft-barcode-reader';
 
 /** LICENSE ALERT - README
@@ -56,13 +56,13 @@ LicenseManager.initLicense(
  */
 
 CoreModule.engineResourcePaths = {
-  std: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-std@1.0.0-dev-20231222202916/dist/",
-  dip: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-image-processing@2.0.30-dev-20231219135109/dist/",
-  core: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20231222181259/dist/",
-  license: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-license@3.0.0-dev-20231222153411/dist/",
-  cvr: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20231222144235/dist/",
-  dbr: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20231222153407/dist/",
-  dce: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20231222174818/dist/"
+  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.0.0/dist/",
+  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.0.30/dist/",
+  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.30/dist/",
+  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.0.20/dist/",
+  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.30/dist/",
+  dbr: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20240115142402/dist/",
+  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/"
 };
 
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
@@ -104,6 +104,9 @@ ng generate component hello-world
 
 ```html
 <div #uiContainer class="div-ui-container"></div>
+Results:
+<br>
+<div #resultsContainer id="div-results-container"></div>
 ```
 
 * Add CSS style in `video-capture.component.css`.
@@ -113,22 +116,28 @@ ng generate component hello-world
   width: 100%;
   height: 70vh;
 }
+
+.div-results-container {
+  width: 100%;
+  height: 10vh;
+  overflow: auto;
+}
 ```
 
 * In `video-capture.component.ts`, add code for initializing and destroying some instances.
 
 ```typescript
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { EnumCapturedResultItemType } from '@dynamsoft/dynamsoft-core'
+import { EnumCapturedResultItemType } from 'dynamsoft-core'
 import { DecodedBarcodesResult } from '@dynamsoft/dynamsoft-barcode-reader';
 import {
   CameraEnhancer,
   CameraView,
-} from '@dynamsoft/dynamsoft-camera-enhancer';
+} from 'dynamsoft-camera-enhancer';
 import {
   CapturedResultReceiver,
   CaptureVisionRouter,
-} from '@dynamsoft/dynamsoft-capture-vision-router';
+} from 'dynamsoft-capture-vision-router';
 import { MultiFrameResultCrossFilter } from '@dynamsoft/dynamsoft-utility';
 
 @Component({
@@ -144,6 +153,8 @@ export class VideoCaptureComponent {
   }> | null = null;
 
   @ViewChild('uiContainer') uiContainer: ElementRef<HTMLDivElement> | null =
+    null;
+  @ViewChild('resultsContainer') resultsContainer: ElementRef<HTMLDivElement> | null =
     null;
 
   async init(): Promise<{
@@ -164,9 +175,12 @@ export class VideoCaptureComponent {
       // Define a callback for results.
       const resultReceiver = new CapturedResultReceiver();
       resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
+        if (!result.barcodesResultItems.length) return;
+
+        this.resultsContainer!.nativeElement.innerHTML = "";
+        console.log(result);
         for (let item of result.barcodesResultItems) {
-          console.log(item.text);
-          alert(item.text);
+          this.resultsContainer!.nativeElement.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
         }
       };
       router.addResultReceiver(resultReceiver);
@@ -252,7 +266,7 @@ export class VideoCaptureComponent {
 ```typescript
 import { Component } from '@angular/core';
 import { BarcodeResultItem } from '@dynamsoft/dynamsoft-barcode-reader';
-import { CaptureVisionRouter } from '@dynamsoft/dynamsoft-capture-vision-router';
+import { CaptureVisionRouter } from 'dynamsoft-capture-vision-router';
 
 @Component({
   selector: 'app-image-capture',
