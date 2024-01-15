@@ -20,7 +20,7 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
   license: "./node_modules/dynamsoft-license/dist/",
   cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
   dbr: "./node_modules/@dynamsoft/dynamsoft-barcode-reader/dist/",
-  dce: "./node_modules/dynamsoft-camera-enhancer/dist/"
+  dce: "./node_modules/dynamsoft-camera-enhancer/dist/",
 };
 (async function () {
   try {
@@ -40,9 +40,13 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
     // Define a callback for results.
     const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
     resultReceiver.onDecodedBarcodesReceived = (result) => {
+      if (!result.barcodesResultItems.length) return;
+
+      const resultsContainer = document.querySelector("#div-results-container");
+      resultsContainer.innerHTML = "";
+      console.log(result);
       for (let item of result.barcodesResultItems) {
-        console.log(item.text);
-        alert(item.text);
+        resultsContainer.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
       }
     };
     router.addResultReceiver(resultReceiver);

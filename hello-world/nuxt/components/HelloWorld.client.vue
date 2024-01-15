@@ -51,7 +51,6 @@ button {
 
 .container {
   margin: 2vmin auto;
-  text-align: center;
   font-size: medium;
   width: 100%;
 }

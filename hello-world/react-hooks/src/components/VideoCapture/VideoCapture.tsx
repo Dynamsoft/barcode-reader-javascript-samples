@@ -13,6 +13,9 @@ import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
 import "./VideoCapture.css";
 
 function VideoCapture() {
+  const uiContainer = useRef<HTMLDivElement>(null);
+  const resultsContainer = useRef<HTMLDivElement>(null);
+
   const pInit = useRef(
     null as Promise<{
       cameraView: CameraView;
@@ -31,8 +34,8 @@ function VideoCapture() {
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
       const cameraView = await CameraView.createInstance();
       const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-      elRef.current!.innerText = "";
-      elRef.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+      uiContainer.current!.innerText = "";
+      uiContainer.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
       const router = await CaptureVisionRouter.createInstance();
@@ -43,8 +46,12 @@ function VideoCapture() {
       resultReceiver.onDecodedBarcodesReceived = (
         result: DecodedBarcodesResult
       ) => {
+        if (!result.barcodesResultItems.length) return;
+
+        resultsContainer.current!.innerHTML = "";
+        console.log(result);
         for (let item of result.barcodesResultItems) {
-          console.log(item.text);
+          resultsContainer.current!.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
         }
       };
       router.addResultReceiver(resultReceiver);
@@ -96,7 +103,6 @@ function VideoCapture() {
       cameraView.dispose();
     }
   };
-  const elRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     (async () => {
@@ -117,7 +123,14 @@ function VideoCapture() {
     };
   }, []);
 
-  return <div ref={elRef} className="div-ui-container"></div>;
+  return (
+    <div>
+      <div ref={uiContainer} className="div-ui-container"></div>
+      Results:
+      <br />
+      <div ref={resultsContainer} className="div-results-container"></div>
+    </div>
+  );
 }
 
 export default VideoCapture;
