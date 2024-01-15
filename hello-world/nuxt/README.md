@@ -109,10 +109,7 @@ import {
 } from "vue";
 import { EnumCapturedResultItemType } from "dynamsoft-core";
 import { type DecodedBarcodesResult } from "@dynamsoft/dynamsoft-barcode-reader";
-import {
-  CameraEnhancer,
-  CameraView,
-} from "dynamsoft-camera-enhancer";
+import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
 import {
   CapturedResultReceiver,
   CaptureVisionRouter,
@@ -124,7 +121,8 @@ const pInit: Ref<Promise<{
   cameraEnhancer: CameraEnhancer;
   router: CaptureVisionRouter;
 }> | null> = ref(null);
-const elRefs: Ref<HTMLElement | null> = ref(null);
+const uiContainer: Ref<HTMLElement | null> = ref(null);
+const resultsContainer: Ref<HTMLElement | null> = ref(null);
 
 const init = async (): Promise<{
   cameraView: CameraView;
@@ -135,7 +133,7 @@ const init = async (): Promise<{
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
     const cameraView = await CameraView.createInstance();
     const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-    elRefs.value!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+    uiContainer.value!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
     const router = await CaptureVisionRouter.createInstance();
@@ -146,9 +144,12 @@ const init = async (): Promise<{
     resultReceiver.onDecodedBarcodesReceived = (
       result: DecodedBarcodesResult
     ) => {
+      if (!result.barcodesResultItems.length) return;
+
+      resultsContainer.value!.innerHTML = "";
+      console.log(result);
       for (let item of result.barcodesResultItems) {
-        console.log(item.text);
-        alert(item.text);
+        resultsContainer.value!.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
       }
     };
     router.addResultReceiver(resultReceiver);
@@ -209,7 +210,10 @@ onBeforeUnmount(async () => {
 
 <template>
   <div>
-    <div ref="elRefs" class="div-ui-container"></div>
+    <div ref="uiContainer" class="div-ui-container"></div>
+    Results:
+    <br />
+    <div ref="resultsContainer" class="div-results-container"></div>
   </div>
 </template>
 
@@ -217,11 +221,13 @@ onBeforeUnmount(async () => {
 .div-ui-container {
   width: 100%;
   height: 70vh;
-  /* min-width: 640px; */
-  /* min-height: 480px; */
   background: #eee;
-  position: relative;
-  resize: both;
+}
+
+.div-results-container {
+  width: 100%;
+  height: 10vh;
+  overflow: auto;
 }
 </style>
 ```
@@ -355,7 +361,6 @@ button {
 
 .container {
   margin: 2vmin auto;
-  text-align: center;
   font-size: medium;
   width: 100%;
 }

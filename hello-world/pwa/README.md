@@ -26,6 +26,9 @@ First, create a file with the name "helloworld-pwa.html" and fill it with the fo
 <body>
 <h1>Hello World for PWA</h1>
 <div id="div-ui-container" style="width: 100%; height: 80vh"></div>
+Results:
+<br>
+<div id="div-results-container" style="width: 100%; height: 10vh; overflow: auto;"></div>
 <script>
     if (location.protocol === "file:") {
     const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
@@ -68,8 +71,14 @@ First, create a file with the name "helloworld-pwa.html" and fill it with the fo
         const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
         resultReceiver.onDecodedBarcodesReceived = (result) => {
         for (let item of result.barcodesResultItems) {
-            console.log(item.text);
-            alert(item.text);
+            if (!result.barcodesResultItems.length) return;
+
+            const resultsContainer = document.querySelector("#div-results-container");
+            resultsContainer.innerHTML = "";
+            console.log(result);
+            for (let item of result.barcodesResultItems) {
+              resultsContainer.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
+            }
         }
         };
         router.addResultReceiver(resultReceiver);

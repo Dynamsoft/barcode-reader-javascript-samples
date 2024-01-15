@@ -100,8 +100,7 @@
 
           // Open camera and start scanning single barcode.
           await cameraEnhancer.open();
-          // await router.startCapturing("ReadSingleBarcode");
-          await router.startCapturing("ReadBarcodes_SpeedFirst");
+          await router.startCapturing("ReadSingleBarcode");
         } catch (ex) {
           let errMsg;
           if (ex.message?.includes("network connection error")) {

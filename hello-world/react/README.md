@@ -157,7 +157,8 @@ class VideoCapture extends React.Component {
   }> | null = null;
   pDestroy: Promise<void> | null = null;
 
-  elRef: React.RefObject<HTMLDivElement> = React.createRef();
+  uiContainer: React.RefObject<HTMLDivElement> = React.createRef();
+  resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
 
   async init(): Promise<{
     cameraView: CameraView;
@@ -168,8 +169,8 @@ class VideoCapture extends React.Component {
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
       const cameraView = await CameraView.createInstance();
       const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-      this.elRef.current!.innerText = "";
-      this.elRef.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+      this.uiContainer.current!.innerText = "";
+      this.uiContainer.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
       const router = await CaptureVisionRouter.createInstance();
@@ -180,8 +181,12 @@ class VideoCapture extends React.Component {
       resultReceiver.onDecodedBarcodesReceived = (
         result: DecodedBarcodesResult
       ) => {
+        if (!result.barcodesResultItems.length) return;
+
+        this.resultsContainer.current!.innerHTML = "";
+        console.log(result);
         for (let item of result.barcodesResultItems) {
-          console.log(item.text);
+          this.resultsContainer.current!.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
         }
       };
       router.addResultReceiver(resultReceiver);
@@ -255,7 +260,14 @@ class VideoCapture extends React.Component {
   }
 
   render() {
-    return <div ref={this.elRef} className="div-ui-container"></div>;
+    return (
+      <div>
+        <div ref={this.uiContainer} className="div-ui-container"></div>
+        Results:
+        <br></br>
+        <div ref={this.resultsContainer} className="div-results-container"></div>
+      </div>
+    );
   }
 }
 
@@ -272,6 +284,12 @@ export default VideoCapture;
 .div-ui-container {
   width: 100%;
   height: 70vh;
+}
+
+.div-results-container {
+  width: 100%;
+  height: 10vh;
+  overflow: auto;
 }
 ```
 
@@ -474,7 +492,6 @@ button {
 
 .container {
     margin: 2vmin auto;
-    text-align: center;
     font-size: medium;
     width: 80vw;
 }

@@ -106,7 +106,7 @@ ng generate component hello-world
 <div #uiContainer class="div-ui-container"></div>
 Results:
 <br>
-<div #resultsContainer id="div-results-container"></div>
+<div #resultsContainer class="div-results-container"></div>
 ```
 
 * Add CSS style in `video-capture.component.css`.
