@@ -23,14 +23,14 @@ npm init
 
 ```cmd
 npm install electron --save-dev
-npm install @dynamsoft/dynamsoft-capture-vision-std
-npm install @dynamsoft/dynamsoft-image-processing
-npm install @dynamsoft/dynamsoft-core
-npm install @dynamsoft/dynamsoft-license
+npm install dynamsoft-capture-vision-std
+npm install dynamsoft-image-processing
+npm install dynamsoft-core
+npm install dynamsoft-license
 npm install @dynamsoft/dynamsoft-utility
 npm install @dynamsoft/dynamsoft-barcode-reader
-npm install @dynamsoft/dynamsoft-capture-vision-router
-npm install @dynamsoft/dynamsoft-camera-enhancer
+npm install dynamsoft-capture-vision-router
+npm install dynamsoft-camera-enhancer
 ```
 
 ## Start to implement
@@ -91,12 +91,12 @@ Create the page to be loaded in the created window.
     <meta name="keywords" content="barcode, camera, Electron">
     <title>Dynamsoft Barcode Reader Sample - Electron</title>
     <link href="style.css" rel="stylesheet">
-    <script src="./node_modules/@dynamsoft/dynamsoft-core/dist/core.js"></script>
-    <script src="./node_modules/@dynamsoft/dynamsoft-license/dist/license.js"></script>
+    <script src="./node_modules/dynamsoft-core/dist/core.js"></script>
+    <script src="./node_modules/dynamsoft-license/dist/license.js"></script>
     <script src="./node_modules/@dynamsoft/dynamsoft-utility/dist/utility.js"></script>
     <script src="./node_modules/@dynamsoft/dynamsoft-barcode-reader/dist/dbr.js"></script>
-    <script src="./node_modules/@dynamsoft/dynamsoft-capture-vision-router/dist/cvr.js"></script>
-    <script src="./node_modules/@dynamsoft/dynamsoft-camera-enhancer/dist/dce.js"></script>
+    <script src="./node_modules/dynamsoft-capture-vision-router/dist/cvr.js"></script>
+    <script src="./node_modules/dynamsoft-camera-enhancer/dist/dce.js"></script>
   </head>
   <body>
     <h1>Hello World for Electron</h1>
@@ -127,13 +127,13 @@ Dynamsoft.License.LicenseManager.initLicense(
  */
 
 Dynamsoft.Core.CoreModule.engineResourcePaths = {
-  std: "./node_modules/@dynamsoft/dynamsoft-capture-vision-std/dist/",
-  dip: "./node_modules/@dynamsoft/dynamsoft-image-processing/dist/",
-  core: "./node_modules/@dynamsoft/dynamsoft-core/dist/",
-  license: "./node_modules/@dynamsoft/dynamsoft-license/dist/",
-  cvr: "./node_modules/@dynamsoft/dynamsoft-capture-vision-router/dist/",
+  std: "./node_modules/dynamsoft-capture-vision-std/dist/",
+  dip: "./node_modules/dynamsoft-image-processing/dist/",
+  core: "./node_modules/dynamsoft-core/dist/",
+  license: "./node_modules/dynamsoft-license/dist/",
+  cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
   dbr: "./node_modules/@dynamsoft/dynamsoft-barcode-reader/dist/",
-  dce: "./node_modules/@dynamsoft/dynamsoft-camera-enhancer/dist/"
+  dce: "./node_modules/dynamsoft-camera-enhancer/dist/"
 };
 (async function () {
   try {

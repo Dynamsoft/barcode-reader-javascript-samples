@@ -15,12 +15,12 @@
     <title>
       Dynamsoft Barcode Reader Sample - Hello World (Decode via Camera)
     </title>
-    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-core@3.0.20-dev-20240103172308/dist/core.js"></script>
-    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-license@3.0.0-dev-20240103111927/dist/license.js"></script>
-    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20240105111526/dist/utility.js"></script>
-    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20240105110155/dist/dbr.js"></script>
-    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-capture-vision-router@2.0.20-dev-20240103180822/dist/cvr.js"></script>
-    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-camera-enhancer@4.0.1-dev-20240103095540/dist/dce.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.30/dist/core.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-license@3.0.20/dist/license.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.20-dev-20240115141008/dist/utility.js"></script>
+    <script src="https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20240115142402/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.30/dist/cvr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/dce.js"></script>
   </head>
 
   <body>
@@ -76,9 +76,7 @@
             resultsContainer.innerHTML = "";
             console.log(result);
             for (let item of result.barcodesResultItems) {
-              // console.log(item.text);
-              // alert(item.text);
-              resultsContainer.innerHTML += `${item.formatString}: ${item.text}<br>`;
+              resultsContainer.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
             }
           };
           router.addResultReceiver(resultReceiver);
@@ -102,8 +100,8 @@
 
           // Open camera and start scanning single barcode.
           await cameraEnhancer.open();
-          await router.startCapturing("ReadSingleBarcode");
-          // await router.startCapturing("ReadBarcodes_SpeedFirst");
+          // await router.startCapturing("ReadSingleBarcode");
+          await router.startCapturing("ReadBarcodes_SpeedFirst");
         } catch (ex) {
           let errMsg;
           if (ex.message?.includes("network connection error")) {

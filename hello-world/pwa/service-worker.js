@@ -3,7 +3,7 @@ const resourcePaths = {
   dip: Dynamsoft.Core.engineResourcePaths.dip.path || Dynamsoft.Core.engineResourcePaths.dip,
   core: Dynamsoft.Core.engineResourcePaths.core.path || Dynamsoft.Core.engineResourcePaths.core,
   license: Dynamsoft.Core.engineResourcePaths.license.path || Dynamsoft.Core.engineResourcePaths.license,
-  utility: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.10-dev-20231220174819/dist/",
+  utility: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.20-dev-20240115141008/dist/",
   dbr: Dynamsoft.Core.engineResourcePaths.dbr.path || Dynamsoft.Core.engineResourcePaths.dbr,
   cvr: Dynamsoft.Core.engineResourcePaths.cvr.path || Dynamsoft.Core.engineResourcePaths.cvr,
   dce: Dynamsoft.Core.engineResourcePaths.dce.path || Dynamsoft.Core.engineResourcePaths.dce,

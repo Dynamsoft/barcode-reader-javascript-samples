@@ -1,14 +1,14 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { EnumCapturedResultItemType } from '@dynamsoft/dynamsoft-core'
+import { EnumCapturedResultItemType } from 'dynamsoft-core'
 import { DecodedBarcodesResult } from '@dynamsoft/dynamsoft-barcode-reader';
 import {
   CameraEnhancer,
   CameraView,
-} from '@dynamsoft/dynamsoft-camera-enhancer';
+} from 'dynamsoft-camera-enhancer';
 import {
   CapturedResultReceiver,
   CaptureVisionRouter,
-} from '@dynamsoft/dynamsoft-capture-vision-router';
+} from 'dynamsoft-capture-vision-router';
 import { MultiFrameResultCrossFilter } from '@dynamsoft/dynamsoft-utility';
 
 @Component({
@@ -24,6 +24,8 @@ export class VideoCaptureComponent {
   }> | null = null;
 
   @ViewChild('uiContainer') uiContainer: ElementRef<HTMLDivElement> | null =
+    null;
+  @ViewChild('resultsContainer') resultsContainer: ElementRef<HTMLDivElement> | null =
     null;
 
   async init(): Promise<{
@@ -44,9 +46,12 @@ export class VideoCaptureComponent {
       // Define a callback for results.
       const resultReceiver = new CapturedResultReceiver();
       resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
+        if (!result.barcodesResultItems.length) return;
+
+        this.resultsContainer!.nativeElement.innerHTML = "";
+        console.log(result);
         for (let item of result.barcodesResultItems) {
-          console.log(item.text);
-          alert(item.text);
+          this.resultsContainer!.nativeElement.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
         }
       };
       router.addResultReceiver(resultReceiver);
