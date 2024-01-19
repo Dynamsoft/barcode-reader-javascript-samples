@@ -11,7 +11,7 @@ import {
   CapturedResultReceiver,
   CaptureVisionRouter,
 } from "dynamsoft-capture-vision-router";
-import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
+import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 import "./VideoCapture.css";
 
 function VideoCapture() {

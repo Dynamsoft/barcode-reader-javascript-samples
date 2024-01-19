@@ -33,9 +33,9 @@
     <script type="importmap">
       {
         "imports": {
-          "dynamsoft-core": "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.30/dist/core.mjs",
+          "dynamsoft-core": "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.31/dist/core.mjs",
           "dynamsoft-license": "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.0.20/dist/license.mjs",
-          "@dynamsoft/dynamsoft-utility": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.20-dev-20240115141008/dist/utility.mjs",
+          "dynamsoft-utility": "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.0.21/dist/utility.mjs",
           "@dynamsoft/dynamsoft-barcode-reader": "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20240115142402/dist/dbr.mjs",
           "dynamsoft-capture-vision-router": "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.30/dist/cvr.mjs",
           "dynamsoft-camera-enhancer": "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/dce.mjs"
@@ -45,7 +45,7 @@
     <script type="module">
       import { CoreModule, EnumCapturedResultItemType } from "dynamsoft-core";
       import { LicenseManager } from "dynamsoft-license";
-      import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
+      import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
       import { BarcodeReaderModule } from "@dynamsoft/dynamsoft-barcode-reader";
       import {
         CaptureVisionRouter,
@@ -74,7 +74,7 @@
       CoreModule.engineResourcePaths = {
         std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.0.0/dist/",
         dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.0.30/dist/",
-        core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.30/dist/",
+        core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.31/dist/",
         license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.0.20/dist/",
         cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.30/dist/",
         dbr: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20240115142402/dist/",

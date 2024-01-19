@@ -27,7 +27,7 @@ npm install dynamsoft-capture-vision-std
 npm install dynamsoft-image-processing
 npm install dynamsoft-core
 npm install dynamsoft-license
-npm install @dynamsoft/dynamsoft-utility
+npm install dynamsoft-utility
 npm install @dynamsoft/dynamsoft-barcode-reader
 npm install dynamsoft-capture-vision-router
 npm install dynamsoft-camera-enhancer
@@ -93,7 +93,7 @@ Create the page to be loaded in the created window.
     <link href="style.css" rel="stylesheet">
     <script src="./node_modules/dynamsoft-core/dist/core.js"></script>
     <script src="./node_modules/dynamsoft-license/dist/license.js"></script>
-    <script src="./node_modules/@dynamsoft/dynamsoft-utility/dist/utility.js"></script>
+    <script src="./node_modules/dynamsoft-utility/dist/utility.js"></script>
     <script src="./node_modules/@dynamsoft/dynamsoft-barcode-reader/dist/dbr.js"></script>
     <script src="./node_modules/dynamsoft-capture-vision-router/dist/cvr.js"></script>
     <script src="./node_modules/dynamsoft-camera-enhancer/dist/dce.js"></script>
