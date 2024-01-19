@@ -25,9 +25,9 @@
     "dynamsoft-camera-enhancer": "4.0.1",
     "dynamsoft-capture-vision-router": "2.0.30",
     "dynamsoft-capture-vision-std": "1.0.0",
-    "dynamsoft-core": "3.0.30",
+    "dynamsoft-core": "3.0.31",
     "dynamsoft-image-processing": "2.0.30",
     "dynamsoft-license": "3.0.20",
-    "@dynamsoft/dynamsoft-utility": "1.0.20-dev-20240115141008"
+    "dynamsoft-utility": "1.0.21"
   }
 }

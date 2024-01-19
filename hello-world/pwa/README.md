@@ -246,9 +246,9 @@ For offline use, you need to cache more files.
 service-worker.js
 ```javascript
 const coreResourcesDir =
-    "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.30/dist/",
+    "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.31/dist/",
   utilityResourcesDir =
-    "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-utility@1.0.20-dev-20240115141008/dist/",
+    "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.0.21/dist/",
   dbrResourcesDir =
     "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20240115142402/dist/",
   cvrResourcesDir =

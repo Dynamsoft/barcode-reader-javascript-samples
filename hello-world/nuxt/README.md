@@ -27,7 +27,7 @@ cd my-app
 npm install
 npm install dynamsoft-core
 npm install dynamsoft-license
-npm install @dynamsoft/dynamsoft-utility
+npm install dynamsoft-utility
 npm install @dynamsoft/dynamsoft-barcode-reader
 npm install dynamsoft-capture-vision-router
 npm install dynamsoft-camera-enhancer
@@ -60,7 +60,7 @@ LicenseManager.initLicense(
 CoreModule.engineResourcePaths = {
   std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.0.0/dist/",
   dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.0.30/dist/",
-  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.30/dist/",
+  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.31/dist/",
   license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.0.20/dist/",
   cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.30/dist/",
   dbr: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20240115142402/dist/",
@@ -114,7 +114,7 @@ import {
   CapturedResultReceiver,
   CaptureVisionRouter,
 } from "dynamsoft-capture-vision-router";
-import { MultiFrameResultCrossFilter } from "@dynamsoft/dynamsoft-utility";
+import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 
 const pInit: Ref<Promise<{
   cameraView: CameraView;
