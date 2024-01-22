@@ -41,7 +41,6 @@ function ImageCapture() {
       let errMsg = ex.message || ex;
       console.error(errMsg);
       alert(errMsg);
-      throw ex;
     }
     e.target.value = "";
   };

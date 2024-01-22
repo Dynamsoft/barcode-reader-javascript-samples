@@ -31,9 +31,9 @@ Results:
 <div id="div-results-container" style="width: 100%; height: 10vh; overflow: auto;"></div>
 <script>
     if (location.protocol === "file:") {
-    const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
-    console.warn(message);
-    alert(message);
+        const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
+        console.warn(message);
+        alert(message);
     }
 </script>
 <script>
@@ -74,10 +74,14 @@ Results:
             if (!result.barcodesResultItems.length) return;
 
             const resultsContainer = document.querySelector("#div-results-container");
-            resultsContainer.innerHTML = "";
+            resultsContainer.textContent = '';
             console.log(result);
             for (let item of result.barcodesResultItems) {
-              resultsContainer.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
+              resultsContainer.append(
+                `${item.formatString}: ${item.text}`,
+                document.createElement('br'),
+                document.createElement('hr'),
+              );
             }
         }
         };
@@ -104,13 +108,7 @@ Results:
         await cameraEnhancer.open();
         await router.startCapturing("ReadSingleBarcode");
     } catch (ex) {
-        let errMsg;
-        if (ex.message?.includes("network connection error")) {
-        errMsg =
-            "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-        } else {
-        errMsg = ex.message || ex;
-        }
+        let errMsg = ex.message || ex;
         console.error(errMsg);
         alert(errMsg);
     }
