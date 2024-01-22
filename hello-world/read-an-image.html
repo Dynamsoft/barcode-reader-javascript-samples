@@ -42,13 +42,15 @@
       // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
       Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
-      let pRouter;
       const divResultContainer = document.querySelector(
         "#div-result-container"
       );
+      
+      const pRouter = Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+
       document.querySelector("input").onchange = async () => {
         try{
-          const router = await (pRouter || pRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance());
+          const router = await pRouter;
           // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
           const result = await router.capture(
             this.files[0],
