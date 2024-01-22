@@ -101,6 +101,9 @@ Create the page to be loaded in the created window.
   <body>
     <h1>Hello World for Electron</h1>
     <div id="div-ui-container"></div>
+    Results:
+    <br>
+    <div id="div-results-container"></div>
     <script src="action.js"></script>
   </body>
 </html>
@@ -153,9 +156,17 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
     // Define a callback for results.
     const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
     resultReceiver.onDecodedBarcodesReceived = (result) => {
+      if (!result.barcodesResultItems.length) return;
+
+      const resultsContainer = document.querySelector("#div-results-container");
+      resultsContainer.textContent = '';
+      console.log(result);
       for (let item of result.barcodesResultItems) {
-        console.log(item.text);
-        alert(item.text);
+        resultsContainer.append(
+          `${item.formatString}: ${item.text}`,
+          document.createElement('br'),
+          document.createElement('hr'),
+        );
       }
     };
     router.addResultReceiver(resultReceiver);
@@ -181,13 +192,7 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
     await cameraEnhancer.open();
     await router.startCapturing("ReadSingleBarcode");
   } catch (ex) {
-    let errMsg;
-    if (ex.message?.includes("network connection error")) {
-      errMsg =
-        "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-    } else {
-      errMsg = ex.message || ex;
-    }
+    let errMsg = ex.message || ex;
     console.error(errMsg);
     alert(errMsg);
   }
@@ -202,6 +207,12 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
 #div-ui-container {
   width: 100%;
   height: 80vh;
+}
+
+#div-results-container {
+  width: 100%;
+  height: 10vh;
+  overflow: auto;
 }
 ```
 

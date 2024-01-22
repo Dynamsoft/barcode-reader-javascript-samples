@@ -66,17 +66,7 @@ CoreModule.engineResourcePaths = {
 };
 
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
-CoreModule.loadWasm(['DBR']).catch((ex) => {
-  let errMsg;
-  if (ex.message?.includes('network connection error')) {
-    errMsg =
-      'Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.';
-  } else {
-    errMsg = ex.message || ex;
-  }
-  console.error(errMsg);
-  alert(errMsg);
-});
+CoreModule.loadWasm(['DBR']);
 ```
 
 > Note:
@@ -139,6 +129,7 @@ import {
   CaptureVisionRouter,
 } from 'dynamsoft-capture-vision-router';
 import { MultiFrameResultCrossFilter } from 'dynamsoft-utility';
+import '../../cvr'; // import side effects. The license, engineResourcePath, so on.
 
 @Component({
   selector: 'app-video-capture',
@@ -177,10 +168,14 @@ export class VideoCaptureComponent {
       resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
         if (!result.barcodesResultItems.length) return;
 
-        this.resultsContainer!.nativeElement.innerHTML = "";
+        this.resultsContainer!.nativeElement.textContent = '';
         console.log(result);
         for (let item of result.barcodesResultItems) {
-          this.resultsContainer!.nativeElement.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
+          this.resultsContainer!.nativeElement.append(
+            `${item.formatString}: ${item.text}`,
+            document.createElement('br'),
+            document.createElement('hr'),
+          );
         }
       };
       router.addResultReceiver(resultReceiver);
@@ -211,13 +206,7 @@ export class VideoCaptureComponent {
         router,
       };
     } catch (ex: any) {
-      let errMsg;
-      if (ex.message?.includes('network connection error')) {
-        errMsg =
-          'Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.';
-      } else {
-        errMsg = ex.message || ex;
-      }
+      let errMsg = ex.message || ex;
       console.error(errMsg);
       alert(errMsg);
       throw ex;
@@ -267,6 +256,7 @@ export class VideoCaptureComponent {
 import { Component } from '@angular/core';
 import { BarcodeResultItem } from '@dynamsoft/dynamsoft-barcode-reader';
 import { CaptureVisionRouter } from 'dynamsoft-capture-vision-router';
+import '../../cvr'; // import side effects. The license, engineResourcePath, so on.
 
 @Component({
   selector: 'app-image-capture',
@@ -292,13 +282,7 @@ export class ImageCaptureComponent {
       if (texts != '') alert(texts);
       if (!result.items.length) alert('No barcode found');
     } catch (ex: any) {
-      let errMsg;
-      if (ex.message?.includes('network connection error')) {
-        errMsg =
-          'Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.';
-      } else {
-        errMsg = ex.message || ex;
-      }
+      let errMsg = ex.message || ex;
       console.error(errMsg);
       alert(errMsg);
     }
