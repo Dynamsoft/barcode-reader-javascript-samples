@@ -40,34 +40,30 @@
        */
 
       // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
-      Dynamsoft.Core.CoreModule.loadWasm(["DBR"]).catch((ex) => {
-        let errMsg;
-        if (ex.message?.includes("network connection error")) {
-          errMsg =
-            "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-        } else {
-          errMsg = ex.message || ex;
-        }
-        console.error(errMsg);
-        alert(errMsg);
-      });
+      Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
-      const promise = Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+      let pRouter;
       const divResultContainer = document.querySelector(
         "#div-result-container"
       );
-      document.querySelector("input").onchange = async function () {
-        const router = await promise;
-        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-        const result = await router.capture(
-          this.files[0],
-          "ReadBarcodes_SpeedFirst"
-        );
+      document.querySelector("input").onchange = async () => {
+        try{
+          const router = await (pRouter || pRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance());
+          // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
+          const result = await router.capture(
+            this.files[0],
+            "ReadBarcodes_SpeedFirst"
+          );
 
-        divResultContainer.innerText = "Result:\n";
-        for (let item of result.items) {
-          divResultContainer.innerText += item.text + "\n";
-          console.log(item.text);
+          divResultContainer.innerText = "Result:\n";
+          for (let item of result.items) {
+            divResultContainer.innerText += item.text + "\n";
+            console.log(item.text);
+          }
+        } catch(ex) {
+          let errMsg = ex.message || ex;
+          console.error(errMsg);
+          alert(errMsg);
         }
       };
     </script>

@@ -91,7 +91,7 @@
             dbr: "https://npm.scannerproxy.com/cdn/@dynamsoft/dynamsoft-barcode-reader@10.0.20-dev-20240115142402/dist/",
             dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/"
           };
-          (async function () {
+          (async () => {
             try {
               // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
               const cameraView = await CameraView.createInstance();
@@ -112,10 +112,14 @@
                 if (!result.barcodesResultItems.length) return;
 
                 const resultsContainer = document.querySelector("#div-results-container");
-                resultsContainer.innerHTML = "";
+                resultsContainer.textContent = '';
                 console.log(result);
                 for (let item of result.barcodesResultItems) {
-                  resultsContainer.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
+                  resultsContainer.append(
+                    `${item.formatString}: ${item.text}`,
+                    document.createElement('br'),
+                    document.createElement('hr'),
+                  );
                 }
               };
               router.addResultReceiver(resultReceiver);
@@ -141,13 +145,7 @@
               await cameraEnhancer.open();
               await router.startCapturing("ReadBarcodes_SpeedFirst");
             } catch (ex) {
-              let errMsg;
-              if (ex.message?.includes("network connection error")) {
-                errMsg =
-                  "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-              } else {
-                errMsg = ex.message || ex;
-              }
+              let errMsg = ex.message || ex;
               console.error(errMsg);
               alert(errMsg);
             }
