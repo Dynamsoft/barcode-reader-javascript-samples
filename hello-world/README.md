@@ -43,7 +43,7 @@ The second sample processes static images and returns barcode results.
 
 In this sample, an event listener is set up so that the SDK decodes any images that the user uploads.
 
-When working with the CaptureVisionRouter class for single image processing, the main method to use is [`capture`](https://officecn.dynamsoft.com:808/capture-vision/docs/web/programming/javascript/api-reference/capture-vision-router/single-file-processing.html?product=dbr&repoType=web#capture), You can find more details about this method at the link above.
+When working with the CaptureVisionRouter class for single image processing, the main method to use is [`capture`](https://dynamsoft.com/capture-vision/docs/web/programming/javascript/api-reference/capture-vision-router/single-file-processing.html?product=dbr&repoType=web#capture), You can find more details about this method at the link above.
 
 ## Hello World in Angular
 
