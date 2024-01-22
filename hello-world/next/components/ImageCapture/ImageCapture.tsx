@@ -3,6 +3,7 @@
 import React, { useRef, useEffect } from "react";
 import { BarcodeResultItem } from "@dynamsoft/dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
+import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
 import "./ImageCapture.css";
 
 function ImageCapture() {
@@ -37,12 +38,9 @@ function ImageCapture() {
       if (texts !== "") alert(texts);
       if (!result.items.length) alert("No barcode found");
     } catch (ex: any) {
-      if (ex.message.indexOf("network connection error")) {
-        let customMsg =
-          "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-        console.log(customMsg);
-        alert(customMsg);
-      }
+      let errMsg = ex.message || ex;
+      console.error(errMsg);
+      alert(errMsg);
       throw ex;
     }
     e.target.value = "";

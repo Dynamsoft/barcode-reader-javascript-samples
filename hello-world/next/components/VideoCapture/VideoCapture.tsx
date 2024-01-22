@@ -12,6 +12,7 @@ import {
   CaptureVisionRouter,
 } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
+import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
 import "./VideoCapture.css";
 
 function VideoCapture() {
@@ -50,10 +51,14 @@ function VideoCapture() {
       ) => {
         if (!result.barcodesResultItems.length) return;
 
-        resultsContainer.current!.innerHTML = "";
+        resultsContainer.current!.textContent = '';
         console.log(result);
         for (let item of result.barcodesResultItems) {
-          resultsContainer.current!.innerHTML += `${item.formatString}: ${item.text}<br><hr>`;
+          resultsContainer.current!.append(
+            `${item.formatString}: ${item.text}`,
+            document.createElement('br'),
+            document.createElement('hr'),
+          );
         }
       };
       router.addResultReceiver(resultReceiver);
@@ -84,13 +89,7 @@ function VideoCapture() {
         router,
       };
     } catch (ex: any) {
-      let errMsg;
-      if (ex.message?.includes("network connection error")) {
-        errMsg =
-          "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-      } else {
-        errMsg = ex.message || ex;
-      }
+      let errMsg = ex.message || ex;
       console.error(errMsg);
       alert(errMsg);
       throw ex;
