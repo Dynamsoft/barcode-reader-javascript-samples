@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { EnumCapturedResultItemType } from "dynamsoft-core";
-import { DecodedBarcodesResult } from "@dynamsoft/dynamsoft-barcode-reader";
+import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
 import {
   CameraEnhancer,
   CameraView,
