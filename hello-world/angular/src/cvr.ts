@@ -22,7 +22,7 @@ CoreModule.engineResourcePaths = {
   dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.0.30/dist/",
   core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.32/dist/",
   license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.0.20/dist/",
-  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.30/dist/",
+  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.31/dist/",
   dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.0.20/dist/",
   dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/"
 };
