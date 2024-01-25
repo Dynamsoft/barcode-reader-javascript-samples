@@ -165,7 +165,7 @@
           // Define a callback for results.
           const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
           resultReceiver.onDecodedBarcodesReceived = async (result) => {
-            const resultItems = result.barcodesResultItems;
+            const resultItems = result.barcodeResultItems;
             if (!resultItems.length) return;
 
             Dynamsoft.DCE.Feedback.beep(); // Trigger a beep.
@@ -196,7 +196,7 @@
           // Define a callback for results.
           const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
           resultReceiver.onDecodedBarcodesReceived = async (result) => {
-            const resultItems = result.barcodesResultItems;
+            const resultItems = result.barcodeResultItems;
             if (!resultItems.length) return;
 
             this.value = resultItems[0].text;

@@ -49,11 +49,11 @@ function VideoCapture() {
       resultReceiver.onDecodedBarcodesReceived = (
         result: DecodedBarcodesResult
       ) => {
-        if (!result.barcodesResultItems.length) return;
+        if (!result.barcodeResultItems.length) return;
 
         resultsContainer.current!.textContent = '';
         console.log(result);
-        for (let item of result.barcodesResultItems) {
+        for (let item of result.barcodeResultItems) {
           resultsContainer.current!.append(
             `${item.formatString}: ${item.text}`,
             document.createElement('br'),

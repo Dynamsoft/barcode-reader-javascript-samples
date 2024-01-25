@@ -40,12 +40,12 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
     // Define a callback for results.
     const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
     resultReceiver.onDecodedBarcodesReceived = (result) => {
-      if (!result.barcodesResultItems.length) return;
+      if (!result.barcodeResultItems.length) return;
 
       const resultsContainer = document.querySelector("#div-results-container");
       resultsContainer.textContent = '';
       console.log(result);
-      for (let item of result.barcodesResultItems) {
+      for (let item of result.barcodeResultItems) {
         resultsContainer.append(
           `${item.formatString}: ${item.text}`,
           document.createElement('br'),

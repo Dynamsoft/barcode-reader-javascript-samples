@@ -166,11 +166,11 @@ export class VideoCaptureComponent {
       // Define a callback for results.
       const resultReceiver = new CapturedResultReceiver();
       resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
-        if (!result.barcodesResultItems.length) return;
+        if (!result.barcodeResultItems.length) return;
 
         this.resultsContainer!.nativeElement.textContent = '';
         console.log(result);
-        for (let item of result.barcodesResultItems) {
+        for (let item of result.barcodeResultItems) {
           this.resultsContainer!.nativeElement.append(
             `${item.formatString}: ${item.text}`,
             document.createElement('br'),
