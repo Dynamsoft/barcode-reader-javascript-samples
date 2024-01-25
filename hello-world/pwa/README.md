@@ -250,7 +250,7 @@ const coreResourcesDir =
   dbrResourcesDir =
     "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.0.20/dist/",
   cvrResourcesDir =
-    "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.30/dist/",
+    "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.31/dist/",
   dceResourcesDir =
     "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/";
 

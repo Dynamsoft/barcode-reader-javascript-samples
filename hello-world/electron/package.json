@@ -23,7 +23,7 @@
   "dependencies": {
     "dynamsoft-barcode-reader": "10.0.20",
     "dynamsoft-camera-enhancer": "4.0.1",
-    "dynamsoft-capture-vision-router": "2.0.30",
+    "dynamsoft-capture-vision-router": "2.0.31",
     "dynamsoft-capture-vision-std": "1.0.0",
     "dynamsoft-core": "3.0.32",
     "dynamsoft-image-processing": "2.0.30",
