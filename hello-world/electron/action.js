@@ -9,7 +9,7 @@ Dynamsoft.License.LicenseManager.initLicense(
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
  * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=9.6.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
  * LICENSE ALERT - THE END
  */
 
@@ -19,7 +19,7 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
   core: "./node_modules/dynamsoft-core/dist/",
   license: "./node_modules/dynamsoft-license/dist/",
   cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
-  dbr: "./node_modules/@dynamsoft/dynamsoft-barcode-reader/dist/",
+  dbr: "./node_modules/dynamsoft-barcode-reader/dist/",
   dce: "./node_modules/dynamsoft-camera-enhancer/dist/",
 };
 (async function () {

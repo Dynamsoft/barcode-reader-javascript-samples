@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BarcodeResultItem } from '@dynamsoft/dynamsoft-barcode-reader';
+import { BarcodeResultItem } from 'dynamsoft-barcode-reader';
 import { CaptureVisionRouter } from 'dynamsoft-capture-vision-router';
 import '../../cvr'; // import side effects. The license, engineResourcePath, so on.
 

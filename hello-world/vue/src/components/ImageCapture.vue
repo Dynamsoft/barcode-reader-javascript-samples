@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, type Ref } from "vue";
-import { type BarcodeResultItem } from "@dynamsoft/dynamsoft-barcode-reader";
+import { type BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import "../cvr"; // import side effects. The license, engineResourcePath, so on.
 
