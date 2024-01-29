@@ -1,0 +1,11 @@
+<div class="div-hello-world">
+  <h1>Hello World for Angular</h1>
+  <div>
+      <button [ngStyle]="{'margin-right': '10px', 'background-color': bShowVideoCapture ? 'rgb(255,174,55)' : 'white'}" (click)="showVideoCapture()">Decode Video</button>
+      <button [ngStyle]="{'background-color': !bShowVideoCapture ? 'rgb(255,174,55)' : 'white'}" (click)="showImageCapture()">Decode Image</button>
+  </div>
+  <div class="container">
+      <app-video-capture *ngIf="bShowVideoCapture"></app-video-capture>
+      <app-image-capture *ngIf="bShowImageCapture"></app-image-capture>
+  </div>
+</div>

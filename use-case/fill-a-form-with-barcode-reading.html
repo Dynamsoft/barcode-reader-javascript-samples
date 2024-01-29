@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Read barcodes and fill form fields using barcode with Barcode Reader. Get quick and accurate results in no time."
+    />
+    <meta name="keywords" content="fill form fields using barcodes" />
+    <link
+      rel="canonical"
+      href="https://demo.dynamsoft.com/samples/dbr/js/use-case/fill-a-form-with-barcode-reading.html"
+    />
+    <title>
+      Dynamsoft Barcode Reader Simple Sample - Read Video - Fill Form
+    </title>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.32/dist/core.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-license@3.0.20/dist/license.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.0.21/dist/utility.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.0.20/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.31/dist/cvr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/dce.js"></script>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        width: 100vw;
+        height: 80vh;
+        color: #455a64;
+        margin: 0;
+      }
+
+      #div-ui-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        text-align: center;
+        font-size: medium;
+        height: 100%;
+        width: 100%;
+      }
+
+      .latest-result {
+        display: block;
+        margin: 2vh auto;
+        padding: 0.4rem 0.8rem;
+        color: inherit;
+        width: 85%;
+        border: 1px solid #fe8e14;
+        font-size: 1.5rem;
+        border-radius: 0.2rem;
+        text-align: center;
+      }
+
+      .latest-result::placeholder {
+        color: #b0bec5;
+      }
+
+      .latest-result:focus {
+        outline: none;
+        box-shadow: 0.1rem 0.4rem 0.8rem #fe8e14;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="font-size: 1.5em">Read Barcodes as Input</h1>
+    <div id="inputs" style="text-align: center" hidden>
+      <h3>Click each input box to fill in!</h3>
+      <input
+        type="text"
+        class="latest-result"
+        readonly="true"
+        placeholder="Barcode Result 1"
+      />
+      <input
+        type="text"
+        class="latest-result"
+        readonly="true"
+        placeholder="Barcode Result 2"
+      />
+      <input
+        type="text"
+        class="latest-result"
+        readonly="true"
+        placeholder="Barcode Result 3"
+      />
+    </div>
+    <span id="lib-load" style="font-size: x-large">Loading Library...</span>
+    <div
+      id="div-ui-container"
+      style="width: 100%; height: 100%; background: #eee"
+      hidden
+    ></div>
+    <script>
+      if (location.protocol === "file:") {
+        const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
+        console.warn(message);
+        alert(message);
+      }
+    </script>
+    <script>
+      /** LICENSE ALERT - README
+       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+       */
+
+      Dynamsoft.License.LicenseManager.initLicense(
+        "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
+      );
+
+      /**
+       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+       * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+       * LICENSE ALERT - THE END
+       */
+
+      // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
+      Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
+
+      const divUIContainer = document.getElementById("div-ui-container");
+
+      const init = async () => {
+        try {
+          // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+          const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+          const cameraEnhancer =
+            await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+          document
+            .querySelector("#div-ui-container")
+            .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+          cameraEnhancer.setScanRegion({
+            x: 5,
+            y: 5,
+            width: 90,
+            height: 90,
+            isMeasuredInPercentage: true,
+          }); // Set a scan region
+
+          // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+          const router =
+            await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+          router.setInput(cameraEnhancer);
+
+          // Filter out unchecked and duplicate results.
+          const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+          filter.enableResultCrossVerification(
+            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            true
+          ); // Filter out unchecked barcodes.
+          // Filter out duplicate barcodes within 3 seconds.
+          filter.enableResultDeduplication(
+            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            true
+          );
+          filter.setDuplicateForgetTime(
+            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            3000
+          );
+          await router.addResultFilter(filter);
+
+          // Define a callback for results.
+          const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+          resultReceiver.onDecodedBarcodesReceived = async (result) => {
+            const resultItems = result.barcodeResultItems;
+            if (!resultItems.length) return;
+
+            Dynamsoft.DCE.Feedback.beep(); // Trigger a beep.
+          };
+          router.addResultReceiver(resultReceiver);
+
+          document.getElementById("inputs").hidden = false;
+          document.getElementById("lib-load").hidden = true;
+
+          return {
+            cameraView,
+            cameraEnhancer,
+            router,
+          };
+        } catch (ex) {
+          let errMsg = ex.message || ex;
+          console.error(errMsg);
+          alert(errMsg);
+        }
+      };
+      const pInit = init();
+
+      const allInputs = document.getElementsByClassName("latest-result");
+      for (let input of allInputs) {
+        input.addEventListener("click", async function () {
+          const { cameraView, cameraEnhancer, router } = await pInit;
+
+          // Define a callback for results.
+          const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+          resultReceiver.onDecodedBarcodesReceived = async (result) => {
+            const resultItems = result.barcodeResultItems;
+            if (!resultItems.length) return;
+
+            this.value = resultItems[0].text;
+            router.stopCapturing();
+            cameraEnhancer.close();
+            divUIContainer.hidden = true;
+
+            router.removeResultReceiver(resultReceiver);
+          };
+          router.addResultReceiver(resultReceiver);
+
+          divUIContainer.hidden = false;
+
+          // Open camera and start scanning single barcode.
+          await cameraEnhancer.open();
+          await router.startCapturing("ReadSingleBarcode");
+        });
+      }
+    </script>
+  </body>
+</html>
