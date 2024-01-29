@@ -1,0 +1,27 @@
+.div-hello-world {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #455A64;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+button {
+    font-size: 1.5rem;
+    margin: 1.5vh 0;
+    border: 1px solid black;
+    background-color: white;
+    color: black;
+}
+
+.container {
+    margin: 2vmin auto;
+    font-size: medium;
+    width: 80vw;
+}

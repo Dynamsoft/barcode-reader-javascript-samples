@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Read barcodes from camera with Dynamsoft Barcode Reader and show result texts on the video."
+    />
+    <meta name="keywords" content="read barcode from camera, custom style" />
+    <link
+      rel="canonical"
+      href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/show-result-texts-on-the-video.html"
+    />
+    <title>
+      Dynamsoft Barcode Reader Sample - Show Result Texts on the Video
+    </title>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.32/dist/core.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-license@3.0.20/dist/license.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.0.21/dist/utility.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.0.20/dist/dbr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.0.31/dist/cvr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.1/dist/dce.js"></script>
+    <style>
+      .bubble-box-container {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+      }
+      .bubble-box-container > .bubble-box {
+        position: absolute;
+        width: max-content;
+        max-width: 20rem;
+        background: white;
+        border-radius: 4px;
+        padding: 4px;
+        word-break: break-all;
+        word-wrap: break-word;
+        box-shadow: 5px 5px 5px 3px rgba(0, 0, 0, 0.2);
+        transform: translateY(calc(-100% - 4px));
+      }
+      .bubble-box-container > .bubble-box::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: calc(50% - 8px);
+        border-left: 8px solid transparent;
+        border-top: 8px solid white;
+        border-right: 8px solid transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="div-ui-container" style="width: 100%; height: 90vh"></div>
+    <div id="div-information-containers"></div>
+    <script>
+      if (location.protocol === "file:") {
+        const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
+        console.warn(message);
+        alert(message);
+      }
+    </script>
+    <script>
+      /** LICENSE ALERT - README
+       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+       */
+
+      Dynamsoft.License.LicenseManager.initLicense(
+        "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
+      );
+
+      /**
+       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+       * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.20&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+       * LICENSE ALERT - THE END
+       */
+
+      const divInfContainers = document.querySelector(
+        "#div-information-containers"
+      );
+
+      (async () => {
+        try {
+          // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+          const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+          const cameraEnhancer =
+            await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+          document
+            .querySelector("#div-ui-container")
+            .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+
+          // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+          const router =
+            await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+          router.setInput(cameraEnhancer);
+
+          // Define a callback for results.
+          const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+          resultReceiver.onCapturedResultReceived = (result) => {
+            divInfContainers.innerText = "";
+
+            const resultItems = result.items;
+            for (let item of resultItems) {
+              if (
+                item.type !=
+                Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE
+              )
+                continue;
+
+              const l = item.location;
+              const p1 = {
+                x: Math.min(
+                  l.points[0].x,
+                  l.points[1].x,
+                  l.points[2].x,
+                  l.points[3].x
+                ),
+                y: Math.min(
+                  l.points[0].y,
+                  l.points[1].y,
+                  l.points[2].y,
+                  l.points[3].y
+                ),
+              };
+              const p2 = {
+                x: Math.max(
+                  l.points[0].x,
+                  l.points[1].x,
+                  l.points[2].x,
+                  l.points[3].x
+                ),
+                y: Math.max(
+                  l.points[0].y,
+                  l.points[1].y,
+                  l.points[2].y,
+                  l.points[3].y
+                ),
+              };
+
+              const divInfContainer = document.createElement("div");
+              divInfContainer.className = "bubble-box-container";
+              const divInf = document.createElement("div");
+              divInf.className = "bubble-box";
+              divInf.innerText = item.text;
+              divInfContainer.append(divInf);
+              const bodyStyle = getComputedStyle(document.body);
+              if (bodyStyle.position === "static") {
+                /**
+                 * 'convertToPageCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the document.
+                 * Then we can place a div element according to the converted coordinate.
+                 */
+                const pageP1 = cameraEnhancer.convertToPageCoordinates(p1);
+                const pageP2 = cameraEnhancer.convertToPageCoordinates(p2);
+                const pageMidX = (pageP1.x + pageP2.x) / 2;
+                divInfContainer.style.top = `${pageP1.y}px`;
+                divInfContainer.style.left = `${pageMidX}px`;
+              } else {
+                // if you set body `position` as `relative`, `absolute`, and so on, things can get complicated.
+                /**
+                 * 'convertToClientCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the viewport.
+                 * Then we can place a div element according to the converted coordinate.
+                 */
+                const clientP1 = cameraEnhancer.convertToClientCoordinates(p1);
+                const clientP2 = cameraEnhancer.convertToClientCoordinates(p2);
+                const clientMidX = (clientP1.x + clientP2.x) / 2;
+                const bodyRect = document.body.getBoundingClientRect();
+                divInfContainer.style.top = `${
+                  clientP1.y -
+                  bodyRect.top -
+                  parseFloat(bodyStyle.borderTopWidth)
+                }px`;
+                divInfContainer.style.left = `${
+                  clientMidX -
+                  bodyRect.left -
+                  parseFloat(bodyStyle.borderLeftWidth)
+                }px`;
+              }
+              divInfContainers.append(divInfContainer);
+
+              /**
+               * You can also add more information, such as displaying product images.
+               */
+            }
+          };
+          router.addResultReceiver(resultReceiver);
+
+          // Filter out unchecked and duplicate results.
+          const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+          filter.enableResultCrossVerification(
+            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            true
+          ); // Filter out unchecked barcodes.
+
+          // Open camera and start scanning single barcode.
+          await cameraEnhancer.open();
+          await router.startCapturing("ReadBarcodes_SpeedFirst");
+        } catch (ex) {
+          let errMsg = ex.message || ex;
+          console.error(errMsg);
+          alert(errMsg);
+        }
+      })();
+    </script>
+  </body>
+</html>
