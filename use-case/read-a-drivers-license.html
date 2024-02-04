@@ -445,6 +445,7 @@
         let parsedDLInfo = await parser.parse(bytesToParse);
         if (parsedDLInfo.exception) return;
         parsedDLInfo = JSON.parse(parsedDLInfo.jsonString);
+        console.log(parsedDLInfo);
         let resultShowNode = document.createElement("p");
         oriParseInfo = {};
         if (parsedDLInfo.CodeType === "AAMVA_DL_ID") {
