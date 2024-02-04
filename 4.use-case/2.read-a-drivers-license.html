@@ -12,21 +12,25 @@
 
 <body>
     <script>
-        if(location.protocol === "file:") {
+        if (location.protocol === "file:") {
             const message = `The page is opened via file:// and "BarcodeScanner" may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
             console.warn(message);
             alert(message);
         }
     </script>
-    
+
     <span id="hintMSG" class="hintMSG">Aim at the barcode on the driver's license.</span>
     <h1 id='header'>Read A Driver's License <a href="javascript:void(0)" id='readAgain' hidden onclick="backToHome()">Retry</a></h1>
     <div id="message_box" class="message_box">
-        <em class="message_box_icon"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="3665" width="32" height="32"><path d="M544 789.333333h105.173333a10.666667 10.666667 0 0 0 10.666667-10.666666v-0.362667l-3.232-94.304a32 32 0 0 1 14.293333-27.765333C750.933333 603.189333 800 513.792 800 416c0-159.061333-128.938667-288-288-288S224 256.938667 224 416c0 97.813333 49.098667 187.232 129.141333 240.266667a32 32 0 0 1 14.314667 25.578666l3.338667 97.184a10.666667 10.666667 0 0 0 10.666666 10.304H480V572.693333l-76.64-81.429333a32 32 0 0 1 46.613333-43.861333l63.36 67.328 72.693334-68.661334a32 32 0 0 1 43.946666 46.528L544 573.792V789.333333z m320-373.333333a351.530667 351.530667 0 0 1-142.826667 283.146667l2.634667 76.96A74.666667 74.666667 0 0 1 649.173333 853.333333h-267.733333a74.666667 74.666667 0 0 1-74.624-72.106666l-2.784-81.194667A351.541333 351.541333 0 0 1 160 416C160 221.6 317.6 64 512 64s352 157.6 352 352zM416 960a32 32 0 0 1 0-64h192a32 32 0 0 1 0 64H416z" p-id="3666" fill="#909399"></path></svg></em>
+        <em class="message_box_icon"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="3665" width="32" height="32">
+                <path d="M544 789.333333h105.173333a10.666667 10.666667 0 0 0 10.666667-10.666666v-0.362667l-3.232-94.304a32 32 0 0 1 14.293333-27.765333C750.933333 603.189333 800 513.792 800 416c0-159.061333-128.938667-288-288-288S224 256.938667 224 416c0 97.813333 49.098667 187.232 129.141333 240.266667a32 32 0 0 1 14.314667 25.578666l3.338667 97.184a10.666667 10.666667 0 0 0 10.666666 10.304H480V572.693333l-76.64-81.429333a32 32 0 0 1 46.613333-43.861333l63.36 67.328 72.693334-68.661334a32 32 0 0 1 43.946666 46.528L544 573.792V789.333333z m320-373.333333a351.530667 351.530667 0 0 1-142.826667 283.146667l2.634667 76.96A74.666667 74.666667 0 0 1 649.173333 853.333333h-267.733333a74.666667 74.666667 0 0 1-74.624-72.106666l-2.784-81.194667A351.541333 351.541333 0 0 1 160 416C160 221.6 317.6 64 512 64s352 157.6 352 352zM416 960a32 32 0 0 1 0-64h192a32 32 0 0 1 0 64H416z" p-id="3666" fill="#909399"></path>
+            </svg></em>
         <div class="message_box_container">
             <span class="message_box_title">Can't get scanning result for a long time?</span>
             <p class="message_box_content">After setting the <span class="api_highlight">singleFrameMode</span> as true, you can open the camera to shoot (mobile device) or choose from local to get a high-definition picture for recognition. <a href="javascript:void(0)" id="confirm_btn">Have a try</a></p>
-            <em id="close_btn" class="message_box_closebtn"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="4604" width="10" height="10"><path d="M512 456.310154L94.247385 38.557538a39.542154 39.542154 0 0 0-55.689847 0 39.266462 39.266462 0 0 0 0 55.689847L456.310154 512 38.557538 929.752615a39.542154 39.542154 0 0 0 0 55.689847 39.266462 39.266462 0 0 0 55.689847 0L512 567.689846l417.752615 417.752616c15.163077 15.163077 40.290462 15.36 55.689847 0a39.266462 39.266462 0 0 0 0-55.689847L567.689846 512 985.442462 94.247385a39.542154 39.542154 0 0 0 0-55.689847 39.266462 39.266462 0 0 0-55.689847 0L512 456.310154z" p-id="4605" fill="#c0c4cc"></path></svg></em>
+            <em id="close_btn" class="message_box_closebtn"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="4604" width="10" height="10">
+                    <path d="M512 456.310154L94.247385 38.557538a39.542154 39.542154 0 0 0-55.689847 0 39.266462 39.266462 0 0 0 0 55.689847L456.310154 512 38.557538 929.752615a39.542154 39.542154 0 0 0 0 55.689847 39.266462 39.266462 0 0 0 55.689847 0L512 567.689846l417.752615 417.752616c15.163077 15.163077 40.290462 15.36 55.689847 0a39.266462 39.266462 0 0 0 0-55.689847L567.689846 512 985.442462 94.247385a39.542154 39.542154 0 0 0 0-55.689847 39.266462 39.266462 0 0 0-55.689847 0L512 456.310154z" p-id="4605" fill="#c0c4cc"></path>
+                </svg></em>
         </div>
     </div>
     <div id="UIElement" class="UIElement">
@@ -41,11 +45,15 @@
         </div>
     </div>
     <div id="resultAlert" class="resultAlert" hidden>
-        <div class="resultAlert_title">Results: <em id="resultAlert_btn" class="message_box_closebtn"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="4604" width="16" height="16"><path d="M512 456.310154L94.247385 38.557538a39.542154 39.542154 0 0 0-55.689847 0 39.266462 39.266462 0 0 0 0 55.689847L456.310154 512 38.557538 929.752615a39.542154 39.542154 0 0 0 0 55.689847 39.266462 39.266462 0 0 0 55.689847 0L512 567.689846l417.752615 417.752616c15.163077 15.163077 40.290462 15.36 55.689847 0a39.266462 39.266462 0 0 0 0-55.689847L567.689846 512 985.442462 94.247385a39.542154 39.542154 0 0 0 0-55.689847 39.266462 39.266462 0 0 0-55.689847 0L512 456.310154z" p-id="4605" fill="#ffffff"></path></svg></em></div>
+        <div class="resultAlert_title">Results: <em id="resultAlert_btn" class="message_box_closebtn"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="4604" width="16" height="16">
+                    <path d="M512 456.310154L94.247385 38.557538a39.542154 39.542154 0 0 0-55.689847 0 39.266462 39.266462 0 0 0 0 55.689847L456.310154 512 38.557538 929.752615a39.542154 39.542154 0 0 0 0 55.689847 39.266462 39.266462 0 0 0 55.689847 0L512 567.689846l417.752615 417.752616c15.163077 15.163077 40.290462 15.36 55.689847 0a39.266462 39.266462 0 0 0 0-55.689847L567.689846 512 985.442462 94.247385a39.542154 39.542154 0 0 0 0-55.689847 39.266462 39.266462 0 0 0-55.689847 0L512 456.310154z" p-id="4605" fill="#ffffff"></path>
+                </svg></em></div>
         <div id="resultAlert_content" class="resultAlert_content"></div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.33/dist/dbr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@1.1.0/dist/dcp.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.0.32/dist/core.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-license@3.0.20/dist/license.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.0.20/dist/dcp.js"></script>
     <script>
         /** LICENSE ALERT - README 
          * To use the library, you need to first specify a license key using the API "license" as shown below.
@@ -70,16 +78,21 @@
         let pScanner = null;
         // parser for parsing code
         let pParser = null;
-        (async() => {
+        let oriParseInfo = {};
+        (async () => {
             //Load the library on page load to speed things up.
             try {
                 await Dynamsoft.DBR.BarcodeScanner.loadWasm();
+                Dynamsoft.Core.CoreModule.loadWasm(["DCP"]);
+                Dynamsoft.DCP.CodeParserModule.loadSpec("AAMVA_DL_ID");
+                Dynamsoft.DCP.CodeParserModule.loadSpec("AAMVA_DL_ID_WITH_MAG_STRIPE");
+                Dynamsoft.DCP.CodeParserModule.loadSpec("SOUTH_AFRICA_DL");
             } catch (ex) {
                 let errMsg;
                 if (ex.message?.includes("network connection error")) {
                     errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
                 } else {
-                    errMsg = ex.message||ex;
+                    errMsg = ex.message || ex;
                 }
                 console.error(errMsg);
                 alert(errMsg);
@@ -161,7 +174,7 @@
                 if (ex.message?.includes("network connection error")) {
                     errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
                 } else {
-                    errMsg = ex.message||ex;
+                    errMsg = ex.message || ex;
                 }
                 console.error(errMsg);
                 alert(errMsg);
@@ -178,19 +191,19 @@
         async function extractResultAlert(bytesToParse) {
             try {
                 let parser = await (pParser = pParser || Dynamsoft.DCP.CodeParser.createInstance());
-                await parser.setCodeFormat(Dynamsoft.DCP.EnumCodeFormat.CF_AUTO);
 
-                let parsedDLInfo = await parser.parseData(bytesToParse);
+                let parsedDLInfo = await parser.parse(bytesToParse);
+                parsedDLInfo = JSON.parse(parsedDLInfo.jsonString);
                 let resultShowNode = document.createElement("p");
-                let oriParseInfo;
-                if(parsedDLInfo.resultInfo && parsedDLInfo.resultInfo.AAMVADLInfo) {
-                    oriParseInfo = {...parsedDLInfo.basicPersonalInfo, ...parsedDLInfo.resultInfo, ...parsedDLInfo.resultInfo.AAMVADLInfo};
-                    delete oriParseInfo.AAMVADLInfo;
-                } else {
-                    oriParseInfo = {...parsedDLInfo.basicPersonalInfo, ...parsedDLInfo.resultInfo};
+                oriParseInfo = {};
+                for (let info of parsedDLInfo.ResultInfo) {
+                    oriParseInfo[info.FieldName] = info.Value;
+                    if (info.ChildFields) {
+                        wrapResultObject(info.ChildFields);
+                    }
                 }
                 for (let o in oriParseInfo) {
-                    if(oriParseInfo[o]) {
+                    if (oriParseInfo[o]) {
                         resultShowNode.appendChild(createNode("span", o));
                         resultShowNode.appendChild(createNode("br"));
                         resultShowNode.appendChild(createNode("strong", oriParseInfo[o]));
@@ -203,8 +216,20 @@
                 document.getElementById('resultAlert_content').appendChild(resultShowNode);
                 document.getElementById('resultAlert').hidden = false;
                 document.addEventListener("mousedown", clickToHide);
-            } catch(ex) {
+            } catch (ex) {
                 alert(ex.message);
+            }
+        }
+
+        function wrapResultObject(childFields) {
+            for (let childField of childFields) {
+                for (let field of childField) {
+                    if (["dataElementSeparator", "segmentTerminator",].includes(field.FieldName)) continue;
+                    oriParseInfo[field.FieldName] = field.Value;
+                    if (field.ChildFields) {
+                        wrapResultObject(field.ChildFields);
+                    }
+                }
             }
         }
 
@@ -232,7 +257,7 @@
         margin: 0;
         padding: 0;
     }
-    
+
     body {
         display: flex;
         flex-direction: column;
@@ -243,33 +268,33 @@
         height: 100vh;
         margin: 0;
     }
-    
+
     .hintMSG {
         position: absolute;
         font-size: 1rem;
         color: #fe8e14;
         top: 1vh;
     }
-    
+
     h1 {
         font-size: 1.5em;
     }
-    
+
     a {
         color: #fe8d14;
     }
-    
+
     a:hover {
         color: #fe8d14a1;
     }
-    
+
     .btn-show-scanner {
         width: 100px;
         height: 100px;
         fill: #aaa;
         cursor: pointer;
     }
-    
+
     .UIElement {
         display: flex;
         flex-direction: row;
@@ -279,31 +304,31 @@
         height: 60vh;
         margin: 0;
     }
-    
+
     .UIElement button {
         width: 50%;
         margin: 2vmin;
         padding: 2vmin;
         font-size: xx-large;
     }
-    
+
     .UIElement img {
         height: 15vmin;
         float: left;
         margin: 15vmin;
         cursor: pointer;
     }
-    
+
     .UIElement img:hover {
         background-color: #fe8d14a1;
     }
-    
+
     .show {
         height: 60vh;
         width: 50vw;
         top: 0;
     }
-    
+
     .dce-bg-camera {
         position: absolute;
         left: 0;
@@ -315,14 +340,14 @@
         height: 40%;
         fill: #aaa;
     }
-    
+
     .div-ui-container,
     .dce-video-container {
         position: relative;
         width: 100%;
         height: 100%;
     }
-    
+
     .resultAlert {
         position: fixed;
         height: 70vh;
@@ -333,7 +358,7 @@
         background: #222222;
         margin-top: 30px;
     }
-    
+
     .resultAlert_title {
         position: fixed;
         width: 50vw;
@@ -344,11 +369,11 @@
         padding-left: 10px;
         box-sizing: border-box;
     }
-    
+
     .resultAlert_title i {
         top: 7px;
     }
-    
+
     .resultAlert_content {
         height: calc(70vh - 30px);
         overflow-y: auto;
@@ -356,17 +381,18 @@
         padding: 5px;
         box-sizing: border-box;
     }
-    
+
     .resultAlert p {
         padding: 5px;
         margin: 0;
     }
-    
+
     strong {
         color: rgb(254, 142, 20);
     }
+
     /* MessageBox */
-    
+
     .message_box {
         display: none;
         align-items: center;
@@ -381,52 +407,55 @@
         overflow: hidden;
         transition: opacity .2s;
     }
+
     /* Small devices */
-    
+
     @media only screen and (max-width: 1000px) {
         .message_box {
             width: 90vw;
         }
+
         .UIElement,
         .show {
             width: 80vw;
         }
+
         .resultAlert,
         .resultAlert_title {
             width: 80vw;
         }
     }
-    
+
     .message_box_icon {
         font-size: 28px;
         width: 28px;
         line-height: 0;
     }
-    
+
     .message_box_container {
         display: table-cell;
         padding: 0 8px;
     }
-    
+
     .message_box_title {
         font-weight: 700;
         font-size: 14px;
         line-height: 18px;
     }
-    
+
     .message_box_content {
         font-size: 13px;
         margin: 5px 0 0;
         line-height: 20px;
     }
-    
+
     .api_highlight {
         font-weight: 700;
         background-color: #ddd;
         border-radius: 4px;
         padding: 2px;
     }
-    
+
     .message_box_closebtn {
         position: absolute;
         top: 12px;
