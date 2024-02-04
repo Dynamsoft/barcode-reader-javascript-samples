@@ -224,7 +224,7 @@
         function wrapResultObject(childFields) {
             for (let childField of childFields) {
                 for (let field of childField) {
-                    if (["dataElementSeparator", "segmentTerminator",].includes(field.FieldName)) continue;
+                    if (["dataElementSeparator", "segmentTerminator"].includes(field.FieldName)) continue;
                     oriParseInfo[field.FieldName] = field.Value;
                     if (field.ChildFields) {
                         wrapResultObject(field.ChildFields);
