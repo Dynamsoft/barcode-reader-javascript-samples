@@ -441,35 +441,53 @@
       }
 
       try {
-      const { parser } = await pInit;
-      let parsedDLInfo = await parser.parse(bytesToParse);
-      parsedDLInfo = JSON.parse(parsedDLInfo.jsonString);
-      let resultShowNode = document.createElement("p");
-      oriParseInfo = {};
-      for (let info of parsedDLInfo.ResultInfo) {
-        oriParseInfo[info.FieldName] = info.Value;
-        if (info.ChildFields) {
-          wrapResultObject(info.ChildFields);
+        const { parser } = await pInit;
+        let parsedDLInfo = await parser.parse(bytesToParse);
+        if (parsedDLInfo.exception) return;
+        parsedDLInfo = JSON.parse(parsedDLInfo.jsonString);
+        let resultShowNode = document.createElement("p");
+        oriParseInfo = {};
+        if (parsedDLInfo.CodeType === "AAMVA_DL_ID") {
+          for (let info of parsedDLInfo.ResultInfo) {
+            if (info.FieldName !== "commonSubfile") continue;
+            if (info.ChildFields) {
+              wrapResultObject(info.ChildFields);
+            }
+          }
+        } else if (parsedDLInfo.CodeType === "AAMVA_DL_ID_WITH_MAG_STRIPE") {
+          for (let info of parsedDLInfo.ResultInfo) {
+            if (info.FieldName.includes("track")) {
+              if (info.ChildFields) {
+                wrapResultObject(info.ChildFields);
+              }
+            }
+          }
+        } else if (parsedDLInfo.CodeType === "SOUTH_AFRICA_DL") {
+          for (let info of parsedDLInfo.ResultInfo) {
+            oriParseInfo[info.FieldName] = info.Value;
+            if (info.ChildFields) {
+              wrapResultObject(info.ChildFields);
+            }
+          }
         }
-      }
-      for (let o in oriParseInfo) {
-        if (oriParseInfo[o]) {
-          resultShowNode.appendChild(createNode("span", o));
-          resultShowNode.appendChild(createNode("br"));
-          resultShowNode.appendChild(createNode("strong", oriParseInfo[o]));
-          resultShowNode.appendChild(createNode("br"));
-          resultShowNode.appendChild(
-            createNode("span", "------------------------------")
-          );
-          resultShowNode.appendChild(createNode("br"));
+        for (let o in oriParseInfo) {
+          if (oriParseInfo[o]) {
+            resultShowNode.appendChild(createNode("span", o));
+            resultShowNode.appendChild(createNode("br"));
+            resultShowNode.appendChild(createNode("strong", oriParseInfo[o]));
+            resultShowNode.appendChild(createNode("br"));
+            resultShowNode.appendChild(
+              createNode("span", "------------------------------")
+            );
+            resultShowNode.appendChild(createNode("br"));
+          }
         }
-      }
-      document.querySelector(".div-result-body").innerHTML = "";
-      document
-        .querySelector(".div-result-body")
-        .appendChild(resultShowNode);
-      divResultContainer.style.display = "block";
-      document.addEventListener("mousedown", clickToHide);
+        document.querySelector(".div-result-body").innerHTML = "";
+        document
+          .querySelector(".div-result-body")
+          .appendChild(resultShowNode);
+        divResultContainer.style.display = "block";
+        document.addEventListener("mousedown", clickToHide);
       } catch (ex) {
         alert(ex.message);
       }
@@ -478,8 +496,9 @@
     function wrapResultObject(childFields) {
       for (let childField of childFields) {
         for (let field of childField) {
-          if(["dataElementSeparator", "segmentTerminator"].includes(field.FieldName)) continue;
-          oriParseInfo[field.FieldName] = field.Value;
+          if (!["dataElementSeparator", "segmentTerminator", "subfile", "subfileType"].includes(field.FieldName)) {
+            oriParseInfo[field.FieldName] = field.Value;
+          }
           if (field.ChildFields) {
             wrapResultObject(field.ChildFields);
           }
