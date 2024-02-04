@@ -193,13 +193,32 @@
                 let parser = await (pParser = pParser || Dynamsoft.DCP.CodeParser.createInstance());
 
                 let parsedDLInfo = await parser.parse(bytesToParse);
+                if (parsedDLInfo.exception) return;
                 parsedDLInfo = JSON.parse(parsedDLInfo.jsonString);
+                console.log(parsedDLInfo);
                 let resultShowNode = document.createElement("p");
                 oriParseInfo = {};
-                for (let info of parsedDLInfo.ResultInfo) {
-                    oriParseInfo[info.FieldName] = info.Value;
-                    if (info.ChildFields) {
-                        wrapResultObject(info.ChildFields);
+                if (parsedDLInfo.CodeType === "AAMVA_DL_ID") {
+                    for (let info of parsedDLInfo.ResultInfo) {
+                        if (info.FieldName !== "commonSubfile") continue;
+                        if (info.ChildFields) {
+                            wrapResultObject(info.ChildFields);
+                        }
+                    }
+                } else if (parsedDLInfo.CodeType === "AAMVA_DL_ID_WITH_MAG_STRIPE") {
+                    for (let info of parsedDLInfo.ResultInfo) {
+                        if (info.FieldName.includes("track")) {
+                            if (info.ChildFields) {
+                                wrapResultObject(info.ChildFields);
+                            }
+                        }
+                    }
+                } else if (parsedDLInfo.CodeType === "SOUTH_AFRICA_DL") {
+                    for (let info of parsedDLInfo.ResultInfo) {
+                        oriParseInfo[info.FieldName] = info.Value;
+                        if (info.ChildFields) {
+                            wrapResultObject(info.ChildFields);
+                        }
                     }
                 }
                 for (let o in oriParseInfo) {
@@ -224,8 +243,9 @@
         function wrapResultObject(childFields) {
             for (let childField of childFields) {
                 for (let field of childField) {
-                    if (["dataElementSeparator", "segmentTerminator"].includes(field.FieldName)) continue;
-                    oriParseInfo[field.FieldName] = field.Value;
+                    if (!["dataElementSeparator", "segmentTerminator", "subfile", "subfileType"].includes(field.FieldName)) {
+                        oriParseInfo[field.FieldName] = field.Value;
+                    }
                     if (field.ChildFields) {
                         wrapResultObject(field.ChildFields);
                     }
