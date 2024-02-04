@@ -8,7 +8,7 @@ A default license is included which allows you to test the sample apps for up to
 
 ## Documentation
 
-For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/programming/javascript/?ver=10.0.20&utm_source=sampleReadme).
+For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/programming/javascript/?ver=10.0.21&utm_source=sampleReadme).
 
 ## Support
 
