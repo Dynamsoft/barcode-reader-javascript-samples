@@ -9,11 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "dynamsoft-barcode-reader": "10.0.20",
+    "dynamsoft-barcode-reader": "10.0.21",
     "dynamsoft-camera-enhancer": "4.0.1",
-    "dynamsoft-capture-vision-router": "2.0.31",
-    "dynamsoft-core": "3.0.32",
-    "dynamsoft-license": "3.0.20",
+    "dynamsoft-capture-vision-router": "2.0.32",
+    "dynamsoft-core": "3.0.33",
+    "dynamsoft-license": "3.0.40",
     "dynamsoft-utility": "1.0.21",
     "next": "13.5.6",
     "react": "^18",
