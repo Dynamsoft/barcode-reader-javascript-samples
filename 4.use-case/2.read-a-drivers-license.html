@@ -155,10 +155,13 @@
                         }
                     }
                 }
-                scanner.onUniqueRead = (txt, result) => {
+                scanner.onUniqueRead = async(txt, result) => {
                     document.getElementById("message_box").style.display = "none";
                     clearTimeout(timer);
-                    extractResultAlert(result.barcodeBytes);
+                    const success = await extractResultAlert(result.barcodeBytes);
+                    if (success) {
+                        scanner.pauseScan();
+                    }
                 };
                 await scanner.show();
                 if (!bSingleFrameMode) {
@@ -193,7 +196,7 @@
                 let parser = await (pParser = pParser || Dynamsoft.DCP.CodeParser.createInstance());
 
                 let parsedDLInfo = await parser.parse(bytesToParse);
-                if (parsedDLInfo.exception) return;
+                if (parsedDLInfo.exception) return false;
                 parsedDLInfo = JSON.parse(parsedDLInfo.jsonString);
                 console.log(parsedDLInfo);
                 let resultShowNode = document.createElement("p");
@@ -235,8 +238,10 @@
                 document.getElementById('resultAlert_content').appendChild(resultShowNode);
                 document.getElementById('resultAlert').hidden = false;
                 document.addEventListener("mousedown", clickToHide);
+                return true;
             } catch (ex) {
                 alert(ex.message);
+                return false;
             }
         }
 
@@ -268,6 +273,7 @@
                     document.getElementById("message_box").style.display = "flex";
                 }, 3000);
             }
+            scanner.resumeScan();
         }
 
     </script>
