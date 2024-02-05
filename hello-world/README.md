@@ -1,6 +1,6 @@
 # The Hello World Sample Set
 
-As you have already gone through the [user guide](https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.20#getting-started---hello-world), you may have come across some basic "Hello World" code that can help you create a simple web application using our SDK quickly.
+As you have already gone through the [user guide](https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.21#getting-started---hello-world), you may have come across some basic "Hello World" code that can help you create a simple web application using our SDK quickly.
 
 In this set of samples, we will revisit the "Hello World" code and show how to implement it using some popular frameworks, such as Angular, React, and Vue.
 
