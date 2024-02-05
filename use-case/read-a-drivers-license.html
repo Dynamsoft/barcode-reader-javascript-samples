@@ -342,7 +342,10 @@
           document.querySelector("#div-message-container").style.display =
             "none";
           clearTimeout(timer);
-          extractResultAlert(barcodeResult.bytes);
+          const success = await extractResultAlert(barcodeResult.bytes);
+          if (success) {
+            router.stopCapturing();
+          }
         };
         router.addResultReceiver(resultReceiver);
 
@@ -443,7 +446,7 @@
       try {
         const { parser } = await pInit;
         let parsedDLInfo = await parser.parse(bytesToParse);
-        if (parsedDLInfo.exception) return;
+        if (parsedDLInfo.exception) return false;
         parsedDLInfo = JSON.parse(parsedDLInfo.jsonString);
         console.log(parsedDLInfo);
         let resultShowNode = document.createElement("p");
@@ -489,8 +492,10 @@
           .appendChild(resultShowNode);
         divResultContainer.style.display = "block";
         document.addEventListener("mousedown", clickToHide);
+        return true;
       } catch (ex) {
         alert(ex.message);
+        return false;
       }
     }
 
@@ -517,7 +522,7 @@
     async function closeResultAlert() {
       divResultContainer.style.display = "none";
       document.querySelector(".div-result-body").innerText = "";
-      const { cameraEnhancer } = await pInit;
+      const { cameraEnhancer, router } = await pInit;
       if (cameraEnhancer.singleFrameMode === "disabled") {
         timer = setTimeout(() => {
           if (cameraEnhancer.singleFrameMode === "disabled") {
@@ -526,6 +531,7 @@
           }
         }, 3000);
       }
+      await router.startCapturing("ReadDenseBarcodes");
     }
   </script>
 </body>
