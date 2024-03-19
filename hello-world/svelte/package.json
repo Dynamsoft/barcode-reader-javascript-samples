@@ -1,0 +1,29 @@
+{
+  "name": "svelte",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "dependencies": {
+    "dynamsoft-barcode-reader": "10.0.21",
+    "dynamsoft-camera-enhancer": "4.0.1",
+    "dynamsoft-capture-vision-router": "2.0.32",
+    "dynamsoft-core": "3.0.33",
+    "dynamsoft-license": "3.0.40",
+    "dynamsoft-utility": "1.0.21"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^3.0.2",
+    "@tsconfig/svelte": "^5.0.2",
+    "svelte": "^4.2.12",
+    "svelte-check": "^3.6.6",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.6"
+  }
+}
