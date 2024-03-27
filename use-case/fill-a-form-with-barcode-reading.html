@@ -148,16 +148,16 @@
           // Filter out unchecked and duplicate results.
           const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
           filter.enableResultCrossVerification(
-            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            "barcode",
             true
           ); // Filter out unchecked barcodes.
           // Filter out duplicate barcodes within 3 seconds.
           filter.enableResultDeduplication(
-            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            "barcode",
             true
           );
           filter.setDuplicateForgetTime(
-            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            "barcode",
             3000
           );
           await router.addResultFilter(filter);

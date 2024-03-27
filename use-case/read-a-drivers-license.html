@@ -307,7 +307,7 @@
         // Filter out unchecked and duplicate results.
         const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
         filter.enableResultCrossVerification(
-          Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+          "barcode",
           true
         ); // Filter out unchecked barcodes.
         await router.addResultFilter(filter);
@@ -319,7 +319,7 @@
           const barcodeResult = resultItems.find(
             (item) =>
               item.type ===
-              Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE
+              "barcode"
           );
 
           if (!barcodeResult) {

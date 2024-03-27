@@ -39,11 +39,11 @@ export class VideoCaptureComponent {
       const cameraView = await CameraView.createInstance();
       const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
       this.uiContainer!.nativeElement.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
-      
+
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
       const router = await CaptureVisionRouter.createInstance();
       router.setInput(cameraEnhancer);
-      
+
       // Define a callback for results.
       const resultReceiver = new CapturedResultReceiver();
       resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
@@ -63,19 +63,11 @@ export class VideoCaptureComponent {
 
       // Filter out unchecked and duplicate results.
       const filter = new MultiFrameResultCrossFilter();
-      filter.enableResultCrossVerification(
-        EnumCapturedResultItemType.CRIT_BARCODE,
-        true
-      ); // Filter out unchecked barcodes.
+      // Filter out unchecked barcodes.
+      filter.enableResultCrossVerification("barcode", true);
       // Filter out duplicate barcodes within 3 seconds.
-      filter.enableResultDeduplication(
-        EnumCapturedResultItemType.CRIT_BARCODE,
-        true
-      );
-      filter.setDuplicateForgetTime(
-        EnumCapturedResultItemType.CRIT_BARCODE,
-        3000
-      );
+      filter.enableResultDeduplication("barcode", true);
+      filter.setDuplicateForgetTime("barcode", 3000);
       await router.addResultFilter(filter);
 
       // Open camera and start scanning single barcode.

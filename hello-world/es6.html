@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Quickly read barcodes with Dynamsoft Barcode Reader from a live camera stream."
-    />
-    <meta name="keywords" content="barcode, camera, es6" />
-    <link
-      rel="canonical"
-      href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/es6.html"
-    />
-    <title>
-      Dynamsoft Barcode Reader Sample - Hello World for ES6 (Decode via Camera)
-    </title>
-  </head>
 
-  <body>
-    <h1>Hello World for ES6 (Decode via Camera)</h1>
-    <div id="div-ui-container" style="width: 100%; height: 80vh"></div>
-    Results:
-    <br>
-    <div id="div-results-container" style="width: 100%; height: 10vh; overflow: auto;"></div>
-    <script>
-      if (location.protocol === "file:") {
-        const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
-        console.warn(message);
-        alert(message);
-      }
-    </script>
-    <script type="importmap">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="description" content="Quickly read barcodes with Dynamsoft Barcode Reader from a live camera stream." />
+  <meta name="keywords" content="barcode, camera, es6" />
+  <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/es6.html" />
+  <title>
+    Dynamsoft Barcode Reader Sample - Hello World for ES6 (Decode via Camera)
+  </title>
+</head>
+
+<body>
+  <h1>Hello World for ES6 (Decode via Camera)</h1>
+  <div id="div-ui-container" style="width: 100%; height: 80vh"></div>
+  Results:
+  <br>
+  <div id="div-results-container" style="width: 100%; height: 10vh; overflow: auto;"></div>
+  <script>
+    if (location.protocol === "file:") {
+      const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
+      console.warn(message);
+      alert(message);
+    }
+  </script>
+  <script type="importmap">
       {
         "imports": {
           "dynamsoft-core": "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.10/dist/core.mjs",
@@ -42,103 +37,95 @@
         }
       }
     </script>
-    <script type="module">
-      import { CoreModule, EnumCapturedResultItemType } from "dynamsoft-core";
-      import { LicenseManager } from "dynamsoft-license";
-      import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
-      import { BarcodeReaderModule } from "dynamsoft-barcode-reader";
-      import {
-        CaptureVisionRouter,
-        CapturedResultReceiver,
-      } from "dynamsoft-capture-vision-router";
-      import {
-        CameraView,
-        CameraEnhancer,
-      } from "dynamsoft-camera-enhancer";
+  <script type="module">
+    import { CoreModule, EnumCapturedResultItemType } from "dynamsoft-core";
+    import { LicenseManager } from "dynamsoft-license";
+    import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
+    import { BarcodeReaderModule } from "dynamsoft-barcode-reader";
+    import {
+      CaptureVisionRouter,
+      CapturedResultReceiver,
+    } from "dynamsoft-capture-vision-router";
+    import {
+      CameraView,
+      CameraEnhancer,
+    } from "dynamsoft-camera-enhancer";
 
-      /** LICENSE ALERT - README
-       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
-       */
+    /** LICENSE ALERT - README
+     * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+     */
 
-      LicenseManager.initLicense(
-        "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
-      );
+    LicenseManager.initLicense(
+      "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
+    );
 
-      /**
-       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
-       * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
-       * LICENSE ALERT - THE END
-       */
+    /**
+     * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+     * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+     * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+     * LICENSE ALERT - THE END
+     */
 
-      CoreModule.engineResourcePaths = {
-        std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.0/dist/",
-        dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.10/dist/",
-        core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.10/dist/",
-        license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.10/dist/",
-        cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.10/dist/",
-        dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
-        dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.2/dist/"
-      };
-      (async function () {
-        try {
-          // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
-          const cameraView = await CameraView.createInstance();
-          const cameraEnhancer = await CameraEnhancer.createInstance(
-            cameraView
-          );
-          document
-            .querySelector("#div-ui-container")
-            .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+    CoreModule.engineResourcePaths = {
+      std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.0/dist/",
+      dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.10/dist/",
+      core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.10/dist/",
+      license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.10/dist/",
+      cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.10/dist/",
+      dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
+      dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.2/dist/"
+    };
+    (async function () {
+      try {
+        // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+        const cameraView = await CameraView.createInstance();
+        const cameraEnhancer = await CameraEnhancer.createInstance(
+          cameraView
+        );
+        document
+          .querySelector("#div-ui-container")
+          .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
-          // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-          const router = await CaptureVisionRouter.createInstance();
-          router.setInput(cameraEnhancer);
+        // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+        const router = await CaptureVisionRouter.createInstance();
+        router.setInput(cameraEnhancer);
 
-          // Define a callback for results.
-          const resultReceiver = new CapturedResultReceiver();
-          resultReceiver.onDecodedBarcodesReceived = (result) => {
-            if (!result.barcodeResultItems.length) return;
+        // Define a callback for results.
+        const resultReceiver = new CapturedResultReceiver();
+        resultReceiver.onDecodedBarcodesReceived = (result) => {
+          if (!result.barcodeResultItems.length) return;
 
-            const resultsContainer = document.querySelector("#div-results-container");
-            resultsContainer.textContent = '';
-            console.log(result);
-            for (let item of result.barcodeResultItems) {
-              resultsContainer.append(
-                `${item.formatString}: ${item.text}`,
-                document.createElement('br'),
-                document.createElement('hr'),
-              );
-            }
-          };
-          router.addResultReceiver(resultReceiver);
+          const resultsContainer = document.querySelector("#div-results-container");
+          resultsContainer.textContent = '';
+          console.log(result);
+          for (let item of result.barcodeResultItems) {
+            resultsContainer.append(
+              `${item.formatString}: ${item.text}`,
+              document.createElement('br'),
+              document.createElement('hr'),
+            );
+          }
+        };
+        router.addResultReceiver(resultReceiver);
 
-          // Filter out unchecked and duplicate results.
-          const filter = new MultiFrameResultCrossFilter();
-          filter.enableResultCrossVerification(
-            EnumCapturedResultItemType.CRIT_BARCODE,
-            true
-          ); // Filter out unchecked barcodes.
-          // Filter out duplicate barcodes within 3 seconds.
-          filter.enableResultDeduplication(
-            EnumCapturedResultItemType.CRIT_BARCODE,
-            true
-          );
-          filter.setDuplicateForgetTime(
-            EnumCapturedResultItemType.CRIT_BARCODE,
-            3000
-          );
-          await router.addResultFilter(filter);
+        // Filter out unchecked and duplicate results.
+        const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+        filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
+        // Filter out duplicate barcodes within 3 seconds.
+        filter.enableResultDeduplication("barcode", true);
+        filter.setDuplicateForgetTime("barcode", 3000);
+        await router.addResultFilter(filter);
 
-          // Open camera and start scanning single barcode.
-          await cameraEnhancer.open();
-          await router.startCapturing("ReadSingleBarcode");
-        } catch (ex) {
-          let errMsg = ex.message || ex;
-          console.error(errMsg);
-          alert(errMsg);
-        }
-      })();
-    </script>
-  </body>
+        // Open camera and start scanning single barcode.
+        await cameraEnhancer.open();
+        await router.startCapturing("ReadSingleBarcode");
+      } catch (ex) {
+        let errMsg = ex.message || ex;
+        console.error(errMsg);
+        alert(errMsg);
+      }
+    })();
+  </script>
+</body>
+
 </html>

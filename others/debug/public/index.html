@@ -98,7 +98,7 @@
           // Filter out unchecked results.
           const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
           filter.enableResultCrossVerification(
-            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            "barcode",
             true
           ); // Filter out unchecked barcodes.
           await router.addResultFilter(filter);
@@ -107,7 +107,7 @@
           ss.timeout = 100000;
           ss.minImageCaptureInterval = 100;
           ss.capturedResultItemTypes =
-            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE |
+            "barcode" |
             Dynamsoft.Core.EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE;
           await router.updateSettings("ReadSingleBarcode", ss);
 
@@ -122,7 +122,7 @@
               resultItems.some(
                 (item) =>
                   item.type ===
-                  Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE
+                  "barcode"
               )
             ) {
               Dynamsoft.DCE.Feedback.beep();

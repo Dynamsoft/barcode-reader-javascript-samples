@@ -39,10 +39,10 @@ function VideoRecognizer() {
 
             // Filter out unchecked and duplicate results.
             const filter = new MultiFrameResultCrossFilter();
-            filter.enableResultCrossVerification(EnumCapturedResultItemType.CRIT_BARCODE, true); // Filter out unchecked barcode.
+            filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcode.
             // Filter out duplicate barcodes within 3 seconds.
-            filter.enableResultDeduplication(EnumCapturedResultItemType.CRIT_BARCODE, true);
-            filter.setDuplicateForgetTime(EnumCapturedResultItemType.CRIT_BARCODE, 3000);
+            filter.enableResultDeduplication("barcode", true);
+            filter.setDuplicateForgetTime("barcode", 3000);
             await router.addResultFilter(filter);
 
             // Open camera and start scanning barcode.

@@ -104,7 +104,7 @@
             for (let item of resultItems) {
               if (
                 item.type !=
-                Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE
+                "barcode"
               )
                 continue;
 
@@ -188,7 +188,7 @@
           // Filter out unchecked and duplicate results.
           const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
           filter.enableResultCrossVerification(
-            Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
+            "barcode",
             true
           ); // Filter out unchecked barcodes.
 
