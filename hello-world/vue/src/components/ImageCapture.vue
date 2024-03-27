@@ -1,62 +1,64 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref, type Ref } from "vue";
-import { type BarcodeResultItem } from "dynamsoft-barcode-reader";
+import { onMounted, onUnmounted, ref, type Ref } from "vue";
+import type { BarcodeResultItem } from "dynamsoft-barcode-reader"
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
-import "../cvr"; // import side effects. The license, engineResourcePath, so on.
 
-const pInit: Ref<Promise<CaptureVisionRouter> | null> = ref(null);
+const iptRef: Ref<HTMLInputElement | null> = ref(null);
+const resRef: Ref<HTMLDivElement | null> = ref(null);
+const pRouter: Ref<Promise<CaptureVisionRouter> | null> = ref(null);
 
-const decodeImg = async (e: Event) => {
-  try {
-    const router = await pInit.value;
-    // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-    const result = await router!.capture(
-      (e.target as any).files[0],
-      "ReadBarcodes_SpeedFirst"
-    );
-    let texts = "";
-    for (let item of result.items) {
-      console.log((item as BarcodeResultItem).text);
-      texts += (item as BarcodeResultItem).text + "\n";
+onMounted(() => {
+    pRouter.value = CaptureVisionRouter.createInstance();
+})
+
+onUnmounted(async () => {
+    (await pRouter.value)!.dispose();
+    console.log('ImageCapture Component Unmount');
+})
+
+const captureImage = async (e: any) => {
+    try {
+        resRef.value!.innerText = "";
+        const router = await pRouter.value;
+        const result = await router!.capture(e.target.files[0]);
+        for (let item of result.items) {
+            let _item = item as BarcodeResultItem;
+            console.log(_item.text);
+            resRef.value!.innerText += `${_item.formatString} : ${_item.text}\n`;
+        }
+        iptRef.value!.value = '';
+    } catch (ex: any) {
+        let errMsg = ex.message || ex;
+        console.error(errMsg);
+        alert(errMsg);
     }
-    if (texts !== "") alert(texts);
-    if (!result.items.length) alert("No barcode found");
-  } catch (ex: any) {
-    let errMsg = ex.message || ex;
-    console.error(errMsg);
-    alert(errMsg);
-  }
-  (e.target as HTMLInputElement).value = "";
-};
-
-onMounted(async () => {
-  pInit.value = CaptureVisionRouter.createInstance();
-});
-
-onBeforeUnmount(async () => {
-  if (pInit.value) {
-    const router = await pInit.value;
-    router.dispose();
-  }
-  console.log("ImageCapture Component Unmount");
-});
+}
 </script>
 
 <template>
-  <div class="div-image-capture">
-    <input
-      type="file"
-      accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
-      @change="decodeImg"
-    />
-  </div>
+    <div class="capture-img">
+        <div class="img-ipt"><input type="file" ref="iptRef" @change="captureImage" /></div>
+        <div class="result-area" ref="resRef"></div>
+    </div>
 </template>
-
+    
 <style scoped>
-.div-image-capture {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
+.capture-img {
+    width: 100%;
+    height: 100%;
+    font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+.capture-img .img-ipt {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    margin: 0 auto;
+}
+
+.capture-img .result-area {
+    margin-top: 20px;
 }
 </style>

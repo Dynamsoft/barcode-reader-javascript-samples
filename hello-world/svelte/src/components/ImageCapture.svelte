@@ -4,40 +4,37 @@
   import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
   import { onMount } from "svelte";
 
-  let pCvr: Promise<CaptureVisionRouter>;
+  let pRouter: Promise<CaptureVisionRouter>;
+  let iptRef: HTMLInputElement;
+  let resRef: HTMLDivElement;
 
-  onMount(()=>{
+  onMount(() => {
     return funcDestroy; // onDestory
   });
 
   let bDestoried = false;
-  const funcDestroy = async()=>{
+  const funcDestroy = async () => {
     bDestoried = true;
-    if(pCvr){ 
-      const cvr = await pCvr;
+    if (pRouter) {
+      const cvr = await pRouter;
       cvr.dispose();
     }
   };
 
-  const decodeImg = async(e: Event)=>{
-    try{
+  const captureImage = async (e: Event) => {
+    try {
       const file = (e.target! as HTMLInputElement).files![0];
-      const cvr = await (pCvr = pCvr || CaptureVisionRouter.createInstance());
-      if(bDestoried){ return; }
+      const cvr = await (pRouter = pRouter || CaptureVisionRouter.createInstance());
+      if (bDestoried) return;
 
-      const result = await cvr.capture(file, "ReadBarcodes_SpeedFirst");
-      let texts = "";
+      const result = await cvr.capture(file);
       for (let item of result.items) {
-        console.log((item as BarcodeResultItem).text);
-        texts += (item as BarcodeResultItem).text + "\n";
+        let _item = item as BarcodeResultItem;
+        console.log(_item.text);
+        resRef!.innerText += `${_item.formatString} : ${_item.text}\n`;
       }
-
-      if(texts){
-        alert(texts);
-      }else{
-        alert("No barcode found");
-      }
-    }catch(ex:any){
+      iptRef.value = "";
+    } catch (ex: any) {
       let errMsg = ex.message || ex;
       console.error(errMsg);
       funcDestroy();
@@ -46,20 +43,43 @@
   };
 </script>
 
-<div class="div-image-capture">
-  <input
-    type="file"
-    accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
-    on:change={decodeImg}
-  />
+<div class="capture-img">
+  <div class="img-ipt">
+    <input
+      type="file"
+      accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
+      on:change={captureImage}
+      bind:this={iptRef}
+    />
+  </div>
+  <div class="result-area" bind:this={resRef}></div>
 </div>
 
 <style>
-.div-image-capture {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
-}
+  .capture-img {
+    width: 100%;
+    height: 100%;
+    font-family:
+      Consolas,
+      Monaco,
+      Lucida Console,
+      Liberation Mono,
+      DejaVu Sans Mono,
+      Bitstream Vera Sans Mono,
+      Courier New,
+      monospace;
+  }
+
+  .capture-img .img-ipt {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    margin: 0 auto;
+  }
+
+  .capture-img .result-area {
+    margin-top: 20px;
+  }
 </style>
-  
