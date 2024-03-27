@@ -144,16 +144,16 @@ const init = async (): Promise<{
     // Filter out unchecked and duplicate results.
     const filter = new MultiFrameResultCrossFilter();
     filter.enableResultCrossVerification(
-      EnumCapturedResultItemType.CRIT_BARCODE,
+      "barcode",
       true
     ); // Filter out unchecked barcodes.
     // Filter out duplicate barcodes within 3 seconds.
     filter.enableResultDeduplication(
-      EnumCapturedResultItemType.CRIT_BARCODE,
+      "barcode",
       true
     );
     filter.setDuplicateForgetTime(
-      EnumCapturedResultItemType.CRIT_BARCODE,
+      "barcode",
       3000
     );
     await router.addResultFilter(filter);
