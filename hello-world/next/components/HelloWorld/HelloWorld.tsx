@@ -1,51 +1,25 @@
 "use client"
 
 import React, { useState } from "react";
-import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
 import VideoCapture from "../VideoCapture/VideoCapture";
 import ImageCapture from "../ImageCapture/ImageCapture";
+import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
 import "./HelloWorld.css";
 
 function HelloWorld() {
-  let [bShowVideoCapture, setBShowVideoCapture] = useState(true);
-  let [bShowImageCapture, setBShowImageCapture] = useState(false);
-
-  const showVideoCapture = () => {
-    setBShowVideoCapture(true);
-    setBShowImageCapture(false);
-  };
-
-  const showImageCapture = () => {
-    setBShowVideoCapture(false);
-    setBShowImageCapture(true);
-  };
+  const [mode, setMode] = useState("video");
 
   return (
-    <div className="div-hello-world">
-      <h1>Hello World for Next</h1>
-      <div>
-        <button
-          style={{
-            marginRight: "10px",
-            backgroundColor: bShowVideoCapture ? "rgb(255,174,55)" : "white",
-          }}
-          onClick={showVideoCapture}
-        >
-          Decode Video
-        </button>
-        <button
-          style={{
-            backgroundColor: bShowImageCapture ? "rgb(255,174,55)" : "white",
-          }}
-          onClick={showImageCapture}
-        >
-          Decode Image
-        </button>
+    <div className='div-hello-world'>
+      <div className='title'>
+        <h2 className='title-text'>Hello World for Nextjs</h2>
+        <img className='title-logo' src="/next.svg" alt="logo"></img>
       </div>
-      <div className="container">
-        {bShowVideoCapture ? <VideoCapture></VideoCapture> : ""}
-        {bShowImageCapture ? <ImageCapture></ImageCapture> : ""}
+      <div className='top-btns'>
+        <button onClick={()=>{setMode("video")}} style={{backgroundColor: mode === "video" ? "rgb(255, 174, 55)" : "#fff"}}>Video Capture</button>
+        <button onClick={()=>{setMode("image")}} style={{backgroundColor: mode === "image" ? "rgb(255, 174, 55)" : "#fff"}}>Image Capture</button>
       </div>
+      { mode === "video" ? <VideoCapture /> : <ImageCapture /> }
     </div>
   );
 }

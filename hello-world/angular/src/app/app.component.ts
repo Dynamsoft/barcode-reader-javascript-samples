@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular';
+  title = 'my-app';
+
+  mode: string = "video";
+
+  switchMode(value: string) {
+    this.mode = value;
+  }
 }
