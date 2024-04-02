@@ -1,75 +1,46 @@
-import React, { useRef, useEffect } from "react";
-import { BarcodeResultItem } from "dynamsoft-barcode-reader";
+import { useEffect, useRef, MutableRefObject } from "react";
+import type { BarcodeResultItem } from "dynamsoft-barcode-reader"
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
-import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
 import "./ImageCapture.css";
 
-function ImageCapture() {
-  const pInit = useRef(null as null | Promise<CaptureVisionRouter>);
-  const pDestroy = useRef(null as null | Promise<void>);
+function ImageRecognizer() {
+    const iptRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
+    const resRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
+    const pRouter: MutableRefObject<Promise<CaptureVisionRouter> | null> = useRef(null);
 
-  const init = async (): Promise<CaptureVisionRouter> => {
-    const router = await CaptureVisionRouter.createInstance();
-    return router;
-  };
+    useEffect((): any => {
+        pRouter.current = CaptureVisionRouter.createInstance();
 
-  const destroy = async (): Promise<void> => {
-    if (pInit.current) {
-      const router = (await pInit.current)!;
-      router.dispose();
+        return async () => {
+            (await pRouter.current)!.dispose();
+            console.log('ImageCapture Component Unmount');
+        }
+    }, []);
+
+    const captureImage = async (e: any) => {
+        try {
+            resRef.current!.innerText = "";
+            const router = await pRouter.current;
+            const result = await router!.capture(e.target.files[0]);
+            for (let item of result.items) {
+                let _item = item as BarcodeResultItem;
+                console.log(_item.text);
+                resRef.current!.innerText += `${_item.formatString} : ${_item.text}\n`
+            }
+            iptRef.current!.value = '';
+        } catch (ex: any) {
+            let errMsg = ex.message || ex;
+            console.error(errMsg);
+            alert(errMsg);
+        }
     }
-  };
 
-  const decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      const router = (await pInit.current)!;
-      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-      const result = await router.capture(
-        e.target.files![0],
-        "ReadBarcodes_SpeedFirst"
-      );
-      let texts = "";
-      for (let item of result.items) {
-        console.log((item as BarcodeResultItem).text);
-        texts += (item as BarcodeResultItem).text + "\n";
-      }
-      if (texts !== "") alert(texts);
-      if (!result.items.length) alert("No barcode found");
-    } catch (ex: any) {
-      let errMsg = ex.message || ex;
-      console.error(errMsg);
-    }
-    e.target.value = "";
-  };
-
-  useEffect(() => {
-    (async () => {
-      // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-      if (pDestroy) {
-        await pDestroy;
-        pInit.current = init();
-      } else {
-        pInit.current = init();
-      }
-    })();
-
-    return () => {
-      (async () => {
-        await (pDestroy.current = destroy());
-        console.log("ImageCapture Component Unmount");
-      })();
-    };
-  }, []);
-
-  return (
-    <div className="div-image-capture">
-      <input
-        type="file"
-        accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
-        onChange={decodeImg}
-      />
-    </div>
-  );
+    return (
+        <div className="capture-img">
+            <div className="img-ipt"><input type="file" ref={iptRef} onChange={captureImage} /></div>
+            <div className="result-area" ref={resRef}></div>
+        </div>
+    )
 }
 
-export default ImageCapture;
+export default ImageRecognizer;
