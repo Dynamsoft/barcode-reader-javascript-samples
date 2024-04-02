@@ -56,7 +56,7 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
     router.addResultReceiver(resultReceiver);
 
     // Filter out unchecked and duplicate results.
-    const filter = new MultiFrameResultCrossFilter();
+    const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
     // Filter out unchecked barcodes.
     filter.enableResultCrossVerification("barcode", true);
     // Filter out duplicate barcodes within 3 seconds.
