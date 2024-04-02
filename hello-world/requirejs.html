@@ -77,8 +77,6 @@
          * LICENSE ALERT - THE END
          */
 
-        Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
-
         CoreModule.engineResourcePaths = {
           std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.0/dist/",
           dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.10/dist/",
@@ -88,6 +86,9 @@
           dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
           dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.2/dist/"
         };
+
+        CoreModule.loadWasm(["DBR"]);
+
         (async () => {
           try {
             // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
@@ -122,7 +123,7 @@
             router.addResultReceiver(resultReceiver);
 
             // Filter out unchecked and duplicate results.
-            const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+            const filter = new MultiFrameResultCrossFilter();
             filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
             // Filter out duplicate barcodes within 3 seconds.
             filter.enableResultDeduplication("barcode", true);
@@ -131,7 +132,7 @@
 
             // Open camera and start scanning single barcode.
             await cameraEnhancer.open();
-            await router.startCapturing("ReadBarcodes_SpeedFirst");
+            await router.startCapturing("ReadSingleBarcode");
           } catch (ex) {
             let errMsg = ex.message || ex;
             console.error(errMsg);
