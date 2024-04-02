@@ -1,6 +1,5 @@
 <script lang="ts">
   import "../lib/router"; // import side effects. The license, engineResourcePath, so on.
-  import { EnumCapturedResultItemType } from "dynamsoft-core";
   import { type DecodedBarcodesResult } from "dynamsoft-barcode-reader";
   import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
   import {

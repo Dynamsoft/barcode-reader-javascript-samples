@@ -3,7 +3,6 @@ import { CameraEnhancer, CameraView } from 'dynamsoft-camera-enhancer';
 import { DecodedBarcodesResult } from 'dynamsoft-barcode-reader';
 import { CaptureVisionRouter, CapturedResultReceiver } from 'dynamsoft-capture-vision-router';
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
-import { EnumCapturedResultItemType } from 'dynamsoft-core';
 import "./VideoCapture.css";
 
 function VideoRecognizer() {
