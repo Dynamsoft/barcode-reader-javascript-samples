@@ -1,1 +1,4 @@
-<div class="div-image-capture"><input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" (change)="decodeImg($event)"/></div>
+<div class="capture-img">
+  <div class="img-ipt"><input type="file" #iptRef (change)="captureImage($event)"/></div>
+  <div class="result-area" #resRef></div>
+</div>

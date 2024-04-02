@@ -9,7 +9,7 @@ Dynamsoft.License.LicenseManager.initLicense(
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
  * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.0.21&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
  * LICENSE ALERT - THE END
  */
 
@@ -56,20 +56,12 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
     router.addResultReceiver(resultReceiver);
 
     // Filter out unchecked and duplicate results.
-    const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-    filter.enableResultCrossVerification(
-      Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
-      true
-    ); // Filter out unchecked barcodes.
+    const filter = new MultiFrameResultCrossFilter();
+    // Filter out unchecked barcodes.
+    filter.enableResultCrossVerification("barcode", true);
     // Filter out duplicate barcodes within 3 seconds.
-    filter.enableResultDeduplication(
-      Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
-      true
-    );
-    filter.setDuplicateForgetTime(
-      Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE,
-      3000
-    );
+    filter.enableResultDeduplication("barcode", true);
+    filter.setDuplicateForgetTime("barcode", 3000);
     await router.addResultFilter(filter);
 
     // Open camera and start scanning single barcode.
