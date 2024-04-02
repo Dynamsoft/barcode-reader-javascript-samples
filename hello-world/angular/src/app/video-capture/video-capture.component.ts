@@ -1,5 +1,4 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { EnumCapturedResultItemType } from 'dynamsoft-core'
 import { DecodedBarcodesResult } from 'dynamsoft-barcode-reader';
 import {
   CameraEnhancer,
