@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect, useRef } from "react";
-import { EnumCapturedResultItemType } from "dynamsoft-core";
 import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
 import {
   CameraEnhancer,

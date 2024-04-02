@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, type Ref } from "vue";
-import { EnumCapturedResultItemType } from "dynamsoft-core";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
 import type { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
