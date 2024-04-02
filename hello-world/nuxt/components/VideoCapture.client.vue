@@ -3,10 +3,8 @@ import {
   onBeforeUnmount,
   onMounted,
   ref,
-  getCurrentInstance,
   type Ref,
 } from "vue";
-import { EnumCapturedResultItemType } from "dynamsoft-core";
 import { type DecodedBarcodesResult } from "dynamsoft-barcode-reader";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
 import {
