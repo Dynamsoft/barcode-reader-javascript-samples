@@ -14,7 +14,7 @@
   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/dbr.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.10/dist/cvr.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.2/dist/dce.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.0.20/dist/dcp.js"></script>
+  <script src="./dcp/dcp.js"></script>
 
   <style>
     * {
@@ -255,17 +255,6 @@
      * LICENSE ALERT - THE END
      */
 
-    /** LICENSE ALERT - README
-     * DCP
-     * To use the library, you need to first specify a license key using the API "license" as shown below.
-     */
-    Dynamsoft.DCP.CodeParser.license =
-      "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9";
-    /**
-     * You can contact Dynamsoft Support Team (https://www.dynamsoft.com/Company/Contact.aspx) to obtain a license.
-     * LICENSE ALERT - THE END
-     */
-
     // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
     Dynamsoft.Core.CoreModule.loadWasm(["DBR", "DCP"]);
     Dynamsoft.DCP.CodeParserModule.loadSpec("AAMVA_DL_ID");
@@ -306,21 +295,14 @@
 
         // Filter out unchecked and duplicate results.
         const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-        filter.enableResultCrossVerification(
-          "barcode",
-          true
-        ); // Filter out unchecked barcodes.
+        filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
         await router.addResultFilter(filter);
 
         // Define a callback for results.
         const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
         resultReceiver.onCapturedResultReceived = async (result) => {
           const resultItems = result.items;
-          const barcodeResult = resultItems.find(
-            (item) =>
-              item.type ===
-              "barcode"
-          );
+          const barcodeResult = resultItems.find((item) => item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE);
 
           if (!barcodeResult) {
             if (cameraEnhancer.singleFrameMode !== "disabled") {

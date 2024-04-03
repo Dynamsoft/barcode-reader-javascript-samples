@@ -1,0 +1,264 @@
+{
+  "CaptureVisionTemplates": [
+    {
+      "Name": "all-mrz",
+      "ImageROIProcessingNameArray": [
+        "roi-mrz"
+      ],
+      "SemanticProcessingNameArray": [
+        "sp-mrz"
+      ]
+    },
+    {
+      "Name": "passport-mrz",
+      "ImageROIProcessingNameArray": [
+        "roi-mrz-passport"
+      ],
+      "SemanticProcessingNameArray": [
+        "sp-mrz-passport"
+      ]
+    },
+    {
+      "Name": "visa-mrz",
+      "ImageROIProcessingNameArray": [
+        "roi-mrz-visa"
+      ],
+      "SemanticProcessingNameArray": [
+        "sp-mrz-visa"
+      ]
+    },
+    {
+      "Name": "id-mrz",
+      "ImageROIProcessingNameArray": [
+        "roi-mrz-id"
+      ],
+      "SemanticProcessingNameArray": [
+        "sp-mrz-id"
+      ]
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "roi-mrz",
+      "TaskSettingNameArray": [
+        "task-mrz"
+      ]
+    },
+    {
+      "Name": "roi-mrz-passport",
+      "TaskSettingNameArray": [
+        "task-mrz-passport"
+      ]
+    },
+    {
+      "Name": "roi-mrz-visa",
+      "TaskSettingNameArray": [
+        "task-mrz-visa"
+      ]
+    },
+    {
+      "Name": "roi-mrz-id",
+      "TaskSettingNameArray": [
+        "task-mrz-id"
+      ]
+    }
+  ],
+  "TextLineSpecificationOptions": [
+    {
+      "Name": "tls-mrz",
+      "CharacterModelName": "MRZ",
+      "StringRegExPattern": "([ACI][A-Z<][A-Z<]{3}[A-Z0-9<]{9}[0-9][A-Z0-9<]{15}){(30)}|([0-9]{2}[(01-12)][(01-31)][0-9][MF<][0-9]{2}[(01-12)][(01-31)][0-9][A-Z<]{3}[A-Z0-9<]{11}[0-9]){(30)}|([A-Z<]{30}){(30)}|([ACIV][A-Z<][A-Z<]{3}[A-Z<]{31}){(36)}|([A-Z0-9<]{9}[0-9][A-Z<]{3}[0-9]{2}[(01-12)][(01-31)][0-9][MF<][0-9]{2}[(01-12)][(01-31)][0-9][A-Z0-9<]{8}){(36)}|([PV][A-Z<][A-Z<]{3}[A-Z<]{39}){(44)}|([A-Z0-9<]{9}[0-9][A-Z<]{3}[0-9]{2}[(01-12)][(01-31)][0-9][MF<][0-9]{2}[(01-12)][(01-31)][0-9][A-Z0-9<]{14}[A-Z0-9<]{2}){(44)}",
+      "StringLengthRange": [
+        30,
+        44
+      ],
+      "CharHeightRange": [
+        5,
+        1000,
+        1
+      ],
+      "BinarizationModes": [
+        {
+          "BlockSizeX": 30,
+          "BlockSizeY": 30,
+          "Mode": "BM_LOCAL_BLOCK",
+          "MorphOperation": "Close"
+        }
+      ]
+    },
+    {
+      "Name": "tls-mrz-passport",
+      "StringRegExPattern": "(P[A-Z<][A-Z<]{3}[A-Z<]{39}){(44)}|([A-Z0-9<]{9}[0-9][A-Z<]{3}[0-9]{2}[(01-12)][(01-31)][0-9][MF<][0-9]{2}[(01-12)][(01-31)][0-9][A-Z0-9<]{14}[0-9<][0-9]){(44)}",
+      "StringLengthRange": [
+        44,
+        44
+      ],
+      "BaseTextLineSpecificationName": "tls-mrz"
+    },
+    {
+      "Name": "tls-mrz-visa",
+      "StringRegExPattern": "(V[A-Z<][A-Z<]{3}[A-Z<]{31}){(36)}|([A-Z0-9<]{9}[0-9][A-Z<]{3}[0-9]{2}[(01-12)][(01-31)][0-9][MF<][0-9]{2}[(01-12)][(01-31)][0-9][A-Z0-9<]{8}){(36)}|(V[A-Z<][A-Z<]{3}[A-Z<]{39}){(44)}|([A-Z0-9<]{9}[0-9][A-Z<]{3}[0-9]{2}[(01-12)][(01-31)][0-9][MF<][0-9]{2}[(01-12)][(01-31)][0-9][A-Z0-9<]{14}[A-Z0-9<]{2}){(44)}",
+      "StringLengthRange": [
+        36,
+        44
+      ],
+      "BaseTextLineSpecificationName": "tls-mrz"
+    },
+    {
+      "Name": "tls-mrz-id",
+      "StringRegExPattern": "([ACI][A-Z<][A-Z<]{3}[A-Z0-9<]{9}[0-9][A-Z0-9<]{15}){(30)}|([0-9]{2}[(01-12)][(01-31)][0-9][MF<][0-9]{2}[(01-12)][(01-31)][0-9][A-Z<]{3}[A-Z0-9<]{11}[0-9]){(30)}|([A-Z<]{30}){(30)}|([ACI][A-Z<][A-Z<]{3}[A-Z<]{31}){(36)}|([A-Z0-9<]{9}[0-9][A-Z<]{3}[0-9]{2}[(01-12)][(01-31)][0-9][MF<][0-9]{2}[(01-12)][(01-31)][0-9][A-Z0-9<]{8}){(36)}",
+      "StringLengthRange": [
+        30,
+        36
+      ],
+      "BaseTextLineSpecificationName": "tls-mrz"
+    }
+  ],
+  "LabelRecognizerTaskSettingOptions": [
+    {
+      "Name": "task-mrz",
+      "TextLineSpecificationNameArray": [
+        "tls-mrz"
+      ],
+      "SectionImageParameterArray": [
+        {
+          "Section": "ST_REGION_PREDETECTION",
+          "ImageParameterName": "ip-mrz"
+        },
+        {
+          "Section": "ST_TEXT_LINE_LOCALIZATION",
+          "ImageParameterName": "ip-mrz"
+        },
+        {
+          "Section": "ST_TEXT_LINE_RECOGNITION",
+          "ImageParameterName": "ip-mrz"
+        }
+      ]
+    },
+    {
+      "Name": "task-mrz-passport",
+      "TextLineSpecificationNameArray": [
+        "tls-mrz-passport"
+      ],
+      "BaseLabelRecognizerTaskSettingName": "task-mrz"
+    },
+    {
+      "Name": "task-mrz-visa",
+      "TextLineSpecificationNameArray": [
+        "tls-mrz-visa"
+      ],
+      "BaseLabelRecognizerTaskSettingName": "task-mrz"
+    },
+    {
+      "Name": "task-mrz-id",
+      "TextLineSpecificationNameArray": [
+        "tls-mrz-id"
+      ],
+      "BaseLabelRecognizerTaskSettingName": "task-mrz"
+    }
+  ],
+  "CharacterModelOptions": [
+    {
+      "DirectoryPath": "",
+      "Name": "MRZ"
+    }
+  ],
+  "ImageParameterOptions": [
+    {
+      "Name": "ip-mrz",
+      "TextureDetectionModes": [
+        {
+          "Mode": "TDM_GENERAL_WIDTH_CONCENTRATION",
+          "Sensitivity": 8
+        }
+      ],
+      "TextDetectionMode": {
+        "Mode": "TTDM_LINE",
+        "CharHeightRange": [
+          20,
+          1000,
+          1
+        ],
+        "Sensitivity": 7
+      }
+    }
+  ],
+  "SemanticProcessingOptions": [
+    {
+      "Name": "sp-mrz",
+      "ReferenceObjectFilter": {
+        "ReferenceTargetROIDefNameArray": [
+          "roi-mrz"
+        ]
+      },
+      "TaskSettingNameArray": [
+        "dcp-mrz"
+      ]
+    },
+    {
+      "Name": "sp-mrz-passport",
+      "ReferenceObjectFilter": {
+        "ReferenceTargetROIDefNameArray": [
+          "roi-mrz-passport"
+        ]
+      },
+      "TaskSettingNameArray": [
+        "dcp-mrz-passport"
+      ]
+    },
+    {
+      "Name": "sp-mrz-visa",
+      "ReferenceObjectFilter": {
+        "ReferenceTargetROIDefNameArray": [
+          "roi-mrz-visa"
+        ]
+      },
+      "TaskSettingNameArray": [
+        "dcp-mrz-visa"
+      ]
+    },
+    {
+      "Name": "sp-mrz-id",
+      "ReferenceObjectFilter": {
+        "ReferenceTargetROIDefNameArray": [
+          "roi-mrz-id"
+        ]
+      },
+      "TaskSettingNameArray": [
+        "dcp-mrz-id"
+      ]
+    }
+  ],
+  "CodeParserTaskSettingOptions": [
+    {
+      "Name": "dcp-mrz",
+      "CodeSpecifications": [
+        "MRTD_TD3_PASSPORT",
+        "MRTD_TD2_VISA",
+        "MRTD_TD3_VISA",
+        "MRTD_TD1_ID",
+        "MRTD_TD2_ID"
+      ]
+    },
+    {
+      "Name": "dcp-mrz-passport",
+      "CodeSpecifications": [
+        "MRTD_TD3_PASSPORT"
+      ]
+    },
+    {
+      "Name": "dcp-mrz-visa",
+      "CodeSpecifications": [
+        "MRTD_TD2_VISA",
+        "MRTD_TD3_VISA"
+      ]
+    },
+    {
+      "Name": "dcp-mrz-id",
+      "CodeSpecifications": [
+        "MRTD_TD1_ID",
+        "MRTD_TD2_ID"
+      ]
+    }
+  ]
+}
