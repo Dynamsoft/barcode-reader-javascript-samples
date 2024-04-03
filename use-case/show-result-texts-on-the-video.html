@@ -103,8 +103,7 @@
             const resultItems = result.items;
             for (let item of resultItems) {
               if (
-                item.type !=
-                "barcode"
+                item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE
               )
                 continue;
 
@@ -187,10 +186,7 @@
 
           // Filter out unchecked and duplicate results.
           const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-          filter.enableResultCrossVerification(
-            "barcode",
-            true
-          ); // Filter out unchecked barcodes.
+          filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
 
           // Open camera and start scanning single barcode.
           await cameraEnhancer.open();
