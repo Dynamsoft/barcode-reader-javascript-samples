@@ -5,67 +5,47 @@ import "../../cvr"; // import side effects. The license, engineResourcePath, so 
 import "./ImageCapture.css";
 
 class ImageCapture extends React.Component {
-  pInit: Promise<CaptureVisionRouter> | null = null;
-  pDestroy: Promise<void> | null = null;
+  pRouter: Promise<CaptureVisionRouter> | null = null;
+  resRef: React.RefObject<HTMLDivElement> = React.createRef();
+  iptRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   async init(): Promise<CaptureVisionRouter> {
     const router = await CaptureVisionRouter.createInstance();
     return router;
   }
 
-  async destroy(): Promise<void> {
-    if (this.pInit) {
-      const router = await this.pInit;
-      router.dispose();
-    }
-  }
-
-  decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  captureImage = async (e: any) => {
     try {
-      const router = await this.pInit;
-      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-      const result = await router!.capture(
-        e.target.files![0],
-        "ReadBarcodes_SpeedFirst"
-      );
-      let texts = "";
+      this.resRef.current!.innerText = "";
+      const router = await this.pRouter;
+      const result = await router!.capture(e.target.files[0]);
       for (let item of result.items) {
-        console.log((item as BarcodeResultItem).text);
-        texts += (item as BarcodeResultItem).text + "\n";
+        let _item = item as BarcodeResultItem;
+        console.log(_item.text);
+        this.resRef.current!.innerText += `${_item.formatString} : ${_item.text}\n`
       }
-      if (texts !== "") alert(texts);
-      if (!result.items.length) alert("No barcode found");
+      this.iptRef.current!.value = '';
     } catch (ex: any) {
       let errMsg = ex.message || ex;
       console.error(errMsg);
       alert(errMsg);
     }
-    e.target.value = "";
-  };
+  }
 
   async componentDidMount() {
-    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-    if (this.pDestroy) {
-      await this.pDestroy;
-      this.pInit = this.init();
-    } else {
-      this.pInit = this.init();
-    }
+    this.pRouter = CaptureVisionRouter.createInstance();
   }
 
   async componentWillUnmount() {
-    await (this.pDestroy = this.destroy());
-    console.log("ImageCapture Component Unmount");
+    (await this.pRouter)!.dispose();
+    console.log('ImageCapture Component Unmount');
   }
 
   render() {
     return (
-      <div className="div-image-capture">
-        <input
-          type="file"
-          accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
-          onChange={this.decodeImg}
-        />
+      <div className="capture-img">
+        <div className="img-ipt"><input type="file" ref={this.iptRef} onChange={this.captureImage} /></div>
+        <div className="result-area" ref={this.resRef}></div>
       </div>
     );
   }
