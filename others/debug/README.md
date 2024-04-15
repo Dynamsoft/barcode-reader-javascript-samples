@@ -2,7 +2,7 @@
 
 This sample is designed to:
 
-1. Print detailed logs in the browser console to better assist in troubleshooting.
+1. Print detailed logs in the browser console to better assist in troubleshooting. On your mobile browser, you can click the tool icon to open the console (provided by eruda.js).
 2. Check if your device and browser are compatible with the camera and to what extent.
 3. Collect video frames for analysis. (Require to host the sample locally)
 
