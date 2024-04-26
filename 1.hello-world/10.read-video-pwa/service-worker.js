@@ -1,4 +1,4 @@
-const dbrCdn = `https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.41/dist/`;
+const dbrCdn = `https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.42/dist/`;
 const dbrVersion = dbrCdn.match(/(?<=dynamsoft-javascript-barcode@).+(?=\/dist)/)[0];
 
 // Files to cache
