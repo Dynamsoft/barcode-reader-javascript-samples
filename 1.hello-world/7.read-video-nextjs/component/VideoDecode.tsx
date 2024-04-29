@@ -1,6 +1,7 @@
 import { BarcodeScanner } from "dynamsoft-javascript-barcode";
+import "@/lib/dbr"; // import side effects. The license, engineResourcePath, so on.
 import React from 'react';
-import styles from '@/styles/VideoDecode.module.css'
+import styles from './VideoDecode.module.css'
 
 class VideoDecode extends React.Component {
     pScanner: Promise<BarcodeScanner>|null = null;
@@ -23,11 +24,8 @@ class VideoDecode extends React.Component {
             }
             await scanner.open();
         } catch (ex: any) {
-            if (ex.message.indexOf("network connection error")) {
-                let customMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-                console.log(customMsg);
-                alert(customMsg);
-            }
+            console.error(ex);
+            alert(ex?.message);
             throw ex;
         }
     }
