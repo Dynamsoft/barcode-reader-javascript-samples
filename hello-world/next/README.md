@@ -441,7 +441,7 @@ In `page.tsx`, import the `next/dynamic` to dynamically load `HelloWorld` compon
 import dynamic from "next/dynamic";
 
 // disable server-rendering for 'HelloWorld' component.
-const DynamicHeader = dynamic(
+const DynamicHelloWorld = dynamic(
   () => import("../components/HelloWorld/HelloWorld"),
   {
     ssr: false,
@@ -449,7 +449,7 @@ const DynamicHeader = dynamic(
 );
 
 export default function Home() {
-  return <DynamicHeader />;
+  return <DynamicHelloWorld />;
 }
 ```
 
