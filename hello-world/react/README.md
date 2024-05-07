@@ -173,10 +173,10 @@ class VideoCapture extends React.Component {
       ) => {
         if (!result.barcodeResultItems.length) return;
 
-        resultsContainer.current!.textContent = '';
+        this.resultsContainer.current!.textContent = '';
         console.log(result);
         for (let item of result.barcodeResultItems) {
-          resultsContainer.current!.append(
+          this.resultsContainer.current!.append(
             `${item.formatString}: ${item.text}`,
             document.createElement('br'),
             document.createElement('hr'),
