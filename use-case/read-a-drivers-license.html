@@ -8,13 +8,6 @@
   <meta name="keywords" content="read driver's license barcode" />
   <link rel="canonical" href="https://demo.dynamsoft.com/samples/dbr/js/use-case/read-a-drivers-license.html" />
   <title>Dynamsoft Barcode Reader Simple Sample - Read Driver License</title>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.10/dist/core.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.10/dist/license.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.2.10/dist/utility.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/dbr.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.10/dist/cvr.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3-beta-202405062308/dist/dce.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/dcp.js"></script>
 
   <style>
     * {
@@ -232,13 +225,7 @@
     </div>
     <div class="div-result-body"></div>
   </div>
-  <script>
-    if (location.protocol === "file:") {
-      const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
-      console.warn(message);
-      alert(message);
-    }
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405080115/dist/dbr.bundle.js"></script>
   <script>
     /** LICENSE ALERT - README
      * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.

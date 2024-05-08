@@ -40,20 +40,7 @@
       id="div-ui-container"
       style="width: 100%; height: calc(100vh - 150px)"
     ></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/2.4.1/eruda.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.10/dist/core.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.10/dist/license.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.2.10/dist/utility.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/dbr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.10/dist/cvr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3-beta-202405062308/dist/dce.js"></script>
-    <script>
-      if (location.protocol === "file:") {
-        const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
-        console.warn(message);
-        alert(message);
-      }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405080115/dist/dbr.bundle.js"></script>
     <script>
       eruda.init();
       
@@ -65,9 +52,7 @@
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
        */
 
-      Dynamsoft.License.LicenseManager.initLicense(
-        "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
-      );
+      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
       /**
        * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
@@ -83,23 +68,20 @@
         try {
           // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
           const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-          const cameraEnhancer =
-            await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
-          document
-            .querySelector("#div-ui-container")
-            .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+          const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+          // Get default UI and append it to DOM.
+          document.querySelector("#div-ui-container").append(cameraView.getUIElement()); 
 
           // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-          const router =
-            await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+          const router = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
           router.setInput(cameraEnhancer);
 
-          // Filter out unchecked results.
+          // Filter out unchecked and duplicate results.
           const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-          filter.enableResultCrossVerification(
-            "barcode",
-            true
-          ); // Filter out unchecked barcodes.
+          filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
+          // Filter out duplicate barcodes within 3 seconds.
+          filter.enableResultDeduplication("barcode", true);
+          filter.setDuplicateForgetTime("barcode", 3000);
           await router.addResultFilter(filter);
 
           let ss = await router.getSimplifiedSettings("ReadSingleBarcode");
@@ -115,13 +97,7 @@
             const resultItems = result.items;
             if (!resultItems.length) return;
 
-            if (
-              resultItems.some(
-                (item) =>
-                  item.type ===
-                  "barcode"
-              )
-            ) {
+            if (resultItems.some(item => item.type === "barcode")) {
               Dynamsoft.DCE.Feedback.beep();
             }
 
