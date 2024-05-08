@@ -3,34 +3,23 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Read barcodes from an image in no time with Dynamsoft Barcode Reader."
-    />
+    <meta name="description" content="Read barcodes from an image in no time with Dynamsoft Barcode Reader."/>
     <meta name="keywords" content="barcode, image" />
-    <link
-      rel="canonical"
-      href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/read-an-image.html"
-    />
+    <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/read-an-image.html"/>
     <title>Dynamsoft Barcode Reader Sample - Hello World (Read an Image)</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.10/dist/core.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.10/dist/license.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/dbr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.10/dist/cvr.js"></script>
   </head>
 
   <body>
     <h1>Hello World (Read an Image)</h1>
     <input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" />
     <div id="div-result-container" style="margin-top: 6px"></div>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405080115/dist/dbr.bundle.js"></script>
     <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
        */
 
-      Dynamsoft.License.LicenseManager.initLicense(
-        "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
-      );
+      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
       /**
        * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
@@ -43,9 +32,7 @@
       Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
       const input = document.querySelector("input");
-      const divResultContainer = document.querySelector(
-        "#div-result-container"
-      );
+      const divResultContainer = document.querySelector("#div-result-container");
 
       const pRouter = Dynamsoft.CVR.CaptureVisionRouter.createInstance();
 

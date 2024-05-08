@@ -252,7 +252,7 @@ const coreResourcesDir =
   cvrResourcesDir =
     "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.10/dist/",
   dceResourcesDir =
-    "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.2/dist/";
+    "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3-beta-202405062308/dist/";
 
 // Files to cache
 const cacheName = "helloworld-pwa";
