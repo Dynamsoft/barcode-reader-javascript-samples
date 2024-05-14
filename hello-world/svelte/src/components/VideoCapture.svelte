@@ -14,7 +14,7 @@
 
   let cameraView: CameraView | null;
   let cameraEnhancer: CameraEnhancer | null;
-  let router: CaptureVisionRouter | null;
+  let cvRouter: CaptureVisionRouter | null;
 
   onMount(() => {
     (async () => {
@@ -42,11 +42,11 @@
         }
 
         // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-        router = await CaptureVisionRouter.createInstance();
+        cvRouter = await CaptureVisionRouter.createInstance();
         if (needExist()) {
           return;
         }
-        router.setInput(cameraEnhancer);
+        cvRouter.setInput(cameraEnhancer);
 
         // Define a callback for results.
         const resultReceiver = new CapturedResultReceiver();
@@ -65,7 +65,7 @@
             );
           }
         };
-        router.addResultReceiver(resultReceiver);
+        cvRouter.addResultReceiver(resultReceiver);
 
         // Filter out unchecked and duplicate results.
         const filter = new MultiFrameResultCrossFilter();
@@ -74,7 +74,7 @@
         // Filter out duplicate barcodes within 3 seconds.
         filter.enableResultDeduplication("barcode", true);
         filter.setDuplicateForgetTime("barcode", 3000);
-        await router.addResultFilter(filter);
+        await cvRouter.addResultFilter(filter);
         if (needExist()) {
           return;
         }
@@ -84,7 +84,7 @@
         if (needExist()) {
           return;
         }
-        await router.startCapturing("ReadSingleBarcode");
+        await cvRouter.startCapturing("ReadSingleBarcode");
         if (needExist()) {
           return;
         }
@@ -102,9 +102,9 @@
   let bDestoried = false;
   let funcDestroy = () => {
     bDestoried = true;
-    if (router) {
-      router.dispose();
-      router = null;
+    if (cvRouter) {
+      cvRouter.dispose();
+      cvRouter = null;
     }
     if (cameraEnhancer) {
       cameraEnhancer.dispose();

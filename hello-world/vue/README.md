@@ -102,7 +102,7 @@ import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 const pInit: Ref<Promise<{
   cameraView: CameraView;
   cameraEnhancer: CameraEnhancer;
-  router: CaptureVisionRouter;
+  cvRouter: CaptureVisionRouter;
 }> | null> = ref(null);
 const uiContainer: Ref<HTMLElement | null> = ref(null);
 const resultsContainer: Ref<HTMLElement | null> = ref(null);
@@ -110,7 +110,7 @@ const resultsContainer: Ref<HTMLElement | null> = ref(null);
 const init = async (): Promise<{
   cameraView: CameraView;
   cameraEnhancer: CameraEnhancer;
-  router: CaptureVisionRouter;
+  cvRouter: CaptureVisionRouter;
 }> => {
   try {
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
@@ -119,8 +119,8 @@ const init = async (): Promise<{
     uiContainer.value!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-    const router = await CaptureVisionRouter.createInstance();
-    router.setInput(cameraEnhancer);
+    const cvRouter = await CaptureVisionRouter.createInstance();
+    cvRouter.setInput(cameraEnhancer);
 
     // Define a callback for results.
     const resultReceiver = new CapturedResultReceiver();
@@ -139,7 +139,7 @@ const init = async (): Promise<{
         );
       }
     };
-    router.addResultReceiver(resultReceiver);
+    cvRouter.addResultReceiver(resultReceiver);
 
     // Filter out unchecked and duplicate results.
     const filter = new MultiFrameResultCrossFilter();
@@ -156,15 +156,15 @@ const init = async (): Promise<{
       "barcode",
       3000
     );
-    await router.addResultFilter(filter);
+    await cvRouter.addResultFilter(filter);
 
     // Open camera and start scanning single barcode.
     await cameraEnhancer.open();
-    await router.startCapturing("ReadSingleBarcode");
+    await cvRouter.startCapturing("ReadSingleBarcode");
     return {
       cameraView,
       cameraEnhancer,
-      router,
+      cvRouter,
     };
   } catch (ex: any) {
     let errMsg = ex.message || ex;
@@ -180,8 +180,8 @@ onMounted(async () => {
 
 onBeforeUnmount(async () => {
   if (pInit.value) {
-    const { cameraView, cameraEnhancer, router } = await pInit.value;
-    router.dispose();
+    const { cameraView, cameraEnhancer, cvRouter } = await pInit.value;
+    cvRouter.dispose();
     cameraEnhancer.dispose();
     cameraView.dispose();
   }
@@ -230,9 +230,9 @@ const pInit: Ref<Promise<CaptureVisionRouter> | null> = ref(null);
 
 const decodeImg = async (e: Event) => {
   try {
-    const router = await pInit.value;
+    const cvRouter = await pInit.value;
     // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-    const result = await router!.capture(
+    const result = await cvRouter!.capture(
       (e.target as any).files[0],
       "ReadBarcodes_SpeedFirst"
     );
@@ -257,8 +257,8 @@ onMounted(async () => {
 
 onBeforeUnmount(async () => {
   if (pInit.value) {
-    const router = await pInit.value;
-    router.dispose();
+    const cvRouter = await pInit.value;
+    cvRouter.dispose();
   }
   console.log("ImageCapture Component Unmount");
 });

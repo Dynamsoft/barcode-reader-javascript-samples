@@ -40,7 +40,7 @@
       id="div-ui-container"
       style="width: 100%; height: calc(100vh - 150px)"
     ></div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405080115/dist/dbr.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405110135/dist/dbr.bundle.js"></script>
     <script>
       eruda.init();
       
@@ -73,8 +73,8 @@
           document.querySelector("#div-ui-container").append(cameraView.getUIElement()); 
 
           // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-          const router = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-          router.setInput(cameraEnhancer);
+          const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+          cvRouter.setInput(cameraEnhancer);
 
           // Filter out unchecked and duplicate results.
           const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
@@ -82,13 +82,13 @@
           // Filter out duplicate barcodes within 3 seconds.
           filter.enableResultDeduplication("barcode", true);
           filter.setDuplicateForgetTime("barcode", 3000);
-          await router.addResultFilter(filter);
+          await cvRouter.addResultFilter(filter);
 
-          let ss = await router.getSimplifiedSettings("ReadSingleBarcode");
+          let ss = await cvRouter.getSimplifiedSettings("ReadSingleBarcode");
           ss.timeout = 100000;
           ss.minImageCaptureInterval = 100;
           ss.capturedResultItemTypes |= Dynamsoft.Core.EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE;
-          await router.updateSettings("ReadSingleBarcode", ss);
+          await cvRouter.updateSettings("ReadSingleBarcode", ss);
 
           // Define a callback for results.
           const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
@@ -149,12 +149,12 @@
               --processingCount;
             }
           };
-          router.addResultReceiver(resultReceiver);
+          cvRouter.addResultReceiver(resultReceiver);
 
           return {
             cameraView,
             cameraEnhancer,
-            router,
+            cvRouter,
           };
         } catch (ex) {
           let errMsg = ex.message || ex;
@@ -167,19 +167,19 @@
       document
         .getElementById("btn-start-capturing")
         .addEventListener("click", async () => {
-          const { cameraEnhancer, router } = await pInit;
+          const { cameraEnhancer, cvRouter } = await pInit;
 
           // Open camera and start scanning single barcode.
           await cameraEnhancer.open();
-          await router.startCapturing("ReadSingleBarcode");
+          await cvRouter.startCapturing("ReadSingleBarcode");
         });
 
       document
         .getElementById("btn-stop-capturing")
         .addEventListener("click", async () => {
-          const { cameraEnhancer, router } = await pInit;
+          const { cameraEnhancer, cvRouter } = await pInit;
 
-          router.stopCapturing();
+          cvRouter.stopCapturing();
           cameraEnhancer.close();
         });
 

@@ -19,8 +19,8 @@ onUnmounted(async () => {
 const captureImage = async (e: any) => {
     try {
         resRef.value!.innerText = "";
-        const router = await pRouter.value;
-        const result = await router!.capture(e.target.files[0]);
+        const cvRouter = await pRouter.value;
+        const result = await cvRouter!.capture(e.target.files[0]);
         for (let item of result.items) {
             let _item = item as BarcodeResultItem;
             console.log(_item.text);

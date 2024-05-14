@@ -20,8 +20,8 @@ function ImageRecognizer() {
     const captureImage = async (e: any) => {
         try {
             resRef.current!.innerText = "";
-            const router = await pRouter.current;
-            const result = await router!.capture(e.target.files[0]);
+            const cvRouter = await pRouter.current;
+            const result = await cvRouter!.capture(e.target.files[0]);
             for (let item of result.items) {
                 let _item = item as BarcodeResultItem;
                 console.log(_item.text);

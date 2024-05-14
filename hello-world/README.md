@@ -13,26 +13,26 @@ In this example, you will learn the minimum codes required to initialize and set
 Let's quickly break down the methods used in order:
 
 - `Dynamsoft.License.LicenseManager.initLicense()`: This method initializes the license for using the SDK in the application.
-- `Dynamsoft.CVR.CaptureVisionRouter.createInstance()`: This method creates a `CaptureVisionRouter` object `router` which controls the entire process in three steps:
+- `Dynamsoft.CVR.CaptureVisionRouter.createInstance()`: This method creates a `CaptureVisionRouter` object `cvRouter` which controls the entire process in three steps:
   - **Retrieve Images from the Image Source**
-    - `router` connects to the image source through the [`Image Source Adapter`](https://www.dynamsoft.com/capture-vision/docs/core/architecture/input.html#image-source-adapter?lang=js) interface with the method `setInput()`.
+    - `cvRouter` connects to the image source through the [`Image Source Adapter`](https://www.dynamsoft.com/capture-vision/docs/core/architecture/input.html#image-source-adapter?lang=js) interface with the method `setInput()`.
       ```js
-      router.setInput(cameraEnhancer);
+      cvRouter.setInput(cameraEnhancer);
       ```
     > The image source in our case is a CameraEnhancer object created with `Dynamsoft.DCE.CameraEnhancer.createInstance(view)`
   - **Coordinate Image-Processing Tasks**
-    - The coordination happens behind the scenes. `router` starts the process by specifying a preset template "ReadSingleBarcode" with the method `startCapturing()`.
+    - The coordination happens behind the scenes. `cvRouter` starts the process by specifying a preset template "ReadSingleBarcode" with the method `startCapturing()`.
       ```js
-      router.startCapturing("ReadSingleBarcode");
+      cvRouter.startCapturing("ReadSingleBarcode");
       ```
   - **Dispatch Results to Listening Objects**
-    - The processing results are returned through the [`CapturedResultReceiver`](https://www.dynamsoft.com/capture-vision/docs/core/architecture/output.html#captured-result-receiver?lang=js) interface. The `CapturedResultReceiver` object `resultReceiver` is registered to `router` via the method `addResultReceiver()`.
+    - The processing results are returned through the [`CapturedResultReceiver`](https://www.dynamsoft.com/capture-vision/docs/core/architecture/output.html#captured-result-receiver?lang=js) interface. The `CapturedResultReceiver` object `resultReceiver` is registered to `cvRouter` via the method `addResultReceiver()`.
       ```js
-      router.addResultReceiver(resultReceiver);
+      cvRouter.addResultReceiver(resultReceiver);
       ```
-    - Also note that reading from video is extremely fast and there could be many duplicate results. We can use a `MultiFrameResultCrossFilter` object with result deduplication enabled to filter out the duplicate results. The object is registered to `router` via the method `addResultFilter()`.
+    - Also note that reading from video is extremely fast and there could be many duplicate results. We can use a `MultiFrameResultCrossFilter` object with result deduplication enabled to filter out the duplicate results. The object is registered to `cvRouter` via the method `addResultFilter()`.
       ```js
-      router.addResultFilter(filter);
+      cvRouter.addResultFilter(filter);
       ```
 
 > Read more on [Capture Vision Router](https://www.dynamsoft.com/capture-vision/docs/core/architecture/#capture-vision-router).

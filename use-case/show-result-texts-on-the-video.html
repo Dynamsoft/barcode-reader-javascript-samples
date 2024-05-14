@@ -47,7 +47,7 @@
   <body>
     <div id="div-ui-container" style="width: 100%; height: 90vh"></div>
     <div id="div-information-containers"></div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405080115/dist/dbr.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405110135/dist/dbr.bundle.js"></script>
     <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -79,9 +79,9 @@
             .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
           // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-          const router =
+          const cvRouter =
             await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-          router.setInput(cameraEnhancer);
+          cvRouter.setInput(cameraEnhancer);
 
           // Define a callback for results.
           const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
@@ -170,7 +170,7 @@
                */
             }
           };
-          router.addResultReceiver(resultReceiver);
+          cvRouter.addResultReceiver(resultReceiver);
 
           // Filter out unchecked and duplicate results.
           const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
@@ -178,7 +178,7 @@
 
           // Open camera and start scanning single barcode.
           await cameraEnhancer.open();
-          await router.startCapturing("ReadBarcodes_SpeedFirst");
+          await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
         } catch (ex) {
           let errMsg = ex.message || ex;
           console.error(errMsg);

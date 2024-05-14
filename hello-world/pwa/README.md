@@ -63,9 +63,9 @@ Results:
         .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
         // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-        const router =
+        const cvRouter =
         await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-        router.setInput(cameraEnhancer);
+        cvRouter.setInput(cameraEnhancer);
 
         // Define a callback for results.
         const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
@@ -85,7 +85,7 @@ Results:
             }
         }
         };
-        router.addResultReceiver(resultReceiver);
+        cvRouter.addResultReceiver(resultReceiver);
 
         // Filter out unchecked and duplicate results.
         const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
@@ -102,11 +102,11 @@ Results:
         "barcode",
         3000
         );
-        await router.addResultFilter(filter);
+        await cvRouter.addResultFilter(filter);
 
         // Open camera and start scanning single barcode.
         await cameraEnhancer.open();
-        await router.startCapturing("ReadSingleBarcode");
+        await cvRouter.startCapturing("ReadSingleBarcode");
     } catch (ex) {
         let errMsg = ex.message || ex;
         console.error(errMsg);

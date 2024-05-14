@@ -13,12 +13,11 @@
 <body>
   <h1>Hello World for ES6 (Decode via Camera)</h1>
   <div id="div-ui-container" style="width: 100%; height: 80vh"></div>
-  Results:
-  <br>
+  Results:<br>
   <div id="div-results-container" style="width: 100%; height: 10vh; overflow: auto;"></div>
   <script type="module">
     import { CoreModule, LicenseManager, CaptureVisionRouter, CameraView, CameraEnhancer, MultiFrameResultCrossFilter }
-      from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405080115/dist/dbr.bundle.mjs";
+      from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405110135/dist/dbr.bundle.mjs";
 
     /** LICENSE ALERT - README
      * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -43,6 +42,7 @@
       dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3-beta-202405062308/dist/"
     };
 
+    // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
     CoreModule.loadWasm(["DBR"]);
 
     (async function () {
@@ -54,11 +54,11 @@
         document.querySelector("#div-ui-container").append(cameraView.getUIElement());
 
         // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-        const router = await CaptureVisionRouter.createInstance();
-        router.setInput(cameraEnhancer);
+        const cvRouter = await CaptureVisionRouter.createInstance();
+        cvRouter.setInput(cameraEnhancer);
 
         // Define a callback for results.
-        router.addResultReceiver({ onDecodedBarcodesReceived: (result) => {
+        cvRouter.addResultReceiver({ onDecodedBarcodesReceived: (result) => {
           if (!result.barcodeResultItems.length) return;
 
           const resultsContainer = document.querySelector("#div-results-container");
@@ -75,15 +75,15 @@
 
         // Filter out unchecked and duplicate results.
         const filter = new MultiFrameResultCrossFilter();
-        filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
+        // Filter out unchecked barcodes.
+        filter.enableResultCrossVerification("barcode", true);
         // Filter out duplicate barcodes within 3 seconds.
         filter.enableResultDeduplication("barcode", true);
-        filter.setDuplicateForgetTime("barcode", 3000);
-        await router.addResultFilter(filter);
+        await cvRouter.addResultFilter(filter);
 
         // Open camera and start scanning single barcode.
         await cameraEnhancer.open();
-        await router.startCapturing("ReadSingleBarcode");
+        await cvRouter.startCapturing("ReadSingleBarcode");
       } catch (ex) {
         let errMsg = ex.message || ex;
         console.error(errMsg);

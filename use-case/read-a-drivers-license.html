@@ -225,15 +225,13 @@
     </div>
     <div class="div-result-body"></div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405080115/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405110135/dist/dbr.bundle.js"></script>
   <script>
     /** LICENSE ALERT - README
      * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
      */
 
-    Dynamsoft.License.LicenseManager.initLicense(
-      "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
-    );
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
     /**
      * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
@@ -251,9 +249,7 @@
     const svgStart = document.querySelector("#svg-start");
     const openImageBtn = document.querySelector("#btn-open-image");
     const divUIContainer = document.querySelector("#div-ui-container");
-    const divResultContainer = document.querySelector(
-      "#div-result-container"
-    );
+    const divResultContainer = document.querySelector("#div-result-container");
     // timer for displaying MessageBox
     let timer;
     let oriParseInfo = {};
@@ -264,26 +260,18 @@
 
         // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
         const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-        const cameraEnhancer =
-          await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+        const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
         divUIContainer.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
-        cameraEnhancer.setScanRegion({
-          x: 5,
-          y: 5,
-          width: 90,
-          height: 90,
-          isMeasuredInPercentage: true,
-        }); // Set a scan region
 
         // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-        const router =
-          await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-        router.setInput(cameraEnhancer);
+        const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+        cvRouter.setInput(cameraEnhancer);
 
         // Filter out unchecked and duplicate results.
         const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-        filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
-        await router.addResultFilter(filter);
+        // Filter out unchecked barcodes.
+        filter.enableResultCrossVerification("barcode", true);
+        await cvRouter.addResultFilter(filter);
 
         // Define a callback for results.
         const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
@@ -313,21 +301,21 @@
           clearTimeout(timer);
           const success = await extractResultAlert(barcodeResult.bytes);
           if (success) {
-            router.stopCapturing();
+            cvRouter.stopCapturing();
           }
         };
-        router.addResultReceiver(resultReceiver);
+        cvRouter.addResultReceiver(resultReceiver);
 
-        let ss = await router.getSimplifiedSettings("ReadDenseBarcodes");
+        let ss = await cvRouter.getSimplifiedSettings("ReadDenseBarcodes");
         ss.barcodeSettings.barcodeFormatIds =
           Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
-        await router.updateSettings("ReadDenseBarcodes", ss);
+        await cvRouter.updateSettings("ReadDenseBarcodes", ss);
 
         return {
           parser,
           cameraView,
           cameraEnhancer,
-          router,
+          cvRouter,
         };
       } catch (ex) {
         let errMsg = ex.message || ex;
@@ -375,12 +363,12 @@
     }
 
     async function switchToSingleFrameMode() {
-      const { cameraEnhancer, router } = await pInit;
-      router.stopCapturing();
+      const { cameraEnhancer, cvRouter } = await pInit;
+      cvRouter.stopCapturing();
       cameraEnhancer.close();
       cameraEnhancer.singleFrameMode = "image";
       await cameraEnhancer.open();
-      await router.startCapturing("ReadDenseBarcodes");
+      await cvRouter.startCapturing("ReadDenseBarcodes");
     }
 
     async function switchToVideo() {
@@ -390,12 +378,12 @@
       document.querySelector("#span-tip").hidden = false;
       divUIContainer.style.display = "block";
 
-      const { cameraEnhancer, router } = await pInit;
-      router.stopCapturing();
+      const { cameraEnhancer, cvRouter } = await pInit;
+      cvRouter.stopCapturing();
       cameraEnhancer.close();
       cameraEnhancer.singleFrameMode = "disabled";
       await cameraEnhancer.open();
-      await router.startCapturing("ReadDenseBarcodes");
+      await cvRouter.startCapturing("ReadDenseBarcodes");
 
       timer = setTimeout(() => {
         if (cameraEnhancer.singleFrameMode === "disabled") {
@@ -491,7 +479,7 @@
     async function closeResultAlert() {
       divResultContainer.style.display = "none";
       document.querySelector(".div-result-body").innerText = "";
-      const { cameraEnhancer, router } = await pInit;
+      const { cameraEnhancer, cvRouter } = await pInit;
       if (cameraEnhancer.singleFrameMode === "disabled") {
         timer = setTimeout(() => {
           if (cameraEnhancer.singleFrameMode === "disabled") {
@@ -500,7 +488,7 @@
           }
         }, 3000);
       }
-      await router.startCapturing("ReadDenseBarcodes");
+      await cvRouter.startCapturing("ReadDenseBarcodes");
     }
   </script>
 </body>

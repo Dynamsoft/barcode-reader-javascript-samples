@@ -20,8 +20,8 @@ export class ImageCaptureComponent {
   captureImage = async (e: any) => {
     try {
       this.resRef!.innerText = "";
-      const router = await this.pRouter;
-      const result = await router!.capture(e.target.files[0]);
+      const cvRouter = await this.pRouter;
+      const result = await cvRouter!.capture(e.target.files[0]);
       for (let item of result.items) {
         let _item = item as BarcodeResultItem;
         console.log(_item.text);

@@ -140,7 +140,7 @@ export class VideoCaptureComponent {
   pInit: Promise<{
     cameraView: CameraView;
     cameraEnhancer: CameraEnhancer;
-    router: CaptureVisionRouter;
+    cvRouter: CaptureVisionRouter;
   }> | null = null;
 
   @ViewChild('uiContainer') uiContainer: ElementRef<HTMLDivElement> | null =
@@ -151,7 +151,7 @@ export class VideoCaptureComponent {
   async init(): Promise<{
     cameraView: CameraView;
     cameraEnhancer: CameraEnhancer;
-    router: CaptureVisionRouter;
+    cvRouter: CaptureVisionRouter;
   }> {
     try {
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
@@ -160,8 +160,8 @@ export class VideoCaptureComponent {
       this.uiContainer!.nativeElement.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
       
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-      const router = await CaptureVisionRouter.createInstance();
-      router.setInput(cameraEnhancer);
+      const cvRouter = await CaptureVisionRouter.createInstance();
+      cvRouter.setInput(cameraEnhancer);
       
       // Define a callback for results.
       const resultReceiver = new CapturedResultReceiver();
@@ -178,7 +178,7 @@ export class VideoCaptureComponent {
           );
         }
       };
-      router.addResultReceiver(resultReceiver);
+      cvRouter.addResultReceiver(resultReceiver);
 
       // Filter out unchecked and duplicate results.
       const filter = new MultiFrameResultCrossFilter();
@@ -195,15 +195,15 @@ export class VideoCaptureComponent {
         "barcode",
         3000
       );
-      await router.addResultFilter(filter);
+      await cvRouter.addResultFilter(filter);
 
       // Open camera and start scanning single barcode.
       await cameraEnhancer.open();
-      await router.startCapturing('ReadSingleBarcode');
+      await cvRouter.startCapturing('ReadSingleBarcode');
       return {
         cameraView,
         cameraEnhancer,
-        router,
+        cvRouter,
       };
     } catch (ex: any) {
       let errMsg = ex.message || ex;
@@ -219,8 +219,8 @@ export class VideoCaptureComponent {
 
   async ngOnDestroy() {
     if (this.pInit) {
-      const { cameraView, cameraEnhancer, router } = await this.pInit;
-      router.dispose();
+      const { cameraView, cameraEnhancer, cvRouter } = await this.pInit;
+      cvRouter.dispose();
       cameraEnhancer.dispose();
       cameraView.dispose();
     }
@@ -268,9 +268,9 @@ export class ImageCaptureComponent {
 
   decodeImg = async (e: any) => {
     try {
-      const router = await this.pInit;
+      const cvRouter = await this.pInit;
       // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-      const result = await router!.capture(
+      const result = await cvRouter!.capture(
         e.target.files[0],
         'ReadBarcodes_SpeedFirst'
       );
@@ -295,8 +295,8 @@ export class ImageCaptureComponent {
 
   async ngOnDestroy() {
     if (this.pInit) {
-      const router = await this.pInit;
-      router.dispose();
+      const cvRouter = await this.pInit;
+      cvRouter.dispose();
     }
     console.log('ImageCapture Component Unmount');
   }

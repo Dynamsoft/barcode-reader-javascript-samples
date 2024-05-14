@@ -11,13 +11,13 @@ const resultsContainer: Ref<HTMLElement | null> = ref(null);
 const pInit: Ref<Promise<{
     cameraView: CameraView;
     cameraEnhancer: CameraEnhancer;
-    router: CaptureVisionRouter;
+    cvRouter: CaptureVisionRouter;
 }> | null> = ref(null);
 
 const init = async (): Promise<{
     cameraView: CameraView;
     cameraEnhancer: CameraEnhancer;
-    router: CaptureVisionRouter;
+    cvRouter: CaptureVisionRouter;
 }> => {
     try {
         // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
@@ -26,8 +26,8 @@ const init = async (): Promise<{
         uiContainer.value!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
         // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-        const router = await CaptureVisionRouter.createInstance();
-        router.setInput(cameraEnhancer);
+        const cvRouter = await CaptureVisionRouter.createInstance();
+        cvRouter.setInput(cameraEnhancer);
 
         // Define a callback for results.
         const resultReceiver = new CapturedResultReceiver();
@@ -40,7 +40,7 @@ const init = async (): Promise<{
                 resultsContainer.value!.innerHTML += `${item.text}<br><hr>`;
             }
         };
-        router.addResultReceiver(resultReceiver);
+        cvRouter.addResultReceiver(resultReceiver);
 
         // Filter out unchecked and duplicate results.
         const filter = new MultiFrameResultCrossFilter();
@@ -48,15 +48,15 @@ const init = async (): Promise<{
         // Filter out duplicate barcodes within 3 seconds.
         filter.enableResultDeduplication("barcode", true);
         filter.setDuplicateForgetTime("barcode", 3000);
-        await router.addResultFilter(filter);
+        await cvRouter.addResultFilter(filter);
 
         // Open camera and start scanning barcode.
         await cameraEnhancer.open();
-        await router.startCapturing("ReadSingleBarcode");
+        await cvRouter.startCapturing("ReadSingleBarcode");
         return {
             cameraView,
             cameraEnhancer,
-            router,
+            cvRouter,
         };
     } catch (ex: any) {
         let errMsg = ex.message || ex;
@@ -72,8 +72,8 @@ onMounted(async () => {
 
 onUnmounted(async () => {
     if (pInit.value) {
-        const { cameraView, cameraEnhancer, router } = await pInit.value;
-        router.dispose();
+        const { cameraView, cameraEnhancer, cvRouter } = await pInit.value;
+        cvRouter.dispose();
         cameraEnhancer.dispose();
         cameraView.dispose();
     }

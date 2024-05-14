@@ -10,15 +10,15 @@ class ImageCapture extends React.Component {
   iptRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   async init(): Promise<CaptureVisionRouter> {
-    const router = await CaptureVisionRouter.createInstance();
-    return router;
+    const cvRouter = await CaptureVisionRouter.createInstance();
+    return cvRouter;
   }
 
   captureImage = async (e: any) => {
     try {
       this.resRef.current!.innerText = "";
-      const router = await this.pRouter;
-      const result = await router!.capture(e.target.files[0]);
+      const cvRouter = await this.pRouter;
+      const result = await cvRouter!.capture(e.target.files[0]);
       for (let item of result.items) {
         let _item = item as BarcodeResultItem;
         console.log(_item.text);

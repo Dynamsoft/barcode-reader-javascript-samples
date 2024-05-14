@@ -20,8 +20,8 @@ function VideoRecognizer() {
             uiContainer.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
             // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-            const router = await (pRouter.current = CaptureVisionRouter.createInstance());
-            router.setInput(cameraEnhancer);
+            const cvRouter = await (pRouter.current = CaptureVisionRouter.createInstance());
+            cvRouter.setInput(cameraEnhancer);
 
             // Define a callback for results.
             const resultReceiver = new CapturedResultReceiver();
@@ -34,7 +34,7 @@ function VideoRecognizer() {
                     resultsContainer.current!.innerHTML += `${item.text}<br><hr>`;
                 }
             };
-            router.addResultReceiver(resultReceiver);
+            cvRouter.addResultReceiver(resultReceiver);
 
             // Filter out unchecked and duplicate results.
             const filter = new MultiFrameResultCrossFilter();
@@ -42,11 +42,11 @@ function VideoRecognizer() {
             // Filter out duplicate barcodes within 3 seconds.
             filter.enableResultDeduplication("barcode", true);
             filter.setDuplicateForgetTime("barcode", 3000);
-            await router.addResultFilter(filter);
+            await cvRouter.addResultFilter(filter);
 
             // Open camera and start scanning barcode.
             await cameraEnhancer.open();
-            await router.startCapturing("ReadSingleBarcode");
+            await cvRouter.startCapturing("ReadSingleBarcode");
         }
         init();
 
