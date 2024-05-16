@@ -52,6 +52,7 @@
               divResultContainer.innerText += `\n${file.name}:\n`;
             }
             for (let item of result.items) {
+              if(item.type !== Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) { continue; }
               divResultContainer.innerText += item.text + "\n";
               console.log(item.text);
             }

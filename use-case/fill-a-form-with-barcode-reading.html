@@ -50,41 +50,36 @@
       const init = async () => {
         divIpts.style.display = 'none';
         uiLibLoad.style.display = '';
-        try {
-          // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
-          const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-          const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
-          document.querySelector("#div-ui-container").append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
-          // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-          const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-          cvRouter.setInput(cameraEnhancer);
+        // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+        const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+        const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+        document.querySelector("#div-ui-container").append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
-          // Filter out unchecked and duplicate results.
-          const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-          // Filter out unchecked barcodes.
-          filter.enableResultCrossVerification("barcode", true);
-          // Filter out duplicate barcodes within 3 seconds.
-          filter.enableResultDeduplication("barcode", true);
-          await cvRouter.addResultFilter(filter);
+        // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+        const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+        cvRouter.setInput(cameraEnhancer);
 
-          // Define a callback for results.
-          cvRouter.addResultReceiver({ onDecodedBarcodesReceived: async (result) => {
-            const resultItems = result.barcodeResultItems;
-            if (!resultItems.length) return;
+        // Filter out unchecked and duplicate results.
+        const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+        // Filter out unchecked barcodes.
+        filter.enableResultCrossVerification("barcode", true);
+        // Filter out duplicate barcodes within 3 seconds.
+        filter.enableResultDeduplication("barcode", true);
+        await cvRouter.addResultFilter(filter);
 
-            Dynamsoft.DCE.Feedback.beep(); // Trigger a beep.
-          }});
+        // Define a callback for results.
+        cvRouter.addResultReceiver({ onDecodedBarcodesReceived: async (result) => {
+          const resultItems = result.barcodeResultItems;
+          if (!resultItems.length) return;
 
-          divIpts.style.display = '';
-          uiLibLoad.style.display = 'none';
+          Dynamsoft.DCE.Feedback.beep(); // Trigger a beep.
+        }});
 
-          return { cameraEnhancer, cvRouter };
-        } catch (ex) {
-          let errMsg = ex.message || ex;
-          console.error(errMsg);
-          alert(errMsg);
-        }
+        divIpts.style.display = '';
+        uiLibLoad.style.display = 'none';
+
+        return { cameraEnhancer, cvRouter };
       };
 
       let pInit; // promise of init
@@ -92,27 +87,33 @@
       const allInputs = document.getElementsByClassName("latest-result");
       for (let input of allInputs) {
         input.addEventListener("click", async function () {
-          const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
+          try{
+            const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
 
-          // Define a callback for results.
-          const resultReceiver = { onDecodedBarcodesReceived: async (result) => {
-            const resultItems = result.barcodeResultItems;
-            if (!resultItems.length) return;
+            // Define a callback for results.
+            const resultReceiver = { onDecodedBarcodesReceived: async (result) => {
+              const resultItems = result.barcodeResultItems;
+              if (!resultItems.length) return;
 
-            this.value = resultItems[0].text;
-            cvRouter.stopCapturing();
-            cameraEnhancer.close();
-            divUIContainer.style.display = 'none';
+              this.value = resultItems[0].text;
+              cvRouter.stopCapturing();
+              cameraEnhancer.close();
+              divUIContainer.style.display = 'none';
 
-            cvRouter.removeResultReceiver(resultReceiver);
-          }};
-          cvRouter.addResultReceiver(resultReceiver);
+              cvRouter.removeResultReceiver(resultReceiver);
+            }};
+            cvRouter.addResultReceiver(resultReceiver);
 
-          divUIContainer.style.display = '';
+            divUIContainer.style.display = '';
 
-          // Open camera and start scanning single barcode.
-          await cameraEnhancer.open();
-          await cvRouter.startCapturing("ReadSingleBarcode");
+            // Open camera and start scanning single barcode.
+            await cameraEnhancer.open();
+            await cvRouter.startCapturing("ReadSingleBarcode");
+          } catch (ex) {
+            let errMsg = ex.message || ex;
+            console.error(errMsg);
+            alert(errMsg);
+          }
         });
       }
     </script>

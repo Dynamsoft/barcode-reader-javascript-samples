@@ -1,30 +1,33 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, type Ref } from "vue";
-import type { BarcodeResultItem } from "dynamsoft-barcode-reader"
+import "./cvr";
+import { EnumCapturedResultItemType } from "dynamsoft-core";
+import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 
 const iptRef: Ref<HTMLInputElement | null> = ref(null);
 const resRef: Ref<HTMLDivElement | null> = ref(null);
-const pRouter: Ref<Promise<CaptureVisionRouter> | null> = ref(null);
+
+let pRouter: Promise<CaptureVisionRouter> | null = null;
 
 onMounted(() => {
-    pRouter.value = CaptureVisionRouter.createInstance();
+    pRouter = CaptureVisionRouter.createInstance();
 })
 
 onUnmounted(async () => {
-    (await pRouter.value)!.dispose();
-    console.log('ImageCapture Component Unmount');
+    (await pRouter!).dispose();
 })
 
 const captureImage = async (e: any) => {
     try {
         resRef.value!.innerText = "";
-        const cvRouter = await pRouter.value;
+        const cvRouter = await pRouter!;
         const result = await cvRouter!.capture(e.target.files[0]);
-        for (let item of result.items) {
-            let _item = item as BarcodeResultItem;
-            console.log(_item.text);
-            resRef.value!.innerText += `${_item.formatString} : ${_item.text}\n`;
+        for (let _item of result.items) {
+            if(_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) { continue; }
+            let item = _item as BarcodeResultItem;
+            console.log(item.text);
+            resRef.value!.innerText += `${item.formatString} : ${item.text}\n`;
         }
         iptRef.value!.value = '';
     } catch (ex: any) {

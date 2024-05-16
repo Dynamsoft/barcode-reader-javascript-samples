@@ -8,182 +8,7 @@
   <meta name="keywords" content="read driver's license barcode" />
   <link rel="canonical" href="https://demo.dynamsoft.com/samples/dbr/js/use-case/read-a-drivers-license.html" />
   <title>Dynamsoft Barcode Reader Simple Sample - Read Driver License</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      width: 100vw;
-      height: 100vh;
-    }
-
-    #span-tip {
-      position: absolute;
-      font-size: 1rem;
-      color: #fe8e14;
-      top: 1vh;
-    }
-
-    h1 {
-      font-size: 1.5em;
-    }
-
-    a {
-      color: #fe8d14;
-    }
-
-    a:hover {
-      color: #fe8d14a1;
-    }
-
-    strong {
-      color: rgb(254, 142, 20);
-    }
-
-    #svg-start {
-      width: 100px;
-      height: 100px;
-      fill: #aaa;
-      cursor: pointer;
-    }
-
-    #div-main {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      width: 50vw;
-      height: 60vh;
-    }
-
-    .dce-bg-camera {
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      margin: auto;
-      width: 40%;
-      height: 40%;
-      fill: #aaa;
-    }
-
-    #div-ui-container {
-      display: none;
-      width: 100%;
-      height: 100%;
-    }
-
-    #div-result-container {
-      display: none;
-      position: fixed;
-      width: 50vw;
-      height: 70vh;
-      z-index: 10;
-      color: white;
-      font-size: small;
-      background: #222222;
-      margin-top: 30px;
-    }
-
-    #div-result-container .div-result-header {
-      width: 100%;
-      height: 30px;
-      background-color: #000;
-      font-size: 16px;
-      line-height: 30px;
-      padding-left: 10px;
-      box-sizing: border-box;
-    }
-
-    #div-result-container .div-result-body {
-      height: calc(70vh - 30px);
-      overflow-y: auto;
-      padding: 5px;
-      box-sizing: border-box;
-    }
-
-    #div-result-container p {
-      padding: 5px;
-      margin: 0;
-    }
-
-    #div-message-container {
-      display: none;
-      align-items: center;
-      width: 50vw;
-      padding: 8px 16px;
-      margin: -92px 0 10px 0;
-      box-sizing: border-box;
-      border-radius: 4px;
-      position: relative;
-      background-color: #f4f4f5;
-      color: #909399;
-      overflow: hidden;
-      transition: opacity 0.2s;
-    }
-
-    #div-message-container .em-icon {
-      font-size: 28px;
-      width: 28px;
-      line-height: 0;
-    }
-
-    #div-message-container .div-message-content {
-      display: table-cell;
-      padding: 0 8px;
-    }
-
-    .div-message-content>span {
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 18px;
-    }
-
-    .div-message-content>p {
-      font-size: 13px;
-      margin: 5px 0 0;
-      line-height: 20px;
-    }
-
-    .api_highlight {
-      font-weight: 700;
-      background-color: #ddd;
-      border-radius: 4px;
-      padding: 2px;
-    }
-
-    .em-close {
-      position: absolute;
-      top: 12px;
-      right: 15px;
-      cursor: pointer;
-      line-height: 0;
-    }
-
-    /* Small devices */
-    @media only screen and (max-width: 1000px) {
-      #div-message-container {
-        width: 90vw;
-      }
-
-      #div-main {
-        width: 80vw;
-      }
-
-      #div-result-container {
-        width: 80vw;
-      }
-    }
-  </style>
+  <link href="style.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -226,6 +51,7 @@
     <div class="div-result-body"></div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405110135/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/dcp.js"></script>
   <script>
     /** LICENSE ALERT - README
      * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -255,73 +81,60 @@
     let oriParseInfo = {};
 
     const init = async () => {
-      try {
-        const parser = await Dynamsoft.DCP.CodeParser.createInstance();
+      const parser = await Dynamsoft.DCP.CodeParser.createInstance();
 
-        // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
-        const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-        const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
-        divUIContainer.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+      // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+      const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+      divUIContainer.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
-        // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-        const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-        cvRouter.setInput(cameraEnhancer);
+      // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+      cvRouter.setInput(cameraEnhancer);
 
-        // Filter out unchecked and duplicate results.
-        const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-        // Filter out unchecked barcodes.
-        filter.enableResultCrossVerification("barcode", true);
-        await cvRouter.addResultFilter(filter);
+      // Filter out unchecked and duplicate results.
+      const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+      // Filter out duplicate barcodes within 3 seconds.
+      filter.enableResultDeduplication("barcode", true);
+      await cvRouter.addResultFilter(filter);
 
-        // Define a callback for results.
-        const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
-        resultReceiver.onCapturedResultReceived = async (result) => {
-          const resultItems = result.items;
-          const barcodeResult = resultItems.find((item) => item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE);
-
-          if (!barcodeResult) {
-            if (cameraEnhancer.singleFrameMode !== "disabled") {
-              document.querySelector(".div-result-body").innerText =
-                "No PDF417 Barcode Found!";
-              divResultContainer.style.display = "block";
-              document.addEventListener("mousedown", clickToHide);
-            }
-            return;
+      // Define a callback for results.
+      cvRouter.addResultReceiver({
+        // callback in every frame
+        onCapturedResultReceived: (result) => {
+          if (cameraEnhancer.singleFrameMode === "disabled"){ return; }
+          // Report no barcode in singleFrameMode
+          if (!result.items.some(item => item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE)) {
+            document.querySelector(".div-result-body").innerText = "No PDF417 Barcode Found!";
+            divResultContainer.style.display = "block";
+            document.addEventListener("mousedown", clickToHide);
           }
+        },
+        // callback only when barcode received
+        onDecodedBarcodesReceived: async (result) => {
+          if (!result.barcodeResultItems.length) return;
 
-          if (
-            barcodeResult &&
-            cameraEnhancer.singleFrameMode === "disabled"
-          ) {
-            Dynamsoft.DCE.Feedback.beep(); // Trigger a beep.
-          }
+          Dynamsoft.DCE.Feedback.beep();
 
-          document.querySelector("#div-message-container").style.display =
-            "none";
+          document.querySelector("#div-message-container").style.display = "none";
           clearTimeout(timer);
           const success = await extractResultAlert(barcodeResult.bytes);
           if (success) {
             cvRouter.stopCapturing();
           }
-        };
-        cvRouter.addResultReceiver(resultReceiver);
+        },
+      });
 
-        let ss = await cvRouter.getSimplifiedSettings("ReadDenseBarcodes");
-        ss.barcodeSettings.barcodeFormatIds =
-          Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
-        await cvRouter.updateSettings("ReadDenseBarcodes", ss);
+      let ss = await cvRouter.getSimplifiedSettings("ReadDenseBarcodes");
+      ss.barcodeSettings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
+      await cvRouter.updateSettings("ReadDenseBarcodes", ss);
 
-        return {
-          parser,
-          cameraView,
-          cameraEnhancer,
-          cvRouter,
-        };
-      } catch (ex) {
-        let errMsg = ex.message || ex;
-        console.error(errMsg);
-        alert(errMsg);
-      }
+      return {
+        parser,
+        cameraView,
+        cameraEnhancer,
+        cvRouter,
+      };
     };
     const pInit = init();
 
@@ -332,32 +145,23 @@
       await switchToVideo();
     });
 
-    document
-      .querySelector("#div-result-container .em-close")
-      .addEventListener("click", closeResultAlert);
+    document.querySelector("#div-result-container .em-close").addEventListener("click", closeResultAlert);
 
-    document
-      .querySelector("#a-switch")
-      .addEventListener("click", async () => {
-        document.querySelector("#span-tip").innerHTML =
-          "Click below to select a picture to read. <a href='javascript:void(0)' onclick='backToCameraMode()'>Back to camera mode</a>";
+    document.querySelector("#a-switch").addEventListener("click", async () => {
+      document.querySelector("#span-tip").innerHTML =
+        "Click below to select a picture to read. <a href='javascript:void(0)' onclick='backToCameraMode()'>Back to camera mode</a>";
 
-        await switchToSingleFrameMode();
-        document.querySelector("#div-message-container").style.display =
-          "none";
-      });
+      await switchToSingleFrameMode();
+      document.querySelector("#div-message-container").style.display = "none";
+    });
 
-    document
-      .querySelector(".div-message-content .em-close")
-      .addEventListener("click", () => {
-        document.querySelector("#div-message-container").style.display =
-          "none";
-      });
+    document.querySelector(".div-message-content .em-close").addEventListener("click", () => {
+      document.querySelector("#div-message-container").style.display = "none";
+    });
 
     async function backToCameraMode() {
       closeResultAlert();
-      document.querySelector("#span-tip").innerText =
-        "Aim at the barcode on the driver's license.";
+      document.querySelector("#span-tip").innerText = "Aim at the barcode on the driver's license.";
 
       await switchToVideo();
     }
@@ -387,8 +191,7 @@
 
       timer = setTimeout(() => {
         if (cameraEnhancer.singleFrameMode === "disabled") {
-          document.querySelector("#div-message-container").style.display =
-            "flex";
+          document.querySelector("#div-message-container").style.display = "flex";
         }
       }, 3000);
     }

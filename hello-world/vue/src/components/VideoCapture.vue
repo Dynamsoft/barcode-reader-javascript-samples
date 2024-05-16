@@ -1,83 +1,89 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, type Ref } from "vue";
+import "./cvr";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
-import type { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
-import { CapturedResultReceiver, CaptureVisionRouter } from "dynamsoft-capture-vision-router";
+import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
+
+const strErrorDistoryed = 'videoCapture component destoryed';
 
 const uiContainer: Ref<HTMLElement | null> = ref(null);
 const resultsContainer: Ref<HTMLElement | null> = ref(null);
 
-const pInit: Ref<Promise<{
-    cameraView: CameraView;
-    cameraEnhancer: CameraEnhancer;
-    cvRouter: CaptureVisionRouter;
-}> | null> = ref(null);
+let resolveInit:()=>void;
+const pInit:Promise<void> = new Promise(r=>{resolveInit=r});
+let bDestoryed = false;
 
-const init = async (): Promise<{
-    cameraView: CameraView;
-    cameraEnhancer: CameraEnhancer;
-    cvRouter: CaptureVisionRouter;
-}> => {
-    try {
-        // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
-        const cameraView = await CameraView.createInstance();
-        const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-        uiContainer.value!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
-
-        // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-        const cvRouter = await CaptureVisionRouter.createInstance();
-        cvRouter.setInput(cameraEnhancer);
-
-        // Define a callback for results.
-        const resultReceiver = new CapturedResultReceiver();
-        resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
-            if (!result.barcodeResultItems.length) return;
-
-            resultsContainer.value!.innerHTML = "";
-            console.log(result);
-            for (let item of result.barcodeResultItems) {
-                resultsContainer.value!.innerHTML += `${item.text}<br><hr>`;
-            }
-        };
-        cvRouter.addResultReceiver(resultReceiver);
-
-        // Filter out unchecked and duplicate results.
-        const filter = new MultiFrameResultCrossFilter();
-        filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcode.
-        // Filter out duplicate barcodes within 3 seconds.
-        filter.enableResultDeduplication("barcode", true);
-        filter.setDuplicateForgetTime("barcode", 3000);
-        await cvRouter.addResultFilter(filter);
-
-        // Open camera and start scanning barcode.
-        await cameraEnhancer.open();
-        await cvRouter.startCapturing("ReadSingleBarcode");
-        return {
-            cameraView,
-            cameraEnhancer,
-            cvRouter,
-        };
-    } catch (ex: any) {
-        let errMsg = ex.message || ex;
-        console.error(errMsg);
-        alert(errMsg);
-        throw ex;
-    }
-};
+let cvRouter:CaptureVisionRouter;
+let cameraEnhancer:CameraEnhancer;
 
 onMounted(async () => {
-    pInit.value = init();
+
+  try{
+    // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+    const cameraView = await CameraView.createInstance();
+    if(bDestoryed){ throw Error(strErrorDistoryed); } // Check if component is destroyed after every async
+    cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
+    if(bDestoryed){ throw Error(strErrorDistoryed); }
+
+    // Get default UI and append it to DOM.
+    uiContainer.value!.append(cameraView.getUIElement());
+
+    // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+    cvRouter = await CaptureVisionRouter.createInstance();
+    if(bDestoryed){ throw Error(strErrorDistoryed); }
+    cvRouter.setInput(cameraEnhancer);
+
+    // Define a callback for results.
+    cvRouter.addResultReceiver({ onDecodedBarcodesReceived: (result) => {
+      if (!result.barcodeResultItems.length) return;
+
+      resultsContainer.value!.textContent = '';
+      console.log(result);
+      for (let item of result.barcodeResultItems) {
+        resultsContainer.value!.append(
+          `${item.formatString}: ${item.text}`,
+          document.createElement('br'),
+          document.createElement('hr'),
+        );
+      }
+    }});
+
+    // Filter out unchecked and duplicate results.
+    const filter = new MultiFrameResultCrossFilter();
+    // Filter out unchecked barcodes.
+    filter.enableResultCrossVerification("barcode", true);
+    // Filter out duplicate barcodes within 3 seconds.
+    filter.enableResultDeduplication("barcode", true);
+    await cvRouter.addResultFilter(filter);
+    if(bDestoryed){ throw Error(strErrorDistoryed); }
+
+    // Open camera and start scanning single barcode.
+    await cameraEnhancer.open();
+    if(bDestoryed){ throw Error(strErrorDistoryed); }
+    await cvRouter.startCapturing("ReadSingleBarcode");
+    if(bDestoryed){ throw Error(strErrorDistoryed); }
+
+  }catch(ex){
+    
+    if((ex as Error)?.message === strErrorDistoryed){
+      console.log(strErrorDistoryed);
+    }else{
+      console.error(ex);
+    }
+  }
+
+  // distroy function will wait pInit
+  resolveInit!();
 })
 
 onUnmounted(async () => {
-    if (pInit.value) {
-        const { cameraView, cameraEnhancer, cvRouter } = await pInit.value;
-        cvRouter.dispose();
-        cameraEnhancer.dispose();
-        cameraView.dispose();
-    }
-    console.log("VideoCapture Component Unmount");
+  bDestoryed = true;
+  (async()=>{
+    await pInit;
+    cvRouter?.dispose();
+    cameraEnhancer?.dispose();
+  })();
 })
 </script>
 
