@@ -50,7 +50,7 @@
     </div>
     <div class="div-result-body"></div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405110135/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000-beta-202405152252/dist/dbr.bundle.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/dcp.js"></script>
   <script>
     /** LICENSE ALERT - README
@@ -118,7 +118,7 @@
 
           document.querySelector("#div-message-container").style.display = "none";
           clearTimeout(timer);
-          const success = await extractResultAlert(barcodeResult.bytes);
+          const success = await extractResultAlert(result.barcodeResultItems[0].bytes);
           if (success) {
             cvRouter.stopCapturing();
           }

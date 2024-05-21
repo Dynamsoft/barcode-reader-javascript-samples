@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
 
+import { ImageCaptureComponent } from './image-capture/image-capture.component';
+import { VideoCaptureComponent } from './video-capture/video-capture.component';
+
 @Component({
   selector: 'app-root',
+  standalone: true,
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrl: './app.component.css',
+  imports: [ImageCaptureComponent, VideoCaptureComponent]
 })
 export class AppComponent {
-  title = 'my-app';
-
-  mode: string = "video";
-
-  switchMode(value: string) {
-    this.mode = value;
-  }
+  title = 'dbrjs-sample-angular';
 }

@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import VideoCapture from "../VideoCapture/VideoCapture";
 import ImageCapture from "../ImageCapture/ImageCapture";
-import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
 import "./HelloWorld.css";
 
 function HelloWorld() {

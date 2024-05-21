@@ -244,15 +244,15 @@ For offline use, you need to cache more files.
 service-worker.js
 ```javascript
 const coreResourcesDir =
-    "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.10/dist/",
+    "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
   utilityResourcesDir =
     "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.2.10/dist/",
   dbrResourcesDir =
     "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
   cvrResourcesDir =
-    "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.10/dist/",
+    "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
   dceResourcesDir =
-    "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3-beta-202405062308/dist/";
+    "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/";
 
 // Files to cache
 const cacheName = "helloworld-pwa";

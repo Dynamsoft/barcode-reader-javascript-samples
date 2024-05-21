@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, type Ref } from "vue";
-import "./cvr";
-import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
+import { onMounted, onBeforeUnmount, ref, type Ref } from "vue";
+import "../dynamsoft.config";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
+import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 
 const strErrorDistoryed = 'videoCapture component destoryed';
 
@@ -64,48 +64,49 @@ onMounted(async () => {
     await cvRouter.startCapturing("ReadSingleBarcode");
     if(bDestoryed){ throw Error(strErrorDistoryed); }
 
-  }catch(ex){
+  }catch(ex:any){
     
     if((ex as Error)?.message === strErrorDistoryed){
       console.log(strErrorDistoryed);
     }else{
-      console.error(ex);
+      let errMsg = ex.message || ex;
+      console.error(errMsg);
+      alert(errMsg);
     }
   }
 
   // distroy function will wait pInit
   resolveInit!();
-})
+});
 
-onUnmounted(async () => {
+onBeforeUnmount(async () => {
   bDestoryed = true;
-  (async()=>{
+  try{
     await pInit;
     cvRouter?.dispose();
     cameraEnhancer?.dispose();
-  })();
-})
+  }catch(_){}
+});
 </script>
 
 <template>
-    <div>
-        <div ref="uiContainer" class="div-ui-container"></div>
-        Results:
-        <br />
-        <div ref="resultsContainer" class="div-results-container"></div>
-    </div>
+  <div>
+    <div ref="uiContainer" class="div-ui-container"></div>
+    Results:<br />
+    <div ref="resultsContainer" class="div-results-container"></div>
+  </div>
 </template>
     
 <style scoped>
 .div-ui-container {
-    width: 100%;
-    height: 70vh;
-    background: #eee;
+  width: 100%;
+  height: 70vh;
+  background: #eee;
 }
 
 .div-results-container {
-    width: 100%;
-    height: 10vh;
-    overflow: auto;
+  width: 100%;
+  height: 10vh;
+  overflow: auto;
 }
 </style>

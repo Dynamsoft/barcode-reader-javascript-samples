@@ -1,58 +1,65 @@
 <script lang="ts">
-  import "../lib/cvr"; // import side effects. The license, engineResourcePath, so on.
-  import { type BarcodeResultItem } from "dynamsoft-barcode-reader";
-  import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
-  import { onMount } from "svelte";
+import { onMount } from "svelte";
+import "../dynamsoft.config";
+import { EnumCapturedResultItemType } from "dynamsoft-core";
+import { type BarcodeResultItem } from "dynamsoft-barcode-reader";
+import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 
-  let pRouter: Promise<CaptureVisionRouter>;
-  let iptRef: HTMLInputElement;
-  let resRef: HTMLDivElement;
+let resDiv: HTMLDivElement;
 
-  onMount(() => {
-    return funcDestroy; // onDestory
-  });
+let pCvRouter: Promise<CaptureVisionRouter>;
+let bDestoried = false;
 
-  let bDestoried = false;
-  const funcDestroy = async () => {
-    bDestoried = true;
-    if (pRouter) {
-      const cvr = await pRouter;
-      cvr.dispose();
-    }
-  };
 
-  const captureImage = async (e: Event) => {
-    try {
-      const file = (e.target! as HTMLInputElement).files![0];
-      const cvr = await (pRouter = pRouter || CaptureVisionRouter.createInstance());
+const captureImage = async (e: Event) => {
+  let files = [...(e.target! as HTMLInputElement).files!];
+  (e.target! as HTMLInputElement).value = '';
+  resDiv.innerText = "";
+  try {
+    const cvRouter = await (pCvRouter = pCvRouter || CaptureVisionRouter.createInstance());
+    if (bDestoried) return;
+    
+    for(let file of files){
+      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
+      const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
       if (bDestoried) return;
 
-      const result = await cvr.capture(file);
-      for (let item of result.items) {
-        let _item = item as BarcodeResultItem;
-        console.log(_item.text);
-        resRef!.innerText += `${_item.formatString} : ${_item.text}\n`;
+      if(files.length > 1){
+        resDiv.innerText += `\n${file.name}:\n`;
       }
-      iptRef.value = "";
-    } catch (ex: any) {
-      let errMsg = ex.message || ex;
-      console.error(errMsg);
-      funcDestroy();
-      alert(errMsg);
+      for (let _item of result.items) {
+        if(_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) { continue; }
+        let item = _item as BarcodeResultItem;
+        resDiv.innerText += item.text + "\n";
+        console.log(item.text);
+      }
+      if (!result.items.length) resDiv.innerText += 'No barcode found\n';
+    }
+  } catch (ex: any) {
+    let errMsg = ex.message || ex;
+    console.error(errMsg);
+    alert(errMsg);
+  }
+};
+
+onMount(() => {
+  // onBeforeUnmount
+  return async()=>{
+    bDestoried = true;
+    if(pCvRouter){
+      try{
+        (await pCvRouter).dispose();
+      }catch(_){}
     }
   };
+});
 </script>
 
 <div class="capture-img">
   <div class="img-ipt">
-    <input
-      type="file"
-      accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
-      on:change={captureImage}
-      bind:this={iptRef}
-    />
+    <input type="file" multiple on:change={captureImage} accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"/>
   </div>
-  <div class="result-area" bind:this={resRef}></div>
+  <div class="result-area" bind:this={resDiv}></div>
 </div>
 
 <style>
