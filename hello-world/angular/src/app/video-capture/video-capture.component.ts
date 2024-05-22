@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import "../../dynamsoft.config";
+import "../dynamsoft.config";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
@@ -10,6 +10,7 @@ const strErrorDistoryed = 'videoCapture component destoryed';
   selector: 'app-video-capture',
   templateUrl: './video-capture.component.html',
   styleUrls: ['./video-capture.component.css'],
+  standalone: true,
 })
 export class VideoCaptureComponent {
 

@@ -246,7 +246,7 @@ service-worker.js
 const coreResourcesDir =
     "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
   utilityResourcesDir =
-    "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.2.10/dist/",
+    "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.2.20/dist/",
   dbrResourcesDir =
     "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
   cvrResourcesDir =

@@ -7,7 +7,8 @@ import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 @Component({
   selector: 'app-image-capture',
   templateUrl: './image-capture.component.html',
-  styleUrls: ['./image-capture.component.css']
+  styleUrls: ['./image-capture.component.css'],
+  standalone: true,
 })
 export class ImageCaptureComponent {
 

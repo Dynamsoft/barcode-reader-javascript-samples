@@ -14,7 +14,11 @@ class ImageCapture extends React.Component {
   async captureImage(e: ChangeEvent<HTMLInputElement>) {
     let files = [...(e.target.files as any as File[])];
     e.target.value = '';
+    console.log(1)//debug
+    console.log(this)//debug
+    console.log(this.resDiv)//debug
     this.resDiv.current!.innerText = "";
+    console.log(2)//debug
     try {
       const cvRouter = await (this.pCvRouter = this.pCvRouter || CaptureVisionRouter.createInstance());
       if (this.bDestoried) return;
@@ -55,7 +59,7 @@ class ImageCapture extends React.Component {
     return (
       <div className="capture-img">
         <div className="img-ipt">
-          <input type="file" multiple onChange={this.captureImage} accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"/>
+          <input type="file" multiple onChange={this.captureImage.bind(this)} accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"/>
         </div>
         <div className="result-area" ref={this.resDiv}></div>
       </div>
