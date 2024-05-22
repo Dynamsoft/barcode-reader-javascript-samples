@@ -43,6 +43,8 @@ export default () => {
   }, []);
 
   useEffect((): any => {
+    // reset value so works in React.StrictMode
+    bDestoried.current = false;
     // onBeforeUnmount
     return async () => {
       bDestoried.current = true;
