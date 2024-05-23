@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useRef, MutableRefObject, useCallback, ChangeEvent } from "react";
-import "../../dynamsoft.config";
+import "../dynamsoft.config";
 import { EnumCapturedResultItemType } from "dynamsoft-core";
 import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
@@ -47,6 +49,7 @@ export default () => {
     bDestoried.current = false;
     // onBeforeUnmount
     return async () => {
+      console.log('destroy???')//debug
       bDestoried.current = true;
       if(pCvRouter.current){
         try{

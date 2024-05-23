@@ -1,14 +1,9 @@
-
-
 .title {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
 }
-/* .title .title-text {
-
-} */
 .title .title-logo {
   width: 60px;
   height: 60px;

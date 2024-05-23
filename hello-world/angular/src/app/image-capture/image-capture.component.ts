@@ -1,33 +1,46 @@
-import { Component, ViewChild } from '@angular/core';
-import { BarcodeResultItem } from 'dynamsoft-barcode-reader';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import "../dynamsoft.config";
+import { EnumCapturedResultItemType } from "dynamsoft-core";
+import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 
 @Component({
   selector: 'app-image-capture',
   templateUrl: './image-capture.component.html',
-  styleUrls: ['./image-capture.component.css']
+  styleUrls: ['./image-capture.component.css'],
+  standalone: true,
 })
 export class ImageCaptureComponent {
-  pRouter: Promise<CaptureVisionRouter> | null = null;
 
-  @ViewChild('iptRef') iptRef: any;
-  @ViewChild('resRef') resRef: any;
+  @ViewChild('resDiv') resDiv?: ElementRef<HTMLDivElement>;
 
-  ngOnInit(): void {
-    this.pRouter = CaptureVisionRouter.createInstance();
-  }
+  pCvRouter?: Promise<CaptureVisionRouter>;
+  bDestoried = false;
 
-  captureImage = async (e: any) => {
+  captureImage = async (e: Event) => {
+    let files = [...(e.target! as HTMLInputElement).files as any as File[]];
+    (e.target! as HTMLInputElement).value = '';
+    this.resDiv!.nativeElement.innerText = "";
     try {
-      this.resRef!.innerText = "";
-      const router = await this.pRouter;
-      const result = await router!.capture(e.target.files[0]);
-      for (let item of result.items) {
-        let _item = item as BarcodeResultItem;
-        console.log(_item.text);
-        this.resRef.nativeElement!.innerText += `${_item.formatString} : ${_item.text}\n`;
+      const cvRouter = await (this.pCvRouter = this.pCvRouter || CaptureVisionRouter.createInstance());
+      if (this.bDestoried) return;
+      
+      for(let file of files){
+        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
+        const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+        if (this.bDestoried) return;
+  
+        if(files.length > 1){
+          this.resDiv!.nativeElement.innerText += `\n${file.name}:\n`;
+        }
+        for (let _item of result.items) {
+          if(_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) { continue; }
+          let item = _item as BarcodeResultItem;
+          this.resDiv!.nativeElement.innerText += item.text + "\n";
+          console.log(item.text);
+        }
+        if (!result.items.length) this.resDiv!.nativeElement.innerText += 'No barcode found\n';
       }
-      this.iptRef.nativeElement!.value = '';
     } catch (ex: any) {
       let errMsg = ex.message || ex;
       console.error(errMsg);
@@ -36,7 +49,11 @@ export class ImageCaptureComponent {
   }
 
   async ngOnDestroy() {
-    (await this.pRouter)!.dispose();
-    console.log('ImageCapture Component Unmount');
+    this.bDestoried = true;
+    if(this.pCvRouter){
+      try{
+        (await this.pCvRouter).dispose();
+      }catch(_){}
+    }
   }
 }

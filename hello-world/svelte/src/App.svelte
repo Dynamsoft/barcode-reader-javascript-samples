@@ -1,5 +1,4 @@
 <script lang="ts">
-  import "./lib/cvr"; // import side effects. The license, engineResourcePath, so on.
   import VideoCapture from "./components/VideoCapture.svelte";
   import ImageCapture from "./components/ImageCapture.svelte";
 

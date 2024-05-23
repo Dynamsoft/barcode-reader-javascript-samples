@@ -1,51 +1,45 @@
 import React from "react";
-import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
-import {
-  CameraEnhancer,
-  CameraView,
-} from "dynamsoft-camera-enhancer";
-import {
-  CapturedResultReceiver,
-  CaptureVisionRouter,
-} from "dynamsoft-capture-vision-router";
+import "../../dynamsoft.config";
+import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
+import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
-import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
 import "./VideoCapture.css";
 
+const strErrorDistoryed = 'videoCapture component destoryed';
+
 class VideoCapture extends React.Component {
-  pInit: Promise<{
-    cameraView: CameraView;
-    cameraEnhancer: CameraEnhancer;
-    router: CaptureVisionRouter;
-  }> | null = null;
-  pDestroy: Promise<void> | null = null;
 
   uiContainer: React.RefObject<HTMLDivElement> = React.createRef();
   resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
+  
+  resolveInit?: ()=>void;
+  pInit:Promise<void> = new Promise(r=>{this.resolveInit=r});
+  bDestoryed = false;
+  
+  cvRouter?:CaptureVisionRouter;
+  cameraEnhancer?:CameraEnhancer;
 
-  async init(): Promise<{
-    cameraView: CameraView;
-    cameraEnhancer: CameraEnhancer;
-    router: CaptureVisionRouter;
-  }> {
-    try {
+  async componentDidMount() {
+
+    try{
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
       const cameraView = await CameraView.createInstance();
-      const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-      this.uiContainer.current!.innerText = "";
-      this.uiContainer.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
-
+      if(this.bDestoryed){ throw Error(strErrorDistoryed); } // Check if component is destroyed after every async
+      this.cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
+      if(this.bDestoryed){ throw Error(strErrorDistoryed); }
+  
+      // Get default UI and append it to DOM.
+      this.uiContainer.current!.append(cameraView.getUIElement());
+  
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-      const router = await CaptureVisionRouter.createInstance();
-      router.setInput(cameraEnhancer);
-
+      this.cvRouter = await CaptureVisionRouter.createInstance();
+      if(this.bDestoryed){ throw Error(strErrorDistoryed); }
+      this.cvRouter.setInput(this.cameraEnhancer);
+  
       // Define a callback for results.
-      const resultReceiver = new CapturedResultReceiver();
-      resultReceiver.onDecodedBarcodesReceived = (
-        result: DecodedBarcodesResult
-      ) => {
+      this.cvRouter.addResultReceiver({ onDecodedBarcodesReceived: (result) => {
         if (!result.barcodeResultItems.length) return;
-
+  
         this.resultsContainer.current!.textContent = '';
         console.log(result);
         for (let item of result.barcodeResultItems) {
@@ -55,68 +49,52 @@ class VideoCapture extends React.Component {
             document.createElement('hr'),
           );
         }
-      };
-      router.addResultReceiver(resultReceiver);
-
+      }});
+  
       // Filter out unchecked and duplicate results.
       const filter = new MultiFrameResultCrossFilter();
-      filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
+      // Filter out unchecked barcodes.
+      filter.enableResultCrossVerification("barcode", true);
       // Filter out duplicate barcodes within 3 seconds.
       filter.enableResultDeduplication("barcode", true);
-      filter.setDuplicateForgetTime("barcode", 3000);
-      await router.addResultFilter(filter);
-
+      await this.cvRouter.addResultFilter(filter);
+      if(this.bDestoryed){ throw Error(strErrorDistoryed); }
+  
       // Open camera and start scanning single barcode.
-      await cameraEnhancer.open();
-      await router.startCapturing("ReadSingleBarcode");
-      return {
-        cameraView,
-        cameraEnhancer,
-        router,
-      };
-    } catch (ex: any) {
-      let errMsg = ex.message || ex;
-      console.error(errMsg);
-      alert(errMsg);
-      throw ex;
+      await this.cameraEnhancer.open();
+      if(this.bDestoryed){ throw Error(strErrorDistoryed); }
+      await this.cvRouter.startCapturing("ReadSingleBarcode");
+      if(this.bDestoryed){ throw Error(strErrorDistoryed); }
+  
+    }catch(ex:any){
+      
+      if((ex as Error)?.message === strErrorDistoryed){
+        console.log(strErrorDistoryed);
+      }else{
+        let errMsg = ex.message || ex;
+        console.error(errMsg);
+        alert(errMsg);
+      }
     }
-  }
-
-  async destroy(): Promise<void> {
-    if (this.pInit) {
-      const { cameraView, cameraEnhancer, router } = await this.pInit;
-      router.dispose();
-      cameraEnhancer.dispose();
-      cameraView.dispose();
-    }
-  }
-
-  async componentDidMount() {
-    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-    if (this.pDestroy) {
-      await this.pDestroy;
-      this.pInit = this.init();
-    } else {
-      this.pInit = this.init();
-    }
+  
+    // distroy function will wait pInit
+    this.resolveInit!();
   }
 
   async componentWillUnmount() {
-    await (this.pDestroy = this.destroy());
-    console.log("VideoCapture Component Unmount");
-  }
-
-  shouldComponentUpdate() {
-    // Never update UI after mount, sdk use native way to bind event, update will remove it.
-    return false;
+    this.bDestoryed = true;
+    try{
+      await this.pInit;
+      this.cvRouter?.dispose();
+      this.cameraEnhancer?.dispose();
+    }catch(_){}
   }
 
   render() {
     return (
       <div>
         <div ref={this.uiContainer} className="div-ui-container"></div>
-        Results:
-        <br></br>
+        Results:<br/>
         <div ref={this.resultsContainer} className="div-results-container"></div>
       </div>
     );

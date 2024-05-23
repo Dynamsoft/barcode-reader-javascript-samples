@@ -96,13 +96,13 @@ LicenseManager.initLicense(
  */
 
 CoreModule.engineResourcePaths = {
-  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.0/dist/",
-  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.10/dist/",
-  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.10/dist/",
-  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.10/dist/",
-  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.10/dist/",
+  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
+  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
+  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
+  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
+  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
   dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
-  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.2/dist/"
+  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/"
 };
 
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
@@ -143,7 +143,7 @@ class VideoCapture extends React.Component {
   pInit: Promise<{
     cameraView: CameraView;
     cameraEnhancer: CameraEnhancer;
-    router: CaptureVisionRouter;
+    cvRouter: CaptureVisionRouter;
   }> | null = null;
   pDestroy: Promise<void> | null = null;
 
@@ -153,7 +153,7 @@ class VideoCapture extends React.Component {
   async init(): Promise<{
     cameraView: CameraView;
     cameraEnhancer: CameraEnhancer;
-    router: CaptureVisionRouter;
+    cvRouter: CaptureVisionRouter;
   }> {
     try {
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
@@ -163,8 +163,8 @@ class VideoCapture extends React.Component {
       this.uiContainer.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-      const router = await CaptureVisionRouter.createInstance();
-      router.setInput(cameraEnhancer);
+      const cvRouter = await CaptureVisionRouter.createInstance();
+      cvRouter.setInput(cameraEnhancer);
 
       // Define a callback for results.
       const resultReceiver = new CapturedResultReceiver();
@@ -183,7 +183,7 @@ class VideoCapture extends React.Component {
           );
         }
       };
-      router.addResultReceiver(resultReceiver);
+      cvRouter.addResultReceiver(resultReceiver);
 
       // Filter out unchecked and duplicate results.
       const filter = new MultiFrameResultCrossFilter();
@@ -200,15 +200,15 @@ class VideoCapture extends React.Component {
         "barcode",
         3000
       );
-      await router.addResultFilter(filter);
+      await cvRouter.addResultFilter(filter);
 
       // Open camera and start scanning single barcode.
       await cameraEnhancer.open();
-      await router.startCapturing("ReadSingleBarcode");
+      await cvRouter.startCapturing("ReadSingleBarcode");
       return {
         cameraView,
         cameraEnhancer,
-        router,
+        cvRouter,
       };
     } catch (ex: any) {
       let errMsg = ex.message || ex;
@@ -220,8 +220,8 @@ class VideoCapture extends React.Component {
 
   async destroy(): Promise<void> {
     if (this.pInit) {
-      const { cameraView, cameraEnhancer, router } = await this.pInit;
-      router.dispose();
+      const { cameraView, cameraEnhancer, cvRouter } = await this.pInit;
+      cvRouter.dispose();
       cameraEnhancer.dispose();
       cameraView.dispose();
     }
@@ -299,22 +299,22 @@ class ImageCapture extends React.Component {
   pDestroy: Promise<void> | null = null;
 
   async init(): Promise<CaptureVisionRouter> {
-    const router = await CaptureVisionRouter.createInstance();
-    return router;
+    const cvRouter = await CaptureVisionRouter.createInstance();
+    return cvRouter;
   }
 
   async destroy(): Promise<void> {
     if (this.pInit) {
-      const router = await this.pInit;
-      router.dispose();
+      const cvRouter = await this.pInit;
+      cvRouter.dispose();
     }
   }
 
   decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const router = await this.pInit;
+      const cvRouter = await this.pInit;
       // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-      const result = await router!.capture(
+      const result = await cvRouter!.capture(
         e.target.files![0],
         "ReadBarcodes_SpeedFirst"
       );
