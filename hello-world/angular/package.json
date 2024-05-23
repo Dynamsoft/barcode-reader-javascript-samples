@@ -21,7 +21,7 @@
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3",
-    "dynamsoft-barcode-reader-bundle": "10.2.1000-beta-202405152252"
+    "dynamsoft-barcode-reader-bundle": "10.2.1000"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.7",
