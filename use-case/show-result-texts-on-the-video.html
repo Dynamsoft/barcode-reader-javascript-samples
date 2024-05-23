@@ -15,12 +15,6 @@
     <title>
       Dynamsoft Barcode Reader Sample - Show Result Texts on the Video
     </title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.10/dist/core.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.10/dist/license.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.2.10/dist/utility.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/dbr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.10/dist/cvr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.2/dist/dce.js"></script>
     <style>
       .bubble-box-container {
         position: absolute;
@@ -53,21 +47,13 @@
   <body>
     <div id="div-ui-container" style="width: 100%; height: 90vh"></div>
     <div id="div-information-containers"></div>
-    <script>
-      if (location.protocol === "file:") {
-        const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
-        console.warn(message);
-        alert(message);
-      }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
     <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
        */
 
-      Dynamsoft.License.LicenseManager.initLicense(
-        "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
-      );
+      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
       /**
        * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
@@ -76,65 +62,49 @@
        * LICENSE ALERT - THE END
        */
 
-      const divInfContainers = document.querySelector(
-        "#div-information-containers"
-      );
+      // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
+      Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
+
+      const divInfContainers = document.querySelector("#div-information-containers");
 
       (async () => {
         try {
           // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
           const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-          const cameraEnhancer =
-            await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
-          document
-            .querySelector("#div-ui-container")
-            .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+          const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+          // Get default UI and append it to DOM.
+          document.querySelector("#div-ui-container").append(cameraView.getUIElement()); 
 
           // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-          const router =
-            await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-          router.setInput(cameraEnhancer);
+          const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+          cvRouter.setInput(cameraEnhancer);
 
           // Define a callback for results.
-          const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
-          resultReceiver.onCapturedResultReceived = (result) => {
+          const bodyStyle = getComputedStyle(document.body);
+          cvRouter.addResultReceiver({ onCapturedResultReceived: result => {
             divInfContainers.innerText = "";
 
-            const resultItems = result.items;
-            for (let item of resultItems) {
-              if (
-                item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE
-              )
-                continue;
+            // if you set body `position` as `relative`, `absolute`, and so on, we needs these valuable.
+            const isBodyStyleStatic = bodyStyle.position === "static";
+            let bodyStaticTopOffset, bodyStaticLeftOffset;
+            if(isBodyStyleStatic){
+              const bodyRect = document.body.getBoundingClientRect();
+              bodyStaticTopOffset = bodyRect.top + parseFloat(bodyStyle.borderTopWidth);
+              bodyStaticLeftOffset = bodyRect.left + parseFloat(bodyStyle.borderLeftWidth);
+            }
 
-              const l = item.location;
+            // loop every barcode
+            for (let item of result.items) {
+              if (item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE){ continue; }
+
+              const p = item.location.points;
               const p1 = {
-                x: Math.min(
-                  l.points[0].x,
-                  l.points[1].x,
-                  l.points[2].x,
-                  l.points[3].x
-                ),
-                y: Math.min(
-                  l.points[0].y,
-                  l.points[1].y,
-                  l.points[2].y,
-                  l.points[3].y
-                ),
+                x: Math.min(p[0].x,p[1].x,p[2].x,p[3].x),
+                y: Math.min(p[0].y,p[1].y,p[2].y,p[3].y),
               };
               const p2 = {
-                x: Math.max(
-                  l.points[0].x,
-                  l.points[1].x,
-                  l.points[2].x,
-                  l.points[3].x
-                ),
-                y: Math.max(
-                  l.points[0].y,
-                  l.points[1].y,
-                  l.points[2].y,
-                  l.points[3].y
-                ),
+                x: Math.max(p[0].x,p[1].x,p[2].x,p[3].x),
+                y: Math.max(p[0].y,p[1].y,p[2].y,p[3].y),
               };
 
               const divInfContainer = document.createElement("div");
@@ -143,8 +113,7 @@
               divInf.className = "bubble-box";
               divInf.innerText = item.text;
               divInfContainer.append(divInf);
-              const bodyStyle = getComputedStyle(document.body);
-              if (bodyStyle.position === "static") {
+              if (isBodyStyleStatic) {
                 /**
                  * 'convertToPageCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the document.
                  * Then we can place a div element according to the converted coordinate.
@@ -163,17 +132,8 @@
                 const clientP1 = cameraEnhancer.convertToClientCoordinates(p1);
                 const clientP2 = cameraEnhancer.convertToClientCoordinates(p2);
                 const clientMidX = (clientP1.x + clientP2.x) / 2;
-                const bodyRect = document.body.getBoundingClientRect();
-                divInfContainer.style.top = `${
-                  clientP1.y -
-                  bodyRect.top -
-                  parseFloat(bodyStyle.borderTopWidth)
-                }px`;
-                divInfContainer.style.left = `${
-                  clientMidX -
-                  bodyRect.left -
-                  parseFloat(bodyStyle.borderLeftWidth)
-                }px`;
+                divInfContainer.style.top = `${clientP1.y - bodyStaticTopOffset}px`;
+                divInfContainer.style.left = `${clientMidX - bodyStaticLeftOffset}px`;
               }
               divInfContainers.append(divInfContainer);
 
@@ -181,8 +141,7 @@
                * You can also add more information, such as displaying product images.
                */
             }
-          };
-          router.addResultReceiver(resultReceiver);
+          }});
 
           // Filter out unchecked and duplicate results.
           const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
@@ -190,7 +149,7 @@
 
           // Open camera and start scanning single barcode.
           await cameraEnhancer.open();
-          await router.startCapturing("ReadBarcodes_SpeedFirst");
+          await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
         } catch (ex) {
           let errMsg = ex.message || ex;
           console.error(errMsg);

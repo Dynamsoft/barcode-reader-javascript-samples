@@ -11,18 +11,16 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <div className='App'>
-          <div className='title'>
-            <h2 className='title-text'>Hello World for React</h2>
-            <img className='title-logo' src={reactLogo} alt="logo"></img>
-          </div>
-          <div className='top-btns'>
-            <button onClick={() => { this.setState({ mode: "video" }) }} style={{ backgroundColor: this.state.mode === "video" ? "rgb(255, 174, 55)" : "#fff" }}>Video Capture</button>
-            <button onClick={() => { this.setState({ mode: "image" }) }} style={{ backgroundColor: this.state.mode === "image" ? "rgb(255, 174, 55)" : "#fff" }}>Image Capture</button>
-          </div>
-          {this.state.mode === "video" ? <VideoCapture /> : <ImageCapture />}
+      <div className='App'>
+        <div className='title'>
+          <h2 className='title-text'>Hello World for React</h2>
+          <img className='title-logo' src={reactLogo} alt="logo"></img>
         </div>
+        <div className='top-btns'>
+          <button onClick={() => { this.setState({ mode: "video" }) }} style={{ backgroundColor: this.state.mode === "video" ? "rgb(255, 174, 55)" : "#fff" }}>Video Capture</button>
+          <button onClick={() => { this.setState({ mode: "image" }) }} style={{ backgroundColor: this.state.mode === "image" ? "rgb(255, 174, 55)" : "#fff" }}>Image Capture</button>
+        </div>
+        {this.state.mode === "video" ? <VideoCapture /> : <ImageCapture />}
       </div>
     );
   }

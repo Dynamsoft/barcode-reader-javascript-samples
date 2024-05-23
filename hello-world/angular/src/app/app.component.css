@@ -1,20 +1,23 @@
+
+
 .title {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 20px;
 }
-.title .title-logo {
-  width: 30px;
-  height: 30px;
-  margin-left: 10px;
-}
+/* .title .title-text {
 
+} */
+.title .title-logo {
+  width: 60px;
+  height: 60px;
+  animation: retate 5s infinite linear;
+}
 .top-btns {
   width: 30%;
   margin: 20px auto;
 }
-
 .top-btns button {
   display: inline-block;
   border: 1px solid black;
@@ -22,7 +25,6 @@
   background-color: transparent;
   cursor: pointer;
 }
-
 .top-btns button:first-child {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -36,6 +38,15 @@
 
 @media screen and (max-width: 500px) {
   .top-btns {
-    width: 70%;
+      width: 70%;
+  }
+}
+
+@keyframes retate {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(360deg);
   }
 }

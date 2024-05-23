@@ -1,30 +1,44 @@
-import React from "react";
-import { BarcodeResultItem } from "dynamsoft-barcode-reader";
+import React, { ChangeEvent } from "react";
+import "../../dynamsoft.config";
+import { EnumCapturedResultItemType } from "dynamsoft-core";
+import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
-import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
 import "./ImageCapture.css";
 
 class ImageCapture extends React.Component {
-  pRouter: Promise<CaptureVisionRouter> | null = null;
-  resRef: React.RefObject<HTMLDivElement> = React.createRef();
-  iptRef: React.RefObject<HTMLInputElement> = React.createRef();
+  resDiv: React.RefObject<HTMLDivElement> = React.createRef();
 
-  async init(): Promise<CaptureVisionRouter> {
-    const router = await CaptureVisionRouter.createInstance();
-    return router;
-  }
+  pCvRouter: Promise<CaptureVisionRouter> | null = null;
+  bDestoried = false;
 
-  captureImage = async (e: any) => {
+  async captureImage(e: ChangeEvent<HTMLInputElement>) {
+    let files = [...(e.target.files as any as File[])];
+    e.target.value = '';
+    console.log(1)//debug
+    console.log(this)//debug
+    console.log(this.resDiv)//debug
+    this.resDiv.current!.innerText = "";
+    console.log(2)//debug
     try {
-      this.resRef.current!.innerText = "";
-      const router = await this.pRouter;
-      const result = await router!.capture(e.target.files[0]);
-      for (let item of result.items) {
-        let _item = item as BarcodeResultItem;
-        console.log(_item.text);
-        this.resRef.current!.innerText += `${_item.formatString} : ${_item.text}\n`
+      const cvRouter = await (this.pCvRouter = this.pCvRouter || CaptureVisionRouter.createInstance());
+      if (this.bDestoried) return;
+      
+      for(let file of files){
+        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
+        const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+        if (this.bDestoried) return;
+  
+        if(files.length > 1){
+          this.resDiv.current!.innerText += `\n${file.name}:\n`;
+        }
+        for (let _item of result.items) {
+          if(_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) { continue; }
+          let item = _item as BarcodeResultItem;
+          this.resDiv.current!.innerText += item.text + "\n";
+          console.log(item.text);
+        }
+        if (!result.items.length) this.resDiv.current!.innerText += 'No barcode found\n';
       }
-      this.iptRef.current!.value = '';
     } catch (ex: any) {
       let errMsg = ex.message || ex;
       console.error(errMsg);
@@ -32,20 +46,22 @@ class ImageCapture extends React.Component {
     }
   }
 
-  async componentDidMount() {
-    this.pRouter = CaptureVisionRouter.createInstance();
-  }
-
   async componentWillUnmount() {
-    (await this.pRouter)!.dispose();
-    console.log('ImageCapture Component Unmount');
+    this.bDestoried = true;
+    if(this.pCvRouter){
+      try{
+        (await this.pCvRouter).dispose();
+      }catch(_){}
+    }
   }
 
   render() {
     return (
       <div className="capture-img">
-        <div className="img-ipt"><input type="file" ref={this.iptRef} onChange={this.captureImage} /></div>
-        <div className="result-area" ref={this.resRef}></div>
+        <div className="img-ipt">
+          <input type="file" multiple onChange={this.captureImage.bind(this)} accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"/>
+        </div>
+        <div className="result-area" ref={this.resDiv}></div>
       </div>
     );
   }

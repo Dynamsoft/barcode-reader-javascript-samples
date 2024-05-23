@@ -42,4 +42,4 @@ Get the basic features of the library working with plain/native JavaScript or wi
 
 ### Others
 
-* [**Debug**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/other/debug#readme): Collect the actual image frames for debugging purposes.
+* [**Debug**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/others/debug#readme): Collect the actual image frames for debugging purposes.

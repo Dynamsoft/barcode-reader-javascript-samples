@@ -3,34 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Read barcodes from an image in no time with Dynamsoft Barcode Reader."
-    />
+    <meta name="description" content="Read barcodes from an image in no time with Dynamsoft Barcode Reader."/>
     <meta name="keywords" content="barcode, image" />
-    <link
-      rel="canonical"
-      href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/read-an-image.html"
-    />
+    <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/read-an-image.html"/>
     <title>Dynamsoft Barcode Reader Sample - Hello World (Read an Image)</title>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.10/dist/core.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.10/dist/license.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/dbr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.10/dist/cvr.js"></script>
   </head>
 
   <body>
     <h1>Hello World (Read an Image)</h1>
-    <input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" />
-    <div id="div-result-container" style="margin-top: 6px"></div>
+    <input id="ipt-file" type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"/><br>
+    Results:<br>
+    <div id="div-result-container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
     <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
        */
 
-      Dynamsoft.License.LicenseManager.initLicense(
-        "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
-      );
+      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
       /**
        * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
@@ -39,39 +29,41 @@
        * LICENSE ALERT - THE END
        */
 
-      // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
+      // Optional. Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
       Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
-      const input = document.querySelector("input");
-      const divResultContainer = document.querySelector(
-        "#div-result-container"
-      );
+      const divResultContainer = document.querySelector("#div-result-container");
 
-      const pRouter = Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+      let cvRouter; // an instance of CaptureVisionRouter
+      let pCvRouter; // promise of CaptureVisionRouter
 
-      input.onchange = async () => {
+      document.querySelector("#ipt-file").addEventListener('change', async function(){
+        let files = [...this.files];
+        this.value = '';
+        divResultContainer.innerText = '';
         try {
-          if (!input.files[0]) return;
+          cvRouter = cvRouter || await (pCvRouter = pCvRouter || Dynamsoft.CVR.CaptureVisionRouter.createInstance());
 
-          const router = await pRouter;
-          // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-          const result = await router.capture(
-            input.files[0],
-            "ReadBarcodes_SpeedFirst"
-          );
+          for(let file of files){
+            // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
+            const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
 
-          divResultContainer.innerText = "Result:\n";
-          for (let item of result.items) {
-            divResultContainer.innerText += item.text + "\n";
-            console.log(item.text);
+            if(files.length > 1){
+              divResultContainer.innerText += `\n${file.name}:\n`;
+            }
+            for (let item of result.items) {
+              if(item.type !== Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) { continue; }
+              divResultContainer.innerText += item.text + "\n";
+              console.log(item.text);
+            }
+            if (!result.items.length) divResultContainer.innerText += 'No barcode found\n';
           }
-          if (!result.items.length) alert('No barcode found');
         } catch (ex) {
           let errMsg = ex.message || ex;
           console.error(errMsg);
           alert(errMsg);
         }
-      };
+      });
     </script>
   </body>
 </html>
