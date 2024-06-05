@@ -2,10 +2,6 @@
 
 [Nuxt](https://nuxtjs.org/) is a higher-level framework that builds on top of [Vue](https://vuejs.org/). Check out the following guide on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Nuxt application. Note that in this sample `TypeScript` is used.
 
-## Official Sample
-
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/nuxt">Hello World in Nuxt - Source Code</a>
-
 ## Preparation
 
 Make sure you have [node](https://nodejs.org/) installed. `node 16.20.1` and `nuxt 3.2.3` are used in this article.
@@ -24,13 +20,10 @@ You will be asked to configure quite a few things for the application during the
 
 ```cmd
 cd my-app
-npm install
-npm install dynamsoft-core
-npm install dynamsoft-license
-npm install dynamsoft-utility
-npm install dynamsoft-barcode-reader
-npm install dynamsoft-capture-vision-router
-npm install dynamsoft-camera-enhancer
+npm install 
+npm install dynamsoft-capture-vision-std@1.2.0 -E
+npm install dynamsoft-image-processing@2.2.10 -E
+npm install dynamsoft-barcode-reader-bundle@10.2.1000 -E
 ```
 
 ## Start to implement
@@ -41,6 +34,17 @@ npm install dynamsoft-camera-enhancer
 import { CoreModule } from 'dynamsoft-core';
 import { LicenseManager } from 'dynamsoft-license';
 import 'dynamsoft-barcode-reader';
+
+// Configures the paths where the .wasm files and other necessary resources for modules are located.
+CoreModule.engineResourcePaths = {
+  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
+  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
+  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
+  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
+  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
+  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
+  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/"
+};
 
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -57,24 +61,14 @@ LicenseManager.initLicense(
  * LICENSE ALERT - THE END
  */
 
-CoreModule.engineResourcePaths = {
-  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
-  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
-  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
-  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
-  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
-  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
-  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/"
-};
-
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
 CoreModule.loadWasm(['DBR']);
 ```
 
 > Note:
->
-> * `initLicense()` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days. 
+> 
 > * `engineResourcePaths` tells the library where to get the necessary resources at runtime.
+> * `initLicense()` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days.
 
 ### Create a directory "components" and create the following files inside it to represent three components
 
@@ -293,65 +287,73 @@ onBeforeUnmount(async () => {
 ### Add `VideoCapture` and `ImageCapture` components in `HelloWorld.client.vue`
 
 ```vue
-<script setup lang="ts">
-import { ref, onMounted, type Ref } from "vue";
-import "../cvr"; // import side effects. The license, engineResourcePath, so on.
-
-const bShowVideoCapture: Ref<boolean> = ref(true);
-const bShowImageCapture: Ref<boolean> = ref(false)
-
-const showVideoCapture = () => {
-  bShowVideoCapture.value = true;
-  bShowImageCapture.value = false;
-};
-const showImageCapture = () => {
-  bShowVideoCapture.value = false;
-  bShowImageCapture.value = true;
-}
-</script>
-
 <template>
-  <div>
-    <div class="div-hello-world">
-      <h1>Hello World for Nuxt</h1>
-      <div>
-        <button :style="{ marginRight: '10px', backgroundColor: bShowVideoCapture ? 'rgb(255,174,55)' : 'white' }"
-          @click="showVideoCapture">Decode Video</button>
-        <button :style="{ backgroundColor: bShowImageCapture ? 'rgb(255,174,55)' : 'white' }" @click="showImageCapture">Decode Image</button>
-      </div>
-      <div class="container">
-          <VideoCapture v-if="bShowVideoCapture"></VideoCapture>
-          <ImageCapture v-if="bShowImageCapture"></ImageCapture>
-      </div>
+  <div class='div-hello-world'>
+    <div class='title'>
+      <h2 class='title-text'>Hello World for NUXTJS</h2>
+      <img class='title-logo' src="../assets/logo.svg" alt="logo" />
     </div>
+    <div class='top-btns'>
+      <button @click="mode = 'video'" :style="{ backgroundColor: mode === 'video' ? 'rgb(255, 174, 55)' : '#FFFFFF' }">Video Capture</button>
+      <button @click="mode = 'image'" :style="{ backgroundColor: mode === 'image' ? 'rgb(255, 174, 55)' : '#FFFFFF' }">Image Capture</button>
+    </div>
+    <VideoCapture v-if="mode === 'video'"/> 
+    <ImageCapture v-else/>
   </div>
 </template>
 
+<script setup lang="ts">
+import "../assets/main.css";
+
+
+import { ref, type Ref } from "vue";
+import VideoCapture from "./VideoCapture.client.vue";
+import ImageCapture from "./ImageCapture.client.vue";
+
+const mode: Ref<string> = ref("video");
+</script>
+
 <style scoped>
-.div-hello-world {
+.title {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  color: #455a64;
+  align-items: center;
+  margin-top: 20px;
+}
+.title .title-logo {
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
 }
 
-button {
-  font-size: 1.5rem;
-  margin-bottom: 2vh;
+.top-btns {
+  width: 30%;
+  margin: 20px auto;
+}
+
+.top-btns button {
+  display: inline-block;
   border: 1px solid black;
+  padding: 5px 15px;
+  background-color: transparent;
+  cursor: pointer;
 }
 
-.container {
-  margin: 2vmin auto;
-  font-size: medium;
-  width: 100%;
+.top-btns button:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-right: transparent;
+}
+.top-btns button:nth-child(2) {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-left: transparent;
 }
 
-h1 {
-  font-size: 1.5em;
+@media screen and (max-width: 500px) {
+  .top-btns {
+    width: 70%;
+  }
 }
 </style>
 ```

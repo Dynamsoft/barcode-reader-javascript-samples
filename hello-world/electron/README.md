@@ -23,14 +23,10 @@ npm init
 
 ```cmd
 npm install electron --save-dev
-npm install dynamsoft-capture-vision-std
-npm install dynamsoft-image-processing
-npm install dynamsoft-core
-npm install dynamsoft-license
-npm install dynamsoft-utility
-npm install dynamsoft-barcode-reader
-npm install dynamsoft-capture-vision-router
-npm install dynamsoft-camera-enhancer
+
+npm install dynamsoft-capture-vision-std@1.2.0 -E
+npm install dynamsoft-image-processing@2.2.10 -E
+npm install dynamsoft-barcode-reader-bundle@10.2.1000 -E
 ```
 
 ## Start to implement
@@ -91,12 +87,7 @@ Create the page to be loaded in the created window.
     <meta name="keywords" content="barcode, camera, Electron">
     <title>Dynamsoft Barcode Reader Sample - Electron</title>
     <link href="style.css" rel="stylesheet">
-    <script src="./node_modules/dynamsoft-core/dist/core.js"></script>
-    <script src="./node_modules/dynamsoft-license/dist/license.js"></script>
-    <script src="./node_modules/dynamsoft-utility/dist/utility.js"></script>
-    <script src="./node_modules/dynamsoft-barcode-reader/dist/dbr.js"></script>
-    <script src="./node_modules/dynamsoft-capture-vision-router/dist/cvr.js"></script>
-    <script src="./node_modules/dynamsoft-camera-enhancer/dist/dce.js"></script>
+    <script src="./node_modules/dynamsoft-barcode-reader-bundle/dist/dbr.bundle.js"></script>
   </head>
   <body>
     <h1>Hello World for Electron</h1>
@@ -114,21 +105,7 @@ Create the page to be loaded in the created window.
 `index.html` will loads `action.js`, which makes use of libraries to read barcodes from a video input:
 
 ```javascript
-/** LICENSE ALERT - README
- * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
- */
-
-Dynamsoft.License.LicenseManager.initLicense(
-  "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
-);
-
-/**
- * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
- * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
- * LICENSE ALERT - THE END
- */
-
+// Configures the paths where the .wasm files and other necessary resources for modules are located.
 Dynamsoft.Core.CoreModule.engineResourcePaths = {
   std: "./node_modules/dynamsoft-capture-vision-std/dist/",
   dip: "./node_modules/dynamsoft-image-processing/dist/",
@@ -136,26 +113,40 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
   license: "./node_modules/dynamsoft-license/dist/",
   cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
   dbr: "./node_modules/dynamsoft-barcode-reader/dist/",
-  dce: "./node_modules/dynamsoft-camera-enhancer/dist/"
+  dce: "./node_modules/dynamsoft-camera-enhancer/dist/",
 };
-(async function () {
+
+/** LICENSE ALERT - README
+ * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+ */
+
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+
+/**
+ * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+ * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+ * LICENSE ALERT - THE END
+ */
+// Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
+Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
+// Defined globally for easy debugging.
+let cameraEnhancer, cvRouter;
+
+(async () => {
   try {
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
     const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-    const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(
-      cameraView
-    );
-    document
-      .querySelector("#div-ui-container")
-      .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+    cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+    // Get default UI and append it to DOM.
+    document.querySelector("#div-ui-container").append(cameraView.getUIElement()); 
 
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-    const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+    cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
     cvRouter.setInput(cameraEnhancer);
 
     // Define a callback for results.
-    const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
-    resultReceiver.onDecodedBarcodesReceived = (result) => {
+    cvRouter.addResultReceiver({ onDecodedBarcodesReceived: (result) => {
       if (!result.barcodeResultItems.length) return;
 
       const resultsContainer = document.querySelector("#div-results-container");
@@ -168,24 +159,14 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
           document.createElement('hr'),
         );
       }
-    };
-    cvRouter.addResultReceiver(resultReceiver);
+    }});
 
     // Filter out unchecked and duplicate results.
     const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-    filter.enableResultCrossVerification(
-      "barcode",
-      true
-    ); // Filter out unchecked barcodes.
+    // Filter out unchecked barcodes.
+    filter.enableResultCrossVerification("barcode", true);
     // Filter out duplicate barcodes within 3 seconds.
-    filter.enableResultDeduplication(
-      "barcode",
-      true
-    );
-    filter.setDuplicateForgetTime(
-      "barcode",
-      3000
-    );
+    filter.enableResultDeduplication("barcode", true);
     await cvRouter.addResultFilter(filter);
 
     // Open camera and start scanning single barcode.

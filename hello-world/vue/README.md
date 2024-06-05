@@ -2,11 +2,6 @@
 
 [Vue 3](https://v3.vuejs.org/) is version 3 of Vue which is a progressive framework for building user interfaces. Check out the following guide on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Vue 3 application. Note that in this sample, `TypeScript` is used.
 
-## Official Sample
-
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/vue3/dist/">Hello World in Vue 3 - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/vue3">Hello World in Vue 3 - Source Code</a>
-
 ## Preparation
 
 Make sure you have [node](https://nodejs.org/) installed. `node 16.20.1` and `vue 3.3.4` are used in the example below. 
@@ -23,23 +18,31 @@ npm create vue@3
 ### **CD** to the root directory of the application and install necessary libraries
 
 ```cmd
-npm install
-npm install dynamsoft-core
-npm install dynamsoft-license
-npm install dynamsoft-utility
-npm install dynamsoft-barcode-reader
-npm install dynamsoft-capture-vision-router
-npm install dynamsoft-camera-enhancer
+npm install 
+npm install dynamsoft-capture-vision-std@1.2.0 -E
+npm install dynamsoft-image-processing@2.2.10 -E
+npm install dynamsoft-barcode-reader-bundle@10.2.1000 -E
 ```
 
 ## Start to implement
 
-### Add file "cvr.ts" under "/src/" to configure libraries
+### ### Add file "dynamsoft.config.ts" under "/src/" to configure libraries
 
 ```typescript
 import { CoreModule } from 'dynamsoft-core';
 import { LicenseManager } from 'dynamsoft-license';
 import 'dynamsoft-barcode-reader';
+
+// Configures the paths where the .wasm files and other necessary resources for modules are located.
+CoreModule.engineResourcePaths = {
+  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
+  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
+  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
+  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
+  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
+  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
+  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/"
+};
 
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -56,24 +59,18 @@ LicenseManager.initLicense(
  * LICENSE ALERT - THE END
  */
 
-CoreModule.engineResourcePaths = {
-  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
-  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
-  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
-  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
-  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
-  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
-  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/"
-};
-
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
 CoreModule.loadWasm(['DBR']);
 ```
 
 > Note:
->
-> * `initLicense()` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days. 
+> 
 > * `engineResourcePaths` tells the library where to get the necessary resources at runtime.
+> * `initLicense()` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days.
+
+### Build directory structure
+
+* Create a directory "components" under "/src/", and then create another two directories "VideoCapture" and "ImageCapture" under "/src/components/".
 
 ### Create and edit the `VideoCapture` component
 
@@ -83,50 +80,43 @@ CoreModule.loadWasm(['DBR']);
 
 ```vue
 <script setup lang="ts">
-import {
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  getCurrentInstance,
-  type Ref,
-} from "vue";
-import { EnumCapturedResultItemType } from "dynamsoft-core";
-import { type DecodedBarcodesResult } from "dynamsoft-barcode-reader";
+import { onMounted, onBeforeUnmount, ref, type Ref } from "vue";
+import "../dynamsoft.config";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
-import {
-  CapturedResultReceiver,
-  CaptureVisionRouter,
-} from "dynamsoft-capture-vision-router";
+import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 
-const pInit: Ref<Promise<{
-  cameraView: CameraView;
-  cameraEnhancer: CameraEnhancer;
-  cvRouter: CaptureVisionRouter;
-}> | null> = ref(null);
+const strErrorDistoryed = 'videoCapture component destoryed';
+
 const uiContainer: Ref<HTMLElement | null> = ref(null);
 const resultsContainer: Ref<HTMLElement | null> = ref(null);
 
-const init = async (): Promise<{
-  cameraView: CameraView;
-  cameraEnhancer: CameraEnhancer;
-  cvRouter: CaptureVisionRouter;
-}> => {
-  try {
+let resolveInit:()=>void;
+const pInit:Promise<void> = new Promise(r=>{resolveInit=r});
+let bDestoryed = false;
+
+let cvRouter:CaptureVisionRouter;
+let cameraEnhancer:CameraEnhancer;
+
+onMounted(async () => {
+
+  try{
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
     const cameraView = await CameraView.createInstance();
-    const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-    uiContainer.value!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+    if(bDestoryed){ throw Error(strErrorDistoryed); } // Check if component is destroyed after every async
+    cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
+    if(bDestoryed){ throw Error(strErrorDistoryed); }
+
+    // Get default UI and append it to DOM.
+    uiContainer.value!.append(cameraView.getUIElement());
 
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-    const cvRouter = await CaptureVisionRouter.createInstance();
+    cvRouter = await CaptureVisionRouter.createInstance();
+    if(bDestoryed){ throw Error(strErrorDistoryed); }
     cvRouter.setInput(cameraEnhancer);
 
     // Define a callback for results.
-    const resultReceiver = new CapturedResultReceiver();
-    resultReceiver.onDecodedBarcodesReceived = (
-      result: DecodedBarcodesResult
-    ) => {
+    cvRouter.addResultReceiver({ onDecodedBarcodesReceived: (result) => {
       if (!result.barcodeResultItems.length) return;
 
       resultsContainer.value!.textContent = '';
@@ -138,66 +128,56 @@ const init = async (): Promise<{
           document.createElement('hr'),
         );
       }
-    };
-    cvRouter.addResultReceiver(resultReceiver);
+    }});
 
     // Filter out unchecked and duplicate results.
     const filter = new MultiFrameResultCrossFilter();
-    filter.enableResultCrossVerification(
-      "barcode",
-      true
-    ); // Filter out unchecked barcodes.
+    // Filter out unchecked barcodes.
+    filter.enableResultCrossVerification("barcode", true);
     // Filter out duplicate barcodes within 3 seconds.
-    filter.enableResultDeduplication(
-      "barcode",
-      true
-    );
-    filter.setDuplicateForgetTime(
-      "barcode",
-      3000
-    );
+    filter.enableResultDeduplication("barcode", true);
     await cvRouter.addResultFilter(filter);
+    if(bDestoryed){ throw Error(strErrorDistoryed); }
 
     // Open camera and start scanning single barcode.
     await cameraEnhancer.open();
+    if(bDestoryed){ throw Error(strErrorDistoryed); }
     await cvRouter.startCapturing("ReadSingleBarcode");
-    return {
-      cameraView,
-      cameraEnhancer,
-      cvRouter,
-    };
-  } catch (ex: any) {
-    let errMsg = ex.message || ex;
-    console.error(errMsg);
-    alert(errMsg);
-    throw ex;
-  }
-};
+    if(bDestoryed){ throw Error(strErrorDistoryed); }
 
-onMounted(async () => {
-  pInit.value = init();
+  }catch(ex:any){
+    
+    if((ex as Error)?.message === strErrorDistoryed){
+      console.log(strErrorDistoryed);
+    }else{
+      let errMsg = ex.message || ex;
+      console.error(errMsg);
+      alert(errMsg);
+    }
+  }
+
+  // distroy function will wait pInit
+  resolveInit!();
 });
 
 onBeforeUnmount(async () => {
-  if (pInit.value) {
-    const { cameraView, cameraEnhancer, cvRouter } = await pInit.value;
-    cvRouter.dispose();
-    cameraEnhancer.dispose();
-    cameraView.dispose();
-  }
-  console.log("VideoCapture Component Unmount");
+  bDestoryed = true;
+  try{
+    await pInit;
+    cvRouter?.dispose();
+    cameraEnhancer?.dispose();
+  }catch(_){}
 });
 </script>
 
 <template>
   <div>
     <div ref="uiContainer" class="div-ui-container"></div>
-    Results:
-    <br />
+    Results:<br />
     <div ref="resultsContainer" class="div-results-container"></div>
   </div>
 </template>
-
+    
 <style scoped>
 .div-ui-container {
   width: 100%;
@@ -221,154 +201,162 @@ onBeforeUnmount(async () => {
 
 ```vue
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref, type Ref } from "vue";
-import { type BarcodeResultItem } from "dynamsoft-barcode-reader";
+import { onBeforeUnmount, ref, type Ref } from "vue";
+import "../dynamsoft.config";
+import { EnumCapturedResultItemType } from "dynamsoft-core";
+import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
-import "../cvr"; // import side effects. The license, engineResourcePath, so on.
 
-const pInit: Ref<Promise<CaptureVisionRouter> | null> = ref(null);
+const resDiv: Ref<HTMLDivElement | null> = ref(null);
 
-const decodeImg = async (e: Event) => {
+let pCvRouter: Promise<CaptureVisionRouter>;
+let bDestoried = false;
+
+const captureImage = async (e: Event) => {
+  let files = [...(e.target! as HTMLInputElement).files!];
+  (e.target! as HTMLInputElement).value = '';
+  resDiv.value!.innerText = "";
   try {
-    const cvRouter = await pInit.value;
-    // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-    const result = await cvRouter!.capture(
-      (e.target as any).files[0],
-      "ReadBarcodes_SpeedFirst"
-    );
-    let texts = "";
-    for (let item of result.items) {
-      console.log((item as BarcodeResultItem).text);
-      texts += (item as BarcodeResultItem).text + "\n";
+    const cvRouter = await (pCvRouter = pCvRouter || CaptureVisionRouter.createInstance());
+    if (bDestoried) return;
+    
+    for(let file of files){
+      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
+      const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+      if (bDestoried) return;
+
+      if(files.length > 1){
+        resDiv.value!.innerText += `\n${file.name}:\n`;
+      }
+      for (let _item of result.items) {
+        if(_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) { continue; }
+        let item = _item as BarcodeResultItem;
+        resDiv.value!.innerText += item.text + "\n";
+        console.log(item.text);
+      }
+      if (!result.items.length) resDiv.value!.innerText += 'No barcode found\n';
     }
-    if (texts !== "") alert(texts);
-    if (!result.items.length) alert("No barcode found");
   } catch (ex: any) {
     let errMsg = ex.message || ex;
     console.error(errMsg);
     alert(errMsg);
   }
-  (e.target as HTMLInputElement).value = "";
-};
-
-onMounted(async () => {
-  pInit.value = CaptureVisionRouter.createInstance();
-});
+}
 
 onBeforeUnmount(async () => {
-  if (pInit.value) {
-    const cvRouter = await pInit.value;
-    cvRouter.dispose();
+  bDestoried = true;
+  if(pCvRouter){
+    try{
+      (await pCvRouter).dispose();
+    }catch(_){}
   }
-  console.log("ImageCapture Component Unmount");
 });
 </script>
 
 <template>
-  <div class="div-image-capture">
-    <input
-      type="file"
-      accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
-      @change="decodeImg"
-    />
+  <div class="capture-img">
+    <div class="img-ipt">
+      <input type="file" multiple @change="captureImage" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"/>
+    </div>
+    <div class="result-area" ref="resDiv"></div>
   </div>
 </template>
-
+    
 <style scoped>
-.div-image-capture {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
-}
-</style>
-```
-
-### Add `VideoCapture` and `ImageCapture` components in `HelloWorld.vue`
-
-```vue
-<script setup lang="ts">
-import { ref, onMounted, type Ref } from "vue";
-import "../cvr"; // import side effects. The license, engineResourcePath, so on.
-import VideoCapture from "./VideoCapture.vue";
-import ImageCapture from './ImageCapture.vue'
-
-const bShowVideoCapture: Ref<boolean> = ref(true);
-const bShowImageCapture: Ref<boolean> = ref(false)
-
-const showVideoCapture = () => {
-  bShowVideoCapture.value = true;
-  bShowImageCapture.value = false;
-};
-const showImageCapture = () => {
-  bShowVideoCapture.value = false;
-  bShowImageCapture.value = true;
-}
-</script>
-
-<template>
-  <div className="div-hello-world">
-    <h1>Hello World for Vue 3</h1>
-    <div>
-      <button :style="{ marginRight: '10px', backgroundColor: bShowVideoCapture ? 'rgb(255,174,55)' : 'white' }"
-        @click="showVideoCapture">Decode Video</button>
-      <button :style="{ backgroundColor: bShowImageCapture ? 'rgb(255,174,55)' : 'white' }" @click="showImageCapture">Decode Image</button>
-    </div>
-    <div class="container">
-      <VideoCapture v-if="bShowVideoCapture"></VideoCapture>
-      <ImageCapture v-if="bShowImageCapture"></ImageCapture>
-    </div>
-  </div>
-</template>
-
-<style scoped>
-.div-hello-world {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.capture-img {
   width: 100%;
   height: 100%;
-  color: #455a64;
+  font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-button {
-  font-size: 1.5rem;
-  margin-bottom: 2vh;
+.capture-img .img-ipt {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
   border: 1px solid black;
+  margin: 0 auto;
 }
 
-.container {
-  margin: 2vmin auto;
-  text-align: center;
-  font-size: medium;
-  width: 100%;
-}
-
-h1 {
-  font-size: 1.5em;
+.capture-img .result-area {
+  margin-top: 20px;
 }
 </style>
 ```
 
-### Add the `HelloWorld` component to `App.vue`
-
-Edit the file `App.vue` to be like this
+### Add `VideoCapture` and `ImageCapture` components in `App.vue`
 
 ```vue
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, type Ref } from "vue";
+import vueLogo from "./assets/logo.svg";
+import VideoCapture from "./components/VideoCapture.vue";
+import ImageCapture from "./components/ImageCapture.vue";
+
+const mode: Ref<string> = ref("video");
 </script>
 
 <template>
-  <HelloWorld />
+  <div class='App'>
+    <div class='title'>
+      <h2 class='title-text'>Hello World for Vue</h2>
+      <img class='title-logo' :src="vueLogo" alt="logo" />
+    </div>
+    <div class='top-btns'>
+      <button @click="mode = 'video'" :style="{ backgroundColor: mode === 'video' ? 'rgb(255, 174, 55)' : '#FFFFFF' }">Video Capture</button>
+      <button @click="mode = 'image'" :style="{ backgroundColor: mode === 'image' ? 'rgb(255, 174, 55)' : '#FFFFFF' }">Image Capture</button>
+    </div>
+    <VideoCapture v-if="mode === 'video'"/> 
+    <ImageCapture v-else/>
+  </div>
 </template>
 
 <style scoped>
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.title .title-logo {
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+.top-btns {
+  width: 30%;
+  margin: 20px auto;
+}
+
+.top-btns button {
+  display: inline-block;
+  border: 1px solid black;
+  padding: 5px 15px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.top-btns button:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-right: transparent;
+}
+.top-btns button:nth-child(2) {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-left: transparent;
+}
+
+@media screen and (max-width: 500px) {
+  .top-btns {
+    width: 70%;
+  }
+}
 </style>
 ```
 
-* Try running the project.
+### Try running the project.
 
 ```cmd
 npm run dev
