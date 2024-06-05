@@ -2,11 +2,6 @@
 
 [React](https://reactjs.org/) is a JavaScript library meant explicitly for creating interactive UIs. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a React application. Note that in this sample we will use `TypeScript` and [Hooks](https://reactjs.org/docs/hooks-intro.html). Also, there is another sample `react` defining components as classes in React.
 
-## Official Sample
-
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/react-hooks/build/">Hello World in React with Hooks - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/react-hooks">Hello World in React with Hooks - Source Code</a>
-
 ## Preparation
 
 Make sure you have [node](https://nodejs.org/) installed. `node 16.20.1` and `react 18.2.0` used in the example below.
@@ -23,22 +18,31 @@ npx create-react-app my-app --template typescript
 
 ```cmd
 cd my-app
-npm install dynamsoft-core
-npm install dynamsoft-license
-npm install dynamsoft-utility
-npm install dynamsoft-barcode-reader
-npm install dynamsoft-capture-vision-router
-npm install dynamsoft-camera-enhancer
+npm install 
+npm install dynamsoft-capture-vision-std@1.2.0 -E
+npm install dynamsoft-image-processing@2.2.10 -E
+npm install dynamsoft-barcode-reader-bundle@10.2.1000 -E
 ```
 
 ## Start to implement
 
-### Add file "cvr.ts" under "/src/" to configure libraries
+### Add file "dynamsoft.config.ts" under "/src/" to configure libraries
 
 ```typescript
 import { CoreModule } from 'dynamsoft-core';
 import { LicenseManager } from 'dynamsoft-license';
 import 'dynamsoft-barcode-reader';
+
+// Configures the paths where the .wasm files and other necessary resources for modules are located.
+CoreModule.engineResourcePaths = {
+  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
+  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
+  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
+  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
+  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
+  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
+  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/"
+};
 
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -55,28 +59,18 @@ LicenseManager.initLicense(
  * LICENSE ALERT - THE END
  */
 
-CoreModule.engineResourcePaths = {
-  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
-  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
-  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
-  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
-  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
-  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
-  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/"
-};
-
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
 CoreModule.loadWasm(['DBR']);
 ```
 
 > Note:
->
-> * `initLicense()` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days. 
+> 
 > * `engineResourcePaths` tells the library where to get the necessary resources at runtime.
+> * `initLicense()` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days.
 
 ### Build directory structure
 
-* Create a directory "components" under "/src/", and then create another three directories "HelloWorld", "VideoCapture" and "ImageCapture" under "/src/components/".
+* Create a directory "components" under "/src/", and then create another two directories "VideoCapture" and "ImageCapture" under "/src/components/".
 
 ### Create and edit the `VideoCapture` component
 
@@ -337,110 +331,32 @@ export default ImageCapture;
 }
 ```
 
-### Create and edit the `HelloWorld` component
+### Edit the `App` component
 
-* Create `HelloWorld.tsx` and `HelloWorld.css` under "/src/components/HelloWorld/". The `HelloWorld` component offers buttons to switch components between `VideoCapture` and `ImageCapture`;
+* Edit `App.tsx` and `Appd.css` under "/src/". The `App` component offers buttons to switch components between `VideoCapture` and `ImageCapture`;
 
-* Add following code to `HelloWorld.tsx`.
+* Add following code to `App.tsx`.
 
 ```tsx
-import React, { useState } from "react";
-import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
-import VideoCapture from "../VideoCapture/VideoCapture";
-import ImageCapture from "../ImageCapture/ImageCapture";
-import "./HelloWorld.css";
-
-function HelloWorld() {
-  let [bShowVideoCapture, setBShowVideoCapture] = useState(true);
-  let [bShowImageCapture, setBShowImageCapture] = useState(false);
-
-  const showVideoCapture = () => {
-    setBShowVideoCapture(true);
-    setBShowImageCapture(false);
-  };
-
-  const showImageCapture = () => {
-    setBShowVideoCapture(false);
-    setBShowImageCapture(true);
-  };
-
-  return (
-    <div className="div-hello-world">
-      <h1>Hello World for React(Hooks)</h1>
-      <div>
-        <button
-          style={{
-            marginRight: "10px",
-            backgroundColor: bShowVideoCapture ? "rgb(255,174,55)" : "white",
-          }}
-          onClick={showVideoCapture}
-        >
-          Decode Video
-        </button>
-        <button
-          style={{
-            backgroundColor: bShowImageCapture ? "rgb(255,174,55)" : "white",
-          }}
-          onClick={showImageCapture}
-        >
-          Decode Image
-        </button>
-      </div>
-      <div className="container">
-        {bShowVideoCapture ? <VideoCapture></VideoCapture> : ""}
-        {bShowImageCapture ? <ImageCapture></ImageCapture> : ""}
-      </div>
-    </div>
-  );
-}
-
-export default HelloWorld;
-```
-
-* Define the style of the element in `HelloWorld.css`
-
-```css
-.div-hello-world {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    color: #455A64;
-}
-
-h1 {
-    font-size: 1.5em;
-}
-
-button {
-    font-size: 1.5rem;
-    margin: 1.5vh 0;
-    border: 1px solid black;
-    background-color: white;
-    color: black;
-}
-
-.container {
-    margin: 2vmin auto;
-    font-size: medium;
-    width: 80vw;
-}
-```
-
-### Add the `HelloWorld` component to `App.tsx`
-
-Edit the file `App.tsx` to be like this
-
-```jsx
-import HelloWorld from './components/HelloWorld/HelloWorld';
+import { useState } from 'react';
 import './App.css';
+import reactLogo from './assets/logo.svg';
+import VideoCapture from './components/VideoCapture/VideoCapture';
+import ImageCapture from './components/ImageCapture/ImageCapture';
 
 function App() {
+  const [mode, setMode] = useState("video");
   return (
-    <div className="App">
-      <HelloWorld></HelloWorld>
+    <div className='App'>
+      <div className='title'>
+        <h2 className='title-text'>Hello World for React</h2>
+        <img className='title-logo' src={reactLogo} alt="logo"></img>
+      </div>
+      <div className='top-btns'>
+        <button onClick={()=>{setMode("video")}} style={{backgroundColor: mode === "video" ? "rgb(255, 174, 55)" : "#fff"}}>Video Capture</button>
+        <button onClick={()=>{setMode("image")}} style={{backgroundColor: mode === "image" ? "rgb(255, 174, 55)" : "#fff"}}>Image Capture</button>
+      </div>
+      { mode === "video" ? <VideoCapture /> : <ImageCapture /> }
     </div>
   );
 }
@@ -448,7 +364,59 @@ function App() {
 export default App;
 ```
 
-* Try running the project.
+* Define the style of the element in `App.css`
+
+```css
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.title .title-logo {
+  width: 60px;
+  height: 60px;
+  animation: retate 5s infinite linear;
+}
+.top-btns {
+  width: 30%;
+  margin: 20px auto;
+}
+.top-btns button {
+  display: inline-block;
+  border: 1px solid black;
+  padding: 5px 15px;
+  background-color: transparent;
+  cursor: pointer;
+}
+.top-btns button:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-right: transparent;
+}
+.top-btns button:nth-child(2) {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-left: transparent;
+}
+
+@media screen and (max-width: 500px) {
+  .top-btns {
+      width: 70%;
+  }
+}
+
+@keyframes retate {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(360deg);
+  }
+}
+```
+
+## Try running the project.
 
 ```cmd
 npm start

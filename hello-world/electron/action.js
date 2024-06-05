@@ -1,3 +1,14 @@
+// Configures the paths where the .wasm files and other necessary resources for modules are located.
+Dynamsoft.Core.CoreModule.engineResourcePaths = {
+  std: "./node_modules/dynamsoft-capture-vision-std/dist/",
+  dip: "./node_modules/dynamsoft-image-processing/dist/",
+  core: "./node_modules/dynamsoft-core/dist/",
+  license: "./node_modules/dynamsoft-license/dist/",
+  cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
+  dbr: "./node_modules/dynamsoft-barcode-reader/dist/",
+  dce: "./node_modules/dynamsoft-camera-enhancer/dist/",
+};
+
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
  */
@@ -10,16 +21,6 @@ Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMD
  * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
  * LICENSE ALERT - THE END
  */
-
-Dynamsoft.Core.CoreModule.engineResourcePaths = {
-  std: "./node_modules/dynamsoft-capture-vision-std/dist/",
-  dip: "./node_modules/dynamsoft-image-processing/dist/",
-  core: "./node_modules/dynamsoft-core/dist/",
-  license: "./node_modules/dynamsoft-license/dist/",
-  cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
-  dbr: "./node_modules/dynamsoft-barcode-reader/dist/",
-  dce: "./node_modules/dynamsoft-camera-enhancer/dist/",
-};
 
 // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
 Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);

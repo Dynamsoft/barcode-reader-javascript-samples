@@ -2,11 +2,6 @@
 
 [React](https://reactjs.org/) is a JavaScript library meant explicitly for creating interactive UIs. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a React application. Note that in this sample we will use `TypeScript` and define components as classes. Also, there is another sample `react-hooks` using `Hooks` in React.
 
-## Official Sample
-
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/react/build/">Hello World in React - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/react">Hello World in React - Source Code</a>
-
 ## Preparation
 
 Make sure you have [node](https://nodejs.org/) installed. `node 16.20.1` and `react 18.2.0` are used in the example below.
@@ -23,62 +18,31 @@ npx create-react-app my-app --template typescript
 
 ```cmd
 cd my-app
-npm install dynamsoft-core
-npm install dynamsoft-license
-npm install dynamsoft-utility
-npm install dynamsoft-barcode-reader
-npm install dynamsoft-capture-vision-router
-npm install dynamsoft-camera-enhancer
+npm install 
+npm install dynamsoft-capture-vision-std@1.2.0 -E
+npm install dynamsoft-image-processing@2.2.10 -E
+npm install dynamsoft-barcode-reader-bundle@10.2.1000 -E
 ```
 
 ## Start to implement
 
-### Add file "cvr.ts" under "/src/" to configure libraries
-
-```typescript
-# Hello World Sample for NuxtJS
-
-[Nuxt](https://nuxtjs.org/) is a higher-level framework that builds on top of [Vue](https://vuejs.org/). Check out the following guide on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Nuxt application. Note that in this sample `TypeScript` is used.
-
-## Official Sample
-
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/nuxt">Hello World in Nuxt - Source Code</a>
-
-## Preparation
-
-Make sure you have [node](https://nodejs.org/) installed. `node 16.20.1` and `nuxt 3.2.3` are used in this article.
-
-## Create the sample project
-
-### Create a Bootstrapped Nuxt Application
-
-```cmd
-npx nuxi@latest init my-app
-```
-
-You will be asked to configure quite a few things for the application during the creation. In our example, we chose the default one in every step.
-
-### **CD** to the root directory of the application and install the dependencies
-
-```cmd
-cd my-app
-npm install
-npm install dynamsoft-core
-npm install dynamsoft-license
-npm install dynamsoft-utility
-npm install dynamsoft-barcode-reader
-npm install dynamsoft-capture-vision-router
-npm install dynamsoft-camera-enhancer
-```
-
-## Start to implement
-
-### Add file "cvr.ts" at the root of the app to configure libraries
+### Add file "dynamsoft.config.ts" under "/src/" to configure libraries
 
 ```typescript
 import { CoreModule } from 'dynamsoft-core';
 import { LicenseManager } from 'dynamsoft-license';
 import 'dynamsoft-barcode-reader';
+
+// Configures the paths where the .wasm files and other necessary resources for modules are located.
+CoreModule.engineResourcePaths = {
+  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
+  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
+  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
+  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
+  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
+  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
+  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/"
+};
 
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -95,28 +59,18 @@ LicenseManager.initLicense(
  * LICENSE ALERT - THE END
  */
 
-CoreModule.engineResourcePaths = {
-  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
-  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
-  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
-  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
-  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
-  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
-  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/"
-};
-
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
 CoreModule.loadWasm(['DBR']);
 ```
 
 > Note:
->
-> * `initLicense()` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days. 
+> 
 > * `engineResourcePaths` tells the library where to get the necessary resources at runtime.
+> * `initLicense()` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days.
 
 ### Build directory structure
 
-* Create a directory "components" under "/src/", and then create another three directories "HelloWorld", "VideoCapture" and "ImageCapture" under "/src/components/".
+* Create a directory "components" under "/src/", and then create another two directories "VideoCapture" and "ImageCapture" under "/src/components/".
 
 ### Create and edit the `VideoCapture` component
 
@@ -376,130 +330,98 @@ export default ImageCapture;
 }
 ```
 
-### Create and edit the `HelloWorld` component
+### Edit the `App` component
 
-* Create `HelloWorld.tsx` and `HelloWorld.css` under "/src/components/HelloWorld/". The `HelloWorld` component offers buttons to switch components between `VideoCapture` and `ImageCapture`;
+* Edit `App.tsx` and `Appd.css` under "/src/". The `App` component offers buttons to switch components between `VideoCapture` and `ImageCapture`;
 
-* Add following code to `HelloWorld.tsx`.
+* Add following code to `App.tsx`.
 
 ```tsx
-import React from "react";
-import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
-import VideoCapture from "../VideoCapture/VideoCapture";
-import ImageCapture from "../ImageCapture/ImageCapture";
-import "./HelloWorld.css";
+import React from 'react';
+import reactLogo from './assets/logo.svg';
+import VideoCapture from './components/VideoCapture/VideoCapture';
+import ImageCapture from './components/ImageCapture/ImageCapture';
+import './App.css';
 
-class HelloWorld extends React.Component {
+class App extends React.Component {
   state = {
-    bShowVideoCapture: true,
-    bShowImageCapture: false,
-  };
-
-  showVideoCapture = () => {
-    this.setState({
-      bShowVideoCapture: true,
-      bShowImageCapture: false,
-    });
-  };
-
-  showImageCapture = () => {
-    this.setState({
-      bShowVideoCapture: false,
-      bShowImageCapture: true,
-    });
+    mode: "video"
   };
 
   render() {
     return (
-      <div className="div-hello-world">
-        <h1>Hello World for React</h1>
-        <div>
-          <button
-            style={{
-              marginRight: "10px",
-              backgroundColor: this.state.bShowVideoCapture
-                ? "rgb(255,174,55)"
-                : "white",
-            }}
-            onClick={this.showVideoCapture}
-          >
-            Decode Video
-          </button>
-          <button
-            style={{
-              backgroundColor: this.state.bShowImageCapture
-                ? "rgb(255,174,55)"
-                : "white",
-            }}
-            onClick={this.showImageCapture}
-          >
-            Decode Image
-          </button>
+      <div className='App'>
+        <div className='title'>
+          <h2 className='title-text'>Hello World for React</h2>
+          <img className='title-logo' src={reactLogo} alt="logo"></img>
         </div>
-        <div className="container">
-          {this.state.bShowVideoCapture ? <VideoCapture></VideoCapture> : ""}
-          {this.state.bShowImageCapture ? <ImageCapture></ImageCapture> : ""}
+        <div className='top-btns'>
+          <button onClick={() => { this.setState({ mode: "video" }) }} style={{ backgroundColor: this.state.mode === "video" ? "rgb(255, 174, 55)" : "#fff" }}>Video Capture</button>
+          <button onClick={() => { this.setState({ mode: "image" }) }} style={{ backgroundColor: this.state.mode === "image" ? "rgb(255, 174, 55)" : "#fff" }}>Image Capture</button>
         </div>
+        {this.state.mode === "video" ? <VideoCapture /> : <ImageCapture />}
       </div>
     );
   }
 }
 
-export default HelloWorld;
+export default App;
+
 ```
 
-* Define the style of the element in `HelloWorld.css`
+* Define the style of the element in `App.css`
 
 ```css
-.div-hello-world {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    color: #455A64;
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.title .title-logo {
+  width: 60px;
+  height: 60px;
+  animation: retate 5s infinite linear;
+}
+.top-btns {
+  width: 30%;
+  margin: 20px auto;
+}
+.top-btns button {
+  display: inline-block;
+  border: 1px solid black;
+  padding: 5px 15px;
+  background-color: transparent;
+  cursor: pointer;
+}
+.top-btns button:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-right: transparent;
+}
+.top-btns button:nth-child(2) {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-left: transparent;
 }
 
-h1 {
-    font-size: 1.5em;
+@media screen and (max-width: 500px) {
+  .top-btns {
+      width: 70%;
+  }
 }
 
-button {
-    font-size: 1.5rem;
-    margin: 1.5vh 0;
-    border: 1px solid black;
-    background-color: white;
-    color: black;
-}
-
-.container {
-    margin: 2vmin auto;
-    font-size: medium;
-    width: 80vw;
+@keyframes retate {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(360deg);
+  }
 }
 ```
 
-### Add the `HelloWorld` component to `App.tsx`
-
-Edit the file `App.tsx` to be like this
-
-```jsx
-import HelloWorld from './components/HelloWorld/HelloWorld';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <HelloWorld></HelloWorld>
-    </div>
-  );
-}
-
-export default App;
-```
-
-* Try running the project.
+## Try running the project
 
 ```cmd
 npm start

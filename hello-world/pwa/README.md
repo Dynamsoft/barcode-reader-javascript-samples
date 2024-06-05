@@ -2,11 +2,6 @@
 
 [PWA](https://web.dev/progressive-web-apps/) is short for Progressive Web Apps which stand for web applications that have been designed to behave like platform-specific (native) applications. Check out the following on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a PWA application.
 
-## Official Sample
-
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/pwa/helloworld-pwa.html">Hello World in PWA - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/pwa">Hello World in PWA - Source Code</a>
-
 ## Preparation
 
 We will try to turn our most basic hello world sample into a PWA. 
@@ -29,6 +24,7 @@ First, create a file with the name "helloworld-pwa.html" and fill it with the fo
 Results:
 <br>
 <div id="div-results-container" style="width: 100%; height: 10vh; overflow: auto;"></div>
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
 <script>
     if (location.protocol === "file:") {
         const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
@@ -41,9 +37,7 @@ Results:
      * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
      */
 
-    Dynamsoft.License.LicenseManager.initLicense(
-    "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
-    );
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
     /**
      * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
@@ -52,66 +46,55 @@ Results:
      * LICENSE ALERT - THE END
      */
 
-    (async function () {
-    try {
+    // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
+    Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
+    // Defined globally for easy debugging.
+    let cameraEnhancer, cvRouter;
+
+    (async () => {
+      try {
         // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
         const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-        const cameraEnhancer =
-        await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
-        document
-        .querySelector("#div-ui-container")
-        .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+        cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+        // Get default UI and append it to DOM.
+        document.querySelector("#div-ui-container").append(cameraView.getUIElement()); 
 
         // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-        const cvRouter =
-        await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+        cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
         cvRouter.setInput(cameraEnhancer);
 
         // Define a callback for results.
-        const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
-        resultReceiver.onDecodedBarcodesReceived = (result) => {
-        for (let item of result.barcodeResultItems) {
-            if (!result.barcodeResultItems.length) return;
+        cvRouter.addResultReceiver({ onDecodedBarcodesReceived: (result) => {
+          if (!result.barcodeResultItems.length) return;
 
-            const resultsContainer = document.querySelector("#div-results-container");
-            resultsContainer.textContent = '';
-            console.log(result);
-            for (let item of result.barcodeResultItems) {
-              resultsContainer.append(
-                `${item.formatString}: ${item.text}`,
-                document.createElement('br'),
-                document.createElement('hr'),
-              );
-            }
-        }
-        };
-        cvRouter.addResultReceiver(resultReceiver);
+          const resultsContainer = document.querySelector("#div-results-container");
+          resultsContainer.textContent = '';
+          console.log(result);
+          for (let item of result.barcodeResultItems) {
+            resultsContainer.append(
+              `${item.formatString}: ${item.text}`,
+              document.createElement('br'),
+              document.createElement('hr'),
+            );
+          }
+        }});
 
         // Filter out unchecked and duplicate results.
         const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-        filter.enableResultCrossVerification(
-        "barcode",
-        true
-        ); // Filter out unchecked barcodes.
+        // Filter out unchecked barcodes.
+        filter.enableResultCrossVerification("barcode", true);
         // Filter out duplicate barcodes within 3 seconds.
-        filter.enableResultDeduplication(
-        "barcode",
-        true
-        );
-        filter.setDuplicateForgetTime(
-        "barcode",
-        3000
-        );
+        filter.enableResultDeduplication("barcode", true);
         await cvRouter.addResultFilter(filter);
 
         // Open camera and start scanning single barcode.
         await cameraEnhancer.open();
         await cvRouter.startCapturing("ReadSingleBarcode");
-    } catch (ex) {
+      } catch (ex) {
         let errMsg = ex.message || ex;
         console.error(errMsg);
         alert(errMsg);
-    }
+      }
     })();
 </script>
 </body>
