@@ -13,8 +13,8 @@ The PDF417 barcode on an AAMVA compatible driver's license contains a lot of inf
 
 The following official sample shows how to use the sdk to read and extract driver's license information.
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/read-a-drivers-license.html">Read the PDF417 Barcode on the Driver&apos;s License - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/use-case/read-a-drivers-license.html">Read the PDF417 Barcode on the Driver&apos;s License - Source Code</a>
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/read-a-drivers-license/index.html">Read the PDF417 Barcode on the Driver&apos;s License - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/use-case/read-a-drivers-license/index.html">Read the PDF417 Barcode on the Driver&apos;s License - Source Code</a>
 
 Also see [Driver's License Scanner SDK for Mobile and Web](https://www.dynamsoft.com/use-cases/driver-license/).
 
