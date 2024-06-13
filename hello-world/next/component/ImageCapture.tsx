@@ -49,7 +49,6 @@ export default () => {
     bDestoried.current = false;
     // onBeforeUnmount
     return async () => {
-      console.log('destroy???')//debug
       bDestoried.current = true;
       if(pCvRouter.current){
         try{

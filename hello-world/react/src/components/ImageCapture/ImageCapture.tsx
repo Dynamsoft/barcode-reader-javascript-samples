@@ -14,11 +14,7 @@ class ImageCapture extends React.Component {
   async captureImage(e: ChangeEvent<HTMLInputElement>) {
     let files = [...(e.target.files as any as File[])];
     e.target.value = '';
-    console.log(1)//debug
-    console.log(this)//debug
-    console.log(this.resDiv)//debug
     this.resDiv.current!.innerText = "";
-    console.log(2)//debug
     try {
       const cvRouter = await (this.pCvRouter = this.pCvRouter || CaptureVisionRouter.createInstance());
       if (this.bDestoried) return;
