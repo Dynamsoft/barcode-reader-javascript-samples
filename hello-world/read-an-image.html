@@ -11,7 +11,7 @@
 
     <body>
         <h1>Hello World (Read an Image)</h1>
-        <input id="ipt-file" type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" /><br />
+        <input id="input-file" type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" /><br />
         Results:<br />
         <div id="result-container"></div>
         <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
@@ -32,15 +32,15 @@
             // Optional. Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
             Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
-            const divResultContainer = document.querySelector("#result-container");
+            const resultContainer = document.querySelector("#result-container");
 
             let cvRouter; // an instance of CaptureVisionRouter
             let pCvRouter; // promise of CaptureVisionRouter
 
-            document.querySelector("#ipt-file").addEventListener("change", async function () {
+            document.querySelector("#input-file").addEventListener("change", async function () {
                 let files = [...this.files];
                 this.value = "";
-                divResultContainer.innerText = "";
+                resultContainer.innerText = "";
                 try {
                     cvRouter =
                         cvRouter ||
@@ -51,16 +51,16 @@
                         const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
 
                         if (files.length > 1) {
-                            divResultContainer.innerText += `\n${file.name}:\n`;
+                            resultContainer.innerText += `\n${file.name}:\n`;
                         }
                         for (let item of result.items) {
                             if (item.type !== Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
                                 continue;
                             }
-                            divResultContainer.innerText += item.text + "\n";
+                            resultContainer.innerText += item.text + "\n";
                             console.log(item.text);
                         }
-                        if (!result.items.length) divResultContainer.innerText += "No barcode found\n";
+                        if (!result.items.length) resultContainer.innerText += "No barcode found\n";
                     }
                 } catch (ex) {
                     let errMsg = ex.message || ex;
