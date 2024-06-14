@@ -1,0 +1,36 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  Build-Demo:
+    if: ${{ github.ref == 'refs/heads/demo' }}    
+    
+    # The type of runner that the job will run on
+    runs-on: self-hosted
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+         # Runs a set of commands using the runners shell
+      - name: Get Source
+        run: |
+          cd /home/ubuntu
+          [ -d barcode-reader-javascript-samples ] && rm -rf barcode-reader-javascript-samples
+          git clone --depth 1 -b demo https://github.com/Dynamsoft/barcode-reader-javascript-samples.git 
+          
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.FTP_DEMO_SERVER }}
+          username: ${{ secrets.FTP_DEMO_USERNAME }}
+          password: ${{ secrets.FTP_DEMO_PASSWORD }}
+          port: 21 
+          local-dir: /home/ubuntu/barcode-reader-javascript-samples/
+          server-dir: /Demo.dynamsoft.com/Samples/DBR/JS/
