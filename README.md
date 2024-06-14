@@ -43,3 +43,6 @@ Get the basic features of the library working with plain/native JavaScript or wi
 ### Others
 
 * [**Debug**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/others/debug#readme): Collect the actual image frames for debugging purposes.
+
+### Official Online Demo
+- [**Official Online Demo**](https://demo.dynamsoft.com/barcode-reader-js): Official demo for Dynamsoft Barcode Reader JavaScript Edition (written in Vue). Take our barcode scanner demo and see how it works in different modes!
