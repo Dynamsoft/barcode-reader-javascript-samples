@@ -32,7 +32,7 @@
             // Optional. Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
             Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
-            const resultContainer = document.querySelector("#result-container");
+            const resultsContainer = document.querySelector("#result-container");
 
             let cvRouter; // an instance of CaptureVisionRouter
             let pCvRouter; // promise of CaptureVisionRouter
@@ -40,7 +40,7 @@
             document.querySelector("#input-file").addEventListener("change", async function () {
                 let files = [...this.files];
                 this.value = "";
-                resultContainer.innerText = "";
+                resultsContainer.innerText = "";
                 try {
                     cvRouter =
                         cvRouter ||
@@ -51,16 +51,16 @@
                         const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
 
                         if (files.length > 1) {
-                            resultContainer.innerText += `\n${file.name}:\n`;
+                            resultsContainer.innerText += `\n${file.name}:\n`;
                         }
                         for (let item of result.items) {
                             if (item.type !== Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
                                 continue;
                             }
-                            resultContainer.innerText += item.text + "\n";
+                            resultsContainer.innerText += item.text + "\n";
                             console.log(item.text);
                         }
-                        if (!result.items.length) resultContainer.innerText += "No barcode found\n";
+                        if (!result.items.length) resultsContainer.innerText += "No barcode found\n";
                     }
                 } catch (ex) {
                     let errMsg = ex.message || ex;
