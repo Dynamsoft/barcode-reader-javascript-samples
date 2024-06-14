@@ -13,7 +13,7 @@
         <h1>Hello World (Read an Image)</h1>
         <input id="input-file" type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" /><br />
         Results:<br />
-        <div id="result-container"></div>
+        <div id="results"></div>
         <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
         <script>
             /** LICENSE ALERT - README
@@ -32,7 +32,7 @@
             // Optional. Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
             Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
-            const resultsContainer = document.querySelector("#result-container");
+            const resultsContainer = document.querySelector("#results");
 
             let cvRouter; // an instance of CaptureVisionRouter
             let pCvRouter; // promise of CaptureVisionRouter
