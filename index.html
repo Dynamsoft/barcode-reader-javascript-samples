@@ -257,10 +257,10 @@
 </style>
 <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
 <script>
-    var tipIcons = document.getElementsByClassName("tooltipIcon");
-    var clicked = false;
-    var clickedIconId = "";
-    var showNode = function(evt) {
+    const tipIcons = document.getElementsByClassName("tooltipIcon");
+    let clicked = false;
+    let clickedIconId = "";
+    const showNode = function(evt) {
         hideNode('all');
         if (evt.target.nodeName === "SPAN" && evt.type === "click") {
             clicked = true;
@@ -270,14 +270,14 @@
                 hideNode(evt);
             }, 1000);
         }
-        var titleNode = evt.target.previousElementSibling;
+        const titleNode = evt.target.previousElementSibling;
         if (titleNode) {
             titleNode.setAttribute('data-balloon-visible', '');
         }
     };
-    var hideNode = function(evt) {
+    const hideNode = function(evt) {
         if (evt === 'all') {
-            var allTitleNodes = document.getElementsByTagName('a');
+            const allTitleNodes = document.getElementsByTagName('a');
             for (let node of allTitleNodes) {
                 node.removeAttribute('data-balloon-visible');
             }
@@ -286,7 +286,7 @@
         let timeOut = 0;
         if (clicked && clickedIconId === evt.target.id) timeOut = 1000;
         setTimeout(function() {
-            var titleNode = evt.target.previousElementSibling;
+            const titleNode = evt.target.previousElementSibling;
             if (titleNode) {
                 titleNode.removeAttribute('data-balloon-visible');
             }
@@ -300,8 +300,8 @@
     }
 
     function linkRedirect(sampleName) {
-        var localPath = "";
-        var onlineGuidePath = "";
+        let localPath = "";
+        let onlineGuidePath = "";
         switch (sampleName) {
             case "angular":
                 localPath = "hello-world/angular/dist/angular/";
