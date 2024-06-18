@@ -1,67 +1,76 @@
-import React, { ChangeEvent } from "react";
-import "../../dynamsoft.config";
-import { EnumCapturedResultItemType } from "dynamsoft-core";
-import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
+import React from "react";
+import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
+import { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import "./ImageCapture.css";
 
 class ImageCapture extends React.Component {
-  resDiv: React.RefObject<HTMLDivElement> = React.createRef();
+  pInit: Promise<CaptureVisionRouter> | null = null;
+  pDestroy: Promise<void> | null = null;
 
-  pCvRouter: Promise<CaptureVisionRouter> | null = null;
-  bDestoried = false;
+  async init(): Promise<CaptureVisionRouter> {
+    const cvRouter = await CaptureVisionRouter.createInstance();
+    return cvRouter;
+  }
 
-  async captureImage(e: ChangeEvent<HTMLInputElement>) {
-    let files = [...(e.target.files as any as File[])];
-    e.target.value = '';
-    console.log(1)//debug
-    console.log(this)//debug
-    console.log(this.resDiv)//debug
-    this.resDiv.current!.innerText = "";
-    console.log(2)//debug
+  async destroy(): Promise<void> {
+    if (this.pInit) {
+      const cvRouter = await this.pInit;
+      cvRouter.dispose();
+    }
+  }
+
+  decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const cvRouter = await (this.pCvRouter = this.pCvRouter || CaptureVisionRouter.createInstance());
-      if (this.bDestoried) return;
-      
-      for(let file of files){
-        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-        const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
-        if (this.bDestoried) return;
-  
-        if(files.length > 1){
-          this.resDiv.current!.innerText += `\n${file.name}:\n`;
-        }
-        for (let _item of result.items) {
-          if(_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) { continue; }
-          let item = _item as BarcodeResultItem;
-          this.resDiv.current!.innerText += item.text + "\n";
-          console.log(item.text);
-        }
-        if (!result.items.length) this.resDiv.current!.innerText += 'No barcode found\n';
+      const cvRouter = await this.pInit;
+      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
+      const result = await cvRouter!.capture(
+        e.target.files![0],
+        "ReadBarcodes_SpeedFirst"
+      );
+
+      // Initialize an empty string to hold the decoded barcode texts
+      let texts = "";
+      for (let item of result.items) {
+        console.log((item as BarcodeResultItem).text);
+        texts += (item as BarcodeResultItem).text + "\n";
       }
+      // If the 'texts' string is not empty, display an alert with all barcode texts
+      if (texts !== "") alert(texts);
+
+      // If no items are found, alert the user that no barcode was detected
+      if (!result.items.length) alert("No barcode found");
     } catch (ex: any) {
       let errMsg = ex.message || ex;
       console.error(errMsg);
       alert(errMsg);
     }
+    e.target.value = "";
+  };
+
+  async componentDidMount() {
+    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+    if (this.pDestroy) {
+      await this.pDestroy;
+      this.pInit = this.init();
+    } else {
+      this.pInit = this.init();
+    }
   }
 
   async componentWillUnmount() {
-    this.bDestoried = true;
-    if(this.pCvRouter){
-      try{
-        (await this.pCvRouter).dispose();
-      }catch(_){}
-    }
+    await (this.pDestroy = this.destroy());
+    console.log("ImageCapture Component Unmount");
   }
 
   render() {
     return (
-      <div className="capture-img">
-        <div className="img-ipt">
-          <input type="file" multiple onChange={this.captureImage.bind(this)} accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"/>
-        </div>
-        <div className="result-area" ref={this.resDiv}></div>
+      <div className="image-capture-container">
+        <input
+          type="file"
+          accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
+          onChange={this.decodeImg}
+        />
       </div>
     );
   }

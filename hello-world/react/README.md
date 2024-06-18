@@ -2,6 +2,8 @@
 
 [React](https://reactjs.org/) is a JavaScript library meant explicitly for creating interactive UIs. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a React application. Note that in this sample we will use `TypeScript` and define components as classes. Also, there is another sample `react-hooks` using `Hooks` in React.
 
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.2.1000).
+
 ## Official Sample
 
 * <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/react/build/">Hello World in React - Demo</a>
@@ -11,8 +13,22 @@
 
 Make sure you have [node](https://nodejs.org/) installed. `node 16.20.1` and `react 18.2.0` are used in the example below.
 
-## Create the sample project
+## Quick Start 
 
+```cmd
+npm install
+npm start
+```
+Then open http://localhost:3000/ to view the sample app. 
+
+## Creating the sample project
+
+In this section, we will be creating a React application utilizing the Dynamsoft Barcode Reader bundle sdk.
+
+We'll be exploring how you could create a page that not only enables barcode scanning via a webcam or a built-in camera, but also decode barcodes from local images.
+
+By the end of this guide, you'll have a good understanding of the SDK and be ready to discover more ways to use it!
+ 
 ### Create a Bootstrapped Raw React Application with TypeScript
 
 ```cmd
@@ -23,70 +39,23 @@ npx create-react-app my-app --template typescript
 
 ```cmd
 cd my-app
-npm install dynamsoft-core
-npm install dynamsoft-license
-npm install dynamsoft-utility
-npm install dynamsoft-barcode-reader
-npm install dynamsoft-capture-vision-router
-npm install dynamsoft-camera-enhancer
+npm install dynamsoft-barcode-reader-bundle
 ```
 
 ## Start to implement
 
-### Add file "cvr.ts" under "/src/" to configure libraries
+### Add file "dynamsoft.config.ts" at the root of the app to configure libraries
 
 ```typescript
-# Hello World Sample for NuxtJS
-
-[Nuxt](https://nuxtjs.org/) is a higher-level framework that builds on top of [Vue](https://vuejs.org/). Check out the following guide on how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a Nuxt application. Note that in this sample `TypeScript` is used.
-
-## Official Sample
-
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/nuxt">Hello World in Nuxt - Source Code</a>
-
-## Preparation
-
-Make sure you have [node](https://nodejs.org/) installed. `node 16.20.1` and `nuxt 3.2.3` are used in this article.
-
-## Create the sample project
-
-### Create a Bootstrapped Nuxt Application
-
-```cmd
-npx nuxi@latest init my-app
-```
-
-You will be asked to configure quite a few things for the application during the creation. In our example, we chose the default one in every step.
-
-### **CD** to the root directory of the application and install the dependencies
-
-```cmd
-cd my-app
-npm install
-npm install dynamsoft-core
-npm install dynamsoft-license
-npm install dynamsoft-utility
-npm install dynamsoft-barcode-reader
-npm install dynamsoft-capture-vision-router
-npm install dynamsoft-camera-enhancer
-```
-
-## Start to implement
-
-### Add file "cvr.ts" at the root of the app to configure libraries
-
-```typescript
-import { CoreModule } from 'dynamsoft-core';
-import { LicenseManager } from 'dynamsoft-license';
-import 'dynamsoft-barcode-reader';
+import { CoreModule } from "dynamsoft-core";
+import { LicenseManager } from "dynamsoft-license";
+import "dynamsoft-barcode-reader";
 
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
  */
 
-LicenseManager.initLicense(
-  'DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9'
-);
+LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
@@ -95,6 +64,7 @@ LicenseManager.initLicense(
  * LICENSE ALERT - THE END
  */
 
+// Configures the paths where the .wasm files and other necessary resources for modules are located.
 CoreModule.engineResourcePaths = {
   std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
   dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
@@ -102,17 +72,18 @@ CoreModule.engineResourcePaths = {
   license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
   cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
   dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
-  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/"
+  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/",
 };
 
 // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
-CoreModule.loadWasm(['DBR']);
+CoreModule.loadWasm(["DBR"]);
 ```
 
 > Note:
 >
 > * `initLicense()` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days. 
 > * `engineResourcePaths` tells the library where to get the necessary resources at runtime.
+
 
 ### Build directory structure
 
@@ -126,12 +97,9 @@ CoreModule.loadWasm(['DBR']);
 
 ```tsx
 import React from "react";
-import { EnumCapturedResultItemType } from "dynamsoft-core";
+import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
-import {
-  CameraEnhancer,
-  CameraView,
-} from "dynamsoft-camera-enhancer";
+import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
 import {
   CapturedResultReceiver,
   CaptureVisionRouter,
@@ -147,7 +115,7 @@ class VideoCapture extends React.Component {
   }> | null = null;
   pDestroy: Promise<void> | null = null;
 
-  uiContainer: React.RefObject<HTMLDivElement> = React.createRef();
+  cameraViewContainer: React.RefObject<HTMLDivElement> = React.createRef();
   resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
 
   async init(): Promise<{
@@ -159,8 +127,8 @@ class VideoCapture extends React.Component {
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
       const cameraView = await CameraView.createInstance();
       const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-      this.uiContainer.current!.innerText = "";
-      this.uiContainer.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+      this.cameraViewContainer.current!.innerText = "";
+      this.cameraViewContainer.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
       const cvRouter = await CaptureVisionRouter.createInstance();
@@ -173,33 +141,20 @@ class VideoCapture extends React.Component {
       ) => {
         if (!result.barcodeResultItems.length) return;
 
-        this.resultsContainer.current!.textContent = '';
+        this.resultsContainer.current!.textContent = "";
         console.log(result);
         for (let item of result.barcodeResultItems) {
-          this.resultsContainer.current!.append(
-            `${item.formatString}: ${item.text}`,
-            document.createElement('br'),
-            document.createElement('hr'),
-          );
+          this.resultsContainer.current!.textContent += `${item.formatString}: ${item.text}\n\n`;
         }
       };
       cvRouter.addResultReceiver(resultReceiver);
 
       // Filter out unchecked and duplicate results.
       const filter = new MultiFrameResultCrossFilter();
-      filter.enableResultCrossVerification(
-        "barcode",
-        true
-      ); // Filter out unchecked barcodes.
+      // Filter out unchecked barcodes.
+      filter.enableResultCrossVerification("barcode", true);
       // Filter out duplicate barcodes within 3 seconds.
-      filter.enableResultDeduplication(
-        "barcode",
-        true
-      );
-      filter.setDuplicateForgetTime(
-        "barcode",
-        3000
-      );
+      filter.enableResultDeduplication("barcode", true);
       await cvRouter.addResultFilter(filter);
 
       // Open camera and start scanning single barcode.
@@ -250,10 +205,13 @@ class VideoCapture extends React.Component {
   render() {
     return (
       <div>
-        <div ref={this.uiContainer} className="div-ui-container"></div>
+        <div
+          ref={this.cameraViewContainer}
+          className="camera-view-container"
+        ></div>
         Results:
         <br></br>
-        <div ref={this.resultsContainer} className="div-results-container"></div>
+        <div ref={this.resultsContainer} className="results-container"></div>
       </div>
     );
   }
@@ -269,12 +227,12 @@ export default VideoCapture;
 * Define the style of the element in `VideoCapture.css`
 
 ```css
-.div-ui-container {
+.camera-view-container {
   width: 100%;
   height: 70vh;
 }
 
-.div-results-container {
+.results-container {
   width: 100%;
   height: 10vh;
   overflow: auto;
@@ -289,9 +247,9 @@ export default VideoCapture;
 
 ```tsx
 import React from "react";
+import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
-import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
 import "./ImageCapture.css";
 
 class ImageCapture extends React.Component {
@@ -318,12 +276,17 @@ class ImageCapture extends React.Component {
         e.target.files![0],
         "ReadBarcodes_SpeedFirst"
       );
+
+      // Initialize an empty string to hold the decoded barcode texts
       let texts = "";
       for (let item of result.items) {
         console.log((item as BarcodeResultItem).text);
         texts += (item as BarcodeResultItem).text + "\n";
       }
+      // If the 'texts' string is not empty, display an alert with all barcode texts
       if (texts !== "") alert(texts);
+
+      // If no items are found, alert the user that no barcode was detected
       if (!result.items.length) alert("No barcode found");
     } catch (ex: any) {
       let errMsg = ex.message || ex;
@@ -350,7 +313,7 @@ class ImageCapture extends React.Component {
 
   render() {
     return (
-      <div className="div-image-capture">
+      <div className="image-capture-container">
         <input
           type="file"
           accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
@@ -367,7 +330,7 @@ export default ImageCapture;
 * Define the style of the element in `ImageCapture.css`
 
 ```css
-.div-image-capture {
+.image-capture-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -378,48 +341,50 @@ export default ImageCapture;
 
 ### Create and edit the `HelloWorld` component
 
-* Create `HelloWorld.tsx` and `HelloWorld.css` under "/src/components/HelloWorld/". The `HelloWorld` component offers buttons to switch components between `VideoCapture` and `ImageCapture`;
+* Create `HelloWorld.tsx` and `HelloWorld.css` under "/src/components/HelloWorld/". The `HelloWorld` component offers buttons to switch components between `VideoCapture` and `ImageCapture`.
 
 * Add following code to `HelloWorld.tsx`.
 
 ```tsx
 import React from "react";
-import "../../cvr"; // import side effects. The license, engineResourcePath, so on.
+import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import VideoCapture from "../VideoCapture/VideoCapture";
 import ImageCapture from "../ImageCapture/ImageCapture";
 import "./HelloWorld.css";
 
+enum Modes {
+  VIDEO_CAPTURE = "video",
+  IMAGE_CAPTURE = "image",
+}
+
 class HelloWorld extends React.Component {
   state = {
-    bShowVideoCapture: true,
-    bShowImageCapture: false,
+    mode: Modes.VIDEO_CAPTURE,
   };
 
   showVideoCapture = () => {
     this.setState({
-      bShowVideoCapture: true,
-      bShowImageCapture: false,
+      mode: Modes.VIDEO_CAPTURE,
     });
   };
 
   showImageCapture = () => {
     this.setState({
-      bShowVideoCapture: false,
-      bShowImageCapture: true,
+      mode: Modes.IMAGE_CAPTURE,
     });
   };
 
   render() {
     return (
-      <div className="div-hello-world">
+      <div className="hello-world-page">
         <h1>Hello World for React</h1>
         <div>
           <button
             style={{
-              marginRight: "10px",
-              backgroundColor: this.state.bShowVideoCapture
-                ? "rgb(255,174,55)"
-                : "white",
+              backgroundColor:
+                this.state.mode === Modes.VIDEO_CAPTURE
+                  ? "rgb(255,174,55)"
+                  : "white",
             }}
             onClick={this.showVideoCapture}
           >
@@ -427,9 +392,10 @@ class HelloWorld extends React.Component {
           </button>
           <button
             style={{
-              backgroundColor: this.state.bShowImageCapture
-                ? "rgb(255,174,55)"
-                : "white",
+              backgroundColor:
+                this.state.mode === Modes.IMAGE_CAPTURE
+                  ? "rgb(255,174,55)"
+                  : "white",
             }}
             onClick={this.showImageCapture}
           >
@@ -437,8 +403,11 @@ class HelloWorld extends React.Component {
           </button>
         </div>
         <div className="container">
-          {this.state.bShowVideoCapture ? <VideoCapture></VideoCapture> : ""}
-          {this.state.bShowImageCapture ? <ImageCapture></ImageCapture> : ""}
+          {this.state.mode === Modes.VIDEO_CAPTURE ? (
+            <VideoCapture />
+          ) : (
+            <ImageCapture />
+          )}
         </div>
       </div>
     );
@@ -451,7 +420,7 @@ export default HelloWorld;
 * Define the style of the element in `HelloWorld.css`
 
 ```css
-.div-hello-world {
+.hello-world-page {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -471,6 +440,7 @@ button {
     border: 1px solid black;
     background-color: white;
     color: black;
+    cursor: pointer;
 }
 
 .container {
@@ -523,7 +493,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+See the section about [deployment](https://create-react-app.dev/docs/deployment/) for more information.
 
 ## Support
 

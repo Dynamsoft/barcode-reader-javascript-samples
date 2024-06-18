@@ -1,11 +1,10 @@
-.div-ui-container {
-    width: 100%;
-    height: 70vh;
-    background: #eee;
+.camera-view-container {
+  width: 100%;
+  height: 70vh;
 }
 
-.div-results-container {
-    width: 100%;
-    height: 10vh;
-    overflow: auto;
+.results-container {
+  width: 100%;
+  height: 10vh;
+  overflow: auto;
 }
