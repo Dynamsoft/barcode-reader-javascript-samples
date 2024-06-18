@@ -15,6 +15,7 @@ LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
  * LICENSE ALERT - THE END
  */
 
+// Configures the paths where the .wasm files and other necessary resources for modules are located.
 CoreModule.engineResourcePaths = {
   std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
   dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
@@ -25,5 +26,5 @@ CoreModule.engineResourcePaths = {
   dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/",
 };
 
-// Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
+// Optional. Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
 CoreModule.loadWasm(["DBR"]);

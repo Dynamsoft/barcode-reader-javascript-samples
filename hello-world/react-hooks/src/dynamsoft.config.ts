@@ -26,5 +26,5 @@ CoreModule.engineResourcePaths = {
   dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/",
 };
 
-// Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
+// Optional. Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
 CoreModule.loadWasm(["DBR"]);
