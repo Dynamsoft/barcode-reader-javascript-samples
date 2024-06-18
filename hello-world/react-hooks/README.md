@@ -207,7 +207,7 @@ function VideoCapture() {
       <div ref={cameraViewContainer} className="camera-view-container"></div>
       Results:
       <br />
-      <div ref={resultsContainer} className="results-container"></div>
+      <div ref={resultsContainer} className="results"></div>
     </div>
   );
 }
@@ -227,7 +227,7 @@ export default VideoCapture;
   height: 70vh;
 }
 
-.results-container {
+.results {
   width: 100%;
   height: 10vh;
   overflow: auto;

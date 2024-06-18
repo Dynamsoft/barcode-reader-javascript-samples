@@ -211,7 +211,7 @@ class VideoCapture extends React.Component {
         ></div>
         Results:
         <br></br>
-        <div ref={this.resultsContainer} className="results-container"></div>
+        <div ref={this.resultsContainer} className="results"></div>
       </div>
     );
   }
@@ -232,7 +232,7 @@ export default VideoCapture;
   height: 70vh;
 }
 
-.results-container {
+.results {
   width: 100%;
   height: 10vh;
   overflow: auto;

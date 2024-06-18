@@ -113,7 +113,7 @@ class VideoCapture extends React.Component {
         ></div>
         Results:
         <br></br>
-        <div ref={this.resultsContainer} className="results-container"></div>
+        <div ref={this.resultsContainer} className="results"></div>
       </div>
     );
   }
