@@ -44,7 +44,7 @@ class HelloWorld extends React.Component {
             }}
             onClick={this.showVideoCapture}
           >
-            Video Capture
+            Decode Video
           </button>
           <button
             style={{
@@ -55,7 +55,7 @@ class HelloWorld extends React.Component {
             }}
             onClick={this.showImageCapture}
           >
-            Image Capture
+            Decode Image
           </button>
         </div>
         <div className="container">
