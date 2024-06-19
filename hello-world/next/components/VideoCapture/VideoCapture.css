@@ -1,0 +1,11 @@
+.camera-view-container {
+  width: 100%;
+  height: 70vh;
+  background: #eee;
+}
+
+.results {
+  width: 100%;
+  height: 10vh;
+  overflow: auto;
+}
