@@ -3,18 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Quickly read barcodes with Dynamsoft Barcode Reader from a live camera stream."
-    />
+    <meta name="description" content="Quickly read barcodes with Dynamsoft Barcode Reader from a live camera stream." />
     <meta name="keywords" content="barcode, camera, es6" />
-    <link
-      rel="canonical"
-      href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/es6.html"
-    />
-    <title>
-      Dynamsoft Barcode Reader Sample - Hello World for ES6 (Decode via Camera)
-    </title>
+    <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/es6.html" />
+    <title>Dynamsoft Barcode Reader Sample - Hello World for ES6 (Decode via Camera)</title>
   </head>
 
   <body>
@@ -62,13 +54,9 @@
         try {
           // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
           const cameraView = await CameraView.createInstance();
-          const cameraEnhancer = await CameraEnhancer.createInstance(
-            cameraView
-          );
+          const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
           // Get default UI and append it to DOM.
-          document
-            .querySelector("#camera-view-container")
-            .append(cameraView.getUIElement());
+          document.querySelector("#camera-view-container").append(cameraView.getUIElement());
 
           // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
           const cvRouter = await CaptureVisionRouter.createInstance();
