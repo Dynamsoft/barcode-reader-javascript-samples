@@ -100,10 +100,7 @@ import React from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
-import {
-  CapturedResultReceiver,
-  CaptureVisionRouter,
-} from "dynamsoft-capture-vision-router";
+import { CapturedResultReceiver, CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 import "./VideoCapture.css";
 
@@ -136,9 +133,7 @@ class VideoCapture extends React.Component {
 
       // Define a callback for results.
       const resultReceiver = new CapturedResultReceiver();
-      resultReceiver.onDecodedBarcodesReceived = (
-        result: DecodedBarcodesResult
-      ) => {
+      resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
         if (!result.barcodeResultItems.length) return;
 
         this.resultsContainer.current!.textContent = "";
@@ -205,10 +200,7 @@ class VideoCapture extends React.Component {
   render() {
     return (
       <div>
-        <div
-          ref={this.cameraViewContainer}
-          className="camera-view-container"
-        ></div>
+        <div ref={this.cameraViewContainer} className="camera-view-container"></div>
         Results:
         <br></br>
         <div ref={this.resultsContainer} className="results"></div>
@@ -272,10 +264,7 @@ class ImageCapture extends React.Component {
     try {
       const cvRouter = await this.pInit;
       // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-      const result = await cvRouter!.capture(
-        e.target.files![0],
-        "ReadBarcodes_SpeedFirst"
-      );
+      const result = await cvRouter!.capture(e.target.files![0], "ReadBarcodes_SpeedFirst");
 
       // Initialize an empty string to hold the decoded barcode texts
       let texts = "";
@@ -314,11 +303,7 @@ class ImageCapture extends React.Component {
   render() {
     return (
       <div className="image-capture-container">
-        <input
-          type="file"
-          accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
-          onChange={this.decodeImg}
-        />
+        <input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={this.decodeImg} />
       </div>
     );
   }
@@ -381,10 +366,7 @@ class HelloWorld extends React.Component {
         <div>
           <button
             style={{
-              backgroundColor:
-                this.state.mode === Modes.VIDEO_CAPTURE
-                  ? "rgb(255,174,55)"
-                  : "white",
+              backgroundColor: this.state.mode === Modes.VIDEO_CAPTURE ? "rgb(255,174,55)" : "white",
             }}
             onClick={this.showVideoCapture}
           >
@@ -392,23 +374,14 @@ class HelloWorld extends React.Component {
           </button>
           <button
             style={{
-              backgroundColor:
-                this.state.mode === Modes.IMAGE_CAPTURE
-                  ? "rgb(255,174,55)"
-                  : "white",
+              backgroundColor: this.state.mode === Modes.IMAGE_CAPTURE ? "rgb(255,174,55)" : "white",
             }}
             onClick={this.showImageCapture}
           >
             Decode Image
           </button>
         </div>
-        <div className="container">
-          {this.state.mode === Modes.VIDEO_CAPTURE ? (
-            <VideoCapture />
-          ) : (
-            <ImageCapture />
-          )}
-        </div>
+          <div className="container">{this.state.mode === Modes.VIDEO_CAPTURE ? <VideoCapture /> : <ImageCapture />}</div>
       </div>
     );
   }

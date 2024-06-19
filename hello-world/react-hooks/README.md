@@ -99,10 +99,7 @@ import { useEffect, useRef } from "react";
 import "../../dynamsoft.config";
 import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
-import {
-  CapturedResultReceiver,
-  CaptureVisionRouter,
-} from "dynamsoft-capture-vision-router";
+import { CapturedResultReceiver, CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 import "./VideoCapture.css";
 
@@ -137,9 +134,7 @@ function VideoCapture() {
 
       // Define a callback for results.
       const resultReceiver = new CapturedResultReceiver();
-      resultReceiver.onDecodedBarcodesReceived = (
-        result: DecodedBarcodesResult
-      ) => {
+      resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
         if (!result.barcodeResultItems.length) return;
 
         resultsContainer.current!.textContent = "";
@@ -267,10 +262,7 @@ function ImageCapture() {
     try {
       const cvRouter = (await pInit.current)!;
       // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-      const result = await cvRouter.capture(
-        e.target.files![0],
-        "ReadBarcodes_SpeedFirst"
-      );
+      const result = await cvRouter.capture(e.target.files![0], "ReadBarcodes_SpeedFirst");
 
       // Initialize an empty string to hold the decoded barcode texts
       let texts = "";
@@ -312,11 +304,7 @@ function ImageCapture() {
 
   return (
     <div className="image-capture-container">
-      <input
-        type="file"
-        accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
-        onChange={decodeImg}
-      />
+      <input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={decodeImg} />
     </div>
   );
 }
@@ -368,8 +356,7 @@ function HelloWorld() {
         <button
           style={{
             marginRight: "10px",
-            backgroundColor:
-              mode === Modes.VIDEO_CAPTURE ? "rgb(255,174,55)" : "white",
+            backgroundColor: mode === Modes.VIDEO_CAPTURE ? "rgb(255,174,55)" : "white",
           }}
           onClick={showVideoCapture}
         >
@@ -377,17 +364,14 @@ function HelloWorld() {
         </button>
         <button
           style={{
-            backgroundColor:
-              mode === Modes.IMAGE_CAPTURE ? "rgb(255,174,55)" : "white",
+            backgroundColor: mode === Modes.IMAGE_CAPTURE ? "rgb(255,174,55)" : "white",
           }}
           onClick={showImageCapture}
         >
           Decode Image
         </button>
       </div>
-      <div className="container">
-        {mode === Modes.VIDEO_CAPTURE ? <VideoCapture /> : <ImageCapture />}
-      </div>
+      <div className="container">{mode === Modes.VIDEO_CAPTURE ? <VideoCapture /> : <ImageCapture />}</div>
     </div>
   );
 }
@@ -433,13 +417,13 @@ button {
 Edit the file `App.tsx` to be like this
 
 ```jsx
-import HelloWorld from './components/HelloWorld/HelloWorld';
-import './App.css';
+import "./App.css";
+import HelloWorld from "./components/HelloWorld/HelloWorld";
 
 function App() {
   return (
     <div className="App">
-      <HelloWorld></HelloWorld>
+      <HelloWorld />
     </div>
   );
 }

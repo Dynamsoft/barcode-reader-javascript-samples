@@ -2,10 +2,7 @@ import React from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
-import {
-  CapturedResultReceiver,
-  CaptureVisionRouter,
-} from "dynamsoft-capture-vision-router";
+import { CapturedResultReceiver, CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 import "./VideoCapture.css";
 
@@ -38,9 +35,7 @@ class VideoCapture extends React.Component {
 
       // Define a callback for results.
       const resultReceiver = new CapturedResultReceiver();
-      resultReceiver.onDecodedBarcodesReceived = (
-        result: DecodedBarcodesResult
-      ) => {
+      resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
         if (!result.barcodeResultItems.length) return;
 
         this.resultsContainer.current!.textContent = "";
@@ -107,10 +102,7 @@ class VideoCapture extends React.Component {
   render() {
     return (
       <div>
-        <div
-          ref={this.cameraViewContainer}
-          className="camera-view-container"
-        ></div>
+        <div ref={this.cameraViewContainer} className="camera-view-container"></div>
         Results:
         <br></br>
         <div ref={this.resultsContainer} className="results"></div>

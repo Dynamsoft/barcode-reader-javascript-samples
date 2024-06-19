@@ -37,10 +37,7 @@ class HelloWorld extends React.Component {
         <div className="buttons-container">
           <button
             style={{
-              backgroundColor:
-                this.state.mode === Modes.VIDEO_CAPTURE
-                  ? "rgb(255,174,55)"
-                  : "white",
+              backgroundColor: this.state.mode === Modes.VIDEO_CAPTURE ? "rgb(255,174,55)" : "white",
             }}
             onClick={this.showVideoCapture}
           >
@@ -48,23 +45,14 @@ class HelloWorld extends React.Component {
           </button>
           <button
             style={{
-              backgroundColor:
-                this.state.mode === Modes.IMAGE_CAPTURE
-                  ? "rgb(255,174,55)"
-                  : "white",
+              backgroundColor: this.state.mode === Modes.IMAGE_CAPTURE ? "rgb(255,174,55)" : "white",
             }}
             onClick={this.showImageCapture}
           >
             Decode Image
           </button>
         </div>
-        <div className="container">
-          {this.state.mode === Modes.VIDEO_CAPTURE ? (
-            <VideoCapture />
-          ) : (
-            <ImageCapture />
-          )}
-        </div>
+        <div className="container">{this.state.mode === Modes.VIDEO_CAPTURE ? <VideoCapture /> : <ImageCapture />}</div>
       </div>
     );
   }

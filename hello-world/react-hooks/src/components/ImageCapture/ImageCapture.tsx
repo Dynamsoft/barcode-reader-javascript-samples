@@ -24,10 +24,7 @@ function ImageCapture() {
     try {
       const cvRouter = (await pInit.current)!;
       // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-      const result = await cvRouter.capture(
-        e.target.files![0],
-        "ReadBarcodes_SpeedFirst"
-      );
+      const result = await cvRouter.capture(e.target.files![0], "ReadBarcodes_SpeedFirst");
 
       // Initialize an empty string to hold the decoded barcode texts
       let texts = "";
@@ -69,11 +66,7 @@ function ImageCapture() {
 
   return (
     <div className="image-capture-container">
-      <input
-        type="file"
-        accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
-        onChange={decodeImg}
-      />
+      <input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={decodeImg} />
     </div>
   );
 }

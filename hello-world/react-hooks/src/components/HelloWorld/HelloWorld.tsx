@@ -26,8 +26,7 @@ function HelloWorld() {
       <div className="buttons-container">
         <button
           style={{
-            backgroundColor:
-              mode === Modes.VIDEO_CAPTURE ? "rgb(255,174,55)" : "white",
+            backgroundColor: mode === Modes.VIDEO_CAPTURE ? "rgb(255,174,55)" : "white",
           }}
           onClick={showVideoCapture}
         >
@@ -35,17 +34,14 @@ function HelloWorld() {
         </button>
         <button
           style={{
-            backgroundColor:
-              mode === Modes.IMAGE_CAPTURE ? "rgb(255,174,55)" : "white",
+            backgroundColor: mode === Modes.IMAGE_CAPTURE ? "rgb(255,174,55)" : "white",
           }}
           onClick={showImageCapture}
         >
           Decode Image
         </button>
       </div>
-      <div className="container">
-        {mode === Modes.VIDEO_CAPTURE ? <VideoCapture /> : <ImageCapture />}
-      </div>
+      <div className="container">{mode === Modes.VIDEO_CAPTURE ? <VideoCapture /> : <ImageCapture />}</div>
     </div>
   );
 }

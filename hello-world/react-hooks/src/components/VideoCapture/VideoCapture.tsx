@@ -2,10 +2,7 @@ import { useEffect, useRef } from "react";
 import "../../dynamsoft.config";
 import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
-import {
-  CapturedResultReceiver,
-  CaptureVisionRouter,
-} from "dynamsoft-capture-vision-router";
+import { CapturedResultReceiver, CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 import "./VideoCapture.css";
 
@@ -40,9 +37,7 @@ function VideoCapture() {
 
       // Define a callback for results.
       const resultReceiver = new CapturedResultReceiver();
-      resultReceiver.onDecodedBarcodesReceived = (
-        result: DecodedBarcodesResult
-      ) => {
+      resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
         if (!result.barcodeResultItems.length) return;
 
         resultsContainer.current!.textContent = "";
