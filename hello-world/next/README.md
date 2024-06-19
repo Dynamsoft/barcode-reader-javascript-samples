@@ -426,6 +426,8 @@ export default HelloWorld;
 > with Next.js' dynamic `import()`, we can significantly improve the initial load speed and performance when we dynamically import Dynamsoft's Barcode Scanning component on-demand.
 >
 > Additionally, we need to set `{ ssr: false }` since the component is client-side only and could not be rendered server-side.
+>
+> Read more: (https://nextjs.org/learn-pages-router/seo/improve/dynamic-import-components)[https://nextjs.org/learn-pages-router/seo/improve/dynamic-import-components]
 
 * Define the style of the element in `HelloWorld.css`
 
