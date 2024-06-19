@@ -83,19 +83,23 @@ function VideoCapture() {
 
   useEffect(() => {
     (async () => {
-      // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-      if (pDestroy.current) {
-        await pDestroy.current;
-        pInit.current = init();
-      } else {
-        pInit.current = init();
-      }
+      try {
+        // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+        if (pDestroy.current) {
+          await pDestroy.current;
+          pInit.current = init();
+        } else {
+          pInit.current = init();
+        }
+      } catch (_) {}
     })();
 
     return () => {
       (async () => {
-        await (pDestroy.current = destroy());
-        console.log("VideoCapture Component Unmount");
+        try {
+          await (pDestroy.current = destroy());
+          console.log("VideoCapture Component Unmount");
+        } catch (_) {}
       })();
     };
   }, []);

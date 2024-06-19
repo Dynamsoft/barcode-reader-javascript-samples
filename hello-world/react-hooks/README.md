@@ -180,19 +180,23 @@ function VideoCapture() {
 
   useEffect(() => {
     (async () => {
-      // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-      if (pDestroy.current) {
-        await pDestroy.current;
-        pInit.current = init();
-      } else {
-        pInit.current = init();
-      }
+      try {
+        // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+        if (pDestroy.current) {
+          await pDestroy.current;
+          pInit.current = init();
+        } else {
+          pInit.current = init();
+        }
+      } catch (_) {}
     })();
 
     return () => {
       (async () => {
-        await (pDestroy.current = destroy());
-        console.log("VideoCapture Component Unmount");
+        try {
+          await (pDestroy.current = destroy());
+          console.log("VideoCapture Component Unmount");
+        } catch (_) {}
       })();
     };
   }, []);
@@ -236,13 +240,15 @@ export default VideoCapture;
 * In `ImageCapture.tsx`, add code for initializing and destroying the `CaptureVisionRouter` instance.
 
 ```tsx
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, MutableRefObject } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import "./ImageCapture.css";
 
 function ImageCapture() {
+  const resultsContainer: MutableRefObject<HTMLDivElement | null> = useRef(null);
+
   const pInit = useRef(null as null | Promise<CaptureVisionRouter>);
   const pDestroy = useRef(null as null | Promise<void>);
 
@@ -270,11 +276,11 @@ function ImageCapture() {
         console.log((item as BarcodeResultItem).text);
         texts += (item as BarcodeResultItem).text + "\n";
       }
-      // If the 'texts' string is not empty, display an alert with all barcode texts
-      if (texts !== "") alert(texts);
+      // If the 'texts' string is not empty, display the decoded bacode texts
+      if (texts !== "") resultsContainer.current!.innerText = texts;
 
-      // If no items are found, alert the user that no barcode was detected
-      if (!result.items.length) alert("No barcode found");
+      // If no items are found, display that no barcode was detected
+      if (!result.items.length) resultsContainer.current!.innerText = "No barcode found";
     } catch (ex: any) {
       let errMsg = ex.message || ex;
       console.error(errMsg);
@@ -285,26 +291,33 @@ function ImageCapture() {
 
   useEffect(() => {
     (async () => {
-      // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-      if (pDestroy) {
-        await pDestroy;
-        pInit.current = init();
-      } else {
-        pInit.current = init();
-      }
+      try {
+        // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+        if (pDestroy) {
+          await pDestroy;
+          pInit.current = init();
+        } else {
+          pInit.current = init();
+        }
+      } catch (_) {}
     })();
 
     return () => {
-      (async () => {
-        await (pDestroy.current = destroy());
-        console.log("ImageCapture Component Unmount");
-      })();
+      try {
+        (async () => {
+          await (pDestroy.current = destroy());
+          console.log("ImageCapture Component Unmount");
+        })();
+      } catch (_) {}
     };
   }, []);
 
   return (
     <div className="image-capture-container">
-      <input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={decodeImg} />
+      <div className="input-container">
+        <input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={decodeImg} />
+      </div>
+      <div className="results" ref={resultsContainer}></div>
     </div>
   );
 }
@@ -316,11 +329,23 @@ export default ImageCapture;
 
 ```css
 .image-capture-container {
+  width: 100%;
+  height: 100%;
+  font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono,
+    Courier New, monospace;
+}
+
+.image-capture-container .input-container {
+  width: 80%;
+  height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
   border: 1px solid black;
+  margin: 0 auto;
+}
+
+.image-capture-container .results {
+  margin-top: 20px;
 }
 ```
 

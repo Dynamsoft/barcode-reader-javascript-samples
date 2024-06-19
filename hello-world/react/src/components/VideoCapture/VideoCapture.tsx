@@ -80,18 +80,22 @@ class VideoCapture extends React.Component {
   }
 
   async componentDidMount() {
-    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-    if (this.pDestroy) {
-      await this.pDestroy;
-      this.pInit = this.init();
-    } else {
-      this.pInit = this.init();
-    }
+    try {
+      // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+      if (this.pDestroy) {
+        await this.pDestroy;
+        this.pInit = this.init();
+      } else {
+        this.pInit = this.init();
+      }
+    } catch (_) {}
   }
 
   async componentWillUnmount() {
-    await (this.pDestroy = this.destroy());
-    console.log("VideoCapture Component Unmount");
+    try {
+      await (this.pDestroy = this.destroy());
+      console.log("VideoCapture Component Unmount");
+    } catch (_) {}
   }
 
   shouldComponentUpdate() {

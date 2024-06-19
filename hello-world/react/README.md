@@ -178,18 +178,22 @@ class VideoCapture extends React.Component {
   }
 
   async componentDidMount() {
-    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-    if (this.pDestroy) {
-      await this.pDestroy;
-      this.pInit = this.init();
-    } else {
-      this.pInit = this.init();
-    }
+    try {
+      // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+      if (this.pDestroy) {
+        await this.pDestroy;
+        this.pInit = this.init();
+      } else {
+        this.pInit = this.init();
+      }
+    } catch (_) {}
   }
 
   async componentWillUnmount() {
-    await (this.pDestroy = this.destroy());
-    console.log("VideoCapture Component Unmount");
+    try {
+      await (this.pDestroy = this.destroy());
+      console.log("VideoCapture Component Unmount");
+    } catch (_) {}
   }
 
   shouldComponentUpdate() {
@@ -245,6 +249,8 @@ import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import "./ImageCapture.css";
 
 class ImageCapture extends React.Component {
+  resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
+
   pInit: Promise<CaptureVisionRouter> | null = null;
   pDestroy: Promise<void> | null = null;
 
@@ -272,11 +278,11 @@ class ImageCapture extends React.Component {
         console.log((item as BarcodeResultItem).text);
         texts += (item as BarcodeResultItem).text + "\n";
       }
-      // If the 'texts' string is not empty, display an alert with all barcode texts
-      if (texts !== "") alert(texts);
+      // If the 'texts' string is not empty, display the decoded bacode texts
+      if (texts !== "") this.resultsContainer.current!.innerText = texts;
 
-      // If no items are found, alert the user that no barcode was detected
-      if (!result.items.length) alert("No barcode found");
+      // If no items are found, display that no barcode was detected
+      if (!result.items.length) this.resultsContainer.current!.innerText = "No barcode found";
     } catch (ex: any) {
       let errMsg = ex.message || ex;
       console.error(errMsg);
@@ -286,24 +292,31 @@ class ImageCapture extends React.Component {
   };
 
   async componentDidMount() {
-    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-    if (this.pDestroy) {
-      await this.pDestroy;
-      this.pInit = this.init();
-    } else {
-      this.pInit = this.init();
-    }
+    try {
+      // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+      if (this.pDestroy) {
+        await this.pDestroy;
+        this.pInit = this.init();
+      } else {
+        this.pInit = this.init();
+      }
+    } catch (_) {}
   }
 
   async componentWillUnmount() {
-    await (this.pDestroy = this.destroy());
-    console.log("ImageCapture Component Unmount");
+    try {
+      await (this.pDestroy = this.destroy());
+      console.log("ImageCapture Component Unmount");
+    } catch (_) {}
   }
 
   render() {
     return (
       <div className="image-capture-container">
-        <input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={this.decodeImg} />
+        <div className="input-container">
+          <input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={this.decodeImg} />
+        </div>
+        <div className="results" ref={this.resultsContainer}></div>
       </div>
     );
   }
@@ -316,11 +329,23 @@ export default ImageCapture;
 
 ```css
 .image-capture-container {
+  width: 100%;
+  height: 100%;
+  font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono,
+    Courier New, monospace;
+}
+
+.image-capture-container .input-container {
+  width: 80%;
+  height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
   border: 1px solid black;
+  margin: 0 auto;
+}
+
+.image-capture-container .results {
+  margin-top: 20px;
 }
 ```
 
