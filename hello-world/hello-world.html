@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta name="description" content="Quickly read barcodes with Dynamsoft Barcode Reader from a live camera stream."/>
+    <meta name="description" content="Quickly read barcodes with Dynamsoft Barcode Reader from a live camera stream." />
     <meta name="keywords" content="barcode, camera" />
-    <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html"/>
+    <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html" />
     <title>Dynamsoft Barcode Reader Sample - Hello World (Decode via Camera)</title>
   </head>
 
   <body>
     <h1>Hello World (Decode via Camera)</h1>
-    <div id="div-ui-container" style="width: 100%; height: 80vh"></div>
-    Results:<br>
-    <div id="div-results-container" style="width: 100%; height: 10vh; overflow: auto;"></div>
+    <div id="camera-view-container" style="width: 100%; height: 80vh"></div>
+    Results:<br />
+    <div id="results" style="width: 100%; height: 10vh; overflow: auto"></div>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
     <script>
       /** LICENSE ALERT - README
@@ -40,27 +40,25 @@
           const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
           cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
           // Get default UI and append it to DOM.
-          document.querySelector("#div-ui-container").append(cameraView.getUIElement()); 
+          document.querySelector("#camera-view-container").append(cameraView.getUIElement());
 
           // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
           cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
           cvRouter.setInput(cameraEnhancer);
 
           // Define a callback for results.
-          cvRouter.addResultReceiver({ onDecodedBarcodesReceived: (result) => {
-            if (!result.barcodeResultItems.length) return;
+          cvRouter.addResultReceiver({
+            onDecodedBarcodesReceived: (result) => {
+              if (!result.barcodeResultItems.length) return;
 
-            const resultsContainer = document.querySelector("#div-results-container");
-            resultsContainer.textContent = '';
-            console.log(result);
-            for (let item of result.barcodeResultItems) {
-              resultsContainer.append(
-                `${item.formatString}: ${item.text}`,
-                document.createElement('br'),
-                document.createElement('hr'),
-              );
-            }
-          }});
+              const resultsContainer = document.querySelector("#results");
+              resultsContainer.textContent = "";
+              console.log(result);
+              for (let item of result.barcodeResultItems) {
+                resultsContainer.textContent += `${item.formatString}: ${item.text}\n\n`;
+              }
+            },
+          });
 
           // Filter out unchecked and duplicate results.
           const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
