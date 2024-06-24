@@ -51,8 +51,8 @@ function ImageCapture() {
     (async () => {
       try {
         // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-        if (pDestroy) {
-          await pDestroy;
+        if (pDestroy.current) {
+          await pDestroy.current;
           pInit.current = init();
         } else {
           pInit.current = init();
