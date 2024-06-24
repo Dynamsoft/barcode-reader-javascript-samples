@@ -7,15 +7,17 @@ import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 import "./VideoCapture.css";
 
 class VideoCapture extends React.Component {
+  cameraViewContainer: React.RefObject<HTMLDivElement> = React.createRef();
+  resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
+
+  // pInit tracks the promise of the cameraView, cameraEnhancer, and cvRouter
   pInit: Promise<{
     cameraView: CameraView;
     cameraEnhancer: CameraEnhancer;
     cvRouter: CaptureVisionRouter;
   }> | null = null;
+  // pDestroy tracks the promise for destruction of the initialized components
   pDestroy: Promise<void> | null = null;
-
-  cameraViewContainer: React.RefObject<HTMLDivElement> = React.createRef();
-  resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
 
   async init(): Promise<{
     cameraView: CameraView;
@@ -72,6 +74,7 @@ class VideoCapture extends React.Component {
 
   async destroy(): Promise<void> {
     if (this.pInit) {
+      // Ensure components are initialized before we destroy
       const { cameraView, cameraEnhancer, cvRouter } = await this.pInit;
       cvRouter.dispose();
       cameraEnhancer.dispose();

@@ -10,6 +10,7 @@ function VideoCapture() {
   const cameraViewContainer = useRef<HTMLDivElement>(null);
   const resultsContainer = useRef<HTMLDivElement>(null);
 
+  // pInit tracks the promise of the cameraView, cameraEnhancer, and cvRouter
   const pInit = useRef(
     null as Promise<{
       cameraView: CameraView;
@@ -17,6 +18,7 @@ function VideoCapture() {
       cvRouter: CaptureVisionRouter;
     }> | null
   );
+  // pDestroy tracks the promise for destruction of the initialized components
   const pDestroy = useRef(null as Promise<void> | null);
 
   const init = async (): Promise<{
@@ -74,6 +76,7 @@ function VideoCapture() {
 
   const destroy = async (): Promise<void> => {
     if (pInit.current) {
+      // Ensure components are initialized before we destroy
       const { cameraView, cameraEnhancer, cvRouter } = await pInit.current;
       cvRouter.dispose();
       cameraEnhancer.dispose();

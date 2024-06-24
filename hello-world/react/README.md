@@ -1,8 +1,14 @@
 # Hello World Sample for React
 
-[React](https://reactjs.org/) is a JavaScript library meant explicitly for creating interactive UIs. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into a React application. Note that in this sample we will use `TypeScript` and define components as classes. Also, there is another sample `react-hooks` using `Hooks` in React.
+[React](https://reactjs.org/) is a JavaScript library meant explicitly for creating interactive UIs. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a React application. Note that in this sample we will use `TypeScript` and define components as classes. Also, there is another sample `react-hooks` using `Hooks` in React.
 
 In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.2.1000).
+
+> Note:
+>
+> If you’re looking to integrate DBR-JS into a framework that we don't yet have a sample, don't worry! We have a [comprehensive guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/use-in-framework.html) that provides detailed instruction and best practices for a seamless  integration into any frameworks!
+>
+> Additionally, we're here to help! Please don't hesitate to [contact us](#Support) for any support or questions you might have.
 
 ## Official Sample
 
@@ -91,9 +97,9 @@ CoreModule.loadWasm(["DBR"]);
 
 ### Create and edit the `VideoCapture` component
 
-* Create `VideoCapture.tsx` and `VideoCapture.css` under "/src/components/VideoCapture/". The `VideoCapture` component helps decode barcodes via camera.
+* Create `VideoCapture.tsx` under "/src/components/VideoCapture/". The `VideoCapture` component helps decode barcodes via camera. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
-* In `VideoCapture.tsx`, add code for initializing and destroying some instances.
+* In `VideoCapture.tsx`, add code for initializing and destroying some instances. 
 
 ```tsx
 import React from "react";
@@ -102,18 +108,19 @@ import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
 import { CapturedResultReceiver, CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
-import "./VideoCapture.css";
 
 class VideoCapture extends React.Component {
+  cameraViewContainer: React.RefObject<HTMLDivElement> = React.createRef();
+  resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
+
+  // pInit tracks the promise of the cameraView, cameraEnhancer, and cvRouter
   pInit: Promise<{
     cameraView: CameraView;
     cameraEnhancer: CameraEnhancer;
     cvRouter: CaptureVisionRouter;
   }> | null = null;
+  // pDestroy tracks the promise for destruction of the initialized components
   pDestroy: Promise<void> | null = null;
-
-  cameraViewContainer: React.RefObject<HTMLDivElement> = React.createRef();
-  resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
 
   async init(): Promise<{
     cameraView: CameraView;
@@ -170,6 +177,7 @@ class VideoCapture extends React.Component {
 
   async destroy(): Promise<void> {
     if (this.pInit) {
+      // Ensure components are initialized before we destroy
       const { cameraView, cameraEnhancer, cvRouter } = await this.pInit;
       cvRouter.dispose();
       cameraEnhancer.dispose();
@@ -220,24 +228,9 @@ export default VideoCapture;
 >
 > * The component should never update (check the code for `shouldComponentUpdate()`) so that events bound to the UI stay valid.
 
-* Define the style of the element in `VideoCapture.css`
-
-```css
-.camera-view-container {
-  width: 100%;
-  height: 70vh;
-}
-
-.results {
-  width: 100%;
-  height: 10vh;
-  overflow: auto;
-}
-```
-
 ### Create and edit the `ImageCapture` component
 
-* Create `ImageCapture.tsx` and `ImageCapture.css` under "/src/components/ImageCapture/". The `ImageCapture` component helps decode barcodes in an image.
+* Create `ImageCapture.tsx` under "/src/components/ImageCapture/". The `ImageCapture` component helps decode barcodes in an image. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 * In `ImageCapture.tsx`, add code for initializing and destroying the `CaptureVisionRouter` instance.
 
@@ -246,7 +239,6 @@ import React from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
-import "./ImageCapture.css";
 
 class ImageCapture extends React.Component {
   resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
@@ -325,33 +317,9 @@ class ImageCapture extends React.Component {
 export default ImageCapture;
 ```
 
-* Define the style of the element in `ImageCapture.css`
-
-```css
-.image-capture-container {
-  width: 100%;
-  height: 100%;
-  font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono,
-    Courier New, monospace;
-}
-
-.image-capture-container .input-container {
-  width: 80%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  border: 1px solid black;
-  margin: 0 auto;
-}
-
-.image-capture-container .results {
-  margin-top: 20px;
-}
-```
-
 ### Create and edit the `HelloWorld` component
 
-* Create `HelloWorld.tsx` and `HelloWorld.css` under "/src/components/HelloWorld/". The `HelloWorld` component offers buttons to switch components between `VideoCapture` and `ImageCapture`.
+* Create `HelloWorld.tsx` under "/src/components/HelloWorld/". The `HelloWorld` component offers buttons to switch components between `VideoCapture` and `ImageCapture`. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 * Add following code to `HelloWorld.tsx`.
 
@@ -360,7 +328,6 @@ import React from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import VideoCapture from "../VideoCapture/VideoCapture";
 import ImageCapture from "../ImageCapture/ImageCapture";
-import "./HelloWorld.css";
 
 enum Modes {
   VIDEO_CAPTURE = "video",
@@ -413,39 +380,6 @@ class HelloWorld extends React.Component {
 }
 
 export default HelloWorld;
-```
-
-* Define the style of the element in `HelloWorld.css`
-
-```css
-.hello-world-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    color: #455A64;
-}
-
-h1 {
-    font-size: 1.5em;
-}
-
-button {
-    font-size: 1.5rem;
-    margin: 1.5vh 0;
-    border: 1px solid black;
-    background-color: white;
-    color: black;
-    cursor: pointer;
-}
-
-.container {
-    margin: 2vmin auto;
-    font-size: medium;
-    width: 80vw;
-}
 ```
 
 ### Add the `HelloWorld` component to `App.tsx`
