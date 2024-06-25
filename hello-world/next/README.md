@@ -208,6 +208,7 @@ function VideoCapture() {
     // Resolve pInit promise once initialization is complete.
     resolveInit!();
 
+    // componentWillUnmount. dispose cvRouter when it's no longer needed
     return async () => {
       isDestroyed = true;
       try {
@@ -261,8 +262,8 @@ function ImageCapture() {
     e.target.value = ""; // reset input
     resultsContainer.current!.innerText = "";
 
-    // ensure cvRouter is created only once
     try {
+      // ensure cvRouter is created only once
       const cvRouter = await (pCvRouter.current = pCvRouter.current || CaptureVisionRouter.createInstance());
       if (isDestroyed.current) return;
 
@@ -297,7 +298,7 @@ function ImageCapture() {
     // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
     isDestroyed.current = false;
 
-    // componentWillUnmount. dispose cvRouter when it's no longer neededs
+    // componentWillUnmount. dispose cvRouter when it's no longer needed
     return async () => {
       isDestroyed.current = true;
       if (pCvRouter.current) {

@@ -90,6 +90,7 @@ function VideoCapture() {
     // Resolve pInit promise once initialization is complete.
     resolveInit!();
 
+    // componentWillUnmount. dispose cvRouter when it's no longer needed
     return async () => {
       isDestroyed = true;
       try {
