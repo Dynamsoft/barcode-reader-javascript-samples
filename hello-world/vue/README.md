@@ -227,6 +227,9 @@ onBeforeUnmount(async () => {
 }
 </style>
 ```
+> Note:
+>
+> If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customize-the-ui)
 
 ### Create and edit the `ImageCapture` component
 
