@@ -1,52 +1,58 @@
 import React from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
-import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
-import { CapturedResultReceiver, CaptureVisionRouter } from "dynamsoft-capture-vision-router";
+import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 import "./VideoCapture.css";
+
+const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
 class VideoCapture extends React.Component {
   cameraViewContainer: React.RefObject<HTMLDivElement> = React.createRef();
   resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
 
-  // pInit tracks the promise of the cameraView, cameraEnhancer, and cvRouter
-  pInit: Promise<{
-    cameraView: CameraView;
-    cameraEnhancer: CameraEnhancer;
-    cvRouter: CaptureVisionRouter;
-  }> | null = null;
-  // pDestroy tracks the promise for destruction of the initialized components
-  pDestroy: Promise<void> | null = null;
+  resolveInit?: () => void;
+  pInit: Promise<void> = new Promise((r) => (this.resolveInit = r));
+  isDestroyed = false;
 
-  async init(): Promise<{
-    cameraView: CameraView;
-    cameraEnhancer: CameraEnhancer;
-    cvRouter: CaptureVisionRouter;
-  }> {
+  cvRouter?: CaptureVisionRouter;
+  cameraEnhancer?: CameraEnhancer;
+
+  async componentDidMount() {
     try {
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
       const cameraView = await CameraView.createInstance();
-      const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-      this.cameraViewContainer.current!.innerText = "";
-      this.cameraViewContainer.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      } // Check if component is destroyed after every async
+
+      this.cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
+
+      // Get default UI and append it to DOM.
+      this.cameraViewContainer.current!.append(cameraView.getUIElement());
 
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-      const cvRouter = await CaptureVisionRouter.createInstance();
-      cvRouter.setInput(cameraEnhancer);
+      this.cvRouter = await CaptureVisionRouter.createInstance();
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
+      this.cvRouter.setInput(this.cameraEnhancer);
 
       // Define a callback for results.
-      const resultReceiver = new CapturedResultReceiver();
-      resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
-        if (!result.barcodeResultItems.length) return;
+      this.cvRouter.addResultReceiver({
+        onDecodedBarcodesReceived: (result) => {
+          if (!result.barcodeResultItems.length) return;
 
-        this.resultsContainer.current!.textContent = "";
-        console.log(result);
-        for (let item of result.barcodeResultItems) {
-          this.resultsContainer.current!.textContent += `${item.formatString}: ${item.text}\n\n`;
-        }
-      };
-      cvRouter.addResultReceiver(resultReceiver);
+          this.resultsContainer.current!.textContent = "";
+          console.log(result);
+          for (let item of result.barcodeResultItems) {
+            this.resultsContainer.current!.textContent += `${item.formatString}: ${item.text}\n\n`;
+          }
+        },
+      });
 
       // Filter out unchecked and duplicate results.
       const filter = new MultiFrameResultCrossFilter();
@@ -54,50 +60,41 @@ class VideoCapture extends React.Component {
       filter.enableResultCrossVerification("barcode", true);
       // Filter out duplicate barcodes within 3 seconds.
       filter.enableResultDeduplication("barcode", true);
-      await cvRouter.addResultFilter(filter);
+      await this.cvRouter.addResultFilter(filter);
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
 
       // Open camera and start scanning single barcode.
-      await cameraEnhancer.open();
-      await cvRouter.startCapturing("ReadSingleBarcode");
-      return {
-        cameraView,
-        cameraEnhancer,
-        cvRouter,
-      };
-    } catch (ex: any) {
-      let errMsg = ex.message || ex;
-      console.error(errMsg);
-      alert(errMsg);
-      throw ex;
-    }
-  }
-
-  async destroy(): Promise<void> {
-    if (this.pInit) {
-      // Ensure components are initialized before we destroy
-      const { cameraView, cameraEnhancer, cvRouter } = await this.pInit;
-      cvRouter.dispose();
-      cameraEnhancer.dispose();
-      cameraView.dispose();
-    }
-  }
-
-  async componentDidMount() {
-    try {
-      // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-      if (this.pDestroy) {
-        await this.pDestroy;
-        this.pInit = this.init();
-      } else {
-        this.pInit = this.init();
+      await this.cameraEnhancer.open();
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
       }
-    } catch (_) {}
+      await this.cvRouter.startCapturing("ReadSingleBarcode");
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
+    } catch (ex: any) {
+      if ((ex as Error)?.message === componentDestroyedErrorMsg) {
+        console.log(componentDestroyedErrorMsg);
+      } else {
+        let errMsg = ex.message || ex;
+        console.error(errMsg);
+        alert(errMsg);
+      }
+    }
+
+    // Resolve pInit promise once initialization is complete.
+    this.resolveInit!();
   }
 
   async componentWillUnmount() {
+    this.isDestroyed = true;
     try {
-      await (this.pDestroy = this.destroy());
-      console.log("VideoCapture Component Unmount");
+      // Wait for the pInit to complete before disposing resources.
+      await this.pInit;
+      this.cvRouter?.dispose();
+      this.cameraEnhancer?.dispose();
     } catch (_) {}
   }
 
@@ -110,8 +107,8 @@ class VideoCapture extends React.Component {
     return (
       <div>
         <div ref={this.cameraViewContainer} className="camera-view-container"></div>
+        <br />
         Results:
-        <br></br>
         <div ref={this.resultsContainer} className="results"></div>
       </div>
     );

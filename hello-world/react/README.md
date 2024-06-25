@@ -53,22 +53,10 @@ npm install dynamsoft-barcode-reader-bundle
 ### Add file "dynamsoft.config.ts" at the root of the app to configure libraries
 
 ```typescript
+/* /src/dynamsoft.config.ts */
 import { CoreModule } from "dynamsoft-core";
 import { LicenseManager } from "dynamsoft-license";
 import "dynamsoft-barcode-reader";
-
-/** LICENSE ALERT - README
- * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
- */
-
-LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
-
-/**
- * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
- * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
- * LICENSE ALERT - THE END
- */
 
 // Configures the paths where the .wasm files and other necessary resources for modules are located.
 CoreModule.engineResourcePaths = {
@@ -81,7 +69,20 @@ CoreModule.engineResourcePaths = {
   dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/",
 };
 
-// Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
+/** LICENSE ALERT - README
+ * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+ */
+
+LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", true);
+
+/**
+ * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+ * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+ * LICENSE ALERT - THE END
+ */
+
+// Optional. Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
 CoreModule.loadWasm(["DBR"]);
 ```
 
@@ -93,63 +94,70 @@ CoreModule.loadWasm(["DBR"]);
 
 ### Build directory structure
 
-* Create a directory "components" under "/src/", and then create another three directories "HelloWorld", "VideoCapture" and "ImageCapture" under "/src/components/".
+* Create a directory `components` under `/src/`, and then create two other directories, `VideoCapture` and `ImageCapture` under `/components/`.
 
 ### Create and edit the `VideoCapture` component
 
-* Create `VideoCapture.tsx` under "/src/components/VideoCapture/". The `VideoCapture` component helps decode barcodes via camera. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
+* Create `VideoCapture.tsx` under `/src/components/VideoCapture/`. The `VideoCapture` component helps decode barcodes via camera.
 
-* In `VideoCapture.tsx`, add code for initializing and destroying some instances. 
+* In `VideoCapture.tsx`, add code for initializing and destroying some instances. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```tsx
+/* /src/components/VideoCapture/VideoCapture.tsx */
 import React from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
-import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
-import { CapturedResultReceiver, CaptureVisionRouter } from "dynamsoft-capture-vision-router";
+import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
+
+const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
 class VideoCapture extends React.Component {
   cameraViewContainer: React.RefObject<HTMLDivElement> = React.createRef();
   resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
 
-  // pInit tracks the promise of the cameraView, cameraEnhancer, and cvRouter
-  pInit: Promise<{
-    cameraView: CameraView;
-    cameraEnhancer: CameraEnhancer;
-    cvRouter: CaptureVisionRouter;
-  }> | null = null;
-  // pDestroy tracks the promise for destruction of the initialized components
-  pDestroy: Promise<void> | null = null;
+  resolveInit?: () => void;
+  pInit: Promise<void> = new Promise((r) => (this.resolveInit = r));
+  isDestroyed = false;
 
-  async init(): Promise<{
-    cameraView: CameraView;
-    cameraEnhancer: CameraEnhancer;
-    cvRouter: CaptureVisionRouter;
-  }> {
+  cvRouter?: CaptureVisionRouter;
+  cameraEnhancer?: CameraEnhancer;
+
+  async componentDidMount() {
     try {
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
       const cameraView = await CameraView.createInstance();
-      const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-      this.cameraViewContainer.current!.innerText = "";
-      this.cameraViewContainer.current!.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      } // Check if component is destroyed after every async
+
+      this.cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
+
+      // Get default UI and append it to DOM.
+      this.cameraViewContainer.current!.append(cameraView.getUIElement());
 
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-      const cvRouter = await CaptureVisionRouter.createInstance();
-      cvRouter.setInput(cameraEnhancer);
+      this.cvRouter = await CaptureVisionRouter.createInstance();
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
+      this.cvRouter.setInput(this.cameraEnhancer);
 
       // Define a callback for results.
-      const resultReceiver = new CapturedResultReceiver();
-      resultReceiver.onDecodedBarcodesReceived = (result: DecodedBarcodesResult) => {
-        if (!result.barcodeResultItems.length) return;
+      this.cvRouter.addResultReceiver({
+        onDecodedBarcodesReceived: (result) => {
+          if (!result.barcodeResultItems.length) return;
 
-        this.resultsContainer.current!.textContent = "";
-        console.log(result);
-        for (let item of result.barcodeResultItems) {
-          this.resultsContainer.current!.textContent += `${item.formatString}: ${item.text}\n\n`;
-        }
-      };
-      cvRouter.addResultReceiver(resultReceiver);
+          this.resultsContainer.current!.textContent = "";
+          console.log(result);
+          for (let item of result.barcodeResultItems) {
+            this.resultsContainer.current!.textContent += `${item.formatString}: ${item.text}\n\n`;
+          }
+        },
+      });
 
       // Filter out unchecked and duplicate results.
       const filter = new MultiFrameResultCrossFilter();
@@ -157,50 +165,41 @@ class VideoCapture extends React.Component {
       filter.enableResultCrossVerification("barcode", true);
       // Filter out duplicate barcodes within 3 seconds.
       filter.enableResultDeduplication("barcode", true);
-      await cvRouter.addResultFilter(filter);
+      await this.cvRouter.addResultFilter(filter);
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
 
       // Open camera and start scanning single barcode.
-      await cameraEnhancer.open();
-      await cvRouter.startCapturing("ReadSingleBarcode");
-      return {
-        cameraView,
-        cameraEnhancer,
-        cvRouter,
-      };
-    } catch (ex: any) {
-      let errMsg = ex.message || ex;
-      console.error(errMsg);
-      alert(errMsg);
-      throw ex;
-    }
-  }
-
-  async destroy(): Promise<void> {
-    if (this.pInit) {
-      // Ensure components are initialized before we destroy
-      const { cameraView, cameraEnhancer, cvRouter } = await this.pInit;
-      cvRouter.dispose();
-      cameraEnhancer.dispose();
-      cameraView.dispose();
-    }
-  }
-
-  async componentDidMount() {
-    try {
-      // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-      if (this.pDestroy) {
-        await this.pDestroy;
-        this.pInit = this.init();
-      } else {
-        this.pInit = this.init();
+      await this.cameraEnhancer.open();
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
       }
-    } catch (_) {}
+      await this.cvRouter.startCapturing("ReadSingleBarcode");
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
+    } catch (ex: any) {
+      if ((ex as Error)?.message === componentDestroyedErrorMsg) {
+        console.log(componentDestroyedErrorMsg);
+      } else {
+        let errMsg = ex.message || ex;
+        console.error(errMsg);
+        alert(errMsg);
+      }
+    }
+
+    // Resolve pInit promise once initialization is complete.
+    this.resolveInit!();
   }
 
   async componentWillUnmount() {
+    this.isDestroyed = true;
     try {
-      await (this.pDestroy = this.destroy());
-      console.log("VideoCapture Component Unmount");
+      // Wait for the pInit to complete before disposing resources.
+      await this.pInit;
+      this.cvRouter?.dispose();
+      this.cameraEnhancer?.dispose();
     } catch (_) {}
   }
 
@@ -213,8 +212,8 @@ class VideoCapture extends React.Component {
     return (
       <div>
         <div ref={this.cameraViewContainer} className="camera-view-container"></div>
+        <br />
         Results:
-        <br></br>
         <div ref={this.resultsContainer} className="results"></div>
       </div>
     );
@@ -227,86 +226,84 @@ export default VideoCapture;
 > Note:
 >
 > * The component should never update (check the code for `shouldComponentUpdate()`) so that events bound to the UI stay valid.
+> * Also, during 'development', React executes setup and cleanup phases twice in [Strict Mode](https://react.dev/reference/react/StrictMode). To ensure proper functioning of VideoCapture in development, it's advised to avoid using Strict Mode for this component.
+> However, if you're still interested on using Strict Mode, we do have a workaround available. Please contact our [support team](#Support) for further assistance.
 
 ### Create and edit the `ImageCapture` component
 
-* Create `ImageCapture.tsx` under "/src/components/ImageCapture/". The `ImageCapture` component helps decode barcodes in an image. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
+* Create `ImageCapture.tsx` under `/src/components/ImageCapture/`. The `ImageCapture` component helps decode barcodes in an image. 
 
-* In `ImageCapture.tsx`, add code for initializing and destroying the `CaptureVisionRouter` instance.
+* In `ImageCapture.tsx`, add code for initializing and destroying the `CaptureVisionRouter` instance. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```tsx
-import React from "react";
+/* /src/components/ImageCapture/ImageCapture.tsx */
+import React, { ChangeEvent } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
-import { BarcodeResultItem } from "dynamsoft-barcode-reader";
+import { EnumCapturedResultItemType } from "dynamsoft-core";
+import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 
 class ImageCapture extends React.Component {
   resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
 
-  pInit: Promise<CaptureVisionRouter> | null = null;
-  pDestroy: Promise<void> | null = null;
+  pCvRouter: Promise<CaptureVisionRouter> | null = null;
+  isDestroyed = false;
 
-  async init(): Promise<CaptureVisionRouter> {
-    const cvRouter = await CaptureVisionRouter.createInstance();
-    return cvRouter;
-  }
+  async captureImage(e: ChangeEvent<HTMLInputElement>) {
+    let files = [...(e.target.files as any as File[])];
+    e.target.value = ""; // reset input
+    this.resultsContainer.current!.innerText = "";
 
-  async destroy(): Promise<void> {
-    if (this.pInit) {
-      const cvRouter = await this.pInit;
-      cvRouter.dispose();
-    }
-  }
-
-  decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const cvRouter = await this.pInit;
-      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-      const result = await cvRouter!.capture(e.target.files![0], "ReadBarcodes_SpeedFirst");
+      const cvRouter = await (this.pCvRouter = this.pCvRouter || CaptureVisionRouter.createInstance());
+      if (this.isDestroyed) return;
 
-      // Initialize an empty string to hold the decoded barcode texts
-      let texts = "";
-      for (let item of result.items) {
-        console.log((item as BarcodeResultItem).text);
-        texts += (item as BarcodeResultItem).text + "\n";
+      for (let file of files) {
+        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
+        const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+        if (this.isDestroyed) return;
+
+        // Print file name if there's multiple files
+        if (files.length > 1) {
+          this.resultsContainer.current!.innerText += `\n${file.name}:\n`;
+        }
+        for (let _item of result.items) {
+          if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
+            continue; // check if captured result item is a barcode
+          }
+          let item = _item as BarcodeResultItem;
+          this.resultsContainer.current!.innerText += item.text + "\n";
+          console.log(item.text);
+        }
+        // If no items are found, display that no barcode was detected
+        if (!result.items.length) this.resultsContainer.current!.innerText += "No barcode found\n";
       }
-      // If the 'texts' string is not empty, display the decoded bacode texts
-      if (texts !== "") this.resultsContainer.current!.innerText = texts;
-
-      // If no items are found, display that no barcode was detected
-      if (!result.items.length) this.resultsContainer.current!.innerText = "No barcode found";
     } catch (ex: any) {
       let errMsg = ex.message || ex;
       console.error(errMsg);
       alert(errMsg);
     }
-    e.target.value = "";
-  };
-
-  async componentDidMount() {
-    try {
-      // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-      if (this.pDestroy) {
-        await this.pDestroy;
-        this.pInit = this.init();
-      } else {
-        this.pInit = this.init();
-      }
-    } catch (_) {}
   }
 
   async componentWillUnmount() {
-    try {
-      await (this.pDestroy = this.destroy());
-      console.log("ImageCapture Component Unmount");
-    } catch (_) {}
+    this.isDestroyed = true;
+    if (this.pCvRouter) {
+      try {
+        (await this.pCvRouter).dispose();
+      } catch (_) {}
+    }
   }
 
   render() {
     return (
       <div className="image-capture-container">
         <div className="input-container">
-          <input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={this.decodeImg} />
+          <input
+            type="file"
+            multiple
+            onChange={this.captureImage.bind(this)}
+            accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
+          />
         </div>
         <div className="results" ref={this.resultsContainer}></div>
       </div>
@@ -317,24 +314,25 @@ class ImageCapture extends React.Component {
 export default ImageCapture;
 ```
 
-### Create and edit the `HelloWorld` component
+### Add the `VideoCapture` and `ImageCapture` component to `App.tsx`
 
-* Create `HelloWorld.tsx` under "/src/components/HelloWorld/". The `HelloWorld` component offers buttons to switch components between `VideoCapture` and `ImageCapture`. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
+* On `/src/App.tsx`, we will edit the component so that it offers buttons to switch components between `VideoCapture` and `ImageCapture`.
 
-* Add following code to `HelloWorld.tsx`.
+* Add following code to `App.tsx`. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```tsx
+/* src/App.tsx */
 import React from "react";
-import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
-import VideoCapture from "../VideoCapture/VideoCapture";
-import ImageCapture from "../ImageCapture/ImageCapture";
+import "./dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
+import VideoCapture from "./components/VideoCapture/VideoCapture";
+import ImageCapture from "./components/ImageCapture/ImageCapture";
 
 enum Modes {
   VIDEO_CAPTURE = "video",
   IMAGE_CAPTURE = "image",
 }
 
-class HelloWorld extends React.Component {
+class App extends React.Component {
   state = {
     mode: Modes.VIDEO_CAPTURE,
   };
@@ -354,8 +352,10 @@ class HelloWorld extends React.Component {
   render() {
     return (
       <div className="hello-world-page">
-        <h1>Hello World for React</h1>
-        <div>
+        <div className="title">
+          <h2 className="title-text">Hello World for React</h2>
+        </div>
+        <div className="buttons-container">
           <button
             style={{
               backgroundColor: this.state.mode === Modes.VIDEO_CAPTURE ? "rgb(255,174,55)" : "white",
@@ -373,29 +373,10 @@ class HelloWorld extends React.Component {
             Decode Image
           </button>
         </div>
-          <div className="container">{this.state.mode === Modes.VIDEO_CAPTURE ? <VideoCapture /> : <ImageCapture />}</div>
+        <div className="container">{this.state.mode === Modes.VIDEO_CAPTURE ? <VideoCapture /> : <ImageCapture />}</div>
       </div>
     );
   }
-}
-
-export default HelloWorld;
-```
-
-### Add the `HelloWorld` component to `App.tsx`
-
-Edit the file `App.tsx` to be like this
-
-```jsx
-import HelloWorld from './components/HelloWorld/HelloWorld';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <HelloWorld></HelloWorld>
-    </div>
-  );
 }
 
 export default App;

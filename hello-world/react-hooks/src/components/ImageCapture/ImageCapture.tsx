@@ -1,5 +1,6 @@
-import React, { useRef, useEffect, MutableRefObject } from "react";
+import React, { useRef, useEffect, MutableRefObject, useCallback } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
+import { EnumCapturedResultItemType } from "dynamsoft-core";
 import { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import "./ImageCapture.css";
@@ -7,73 +8,65 @@ import "./ImageCapture.css";
 function ImageCapture() {
   const resultsContainer: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
-  const pInit = useRef(null as null | Promise<CaptureVisionRouter>);
-  const pDestroy = useRef(null as null | Promise<void>);
+  let pCvRouter: MutableRefObject<Promise<CaptureVisionRouter> | null> = useRef(null);
+  let isDestroyed = useRef(false);
 
-  const init = async (): Promise<CaptureVisionRouter> => {
-    const cvRouter = await CaptureVisionRouter.createInstance();
-    return cvRouter;
-  };
+  const captureImage = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    let files = [...(e.target.files as any as File[])];
+    e.target.value = ""; // reset input
+    resultsContainer.current!.innerText = "";
 
-  const destroy = async (): Promise<void> => {
-    if (pInit.current) {
-      const cvRouter = (await pInit.current)!;
-      cvRouter.dispose();
-    }
-  };
-
-  const decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // ensure cvRouter is created only once
     try {
-      const cvRouter = (await pInit.current)!;
-      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-      const result = await cvRouter.capture(e.target.files![0], "ReadBarcodes_SpeedFirst");
+      const cvRouter = await (pCvRouter.current = pCvRouter.current || CaptureVisionRouter.createInstance());
+      if (isDestroyed.current) return;
 
-      // Initialize an empty string to hold the decoded barcode texts
-      let texts = "";
-      for (let item of result.items) {
-        console.log((item as BarcodeResultItem).text);
-        texts += (item as BarcodeResultItem).text + "\n";
+      for (let file of files) {
+        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
+        const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+        if (isDestroyed.current) return;
+
+        // Print file name if there's multiple files
+        if (files.length > 1) {
+          resultsContainer.current!.innerText += `\n${file.name}:\n`;
+        }
+        for (let _item of result.items) {
+          if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
+            continue; // check if captured result item is a barcode
+          }
+          let item = _item as BarcodeResultItem;
+          resultsContainer.current!.innerText += item.text + "\n"; // output the decoded barcode text
+          console.log(item.text);
+        }
+        // If no items are found, display that no barcode was detected
+        if (!result.items.length) resultsContainer.current!.innerText += "No barcode found";
       }
-      // If the 'texts' string is not empty, display the decoded bacode texts
-      if (texts !== "") resultsContainer.current!.innerText = texts;
-
-      // If no items are found, display that no barcode was detected
-      if (!result.items.length) resultsContainer.current!.innerText = "No barcode found";
     } catch (ex: any) {
       let errMsg = ex.message || ex;
       console.error(errMsg);
       alert(errMsg);
     }
-    e.target.value = "";
-  };
+  }, []);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-        if (pDestroy.current) {
-          await pDestroy.current;
-          pInit.current = init();
-        } else {
-          pInit.current = init();
-        }
-      } catch (_) {}
-    })();
+  useEffect((): any => {
+    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+    isDestroyed.current = false;
 
-    return () => {
-      try {
-        (async () => {
-          await (pDestroy.current = destroy());
-          console.log("ImageCapture Component Unmount");
-        })();
-      } catch (_) {}
+    // componentWillUnmount. dispose cvRouter when it's no longer neededs
+    return async () => {
+      isDestroyed.current = true;
+      if (pCvRouter.current) {
+        try {
+          (await pCvRouter.current).dispose();
+        } catch (_) {}
+      }
     };
   }, []);
 
   return (
     <div className="image-capture-container">
       <div className="input-container">
-        <input type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={decodeImg} />
+        <input type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={captureImage} />
       </div>
       <div className="results" ref={resultsContainer}></div>
     </div>
