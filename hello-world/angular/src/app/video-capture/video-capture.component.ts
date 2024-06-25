@@ -4,7 +4,7 @@ import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 
-const strErrorDistoryed = 'videoCapture component destoryed';
+const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
 @Component({
   selector: 'app-video-capture',
@@ -14,48 +14,46 @@ const strErrorDistoryed = 'videoCapture component destoryed';
 })
 export class VideoCaptureComponent {
 
-  @ViewChild('uiContainer') uiContainer?: ElementRef<HTMLDivElement>;
-  @ViewChild('resultsContainer') resultsContainer?: ElementRef<HTMLDivElement>;
-  
-  resolveInit?: ()=>void;
-  pInit:Promise<void> = new Promise(r=>{this.resolveInit=r});
-  bDestoryed = false;
-  
-  cvRouter?:CaptureVisionRouter;
-  cameraEnhancer?:CameraEnhancer;
+  @ViewChild('cameraViewContainer') cameraViewContainer?: ElementRef<HTMLDivElement>;
+  @ViewChild('results') resultsContainer?: ElementRef<HTMLDivElement>;
+
+  resolveInit?: () => void;
+  pInit: Promise<void> = new Promise(r => { this.resolveInit = r });
+  isDestroyed = false;
+
+  cvRouter?: CaptureVisionRouter;
+  cameraEnhancer?: CameraEnhancer;
 
   async ngAfterViewInit(): Promise<void> {
 
-    try{
+    try {
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
       const cameraView = await CameraView.createInstance();
-      if(this.bDestoryed){ throw Error(strErrorDistoryed); } // Check if component is destroyed after every async
+      if (this.isDestroyed) { throw Error(componentDestroyedErrorMsg); } // Check if component is destroyed after every async
       this.cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-      if(this.bDestoryed){ throw Error(strErrorDistoryed); }
-  
+      if (this.isDestroyed) { throw Error(componentDestroyedErrorMsg); }
+
       // Get default UI and append it to DOM.
-      this.uiContainer!.nativeElement.append(cameraView.getUIElement());
-  
+      this.cameraViewContainer!.nativeElement.append(cameraView.getUIElement());
+
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
       this.cvRouter = await CaptureVisionRouter.createInstance();
-      if(this.bDestoryed){ throw Error(strErrorDistoryed); }
+      if (this.isDestroyed) { throw Error(componentDestroyedErrorMsg); }
       this.cvRouter.setInput(this.cameraEnhancer);
-  
+
       // Define a callback for results.
-      this.cvRouter.addResultReceiver({ onDecodedBarcodesReceived: (result) => {
-        if (!result.barcodeResultItems.length) return;
-  
-        this.resultsContainer!.nativeElement.textContent = '';
-        console.log(result);
-        for (let item of result.barcodeResultItems) {
-          this.resultsContainer!.nativeElement.append(
-            `${item.formatString}: ${item.text}`,
-            document.createElement('br'),
-            document.createElement('hr'),
-          );
+      this.cvRouter.addResultReceiver({
+        onDecodedBarcodesReceived: (result) => {
+          if (!result.barcodeResultItems.length) return;
+
+          this.resultsContainer!.nativeElement.textContent = '';
+          console.log(result);
+          for (let item of result.barcodeResultItems) {
+            this.resultsContainer!.nativeElement.textContent += `${item.formatString}: ${item.text}\n\n`;
+          }
         }
-      }});
-  
+      });
+
       // Filter out unchecked and duplicate results.
       const filter = new MultiFrameResultCrossFilter();
       // Filter out unchecked barcodes.
@@ -63,35 +61,36 @@ export class VideoCaptureComponent {
       // Filter out duplicate barcodes within 3 seconds.
       filter.enableResultDeduplication("barcode", true);
       await this.cvRouter.addResultFilter(filter);
-      if(this.bDestoryed){ throw Error(strErrorDistoryed); }
-  
+      if (this.isDestroyed) { throw Error(componentDestroyedErrorMsg); }
+
       // Open camera and start scanning single barcode.
       await this.cameraEnhancer.open();
-      if(this.bDestoryed){ throw Error(strErrorDistoryed); }
+      if (this.isDestroyed) { throw Error(componentDestroyedErrorMsg); }
       await this.cvRouter.startCapturing("ReadSingleBarcode");
-      if(this.bDestoryed){ throw Error(strErrorDistoryed); }
-  
-    }catch(ex:any){
-      
-      if((ex as Error)?.message === strErrorDistoryed){
-        console.log(strErrorDistoryed);
-      }else{
+      if (this.isDestroyed) { throw Error(componentDestroyedErrorMsg); }
+
+    } catch (ex: any) {
+      if ((ex as Error)?.message === componentDestroyedErrorMsg) {
+        console.log(componentDestroyedErrorMsg);
+      } else {
         let errMsg = ex.message || ex;
         console.error(errMsg);
         alert(errMsg);
       }
     }
-  
-    // distroy function will wait pInit
+
+    // Resolve pInit promise once initialization is complete.
     this.resolveInit!();
   }
 
+  // dispose cvRouter when it's no longer needed
   async ngOnDestroy() {
-    this.bDestoryed = true;
-    try{
+    this.isDestroyed = true;
+    try {
+      // Wait for the pInit to complete before disposing resources.
       await this.pInit;
       this.cvRouter?.dispose();
       this.cameraEnhancer?.dispose();
-    }catch(_){}
+    } catch (_) { }
   }
 }

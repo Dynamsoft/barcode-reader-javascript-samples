@@ -12,7 +12,7 @@ import { VideoCaptureComponent } from './video-capture/video-capture.component';
   imports: [NgStyle, ImageCaptureComponent, VideoCaptureComponent]
 })
 export class AppComponent {
-  title = 'dbrjs-sample-angular';
+  title = 'dbrjs-angular-sample';
 
   mode: string = "video";
 
