@@ -248,8 +248,8 @@ function ImageCapture() {
     e.target.value = ""; // reset input
     resultsContainer.current!.innerText = "";
 
-    // ensure cvRouter is created only once
     try {
+      // ensure cvRouter is created only once
       const cvRouter = await (pCvRouter.current = pCvRouter.current || CaptureVisionRouter.createInstance());
       if (isDestroyed.current) return;
 
