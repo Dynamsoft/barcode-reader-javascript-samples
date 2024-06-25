@@ -228,6 +228,7 @@ export default VideoCapture;
 > * The component should never update (check the code for `shouldComponentUpdate()`) so that events bound to the UI stay valid.
 > * Also, during 'development', React executes setup and cleanup phases twice in [Strict Mode](https://react.dev/reference/react/StrictMode). To ensure proper functioning of VideoCapture in development, it's advised to avoid using Strict Mode for this component.
 > However, if you're still interested on using Strict Mode, we do have a workaround available. Please contact our [support team](#Support) for further assistance.
+> * If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customize-the-ui)
 
 ### Create and edit the `ImageCapture` component
 
