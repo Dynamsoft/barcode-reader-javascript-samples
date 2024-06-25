@@ -124,12 +124,12 @@ Results:
 
 ```ts
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import "../dynamsoft.config";
-import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
-import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
-import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
+import '../dynamsoft.config';
+import { CameraEnhancer, CameraView } from 'dynamsoft-camera-enhancer';
+import { CaptureVisionRouter } from 'dynamsoft-capture-vision-router';
+import { MultiFrameResultCrossFilter } from 'dynamsoft-utility';
 
-const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
+const componentDestroyedErrorMsg = 'VideoCapture Component Destroyed';
 
 @Component({
   selector: 'app-video-capture',
@@ -138,32 +138,38 @@ const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
   standalone: true,
 })
 export class VideoCaptureComponent {
-
   @ViewChild('cameraViewContainer') cameraViewContainer?: ElementRef<HTMLDivElement>;
   @ViewChild('results') resultsContainer?: ElementRef<HTMLDivElement>;
 
   resolveInit?: () => void;
-  pInit: Promise<void> = new Promise(r => { this.resolveInit = r });
+  pInit: Promise<void> = new Promise((r) => {
+    this.resolveInit = r;
+  });
   isDestroyed = false;
 
   cvRouter?: CaptureVisionRouter;
   cameraEnhancer?: CameraEnhancer;
 
   async ngAfterViewInit(): Promise<void> {
-
     try {
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
       const cameraView = await CameraView.createInstance();
-      if (this.isDestroyed) { throw Error(componentDestroyedErrorMsg); } // Check if component is destroyed after every async
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      } // Check if component is destroyed after every async
       this.cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-      if (this.isDestroyed) { throw Error(componentDestroyedErrorMsg); }
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
 
       // Get default UI and append it to DOM.
       this.cameraViewContainer!.nativeElement.append(cameraView.getUIElement());
 
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
       this.cvRouter = await CaptureVisionRouter.createInstance();
-      if (this.isDestroyed) { throw Error(componentDestroyedErrorMsg); }
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
       this.cvRouter.setInput(this.cameraEnhancer);
 
       // Define a callback for results.
@@ -176,24 +182,29 @@ export class VideoCaptureComponent {
           for (let item of result.barcodeResultItems) {
             this.resultsContainer!.nativeElement.textContent += `${item.formatString}: ${item.text}\n\n`;
           }
-        }
+        },
       });
 
       // Filter out unchecked and duplicate results.
       const filter = new MultiFrameResultCrossFilter();
       // Filter out unchecked barcodes.
-      filter.enableResultCrossVerification("barcode", true);
+      filter.enableResultCrossVerification('barcode', true);
       // Filter out duplicate barcodes within 3 seconds.
-      filter.enableResultDeduplication("barcode", true);
+      filter.enableResultDeduplication('barcode', true);
       await this.cvRouter.addResultFilter(filter);
-      if (this.isDestroyed) { throw Error(componentDestroyedErrorMsg); }
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
 
       // Open camera and start scanning single barcode.
       await this.cameraEnhancer.open();
-      if (this.isDestroyed) { throw Error(componentDestroyedErrorMsg); }
-      await this.cvRouter.startCapturing("ReadSingleBarcode");
-      if (this.isDestroyed) { throw Error(componentDestroyedErrorMsg); }
-
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
+      await this.cvRouter.startCapturing('ReadSingleBarcode');
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
     } catch (ex: any) {
       if ((ex as Error)?.message === componentDestroyedErrorMsg) {
         console.log(componentDestroyedErrorMsg);
@@ -216,7 +227,7 @@ export class VideoCaptureComponent {
       await this.pInit;
       this.cvRouter?.dispose();
       this.cameraEnhancer?.dispose();
-    } catch (_) { }
+    } catch (_) {}
   }
 }
 ```
@@ -253,10 +264,10 @@ ng generate component image-capture
 
 ```ts
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import "../dynamsoft.config";
-import { EnumCapturedResultItemType } from "dynamsoft-core";
-import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
-import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
+import '../dynamsoft.config';
+import { EnumCapturedResultItemType } from 'dynamsoft-core';
+import type { BarcodeResultItem } from 'dynamsoft-barcode-reader';
+import { CaptureVisionRouter } from 'dynamsoft-capture-vision-router';
 
 @Component({
   selector: 'app-image-capture',
@@ -265,24 +276,24 @@ import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
   standalone: true,
 })
 export class ImageCaptureComponent {
-
   @ViewChild('results') resultsContainer?: ElementRef<HTMLDivElement>;
 
   pCvRouter?: Promise<CaptureVisionRouter>;
   isDestroyed = false;
 
   captureImage = async (e: Event) => {
-    let files = [...(e.target! as HTMLInputElement).files as any as File[]];
+    let files = [...((e.target! as HTMLInputElement).files as any as File[])];
     (e.target! as HTMLInputElement).value = ''; // reset input
-    this.resultsContainer!.nativeElement.innerText = "";
+    this.resultsContainer!.nativeElement.innerText = '';
     try {
       // ensure cvRouter is created only once
-      const cvRouter = await (this.pCvRouter = this.pCvRouter || CaptureVisionRouter.createInstance());
+      const cvRouter = await (this.pCvRouter =
+        this.pCvRouter || CaptureVisionRouter.createInstance());
       if (this.isDestroyed) return;
 
       for (let file of files) {
         // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-        const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+        const result = await cvRouter.capture(file, 'ReadBarcodes_SpeedFirst');
         if (this.isDestroyed) return;
 
         // Print file name if there's multiple files
@@ -294,18 +305,20 @@ export class ImageCaptureComponent {
             continue; // check if captured result item is a barcode
           }
           let item = _item as BarcodeResultItem;
-          this.resultsContainer!.nativeElement.innerText += item.text + "\n"; // output the decoded barcode text
+          this.resultsContainer!.nativeElement.innerText += item.text + '\n'; // output the decoded barcode text
           console.log(item.text);
         }
         // If no items are found, display that no barcode was detected
-        if (!result.items.length) this.resultsContainer!.nativeElement.innerText += 'No barcode found\n';
+        if (!result.items.length)
+          this.resultsContainer!.nativeElement.innerText +=
+            'No barcode found\n';
       }
     } catch (ex: any) {
       let errMsg = ex.message || ex;
       console.error(errMsg);
       alert(errMsg);
     }
-  }
+  };
 
   // dispose cvRouter when it's no longer needed
   async ngOnDestroy() {
@@ -313,7 +326,7 @@ export class ImageCaptureComponent {
     if (this.pCvRouter) {
       try {
         (await this.pCvRouter).dispose();
-      } catch (_) { }
+      } catch (_) {}
     }
   }
 }
@@ -356,12 +369,12 @@ import { VideoCaptureComponent } from './video-capture/video-capture.component';
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [NgStyle, ImageCaptureComponent, VideoCaptureComponent]
+  imports: [NgStyle, ImageCaptureComponent, VideoCaptureComponent],
 })
 export class AppComponent {
-  title = 'dbrjs-sample-angular';
+  title = 'dbrjs-angular-sample';
 
-  mode: string = "video";
+  mode: string = 'video';
 
   switchMode(value: string) {
     this.mode = value;

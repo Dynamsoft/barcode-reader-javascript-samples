@@ -4,11 +4,6 @@
   align-items: center;
   margin-top: 20px;
 }
-.title .title-logo {
-  width: 60px;
-  height: 60px;
-  animation: retate 5s infinite linear;
-}
 .top-btns {
   width: 30%;
   margin: 20px auto;
