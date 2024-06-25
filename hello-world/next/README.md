@@ -113,7 +113,7 @@ CoreModule.loadWasm(["DBR"]);
 
 * Create `VideoCapture.tsx` under `/components/VideoCapture/`. The `VideoCapture` component helps decode barcodes via camera.
 
-* In `VideoCapture.tsx`, add code for initializing and destroying some instances. The `VideoCapture` component helps decode barcodes via camera. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
+* In `VideoCapture.tsx`, add code for initializing and destroying some instances. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```tsx
 /* /components/VideoCapture/VideoCapture.tsx */
@@ -236,6 +236,7 @@ export default VideoCapture;
 > Note:
 >
 > * The component should never update so that events bound to the UI stay valid. In this component, the useEffect() hook is used to handle the component’s mount and unmount lifecycle events, and there are no state updates that would cause a re-render.
+> * If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customize-the-ui)
 
 ### Create and edit the `ImageCapture` component
 
