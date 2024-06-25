@@ -111,9 +111,9 @@ CoreModule.loadWasm(["DBR"]);
 
 ### Create and edit the `VideoCapture` component
 
-* Create `VideoCapture.tsx` under `/components/VideoCapture/`. The `VideoCapture` component helps decode barcodes via camera. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
+* Create `VideoCapture.tsx` under `/components/VideoCapture/`. The `VideoCapture` component helps decode barcodes via camera.
 
-* In `VideoCapture.tsx`, add code for initializing and destroying some instances. 
+* In `VideoCapture.tsx`, add code for initializing and destroying some instances. The `VideoCapture` component helps decode barcodes via camera. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```tsx
 /* /components/VideoCapture/VideoCapture.tsx */
@@ -323,9 +323,9 @@ export default ImageCapture;
 
 ### Add the `VideoCapture` and `ImageCapture` component to `page.tsx`
 
-* On `/app/page.tsx`, we will edit the component so that it offers buttons to switch components between `VideoCapture` and `ImageCapture`. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
+* On `/app/page.tsx`, we will edit the component so that it offers buttons to switch components between `VideoCapture` and `ImageCapture`.
 
-* Add following code to `page.tsx`.
+* Add following code to `page.tsx`. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```tsx
 /* /app/page.tsx */

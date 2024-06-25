@@ -26,7 +26,7 @@
   border-left: transparent;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 800px) {
   .buttons-container {
     width: 70%;
   }

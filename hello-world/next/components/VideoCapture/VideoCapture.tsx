@@ -104,8 +104,8 @@ function VideoCapture() {
   return (
     <div>
       <div ref={cameraViewContainer} className="camera-view-container"></div>
-      Results:
       <br />
+      Results:
       <div ref={resultsContainer} className="results"></div>
     </div>
   );
