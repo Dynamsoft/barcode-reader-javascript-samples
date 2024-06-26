@@ -57,7 +57,7 @@ Below is the configuration used for this sample.
 
 ```cmd
 cd my-app
-npm install dynamsoft-barcode-reader-bundle
+npm install dynamsoft-barcode-reader-bundle -E
 ```
 
 ## Start to implement

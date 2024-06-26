@@ -60,8 +60,8 @@ Below is the configuration used for this sample.
 ### **CD** to the root directory of the application and install necessary libraries
 
 ```cmd
-npm install
-npm install dynamsoft-barcode-reader-bundle
+cd vue-project
+npm install dynamsoft-barcode-reader-bundle -E
 ```
 
 ## Start to implement
@@ -69,6 +69,7 @@ npm install dynamsoft-barcode-reader-bundle
 ### Add file "dynamsoft.config.ts" under "/src/" to configure libraries
 
 ```typescript
+/* /src/dynamsoft.config.ts */
 import { CoreModule } from "dynamsoft-core";
 import { LicenseManager } from "dynamsoft-license";
 import "dynamsoft-barcode-reader";
@@ -110,7 +111,7 @@ CoreModule.loadWasm(["DBR"]);
 
 * Create `VideoCapture.vue` under `/components/`. The VideoCapture component helps decode barcodes via camera.
 
-* In `VideoCapture.vue`, add the following code for initializing and destroying some instances.
+* In `VideoCapture.vue`, add the following code for initializing and destroying some instances. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```vue
 <!-- /src/components/VideoCapture.vue -->
@@ -213,20 +214,6 @@ onBeforeUnmount(async () => {
     <div ref="resultsContainer" class="results"></div>
   </div>
 </template>
-
-<style scoped>
-.camera-view-container {
-  width: 100%;
-  height: 70vh;
-  background: #eee;
-}
-
-.results {
-  width: 100%;
-  height: 10vh;
-  overflow: auto;
-}
-</style>
 ```
 > Note:
 >
@@ -236,7 +223,7 @@ onBeforeUnmount(async () => {
 
 * Create `ImageCapture.vue` under `/components/`. The `ImageCapture` component helps decode barcodes in an image.
 
-* In `ImageCapture.vue`, add code for initializing and destroying `CaptureVisionRouter` instance.
+* In `ImageCapture.vue`, add code for initializing and destroying `CaptureVisionRouter` instance. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```vue
 <!-- /src/components/ImageCapture.vue -->
@@ -306,41 +293,18 @@ onBeforeUnmount(async () => {
     <div class="results" ref="resultContainer"></div>
   </div>
 </template>
-
-<style scoped>
-.image-capture-container {
-  width: 100%;
-  height: 100%;
-  font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-}
-
-.image-capture-container .input-container {
-  width: 80%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  border: 1px solid black;
-  margin: 0 auto;
-}
-
-.image-capture-container .results {
-  margin-top: 20px;
-  height: 100%;
-}
-</style>
 ```
 
 ### Add the `VideoCapture` and `ImageCapture` component to `App.vue`
 
 * On `/src/App.vue`, we will edit the component so that it offers buttons to switch components between `VideoCapture` and `ImageCapture`.
 
-* Add following code to `App.vue`.
+* Add following code to `App.vue`. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```vue
 <!-- /src/App.vue -->
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
-import vueLogo from "./assets/logo.svg";
 import VideoCapture from "./components/VideoCapture.vue";
 import ImageCapture from "./components/ImageCapture.vue";
 
@@ -352,9 +316,8 @@ const mode: Ref<string> = ref("video");
   <div class='App'>
     <div class='title'>
       <h2 class='title-text'>Hello World for Vue</h2>
-      <img class='title-logo' :src="vueLogo" alt="logo" />
     </div>
-    <div class='top-btns'>
+    <div class='buttons-container'>
       <button @click="mode = 'video'"
         :style="{ backgroundColor: mode === 'video' ? 'rgb(255, 174, 55)' : '#FFFFFF' }">Decode Video</button>
       <button @click="mode = 'image'"
@@ -364,40 +327,6 @@ const mode: Ref<string> = ref("video");
     <ImageCapture v-else />
   </div>
 </template>
-
-<style scoped>
-.title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.title .title-logo {
-  width: 30px;
-  height: 30px;
-  margin-left: 10px;
-}
-
-.top-btns {
-  width: 30%;
-  margin: 20px auto;
-}
-
-.top-btns button {
-  display: inline-block;
-  border: 1px solid black;
-  padding: 5px 15px;
-  background-color: transparent;
-  cursor: pointer;
-}
-
-@media screen and (max-width: 800px) {
-  .top-btns {
-    width: 70%;
-  }
-}
-</style>
 ```
 > Note:
 >

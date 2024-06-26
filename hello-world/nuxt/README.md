@@ -47,7 +47,7 @@ You will be asked to configure quite a few things for the application during the
 
 ```cmd
 cd my-app
-npm install dynamsoft-barcode-reader-bundle
+npm install dynamsoft-barcode-reader-bundle -E
 ```
 
 ## Start to implement
