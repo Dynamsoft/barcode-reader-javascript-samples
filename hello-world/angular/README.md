@@ -114,6 +114,7 @@ ng generate component video-capture
 * In `video-capture.component.html`, add code to setup the component's HTML
 
 ```html
+<!-- /src/app/video-capture/video-capture.component.html -->
 <div #cameraViewContainer class="camera-view-container"></div>
 <br />
 Results:
@@ -123,6 +124,7 @@ Results:
 * In `video-capture.component.ts`, add code for initializing and destroying some instances. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```ts
+/* /src/app/video-capture/video-capture.component.ts */
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import '../dynamsoft.config';
 import { CameraEnhancer, CameraView } from 'dynamsoft-camera-enhancer';
@@ -247,6 +249,7 @@ ng generate component image-capture
 * In `image-capture.component.html`, add code to setup the component's HTML
 
 ```html
+<!-- /src/app/image-capture/image-capture.component.html -->
 <div class="image-capture-container">
   <div class="input-container">
     <input
@@ -263,6 +266,7 @@ ng generate component image-capture
 * In `image-capture.component.ts`, add code for initializing and destroying some instances. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```ts
+/* /src/app/image-capture/image-capture.component.ts */
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import '../dynamsoft.config';
 import { EnumCapturedResultItemType } from 'dynamsoft-core';
@@ -339,6 +343,7 @@ export class ImageCaptureComponent {
 * In `app.component.html`, add the following code.
 
 ```html
+<!-- /src/app/app.component.html -->
 <div class='App'>
   <div class='title'>
     <h2 class='title-text'>Hello World for Angular</h2>
@@ -358,6 +363,7 @@ export class ImageCaptureComponent {
 * In `app.component.ts`, add the following code. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```ts
+/* /src/app/app.component.ts */
 import { Component } from '@angular/core';
 import { NgStyle } from '@angular/common';
 
