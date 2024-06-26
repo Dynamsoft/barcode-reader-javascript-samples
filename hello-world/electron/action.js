@@ -26,15 +26,18 @@ Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMD
 Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
 (async () => {
+  // Defined globally for easy debugging.
+  let cameraEnhancer, cvRouter;
+
   try {
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
     const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-    const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+    cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
     // Get default UI and append it to DOM.
     document.querySelector("#camera-view-container").append(cameraView.getUIElement());
 
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-    const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+    cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
     cvRouter.setInput(cameraEnhancer);
 
     // Define a callback for results.
