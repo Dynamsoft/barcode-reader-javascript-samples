@@ -1,26 +1,58 @@
-import React from 'react';
-import reactLogo from './assets/logo.svg';
-import VideoCapture from './components/VideoCapture/VideoCapture';
-import ImageCapture from './components/ImageCapture/ImageCapture';
-import './App.css';
+import React from "react";
+import reactLogo from "./assets/logo.svg";
+import "./dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
+import VideoCapture from "./components/VideoCapture/VideoCapture";
+import ImageCapture from "./components/ImageCapture/ImageCapture";
+import "./App.css";
+
+enum Modes {
+  VIDEO_CAPTURE = "video",
+  IMAGE_CAPTURE = "image",
+}
 
 class App extends React.Component {
   state = {
-    mode: "video"
+    mode: Modes.VIDEO_CAPTURE,
+  };
+
+  showVideoCapture = () => {
+    this.setState({
+      mode: Modes.VIDEO_CAPTURE,
+    });
+  };
+
+  showImageCapture = () => {
+    this.setState({
+      mode: Modes.IMAGE_CAPTURE,
+    });
   };
 
   render() {
     return (
-      <div className='App'>
-        <div className='title'>
-          <h2 className='title-text'>Hello World for React</h2>
-          <img className='title-logo' src={reactLogo} alt="logo"></img>
+      <div className="hello-world-page">
+        <div className="title">
+          <h2 className="title-text">Hello World for React</h2>
+          <img className="title-logo" src={reactLogo} alt="logo"></img>
         </div>
-        <div className='top-btns'>
-          <button onClick={() => { this.setState({ mode: "video" }) }} style={{ backgroundColor: this.state.mode === "video" ? "rgb(255, 174, 55)" : "#fff" }}>Video Capture</button>
-          <button onClick={() => { this.setState({ mode: "image" }) }} style={{ backgroundColor: this.state.mode === "image" ? "rgb(255, 174, 55)" : "#fff" }}>Image Capture</button>
+        <div className="buttons-container">
+          <button
+            style={{
+              backgroundColor: this.state.mode === Modes.VIDEO_CAPTURE ? "rgb(255,174,55)" : "white",
+            }}
+            onClick={this.showVideoCapture}
+          >
+            Decode Video
+          </button>
+          <button
+            style={{
+              backgroundColor: this.state.mode === Modes.IMAGE_CAPTURE ? "rgb(255,174,55)" : "white",
+            }}
+            onClick={this.showImageCapture}
+          >
+            Decode Image
+          </button>
         </div>
-        {this.state.mode === "video" ? <VideoCapture /> : <ImageCapture />}
+        <div className="container">{this.state.mode === Modes.VIDEO_CAPTURE ? <VideoCapture /> : <ImageCapture />}</div>
       </div>
     );
   }
