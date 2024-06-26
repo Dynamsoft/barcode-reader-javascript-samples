@@ -9,12 +9,12 @@ import { VideoCaptureComponent } from './video-capture/video-capture.component';
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [NgStyle, ImageCaptureComponent, VideoCaptureComponent]
+  imports: [NgStyle, ImageCaptureComponent, VideoCaptureComponent],
 })
 export class AppComponent {
-  title = 'dbrjs-sample-angular';
+  title = 'dbrjs-angular-sample';
 
-  mode: string = "video";
+  mode: string = 'video';
 
   switchMode(value: string) {
     this.mode = value;

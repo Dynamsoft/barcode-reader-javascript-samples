@@ -1,18 +1,8 @@
-
-
 .title {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-}
-/* .title .title-text {
-
-} */
-.title .title-logo {
-  width: 60px;
-  height: 60px;
-  animation: retate 5s infinite linear;
 }
 .top-btns {
   width: 30%;
@@ -36,17 +26,17 @@
   border-left: transparent;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 800px) {
   .top-btns {
-      width: 70%;
+    width: 70%;
   }
 }
 
 @keyframes retate {
   from {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   to {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
