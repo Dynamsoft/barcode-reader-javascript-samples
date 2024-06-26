@@ -5,34 +5,39 @@ import { EnumCapturedResultItemType } from "dynamsoft-core";
 import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 
-const resDiv: Ref<HTMLDivElement | null> = ref(null);
+const resultContainer: Ref<HTMLDivElement | null> = ref(null);
 
-let pCvRouter: Promise<CaptureVisionRouter> | null = null;
-let bDestoried = false;
+let pCvRouter: Promise<CaptureVisionRouter>;
+let isDestroyed = false;
 
 const captureImage = async (e: Event) => {
   let files = [...(e.target! as HTMLInputElement).files!];
-  (e.target! as HTMLInputElement).value = '';
-  resDiv.value!.innerText = "";
+  (e.target! as HTMLInputElement).value = ''; // reset input
+  resultContainer.value!.innerText = "";
   try {
+    // ensure cvRouter is created only once
     const cvRouter = await (pCvRouter = pCvRouter || CaptureVisionRouter.createInstance());
-    if (bDestoried) return;
-    
-    for(let file of files){
+    if (isDestroyed) return;
+
+    for (let file of files) {
       // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
       const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
-      if (bDestoried) return;
+      if (isDestroyed) return;
 
-      if(files.length > 1){
-        resDiv.value!.innerText += `\n${file.name}:\n`;
+      // Print file name if there's multiple files
+      if (files.length > 1) {
+        resultContainer.value!.innerText += `\n${file.name}:\n`;
       }
       for (let _item of result.items) {
-        if(_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) { continue; }
+        if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
+          continue;  // check if captured result item is a barcode
+        }
         let item = _item as BarcodeResultItem;
-        resDiv.value!.innerText += item.text + "\n";
+        resultContainer.value!.innerText += item.text + "\n";  // output the decoded barcode text
         console.log(item.text);
       }
-      if (!result.items.length) resDiv.value!.innerText += 'No barcode found\n';
+      // If no items are found, display that no barcode was detected
+      if (!result.items.length) resultContainer.value!.innerText += 'No barcode found\n';
     }
   } catch (ex: any) {
     let errMsg = ex.message || ex;
@@ -42,33 +47,32 @@ const captureImage = async (e: Event) => {
 }
 
 onBeforeUnmount(async () => {
-  bDestoried = true;
-  if(pCvRouter){
-    try{
+  isDestroyed = true;
+  if (pCvRouter) {
+    try {
       (await pCvRouter).dispose();
-    }catch(_){}
+    } catch (_) { }
   }
 });
 </script>
 
 <template>
-  <div class="capture-img">
-    <div class="img-ipt">
-      <input type="file" multiple @change="captureImage" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"/>
+  <div class="image-capture-container">
+    <div class="input-container">
+      <input type="file" multiple @change="captureImage" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" />
     </div>
-    <div class="result-area" ref="resDiv"></div>
+    <div class="results" ref="resultContainer"></div>
   </div>
 </template>
 
 <style scoped>
-.capture-img {
+.image-capture-container {
   width: 100%;
   height: 100%;
-  font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
+  font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-.capture-img .img-ipt {
+.image-capture-container .input-container {
   width: 80%;
   height: 100%;
   display: flex;
@@ -77,7 +81,8 @@ onBeforeUnmount(async () => {
   margin: 0 auto;
 }
 
-.capture-img .result-area {
+.image-capture-container .results {
   margin-top: 20px;
+  height: 100%;
 }
 </style>
