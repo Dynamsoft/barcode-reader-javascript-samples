@@ -1,8 +1,19 @@
+// Configures the paths where the .wasm files and other necessary resources for modules are located.
+Dynamsoft.Core.CoreModule.engineResourcePaths = {
+  std: "./node_modules/dynamsoft-capture-vision-std/dist/",
+  dip: "./node_modules/dynamsoft-image-processing/dist/",
+  core: "./node_modules/dynamsoft-core/dist/",
+  license: "./node_modules/dynamsoft-license/dist/",
+  cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
+  dbr: "./node_modules/dynamsoft-barcode-reader/dist/",
+  dce: "./node_modules/dynamsoft-camera-enhancer/dist/"
+};
+
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
  */
 
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", true);
 
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
@@ -11,48 +22,34 @@ Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMD
  * LICENSE ALERT - THE END
  */
 
-Dynamsoft.Core.CoreModule.engineResourcePaths = {
-  std: "./node_modules/dynamsoft-capture-vision-std/dist/",
-  dip: "./node_modules/dynamsoft-image-processing/dist/",
-  core: "./node_modules/dynamsoft-core/dist/",
-  license: "./node_modules/dynamsoft-license/dist/",
-  cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
-  dbr: "./node_modules/dynamsoft-barcode-reader/dist/",
-  dce: "./node_modules/dynamsoft-camera-enhancer/dist/",
-};
-
-// Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
+// Optional. Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
 Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
-// Defined globally for easy debugging.
-let cameraEnhancer, cvRouter;
 
 (async () => {
   try {
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
     const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-    cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+    const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
     // Get default UI and append it to DOM.
-    document.querySelector("#div-ui-container").append(cameraView.getUIElement()); 
+    document.querySelector("#camera-view-container").append(cameraView.getUIElement());
 
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-    cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+    const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
     cvRouter.setInput(cameraEnhancer);
 
     // Define a callback for results.
-    cvRouter.addResultReceiver({ onDecodedBarcodesReceived: (result) => {
-      if (!result.barcodeResultItems.length) return;
+    cvRouter.addResultReceiver({
+      onDecodedBarcodesReceived: (result) => {
+        if (!result.barcodeResultItems.length) return;
 
-      const resultsContainer = document.querySelector("#div-results-container");
-      resultsContainer.textContent = '';
-      console.log(result);
-      for (let item of result.barcodeResultItems) {
-        resultsContainer.append(
-          `${item.formatString}: ${item.text}`,
-          document.createElement('br'),
-          document.createElement('hr'),
-        );
+        const resultsContainer = document.querySelector("#results");
+        resultsContainer.textContent = '';
+        console.log(result);
+        for (let item of result.barcodeResultItems) {
+          resultsContainer.textContent += `${item.formatString}: ${item.text}\n\n`;
+        }
       }
-    }});
+    });
 
     // Filter out unchecked and duplicate results.
     const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();

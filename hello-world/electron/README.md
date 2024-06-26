@@ -1,6 +1,14 @@
 # Hello World Sample for Electron
 
-[Electron](https://www.electronjs.org/) is a framework for creating native applications with web technologies. Follow this guide to learn how to implement Dynamsoft Barcode Reader JavaScript SDK (hereafter called "the library") into an Electron application.
+[Electron](https://www.electronjs.org/) is a framework for creating native applications with web technologies. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a Next.js application. Note that in this sample, `TypeScript` is used.
+
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.2.1000).
+
+> Note:
+>
+> If you’re looking to integrate DBR-JS into a framework that we don't yet have a sample, don't worry! We have a [comprehensive guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/use-in-framework.html) that provides detailed instruction and best practices for a seamless  integration into any frameworks!
+>
+> Additionally, we're here to help! Please don't hesitate to [contact us](#Support) for any support or questions you might have.
 
 ## Official Sample
 
@@ -10,7 +18,23 @@
 
 Make sure you have [node](https://nodejs.org/) installed. `node 16.20.1` and `electron 26.4.1` are used in this article.
 
-## Initialize project
+## Quick Start 
+
+```cmd
+npm install
+npm start
+```
+A window should open to view the sample application
+
+## Creating the sample project
+
+In this section, we will be creating an Electron application utilizing the Dynamsoft Barcode Reader bundle sdk.
+
+We'll be exploring how you could create a page that not only enables barcode scanning via a webcam or a built-in camera, but also decode barcodes from local images.
+
+By the end of this guide, you'll have a good understanding of the SDK and be ready to discover more ways to use it!
+
+### Initialize project
 
 ```cmd
 mkdir my-app && cd my-app
@@ -19,27 +43,25 @@ npm init
 
 `npm init` will prompt you to configure some fields in your `package.json`. Note that the `entry point` should be `main.js` (it will be created later).
 
-## install necessary libraries
+### Install the necessary libraries
 
 ```cmd
 npm install electron --save-dev
-npm install dynamsoft-capture-vision-std
-npm install dynamsoft-image-processing
-npm install dynamsoft-core
-npm install dynamsoft-license
-npm install dynamsoft-utility
-npm install dynamsoft-barcode-reader
-npm install dynamsoft-capture-vision-router
-npm install dynamsoft-camera-enhancer
+npm install dynamsoft-capture-vision-std -E
+npm install dynamsoft-image-processing -E
+npm install dynamsoft-barcode-reader-bundle -E
 ```
 
 ## Start to implement
 
 ### Create a main.js file
 
-As defined in the `package.json` file, `main.js` is the entry point of the application, we define it like this:
+As defined in the `package.json` file, `main.js` is the entry point of the application.
+
+Create a `main.js` file at the root folder, and define it like this:
 
 ```javascript
+/* /main.js */
 const { app, BrowserWindow } = require("electron");
 
 function createWindow() {
@@ -80,30 +102,31 @@ The code basically opens `index.html` in a window. For more information, check o
 
 ### Create an `index.html` file
 
-Create the page to be loaded in the created window.
+As defined above, `index.html` is the file that will be loaded into the crated window.
+
+Create an `index.html` file at the root folder, and define it like this:
 
 ```html
+<!-- /index.html -->
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Read barcodes from camera with Dynamsoft Barcode Reader in an Electron Application.">
-    <meta name="keywords" content="barcode, camera, Electron">
+    <meta
+      name="description"
+      content="Read barcodes from camera with Dynamsoft Barcode Reader in an Electron Application."
+    />
+    <meta name="keywords" content="barcode, camera, Electron" />
     <title>Dynamsoft Barcode Reader Sample - Electron</title>
-    <link href="style.css" rel="stylesheet">
-    <script src="./node_modules/dynamsoft-core/dist/core.js"></script>
-    <script src="./node_modules/dynamsoft-license/dist/license.js"></script>
-    <script src="./node_modules/dynamsoft-utility/dist/utility.js"></script>
-    <script src="./node_modules/dynamsoft-barcode-reader/dist/dbr.js"></script>
-    <script src="./node_modules/dynamsoft-capture-vision-router/dist/cvr.js"></script>
-    <script src="./node_modules/dynamsoft-camera-enhancer/dist/dce.js"></script>
+    <link href="style.css" rel="stylesheet" />
+    <script src="./node_modules/dynamsoft-barcode-reader-bundle/dist/dbr.bundle.js"></script>
   </head>
   <body>
     <h1>Hello World for Electron</h1>
-    <div id="div-ui-container"></div>
+    <div id="camera-view-container"></div>
+    <br />
     Results:
-    <br>
-    <div id="div-results-container"></div>
+    <div id="results"></div>
     <script src="action.js"></script>
   </body>
 </html>
@@ -111,24 +134,13 @@ Create the page to be loaded in the created window.
 
 ### Create an `action.js` file
 
-`index.html` will loads `action.js`, which makes use of libraries to read barcodes from a video input:
+`index.html` will load `action.js`, which makes use of libraries to read barcodes from a video input.
+
+Create the `action.js` file at the root folder, and define it like this:
 
 ```javascript
-/** LICENSE ALERT - README
- * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
- */
-
-Dynamsoft.License.LicenseManager.initLicense(
-  "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"
-);
-
-/**
- * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
- * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
- * LICENSE ALERT - THE END
- */
-
+/* /action.js */
+// Configures the paths where the .wasm files and other necessary resources for modules are located.
 Dynamsoft.Core.CoreModule.engineResourcePaths = {
   std: "./node_modules/dynamsoft-capture-vision-std/dist/",
   dip: "./node_modules/dynamsoft-image-processing/dist/",
@@ -138,54 +150,55 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
   dbr: "./node_modules/dynamsoft-barcode-reader/dist/",
   dce: "./node_modules/dynamsoft-camera-enhancer/dist/"
 };
-(async function () {
+
+/** LICENSE ALERT - README
+ * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+ */
+
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", true);
+
+/**
+ * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+ * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+ * LICENSE ALERT - THE END
+ */
+
+// Optional. Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
+Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
+
+(async () => {
   try {
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
     const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-    const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(
-      cameraView
-    );
-    document
-      .querySelector("#div-ui-container")
-      .append(cameraView.getUIElement()); // Get default UI and append it to DOM.
+    const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+    // Get default UI and append it to DOM.
+    document.querySelector("#camera-view-container").append(cameraView.getUIElement());
 
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
     const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
     cvRouter.setInput(cameraEnhancer);
 
     // Define a callback for results.
-    const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
-    resultReceiver.onDecodedBarcodesReceived = (result) => {
-      if (!result.barcodeResultItems.length) return;
+    cvRouter.addResultReceiver({
+      onDecodedBarcodesReceived: (result) => {
+        if (!result.barcodeResultItems.length) return;
 
-      const resultsContainer = document.querySelector("#div-results-container");
-      resultsContainer.textContent = '';
-      console.log(result);
-      for (let item of result.barcodeResultItems) {
-        resultsContainer.append(
-          `${item.formatString}: ${item.text}`,
-          document.createElement('br'),
-          document.createElement('hr'),
-        );
+        const resultsContainer = document.querySelector("#results");
+        resultsContainer.textContent = '';
+        console.log(result);
+        for (let item of result.barcodeResultItems) {
+          resultsContainer.textContent += `${item.formatString}: ${item.text}\n\n`;
+        }
       }
-    };
-    cvRouter.addResultReceiver(resultReceiver);
+    });
 
     // Filter out unchecked and duplicate results.
     const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-    filter.enableResultCrossVerification(
-      "barcode",
-      true
-    ); // Filter out unchecked barcodes.
+    // Filter out unchecked barcodes.
+    filter.enableResultCrossVerification("barcode", true);
     // Filter out duplicate barcodes within 3 seconds.
-    filter.enableResultDeduplication(
-      "barcode",
-      true
-    );
-    filter.setDuplicateForgetTime(
-      "barcode",
-      3000
-    );
+    filter.enableResultDeduplication("barcode", true);
     await cvRouter.addResultFilter(filter);
 
     // Open camera and start scanning single barcode.
@@ -201,19 +214,27 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
 
 ### Create an `style.css` file
 
-`index.html` will loads `style.css`, which defines the styles for the UI
+`index.html` will load `style.css`, which defines the styles for the UI.
+
+Create the `style.css` file at the root folder. Note that this is customizable!
 
 ```css
-#div-ui-container {
+body {
+  text-align: center;
+}
+
+#camera-view-container {
   width: 100%;
   height: 80vh;
 }
 
-#div-results-container {
+#results {
   width: 100%;
   height: 10vh;
   overflow: auto;
+  white-space: pre-wrap;
 }
+
 ```
 
 ## Run the application
