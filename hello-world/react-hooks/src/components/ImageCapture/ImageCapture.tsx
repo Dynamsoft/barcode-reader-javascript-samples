@@ -1,39 +1,45 @@
-import { useEffect, useRef, MutableRefObject, useCallback, ChangeEvent } from "react";
-import "../../dynamsoft.config";
+import React, { useRef, useEffect, MutableRefObject, useCallback } from "react";
+import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { EnumCapturedResultItemType } from "dynamsoft-core";
-import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
+import { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import "./ImageCapture.css";
 
-export default () => {
-  const resDiv: MutableRefObject<HTMLDivElement | null> = useRef(null);
+function ImageCapture() {
+  const resultsContainer: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
-  const pCvRouter: MutableRefObject<Promise<CaptureVisionRouter> | null> = useRef(null);
-  const bDestoried = useRef(false);
+  let pCvRouter: MutableRefObject<Promise<CaptureVisionRouter> | null> = useRef(null);
+  let isDestroyed = useRef(false);
 
-  const captureImage = useCallback(async(e: ChangeEvent<HTMLInputElement>)=>{
+  const captureImage = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = [...(e.target.files as any as File[])];
-    e.target.value = '';
-    resDiv.current!.innerText = "";
+    e.target.value = ""; // reset input
+    resultsContainer.current!.innerText = "";
+
     try {
+      // ensure cvRouter is created only once
       const cvRouter = await (pCvRouter.current = pCvRouter.current || CaptureVisionRouter.createInstance());
-      if (bDestoried.current) return;
-      
-      for(let file of files){
+      if (isDestroyed.current) return;
+
+      for (let file of files) {
         // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
         const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
-        if (bDestoried.current) return;
-  
-        if(files.length > 1){
-          resDiv.current!.innerText += `\n${file.name}:\n`;
+        if (isDestroyed.current) return;
+
+        // Print file name if there's multiple files
+        if (files.length > 1) {
+          resultsContainer.current!.innerText += `\n${file.name}:\n`;
         }
         for (let _item of result.items) {
-          if(_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) { continue; }
+          if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
+            continue; // check if captured result item is a barcode
+          }
           let item = _item as BarcodeResultItem;
-          resDiv.current!.innerText += item.text + "\n";
+          resultsContainer.current!.innerText += item.text + "\n"; // output the decoded barcode text
           console.log(item.text);
         }
-        if (!result.items.length) resDiv.current!.innerText += 'No barcode found\n';
+        // If no items are found, display that no barcode was detected
+        if (!result.items.length) resultsContainer.current!.innerText += "No barcode found";
       }
     } catch (ex: any) {
       let errMsg = ex.message || ex;
@@ -43,25 +49,28 @@ export default () => {
   }, []);
 
   useEffect((): any => {
-    // reset value so works in React.StrictMode
-    bDestoried.current = false;
-    // onBeforeUnmount
+    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
+    isDestroyed.current = false;
+
+    // componentWillUnmount. dispose cvRouter when it's no longer needed
     return async () => {
-      bDestoried.current = true;
-      if(pCvRouter.current){
-        try{
+      isDestroyed.current = true;
+      if (pCvRouter.current) {
+        try {
           (await pCvRouter.current).dispose();
-        }catch(_){}
+        } catch (_) {}
       }
-    }
+    };
   }, []);
 
   return (
-    <div className="capture-img">
-      <div className="img-ipt">
-        <input type="file" multiple onChange={captureImage} accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"/>
+    <div className="image-capture-container">
+      <div className="input-container">
+        <input type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={captureImage} />
       </div>
-      <div className="result-area" ref={resDiv}></div>
+      <div className="results" ref={resultsContainer}></div>
     </div>
-  )
-};
+  );
+}
+
+export default ImageCapture;
