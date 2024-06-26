@@ -78,7 +78,7 @@ onMounted(async () => {
   resolveInit!();
 });
 
-// dispose cvRouter when it's no longer neededs
+// dispose cvRouter when it's no longer needed
 onBeforeUnmount(async () => {
   isDestroyed = true;
   try {

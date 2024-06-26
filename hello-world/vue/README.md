@@ -113,6 +113,7 @@ CoreModule.loadWasm(["DBR"]);
 * In `VideoCapture.vue`, add the following code for initializing and destroying some instances.
 
 ```vue
+<!-- /src/components/VideoCapture.vue -->
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, type Ref } from "vue";
 import "../dynamsoft.config";
@@ -193,7 +194,7 @@ onMounted(async () => {
   resolveInit!();
 });
 
-// dispose cvRouter when it's no longer neededs
+// dispose cvRouter when it's no longer needed
 onBeforeUnmount(async () => {
   isDestroyed = true;
   try {
@@ -238,6 +239,7 @@ onBeforeUnmount(async () => {
 * In `ImageCapture.vue`, add code for initializing and destroying `CaptureVisionRouter` instance.
 
 ```vue
+<!-- /src/components/ImageCapture.vue -->
 <script setup lang="ts">
 import { onBeforeUnmount, ref, type Ref } from "vue";
 import "../dynamsoft.config";
@@ -328,13 +330,14 @@ onBeforeUnmount(async () => {
 </style>
 ```
 
-### Add the `VideoCapture` and `ImageCapture` component to `App.tsx`
+### Add the `VideoCapture` and `ImageCapture` component to `App.vue`
 
 * On `/src/App.vue`, we will edit the component so that it offers buttons to switch components between `VideoCapture` and `ImageCapture`.
 
 * Add following code to `App.vue`.
 
 ```vue
+<!-- /src/App.vue -->
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
 import vueLogo from "./assets/logo.svg";
