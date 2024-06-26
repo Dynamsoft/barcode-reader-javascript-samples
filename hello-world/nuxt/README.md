@@ -102,7 +102,7 @@ CoreModule.loadWasm(["DBR"]);
 
 ### Edit the `VideoCapture` component
 
-* In `VideoCapture.client.vue`, add code for initializing and destroying some instances. The `VideoCapture` component helps decode barcodes via camera.
+* In `VideoCapture.client.vue`, add code for initializing and destroying some instances. The `VideoCapture` component helps decode barcodes via camera.  For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```vue
 <!-- /components/VideoCapture.client.vue -->
@@ -196,29 +196,6 @@ onBeforeUnmount(async () => {
   } catch (_) { }
 });
 </script>
-
-<template>
-  <div>
-    <div ref="cameraViewContainer" class="camera-view-container"></div>
-    <br />
-    Results:
-    <div ref="resultsContainer" class="results"></div>
-  </div>
-</template>
-
-<style scoped>
-.camera-view-container {
-  width: 100%;
-  height: 70vh;
-  background: #eee;
-}
-
-.results {
-  width: 100%;
-  height: 10vh;
-  overflow: auto;
-}
-</style>
 ```
 > Note:
 >
@@ -226,7 +203,7 @@ onBeforeUnmount(async () => {
 
 ### Edit the `ImageCapture` component
 
-* In `ImageCapture.client.vue`, add code for initializing and destroying the `CaptureVisionRouter` instance. The `ImageCapture` helps decode barcodes in an image.
+* In `ImageCapture.client.vue`, add code for initializing and destroying the `CaptureVisionRouter` instance. The `ImageCapture` helps decode barcodes in an image.  For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```vue
 <!-- /components/ImageCapture.client.vue -->
@@ -296,35 +273,13 @@ onBeforeUnmount(async () => {
     <div class="results" ref="resultContainer"></div>
   </div>
 </template>
-
-<style scoped>
-.image-capture-container {
-  width: 100%;
-  height: 100%;
-  font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-}
-
-.image-capture-container .input-container {
-  width: 80%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  border: 1px solid black;
-  margin: 0 auto;
-}
-
-.image-capture-container .results {
-  margin-top: 20px;
-  height: 100%;
-}
-</style>
 ```
 
 ### Add `VideoCapture` and `ImageCapture` components in `app.vue`
 
 * On `/app.vue`, we will edit the component so that it offers buttons to switch components between `VideoCapture` and `ImageCapture`.
 
-* Add following code to `app.vue`.
+* Add following code to `app.vue`.  For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
 
 ```vue
 <!-- /app.vue -->
@@ -333,7 +288,7 @@ onBeforeUnmount(async () => {
     <div class='title'>
       <h2 class='title-text'>Hello World for NuxtJS</h2>
     </div>
-    <div class='top-btns'>
+    <div class='buttons-container'>
       <button @click="mode = 'video'"
         :style="{ backgroundColor: mode === 'video' ? 'rgb(255, 174, 55)' : '#FFFFFF' }">Video Capture</button>
       <button @click="mode = 'image'"
@@ -355,34 +310,6 @@ import ImageCapture from "./components/ImageCapture.client.vue";
 
 const mode: Ref<string> = ref("video");
 </script>
-
-<style scoped>
-.title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.top-btns {
-  width: 30%;
-  margin: 20px auto;
-}
-
-.top-btns button {
-  display: inline-block;
-  border: 1px solid black;
-  padding: 5px 15px;
-  background-color: transparent;
-  cursor: pointer;
-}
-
-@media screen and (max-width: 800px) {
-  .top-btns {
-    width: 70%;
-  }
-}
-</style>
 ```
 > Note: 
 >
