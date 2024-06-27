@@ -32,7 +32,7 @@
           Enable
           <span class="api_highlight">singleFrameMode</span> to capture high-definition images with your camera (mobbile
           device) or upload a local image for better recognition.
-          <a href="javascript:void(0)" id="toggle-">Give it a try!</a>
+          <a href="javascript:void(0)" id="toggle-scan-mode">Give it a try!</a>
         </p>
         <em class="close-button"
           ><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="4604" width="10" height="10">
@@ -174,7 +174,7 @@
 
       document.querySelector("#result-container .close-button").addEventListener("click", closeResultAlert);
 
-      document.querySelector("#a-switch").addEventListener("click", async () => {
+      document.querySelector("#toggle-scan-mode").addEventListener("click", async () => {
         document.querySelector("#span-tip").innerHTML =
           "Click below to select a picture to read. <a href='javascript:void(0)' onclick='backToCameraMode()'>Back to camera mode</a>";
 
