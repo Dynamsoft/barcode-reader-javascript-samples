@@ -12,7 +12,7 @@
       rel="canonical"
       href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/show-result-texts-on-the-video.html"
     />
-    <title>Dynamsoft Barcode Reader Sample - Show Result Texts on the Video</title>
+    <title>Dynamsoft Barcode Reader Sample - Display Barcode Results as Video Overlays</title>
     <style>
       .bubble-box-container {
         position: absolute;
@@ -43,7 +43,7 @@
     </style>
   </head>
   <body>
-    <h1>Show Result Texts on the Video</h1>
+    <h1>Display Barcode Results as Video Overlays</h1>
     <h3>Scan barcodes to display results as overlays on video</h3>
     <div id="camera-view-container" style="width: 100%; height: 90vh"></div>
     <div id="results"></div>
@@ -101,7 +101,10 @@
                   continue; // Skip processing if the result is not a barcode
                 }
 
+                // Get the points of the quadrilateral surrounding the scanned barcode
                 const p = item.location.points;
+                // Calculate the top-left and bottom-right coordinates of the quadrilateral
+                // This will help in positioning the result overlay on top of the scanned barcode
                 const barcodeTopLeft = {
                   x: Math.min(p[0].x, p[1].x, p[2].x, p[3].x),
                   y: Math.min(p[0].y, p[1].y, p[2].y, p[3].y),
@@ -112,14 +115,14 @@
                 };
 
                 // Create an `absolute` positioned container to overlay on top of the video
-                const overlayContainer = document.createElement("div");
-                overlayContainer.className = "bubble-box-container";
+                const bubbleBoxContainer = document.createElement("div");
+                bubbleBoxContainer.className = "bubble-box-container";
 
                 // Create the overlay element to display decoded barcode results
-                const overlayResultItem = document.createElement("div");
-                overlayResultItem.className = "bubble-box";
-                overlayResultItem.innerText = item.text;
-                overlayContainer.append(overlayResultItem);
+                const bubbleBoxOverlay = document.createElement("div");
+                bubbleBoxOverlay.className = "bubble-box";
+                bubbleBoxOverlay.innerText = item.text;
+                bubbleBoxContainer.append(overlayResultItem);
 
                 // Position the overlay container relative to the document or viewport
                 if (isBodyStyleStatic) {
@@ -130,8 +133,8 @@
                   const pageTopLeft = cameraEnhancer.convertToPageCoordinates(barcodeTopLeft);
                   const pageBottomRight = cameraEnhancer.convertToPageCoordinates(barcodeBottomRight);
                   const pageMidX = (pageTopLeft.x + pageBottomRight.x) / 2;
-                  overlayContainer.style.top = `${pageTopLeft.y}px`;
-                  overlayContainer.style.left = `${pageMidX}px`;
+                  bubbleBoxContainer.style.top = `${pageTopLeft.y}px`;
+                  bubbleBoxContainer.style.left = `${pageMidX}px`;
                 } else {
                   // if you set body `position` as `relative`, `absolute`, and so on,
                   // we'll have to use set the position relative to the viewport.
@@ -142,10 +145,10 @@
                   const clientTopLeft = cameraEnhancer.convertToClientCoordinates(barcodeTopLeft);
                   const clientBottomRight = cameraEnhancer.convertToClientCoordinates(barcodeBottomRight);
                   const clientMidX = (clientTopLeft.x + clientBottomRight.x) / 2;
-                  overlayContainer.style.top = `${clientTopLeft.y - bodyStaticTopOffset}px`;
-                  overlayContainer.style.left = `${clientMidX - bodyStaticLeftOffset}px`;
+                  bubbleBoxContainer.style.top = `${clientTopLeft.y - bodyStaticTopOffset}px`;
+                  bubbleBoxContainer.style.left = `${clientMidX - bodyStaticLeftOffset}px`;
                 }
-                resultsContainer.append(overlayContainer);
+                resultsContainer.append(bubbleBoxContainer);
 
                 /**
                  * You can also add more information, such as displaying product images.
