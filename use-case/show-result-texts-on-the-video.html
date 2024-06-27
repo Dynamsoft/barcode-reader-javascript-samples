@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Read barcodes from camera with Dynamsoft Barcode Reader and show result texts on the video."
+      content="Read barcodes from camera with Dynamsoft Barcode Reader and display result texts as overlays on video."
     />
-    <meta name="keywords" content="read barcode from camera, custom style" />
+    <meta name="keywords" content="read barcode from camera, overlay" />
     <link
       rel="canonical"
       href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/show-result-texts-on-the-video.html"
     />
-    <title>
-      Dynamsoft Barcode Reader Sample - Show Result Texts on the Video
-    </title>
+    <title>Dynamsoft Barcode Reader Sample - Show Result Texts on the Video</title>
     <style>
       .bubble-box-container {
         position: absolute;
@@ -45,8 +43,10 @@
     </style>
   </head>
   <body>
-    <div id="div-ui-container" style="width: 100%; height: 90vh"></div>
-    <div id="div-information-containers"></div>
+    <h1>Show Result Texts on the Video</h1>
+    <h3>Scan barcodes to display results as overlays on video</h3>
+    <div id="camera-view-container" style="width: 100%; height: 90vh"></div>
+    <div id="results"></div>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
     <script>
       /** LICENSE ALERT - README
@@ -65,7 +65,7 @@
       // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
       Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
-      const divInfContainers = document.querySelector("#div-information-containers");
+      const resultsContainer = document.querySelector("#results");
 
       (async () => {
         try {
@@ -73,7 +73,7 @@
           const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
           const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
           // Get default UI and append it to DOM.
-          document.querySelector("#div-ui-container").append(cameraView.getUIElement()); 
+          document.querySelector("#camera-view-container").append(cameraView.getUIElement());
 
           // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
           const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
@@ -81,71 +81,83 @@
 
           // Define a callback for results.
           const bodyStyle = getComputedStyle(document.body);
-          cvRouter.addResultReceiver({ onCapturedResultReceived: result => {
-            divInfContainers.innerText = "";
+          cvRouter.addResultReceiver({
+            onCapturedResultReceived: (result) => {
+              // Reset results
+              resultsContainer.innerText = "";
 
-            // if you set body `position` as `relative`, `absolute`, and so on, we needs these valuable.
-            const isBodyStyleStatic = bodyStyle.position === "static";
-            let bodyStaticTopOffset, bodyStaticLeftOffset;
-            if(isBodyStyleStatic){
-              const bodyRect = document.body.getBoundingClientRect();
-              bodyStaticTopOffset = bodyRect.top + parseFloat(bodyStyle.borderTopWidth);
-              bodyStaticLeftOffset = bodyRect.left + parseFloat(bodyStyle.borderLeftWidth);
-            }
-
-            // loop every barcode
-            for (let item of result.items) {
-              if (item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE){ continue; }
-
-              const p = item.location.points;
-              const p1 = {
-                x: Math.min(p[0].x,p[1].x,p[2].x,p[3].x),
-                y: Math.min(p[0].y,p[1].y,p[2].y,p[3].y),
-              };
-              const p2 = {
-                x: Math.max(p[0].x,p[1].x,p[2].x,p[3].x),
-                y: Math.max(p[0].y,p[1].y,p[2].y,p[3].y),
-              };
-
-              const divInfContainer = document.createElement("div");
-              divInfContainer.className = "bubble-box-container";
-              const divInf = document.createElement("div");
-              divInf.className = "bubble-box";
-              divInf.innerText = item.text;
-              divInfContainer.append(divInf);
+              // Determine if body `position` is `static`, `relative`, `absolute`, etc.
+              const isBodyStyleStatic = bodyStyle.position === "static";
+              let bodyStaticTopOffset, bodyStaticLeftOffset;
               if (isBodyStyleStatic) {
-                /**
-                 * 'convertToPageCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the document.
-                 * Then we can place a div element according to the converted coordinate.
-                 */
-                const pageP1 = cameraEnhancer.convertToPageCoordinates(p1);
-                const pageP2 = cameraEnhancer.convertToPageCoordinates(p2);
-                const pageMidX = (pageP1.x + pageP2.x) / 2;
-                divInfContainer.style.top = `${pageP1.y}px`;
-                divInfContainer.style.left = `${pageMidX}px`;
-              } else {
-                // if you set body `position` as `relative`, `absolute`, and so on, things can get complicated.
-                /**
-                 * 'convertToClientCoordinates()' is used to converts coordinate of a barcode location to the coordinate related to the viewport.
-                 * Then we can place a div element according to the converted coordinate.
-                 */
-                const clientP1 = cameraEnhancer.convertToClientCoordinates(p1);
-                const clientP2 = cameraEnhancer.convertToClientCoordinates(p2);
-                const clientMidX = (clientP1.x + clientP2.x) / 2;
-                divInfContainer.style.top = `${clientP1.y - bodyStaticTopOffset}px`;
-                divInfContainer.style.left = `${clientMidX - bodyStaticLeftOffset}px`;
+                const bodyRect = document.body.getBoundingClientRect();
+                bodyStaticTopOffset = bodyRect.top + parseFloat(bodyStyle.borderTopWidth);
+                bodyStaticLeftOffset = bodyRect.left + parseFloat(bodyStyle.borderLeftWidth);
               }
-              divInfContainers.append(divInfContainer);
 
-              /**
-               * You can also add more information, such as displaying product images.
-               */
-            }
-          }});
+              // loop through each barcode result
+              for (let item of result.items) {
+                if (item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
+                  continue; // Skip processing if the result is not a barcode
+                }
+
+                const p = item.location.points;
+                const barcodeTopLeft = {
+                  x: Math.min(p[0].x, p[1].x, p[2].x, p[3].x),
+                  y: Math.min(p[0].y, p[1].y, p[2].y, p[3].y),
+                };
+                const barcodeBottomRight = {
+                  x: Math.max(p[0].x, p[1].x, p[2].x, p[3].x),
+                  y: Math.max(p[0].y, p[1].y, p[2].y, p[3].y),
+                };
+
+                // Create an `absolute` positioned container to overlay on top of the video
+                const overlayContainer = document.createElement("div");
+                overlayContainer.className = "bubble-box-container";
+
+                // Create the overlay element to display decoded barcode results
+                const overlayResultItem = document.createElement("div");
+                overlayResultItem.className = "bubble-box";
+                overlayResultItem.innerText = item.text;
+                overlayContainer.append(overlayResultItem);
+
+                // Position the overlay container relative to the document or viewport
+                if (isBodyStyleStatic) {
+                  /**
+                   * 'convertToPageCoordinates()' is used to converts coordinate of a barcode location to the coordinate relative to the document.
+                   * Then we can place a div element according to the converted coordinate.
+                   */
+                  const pageTopLeft = cameraEnhancer.convertToPageCoordinates(barcodeTopLeft);
+                  const pageBottomRight = cameraEnhancer.convertToPageCoordinates(barcodeBottomRight);
+                  const pageMidX = (pageTopLeft.x + pageBottomRight.x) / 2;
+                  overlayContainer.style.top = `${pageTopLeft.y}px`;
+                  overlayContainer.style.left = `${pageMidX}px`;
+                } else {
+                  // if you set body `position` as `relative`, `absolute`, and so on,
+                  // we'll have to use set the position relative to the viewport.
+                  /**
+                   * 'convertToClientCoordinates()' is used to converts coordinate of a barcode location to the coordinate relative to the viewport.
+                   * Then we can place a div element according to the converted coordinate.
+                   */
+                  const clientTopLeft = cameraEnhancer.convertToClientCoordinates(barcodeTopLeft);
+                  const clientBottomRight = cameraEnhancer.convertToClientCoordinates(barcodeBottomRight);
+                  const clientMidX = (clientTopLeft.x + clientBottomRight.x) / 2;
+                  overlayContainer.style.top = `${clientTopLeft.y - bodyStaticTopOffset}px`;
+                  overlayContainer.style.left = `${clientMidX - bodyStaticLeftOffset}px`;
+                }
+                resultsContainer.append(overlayContainer);
+
+                /**
+                 * You can also add more information, such as displaying product images.
+                 */
+              }
+            },
+          });
 
           // Filter out unchecked and duplicate results.
           const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-          filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
+          // Filter out unchecked barcodes.
+          filter.enableResultCrossVerification("barcode", true);
 
           // Open camera and start scanning single barcode.
           await cameraEnhancer.open();
