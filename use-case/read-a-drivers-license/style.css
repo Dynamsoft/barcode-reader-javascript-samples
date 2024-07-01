@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -44,7 +43,7 @@ strong {
   cursor: pointer;
 }
 
-#div-main {
+#main-container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -65,13 +64,13 @@ strong {
   fill: #aaa;
 }
 
-#div-ui-container {
+#camera-view-container {
   display: none;
   width: 100%;
   height: 100%;
 }
 
-#div-result-container {
+#result-container {
   display: none;
   position: fixed;
   width: 50vw;
@@ -83,7 +82,7 @@ strong {
   margin-top: 30px;
 }
 
-#div-result-container .div-result-header {
+#result-container .result-header {
   width: 100%;
   height: 30px;
   background-color: #000;
@@ -93,19 +92,19 @@ strong {
   box-sizing: border-box;
 }
 
-#div-result-container .div-result-body {
+#result-container .result-body {
   height: calc(70vh - 30px);
   overflow-y: auto;
   padding: 5px;
   box-sizing: border-box;
 }
 
-#div-result-container p {
+#result-container p {
   padding: 5px;
   margin: 0;
 }
 
-#div-message-container {
+#message-container {
   display: none;
   align-items: center;
   width: 50vw;
@@ -120,24 +119,25 @@ strong {
   transition: opacity 0.2s;
 }
 
-#div-message-container .em-icon {
+#message-container .message-icon {
   font-size: 28px;
   width: 28px;
   line-height: 0;
+  padding-right: 1rem;
 }
 
-#div-message-container .div-message-content {
+#message-container .div-message-content {
   display: table-cell;
   padding: 0 8px;
 }
 
-.div-message-content>span {
+.message-content > span {
   font-weight: 700;
   font-size: 14px;
   line-height: 18px;
 }
 
-.div-message-content>p {
+.message-content > p {
   font-size: 13px;
   margin: 5px 0 0;
   line-height: 20px;
@@ -150,7 +150,7 @@ strong {
   padding: 2px;
 }
 
-.em-close {
+.close-button {
   position: absolute;
   top: 12px;
   right: 15px;
@@ -160,15 +160,15 @@ strong {
 
 /* Small devices */
 @media only screen and (max-width: 1000px) {
-  #div-message-container {
+  #message-container {
     width: 90vw;
   }
 
-  #div-main {
+  #main-container {
     width: 80vw;
   }
 
-  #div-result-container {
+  #result-container {
     width: 80vw;
   }
 }
