@@ -109,5 +109,6 @@ onBeforeUnmount(async () => {
   width: 100%;
   height: 10vh;
   overflow: auto;
+  white-space: pre-wrap;
 }
 </style>

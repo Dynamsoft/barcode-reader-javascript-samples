@@ -57,7 +57,7 @@ Below is the configuration used for this sample.
 
 ```cmd
 cd my-app
-npm install dynamsoft-barcode-reader-bundle
+npm install dynamsoft-barcode-reader-bundle -E
 ```
 
 ## Start to implement
@@ -348,7 +348,7 @@ export class ImageCaptureComponent {
   <div class='title'>
     <h2 class='title-text'>Hello World for Angular</h2>
   </div>
-  <div class='top-btns'>
+  <div class='buttons-container'>
     <button (click)="switchMode('video')" [ngStyle]="{'background-color': mode === 'video' ? 'rgb(255,174,55)' : 'white'}">Decode Video</button>
     <button (click)="switchMode('image')" [ngStyle]="{'background-color': mode === 'image' ? 'rgb(255,174,55)' : 'white'}">Decode Image</button>
   </div>
