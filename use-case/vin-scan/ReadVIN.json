@@ -1,0 +1,100 @@
+{
+  "CaptureVisionTemplates": [
+    {
+      "Name": "ReadVIN",
+      "ImageROIProcessingNameArray": [
+        "roi-read-vin-by-barcode",
+        "roi-read-vin-by-label"
+      ]
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "roi-read-vin-by-barcode",
+      "TaskSettingNameArray": [
+        "task-read-vin-barcode"
+      ]
+    },
+    {
+      "Name": "roi-read-vin-by-label",
+      "TaskSettingNameArray": [
+        "task-read-vin-label"
+      ]
+    }
+  ],
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "Name": "task-read-vin-barcode",
+      "ExpectedBarcodesCount": 1,
+      "BarcodeFormatSpecificationNameArray": [
+        "bfs-vin-barcode"
+      ]
+    }
+  ],
+  "BarcodeFormatSpecificationOptions": [
+    {
+      "Name": "bfs-vin-barcode",
+      "BarcodeFormatIds": [
+        "BF_PDF417",
+        "BF_QR_CODE",
+        "BF_DATAMATRIX",
+        "BF_AZTEC",
+        "BF_MICRO_QR",
+        "BF_MICRO_PDF417",
+        "BF_DOTCODE",
+        "BF_CODE_39",
+        "BF_CODE_39_EXTENDED"
+      ],
+      "MirrorMode": "MM_BOTH"
+    }
+  ],
+  "LabelRecognizerTaskSettingOptions": [
+    {
+      "Name": "task-read-vin-label",
+      "StringRegExPattern": "([0-9A-Z]{17,19}){(17,19)}",
+      "StringLengthRange": [
+        17,
+        19
+      ],
+      "SectionImageParameterArray": [
+        {
+          "Section": "ST_REGION_PREDETECTION",
+          "ImageParameterName": "ip-recognize-vin-label"
+        },
+        {
+          "Section": "ST_TEXT_LINE_LOCALIZATION",
+          "ImageParameterName": "ip-recognize-vin-label"
+        },
+        {
+          "Section": "ST_TEXT_LINE_RECOGNITION",
+          "ImageParameterName": "ip-recognize-vin-label"
+        }
+      ]
+    }
+  ],
+  "ImageParameterOptions": [
+    {
+      "Name": "ip-recognize-vin-label",
+      "TextDetectionMode": {
+        "Mode": "TTDM_LINE",
+        "Direction": "HORIZONTAL",
+        "CharHeightRange": [
+          5,
+          1000,
+          1
+        ]
+      },
+      "BinarizationModes": [
+        {
+          "Mode": "BM_LOCAL_BLOCK",
+          "EnableFillBinaryVacancy": 0
+        }
+      ],
+      "GrayscaleTransformationModes": [
+        {
+          "Mode": "GTM_AUTO"
+        }
+      ]
+    }
+  ]
+}
