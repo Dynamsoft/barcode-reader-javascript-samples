@@ -1,0 +1,233 @@
+{
+	"CharacterModelArray": [
+		{
+			"DirectoryPath": "",
+			"FilterFilePath": "",
+			"Name": "VIN"
+		}
+	],
+	"InferenceSettings": null,
+	"LabelRecognizerParameterArray": [
+		{
+			"BinarizationModes": [
+				{
+					"BlockSizeX": 0,
+					"BlockSizeY": 0,
+					"EnableFillBinaryVacancy": 0,
+					"GrayscaleEnhancementModesIndex": -1,
+					"LibraryFileName": "",
+					"LibraryParameters": "",
+					"Mode": "BM_LOCAL_BLOCK",
+					"MorphOperation": "Erode",
+					"MorphOperationKernelSizeX": -1,
+					"MorphOperationKernelSizeY": -1,
+					"MorphShape": "Rectangle",
+					"ThresholdCompensation": 10
+				}
+			],
+			"CharacterModelName": "VIN",
+			"CharacterNormalizationModes": [
+				{
+					"Mode": "CNM_AUTO"
+				}
+			],
+			"ColourConversionModes": [
+				{
+					"BlueChannelWeight": -1,
+					"GreenChannelWeight": -1,
+					"LibraryFileName": "",
+					"LibraryParameters": "",
+					"Mode": "CICM_GENERAL",
+					"RedChannelWeight": -1
+				}
+			],
+			"DictionaryCorrectionThresholds": [
+				{
+					"MaxWordLength": 256,
+					"MinWordLength": 3,
+					"Threshold": 1
+				}
+			],
+			"DictionaryPath": "",
+			"GrayscaleEnhancementModes": [
+				{
+					"LibraryFileName": "",
+					"LibraryParameters": "",
+					"Mode": "GEM_GENERAL"
+				}
+			],
+			"GrayscaleTransformationModes": [
+				{
+					"Mode": "GTM_AUTO"
+				}
+			],
+			"LetterHeightRange": [
+				5,
+				1000,
+				1
+			],
+			"LineStringLengthRange": [
+				17,
+				19
+			],
+			"LineStringRegExPattern": "([0-9A-Z]{17,19}){(17,19)}",
+			"MaxLineCharacterSpacing": 0,
+			"MaxThreadCount": 4,
+			"Name": "default",
+			"Pages": "",
+			"ReferenceRegionNameArray": [
+				"defaultReferenceRegion"
+			],
+			"RegionPredetectionModes": [
+				{
+					"LibraryFileName": "",
+					"LibraryParameters": "",
+					"MinImageDimension": 262144,
+					"Mode": "RPM_GENERAL",
+					"Sensitivity": 1
+				}
+			],
+			"ScaleUpModes": [
+				{
+					"Mode": "SUM_AUTO"
+				}
+			],
+			"TextRegExPattern": "",
+			"TextStringLengthRange": null,
+			"TextureDetectionModes": [
+				{
+					"LibraryFileName": "",
+					"LibraryParameters": "",
+					"Mode": "TDM_GENERAL_WIDTH_CONCENTRATION",
+					"Sensitivity": 5
+				}
+			],
+			"Timeout": 10000
+		}
+	],
+	"LineSpecificationArray": null,
+	"ReferenceRegionArray": [
+		{
+			"Localization": {
+				"FirstPoint": [
+					0,
+					0
+				],
+				"FourthPoint": [
+					0,
+					100
+				],
+				"MeasuredByPercentage": 1,
+				"SecondPoint": [
+					100,
+					0
+				],
+				"SourceType": "LST_MANUAL_SPECIFICATION",
+				"ThirdPoint": [
+					100,
+					100
+				]
+			},
+			"Name": "defaultReferenceRegion",
+			"TextAreaNameArray": [
+				"defaultTextArea"
+			]
+		}
+	],
+	"TextAreaArray": [
+		{
+			"BinarizationModes": [
+				{
+					"BlockSizeX": 0,
+					"BlockSizeY": 0,
+					"EnableFillBinaryVacancy": 0,
+					"GrayscaleEnhancementModesIndex": -1,
+					"LibraryFileName": "",
+					"LibraryParameters": "",
+					"Mode": "BM_LOCAL_BLOCK",
+					"MorphOperation": "Erode",
+					"MorphOperationKernelSizeX": -1,
+					"MorphOperationKernelSizeY": -1,
+					"MorphShape": "Rectangle",
+					"ThresholdCompensation": 10
+				}
+			],
+			"CharacterModelName": "VIN",
+			"CharacterNormalizationModes": [
+				{
+					"Mode": "CNM_AUTO"
+				}
+			],
+			"ColourConversionModes": [
+				{
+					"BlueChannelWeight": -1,
+					"GreenChannelWeight": -1,
+					"LibraryFileName": "",
+					"LibraryParameters": "",
+					"Mode": "CICM_GENERAL",
+					"RedChannelWeight": -1
+				}
+			],
+			"DictionaryCorrectionThresholds": [
+				{
+					"MaxWordLength": 256,
+					"MinWordLength": 3,
+					"Threshold": 1
+				}
+			],
+			"DictionaryPath": "",
+			"FirstPoint": [
+				0,
+				0
+			],
+			"FourthPoint": [
+				0,
+				100
+			],
+			"GrayscaleEnhancementModes": [
+				{
+					"LibraryFileName": "",
+					"LibraryParameters": "",
+					"Mode": "GEM_GENERAL"
+				}
+			],
+			"GrayscaleTransformationModes": [
+				{
+					"Mode": "GTM_AUTO"
+				}
+			],
+			"InferenceSettingName": "",
+			"LetterHeightRange": [
+				5,
+				1000,
+				1
+			],
+			"LineSpecificationNameArray": null,
+			"LineStringLengthRange": [
+				17,
+				19
+			],
+			"LineStringRegExPattern": "([0-9A-Z]{17,19}){(17,19)}",
+			"MaxLineCharacterSpacing": 0,
+			"Name": "defaultTextArea",
+			"SecondPoint": [
+				100,
+				0
+			],
+			"TextRegExPattern": "",
+			"TextStringLengthRange": null,
+			"TextureDetectionModes": [
+				{
+					"LibraryFileName": "",
+					"LibraryParameters": "",
+					"Mode": "TDM_GENERAL_WIDTH_CONCENTRATION",
+					"Sensitivity": 5
+				}
+			],
+			"ThirdPoint": [
+				100,
+				100
+			]
+		}
+	]
+}
