@@ -8,78 +8,70 @@
     <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html" />
     <title>Dynamsoft Barcode Reader Sample - Hello World (Decode via Camera)</title>
   </head>
-
   <body>
-    <h1>Hello World (Decode via Camera) - Scan VIN</h1>
-    <div id="camera-view-container" style="width: 100%; height: 80vh">
-      <!-- DCE loading component -->
-      <svg
-        class="dce-bg-loading"
-        style="
-          display: none;
-          position: absolute;
-          left: 0;
+    <style>
+      @keyframes dce-scanlight {
+        from {
           top: 0;
-          right: 0;
-          bottom: 0;
-          margin: auto;
-          width: 40%;
-          height: 40%;
-          fill: #aaa;
-          animation: 1s linear infinite dce-rotate;
-        "
-        viewBox="0 0 1792 1792"
-      >
-        <path
-          d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z"
-        />
-      </svg>
-      <div class="dce-video-container"></div>
-      <div
-        class="dce-scanarea"
-        style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; overflow: hidden; border: 1px solid red"
-      >
-        <div
-          class="dce-scanlight"
+        }
+        to {
+          top: 97%;
+        }
+      }
+    </style>
+    <h1>Hello World (Decode via Camera) - Scan VIN</h1>
+    <div id="camera-view-container">
+      <div style="position: relative; width: 100%; height: 80vh">
+        <!-- DCE loading component -->
+        <svg
+          class="dce-bg-loading"
           style="
-            width: 100%;
             display: none;
-            height: 70px;
             position: absolute;
-            animation: 3s infinite dce-scanlight;
-            background-image: linear-gradient(#ffffff00, #ffb668);
-            border-bottom: 2px solid #ff8400;
-            user-select: none;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 40%;
+            height: 40%;
+            fill: #aaa;
+            animation: 1s linear infinite dce-rotate;
           "
-        ></div>
+          viewBox="0 0 1792 1792"
+        >
+          <path
+            d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z"
+          />
+        </svg>
+        <div class="dce-video-container" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%"></div>
+        <div
+          class="dce-scanarea"
+          style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; overflow: hidden"
+        >
+          <div
+            class="dce-scanlight"
+            hidden
+            style="
+              width: 100%;
+              display: none;
+              height: 10px;
+              position: absolute;
+              animation: 3s infinite dce-scanlight;
+              background-image: linear-gradient(#ffffff00, #ffb668);
+              border-bottom: 2px solid #ff8400;
+              user-select: none;
+            "
+          ></div>
+        </div>
       </div>
     </div>
     Results:<br />
     <div id="results" style="width: 100%; height: 10vh; overflow: auto"></div>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/core.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/license.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.2.20/dist/utility.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/cvr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/dce.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/dbr.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30/dist/dlr.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/dcp.js"></script>
-
-    <!-- <script src="https://cdn.jsdelivr.net/npm/https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/-bundle@3.2.3000/dist/dlr.bundle.js"></script> -->
     <script>
-      Dynamsoft.Core.CoreModule.engineResourcePaths = {
-        std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
-        dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
-        core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
-        license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
-        cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
-        dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
-        dlr: "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30/dist/",
-        dcp: "https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.0.20/dist/",
-        dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/",
-      };
-
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
        */
@@ -100,320 +92,326 @@
       Dynamsoft.DCP.CodeParserModule.loadSpec("VIN");
 
       // Defined globally for easy debugging.
-      let cameraEnhancer, cvRoutemr, codeParser;
+      let cameraEnhancer, cvRouter, codeParser;
 
       (async () => {
-        // try {
-        // Create a CodeParser instance
-        codeParser = await Dynamsoft.DCP.CodeParser.createInstance();
+        try {
+          // Create a CodeParser instance
+          codeParser = await Dynamsoft.DCP.CodeParser.createInstance();
 
-        // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
-        const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-        cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+          // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+          const cameraView = await Dynamsoft.DCE.CameraView.createInstance(
+            document.querySelector("#camera-view-container") // Create Instance on element to apply custom UI
+          );
+          cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
 
-        await cameraView.setVideoFit("cover");
-        await cameraEnhancer.setScanRegion({
-          x: 5,
-          y: 42.5,
-          width: 90,
-          height: 15,
-          isMeasuredInPercentage: true,
-        });
-        // Get default UI and append it to DOM.
-        document.querySelector("#camera-view-container").append(cameraView.getUIElement());
+          await cameraView.setVideoFit("cover");
+          cameraView.setScanLaserVisible(true);
+          await cameraEnhancer.setScanRegion({
+            x: 10,
+            y: 50,
+            width: 80,
+            height: 10,
+            isMeasuredInPercentage: true,
+          });
 
-        // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-        cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-        cvRouter.setInput(cameraEnhancer);
+          // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+          cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+          cvRouter.setInput(cameraEnhancer);
 
-        let parsedVINResult;
-        // Define a callback for results.
-        cvRouter.addResultReceiver({
-          onCapturedResultReceived: (result) => {
-            if (!result.items.length) return;
-            // console.log("@", result);
-            const resultsContainer = document.querySelector("#results");
-            resultsContainer.textContent = "";
+          let parsedVINResult;
+          // Define a callback for results.
+          cvRouter.addResultReceiver({
+            onCapturedResultReceived: async (result) => {
+              if (!result.items.length) return;
 
-            console.log(result);
+              const resultsContainer = document.querySelector("#results");
+              resultsContainer.textContent = "";
 
-            for (let item of result.items) {
-              if (
-                item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE &&
-                item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_TEXT_LINE
-              ) {
-                continue;
+              for (let item of result.items) {
+                // Skip non barcodes and non text line  results
+                if (
+                  item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE &&
+                  item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_TEXT_LINE
+                ) {
+                  continue;
+                }
+
+                if (item.type == Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
+                  _type = "barcode";
+                } else if (item.type == Dynamsoft.Core.EnumCapturedResultItemType.CRIT_TEXT_LINE) {
+                  _type = "text";
+                }
+
+                // Parse Code from CodeParser
+                const parsedVIN = await parseVinInfo(item.text);
+
+                if (item.text) {
+                  alert(`Scanned by ${_type}\nVIN: ${item.text}\n${parsedVIN}`);
+                }
               }
+            },
+          });
 
-              if (item.type == Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
-                _type = "barcode";
-              } else if (item.type == Dynamsoft.Core.EnumCapturedResultItemType.CRIT_TEXT_LINE) {
-                _type = "text";
-              }
+          // Filter out unchecked and duplicate results.
+          const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+          // Filter out unchecked barcodes.
+          filter.enableResultCrossVerification("barcode", true);
+          // Filter out duplicate barcodes within 3 seconds.
+          filter.enableResultDeduplication("barcode", true);
+          // Filter out unchecked text lines
+          filter.enableResultCrossVerification("text_line", true);
+          // Filter out duplicate text lines within 3 seconds
+          filter.enableResultDeduplication("text_line", true);
+          await cvRouter.addResultFilter(filter);
 
-              // this should be from codeparser
-              const parsedVIN = handleVINResult(item.text);
-
-              resultsContainer.textContent += `${_type}: ${
-                _type == Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE ? _type.formatType : ""
-              } ${item.text}\n\n`;
-            }
-          },
-        });
-
-        // Filter out unchecked and duplicate results.
-        const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-        // Filter out unchecked barcodes.
-        filter.enableResultCrossVerification("barcode", true);
-        // Filter out duplicate barcodes within 3 seconds.
-        filter.enableResultDeduplication("barcode", true);
-        // Filter out unchecked text lines
-        filter.enableResultCrossVerification("text_line", true);
-        // Filter out duplicate text lines within 3 seconds
-        filter.enableResultDeduplication("text_line", true);
-        await cvRouter.addResultFilter(filter);
-
-        // Set parameters to read VIN through DLR and DBR
-        const settings = {
-          CaptureVisionTemplates: [
-            {
-              Name: "ReadVIN",
-              ImageROIProcessingNameArray: ["roi-read-vin"],
-            },
-          ],
-          TargetROIDefOptions: [
-            {
-              Name: "roi-read-vin",
-              TaskSettingNameArray: ["task-read-vin-barcode", "task-read-vin-label"],
-            },
-          ],
-
-          // // Code parser task
-          CodeParserTaskSettingOptions: [
-            {
-              Name: "task-parse-vin",
-              CodeSpecifications: ["VIN"],
-              ResourcesPath: "resources",
-            },
-          ],
-
-          // Barcode Reading Task for VIN
-          // Referenced from VIN Barcode Sample
-          BarcodeReaderTaskSettingOptions: [
-            {
-              Name: "task-read-vin-barcode",
-              BarcodeFormatSpecificationNameArray: ["bfs-vin-barcode"],
-              BarcodeColourModes: [
-                {
-                  Mode: "BICM_DARK_ON_LIGHT",
-                },
-                {
-                  Mode: "BICM_LIGHT_ON_DARK",
-                },
-                {
-                  Mode: "BICM_DARK_ON_LIGHT_DARK_SURROUNDING",
-                },
-              ],
-              BarcodeFormatIds: [
-                "BF_CODE_39",
-                "BF_CODE_128",
-                "BF_CODE_93",
-                "BF_CODABAR",
-                "BF_ITF",
-                "BF_INDUSTRIAL_25",
-                "BF_CODE_39_EXTENDED",
-                "BF_QR_CODE",
-                "BF_DATAMATRIX",
-              ],
-              ExpectedBarcodesCount: 1,
-              LocalizationModes: [
-                { Mode: "LM_STATISTICS_MARKS" },
-                { Mode: "LM_LINES" },
-                { Mode: "LM_CONNECTED_BLOCKS" },
-              ],
-              SectionImageParameterArray: [
-                {
-                  Section: "ST_REGION_PREDETECTION",
-                  ImageParameterName: "ip-recognize-vin-barcode",
-                },
-                {
-                  Section: "ST_BARCODE_LOCALIZATION",
-                  ImageParameterName: "ip-recognize-vin-barcode",
-                },
-                {
-                  Section: "ST_BARCODE_DECODING",
-                  ImageParameterName: "ip-recognize-vin-barcode",
-                },
-              ],
-            },
-          ],
-          BarcodeFormatSpecificationOptions: [
-            {
-              Name: "bfs-vin-barcode",
-              BarcodeBytesLengthRangeArray: [
-                {
-                  MaxValue: 2147483647,
-                  MinValue: 0,
-                },
-              ],
-              BarcodeFormatIds: [
-                "BF_CODE_39",
-                "BF_CODE_128",
-                "BF_CODE_93",
-                "BF_CODABAR",
-                "BF_ITF",
-                "BF_INDUSTRIAL_25",
-                "BF_CODE_39_EXTENDED",
-                "BF_QR_CODE",
-                "BF_DATAMATRIX",
-              ],
-              BarcodeTextLengthRangeArray: [
-                {
-                  MaxValue: 2147483647,
-                  MinValue: 0,
-                },
-              ],
-              MirrorMode: "MM_BOTH",
-              BarcodeZoneMinDistanceToImageBorders: 9,
-            },
-          ],
-          // Label Recognizer Task for VIN
-          LabelRecognizerTaskSettingOptions: [
-            {
-              Name: "task-read-vin-label",
-              TextLineSpecificationNameArray: ["tls_default"],
-              SectionImageParameterArray: [
-                {
-                  Section: "ST_REGION_PREDETECTION",
-                  ImageParameterName: "ip-recognize-vin-label",
-                },
-                {
-                  Section: "ST_TEXT_LINE_LOCALIZATION",
-                  ImageParameterName: "ip-recognize-vin-label",
-                },
-                {
-                  Section: "ST_TEXT_LINE_RECOGNITION",
-                  ImageParameterName: "ip-recognize-vin-label",
-                },
-              ],
-            },
-          ],
-          TextLineSpecificationOptions: [
-            {
-              Name: "tls_default",
-              BinarizationModes: [
-                { BlockSizeX: 0, BlockSizeY: 0, EnableFillBinaryVacancy: 0, GrayscaleEnhancementModesIndex: -1 },
-              ],
-              CharacterModelName: "VIN",
-              CharHeightRange: [5, 1000, 1],
-              StringLengthRange: [17, 19],
-              StringRegExPattern: "([0-9A-Z]{17,19}){(17,19)}",
-            },
-          ],
-          CharacterModelOptions: [
-            {
-              Name: "VIN",
-            },
-          ],
-
-          ImageParameterOptions: [
-            // Base Image Parameter
-            {
-              Name: "ip-recognize-vin",
-              BinarizationModes: [
-                {
-                  BinarizationThreshold: -1,
-                },
-              ],
-              GrayscaleTransformationModes: [
-                {
-                  Mode: "GTM_INVERTED",
-                },
-                {
-                  Mode: "GTM_ORIGINAL",
-                },
-              ],
-              IfEraseTextZone: 1,
-              ScaleDownThreshold: 100000,
-            },
-            // Barcode
-            {
-              Name: "ip-recognize-vin-barcode",
-              BaseImageParameterName: "ip-recognize-vin",
-              ScaleUpModes: [
-                {
-                  TargetModuleSize: 19911544,
-                },
-              ],
-            },
-            // Label Image Parameter Options
-            {
-              Name: "ip-recognize-vin-label",
-              BaseImageParameterName: "ip-recognize-vin",
-              ScaleUpModes: [
-                {
-                  TargetModuleSize: -1,
-                },
-              ],
-              TextDetectionMode: {
-                CharHeightRange: [1, 1000, 1],
-                Mode: "TTDM_LINE",
-                Direction: "UNKNOWN",
-                Sensitivity: 3,
+          // Set parameters to read VIN through DLR and DBR
+          const settings = {
+            CaptureVisionTemplates: [
+              {
+                Name: "ReadVIN",
+                ImageROIProcessingNameArray: ["roi-read-vin"],
+                SemanticProcessingNameArray: ["sp-parse-vin"],
               },
-            },
-          ],
-
-          SemanticProcessingObject: [
-            {
-              Name: "SP_PARSE_VIN",
-              ReferenceObjectFilter: {
-                ReferenceTargetROIDefNameArray: ["roi-read-vin"],
+            ],
+            TargetROIDefOptions: [
+              {
+                Name: "roi-read-vin",
+                TaskSettingNameArray: ["task-read-vin-barcode", "task-read-vin-label"],
               },
-              TaskSettingNameArray: ["task-parse-vin"],
-            },
-          ],
-        };
-        await cvRouter.initSettings(settings);
-        console.log("s", await cvRouter.outputSettings());
+            ],
+            // Barcode Reading Task for VIN
+            // Referenced from VIN Barcode Sample
+            BarcodeReaderTaskSettingOptions: [
+              {
+                Name: "task-read-vin-barcode",
+                BarcodeFormatSpecificationNameArray: ["bfs-vin-barcode"],
+                BarcodeColourModes: [
+                  {
+                    Mode: "BICM_DARK_ON_LIGHT",
+                  },
+                  {
+                    Mode: "BICM_LIGHT_ON_DARK",
+                  },
+                  {
+                    Mode: "BICM_DARK_ON_LIGHT_DARK_SURROUNDING",
+                  },
+                ],
+                BarcodeFormatIds: [
+                  "BF_CODE_39",
+                  "BF_CODE_128",
+                  "BF_CODE_93",
+                  "BF_CODABAR",
+                  "BF_ITF",
+                  "BF_INDUSTRIAL_25",
+                  "BF_CODE_39_EXTENDED",
+                  "BF_QR_CODE",
+                  "BF_DATAMATRIX",
+                ],
+                ExpectedBarcodesCount: 1,
+                LocalizationModes: [
+                  { Mode: "LM_STATISTICS_MARKS" },
+                  { Mode: "LM_LINES" },
+                  { Mode: "LM_CONNECTED_BLOCKS" },
+                ],
+                SectionImageParameterArray: [
+                  {
+                    Section: "ST_REGION_PREDETECTION",
+                    ImageParameterName: "ip-recognize-vin-barcode",
+                  },
+                  {
+                    Section: "ST_BARCODE_LOCALIZATION",
+                    ImageParameterName: "ip-recognize-vin-barcode",
+                  },
+                  {
+                    Section: "ST_BARCODE_DECODING",
+                    ImageParameterName: "ip-recognize-vin-barcode",
+                  },
+                ],
+              },
+            ],
+            BarcodeFormatSpecificationOptions: [
+              {
+                Name: "bfs-vin-barcode",
+                BarcodeBytesLengthRangeArray: [
+                  {
+                    MaxValue: 2147483647,
+                    MinValue: 0,
+                  },
+                ],
+                BarcodeFormatIds: [
+                  "BF_CODE_39",
+                  "BF_CODE_128",
+                  "BF_CODE_93",
+                  "BF_CODABAR",
+                  "BF_ITF",
+                  "BF_INDUSTRIAL_25",
+                  "BF_CODE_39_EXTENDED",
+                  "BF_QR_CODE",
+                  "BF_DATAMATRIX",
+                ],
+                BarcodeTextLengthRangeArray: [
+                  {
+                    MaxValue: 2147483647,
+                    MinValue: 0,
+                  },
+                ],
+                MirrorMode: "MM_BOTH",
+                BarcodeZoneMinDistanceToImageBorders: 9,
+              },
+            ],
+            // Label Recognizer Task for VIN
+            LabelRecognizerTaskSettingOptions: [
+              {
+                Name: "task-read-vin-label",
+                TextLineSpecificationNameArray: ["tls_vin"],
+                // TODO: TO BE CHANGED
+                // SectionImageParameterArray: [
+                //   {
+                //     Section: "REGION_PREDETECTION",
+                //     ImageParameterName: "ip-recognize-vin-label",
+                //   },
+                //   {
+                //     Section: "TEXT_LINE_LOCALIZATION",
+                //     ImageParameterName: "ip-recognize-vin-label",
+                //   },
+                //   {
+                //     Section: "TEXT_LINE_RECOGNITION",
+                //     ImageParameterName: "ip-recognize-vin-label",
+                //   },
+                // ],
+              },
+            ],
+            TextLineSpecificationOptions: [
+              {
+                Name: "tls_vin",
+                CharacterModelName: "VIN",
+                BinarizationModes: [
+                  { BlockSizeX: 0, BlockSizeY: 0, EnableFillBinaryVacancy: 0, GrayscaleEnhancementModesIndex: -1 },
+                ],
+                CharacterNormalizationModes: [
+                  {
+                    Mode: "CNM_AUTO",
+                  },
+                ],
+                CharHeightRange: [5, 1000, 1],
+                StringLengthRange: [17, 19],
+                StringRegExPattern: "([0-9A-Z]{17,19})",
+              },
+            ],
+            CharacterModelOptions: [
+              {
+                Name: "VIN",
+              },
+            ],
 
-        // Open camera and start scanning single barcode.
-        await cameraEnhancer.open();
-        await cvRouter.startCapturing();
-        // } catch (ex) {
-        //   let errMsg = ex.message || ex;
-        //   console.error(errMsg);
-        //   alert(errMsg);
-        // }
+            ImageParameterOptions: [
+              // Base
+              {
+                Name: "ip-recognize-vin",
+                IfEraseTextZone: 1,
+                GrayscaleTransformationModes: [
+                  {
+                    Mode: "GTM_INVERTED",
+                  },
+                  {
+                    Mode: "GTM_ORIGINAL",
+                  },
+                ],
+                ScaleDownThreshold: 100000,
+              },
+              // Barcode
+              {
+                Name: "ip-recognize-vin-barcode",
+                BaseImageParameterName: "ip-recognize-vin",
+                ScaleUpModes: [
+                  {
+                    TargetModuleSize: 19911544,
+                  },
+                ],
+              },
+              // TODO: TO BE CHANGED
+              // {
+              //   Name: "ip-recognize-vin-label",
+              //   BaseImageParameterName: "ip-recognize-vin",
+              //   ScaleUpModes: [
+              //     {
+              //       TargetModuleSize: -1,
+              //     },
+              //   ],
+              //   TextDetectionMode: {
+              //     CharHeightRange: [1, 1000, 1],
+              //     Direction: "UNKNOWN",
+              //     MaxSpacingInALine: -1,
+              //     Mode: "TTDM_LINE",
+              //     Sensitivity: 3,
+              //     StringLengthRange: null,
+              //   },
+              // },
+            ],
+            SemanticProcessingOptions: [
+              {
+                Name: "sp-parse-vin",
+                ReferenceObjectFilter: {
+                  ReferenceTargetROIDefNameArray: ["roi-read-vin"],
+                },
+                TaskSettingNameArray: ["task-parse-vin"],
+              },
+            ],
+            // // Code parser task
+            CodeParserTaskSettingOptions: [
+              {
+                Name: "task-parse-vin",
+                CodeSpecifications: ["VIN"],
+                ResourcesPath: "resources",
+              },
+            ],
+          };
+          await cvRouter.initSettings(settings);
+
+          // Open camera and start scanning single barcode.
+          await cameraEnhancer.open();
+          await cvRouter.startCapturing();
+        } catch (ex) {
+          let errMsg = ex.message || ex;
+          console.error(errMsg);
+          alert(errMsg);
+        }
       })();
 
-      function extractVINDetails(result) {
-        const parseResultInfo = {};
-        if (!result.exception) {
-          let region = result.getFieldValue("region");
-          parseResultInfo["Region"] = region;
-          let checkDigit = result.getFieldValue("checkDigit");
-          parseResultInfo["Check Digit"] = checkDigit;
-          let modelYear = result.getFieldValue("modelYear");
-          parseResultInfo["Model Year"] = modelYear;
-          let plantCode = result.getFieldValue("plantCode");
-          parseResultInfo["Plant Code"] = plantCode;
-          let vis = result.getFieldValue("VIS");
-          parseResultInfo["VIS"] = vis;
-        }
+      function extractVinDetails(result) {
+        if (result.exception) return {};
+
+        const parseResultInfo = {
+          Region: result.getFieldValue("region"),
+          "Check Digit": result.getFieldValue("checkDigit"),
+          "Model Year": result.getFieldValue("modelYear"),
+          "Plant Code": result.getFieldValue("plantCode"),
+          VIS: result.getFieldValue("VIS"),
+        };
+
         return parseResultInfo;
       }
 
-      async function handleVINResult(text) {
-        console.log("1", typeof text, text);
-        text = Array;
+      async function parseVinInfo(text) {
+        try {
+          let parsedVINResult = await codeParser.parse(text);
+          let parsedDetails = extractVinDetails(parsedVINResult);
+          if (Object.keys(parsedDetails).length === 0) {
+            console.error("Parse Failed!");
+            return "";
+          }
 
-        let parsedVINResult = await codeParser.parse(text);
-        parsedVINResult = extractVINDetails(parsedVINResult);
-        if (Object.isEmpty(parsedVINResult)) {
-          console.error("Parse Failed!");
+          let formattedVIN = Object.entries(parsedDetails)
+            .map(([key, value]) => (value ? `${key}: ${value}` : ""))
+            .filter((x) => x) // Filter empty values
+            .join("\n");
+          return formattedVIN;
+        } catch (ex) {
+          let errMsg = ex.message || ex;
+          console.error(`Parse VIN Faled: ${errMsg}`);
+          return "";
         }
-        return parsedVINResult;
       }
     </script>
   </body>

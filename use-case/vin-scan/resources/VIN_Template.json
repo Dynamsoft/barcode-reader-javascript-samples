@@ -1,0 +1,193 @@
+{
+  "CaptureVisionTemplates": [
+    {
+      "Name": "ReadVIN",
+      "ImageROIProcessingNameArray": [
+        "roi-read-vin"
+      ]
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "roi-read-vin",
+      "TaskSettingNameArray": [
+        "task-read-vin-barcode",
+        "task-read-vin-label"
+      ]
+    }
+  ],
+  "CodeParserTaskSettingOptions": [
+    {
+      "Name": "task-parse-vin",
+      "CodeSpecifications": [
+        "VIN"
+      ],
+      "ResourcesPath": ""
+    }
+  ],
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "Name": "task-read-vin-barcode",
+      "BarcodeFormatSpecificationNameArray": [
+        "bfs-vin-barcode"
+      ],
+      "BarcodeColourModes": [
+        {
+          "Mode": "BICM_DARK_ON_LIGHT"
+        },
+        {
+          "Mode": "BICM_LIGHT_ON_DARK"
+        },
+        {
+          "Mode": "BICM_DARK_ON_LIGHT_DARK_SURROUNDING"
+        }
+      ],
+      "BarcodeFormatIds": [
+        "BF_CODE_39",
+        "BF_CODE_128",
+        "BF_CODE_93",
+        "BF_CODABAR",
+        "BF_ITF",
+        "BF_INDUSTRIAL_25",
+        "BF_CODE_39_EXTENDED",
+        "BF_QR_CODE",
+        "BF_DATAMATRIX"
+      ],
+      "ExpectedBarcodesCount": 1,
+      "LocalizationModes": [
+        {
+          "Mode": "LM_STATISTICS_MARKS"
+        },
+        {
+          "Mode": "LM_LINES"
+        },
+        {
+          "Mode": "LM_CONNECTED_BLOCKS"
+        }
+      ],
+      "SectionImageParameterArray": [
+        {
+          "Section": "ST_REGION_PREDETECTION",
+          "ImageParameterName": "ip-recognize-vin-barcode"
+        },
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip-recognize-vin-barcode"
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip-recognize-vin-barcode"
+        }
+      ]
+    }
+  ],
+  "BarcodeFormatSpecificationOptions": [
+    {
+      "Name": "bfs-vin-barcode",
+      "BarcodeBytesLengthRangeArray": [
+        {
+          "MaxValue": 2147483647,
+          "MinValue": 0
+        }
+      ],
+      "BarcodeFormatIds": [
+        "BF_CODE_39",
+        "BF_CODE_128",
+        "BF_CODE_93",
+        "BF_CODABAR",
+        "BF_ITF",
+        "BF_INDUSTRIAL_25",
+        "BF_CODE_39_EXTENDED",
+        "BF_QR_CODE",
+        "BF_DATAMATRIX"
+      ],
+      "BarcodeTextLengthRangeArray": [
+        {
+          "MaxValue": 2147483647,
+          "MinValue": 0
+        }
+      ],
+      "MirrorMode": "MM_BOTH",
+      "BarcodeZoneMinDistanceToImageBorders": 9
+    }
+  ],
+  "LabelRecognizerTaskSettingOptions": [
+    {
+      "Name": "task-read-vin-label",
+      "TextLineSpecificationNameArray": [
+        "tls_vin"
+      ]
+    }
+  ],
+  "TextLineSpecificationOptions": [
+    {
+      "Name": "tls_vin",
+      "CharacterModelName": "VIN",
+      "BinarizationModes": [
+        {
+          "BlockSizeX": 0,
+          "BlockSizeY": 0,
+          "EnableFillBinaryVacancy": 0,
+          "GrayscaleEnhancementModesIndex": -1
+        }
+      ],
+      "CharacterNormalizationModes": [
+        {
+          "Mode": "CNM_AUTO"
+        }
+      ],
+      "CharHeightRange": [
+        5,
+        1000,
+        1
+      ],
+      "StringLengthRange": [
+        17,
+        19
+      ],
+      "StringRegExPattern": "([0-9A-Z]{17,19})"
+    }
+  ],
+  "CharacterModelOptions": [
+    {
+      "Name": "VIN"
+    }
+  ],
+  "ImageParameterOptions": [
+    {
+      "Name": "ip-recognize-vin",
+      "IfEraseTextZone": 1,
+      "GrayscaleTransformationModes": [
+        {
+          "Mode": "GTM_INVERTED"
+        },
+        {
+          "Mode": "GTM_ORIGINAL"
+        }
+      ],
+      "ScaleDownThreshold": 100000
+    },
+    {
+      "Name": "ip-recognize-vin-barcode",
+      "BaseImageParameterName": "ip-recognize-vin",
+      "ScaleUpModes": [
+        {
+          "TargetModuleSize": 19911544
+        }
+      ]
+    }
+  ],
+  "SemanticProcessingObject": [
+    {
+      "Name": "SP_PARSE_VIN",
+      "ReferenceObjectFilter": {
+        "ReferenceTargetROIDefNameArray": [
+          "roi-read-vin"
+        ]
+      },
+      "TaskSettingNameArray": [
+        "task-parse-vin"
+      ]
+    }
+  ]
+}
