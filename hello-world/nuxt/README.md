@@ -25,7 +25,7 @@ npm install
 npm run dev
 ```
 
-Then open `https://localhost:3000/` to viewthe sample app.
+Then open `https://localhost:3000/` to view the sample app.
 
 ## Creating the sample project
 
@@ -188,7 +188,7 @@ onMounted(async () => {
 
 // dispose cvRouter when it's no longer needed
 onBeforeUnmount(async () => {
-  bDestoryed = true;
+  isDestroyed = true;
   try {
     await pInit;
     cvRouter?.dispose();
@@ -196,6 +196,15 @@ onBeforeUnmount(async () => {
   } catch (_) { }
 });
 </script>
+
+<template>
+  <div>
+    <div ref="cameraViewContainer" class="camera-view-container"></div>
+    <br />
+    Results:
+    <div ref="resultsContainer" class="results"></div>
+  </div>
+</template>
 ```
 > Note:
 >
