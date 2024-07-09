@@ -192,7 +192,7 @@
           <button id="close-result-button" type="button">X</button>
         </div>
         <h3 style="margin: 0; margin-bottom: 1rem">Output</h3>
-        <div id="result-image-container"></div>
+        <div id="result-image-container" style="width: 100%; padding-bottom: 1rem"></div>
         <div id="results"></div>
         <button id="copy-result-button" type="button">Copy Result</button>
       </div>
@@ -266,17 +266,21 @@
           onCapturedResultReceived: async (result) => {
             if (!result.items.length) return;
 
-            // Reset results
-            resultImageContainer.innerHTML = "";
-            results.textContent = "";
-
             for (let item of result.items) {
               // Skip non barcodes and non text line  results
               if (item.type != EnumCRIT.CRIT_BARCODE && item.type != EnumCRIT.CRIT_TEXT_LINE) {
                 continue;
               }
 
+              // Reset results
+              resultImageContainer.innerHTML = "";
+              results.textContent = "";
+
               if (item.text) {
+                // Stop Capturing if result is found
+                await cvRouter.stopCapturing();
+                await cameraEnhancer.close();
+
                 resultContainer.style.display = "flex";
 
                 const resultType = item.type === EnumCRIT.CRIT_BARCODE ? "barcode" : "text";
@@ -288,18 +292,23 @@
                 results.innerText = resultContent;
               }
 
-              // TODO: Get Scanned VIN Image and append to results
+              // Get Scanned VIN Image and append to results container
               const imageData = result.items.find((item) => item.type === EnumCRIT.CRIT_ORIGINAL_IMAGE)?.imageData;
-
               if (imageData) {
-                const scannedImage = document.createElement("img");
-                scannedImage.classList.add("scanned-image");
-                scannedImage.src = `data:image/jpeg;base64,${imageData}`;
-                scannedImage.alt = "Scanned VIN Image";
-                scannedImage.style.width = "100%"; // Adjust as needed
-                scannedImage.style.height = "auto"; // Adjust as needed
+                // Get Scanned VIN Image as a canvas
+                const imageCanvas = imageData.toCanvas();
+                // Resize the Scanned VIN canvas
+                const resizedCanvas = document.createElement("canvas");
+                resizedCanvas.width = resultImageContainer.clientWidth;
+                // Calculate the new height to maintain the aspect ratio
+                const aspectRatio = imageCanvas.height / imageCanvas.width;
+                resizedCanvas.height = resultImageContainer.clientWidth * aspectRatio;
 
-                resultImageContainer.append(scannedImage);
+                // Get context of resizedCanvas to draw original image
+                const ctx = resizedCanvas.getContext("2d");
+                ctx.drawImage(imageCanvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
+
+                resultImageContainer.append(resizedCanvas);
               }
             }
           },
@@ -329,6 +338,9 @@
       const settingsModal = document.getElementById("settings-modal");
       const closeSettingsButton = document.getElementById("close-settings-button");
 
+      // Set scan mode as "Scan Both" by default
+      let currentMode = SCAN_MODES[2];
+
       // Create event listener for each scan modes
       SCAN_MODES.map((mode) =>
         document.getElementById(`scan-${mode}-button`).addEventListener("click", async function (event) {
@@ -353,6 +365,8 @@
             });
             event.target.classList.add("selected");
             settingsModal.style.display = "none";
+
+            currentMode = mode;
           } catch (ex) {
             let errMsg = ex.message || ex;
             console.error(errMsg);
@@ -389,10 +403,10 @@
         return formattedVIN;
       }
 
-      // Trigger "Scan Both" button click event once DOM is ready
+      // Trigger the default scan mode button click event once DOM is ready
       document.addEventListener("DOMContentLoaded", () => {
-        scanTitle.innerText = SCAN_MODE_TITLES["both"];
-        document.getElementById("scan-both-button").click();
+        scanTitle.innerText = SCAN_MODE_TITLES[currentMode];
+        document.getElementById(`scan-${currentMode}-button`).click();
       });
 
       // Open Settings modal
@@ -422,15 +436,26 @@
             console.log("Result copied successfully!");
           })
           .catch((ex) => {
-            const errMsg = ex.message || ex;
+            let errMsg = ex.message || ex;
             console.error("Failed to copy result", errMsg);
           });
       });
 
       // Close Result Container
       const closeResultButton = document.getElementById("close-result-button");
-      closeResultButton.addEventListener("click", async () => {
-        resultContainer.style.display = "none";
+      closeResultButton.addEventListener("click", async (event) => {
+        try {
+          const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
+
+          // Open camera and start scanning single barcode.
+          await cameraEnhancer.open();
+          await cvRouter.startCapturing(SCAN_TEMPLATES[currentMode]);
+        } catch (ex) {
+          let errMsg = ex.message || ex;
+          console.err(errMsg);
+        } finally {
+          resultContainer.style.display = "none";
+        }
       });
     </script>
   </body>
