@@ -184,7 +184,7 @@
       "ImageSource": "",
       "MaxParallelTasks": 4,
       "MinImageCaptureInterval": 0,
-      "OutputOriginalImage": 0,
+      "OutputOriginalImage": 1,
       "SemanticProcessingNameArray": [
         "sp_vin_barcode",
         "sp_vin_text"
@@ -199,7 +199,7 @@
       "ImageSource": "",
       "MaxParallelTasks": 4,
       "MinImageCaptureInterval": 0,
-      "OutputOriginalImage": 0,
+      "OutputOriginalImage": 1,
       "SemanticProcessingNameArray": [
         "sp_vin_barcode"
       ],
@@ -213,7 +213,7 @@
       "ImageSource": "",
       "MaxParallelTasks": 4,
       "MinImageCaptureInterval": 0,
-      "OutputOriginalImage": 0,
+      "OutputOriginalImage": 1,
       "SemanticProcessingNameArray": [
         "sp_vin_text"
       ],
