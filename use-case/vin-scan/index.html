@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta name="description" content="Quickly read barcodes with Dynamsoft Barcode Reader from a live camera stream." />
-    <meta name="keywords" content="barcode, camera" />
+    <meta name="description" content="Quickly read VIN from a live camera stream with Dynamsoft." />
+    <meta name="keywords" content="vin, scan vin, read vin, ocr, barcode, camera" />
     <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html" />
-    <title>Dynamsoft Barcode Reader Sample - Hello World (Decode via Camera)</title>
+    <title>Dynamsoft Sample - Read VIN</title>
   </head>
   <body>
     <style>
@@ -28,14 +28,14 @@
       }
     </style>
     <h1>Hello World (Decode via Camera) - Scan VIN</h1>
-    <h3 id="title"></h3>
+    <h3 id="scan-title"></h3>
     <div style="margin-bottom: 2rem">
+      <button type="button" id="scan-both-button">Scan Text & Barcode</button>
       <button type="button" id="scan-text-button">Scan Text Only</button>
       <button type="button" id="scan-barcode-button">Scan Barcode Only</button>
-      <button type="button" id="scan-both-button">Scan Both</button>
     </div>
     <div id="camera-view-container">
-      <div style="position: relative; width: 100%; height: 80vh">
+      <div style="position: relative; width: 100%; height: 40vh">
         <!-- DCE loading component -->
         <svg
           class="dce-bg-loading"
@@ -92,7 +92,8 @@
        */
 
       Dynamsoft.License.LicenseManager.initLicense(
-        "DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAyODk0NDUwLVRYbFhaV0pRY205cSIsIm1haW5TZXJ2ZXJVUkwiOiJodHRwczovL21sdHMuZHluYW1zb2Z0LmNvbSIsIm9yZ2FuaXphdGlvbklEIjoiMTAyODk0NDUwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tIiwiY2hlY2tDb2RlIjoxMDUxNjY0NjUyfQ=="
+        "DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAyODk0NDUwLVRYbFhaV0pRY205cSIsIm1haW5TZXJ2ZXJVUkwiOiJodHRwczovL21sdHMuZHluYW1zb2Z0LmNvbSIsIm9yZ2FuaXphdGlvbklEIjoiMTAyODk0NDUwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tIiwiY2hlY2tDb2RlIjoxMDUxNjY0NjUyfQ==",
+        true
       );
 
       /**
@@ -104,37 +105,21 @@
 
       // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
       Dynamsoft.Core.CoreModule.loadWasm(["DBR", "DLR", "DCP"]);
-      Dynamsoft.DCP.CodeParserModule.loadSpec("VIN");
 
-      const title = document.getElementById("title");
-      const cameraViewContainer = document.getElementById("camera-view-container");
-      const SCAN_MODES = ["barcode", "text", "both"];
-      const SCAN_TEMPLATES = {
-        [SCAN_MODES[0]]: "ReadVINBarcode",
-        [SCAN_MODES[1]]: "ReadVINText",
-        [SCAN_MODES[2]]: "ReadVIN",
-      };
-      const TITLE = {
-        [SCAN_MODES[0]]: "Scan by Barcode",
-        [SCAN_MODES[1]]: "Scan by Text",
-        [SCAN_MODES[2]]: "Scan Both Text and Barcode",
-      };
-
-      // Defined globally for easy debugging.
-      // let cameraEnhancer, cvRouter, codeParser;
       const init = async () => {
         // [Optional] - Create custom UI for CameraView
-        // Ref: https://www.dynamsoft.com/camera-enhancer/docs/web/programming/javascript/api-reference/cameraview.html#createInstance
-        const cameraView = await Dynamsoft.DCE.CameraView.createInstance(cameraViewContainer);
+        // Ref: https://www.dynamsoft.com/camera-enhancer/docs/web/programming/javascript/user-guide/index.html#customize-the-ui
+        const cameraView = await Dynamsoft.DCE.CameraView.createInstance(
+          document.getElementById("camera-view-container")
+        );
         // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
         const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
 
-        // [Optional] - Create custom UI for CameraView
         cameraView.setVideoFit("cover");
         cameraView.setScanLaserVisible(true);
         await cameraEnhancer.setScanRegion({
           x: 10,
-          y: 50,
+          y: 45,
           width: 80,
           height: 10,
           isMeasuredInPercentage: true,
@@ -146,21 +131,15 @@
 
         // Filter out unchecked and duplicate results.
         const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-        // Filter out unchecked barcodes.
-        filter.enableResultCrossVerification("barcode", true);
-        // Filter out duplicate barcodes within 3 seconds.
-        filter.enableResultDeduplication("barcode", true);
-        // Filter out unchecked text lines
-        filter.enableResultCrossVerification("text_line", true);
-        // Filter out duplicate text lines within 3 seconds
-        filter.enableResultDeduplication("text_line", true);
+        filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
+        filter.enableResultDeduplication("barcode", true); // Filter out duplicate barcodes within 3 seconds.
+        filter.enableResultCrossVerification("text_line", true); // Filter out unchecked text lines
+        filter.enableResultDeduplication("text_line", true); // Filter out duplicate text lines within 3 seconds
+
         await cvRouter.addResultFilter(filter);
 
         // Set parameters to read VIN through DLR and DBR
         await cvRouter.initSettings("./resources/VIN_Template.json");
-
-        // Create a CodeParser instance
-        codeParser = await Dynamsoft.DCP.CodeParser.createInstance();
 
         let parsedVINResult;
         // Define a callback for results.
@@ -180,19 +159,16 @@
                 continue;
               }
 
-              if (item.type == Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
-                _type = "barcode";
-              } else if (item.type == Dynamsoft.Core.EnumCapturedResultItemType.CRIT_TEXT_LINE) {
-                _type = "text";
-              }
+              const resultType =
+                item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE ? "barcode" : "text";
 
               // Parse Code from CodeParser
               const parsedVIN = parseVinInfo(
-                result.parsedResultItems.filter((x) => x.taskName === `dcp_vin_${_type}`)[0]
+                result.parsedResultItems.find((x) => x.taskName === `dcp_vin_${resultType}`)
               );
 
               if (item.text) {
-                const resultContent = `Scanned by ${_type}\nVIN: ${item.text}\n${parsedVIN}`;
+                const resultContent = `Scanned by ${resultType}\nVIN: ${item.text}\n${parsedVIN}`;
                 alert(resultContent);
                 resultsContainer.innerText = resultContent;
               }
@@ -206,7 +182,19 @@
         };
       };
       let pInit; // promise of init
-      let resultReceiver; // listener for cvRouter result receiver
+
+      const scanTitle = document.getElementById("scan-title");
+      const SCAN_MODES = ["barcode", "text", "both"];
+      const SCAN_TEMPLATES = {
+        [SCAN_MODES[0]]: "ReadVINBarcode",
+        [SCAN_MODES[1]]: "ReadVINText",
+        [SCAN_MODES[2]]: "ReadVIN",
+      };
+      const SCAN_MODE_TITLES = {
+        [SCAN_MODES[0]]: "Scan by Barcode",
+        [SCAN_MODES[1]]: "Scan by Text",
+        [SCAN_MODES[2]]: "Scan Both Text and Barcode",
+      };
 
       // Create event listener for each scan modes
       SCAN_MODES.map((mode) =>
@@ -215,7 +203,7 @@
             const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
 
             // Change Page Title
-            title.innerText = TITLE[mode];
+            scanTitle.innerText = SCAN_MODE_TITLES[mode];
 
             if (cvRouter) {
               await cvRouter.stopCapturing();
@@ -261,12 +249,11 @@
         return formattedVIN;
       }
 
-      // Trigger "Scan Both" button click event on page load
-      window.onload = function () {
-        // Change Page Title
-        title.innerText = TITLE["both"];
+      // Trigger "Scan Both" button click event once DOM is ready
+      document.addEventListener("DOMContentLoaded", function () {
+        scanTitle.innerText = SCAN_MODE_TITLES["both"];
         document.getElementById("scan-both-button").click();
-      };
+      });
     </script>
   </body>
 </html>
