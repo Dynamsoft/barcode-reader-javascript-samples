@@ -25,99 +25,16 @@
           transform: rotate(1turn);
         }
       }
-      body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", sans-serif;
-        color: #ddd;
-        overscroll-behavior-y: none;
-        overflow: hidden;
-        margin: 0;
-      }
-      #camera-view-container {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
-      #camera-view-header {
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-      }
-      #top-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-        padding: 0.5rem;
-        background-color: rgb(34, 34, 34, 0.4);
-      }
-      #camera-view-title {
-        margin: 0;
-      }
-      #scan-title {
-        margin: 0;
-        margin-top: 1rem;
-        text-align: center;
-        font-weight: normal;
-      }
-      button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: white;
-      }
-      #settings-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
-        z-index: 1;
-        justify-content: center;
-        align-items: center;
-      }
-      #settings-modal-content {
-        background-color: rgb(68, 68, 68);
-        padding: 1rem 2rem 2rem;
-      }
-      .settings-option-button {
-        background-color: rgb(34, 34, 34);
-        padding: 0.5rem;
-        color: white;
-      }
-      .selected {
-        background-color: #fe8e14;
-      }
-      #result-container {
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgb(34, 34, 34);
-        display: none;
-        justify-content: center;
-        align-items: center;
-      }
-      #result-content {
-        background-color: rgb(68, 68, 68);
-        padding: 1rem 2rem 2rem;
-        margin: auto;
-        width: 50%;
-      }
-      #copy-result-button {
-        background-color: #fe8e14;
-        padding: 1rem;
-        margin-top: 1rem;
-      }
     </style>
+    <h1>Hello World (Decode via Camera) - Scan VIN</h1>
+    <h3 id="scan-title"></h3>
+    <div style="margin-bottom: 2rem">
+      <button type="button" id="scan-both-button">Scan Text & Barcode</button>
+      <button type="button" id="scan-text-button">Scan Text Only</button>
+      <button type="button" id="scan-barcode-button">Scan Barcode Only</button>
+    </div>
     <div id="camera-view-container">
-      <div style="position: relative; width: 100%; height: 100%">
+      <div style="position: relative; width: 100%; height: 40vh">
         <!-- DCE loading component -->
         <svg
           class="dce-bg-loading"
@@ -160,43 +77,11 @@
             "
           ></div>
         </div>
-        <div id="camera-view-header">
-          <div id="top-header">
-            <!-- [Optional - Custom UI to select camera and resolution -->
-            <select type="button" id="select-camera-dropdown"></select>
-            <h3 id="camera-view-title">VIN Scanner</h3>
-            <button id="settings-button" type="button" title="Settings">
-              <img src="./resources/icons/settings.svg" alt="settings" style="width: 2rem; height: 2rem" />
-            </button>
-          </div>
-          <h3 id="scan-title"></h3>
-        </div>
-      </div>
-      <div id="settings-modal">
-        <div id="settings-modal-content">
-          <div style="text-align: right">
-            <button id="close-settings-button" type="button">X</button>
-          </div>
-          <h4 style="margin: 0; margin-bottom: 1rem; font-weight: normal">Scan Mode</h4>
-          <div style="display: flex; gap: 1rem">
-            <button type="button" class="settings-option-button" id="scan-both-button">Scan Text & Barcode</button>
-            <button type="button" class="settings-option-button" id="scan-text-button">Scan Text Only</button>
-            <button type="button" class="settings-option-button" id="scan-barcode-button">Scan Barcode Only</button>
-          </div>
-        </div>
       </div>
     </div>
-    <div id="result-container">
-      <div id="result-content">
-        <div style="text-align: right">
-          <button id="close-result-button" type="button">X</button>
-        </div>
-        <h3 style="margin: 0; margin-bottom: 1rem">Output</h3>
-        <div id="result-image-container"></div>
-        <div id="results"></div>
-        <button id="copy-result-button" type="button">Copy Result</button>
-      </div>
-    </div>
+    <br />
+    Results:
+    <div id="results"></div>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30/dist/dlr.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/dcp.js"></script>
@@ -219,8 +104,6 @@
 
       // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
       Dynamsoft.Core.CoreModule.loadWasm(["DBR", "DLR", "DCP"]);
-
-      const resultContainer = document.getElementById("result-container");
 
       const init = async () => {
         // [Optional] - Create custom UI for CameraView
@@ -257,49 +140,34 @@
         // Set parameters to read VIN through DLR and DBR
         await cvRouter.initSettings("./resources/VIN_Template.json");
 
-        const EnumCRIT = Dynamsoft.Core.EnumCapturedResultItemType;
-        const resultImageContainer = document.getElementById("result-image-container");
-        const results = document.querySelector("#results");
-
         // Define a callback for results.
         cvRouter.addResultReceiver({
           onCapturedResultReceived: async (result) => {
             if (!result.items.length) return;
 
-            // Reset results
-            resultImageContainer.innerHTML = "";
-            results.textContent = "";
+            const resultsContainer = document.querySelector("#results");
+            resultsContainer.textContent = "";
 
             for (let item of result.items) {
               // Skip non barcodes and non text line  results
-              if (item.type != EnumCRIT.CRIT_BARCODE && item.type != EnumCRIT.CRIT_TEXT_LINE) {
+              if (
+                item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE &&
+                item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_TEXT_LINE
+              ) {
                 continue;
               }
 
+              const resultType =
+                item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE ? "barcode" : "text";
+
+              // Parse Code from CodeParser
+              const parsedVIN = parseVinInfo(
+                result.parsedResultItems.find((x) => x.taskName === `dcp_vin_${resultType}`)
+              );
+
               if (item.text) {
-                resultContainer.style.display = "flex";
-
-                const resultType = item.type === EnumCRIT.CRIT_BARCODE ? "barcode" : "text";
-                const parsedVIN = parseVinInfo(
-                  result.parsedResultItems.find((x) => x.taskName === `dcp_vin_${resultType}`)
-                ); // Parse Code from CodeParser
-
                 const resultContent = `Scanned by ${resultType}\nVIN: ${item.text}\n${parsedVIN}`;
-                results.innerText = resultContent;
-              }
-
-              // TODO: Get Scanned VIN Image and append to results
-              const imageData = result.items.find((item) => item.type === EnumCRIT.CRIT_ORIGINAL_IMAGE)?.imageData;
-
-              if (imageData) {
-                const scannedImage = document.createElement("img");
-                scannedImage.classList.add("scanned-image");
-                scannedImage.src = `data:image/jpeg;base64,${imageData}`;
-                scannedImage.alt = "Scanned VIN Image";
-                scannedImage.style.width = "100%"; // Adjust as needed
-                scannedImage.style.height = "auto"; // Adjust as needed
-
-                resultImageContainer.append(scannedImage);
+                resultsContainer.innerText = resultContent;
               }
             }
           },
@@ -320,14 +188,10 @@
         [SCAN_MODES[2]]: "ReadVIN",
       };
       const SCAN_MODE_TITLES = {
-        [SCAN_MODES[0]]: "Scanning by Barcode",
-        [SCAN_MODES[1]]: "Scanning by Text",
-        [SCAN_MODES[2]]: "Scanning Text and Barcode",
+        [SCAN_MODES[0]]: "Scan by Barcode",
+        [SCAN_MODES[1]]: "Scan by Text",
+        [SCAN_MODES[2]]: "Scan Text and Barcode",
       };
-
-      const settingsButton = document.getElementById("settings-button");
-      const settingsModal = document.getElementById("settings-modal");
-      const closeSettingsButton = document.getElementById("close-settings-button");
 
       // Create event listener for each scan modes
       SCAN_MODES.map((mode) =>
@@ -346,13 +210,6 @@
             // Open camera and start scanning single barcode.
             await cameraEnhancer.open();
             await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
-
-            // Update button styles to show selected and close modal
-            document.querySelectorAll(".settings-option-button").forEach((button) => {
-              button.classList.remove("selected");
-            });
-            event.target.classList.add("selected");
-            settingsModal.style.display = "none";
           } catch (ex) {
             let errMsg = ex.message || ex;
             console.error(errMsg);
@@ -390,47 +247,9 @@
       }
 
       // Trigger "Scan Both" button click event once DOM is ready
-      document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener("DOMContentLoaded", function () {
         scanTitle.innerText = SCAN_MODE_TITLES["both"];
         document.getElementById("scan-both-button").click();
-      });
-
-      // Open Settings modal
-      settingsButton.addEventListener("click", () => {
-        settingsModal.style.display = "flex";
-        console.log("here");
-      });
-
-      // Close Settings modal
-      closeSettingsButton.addEventListener("click", () => {
-        settingsModal.style.display = "none";
-      });
-      window.onclick = function (event) {
-        if (event.target == settingsModal) {
-          settingsModal.style.display = "none";
-        }
-      };
-
-      // Copy result
-      const copyResultButton = document.getElementById("copy-result-button");
-      copyResultButton.addEventListener("click", () => {
-        const results = document.querySelector("#results").innerText;
-
-        navigator.clipboard
-          .writeText(results)
-          .then(function () {
-            console.log("Result copied successfully!");
-          })
-          .catch((ex) => {
-            const errMsg = ex.message || ex;
-            console.error("Failed to copy result", errMsg);
-          });
-      });
-
-      // Close Result Container
-      const closeResultButton = document.getElementById("close-result-button");
-      closeResultButton.addEventListener("click", async () => {
-        resultContainer.style.display = "none";
       });
     </script>
   </body>
