@@ -28,8 +28,8 @@
       }
     </style>
     <h1>Hello World (Decode via Camera) - Scan VIN</h1>
-    <div>
-      <button type="button" id="scan-label-button">Scan Label Only</button>
+    <div style="margin-bottom: 2rem">
+      <button type="button" id="scan-text-button">Scan Text Only</button>
       <button type="button" id="scan-barcode-button">Scan Barcode Only</button>
       <button type="button" id="scan-both-button">Scan Both</button>
     </div>
@@ -90,7 +90,7 @@
        */
 
       Dynamsoft.License.LicenseManager.initLicense(
-        "DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAyODk0NDUwLXIxNzE5NTI4MzY5IiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vbWx0cy5keW5hbXNvZnQuY29tLyIsIm9yZ2FuaXphdGlvbklEIjoiMTAyODk0NDUwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tLyIsImNoZWNrQ29kZSI6NjMzMjY3NjU1fQ=="
+        "DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAyODk0NDUwLVRYbFhaV0pRY205cSIsIm1haW5TZXJ2ZXJVUkwiOiJodHRwczovL21sdHMuZHluYW1zb2Z0LmNvbSIsIm9yZ2FuaXphdGlvbklEIjoiMTAyODk0NDUwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tIiwiY2hlY2tDb2RlIjoxMDUxNjY0NjUyfQ=="
       );
 
       /**
@@ -105,10 +105,7 @@
       Dynamsoft.DCP.CodeParserModule.loadSpec("VIN");
 
       const cameraViewContainer = document.getElementById("camera-view-container");
-      const SCAN_MODES = ["barcode", "label", "both"];
-      const scanByLabelButton = document.getElementById("scan-label-button");
-      const scanByBarcodeButton = document.getElementById("scan-barcode-button");
-      const scanBothButton = document.getElementById("scan-both-button");
+      const SCAN_MODES = ["barcode", "text", "both"];
 
       // Defined globally for easy debugging.
       // let cameraEnhancer, cvRouter, codeParser;
@@ -119,18 +116,16 @@
         // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
         const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
 
-        cameraEnhancer.singleFrameMode = "image";
-
         // [Optional] - Create custom UI for CameraView
         cameraView.setVideoFit("cover");
         cameraView.setScanLaserVisible(true);
-        // await cameraEnhancer.setScanRegion({
-        //   x: 10,
-        //   y: 50,
-        //   width: 80,
-        //   height: 10,
-        //   isMeasuredInPercentage: true,
-        // });
+        await cameraEnhancer.setScanRegion({
+          x: 10,
+          y: 50,
+          width: 80,
+          height: 10,
+          isMeasuredInPercentage: true,
+        });
 
         // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
         const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
@@ -175,11 +170,13 @@
               if (item.type == Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
                 _type = "barcode";
               } else if (item.type == Dynamsoft.Core.EnumCapturedResultItemType.CRIT_TEXT_LINE) {
-                _type = "label";
+                _type = "text";
               }
 
               // Parse Code from CodeParser
-              const parsedVIN = await parseVinInfo(item.text);
+              const parsedVIN = parseVinInfo(
+                result.parsedResultItems.filter((x) => x.taskName === `dcp_vin_${_type}`)[0]
+              );
 
               if (item.text) {
                 alert(`Scanned by ${_type}\nVIN: ${item.text}\n${parsedVIN}`);
@@ -210,8 +207,6 @@
             const template =
               mode === SCAN_MODES[0] ? "ReadVINBarcode" : mode === SCAN_MODES[1] ? "ReadVINText" : "ReadVIN";
 
-            console.log(template);
-
             // Open camera and start scanning single barcode.
             await cameraEnhancer.open();
             await cvRouter.startCapturing(template);
@@ -237,25 +232,18 @@
         return parseResultInfo;
       }
 
-      async function parseVinInfo(text) {
-        try {
-          let parsedVINResult = await codeParser.parse(text);
-          let parsedDetails = extractVinDetails(parsedVINResult);
-          if (Object.keys(parsedDetails).length === 0) {
-            console.error("Parse Failed!");
-            return "";
-          }
-
-          let formattedVIN = Object.entries(parsedDetails)
-            .map(([key, value]) => (value ? `${key}: ${value}` : ""))
-            .filter((x) => x) // Filter empty values
-            .join("\n");
-          return formattedVIN;
-        } catch (ex) {
-          let errMsg = ex.message || ex;
-          console.error(`Parse VIN Faled: ${errMsg}`);
+      function parseVinInfo(result) {
+        let parsedDetails = extractVinDetails(result);
+        if (Object.keys(parsedDetails).length === 0) {
+          console.error("Parse Failed!");
           return "";
         }
+
+        let formattedVIN = Object.entries(parsedDetails)
+          .map(([key, value]) => (value ? `${key}: ${value}` : ""))
+          .filter((x) => x) // Filter empty values
+          .join("\n");
+        return formattedVIN;
       }
     </script>
   </body>
