@@ -28,6 +28,7 @@
       }
     </style>
     <h1>Hello World (Decode via Camera) - Scan VIN</h1>
+    <h3 id="title"></h3>
     <div style="margin-bottom: 2rem">
       <button type="button" id="scan-text-button">Scan Text Only</button>
       <button type="button" id="scan-barcode-button">Scan Barcode Only</button>
@@ -79,8 +80,9 @@
         </div>
       </div>
     </div>
-    Results:<br />
-    <div id="results" style="width: 100%; height: 10vh; overflow: auto"></div>
+    <br />
+    Results:
+    <div id="results" style="width: 100%"></div>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30/dist/dlr.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/dcp.js"></script>
@@ -104,8 +106,19 @@
       Dynamsoft.Core.CoreModule.loadWasm(["DBR", "DLR", "DCP"]);
       Dynamsoft.DCP.CodeParserModule.loadSpec("VIN");
 
+      const title = document.getElementById("title");
       const cameraViewContainer = document.getElementById("camera-view-container");
       const SCAN_MODES = ["barcode", "text", "both"];
+      const SCAN_TEMPLATES = {
+        [SCAN_MODES[0]]: "ReadVINBarcode",
+        [SCAN_MODES[1]]: "ReadVINText",
+        [SCAN_MODES[2]]: "ReadVIN",
+      };
+      const TITLE = {
+        [SCAN_MODES[0]]: "Scan by Barcode",
+        [SCAN_MODES[1]]: "Scan by Text",
+        [SCAN_MODES[2]]: "Scan Both Text and Barcode",
+      };
 
       // Defined globally for easy debugging.
       // let cameraEnhancer, cvRouter, codeParser;
@@ -179,7 +192,9 @@
               );
 
               if (item.text) {
-                alert(`Scanned by ${_type}\nVIN: ${item.text}\n${parsedVIN}`);
+                const resultContent = `Scanned by ${_type}\nVIN: ${item.text}\n${parsedVIN}`;
+                alert(resultContent);
+                resultsContainer.innerText = resultContent;
               }
             }
           },
@@ -199,17 +214,17 @@
           try {
             const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
 
+            // Change Page Title
+            title.innerText = TITLE[mode];
+
             if (cvRouter) {
               await cvRouter.stopCapturing();
               await cameraEnhancer.close();
             }
 
-            const template =
-              mode === SCAN_MODES[0] ? "ReadVINBarcode" : mode === SCAN_MODES[1] ? "ReadVINText" : "ReadVIN";
-
             // Open camera and start scanning single barcode.
             await cameraEnhancer.open();
-            await cvRouter.startCapturing(template);
+            await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
           } catch (ex) {
             let errMsg = ex.message || ex;
             console.error(errMsg);
@@ -245,6 +260,13 @@
           .join("\n");
         return formattedVIN;
       }
+
+      // Trigger "Scan Both" button click event on page load
+      window.onload = function () {
+        // Change Page Title
+        title.innerText = TITLE["both"];
+        document.getElementById("scan-both-button").click();
+      };
     </script>
   </body>
 </html>
