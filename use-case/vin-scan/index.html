@@ -375,6 +375,7 @@
         })
       );
 
+      // Return parsed VIN info as an object
       function extractVinDetails(result) {
         if (result.exception) return {};
 
@@ -389,6 +390,7 @@
         return parseResultInfo;
       }
 
+      // Return formatted parsed VIN info as string
       function parseVinInfo(result) {
         let parsedDetails = extractVinDetails(result);
         if (Object.keys(parsedDetails).length === 0) {
