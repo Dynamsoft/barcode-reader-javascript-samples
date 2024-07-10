@@ -53,6 +53,14 @@
         padding: 0.5rem;
         background-color: rgb(34, 34, 34, 0.4);
       }
+      #top-header-center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      #top-header-right {
+        margin-left: auto;
+      }
       #camera-view-title {
         margin: 0;
       }
@@ -82,12 +90,23 @@
       }
       #settings-modal-content {
         background-color: rgb(68, 68, 68);
-        padding: 1rem 2rem 2rem;
+        padding: 2rem;
+      }
+      #settings-modal-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
       }
       .settings-option-button {
         background-color: rgb(34, 34, 34);
         padding: 0.5rem;
         color: white;
+      }
+      #close-settings-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .selected {
         background-color: #fe8e14;
@@ -106,14 +125,75 @@
       }
       #result-content {
         background-color: rgb(68, 68, 68);
-        padding: 1rem 2rem 2rem;
+        padding: 2rem;
         margin: auto;
         width: 50%;
       }
+      #result-content-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      #close-result-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #save-image-button,
       #copy-result-button {
         background-color: #fe8e14;
         padding: 1rem;
         margin-top: 1rem;
+      }
+      #select-camera-dropdown {
+        color: white;
+        background-color: rgb(34, 34, 34, 0.4);
+        border: 0;
+        padding: 0.5rem;
+        font-size: 1rem;
+        overflow: hidden;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      #notification {
+        text-align: center;
+        font-weight: normal;
+        text-align: center;
+        border-radius: 0.2rem;
+        padding: 0.5rem;
+        margin: 0;
+        margin-top: 1rem;
+        width: -moz-fit-content;
+        width: fit-content;
+
+        /* Fade in animation */
+        opacity: 0;
+        transition: opacity 300ms;
+      }
+      .banner-default {
+        background-color: rgb(254, 142, 20, 0.4);
+        border: 1px solid #fe8e14;
+      }
+      .banner-error {
+        background-color: rgb(252, 2, 0, 0.4);
+        border: 1px solid #fc0200;
+      }
+      .banner-success {
+        background-color: rgb(124, 252, 0, 0.4);
+        border: 1px solid #7cfc00;
+      }
+      @media screen and (max-width: 600px) {
+        #result-content {
+          padding: 2rem;
+          width: 100%;
+          height: 100%;
+        }
+        #settings-modal-content {
+          width: 100%;
+          height: 100%;
+          margin-top: 4rem;
+        }
       }
     </style>
     <div id="camera-view-container">
@@ -162,21 +242,32 @@
         </div>
         <div id="camera-view-header">
           <div id="top-header">
-            <!-- [Optional - Custom UI to select camera and resolution -->
-            <select type="button" id="select-camera-dropdown"></select>
-            <h3 id="camera-view-title">VIN Scanner</h3>
-            <button id="settings-button" type="button" title="Settings">
-              <img src="./resources/icons/settings.svg" alt="settings" style="width: 2rem; height: 2rem" />
-            </button>
+            <div id="top-header-center">
+              <h3 id="camera-view-title">VIN Scanner</h3>
+            </div>
+            <div id="top-header-right">
+              <button id="settings-button" type="button" title="Settings">
+                <img src="./resources/icons/settings.svg" alt="settings" style="width: 2rem; height: 2rem" />
+              </button>
+            </div>
           </div>
           <h3 id="scan-title"></h3>
+          <div style="display: flex; justify-content: center">
+            <h3 id="notification">Test</h3>
+          </div>
         </div>
       </div>
       <div id="settings-modal">
         <div id="settings-modal-content">
-          <div style="text-align: right">
-            <button id="close-settings-button" type="button">X</button>
+          <div id="settings-modal-top">
+            <h3 style="margin: 0; text-align: left">Settings</h3>
+            <button id="close-settings-button" type="button">
+              <img alt="close" src="./resources/icons/close.svg" width="18px" height="18px" />
+            </button>
           </div>
+          <!-- [Optional - Custom UI to select camera and resolution -->
+          <h4 style="margin: 0; margin-bottom: 1rem; font-weight: normal">Select Camera</h4>
+          <select type="button" id="select-camera-dropdown"></select>
           <h4 style="margin: 0; margin-bottom: 1rem; font-weight: normal">Scan Mode</h4>
           <div style="display: flex; gap: 1rem">
             <button type="button" class="settings-option-button" id="scan-both-button">Scan Text & Barcode</button>
@@ -188,12 +279,15 @@
     </div>
     <div id="result-container">
       <div id="result-content">
-        <div style="text-align: right">
-          <button id="close-result-button" type="button">X</button>
+        <div id="result-content-top">
+          <h3 style="margin: 0">Result</h3>
+          <button id="close-result-button" type="button">
+            <img alt="close" src="./resources/icons/close.svg" width="18px" height="18px" />
+          </button>
         </div>
-        <h3 style="margin: 0; margin-bottom: 1rem">Output</h3>
         <div id="result-image-container" style="width: 100%; padding-bottom: 1rem"></div>
         <div id="results"></div>
+        <button id="save-image-button" type="button">Save Image</button>
         <button id="copy-result-button" type="button">Copy Result</button>
       </div>
     </div>
@@ -221,6 +315,32 @@
       Dynamsoft.Core.CoreModule.loadWasm(["DBR", "DLR", "DCP"]);
 
       const resultContainer = document.getElementById("result-container");
+      const notification = document.getElementById("notification");
+
+      // Custom UI to select camera and resolution
+      // Ref: https://github.com/Dynamsoft/barcode-reader-javascript-demo
+      const cameraDropdownContainer = document.getElementById("select-camera-dropdown");
+      const resolutionList = ["Full HD", "HD"];
+      const resolution = {
+        [resolutionList[0]]: [1920, 1080], // Full HD
+        [resolutionList[1]]: [1280, 720], // HD
+      };
+      /** Check if current resolution is Full HD or HD
+       * Ref: https://github.com/Dynamsoft/barcode-reader-javascript-demo/blob/main/src/views/BarcodeScanner.vue
+       * @params {Object} currentResolution - an object with `width` and `height` to represent the current resolution of the camera
+       * @returns {string} Either "HD" or "Full HD" depending of the resolution of the screen
+       */
+      const judgeCurResolution = (currentResolution) => {
+        const { width, height } = currentResolution;
+        const minValue = Math.min(width, height);
+        const maxValue = Math.max(width, height);
+
+        if (minValue > 480 && minValue < 960 && maxValue > 960 && maxValue < 1440) {
+          return "HD";
+        } else if (minValue > 900 && minValue < 1440 && maxValue > 1400 && maxValue < 2160) {
+          return "Full HD";
+        }
+      };
 
       const init = async () => {
         // [Optional] - Create custom UI for CameraView
@@ -314,6 +434,41 @@
           },
         });
 
+        // [Optional] - Custom UI to select camera and resolution
+        try {
+          await cameraEnhancer.open();
+
+          // Populate a list of cameras and the resolution
+          const cameraList = await cameraEnhancer.getAllCameras();
+          // Get current camera and current resolution to set as selected
+          const currentCamera = await cameraEnhancer.getSelectedCamera();
+          const currentResolution = await cameraEnhancer.getResolution();
+
+          if (cameraList.length > 0) {
+            for (let i of cameraList) {
+              for (let j of resolutionList) {
+                const cameraAndResolutionOption = document.createElement("option");
+                cameraAndResolutionOption.innerText = `${i?.label} (${j})`;
+                cameraAndResolutionOption.value = [i?.deviceId, j];
+
+                // Set as selected if option matches current camera and resolution
+                // Note: We checked with `resolution.includes(width)` and `resolution.includes(height)`
+                // instead of matching the width and height respectively because on mobile,
+                // the width and the height are switched.
+                if (currentCamera.deviceId === i.deviceId && judgeCurResolution(currentResolution) === j) {
+                  cameraAndResolutionOption.selected = true;
+                }
+
+                // Add camera and resolution options to the select element
+                cameraDropdownContainer.append(cameraAndResolutionOption);
+              }
+            } // Open camera
+          }
+        } catch (ex) {
+          const errMsg = ex.message || ex;
+          console.error(errMsg);
+        }
+
         return {
           cameraEnhancer,
           cvRouter,
@@ -352,11 +507,9 @@
 
             if (cvRouter) {
               await cvRouter.stopCapturing();
-              await cameraEnhancer.close();
             }
 
             // Open camera and start scanning single barcode.
-            await cameraEnhancer.open();
             await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
 
             // Update button styles to show selected and close modal
@@ -365,6 +518,15 @@
             });
             event.target.classList.add("selected");
             settingsModal.style.display = "none";
+
+            // Show success notification on scan mode switch
+            notification.classList.add("banner-success");
+            notification.innerText = `Now ${SCAN_MODE_TITLES[mode]}`;
+            // Fade in animation for notificaiton
+            notification.style.opacity = 1;
+            setTimeout(function () {
+              notification.style.opacity = 0;
+            }, 5000);
 
             currentMode = mode;
           } catch (ex) {
@@ -443,6 +605,20 @@
           });
       });
 
+      // Save Image
+      const saveImageButton = document.getElementById("save-image-button");
+      saveImageButton.addEventListener("click", () => {
+        const imageCanvas = document.querySelector("#result-image-container").querySelector("canvas");
+
+        imageCanvas.toBlob((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          let download = document.createElement("a");
+          download.download = Date.now().toString();
+          download.href = url;
+          download.click();
+        });
+      });
+
       // Close Result Container
       const closeResultButton = document.getElementById("close-result-button");
       closeResultButton.addEventListener("click", async (event) => {
@@ -457,6 +633,62 @@
           console.err(errMsg);
         } finally {
           resultContainer.style.display = "none";
+        }
+      });
+
+      // Event Listener to change camera and resolution
+      cameraDropdownContainer.addEventListener("change", async function (event) {
+        // Get selected cameraID and resolution from chosen option
+        const { options, selectedIndex } = event.target;
+        const [selectedCameraId, selectedRes] = (options[selectedIndex].value || "").split(",");
+        const [width, height] = resolution[selectedRes];
+
+        // Set the cameraId and resolution
+        try {
+          const { cameraEnhancer } = await (pInit = pInit || init());
+          await cameraEnhancer.selectCamera(selectedCameraId);
+          await cameraEnhancer.setResolution({ width, height });
+
+          // Confirm if camera/resolution switch is successful
+          const currentCamera = await cameraEnhancer.getSelectedCamera();
+          const currentResolution = await cameraEnhancer.getResolution();
+
+          // Show notification status for switching camera/resolution
+          notification.className = "";
+          if (currentCamera.deviceId !== selectedCameraId) {
+            notification.classList.add("banner-error");
+            notification.innerText = `Switch camera failed!`;
+          } else if (judgeCurResolution(currentResolution) !== selectedRes) {
+            notification.classList.add("banner-error");
+            notification.innerText = `Switch resolution failed! ${selectedRes} might be unsupported in the camera.`;
+
+            // Update the selected camera to the current camera if the resolution is not supported by camera
+            for (let option of options) {
+              const [optionCamera, optionRes] = (option.value || "").split(",");
+              if (optionCamera === currentCamera.deviceId && optionRes === judgeCurResolution(currentResolution)) {
+                option.selected = true;
+                // Manually dispatch a change event to update to default camera
+                const changeEvent = new Event("change", { bubbles: true });
+                event.target.dispatchEvent(changeEvent);
+                break;
+              }
+            }
+          } else {
+            notification.classList.add("banner-success");
+            notification.innerText = `Switched to ${currentCamera.label} (${selectedRes}) successfully!`;
+          }
+
+          // On switch, close the settings modal
+          settingsModal.style.display = "none";
+
+          // Fade in animation for notificaiton
+          notification.style.opacity = 1;
+          setTimeout(function () {
+            notification.style.opacity = 0;
+          }, 5000);
+        } catch (ex) {
+          const errorMessage = ex.message || ex;
+          console.error(errorMessage);
         }
       });
     </script>
