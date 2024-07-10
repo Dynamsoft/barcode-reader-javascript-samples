@@ -34,7 +34,7 @@
       <button type="button" id="scan-barcode-button">Scan Barcode Only</button>
     </div>
     <div id="camera-view-container">
-      <div style="position: relative; width: 100%; height: 40vh">
+      <div style="position: relative; width: 100%; height: 20vh">
         <!-- DCE loading component -->
         <svg
           class="dce-bg-loading"
@@ -81,6 +81,7 @@
     </div>
     <br />
     Results:
+    <div id="result-image-container"></div>
     <div id="results"></div>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30/dist/dlr.js"></script>
@@ -145,9 +146,6 @@
           onCapturedResultReceived: async (result) => {
             if (!result.items.length) return;
 
-            const resultsContainer = document.querySelector("#results");
-            resultsContainer.textContent = "";
-
             for (let item of result.items) {
               // Skip non barcodes and non text line  results
               if (
@@ -156,6 +154,12 @@
               ) {
                 continue;
               }
+
+              // Reset results
+              const resultImageContainer = document.getElementById("result-image-container");
+              const resultsContainer = document.querySelector("#results");
+              resultImageContainer.innerHTML = "";
+              resultsContainer.textContent = "";
 
               const resultType =
                 item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE ? "barcode" : "text";
@@ -168,6 +172,28 @@
               if (item.text) {
                 const resultContent = `Scanned by ${resultType}\nVIN: ${item.text}\n${parsedVIN}`;
                 resultsContainer.innerText = resultContent;
+              }
+
+              // Get Scanned VIN Image and append to results container
+              const imageData = result.items.find(
+                (item) => item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE
+              )?.imageData;
+              console.log(imageData);
+              if (imageData) {
+                // Get Scanned VIN Image as a canvas
+                const imageCanvas = imageData.toCanvas();
+                // Resize the Scanned VIN canvas
+                const resizedCanvas = document.createElement("canvas");
+                resizedCanvas.width = resultImageContainer.clientWidth;
+                // Calculate the new height to maintain the aspect ratio
+                const aspectRatio = imageCanvas.height / imageCanvas.width;
+                resizedCanvas.height = resultImageContainer.clientWidth * aspectRatio;
+
+                // Get context of resizedCanvas to draw original image
+                const ctx = resizedCanvas.getContext("2d");
+                ctx.drawImage(imageCanvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
+
+                resultImageContainer.append(resizedCanvas);
               }
             }
           },
