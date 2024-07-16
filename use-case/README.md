@@ -35,8 +35,8 @@ The following sample demonstrates how to utilize the SDK to find an item using a
 
 Additionally, this sample demonstrates how to utilize the SDK to fill out form fields, creating a custom UI with [Dynamsoft Camera Enhancer (DCE)](https://www.dynamsoft.com/camera-enhancer/docs/core/introduction/index.html), and using DCE to draw shapes/images on the CameraView to create indicators for each barcode that has been detected!
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/read-a-drivers-license/index.html">Locate an item via Barcode - Demo (TO BE UPDATED)</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/use-case/read-a-drivers-license/index.html">RLocate an item via Barcode - Source Code (TO BE UPDATED)</a>
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/locate-an-item-with-barcode/index.html">Locate an Item with Barcode - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/use-case/locate-an-item-with-barcode/index.html">Locate an Item with Barcode - Source Code</a>
 
 
 ## Support
