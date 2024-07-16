@@ -59,11 +59,18 @@ self.addEventListener("fetch", (e) => {
 
       // Otherwise, fetch from network
       const response = await fetch(e.request);
-      const cache = await caches.open(cacheName);
-      console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
-      if (e.request.method !== "POST") {
+
+      if(
+        e.request.method !== "POST" &&
+        // Authorization requests should not be cached
+        !/https:\/\/.*?\.dynamsoft.com\/auth/.test(e.request.url)
+        // You can add other filter conditions
+      ){
+        const cache = await caches.open(cacheName);
+        console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
         cache.put(e.request, response.clone());
       }
+      
       return response;
     })()
   );
