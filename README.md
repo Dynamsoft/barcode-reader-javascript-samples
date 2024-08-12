@@ -2,6 +2,13 @@
 
 This repository contains multiple samples that demonstrates how to use the [Dynamsoft Barcode Reader JavaScript Edition](https://www.dynamsoft.com/barcode-reader/sdk-javascript/?utm_source=sampleReadme) for creating web-based barcode scanning applications.
 
+## Get the Code
+
+Since the repository has a lot of history, it is slow to clone directly. Please download the [zip](https://github.com/Dynamsoft/barcode-reader-javascript-samples/archive/refs/heads/main.zip)/[tar.gz](https://github.com/Dynamsoft/barcode-reader-javascript-samples/archive/refs/heads/main.tar.gz), or use the `--depth 1` to clone the code.
+```git
+git clone https://github.com/Dynamsoft/barcode-reader-javascript-samples.git --depth 1
+```
+
 ## Request a trial license
 
 A default license is included which allows you to test the sample apps for up to 24 hours. You can [request a trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=sampleReadme) via Dynamsoft customer portal to evaluate further.
