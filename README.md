@@ -31,7 +31,7 @@ Get the basic features of the library working with plain/native JavaScript or wi
 * [**Read an Image**](https://demo.dynamsoft.com/samples/dbr/js/hello-world/read-an-image.html?utm_source=sampleReadme): Decode barcodes from images in mobile album or desktop file system.
 * [**Hello World in Angular**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/angular#readme): Read barcodes from camera and images in an Angular application.
 * [**Hello World in React**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/react#readme): Read barcodes from camera and images in a React application.
-* [**Hello World in React using Hooks**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/react-hook#readme): Read barcodes from camera and images in a React application and use the Hooks charactor of React.
+* [**Hello World in React using Hooks**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/react-hooks#readme): Read barcodes from camera and images in a React application and use the Hooks charactor of React.
 * [**Hello World in Vue**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/vue#readme): Read barcodes from camera and images in a Vue 3 application.
 * [**Hello World in Next.js**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/next#readme): Read barcodes from camera and images in a Next.js application.
 * [**Hello World in Nuxt**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/nuxt#readme): Read barcodes from camera and images in a Nuxt application.
