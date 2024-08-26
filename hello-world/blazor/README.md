@@ -54,15 +54,13 @@ In `Pages\DecodeVideo.razor`, we will modify the component to enable barcode dec
 
 <h1>Decode Video</h1>
 <button @onclick="ToggleVideoTask" style="margin-bottom: 1rem">@videoDecodeBtn</button>
-<div id="camera-view-container" @ref="cameraViewContainer" style="width: 100%; height: 50vh; display: none"></div>
+<div id="camera-view-container" style="width: 100%; height: 50vh; display: none"></div>
 <h3>Results:</h3>
-<div id="results" @ref="resultsContainer" style="width: 100%; height: 30vh; overflow: auto; white-space: pre-wrap"></div>
+<div id="results" style="width: 100%; height: 30vh; overflow: auto; white-space: pre-wrap"></div>
 
 
 @code {
     // reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0#invoke-js-functions
-    private ElementReference cameraViewContainer;
-    private ElementReference resultsContainer;
     private string mode = "stop";
     private string videoDecodeBtn = "Decode Video";
 
@@ -85,14 +83,14 @@ In `Pages\DecodeVideo.razor`, we will modify the component to enable barcode dec
     {
         mode = "videoDecode";
         videoDecodeBtn = "Stop Decode";
-        await JS.InvokeAsync<string>("startVideoDecode", cameraViewContainer, resultsContainer);
+        await JS.InvokeAsync<string>("startVideoDecode");
     }
 
     private async Task StopDecodeVideoTask()
     {
         mode = "stop";
         videoDecodeBtn = "Decode Video";
-        await JS.InvokeAsync<string>("stopVideoDecode", cameraViewContainer, resultsContainer);
+        await JS.InvokeAsync<string>("stopVideoDecode");
     }
 }
 ```
@@ -113,7 +111,10 @@ Reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-inter
 
 ```
 // Create JS function "startVideoDecode"
-window.startVideoDecode = async (cameraViewContainer, resultsContainer) => {
+window.startVideoDecode = async () => {
+    const cameraViewContainer = document.getElementById("camera-view-container");
+    const resultsContainer = document.getElementById("results");
+
     try {
         // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
         const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
@@ -156,7 +157,10 @@ window.startVideoDecode = async (cameraViewContainer, resultsContainer) => {
 }
 
 // Create JS function "stopVideoDecode"
-window.stopVideoDecode = async (cameraViewContainer, resultsContainer) => {
+window.stopVideoDecode = async () => {
+    const cameraViewContainer = document.getElementById("camera-view-container");
+    const resultsContainer = document.getElementById("results");
+
     try {
         if (!cvRouter?.disposed) {
             await cvRouter?.dispose();
@@ -187,13 +191,12 @@ In `Pages\DecodeImage.razor`, we will modify the component to enable barcode dec
 <PageTitle>Dynamsoft Barcode Reader Hello World - Blazor</PageTitle>
 
 <h1>Decode Image</h1>
-<InputFile style="margin-bottom: 1rem" OnChange="DecodeImageTask" accept="image/*" />
+<InputFile id="inputElement" style="margin-bottom: 1rem" OnChange="DecodeImageTask" accept="image/*" />
 <h3 style="margin-bottom: 1rem">Results:</h3>
-<div id="results" @ref="resultsContainer" style="width: 100%; height: 30vh; overflow: auto; white-space: pre-wrap"></div>
+<div id="results" style="width: 100%; height: 30vh; overflow: auto; white-space: pre-wrap"></div>
 
 @code {
     // reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0#invoke-js-functions
-    private ElementReference resultsContainer;
 
     private async Task DecodeImageTask(InputFileChangeEventArgs e)
     {
@@ -204,12 +207,12 @@ In `Pages\DecodeImage.razor`, we will modify the component to enable barcode dec
         var jsImageStream = imageFile.OpenReadStream(1024 * 1024 * 20);
         var dotnetImageStream = new DotNetStreamReference(jsImageStream);
 
-        await JS.InvokeAsync<string>("startImageDecode",  resultsContainer, imageFile.Name, dotnetImageStream);
+        await JS.InvokeAsync<string>("startImageDecode");
     }
 
-    public void Dispose() {
-       JS.InvokeAsync<string>("cleanUpImageDecode");
-        
+    public void Dispose()
+    {
+        JS.InvokeAsync<string>("cleanUpImageDecode");
     }
 }
 ```
@@ -228,16 +231,21 @@ Reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-inter
 
 ```
 // Create JS function "startImageDecode"
-window.startImageDecode = async ( resultsContainer, fileName, image) => {
+window.startImageDecode = async () => {
+    const inputElement = document.getElementById("inputElement");
+    const resultsContainer = document.getElementById("results");
+
+    const file = inputElement.files[0]; // Get the first file from the input element
+
     try {
-        if (image) {
+        if (file) {
             // Convert file to blob
-            const arrayBuffer = await image.arrayBuffer();
+            const arrayBuffer = await file.arrayBuffer();
             const blob = new Blob([arrayBuffer]);
 
             cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
             const result = await cvRouter.capture(blob, "ReadBarcodes_SpeedFirst");
-            resultsContainer.innerText = `${fileName}:\n`;
+            resultsContainer.innerText = `File: ${file.name}\n`;
             for (let item of result.items) {
                 if (item.type !== Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
                     continue;
@@ -251,6 +259,7 @@ window.startImageDecode = async ( resultsContainer, fileName, image) => {
     } catch (ex) {
         let errMsg = ex.message || ex;
         console.error(errMsg);
+        resultsContainer.innerText += `Error: ${errMsg}`
     }
 }
 ```
