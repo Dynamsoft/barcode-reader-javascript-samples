@@ -1,5 +1,8 @@
 ﻿// Create JS function "startVideoDecode"
-window.startVideoDecode = async (cameraViewContainer, resultsContainer) => {
+window.startVideoDecode = async () => {
+    const cameraViewContainer = document.getElementById("camera-view-container");
+    const resultsContainer = document.getElementById("results");
+
     try {
         // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
         const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
@@ -42,7 +45,10 @@ window.startVideoDecode = async (cameraViewContainer, resultsContainer) => {
 }
 
 // Create JS function "stopVideoDecode"
-window.stopVideoDecode = async (cameraViewContainer, resultsContainer) => {
+window.stopVideoDecode = async () => {
+    const cameraViewContainer = document.getElementById("camera-view-container");
+    const resultsContainer = document.getElementById("results");
+
     try {
         if (!cvRouter?.disposed) {
             await cvRouter?.dispose();

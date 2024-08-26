@@ -4,13 +4,12 @@
 <PageTitle>Dynamsoft Barcode Reader Hello World - Blazor</PageTitle>
 
 <h1>Decode Image</h1>
-<InputFile style="margin-bottom: 1rem" OnChange="DecodeImageTask" accept="image/*" />
+<InputFile id="inputElement" style="margin-bottom: 1rem" OnChange="DecodeImageTask" accept="image/*" />
 <h3 style="margin-bottom: 1rem">Results:</h3>
-<div id="results" @ref="resultsContainer" style="width: 100%; height: 30vh; overflow: auto; white-space: pre-wrap"></div>
+<div id="results" style="width: 100%; height: 30vh; overflow: auto; white-space: pre-wrap"></div>
 
 @code {
     // reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0#invoke-js-functions
-    private ElementReference resultsContainer;
 
     private async Task DecodeImageTask(InputFileChangeEventArgs e)
     {
@@ -21,12 +20,11 @@
         var jsImageStream = imageFile.OpenReadStream(1024 * 1024 * 20);
         var dotnetImageStream = new DotNetStreamReference(jsImageStream);
 
-        await JS.InvokeAsync<string>("startImageDecode", resultsContainer, imageFile.Name, dotnetImageStream);
+        await JS.InvokeAsync<string>("startImageDecode");
     }
 
     public void Dispose()
     {
         JS.InvokeAsync<string>("cleanUpImageDecode");
-
     }
 }
