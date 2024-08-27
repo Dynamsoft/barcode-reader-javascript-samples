@@ -1,32 +1,33 @@
 ﻿// Create JS function "startImageDecode"
 window.startImageDecode = async () => {
-    const inputElement = document.getElementById("inputElement");
-    const resultsContainer = document.getElementById("results");
+  const inputElement = document.getElementById("inputElement");
+  const resultsContainer = document.getElementById("results");
+  resultsContainer.innerText = ""; // Reset results container
 
-    const file = inputElement.files[0]; // Get the first file from the input element
+  const { files } = inputElement;
 
-    try {
-        if (file) {
-            // Convert file to blob
-            const arrayBuffer = await file.arrayBuffer();
-            const blob = new Blob([arrayBuffer]);
-
-            cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-            const result = await cvRouter.capture(blob, "ReadBarcodes_SpeedFirst");
-            resultsContainer.innerText = `File: ${file.name}\n`;
-            for (let item of result.items) {
-                if (item.type !== Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
-                    continue;
-                }
-                resultsContainer.innerText += item.text + "\n";
-            }
-            if (!result.items.length) resultsContainer.innerText += "No barcode found\n";
-
-            await cvRouter?.dispose()
+  try {
+    for (let file of files) {
+      cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
+      const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+      if (files.length > 1) {
+        resultsContainer.innerText += `\nFile: ${file.name}\n`;
+      }
+      for (let item of result.items) {
+        if (item.type !== Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
+          continue;
         }
-    } catch (ex) {
-        let errMsg = ex.message || ex;
-        console.error(errMsg);
-        resultsContainer.innerText += `Error: ${errMsg}`
+        resultsContainer.innerText += item.text + "\n";
+        console.log(item.text);
+      }
+      if (!result.items.length) resultsContainer.innerText += "No barcode found\n";
     }
-}
+  } catch (ex) {
+    let errMsg = ex.message || ex;
+    console.error(errMsg);
+    alert(errMsg);
+  } finally {
+    await cvRouter?.dispose();
+  }
+};
