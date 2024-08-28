@@ -16,13 +16,15 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](ht
 
 ## Preparation
 
-This sample was developed with Visual Studio 2022. For a more in-depth guide, please follow Microsoft's tutorial on [Building your first web app with ASP.NET Core using Blazor](https://dotnet.microsoft.com/en-us/learn/aspnet/blazor-tutorial/intro).
+This sample was developed using Visual Studio 2022. For a more in-depth guide on creating a Blazor web application with Visual Studio 2022, please follow Microsoft's tutorial on [Building your first web app with ASP.NET Core using Blazor](https://dotnet.microsoft.com/en-us/learn/aspnet/blazor-tutorial/intro).
 
 ## Quick Start 
 
-In Visual Studio 2022, click on the `Start Debugging` button (green arrow) in the Debug Toolbar run the app.
+1. **Open the application** in Visual Studio 2022 by clicking the `Open a Project or Solution` button, and choosing on the `BlazorApp.csproj` file.
 
-A window should open to view the sample application
+2. **Run the application** by clicking the `Start Debugging` button (a green arrow) in the Debug Toolbar.
+
+3.  A window should open to view the sample application
 
 > Note: 
 >
@@ -114,7 +116,7 @@ These functions will be called by the Blazor components through JavaScript Inter
 
 Reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0#invoke-js-functions
 
-```
+```javascript
 // Create JS function "startVideoDecode"
 window.startVideoDecode = async () => {
     const cameraViewContainer = document.getElementById("camera-view-container");
@@ -229,7 +231,7 @@ These functions will be called by the Blazor components through JavaScript Inter
 
 Reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0#invoke-js-functions
 
-```
+```javascript
 // Create JS function "startImageDecode"
 window.startImageDecode = async () => {
   const inputElement = document.getElementById("inputElement");
@@ -328,28 +330,40 @@ Inside the `wwwroot\index.html` file, we will initialize the license and necessa
 > * `initLicense()` specify a license key to use the library. You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=sample&product=dbr&package=js to get your own trial license good for 30 days. 
 
 
-### Modify the `Layout\NavMenu.razor` file
+### Modify the `Layout\NavMenu.razor` and `Layout\NavMenu.razor.css` file
 
-Add this block of code to ensure that the pages we've created are accessible through the sidebar
+To make sure the `Decode Video` and `Decode Image` pages are accessible from the sidebar, add the following code block to `Layout\NavMenu.razor`.
 
 ```html
 ...
-<div class="nav-item px-3">
-  <NavLink class="nav-link" href="video" Match="NavLinkMatch.All">
-    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Decode Video
-  </NavLink>
-</div>
-<div class="nav-item px-3">
-  <NavLink class="nav-link" href="image" Match="NavLinkMatch.All">
-    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Decode Image
-  </NavLink>
-</div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="video" Match="NavLinkMatch.All">
+                <span class="bi bi-video-fill-nav-menu" aria-hidden="true"></span> Decode Video
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="image" Match="NavLinkMatch.All">
+                <span class="bi bi-camera-fill-nav-menu" aria-hidden="true"></span> Decode Image
+            </NavLink>
+        </div>
 ...
+```
+
+We'll also add the following CSS code to include the icons for `Decode Video` and `Decode Image` in the `Layout\NavMenu.razor.css` file.
+
+```css
+.bi-video-fill-nav-menu {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-camera-video-fill' viewBox='0 0 16 16'%3E%3Cpath d='M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2z'/%3E%3C/svg%3E");
+}
+
+.bi-camera-fill-nav-menu {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-camera-fill' viewBox='0 0 16 16'%3E%3Cpath d='M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0'/%3E%3C/svg%3E");
+}
 ```
 
 ## Run the application
 
-In Visual Studio 2022, click on the `Start Debugging` button (green arrow) in the Debug Toolbar run the app.
+We can run the application by clicking the `Start Debugging` button (a green arrow) in the Debug Toolbar.
 
 If you followed all the steps correctly, you will have a working page that turns one of the cameras hooked to or built in your computer or mobile device into a barcode scanner. Also, if you want to decode a local image, just click the `Decode Image` button and select the image you want to decode. 
 
