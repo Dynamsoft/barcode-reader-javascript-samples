@@ -56,7 +56,7 @@ In `Pages\DecodeVideo.razor`, we will modify the component to enable barcode dec
 <button @onclick="ToggleVideoTask" style="margin-bottom: 1rem">@videoDecodeBtn</button>
 <div id="camera-view-container" style="width: 100%; height: 50vh; display: none"></div>
 <h3>Results:</h3>
-<div id="results" style="width: 100%; height: 30vh; overflow: auto; white-space: pre-wrap"></div>
+<div id="results" style="width: 100%; height: 30vh; overflow: auto; white-space: pre-wrap; border: 1px solid black;"></div>
 
 
 @code {
@@ -193,7 +193,7 @@ In `Pages\DecodeImage.razor`, we will modify the component to enable barcode dec
 <h1>Decode Image</h1>
 <InputFile id="inputElement" style="margin-bottom: 1rem" OnChange="DecodeImageTask" accept="image/*" multiple />
 <h3 style="margin-bottom: 1rem">Results:</h3>
-<div id="results" style="width: 100%; height: 30vh; overflow: auto; white-space: pre-wrap"></div>
+<div id="results" style="width: 100%; height: 30vh; overflow: auto; white-space: pre-wrap; border: 1px solid black;"></div>
 
 @code {
     // reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0#invoke-js-functions
@@ -232,7 +232,6 @@ window.startImageDecode = async () => {
   resultsContainer.innerText = ""; // Reset results container
 
   const { files } = inputElement;
-  inputElement.value = '';
 
   try {
     for (let file of files) {
@@ -256,6 +255,7 @@ window.startImageDecode = async () => {
     console.error(errMsg);
     alert(errMsg);
   } finally {
+    inputElement.value = "";
     await cvRouter?.dispose();
   }
 };
