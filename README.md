@@ -30,6 +30,7 @@ Get the basic features of the library working with plain/native JavaScript or wi
 * [**Hello World**](https://demo.dynamsoft.com/samples/dbr/js/hello-world/hello-world.html?utm_source=sampleReadme): Scan barcodes from video stream with minimum code in JavaScript.
 * [**Read an Image**](https://demo.dynamsoft.com/samples/dbr/js/hello-world/read-an-image.html?utm_source=sampleReadme): Decode barcodes from images in mobile album or desktop file system.
 * [**Hello World in Angular**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/angular#readme): Read barcodes from camera and images in an Angular application.
+* [**Hello World in Blazor**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/blazor#readme): Read barcodes from camera and images in a Blazor application.
 * [**Hello World in React**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/react#readme): Read barcodes from camera and images in a React application.
 * [**Hello World in React using Hooks**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/react-hooks#readme): Read barcodes from camera and images in a React application and use the Hooks charactor of React.
 * [**Hello World in Vue**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/vue#readme): Read barcodes from camera and images in a Vue 3 application.
