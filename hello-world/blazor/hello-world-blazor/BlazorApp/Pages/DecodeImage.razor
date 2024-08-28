@@ -12,7 +12,7 @@
 @code {
     // reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0#invoke-js-functions
 
-private async Task DecodeImageTask()
+    private async Task DecodeImageTask()
     {
         // Dynamically load decode image module
         await JS.InvokeVoidAsync("loadDecodeImageModule");
