@@ -2,7 +2,7 @@
 
 [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) is a framework for building interactive client-side web apps with .NET and C#. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a Blazor application using [JavaScript Interlop](https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0#invoke-js-functions).
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.2.1000).
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.2.1000). We also used .NET 8.0 (version 8.0.8) to develop this sample. To ensure the sample app runs properly, please refer to this guide to update your .NET installation - https://learn.microsoft.com/en-us/dotnet/core/install/upgrade.
 
 > Note:
 >
@@ -16,13 +16,18 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](ht
 
 ## Preparation
 
-This sample was developed with Visual Studio 2022. For a more in-depth guide, please follow Microsoft's tutorial on [Building your first web app with ASP.NET Core using Blazor](https://dotnet.microsoft.com/en-us/learn/aspnet/blazor-tutorial/intro)
+This sample was developed with Visual Studio 2022. For a more in-depth guide, please follow Microsoft's tutorial on [Building your first web app with ASP.NET Core using Blazor](https://dotnet.microsoft.com/en-us/learn/aspnet/blazor-tutorial/intro).
 
 ## Quick Start 
 
 In Visual Studio 2022, click on the `Start Debugging` button (green arrow) in the Debug Toolbar run the app.
 
 A window should open to view the sample application
+
+> Note: 
+>
+> This sample uses the packages `Microsoft.AspNetCore.Components.WebAssembly` v8.0.8 and `Microsoft.AspNetCore.Components.WebAssembly.DevServer` v8.0.8 which require .NET v8.0.8.
+> Refer to the `BlazorApp.csproj` file to change the versions as needed.
 
 ## Creating the sample project
 
