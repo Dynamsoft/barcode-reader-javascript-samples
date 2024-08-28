@@ -5,6 +5,7 @@ window.startImageDecode = async () => {
   resultsContainer.innerText = ""; // Reset results container
 
   const { files } = inputElement;
+  inputElement.value = '';
 
   try {
     for (let file of files) {
