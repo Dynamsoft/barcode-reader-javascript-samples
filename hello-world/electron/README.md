@@ -1,6 +1,6 @@
 # Hello World Sample for Electron
 
-[Electron](https://www.electronjs.org/) is a framework for creating native applications with web technologies. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a Next.js application. Note that in this sample, `TypeScript` is used.
+[Electron](https://www.electronjs.org/) is a framework for creating native applications with web technologies. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into an Electron application.
 
 In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.2.1000).
 
@@ -12,7 +12,7 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](ht
 
 ## Official Sample
 
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/electron">Hello World in Electron~ - Source Code</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/electron">Hello World in Electron - Source Code</a>
 
 ## Preparation
 
