@@ -13,7 +13,6 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](ht
 ## Official sample
 
 * <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/angular">Hello World in Angular - Source Code</a>
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/angular/dist/dbrjs-sample-angular/browser/">Hello World in Angular - Demo</a>
 
 ## Preparation
 Make sure you have [node](https://nodejs.org/) and [Angular CLI](https://cli.angular.io/) installed. 
