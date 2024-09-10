@@ -21,9 +21,18 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Quick Start
 
+1. Install project dependencies
+
+```cmd
+npm install
+```
+
+2. Build and serve the Angular app
+
 ```cmd
 ng serve
 ```
+
 Then open `https://localhost:4200/` to view the sample app.
 
 ## Creating the sample project
