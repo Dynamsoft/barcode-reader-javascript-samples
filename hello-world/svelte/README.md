@@ -210,9 +210,8 @@ CoreModule.loadWasm(["DBR"]);
 </script>
 
 <div>
-  <div bind:this={cameraViewContainer} class="camera-view-container"></div>
-  <br />
-  Results:
+  <div bind:this={cameraViewContainer} style="width: 100%; height: 70vh; background: #eee;"></div>
+  Results:<br />
   <div bind:this={resultsContainer} class="results"></div>
 </div>
 ```
