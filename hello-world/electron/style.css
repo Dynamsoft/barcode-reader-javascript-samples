@@ -1,12 +1,3 @@
-body {
-  text-align: center;
-}
-
-#camera-view-container {
-  width: 100%;
-  height: 80vh;
-}
-
 #results {
   width: 100%;
   height: 10vh;
