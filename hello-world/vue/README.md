@@ -208,7 +208,7 @@ onBeforeUnmount(async () => {
 
 <template>
   <div>
-    <div ref="cameraViewContainer" class="camera-view-container"></div>
+    <div ref="cameraViewContainer" style="width: 100%; height: 70vh; background: #eee;"></div>
     <br />
     Results:
     <div ref="resultsContainer" class="results"></div>

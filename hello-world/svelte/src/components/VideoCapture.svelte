@@ -102,17 +102,12 @@
 </script>
 
 <div>
-  <div bind:this={cameraViewContainer} class="camera-view-container"></div>
+  <div bind:this={cameraViewContainer} style="width: 100%; height: 70vh; background: #eee;"></div>
   Results:<br />
   <div bind:this={resultsContainer} class="results"></div>
 </div>
 
 <style>
-  .camera-view-container {
-    width: 100%;
-    height: 70vh;
-    background: #eee;
-  }
   .results {
     width: 100%;
     height: 10vh;

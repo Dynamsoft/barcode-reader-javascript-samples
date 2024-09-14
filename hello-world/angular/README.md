@@ -123,7 +123,11 @@ ng generate component video-capture
 
 ```html
 <!-- /src/app/video-capture/video-capture.component.html -->
-<div #cameraViewContainer class="camera-view-container"></div>
+<div
+  #cameraViewContainer
+  class="camera-view-container"
+  style="width: 100%; height: 70vh"
+></div>
 <br />
 Results:
 <div #results class="results"></div>
