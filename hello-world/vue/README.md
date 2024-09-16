@@ -12,7 +12,6 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](ht
 
 ## Official Sample
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/samples/dbr/js/hello-world/vue/dist/">Hello World in Vue 3 - Demo</a>
 * <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/vue3">Hello World in Vue 3 - Source Code</a>
 
 ## Preparation
