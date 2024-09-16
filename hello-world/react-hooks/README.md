@@ -12,7 +12,6 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](ht
 
 ## Official Sample
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/react-hooks/build/">Hello World in React with Hooks - Demo</a>
 * <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/react-hooks">Hello World in React with Hooks - Source Code</a>
 
 ## Preparation
