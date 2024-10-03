@@ -22,7 +22,7 @@ Make sure you have [node](https://nodejs.org/) installed. `node 16.20.1` and `sv
 
 ```cmd
 npm install
-npm run
+npm run dev
 ```
 Then open http://localhost:5173/ to view the sample app. 
 
