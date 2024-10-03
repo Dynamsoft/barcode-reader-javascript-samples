@@ -616,7 +616,7 @@
           // Open camera and start scanning single barcode.
           if (!cameraEnhancer.isOpen()) await cameraEnhancer.open();
           // Start capturing barcodes
-          await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+          await cvRouter.startCapturing("ReadBarcodes_Balance");
         } catch (ex) {
           const errorMessage = ex.message || ex;
           console.error(errorMessage);
