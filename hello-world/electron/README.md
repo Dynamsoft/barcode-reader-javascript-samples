@@ -155,7 +155,7 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
  */
 
-LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9', {
+Dynamsoft.License.LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9', {
   executeNow: true,
 });
 
