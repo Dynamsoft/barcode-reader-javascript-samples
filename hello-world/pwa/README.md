@@ -2,7 +2,7 @@
 
 [PWA](https://web.dev/progressive-web-apps/) is short for Progressive Web Apps, which are web applications designed to mimic the functionality and user experience of platform-specific (native) applications. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a PWA application.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000).
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000-beta-202409252259](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000-beta-202409252259.
 
 > Note:
 >

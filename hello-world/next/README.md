@@ -2,7 +2,7 @@
 
 [Next.js](https://nextjs.org/) is a react framework that enables functionalities such as server-side rendering and generating static websites for react-based web applications. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a Next.js application. Note that in this sample, `TypeScript` is used.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000).
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000-beta-202409252259`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000-beta-202409252259).
 
 > Note:
 >

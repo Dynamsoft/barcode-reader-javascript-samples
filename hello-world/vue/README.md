@@ -2,7 +2,7 @@
 
 [Vue 3](https://v3.vuejs.org/) is version 3 of Vue which is a progressive framework for building user interfaces. Check out the following guide on how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a Vue 3 application. Note that in this sample, `TypeScript` is used.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000).
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000-beta-202409252259](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000-beta-202409252259.
 
 > Note:
 >

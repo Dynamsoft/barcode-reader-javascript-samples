@@ -2,7 +2,7 @@
 
 [Svelte](https://svelte.dev/) is a JavaScript library meant explicitly for creating interactive UIs. Svelte compiles components into code that directly manipulates the DOM, unlike other frameworks such as Vue and React that relies on a virtual DOM for updates.  Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a Svelte application using Vite. Note that in this sample we will use TypeScript.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000).
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000-beta-202409252259](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000-beta-202409252259.
 
 > Note:
 >
