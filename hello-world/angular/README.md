@@ -57,10 +57,6 @@ Below is the configuration used for this sample.
 ? Do you want to enable Server-Side Rendering (SSR) and Static Site Generation (SSG/Prerendering)? No
 ```
 
-On installation, you will be prompted to configure your project.\
-You can customize these options according to your preferences.\
-Below is the configuration used for this sample.
-
 ### **CD** to the root directory of the application and install necessary libraries
 
 ```cmd
