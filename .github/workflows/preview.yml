@@ -1,22 +1,38 @@
-# .github/workflows/deploy.yml
-name: Deploy PR previews
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy Preview Page
+
+# Controls when the workflow will run
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types:
-      - opened
-      - synchronize    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  deploy-preview:
-    runs-on: ubuntu-latest
+  # This workflow contains a single job called "build"
+  Build-Demo:
+    if: ${{ github.ref == 'refs/heads/_dev' }}    
+    
+    # The type of runner that the job will run on
+    runs-on: self-hosted
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v3
-      - name: Deploy PR Preview
-        uses: rossjrw/pr-preview-action@v1.4.3
+         # Runs a set of commands using the runners shell
+      - name: Get Source
+        run: |
+          cd /home/ubuntu
+          [ -d barcode-reader-javascript-samples ] && rm -rf barcode-reader-javascript-samples
+          git clone --depth 1 -b _dev https://github.com/Dynamsoft/barcode-reader-javascript-samples.git 
+          
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          token: ${{ secrets.PREVIEW_TOKEN }}
-          source-dir: .
-          umbrella-dir: pr-preview
-          action: auto
+          server: ${{ secrets.FTP_DEMO_SERVER }}
+          username: ${{ secrets.FTP_DEMO_USERNAME }}
+          password: ${{ secrets.FTP_DEMO_PASSWORD }}
+          port: 21 
+          local-dir: /home/ubuntu/barcode-reader-javascript-samples/
+          server-dir: /Demo.dynamsoft.com/Samples/DBR/JS/preview
