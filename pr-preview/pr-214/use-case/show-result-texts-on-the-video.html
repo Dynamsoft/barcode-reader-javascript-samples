@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Read barcodes from camera with Dynamsoft Barcode Reader and display result texts as overlays on video."
+    />
+    <meta name="keywords" content="read barcode from camera, overlay" />
+    <link
+      rel="canonical"
+      href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/show-result-texts-on-the-video.html"
+    />
+    <title>Dynamsoft Barcode Reader Sample - Display Barcode Results as Video Overlays</title>
+    <style>
+      .bubble-box-container {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+      }
+      .bubble-box-container > .bubble-box {
+        position: absolute;
+        width: max-content;
+        max-width: 20rem;
+        background: white;
+        border-radius: 4px;
+        padding: 4px;
+        word-break: break-all;
+        word-wrap: break-word;
+        box-shadow: 5px 5px 5px 3px rgba(0, 0, 0, 0.2);
+        transform: translateY(calc(-100% - 4px));
+      }
+      .bubble-box-container > .bubble-box::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: calc(50% - 8px);
+        border-left: 8px solid transparent;
+        border-top: 8px solid white;
+        border-right: 8px solid transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Display Barcode Results as Video Overlays</h1>
+    <h3>Scan barcodes to display results as overlays on video</h3>
+    <div id="camera-view-container" style="width: 100%; height: 90vh"></div>
+    <div id="results"></div>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
+    <script>
+      /** LICENSE ALERT - README
+       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+       */
+
+      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+
+      /**
+       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
+       * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
+       * LICENSE ALERT - THE END
+       */
+
+      // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
+      Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
+
+      const resultsContainer = document.querySelector("#results");
+
+      (async () => {
+        try {
+          // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+          const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+          const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+          // Get default UI and append it to DOM.
+          document.querySelector("#camera-view-container").append(cameraView.getUIElement());
+
+          // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+          const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+          cvRouter.setInput(cameraEnhancer);
+
+          // Define a callback for results.
+          const bodyStyle = getComputedStyle(document.body);
+          cvRouter.addResultReceiver({
+            onCapturedResultReceived: (result) => {
+              // Reset results
+              resultsContainer.innerText = "";
+
+              // Determine if body `position` is `static`, `relative`, `absolute`, etc.
+              const isBodyStyleStatic = bodyStyle.position === "static";
+              let bodyStaticTopOffset, bodyStaticLeftOffset;
+              if (isBodyStyleStatic) {
+                const bodyRect = document.body.getBoundingClientRect();
+                bodyStaticTopOffset = bodyRect.top + parseFloat(bodyStyle.borderTopWidth);
+                bodyStaticLeftOffset = bodyRect.left + parseFloat(bodyStyle.borderLeftWidth);
+              }
+
+              // loop through each barcode result
+              for (let item of result.items) {
+                if (item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
+                  continue; // Skip processing if the result is not a barcode
+                }
+
+                // Get the points of the quadrilateral surrounding the scanned barcode
+                const p = item.location.points;
+                // Calculate the top-left and bottom-right coordinates of the quadrilateral
+                // This will help in positioning the result overlay on top of the scanned barcode
+                const barcodeTopLeft = {
+                  x: Math.min(p[0].x, p[1].x, p[2].x, p[3].x),
+                  y: Math.min(p[0].y, p[1].y, p[2].y, p[3].y),
+                };
+                const barcodeBottomRight = {
+                  x: Math.max(p[0].x, p[1].x, p[2].x, p[3].x),
+                  y: Math.max(p[0].y, p[1].y, p[2].y, p[3].y),
+                };
+
+                // Create an `absolute` positioned container to overlay on top of the video
+                const bubbleBoxContainer = document.createElement("div");
+                bubbleBoxContainer.className = "bubble-box-container";
+
+                // Create the overlay element to display decoded barcode results
+                const bubbleBoxOverlay = document.createElement("div");
+                bubbleBoxOverlay.className = "bubble-box";
+                bubbleBoxOverlay.innerText = item.text;
+                bubbleBoxContainer.append(bubbleBoxOverlay);
+
+                // Position the overlay container relative to the document or viewport
+                if (isBodyStyleStatic) {
+                  /**
+                   * 'convertToPageCoordinates()' is used to converts coordinate of a barcode location to the coordinate relative to the document.
+                   * Then we can place a div element according to the converted coordinate.
+                   */
+                  const pageTopLeft = cameraEnhancer.convertToPageCoordinates(barcodeTopLeft);
+                  const pageBottomRight = cameraEnhancer.convertToPageCoordinates(barcodeBottomRight);
+                  const pageMidX = (pageTopLeft.x + pageBottomRight.x) / 2;
+                  bubbleBoxContainer.style.top = `${pageTopLeft.y}px`;
+                  bubbleBoxContainer.style.left = `${pageMidX}px`;
+                } else {
+                  // if you set body `position` as `relative`, `absolute`, and so on,
+                  // we'll have to use set the position relative to the viewport.
+                  /**
+                   * 'convertToClientCoordinates()' is used to converts coordinate of a barcode location to the coordinate relative to the viewport.
+                   * Then we can place a div element according to the converted coordinate.
+                   */
+                  const clientTopLeft = cameraEnhancer.convertToClientCoordinates(barcodeTopLeft);
+                  const clientBottomRight = cameraEnhancer.convertToClientCoordinates(barcodeBottomRight);
+                  const clientMidX = (clientTopLeft.x + clientBottomRight.x) / 2;
+                  bubbleBoxContainer.style.top = `${clientTopLeft.y - bodyStaticTopOffset}px`;
+                  bubbleBoxContainer.style.left = `${clientMidX - bodyStaticLeftOffset}px`;
+                }
+                resultsContainer.append(bubbleBoxContainer);
+
+                /**
+                 * You can also add more information, such as displaying product images.
+                 */
+              }
+            },
+          });
+
+          // Filter out unchecked and duplicate results.
+          const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+          // Filter out unchecked barcodes.
+          filter.enableResultCrossVerification("barcode", true);
+
+          // Open camera and start scanning single barcode.
+          await cameraEnhancer.open();
+          await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+        } catch (ex) {
+          let errMsg = ex.message || ex;
+          console.error(errMsg);
+          alert(errMsg);
+        }
+      })();
+    </script>
+  </body>
+</html>
