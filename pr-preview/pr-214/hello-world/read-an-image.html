@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="description" content="Read barcodes from an image in no time with Dynamsoft Barcode Reader." />
+    <meta name="keywords" content="barcode, image" />
+    <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/read-an-image.html" />
+    <title>Dynamsoft Barcode Reader Sample - Hello World (Read an Image)</title>
+  </head>
+
+  <body>
+    <h1>Hello World (Read an Image)</h1>
+    <input id="input-file" type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" /><br />
+    Results:<br />
+    <div id="results"></div>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
+    <script>
+      /** LICENSE ALERT - README
+       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+       */
+
+      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+
+      /**
+       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
+       * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
+       * LICENSE ALERT - THE END
+       */
+
+      // Optional. Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
+      Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
+
+      const resultsContainer = document.querySelector("#results");
+
+      let cvRouter; // an instance of CaptureVisionRouter
+      let pCvRouter; // promise of CaptureVisionRouter
+
+      document.querySelector("#input-file").addEventListener("change", async function () {
+        let files = [...this.files];
+        this.value = "";
+        resultsContainer.innerText = "";
+        try {
+          cvRouter = cvRouter || (await (pCvRouter = pCvRouter || Dynamsoft.CVR.CaptureVisionRouter.createInstance()));
+
+          for (let file of files) {
+            // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
+            const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+
+            if (files.length > 1) {
+              resultsContainer.innerText += `\n${file.name}:\n`;
+            }
+            for (let item of result.items) {
+              if (item.type !== Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
+                continue;
+              }
+              resultsContainer.innerText += item.text + "\n";
+              console.log(item.text);
+            }
+            if (!result.items.length) resultsContainer.innerText += "No barcode found\n";
+          }
+        } catch (ex) {
+          let errMsg = ex.message || ex;
+          console.error(errMsg);
+          alert(errMsg);
+        }
+      });
+    </script>
+  </body>
+</html>
