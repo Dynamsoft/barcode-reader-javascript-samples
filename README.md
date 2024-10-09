@@ -11,7 +11,7 @@ git clone https://github.com/Dynamsoft/barcode-reader-javascript-samples.git --d
 
 ## Request a trial license
 
-A default license is included which allows you to test the sample apps for up to 24 hours. You can [request a trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=sampleReadme) via Dynamsoft customer portal to evaluate further.
+A default license is included which allows you to test the sample apps for up to 24 hours. You can [request a 30-day trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=sampleReadme) via Dynamsoft website to evaluate further.
 
 ## Documentation
 
