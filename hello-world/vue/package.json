@@ -11,7 +11,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "10.2.1000",
+    "dynamsoft-barcode-reader-bundle": "10.4.2000",
     "vue": "^3.2.45"
   },
   "devDependencies": {
