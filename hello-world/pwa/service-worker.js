@@ -1,11 +1,11 @@
 const engineResourcePaths = {
-  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.2.10/dist/",
-  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30/dist/",
+  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.4.10/dist/",
+  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.4.20/dist/",
   core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
   license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
   cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
-  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.2.10/dist/",
-  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/"
+  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.4.20/dist/",
+  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/",
 };
 
 // Files to cache
@@ -60,17 +60,17 @@ self.addEventListener("fetch", (e) => {
       // Otherwise, fetch from network
       const response = await fetch(e.request);
 
-      if(
+      if (
         e.request.method !== "POST" &&
         // Authorization requests should not be cached
         !/https:\/\/.*?\.dynamsoft.com\/auth/.test(e.request.url)
         // You can add other filter conditions
-      ){
+      ) {
         const cache = await caches.open(cacheName);
         console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
         cache.put(e.request, response.clone());
       }
-      
+
       return response;
     })()
   );
