@@ -2,7 +2,7 @@
 
 [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) is a framework for building interactive client-side web apps with .NET and C#. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a Blazor application using [JavaScript Interlop](https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0#invoke-js-functions).
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000-beta-202409252259`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000-beta-202409252259). We also used .NET 8.0 (version 8.0.8) to develop this sample. To ensure the sample app runs properly, please refer to this guide to update your .NET installation - https://learn.microsoft.com/en-us/dotnet/core/install/upgrade.
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000). We also used .NET 8.0 (version 8.0.8) to develop this sample. To ensure the sample app runs properly, please refer to this guide to update your .NET installation - https://learn.microsoft.com/en-us/dotnet/core/install/upgrade.
 
 > Note:
 >
@@ -281,7 +281,7 @@ Inside the `wwwroot\index.html` file, we will initialize the license and necessa
       ...
     <script src="_framework/blazor.webassembly.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.4.2000-beta-202409252259/dist/dbr.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.4.2000/dist/dbr.bundle.min.js"></script>
     <script>
         /** LICENSE ALERT - README
          * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.

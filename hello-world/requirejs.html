@@ -18,7 +18,7 @@
     <div id="results" style="width: 100%; height: 10vh; overflow: auto; white-space: pre-wrap"></div>
     <script>
       requirejs(
-        ["https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.4.2000-beta-202409252259/dist/dbr.bundle.js"],
+        ["https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.4.2000/dist/dbr.bundle.js"],
         ({
           Core: { CoreModule },
           License: { LicenseManager },
@@ -39,15 +39,7 @@
            * LICENSE ALERT - THE END
            */
 
-          CoreModule.engineResourcePaths = {
-            std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.4.10/dist/",
-            dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.4.20/dist/",
-            core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.4.20/dist/",
-            license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.4.20/dist/",
-            cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.4.20/dist/",
-            dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.4.20/dist/",
-            dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.1.0/dist/",
-          };
+          CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
 
           // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
           CoreModule.loadWasm(["DBR"]);
