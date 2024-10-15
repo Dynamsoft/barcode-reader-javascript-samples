@@ -1,5 +1,4 @@
 import { test, Locator, expect } from '@playwright/test';
-import exp from 'constants';
 
 /*
 1. Test the index page to contain correct links
