@@ -106,7 +106,7 @@ class VideoCapture extends React.Component {
   render() {
     return (
       <div>
-        <div ref={this.cameraViewContainer} className="camera-view-container"></div>
+        <div ref={this.cameraViewContainer} style={{  width: "100%", height: "70vh" }}></div>
         <br />
         Results:
         <div ref={this.resultsContainer} className="results"></div>

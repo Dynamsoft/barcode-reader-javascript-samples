@@ -6,19 +6,21 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
   license: "./node_modules/dynamsoft-license/dist/",
   cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
   dbr: "./node_modules/dynamsoft-barcode-reader/dist/",
-  dce: "./node_modules/dynamsoft-camera-enhancer/dist/"
+  dce: "./node_modules/dynamsoft-camera-enhancer/dist/",
 };
 
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
  */
 
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", true);
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", {
+  executeNow: true,
+});
 
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
  * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.4.2000&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
  * LICENSE ALERT - THE END
  */
 
@@ -46,12 +48,12 @@ Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
         if (!result.barcodeResultItems.length) return;
 
         const resultsContainer = document.querySelector("#results");
-        resultsContainer.textContent = '';
+        resultsContainer.textContent = "";
         console.log(result);
         for (let item of result.barcodeResultItems) {
           resultsContainer.textContent += `${item.formatString}: ${item.text}\n\n`;
         }
-      }
+      },
     });
 
     // Filter out unchecked and duplicate results.

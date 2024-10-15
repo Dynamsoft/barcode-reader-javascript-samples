@@ -104,7 +104,7 @@ function VideoCapture() {
 
   return (
     <div>
-      <div ref={cameraViewContainer} className="camera-view-container"></div>
+      <div ref={cameraViewContainer} style={{  width: "100%", height: "70vh" }}></div>
       <br />
       Results:
       <div ref={resultsContainer} className="results"></div>

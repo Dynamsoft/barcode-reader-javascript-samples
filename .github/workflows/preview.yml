@@ -1,0 +1,26 @@
+# .github/workflows/deploy.yml
+name: Deploy PR previews
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy PR Preview
+        uses: rossjrw/pr-preview-action@v1.4.3
+        with:
+          token: ${{ secrets.PREVIEW_TOKEN }}
+          preview-branch: gh-pages
+          source-dir: .
+          umbrella-dir: pr-preview
+          action: auto

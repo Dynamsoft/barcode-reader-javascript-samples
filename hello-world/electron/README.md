@@ -1,8 +1,8 @@
 # Hello World Sample for Electron
 
-[Electron](https://www.electronjs.org/) is a framework for creating native applications with web technologies. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a Next.js application. Note that in this sample, `TypeScript` is used.
+[Electron](https://www.electronjs.org/) is a framework for creating native applications with web technologies. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into an Electron application.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.2.1000).
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000).
 
 > Note:
 >
@@ -12,7 +12,7 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.2.1000`](ht
 
 ## Official Sample
 
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/electron">Hello World in Electron~ - Source Code</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/electron">Hello World in Electron - Source Code</a>
 
 ## Preparation
 
@@ -121,9 +121,9 @@ Create an `index.html` file at the root folder, and define it like this:
     <link href="style.css" rel="stylesheet" />
     <script src="./node_modules/dynamsoft-barcode-reader-bundle/dist/dbr.bundle.js"></script>
   </head>
-  <body>
+  <body style="text-align: center">
     <h1>Hello World for Electron</h1>
-    <div id="camera-view-container"></div>
+    <div id="camera-view-container" style="width: 100%; height: 80vh"></div>
     <br />
     Results:
     <div id="results"></div>
@@ -155,12 +155,14 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
  */
 
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", true);
+Dynamsoft.License.LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9', {
+  executeNow: true,
+});
 
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
  * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.4.2000&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
  * LICENSE ALERT - THE END
  */
 
