@@ -2,7 +2,7 @@
 
 [Svelte](https://svelte.dev/) is a JavaScript library meant explicitly for creating interactive UIs. Svelte compiles components into code that directly manipulates the DOM, unlike other frameworks such as Vue and React that relies on a virtual DOM for updates.  Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a Svelte application using Vite. Note that in this sample we will use TypeScript.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000.
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2001](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2001.
 
 > Note:
 >
@@ -75,7 +75,7 @@ LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", {
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
  * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.4.2000&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.4.2001&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
  * LICENSE ALERT - THE END
  */
 

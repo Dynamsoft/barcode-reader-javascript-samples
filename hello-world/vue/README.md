@@ -2,7 +2,7 @@
 
 [Vue 3](https://v3.vuejs.org/) is version 3 of Vue which is a progressive framework for building user interfaces. Check out the following guide on how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a Vue 3 application. Note that in this sample, `TypeScript` is used.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000.
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2001](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2001.
 
 > Note:
 >
@@ -87,7 +87,7 @@ LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", {
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
  * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.4.2000&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.4.2001&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
  * LICENSE ALERT - THE END
  */
 
