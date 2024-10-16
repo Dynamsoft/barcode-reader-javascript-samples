@@ -28,7 +28,7 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:3000',
-
+    headless: true,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
@@ -56,30 +56,30 @@ export default defineConfig({
         },
       },
     },
-    {
-      name: "firefox",
-      use: {
-        ...devices["Desktop Firefox"],
-        launchOptions: {
-          "devtools": true,
-          "headless": true,
-          args: [
-            "--use-fake-device-for-media-stream", 
-            "--use-fake-ui-for-media-stream", 
-            "--headless=firefox",
-            "--disable-web-security",
-            "--enable-web-rtc"],
-          firefoxUserPrefs: {
-            "permissions.default.camera": 1, // Allow camera access automatically
-            "media.navigator.streams.fake": true, // Use fake streams if needed
-            "devtools.debugger.remote-enabled": true,
-            "devtools.debugger.prompt-connection": false,
-            "devtools.chrome.enabled": true,
-            "datareporting.policy.firstRunURL": ""
-          },
-        },
-      },
-    },
+    // {
+    //   name: "firefox",
+    //   use: {
+    //     ...devices["Desktop Firefox"],
+    //     launchOptions: {
+    //       "devtools": true,
+    //       "headless": true,
+    //       args: [
+    //         "--use-fake-device-for-media-stream", 
+    //         "--use-fake-ui-for-media-stream", 
+    //         "--headless=firefox",
+    //         "--disable-web-security",
+    //         "--enable-web-rtc"],
+    //       firefoxUserPrefs: {
+    //         "permissions.default.camera": 1, // Allow camera access automatically
+    //         "media.navigator.streams.fake": true, // Use fake streams if needed
+    //         "devtools.debugger.remote-enabled": true,
+    //         "devtools.debugger.prompt-connection": false,
+    //         "devtools.chrome.enabled": true,
+    //         "datareporting.policy.firstRunURL": ""
+    //       },
+    //     },
+    //   },
+    // },
     // {
     //   name: "webkit",
     //   use: {
