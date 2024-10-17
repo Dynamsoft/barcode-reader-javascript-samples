@@ -2,7 +2,7 @@
 
 [PWA](https://web.dev/progressive-web-apps/) is short for Progressive Web Apps, which are web applications designed to mimic the functionality and user experience of platform-specific (native) applications. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a PWA application.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2000](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2000.
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2001](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.2001.
 
 > Note:
 >
@@ -37,7 +37,7 @@ We will try to turn our basic "Hello World" sample into a PWA. Follow these step
     <br />
     Results:
     <div id="results" style="width: 100%; height: 10vh; overflow: auto"></div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.4.2000/dist/dbr.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.4.2001/dist/dbr.bundle.min.js"></script>
     <script>
       if (location.protocol === "file:") {
         const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
@@ -57,7 +57,7 @@ We will try to turn our basic "Hello World" sample into a PWA. Follow these step
       /**
        * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
        * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.4.2000&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.4.2001&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
        * LICENSE ALERT - THE END
        */
 
@@ -262,11 +262,12 @@ Add this code below to the `service-worker.js`
 const engineResourcePaths = {
   std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.4.10/dist/",
   dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.4.20/dist/",
-  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.2.30/dist/",
-  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.2.21/dist/",
-  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.2.30/dist/",
+  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.4.20/dist/",
+  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.4.20/dist/",
+  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.4.21/dist/",
   dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.4.20/dist/",
-  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.0.3/dist/"
+  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.1.0/dist/",
+  utility: "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.4.20/dist/",
 };
 
 // Files to cache
