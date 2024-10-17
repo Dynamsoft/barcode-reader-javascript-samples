@@ -1,0 +1,17 @@
+{
+  "name": "vin-scan",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^20.14.11"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.45.2",
+    "playwright": "^1.45.2"
+  }
+}
