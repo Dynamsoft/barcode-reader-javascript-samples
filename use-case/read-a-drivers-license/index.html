@@ -194,11 +194,12 @@
       }
 
       async function switchToSingleFrameMode() {
-        const { cameraEnhancer, cvRouter } = await pInit;
+        const { cameraEnhancer, cvRouter, cameraView } = await pInit;
         cvRouter.stopCapturing();
         cameraEnhancer.close();
         cameraEnhancer.singleFrameMode = "image";
         await cameraEnhancer.open();
+        cameraView.setScanLaserVisible(true);
         await cvRouter.startCapturing("ReadDenseBarcodes");
       }
 
@@ -208,11 +209,12 @@
         document.querySelector("#span-tip").hidden = false;
         cameraViewContainer.style.display = "block";
 
-        const { cameraEnhancer, cvRouter } = await pInit;
+        const { cameraEnhancer, cvRouter, cameraView } = await pInit;
         cvRouter.stopCapturing();
         cameraEnhancer.close();
         cameraEnhancer.singleFrameMode = "disabled";
         await cameraEnhancer.open();
+        cameraView.setScanLaserVisible(true);
         await cvRouter.startCapturing("ReadDenseBarcodes");
 
         messageDisplayTimer = setTimeout(() => {

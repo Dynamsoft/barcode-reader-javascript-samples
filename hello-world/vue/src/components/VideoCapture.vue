@@ -59,6 +59,7 @@ onMounted(async () => {
 
     // Open camera and start scanning single barcode.
     await cameraEnhancer.open();
+    cameraView.setScanLaserVisible(true);
     if (isDestroyed) { throw Error(componentDestroyedErrorMsg); }
     await cvRouter.startCapturing("ReadSingleBarcode");
     if (isDestroyed) { throw Error(componentDestroyedErrorMsg); }

@@ -66,6 +66,7 @@ Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
     // Open camera and start scanning single barcode.
     await cameraEnhancer.open();
+    cameraView.setScanLaserVisible(true);
     await cvRouter.startCapturing("ReadSingleBarcode");
   } catch (ex) {
     let errMsg = ex.message || ex;
