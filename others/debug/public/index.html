@@ -141,18 +141,20 @@
       let pInit = init();
 
       document.getElementById("btn-start-capturing").addEventListener("click", async () => {
-        const { cameraEnhancer, cvRouter } = await pInit;
+        const { cameraEnhancer, cvRouter, cameraView } = await pInit;
 
         // Open camera and start scanning single barcode.
         await cameraEnhancer.open();
+        cameraView.setScanLaserVisible(true);
         await cvRouter.startCapturing("ReadSingleBarcode");
       });
 
       document.getElementById("btn-stop-capturing").addEventListener("click", async () => {
-        const { cameraEnhancer, cvRouter } = await pInit;
+        const { cameraEnhancer, cvRouter, cameraView } = await pInit;
 
         cvRouter.stopCapturing();
         cameraEnhancer.close();
+        cameraView.setScanLaserVisible(false);
       });
 
       let switchVideoSettings = async () => {
