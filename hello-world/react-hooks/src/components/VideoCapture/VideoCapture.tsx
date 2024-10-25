@@ -69,6 +69,7 @@ function VideoCapture() {
 
         // Open camera and start scanning single barcode.
         await cameraEnhancer.open();
+        cameraView.setScanLaserVisible(true);
         if (isDestroyed) {
           throw Error(componentDestroyedErrorMsg);
         }

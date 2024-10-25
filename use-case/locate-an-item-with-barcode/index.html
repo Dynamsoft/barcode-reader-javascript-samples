@@ -375,7 +375,6 @@
         // [Optional] - Custom UI to select camera and resolution
         try {
           await cameraEnhancer.open();
-
           // Populate a list of cameras and the resolution
           const cameraList = await cameraEnhancer.getAllCameras();
           // Get current camera and current resolution to set as selected
@@ -410,6 +409,7 @@
         return {
           cameraEnhancer,
           cvRouter,
+          cameraView
         };
       };
       let pInit; // promise of init
@@ -425,7 +425,7 @@
 
         const itemIdInput = document.getElementById("item-id");
         try {
-          const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
+          const { cameraEnhancer, cvRouter, cameraView } = await (pInit = pInit || init());
 
           // Define a callback for results.
           resultReceiver = {
@@ -520,7 +520,7 @@
         closeButton.innerText = "Locate another item";
 
         try {
-          const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
+          const { cameraEnhancer, cvRouter, cameraView } = await (pInit = pInit || init());
 
           // Prepare to show overlay of the item ID on the CameraView
           resultsContainer.innerHTML = "";
