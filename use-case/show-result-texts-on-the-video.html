@@ -164,6 +164,7 @@
 
           // Open camera and start scanning single barcode.
           await cameraEnhancer.open();
+          cameraView.setScanLaserVisible(true);
           await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
         } catch (ex) {
           let errMsg = ex.message || ex;

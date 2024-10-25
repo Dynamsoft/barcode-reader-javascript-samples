@@ -67,6 +67,7 @@ class VideoCapture extends React.Component {
 
       // Open camera and start scanning single barcode.
       await this.cameraEnhancer.open();
+      cameraView.setScanLaserVisible(true);
       if (this.isDestroyed) {
         throw Error(componentDestroyedErrorMsg);
       }

@@ -119,7 +119,7 @@
         inputsContainer.style.display = "";
         loadingIndicator.style.display = "none";
 
-        return { cameraEnhancer, cvRouter };
+        return { cameraEnhancer, cvRouter, cameraView };
       };
 
       let pInit; // promise of init
@@ -128,7 +128,7 @@
       for (let input of allInputs) {
         input.addEventListener("click", async function () {
           try {
-            const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
+            const { cameraEnhancer, cvRouter, cameraView } = await (pInit = pInit || init());
 
             // Define a callback for results.
             const resultReceiver = {
@@ -150,6 +150,7 @@
 
             // Open camera and start scanning single barcode.
             await cameraEnhancer.open();
+            cameraView.setScanLaserVisible(true);
             await cvRouter.startCapturing("ReadSingleBarcode");
           } catch (ex) {
             let errMsg = ex.message || ex;
