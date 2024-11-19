@@ -102,5 +102,15 @@ class ViewController: UIViewController, WKUIDelegate {
         present(alertController, animated: true, completion: nil)
     }
 
+    // Auto grant camera access
+    // Refer: https://stackoverflow.com/a/72729381/6414094
+    func webView(_ webView: WKWebView, 
+        requestMediaCapturePermissionFor 
+        origin: WKSecurityOrigin,initiatedByFrame
+        frame: WKFrameInfo,type: WKMediaCaptureType, 
+        decisionHandler: @escaping (WKPermissionDecision) -> Void){
+        decisionHandler(.grant)
+    }
+
 }
 
