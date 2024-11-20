@@ -111,6 +111,7 @@
         // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
         const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
         const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+        cameraEnhancer.setResolution({ width: 1920, height: 1080 });
         cameraViewContainer.append(cameraView.getUIElement()); // Get default UI and append it to DOM.
 
         // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
