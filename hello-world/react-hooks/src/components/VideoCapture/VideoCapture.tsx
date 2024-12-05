@@ -86,10 +86,9 @@ function VideoCapture() {
           alert(errMsg);
         }
       }
+      // Resolve pInit promise once initialization is complete.
+      resolveInit!();
     })();
-
-    // Resolve pInit promise once initialization is complete.
-    resolveInit!();
 
     // componentWillUnmount. dispose cvRouter when it's no longer needed
     return async () => {
@@ -99,13 +98,13 @@ function VideoCapture() {
         await pInit;
         cvRouter?.dispose();
         cameraEnhancer?.dispose();
-      } catch (_) {}
+      } catch (_) { }
     };
   }, []);
 
   return (
     <div>
-      <div ref={cameraViewContainer} style={{  width: "100%", height: "70vh" }}></div>
+      <div ref={cameraViewContainer} style={{ width: "100%", height: "70vh" }}></div>
       <br />
       Results:
       <div ref={resultsContainer} className="results"></div>
