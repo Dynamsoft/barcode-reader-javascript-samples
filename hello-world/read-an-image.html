@@ -44,6 +44,152 @@
         try {
           cvRouter = cvRouter || (await (pCvRouter = pCvRouter || Dynamsoft.CVR.CaptureVisionRouter.createInstance()));
 
+          console.info("========== Initiating IRReceiver ");  
+          IRReceiver = new Dynamsoft.CVR.IntermediateResultReceiver();
+
+          /** ISSUE: 
+           * only triggered on the first task of many in a CaptureVisionTemplate??
+           * fixed in CVR 2.0.32
+           */ 
+          IRReceiver.onTaskResultsReceived = (result, info) => {
+            console.log(`Task name: ${info.taskName}`);
+            console.log(
+              `Task result units count: ${result.intermediateResultUnits.length}`
+            );
+          };
+          
+          
+          // Modify each receiver to save the result
+          IRReceiver.onPredetectedRegionsReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'PredetectedRegions');
+          };
+
+          IRReceiver.onColourImageUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'ColourImage');
+          };
+
+          IRReceiver.onScaledDownColourImageUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            // showImageOnCanvas(result, 'ScaledDownColourImage');
+            saveIntermediateResult(result, 'ScaledDownColourImage');
+          };
+          
+
+          IRReceiver.onGrayscaleImageUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            // showImageOnCanvas(result, 'GrayscaleImage');
+            saveIntermediateResult(result, 'GrayscaleImage');
+          };
+
+          IRReceiver.onTransformedGrayscaleImageUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'TransformedGrayscaleImage');
+          };
+
+          IRReceiver.onEnhancedGrayscaleImageUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'EnhancedGrayscaleImage');
+          };
+
+          IRReceiver.onBinaryImageUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'BinaryImage');
+          };
+
+          IRReceiver.onTextureDetectionResultUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'TextureDetectionResult');
+          };
+
+          IRReceiver.onTextureRemovedGrayscaleImageUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'TextureRemovedGrayscaleImage');
+          };
+
+          IRReceiver.onTextureRemovedBinaryImageUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'TextureRemovedBinaryImage');
+          };
+
+          IRReceiver.onContoursUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'Contours');
+          };
+
+          IRReceiver.onLineSegmentsUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'LineSegments');
+          };
+
+          IRReceiver.onTextZonesUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'TextZones');
+          };
+
+          IRReceiver.onTextRemovedBinaryImageUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'TextRemovedBinaryImage');
+          };
+
+          IRReceiver.onLongLinesUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'LongLines');
+          };
+
+          IRReceiver.onCornersUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'Corners');
+          };
+
+          IRReceiver.onCandidateQuadEdgesUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'CandidateQuadEdges');
+          };
+
+          IRReceiver.onCandidateBarcodeZonesUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'CandidateBarcodeZones');
+          };
+
+          IRReceiver.onScaledUpBarcodeImageUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'ScaledUpBarcodeImage');
+          };
+
+          IRReceiver.onDeformationResistedBarcodeImageUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'DeformationResistedBarcodeImage');
+          };
+
+          IRReceiver.onComplementedBarcodeImageUnitReceived = (result, info) => {
+            console.log(`type: ${Dynamsoft.Core.EnumIntermediateResultUnitType[result.unitType]}`);
+            saveIntermediateResult(result, 'ComplementedBarcodeImage');
+          };
+
+          IRManager = cvRouter.getIntermediateResultManager();
+          IRManager.addResultReceiver(IRReceiver);
+          console.log("========== IRReceiver ready");
+         
+          // Function to save intermediate results to local storage
+          const imgManager = new Dynamsoft.Utility.ImageManager();
+          const saveIntermediateResult = (result, type) => {
+            try {
+              if (result.imageData === undefined || type === "BinaryImage" || type === "TextureRemovedBinaryImage") {
+                console.log(`ImageData for ${type} is either undefined or not of type "ImageDataSettings"`);
+                return;
+              }
+              console.log(`ImageData for ${type}:`, result.imageData);
+              imgManager.saveToFile(result.imageData, `intermediate_result_${type}_${Date.now()}.png`, true);
+              
+            } catch (ex) {
+              console.error(`Error saving intermediate result for ${type}:`, ex);
+            }
+
+          };
+
+
           for (let file of files) {
             // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
             const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
@@ -59,6 +205,7 @@
               console.log(item.text);
             }
             if (!result.items.length) resultsContainer.innerText += "No barcode found\n";
+            console.log(`Total number of barcodes found: ${result.items.length}`);
           }
         } catch (ex) {
           let errMsg = ex.message || ex;
