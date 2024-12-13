@@ -6,7 +6,7 @@ This sample is designed to:
 2. Check if your device and browser are compatible with the camera and to what extent.
 3. Collect video frames for analysis. (Require to host the sample locally)
 
-You can directly debug 1 and 2 in this link: [https://dynamsoft.github.io/barcode-reader-javascript-samples/others/debug/public/index.html](https://dynamsoft.github.io/barcode-reader-javascript-samples/others/debug/public/index.html)
+You can directly debug 1 and 2 in this link: [https://demo.dynamsoft.com/Samples/DBR/JS/others/debug/public/index.html](https://demo.dynamsoft.com/Samples/DBR/JS/others/debug/public/index.html)
 
 Item 3 we will introduce in detail.
 
