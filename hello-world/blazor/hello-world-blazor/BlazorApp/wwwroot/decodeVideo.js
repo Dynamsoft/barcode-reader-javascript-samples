@@ -37,7 +37,7 @@ window.startVideoDecode = async () => {
 
         // Open camera and start scanning single barcode.
         await cameraEnhancer.open();
-        cameraView.setScanLaserVisible(true);
+        //cameraView.setScanLaserVisible(true);
         await cvRouter.startCapturing("ReadSingleBarcode");
     } catch (ex) {
         let errMsg = ex.message || ex;
