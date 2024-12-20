@@ -188,14 +188,13 @@ function VideoCapture() {
 
 
     // componentWillUnmount. dispose cvRouter when it's no longer needed
-    return async () => {
+    return () => {
       isDestroyed = true;
-      try {
-        // Wait for the pInit to complete before disposing resources.
-        await pInit;
+      // Wait for the pInit to complete before disposing resources.
+      pInit.then(() => {
         cvRouter?.dispose();
         cameraEnhancer?.dispose();
-      } catch (_) {}
+      }).catch((_) => { })
     };
   }, []);
 
@@ -279,12 +278,12 @@ function ImageCapture() {
     isDestroyed.current = false;
 
     // componentWillUnmount. dispose cvRouter when it's no longer needed
-    return async () => {
+    return () => {
       isDestroyed.current = true;
       if (pCvRouter.current) {
-        try {
-          (await pCvRouter.current).dispose();
-        } catch (_) {}
+        pCvRouter.current.then((cvRouter) => {
+          cvRouter.dispose();
+        }).catch((_) => { })
       }
     };
   }, []);
