@@ -236,7 +236,7 @@ function ImageCapture() {
   let pCvRouter: MutableRefObject<Promise<CaptureVisionRouter> | null> = useRef(null);
   let isDestroyed = useRef(false);
 
-  const decodeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = [...(e.target.files as any as File[])];
     e.target.value = ""; // reset input
     resultsContainer.current!.innerText = "";
@@ -282,8 +282,8 @@ function ImageCapture() {
       isDestroyed.current = true;
       if (pCvRouter.current) {
         pCvRouter.current.then((cvRouter) => {
-            cvRouter.dispose();
-          }).catch((_) => {});
+          cvRouter.dispose();
+        }).catch((_) => { })
       }
     };
   }, []);
@@ -291,7 +291,7 @@ function ImageCapture() {
   return (
     <div className="image-capture-container">
       <div className="input-container">
-        <input type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={decodeImage} />
+        <input type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={decodeImg} />
       </div>
       <div className="results" ref={resultsContainer}></div>
     </div>
