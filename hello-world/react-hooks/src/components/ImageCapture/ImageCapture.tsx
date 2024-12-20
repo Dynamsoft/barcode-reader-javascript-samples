@@ -53,12 +53,12 @@ function ImageCapture() {
     isDestroyed.current = false;
 
     // componentWillUnmount. dispose cvRouter when it's no longer needed
-    return async () => {
+    return () => {
       isDestroyed.current = true;
       if (pCvRouter.current) {
-        try {
-          (await pCvRouter.current).dispose();
-        } catch (_) {}
+        pCvRouter.current.then((cvRouter) => {
+          cvRouter.dispose();
+        }).catch((_) => { })
       }
     };
   }, []);
