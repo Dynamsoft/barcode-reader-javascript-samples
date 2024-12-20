@@ -47,9 +47,9 @@ npm init
 
 ```cmd
 npm install electron --save-dev
-npm install dynamsoft-capture-vision-std -E
-npm install dynamsoft-image-processing -E
-npm install dynamsoft-barcode-reader-bundle -E
+npm install dynamsoft-capture-vision-std@1.4.10 -E
+npm install dynamsoft-image-processing@2.4.20 -E
+npm install dynamsoft-barcode-reader-bundle@10.4.2002 -E
 ```
 
 ## Start to implement
