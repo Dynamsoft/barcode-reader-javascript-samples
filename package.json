@@ -1,0 +1,21 @@
+{
+  "name": "barcode-reader-javascript-samples",
+  "version": "1.0.0",
+  "description": "Sample JS Projects for Barcode Reader",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite --port 3000",
+    "test": "npx playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^22.5.0"
+  },
+  "dependencies": {
+    "playwright": "^1.47.1",
+    "vite": "^5.4.2"
+  }
+}
