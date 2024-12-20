@@ -91,14 +91,13 @@ function VideoCapture() {
     })();
 
     // componentWillUnmount. dispose cvRouter when it's no longer needed
-    return async () => {
+    return () => {
       isDestroyed = true;
-      try {
-        // Wait for the pInit to complete before disposing resources.
-        await pInit;
+      // Wait for the pInit to complete before disposing resources.
+      pInit.then(() => {
         cvRouter?.dispose();
         cameraEnhancer?.dispose();
-      } catch (_) { }
+      }).catch((_) => { })
     };
   }, []);
 
