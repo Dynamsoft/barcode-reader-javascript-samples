@@ -60,7 +60,7 @@ Below is the configuration used for this sample.
 
 ```cmd
 cd vue-project
-npm install dynamsoft-barcode-reader-bundle -E
+npm install dynamsoft-barcode-reader-bundle@10.4.2002 -E
 ```
 
 ## Start to implement
