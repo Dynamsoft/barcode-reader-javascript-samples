@@ -247,11 +247,12 @@ export default VideoCapture;
 
 ```tsx
 /* /components/ImageCapture/ImageCapture.tsx */
-import React, { useRef, useEffect, MutableRefObject, useCallback } from "react";
+import React, { useRef, useEffect, MutableRefObject } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { EnumCapturedResultItemType } from "dynamsoft-core";
 import { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
+import "./ImageCapture.css";
 
 function ImageCapture() {
   const resultsContainer: MutableRefObject<HTMLDivElement | null> = useRef(null);
@@ -259,7 +260,7 @@ function ImageCapture() {
   let pCvRouter: MutableRefObject<Promise<CaptureVisionRouter> | null> = useRef(null);
   let isDestroyed = useRef(false);
 
-  const decodeImg = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const decodeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = [...(e.target.files as any as File[])];
     e.target.value = ""; // reset input
     resultsContainer.current!.innerText = "";
@@ -287,26 +288,26 @@ function ImageCapture() {
           console.log(item.text);
         }
         // If no items are found, display that no barcode was detected
-        if (!result.items.length) resultsContainer.current!.innerText = "No barcode found";
+        if (!result.items.length) resultsContainer.current!.innerText += "No barcode found";
       }
     } catch (ex: any) {
       let errMsg = ex.message || ex;
       console.error(errMsg);
       alert(errMsg);
     }
-  }, []);
+  };
 
   useEffect((): any => {
     // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
     isDestroyed.current = false;
 
     // componentWillUnmount. dispose cvRouter when it's no longer needed
-    return async () => {
+    return () => {
       isDestroyed.current = true;
       if (pCvRouter.current) {
-        try {
-          (await pCvRouter.current).dispose();
-        } catch (_) {}
+        pCvRouter.current.then((cvRouter) => {
+            cvRouter.dispose();
+          }).catch((_) => {});
       }
     };
   }, []);
@@ -314,7 +315,7 @@ function ImageCapture() {
   return (
     <div className="image-capture-container">
       <div className="input-container">
-        <input type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={decodeImg} />
+        <input type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={decodeImage} />
       </div>
       <div className="results" ref={resultsContainer}></div>
     </div>
