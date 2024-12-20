@@ -44,7 +44,7 @@ npx create-react-app my-app --template typescript
 
 ```cmd
 cd my-app
-npm install dynamsoft-barcode-reader-bundle -E
+npm install dynamsoft-barcode-reader-bundle@10.4.2002 -E
 ```
 
 ## Start to implement
