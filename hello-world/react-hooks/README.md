@@ -224,7 +224,7 @@ export default VideoCapture;
 
 ```tsx
 /* /src/components/ImageCapture/ImageCapture.tsx */
-import React, { useRef, useEffect, MutableRefObject, useCallback } from "react";
+import React, { useRef, useEffect, MutableRefObject } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { EnumCapturedResultItemType } from "dynamsoft-core";
 import { BarcodeResultItem } from "dynamsoft-barcode-reader";
@@ -236,7 +236,7 @@ function ImageCapture() {
   let pCvRouter: MutableRefObject<Promise<CaptureVisionRouter> | null> = useRef(null);
   let isDestroyed = useRef(false);
 
-  const decodeImg = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = [...(e.target.files as any as File[])];
     e.target.value = ""; // reset input
     resultsContainer.current!.innerText = "";
@@ -271,7 +271,7 @@ function ImageCapture() {
       console.error(errMsg);
       alert(errMsg);
     }
-  }, []);
+  };
 
   useEffect((): any => {
     // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
