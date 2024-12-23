@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, MutableRefObject, useCallback, useState } from "react";
+import React, { useRef, useEffect, MutableRefObject, useState } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { EnumCapturedResultItemType } from "dynamsoft-core";
 import { BarcodeResultItem } from "dynamsoft-barcode-reader";
@@ -48,19 +48,19 @@ function ImageCapture() {
       console.error(errMsg);
       alert(errMsg);
     }
-  }, []);
+  };
 
   useEffect((): any => {
     // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
     isDestroyed.current = false;
 
     // componentWillUnmount. dispose cvRouter when it's no longer needed
-    return async () => {
+    return () => {
       isDestroyed.current = true;
       if (pCvRouter.current) {
-        try {
-          (await pCvRouter.current).dispose();
-        } catch (_) {}
+        pCvRouter.current.then((cvRouter) => {
+          cvRouter.dispose();
+        }).catch((_) => { })
       }
     };
   }, []);
