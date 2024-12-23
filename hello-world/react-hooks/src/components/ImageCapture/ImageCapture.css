@@ -17,4 +17,5 @@
 .image-capture-container .results {
   margin-top: 20px;
   height: 100%;
+  white-space: pre-wrap;
 }

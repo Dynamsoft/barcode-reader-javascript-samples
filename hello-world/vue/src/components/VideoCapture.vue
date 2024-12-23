@@ -8,7 +8,6 @@ import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
 const cameraViewContainer: Ref<HTMLElement | null> = ref(null);
-const resultsContainer: Ref<HTMLElement | null> = ref(null);
 
 let resolveInit: () => void;
 const pInit: Promise<void> = new Promise(r => { resolveInit = r });
@@ -16,9 +15,9 @@ let isDestroyed = false;
 
 let cvRouter: CaptureVisionRouter;
 let cameraEnhancer: CameraEnhancer;
+let resultText = ref("");
 
 onMounted(async () => {
-
   try {
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
     const cameraView = await CameraView.createInstance();
@@ -40,10 +39,10 @@ onMounted(async () => {
       onDecodedBarcodesReceived: (result) => {
         if (!result.barcodeResultItems.length) return;
 
-        resultsContainer.value!.textContent = '';
+        resultText.value = '';
         console.log(result);
         for (let item of result.barcodeResultItems) {
-          resultsContainer.value!.textContent += `${item.formatString}: ${item.text}\n\n`;
+          resultText.value += `${item.formatString}: ${item.text}\n\n`;
         }
       }
     });
@@ -95,7 +94,7 @@ onBeforeUnmount(async () => {
     <div ref="cameraViewContainer" style="width: 100%; height: 70vh; background: #eee;"></div>
     <br />
     Results:
-    <div ref="resultsContainer" class="results"></div>
+    <div class="results">{{ resultText }}</div>
   </div>
 </template>
 
