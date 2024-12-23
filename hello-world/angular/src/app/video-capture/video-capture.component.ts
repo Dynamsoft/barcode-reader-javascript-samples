@@ -14,7 +14,7 @@ const componentDestroyedErrorMsg = 'VideoCapture Component Destroyed';
 })
 export class VideoCaptureComponent {
   @ViewChild('cameraViewContainer') cameraViewContainer?: ElementRef<HTMLDivElement>;
-  @ViewChild('results') resultsContainer?: ElementRef<HTMLDivElement>;
+  resultText = "";
 
   resolveInit?: () => void;
   pInit: Promise<void> = new Promise((r) => {
@@ -52,10 +52,10 @@ export class VideoCaptureComponent {
         onDecodedBarcodesReceived: (result) => {
           if (!result.barcodeResultItems.length) return;
 
-          this.resultsContainer!.nativeElement.textContent = '';
+          this.resultText = '';
           console.log(result);
           for (let item of result.barcodeResultItems) {
-            this.resultsContainer!.nativeElement.textContent += `${item.formatString}: ${item.text}\n\n`;
+            this.resultText += `${item.formatString}: ${item.text}\n\n`;
           }
         },
       });
