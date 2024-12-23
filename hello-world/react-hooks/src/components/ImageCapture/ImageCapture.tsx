@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, MutableRefObject, useCallback, useState } from "react";
+import React, { useRef, useEffect, MutableRefObject, useState } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { EnumCapturedResultItemType } from "dynamsoft-core";
 import { BarcodeResultItem } from "dynamsoft-barcode-reader";
@@ -11,7 +11,7 @@ function ImageCapture() {
   let pCvRouter: MutableRefObject<Promise<CaptureVisionRouter> | null> = useRef(null);
   let isDestroyed = useRef(false);
 
-  const captureImage = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = [...(e.target.files as any as File[])];
     e.target.value = ""; // reset input
     setResultText("");
@@ -48,7 +48,7 @@ function ImageCapture() {
       console.error(errMsg);
       alert(errMsg);
     }
-  }, []);
+  };
 
   useEffect((): any => {
     // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
@@ -68,7 +68,7 @@ function ImageCapture() {
   return (
     <div className="image-capture-container">
       <div className="input-container">
-        <input type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={captureImage} />
+        <input type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={decodeImg} />
       </div>
       <div className="results">{resultText}</div>
     </div>
