@@ -8,7 +8,7 @@
   const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
   let cameraViewContainer: HTMLDivElement;
-  let resultsContainer: HTMLDivElement;
+  let resultText = "";
 
   let resolveInit: () => void;
   const pInit: Promise<void> = new Promise((r) => {
@@ -47,10 +47,10 @@
           onDecodedBarcodesReceived: (result) => {
             if (!result.barcodeResultItems.length) return;
 
-            resultsContainer.textContent = "";
+            resultText = "";
             console.log(result);
             for (let item of result.barcodeResultItems) {
-              resultsContainer.textContent += `${item.formatString}: ${item.text}\n\n`;
+              resultText += `${item.formatString}: ${item.text}\n\n`;
             }
           },
         });
@@ -103,9 +103,12 @@
 </script>
 
 <div>
-  <div bind:this={cameraViewContainer} style="width: 100%; height: 70vh; background: #eee;"></div>
+  <div
+    bind:this={cameraViewContainer}
+    style="width: 100%; height: 70vh; background: #eee;"
+  ></div>
   Results:<br />
-  <div bind:this={resultsContainer} class="results"></div>
+  <div class="results">{resultText}</div>
 </div>
 
 <style>

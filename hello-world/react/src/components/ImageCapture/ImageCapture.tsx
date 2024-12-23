@@ -21,8 +21,9 @@ class ImageCapture extends React.Component {
       if (this.isDestroyed) return;
 
       for (let file of files) {
-        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-        const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+        // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+        const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+        console.log(result);
         if (this.isDestroyed) return;
 
         // Print file name if there's multiple files
@@ -35,7 +36,6 @@ class ImageCapture extends React.Component {
           }
           let item = _item as BarcodeResultItem;
           this.resultsContainer.current!.innerText += item.text + "\n";
-          console.log(item.text);
         }
         // If no items are found, display that no barcode was detected
         if (!result.items.length) this.resultsContainer.current!.innerText += "No barcode found\n";

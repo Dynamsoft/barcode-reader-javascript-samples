@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, MutableRefObject } from "react";
+import React, { useRef, useEffect, MutableRefObject, useState } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { EnumCapturedResultItemType } from "dynamsoft-core";
 import { BarcodeResultItem } from "dynamsoft-barcode-reader";
@@ -6,7 +6,7 @@ import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import "./ImageCapture.css";
 
 function ImageCapture() {
-  const resultsContainer: MutableRefObject<HTMLDivElement | null> = useRef(null);
+  const [resultText, setResultText] = useState("");
 
   let pCvRouter: MutableRefObject<Promise<CaptureVisionRouter> | null> = useRef(null);
   let isDestroyed = useRef(false);
@@ -14,7 +14,7 @@ function ImageCapture() {
   const decodeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = [...(e.target.files as any as File[])];
     e.target.value = ""; // reset input
-    resultsContainer.current!.innerText = "";
+    let _resultText = "";
 
     try {
       // ensure cvRouter is created only once
@@ -22,24 +22,26 @@ function ImageCapture() {
       if (isDestroyed.current) return;
 
       for (let file of files) {
-        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-        const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+        // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+        const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+        console.log(result);
         if (isDestroyed.current) return;
 
+        let _resultText = "";
         // Print file name if there's multiple files
         if (files.length > 1) {
-          resultsContainer.current!.innerText += `\n${file.name}:\n`;
+          _resultText += `\n${file.name}:\n`;
         }
         for (let _item of result.items) {
           if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
             continue; // check if captured result item is a barcode
           }
           let item = _item as BarcodeResultItem;
-          resultsContainer.current!.innerText += item.text + "\n"; // output the decoded barcode text
-          console.log(item.text);
+          _resultText += item.text + "\n"; // output the decoded barcode text
         }
         // If no items are found, display that no barcode was detected
-        if (!result.items.length) resultsContainer.current!.innerText += "No barcode found";
+        if (!result.items.length) _resultText = "No barcode found";
+        setResultText(_resultText);
       }
     } catch (ex: any) {
       let errMsg = ex.message || ex;
@@ -68,7 +70,7 @@ function ImageCapture() {
       <div className="input-container">
         <input type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={decodeImg} />
       </div>
-      <div className="results" ref={resultsContainer}></div>
+      <div className="results">{resultText}</div>
     </div>
   );
 }
