@@ -5,39 +5,38 @@
   import { type BarcodeResultItem } from "dynamsoft-barcode-reader";
   import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 
-  let resultsContainer: HTMLDivElement;
-
   let pCvRouter: Promise<CaptureVisionRouter>;
   let isDestroyed = false;
+  let resultText = "";
 
   const captureImage = async (e: Event) => {
     let files = [...(e.target! as HTMLInputElement).files!];
     (e.target! as HTMLInputElement).value = ""; // reset input
-    resultsContainer.innerText = "";
+    resultText = "";
 
     try {
       const cvRouter = await (pCvRouter = pCvRouter || CaptureVisionRouter.createInstance());
       if (isDestroyed) return;
 
       for (let file of files) {
-        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-        const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+        // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+        const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+        console.log(result);
         if (isDestroyed) return;
 
         // Print file name if there's multiple files
         if (files.length > 1) {
-          resultsContainer.innerText += `\n${file.name}:\n`;
+          resultText += `\n${file.name}:\n`;
         }
         for (let _item of result.items) {
           if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
             continue; // check if captured result item is a barcode
           }
           let item = _item as BarcodeResultItem;
-          resultsContainer.innerText += item.text + "\n"; // output the decoded barcode text
-          console.log(item.text);
+          resultText += item.formatString + ": " + item.text + "\n"; // output the decoded barcode text
         }
         // If no items are found, display that no barcode was detected
-        if (!result.items.length) resultsContainer.innerText += "No barcode found\n";
+        if (!result.items.length) resultText += "No barcode found\n";
       }
     } catch (ex: any) {
       let errMsg = ex.message || ex;
@@ -63,7 +62,7 @@
   <div class="input-container">
     <input type="file" multiple on:change={captureImage} accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" />
   </div>
-  <div class="result" bind:this={resultsContainer}></div>
+  <div class="result">{resultText}</div>
 </div>
 
 <style>
@@ -92,5 +91,6 @@
 
   .image-capture-container .result {
     margin-top: 20px;
+    white-space: pre-wrap;
   }
 </style>

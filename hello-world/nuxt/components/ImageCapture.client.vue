@@ -5,7 +5,7 @@ import { EnumCapturedResultItemType } from "dynamsoft-core";
 import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 
-const resultContainer: Ref<HTMLDivElement | null> = ref(null);
+const resultText = ref("");
 
 let pCvRouter: Promise<CaptureVisionRouter>;
 let isDestroyed = false;
@@ -13,31 +13,31 @@ let isDestroyed = false;
 const captureImage = async (e: Event) => {
   let files = [...(e.target! as HTMLInputElement).files!];
   (e.target! as HTMLInputElement).value = ''; // reset input
-  resultContainer.value!.innerText = "";
+  resultText.value = "";
   try {
     // ensure cvRouter is created only once
     const cvRouter = await (pCvRouter = pCvRouter || CaptureVisionRouter.createInstance());
     if (isDestroyed) return;
 
     for (let file of files) {
-      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-      const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+      // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+      const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+      console.log(result);
       if (isDestroyed) return;
 
       // Print file name if there's multiple files
       if (files.length > 1) {
-        resultContainer.value!.innerText += `\n${file.name}:\n`;
+        resultText.value += `\n${file.name}:\n`;
       }
       for (let _item of result.items) {
         if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
           continue;  // check if captured result item is a barcode
         }
         let item = _item as BarcodeResultItem;
-        resultContainer.value!.innerText += item.text + "\n";  // output the decoded barcode text
-        console.log(item.text);
+        resultText.value += item.text + "\n";  // output the decoded barcode text
       }
       // If no items are found, display that no barcode was detected
-      if (!result.items.length) resultContainer.value!.innerText += 'No barcode found\n';
+      if (!result.items.length) resultText.value += 'No barcode found\n';
     }
   } catch (ex: any) {
     let errMsg = ex.message || ex;
@@ -61,7 +61,7 @@ onBeforeUnmount(async () => {
     <div class="input-container">
       <input type="file" multiple @change="captureImage" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" />
     </div>
-    <div class="results" ref="resultContainer"></div>
+    <div class="results">{{resultText}}</div>
   </div>
 </template>
 
@@ -84,5 +84,6 @@ onBeforeUnmount(async () => {
 .image-capture-container .results {
   margin-top: 20px;
   height: 100%;
+  white-space: pre-wrap;
 }
 </style>

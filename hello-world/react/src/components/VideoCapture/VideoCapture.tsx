@@ -8,8 +8,10 @@ import "./VideoCapture.css";
 const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
 class VideoCapture extends React.Component {
+  state = {
+    resultText: ""
+  };
   cameraViewContainer: React.RefObject<HTMLDivElement> = React.createRef();
-  resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
 
   resolveInit?: () => void;
   pInit: Promise<void> = new Promise((r) => (this.resolveInit = r));
@@ -45,12 +47,13 @@ class VideoCapture extends React.Component {
       this.cvRouter.addResultReceiver({
         onDecodedBarcodesReceived: (result) => {
           if (!result.barcodeResultItems.length) return;
-
-          this.resultsContainer.current!.textContent = "";
+          
+          let _resultText = "";
           console.log(result);
           for (let item of result.barcodeResultItems) {
-            this.resultsContainer.current!.textContent += `${item.formatString}: ${item.text}\n\n`;
+            _resultText += `${item.formatString}: ${item.text}\n\n`;
           }
+          this.setState({resultText: _resultText})
         },
       });
 
@@ -110,7 +113,7 @@ class VideoCapture extends React.Component {
         <div ref={this.cameraViewContainer} style={{  width: "100%", height: "70vh" }}></div>
         <br />
         Results:
-        <div ref={this.resultsContainer} className="results"></div>
+        <div className="results">{this.state.resultText}</div>
       </div>
     );
   }

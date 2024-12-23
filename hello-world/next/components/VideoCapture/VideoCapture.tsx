@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
@@ -9,7 +9,7 @@ const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
 function VideoCapture() {
   const cameraViewContainer = useRef<HTMLDivElement>(null);
-  const resultsContainer = useRef<HTMLDivElement>(null);
+  const [resultsText, setResultText] = useState("");
 
   useEffect((): any => {
     let resolveInit: () => void;
@@ -48,11 +48,12 @@ function VideoCapture() {
           onDecodedBarcodesReceived: (result) => {
             if (!result.barcodeResultItems.length) return;
 
-            resultsContainer.current!.textContent = "";
+            let _resultText = "";
             console.log(result);
             for (let item of result.barcodeResultItems) {
-              resultsContainer.current!.textContent += `${item.formatString}: ${item.text}\n\n`;
+              _resultText += `${item.formatString}: ${item.text}\n\n`;
             }
+            setResultText(_resultText);
           },
         });
 
@@ -115,7 +116,7 @@ function VideoCapture() {
       ></div>
       <br />
       Results:
-      <div ref={resultsContainer} className="results"></div>
+      <div className="results">{resultsText}</div>
     </div>
   );
 }

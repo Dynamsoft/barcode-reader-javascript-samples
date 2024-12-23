@@ -11,7 +11,7 @@ import { CaptureVisionRouter } from 'dynamsoft-capture-vision-router';
   standalone: true,
 })
 export class ImageCaptureComponent {
-  @ViewChild('results') resultsContainer?: ElementRef<HTMLDivElement>;
+  resultText = "";
 
   pCvRouter?: Promise<CaptureVisionRouter>;
   isDestroyed = false;
@@ -19,7 +19,7 @@ export class ImageCaptureComponent {
   captureImage = async (e: Event) => {
     let files = [...((e.target! as HTMLInputElement).files as any as File[])];
     (e.target! as HTMLInputElement).value = ''; // reset input
-    this.resultsContainer!.nativeElement.innerText = '';
+    this.resultText = '';
     try {
       // ensure cvRouter is created only once
       const cvRouter = await (this.pCvRouter =
@@ -27,25 +27,25 @@ export class ImageCaptureComponent {
       if (this.isDestroyed) return;
 
       for (let file of files) {
-        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-        const result = await cvRouter.capture(file, 'ReadBarcodes_SpeedFirst');
+        // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+        const result = await cvRouter.capture(file, 'ReadBarcodes_ReadRateFirst');
+        console.log(result);
         if (this.isDestroyed) return;
 
         // Print file name if there's multiple files
         if (files.length > 1) {
-          this.resultsContainer!.nativeElement.innerText += `\n${file.name}:\n`;
+          this.resultText += `\n${file.name}:\n`;
         }
         for (let _item of result.items) {
           if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
             continue; // check if captured result item is a barcode
           }
           let item = _item as BarcodeResultItem;
-          this.resultsContainer!.nativeElement.innerText += item.text + '\n'; // output the decoded barcode text
-          console.log(item.text);
+          this.resultText += item.text + '\n'; // output the decoded barcode text
         }
         // If no items are found, display that no barcode was detected
         if (!result.items.length)
-          this.resultsContainer!.nativeElement.innerText +=
+          this.resultText +=
             'No barcode found\n';
       }
     } catch (ex: any) {
