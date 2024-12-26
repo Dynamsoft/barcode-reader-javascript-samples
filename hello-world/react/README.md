@@ -102,12 +102,15 @@ import "../../dynamsoft.config"; // import side effects. The license, engineReso
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
+import "./VideoCapture.css";
 
 const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
 class VideoCapture extends React.Component {
+  state = {
+    resultText: ""
+  };
   cameraViewContainer: React.RefObject<HTMLDivElement> = React.createRef();
-  resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
 
   resolveInit?: () => void;
   pInit: Promise<void> = new Promise((r) => (this.resolveInit = r));
@@ -118,7 +121,7 @@ class VideoCapture extends React.Component {
 
   async componentDidMount() {
     try {
-      // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+      // Create a `CameraView` instance for UI control and a `CameraEnhancer` instance for camera control.
       const cameraView = await CameraView.createInstance();
       if (this.isDestroyed) {
         throw Error(componentDestroyedErrorMsg);
@@ -143,12 +146,13 @@ class VideoCapture extends React.Component {
       this.cvRouter.addResultReceiver({
         onDecodedBarcodesReceived: (result) => {
           if (!result.barcodeResultItems.length) return;
-
-          this.resultsContainer.current!.textContent = "";
+          
+          let _resultText = "";
           console.log(result);
           for (let item of result.barcodeResultItems) {
-            this.resultsContainer.current!.textContent += `${item.formatString}: ${item.text}\n\n`;
+            _resultText += `${item.formatString}: ${item.text}\n\n`;
           }
+          this.setState({resultText: _resultText})
         },
       });
 
@@ -165,6 +169,7 @@ class VideoCapture extends React.Component {
 
       // Open camera and start scanning single barcode.
       await this.cameraEnhancer.open();
+      cameraView.setScanLaserVisible(true);
       if (this.isDestroyed) {
         throw Error(componentDestroyedErrorMsg);
       }
@@ -207,7 +212,7 @@ class VideoCapture extends React.Component {
         <div ref={this.cameraViewContainer} style={{  width: "100%", height: "70vh" }}></div>
         <br />
         Results:
-        <div ref={this.resultsContainer} className="results"></div>
+        <div className="results">{this.state.resultText}</div>
       </div>
     );
   }
@@ -221,7 +226,7 @@ export default VideoCapture;
 > * The component should never update (check the code for `shouldComponentUpdate()`) so that events bound to the UI stay valid.
 > * Also, during 'development', React executes setup and cleanup phases twice in [Strict Mode](https://react.dev/reference/react/StrictMode). To ensure proper functioning of VideoCapture in development, it's advised to avoid using Strict Mode for this component.
 > However, if you're still interested on using Strict Mode, we do have a workaround available. Please contact our [support team](#Support) for further assistance.
-> * If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customize-the-ui)
+> * If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customizing-the-ui)
 
 ### Create and edit the `ImageCapture` component
 
@@ -236,6 +241,7 @@ import "../../dynamsoft.config"; // import side effects. The license, engineReso
 import { EnumCapturedResultItemType } from "dynamsoft-core";
 import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
+import "./ImageCapture.css";
 
 class ImageCapture extends React.Component {
   resultsContainer: React.RefObject<HTMLDivElement> = React.createRef();
@@ -253,8 +259,9 @@ class ImageCapture extends React.Component {
       if (this.isDestroyed) return;
 
       for (let file of files) {
-        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-        const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+        // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+        const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+        console.log(result);
         if (this.isDestroyed) return;
 
         // Print file name if there's multiple files
@@ -267,7 +274,6 @@ class ImageCapture extends React.Component {
           }
           let item = _item as BarcodeResultItem;
           this.resultsContainer.current!.innerText += item.text + "\n";
-          console.log(item.text);
         }
         // If no items are found, display that no barcode was detected
         if (!result.items.length) this.resultsContainer.current!.innerText += "No barcode found\n";
@@ -317,9 +323,11 @@ export default ImageCapture;
 ```tsx
 /* src/App.tsx */
 import React from "react";
+import reactLogo from "./assets/logo.svg";
 import "./dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import VideoCapture from "./components/VideoCapture/VideoCapture";
 import ImageCapture from "./components/ImageCapture/ImageCapture";
+import "./App.css";
 
 enum Modes {
   VIDEO_CAPTURE = "video",
@@ -348,6 +356,7 @@ class App extends React.Component {
       <div className="hello-world-page">
         <div className="title">
           <h2 className="title-text">Hello World for React</h2>
+          <img className="title-logo" src={reactLogo} alt="logo"></img>
         </div>
         <div className="buttons-container">
           <button
