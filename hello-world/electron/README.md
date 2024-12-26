@@ -18,12 +18,13 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.2002`](ht
 
 Make sure you have [node](https://nodejs.org/) installed. `node 16.20.1` and `electron 26.4.1` are used in this article.
 
-## Quick Start 
+## Quick Start
 
 ```cmd
 npm install
 npm start
 ```
+
 A window should open to view the sample application
 
 ## Creating the sample project
@@ -148,14 +149,14 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
   license: "./node_modules/dynamsoft-license/dist/",
   cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
   dbr: "./node_modules/dynamsoft-barcode-reader/dist/",
-  dce: "./node_modules/dynamsoft-camera-enhancer/dist/"
+  dce: "./node_modules/dynamsoft-camera-enhancer/dist/",
 };
 
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
  */
 
-Dynamsoft.License.LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9', {
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", {
   executeNow: true,
 });
 
@@ -170,15 +171,18 @@ Dynamsoft.License.LicenseManager.initLicense('DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMD
 Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
 (async () => {
+  // Defined globally for easy debugging.
+  let cameraEnhancer, cvRouter;
+
   try {
-    // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+    // Create a `CameraView` instance for UI control and a `CameraEnhancer` instance for camera control.
     const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-    const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+    cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
     // Get default UI and append it to DOM.
     document.querySelector("#camera-view-container").append(cameraView.getUIElement());
 
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-    const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+    cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
     cvRouter.setInput(cameraEnhancer);
 
     // Define a callback for results.
@@ -187,12 +191,12 @@ Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
         if (!result.barcodeResultItems.length) return;
 
         const resultsContainer = document.querySelector("#results");
-        resultsContainer.textContent = '';
+        resultsContainer.textContent = "";
         console.log(result);
         for (let item of result.barcodeResultItems) {
           resultsContainer.textContent += `${item.formatString}: ${item.text}\n\n`;
         }
-      }
+      },
     });
 
     // Filter out unchecked and duplicate results.
@@ -205,6 +209,7 @@ Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
     // Open camera and start scanning single barcode.
     await cameraEnhancer.open();
+    cameraView.setScanLaserVisible(true);
     await cvRouter.startCapturing("ReadSingleBarcode");
   } catch (ex) {
     let errMsg = ex.message || ex;
@@ -221,22 +226,12 @@ Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 Create the `style.css` file at the root folder. Note that this is customizable!
 
 ```css
-body {
-  text-align: center;
-}
-
-#camera-view-container {
-  width: 100%;
-  height: 80vh;
-}
-
 #results {
   width: 100%;
   height: 10vh;
   overflow: auto;
   white-space: pre-wrap;
 }
-
 ```
 
 ## Run the application
