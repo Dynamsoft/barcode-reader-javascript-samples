@@ -156,6 +156,8 @@ window.startVideoDecode = async () => {
 
         // Open camera and start scanning single barcode.
         await cameraEnhancer.open();
+        
+        cameraView.setScanLaserVisible(true);
         await cvRouter.startCapturing("ReadSingleBarcode");
     } catch (ex) {
         let errMsg = ex.message || ex;
@@ -283,45 +285,43 @@ Inside the `wwwroot\index.html` file, we will initialize the license and necessa
 
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.4.2002/dist/dbr.bundle.min.js"></script>
     <script>
-        /** LICENSE ALERT - README
-         * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
-         */
+      /** LICENSE ALERT - README
+       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+       */
+      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
-        Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+      /**
+       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+       * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=10.4.2002&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
+       * LICENSE ALERT - THE END
+       */
 
-        /**
-         * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
-         * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-         * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=10.4.2002&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
-         * LICENSE ALERT - THE END
-         */
+      // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
+      Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
 
-        // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
-        Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
-        
-        // Defined globally for easy debugging.
-        let cameraEnhancer, cvRouter;
-        let videoModuleLoaded = false;
-        let imageModuleLoaded = false;
+      // Defined globally for easy debugging.
+      let cameraEnhancer, cvRouter;
+      let videoModuleLoaded = false;
+      let imageModuleLoaded = false;
 
-        // Lazy load Decode video module until needed
-        async function loadDecodeVideoModule() {
-            if (!videoModuleLoaded) {
-                await import('./decodeVideo.js');
-                videoModuleLoaded = true;
-            }
+      // Lazy load Decode video module until needed
+      async function loadDecodeVideoModule() {
+        if (!videoModuleLoaded) {
+          await import("./decodeVideo.js");
+          videoModuleLoaded = true;
         }
+      }
 
-        // Lazy load decode image module until needed
-        async function loadDecodeImageModule() {
-            if (!imageModuleLoaded) {
-                await import('./decodeImage.js');
-                imageModuleLoaded = true;
-            }
+      // Lazy load decode image module until needed
+      async function loadDecodeImageModule() {
+        if (!imageModuleLoaded) {
+          await import("./decodeImage.js");
+          imageModuleLoaded = true;
         }
+      }
     </script>
-</body>
-
+  </body>
 </html>
 ```
 

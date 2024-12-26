@@ -118,7 +118,6 @@ import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
 const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
 const cameraViewContainer: Ref<HTMLElement | null> = ref(null);
-const resultsContainer: Ref<HTMLElement | null> = ref(null);
 
 let resolveInit: () => void;
 const pInit: Promise<void> = new Promise(r => { resolveInit = r });
@@ -126,9 +125,9 @@ let isDestroyed = false;
 
 let cvRouter: CaptureVisionRouter;
 let cameraEnhancer: CameraEnhancer;
+let resultText = ref("");
 
 onMounted(async () => {
-
   try {
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
     const cameraView = await CameraView.createInstance();
@@ -150,10 +149,10 @@ onMounted(async () => {
       onDecodedBarcodesReceived: (result) => {
         if (!result.barcodeResultItems.length) return;
 
-        resultsContainer.value!.textContent = '';
+        resultText.value = '';
         console.log(result);
         for (let item of result.barcodeResultItems) {
-          resultsContainer.value!.textContent += `${item.formatString}: ${item.text}\n\n`;
+          resultText.value += `${item.formatString}: ${item.text}\n\n`;
         }
       }
     });
@@ -169,6 +168,7 @@ onMounted(async () => {
 
     // Open camera and start scanning single barcode.
     await cameraEnhancer.open();
+    cameraView.setScanLaserVisible(true);
     if (isDestroyed) { throw Error(componentDestroyedErrorMsg); }
     await cvRouter.startCapturing("ReadSingleBarcode");
     if (isDestroyed) { throw Error(componentDestroyedErrorMsg); }
@@ -204,13 +204,13 @@ onBeforeUnmount(async () => {
     <div ref="cameraViewContainer" style="width: 100%; height: 70vh; background: #eee;"></div>
     <br />
     Results:
-    <div ref="resultsContainer" class="results"></div>
+    <div class="results">{{ resultText }}</div>
   </div>
 </template>
 ```
 > Note:
 >
-> If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customize-the-ui)
+> If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customizing-the-ui)
 
 ### Create and edit the `ImageCapture` component
 
@@ -221,45 +221,44 @@ onBeforeUnmount(async () => {
 ```vue
 <!-- /src/components/ImageCapture.vue -->
 <script setup lang="ts">
-import { onBeforeUnmount, ref, type Ref } from "vue";
+import { onBeforeUnmount, ref } from "vue";
 import "../dynamsoft.config";
 import { EnumCapturedResultItemType } from "dynamsoft-core";
 import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 
-const resultContainer: Ref<HTMLDivElement | null> = ref(null);
-
 let pCvRouter: Promise<CaptureVisionRouter>;
 let isDestroyed = false;
+let resultText = ref("");
 
 const captureImage = async (e: Event) => {
   let files = [...(e.target! as HTMLInputElement).files!];
   (e.target! as HTMLInputElement).value = ''; // reset input
-  resultContainer.value!.innerText = "";
+  resultText.value = "";
   try {
     // ensure cvRouter is created only once
     const cvRouter = await (pCvRouter = pCvRouter || CaptureVisionRouter.createInstance());
     if (isDestroyed) return;
 
     for (let file of files) {
-      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-      const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+      // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+      const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+      console.log(result);
       if (isDestroyed) return;
 
       // Print file name if there's multiple files
       if (files.length > 1) {
-        resultContainer.value!.innerText += `\n${file.name}:\n`;
+        resultText.value += `\n${file.name}:\n`;
       }
       for (let _item of result.items) {
         if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
           continue;  // check if captured result item is a barcode
         }
         let item = _item as BarcodeResultItem;
-        resultContainer.value!.innerText += item.text + "\n";  // output the decoded barcode text
-        console.log(item.text);
+        resultText.value += item.formatString + ": " + item.text + "\n";  // output the decoded barcode text
       }
       // If no items are found, display that no barcode was detected
-      if (!result.items.length) resultContainer.value!.innerText += 'No barcode found\n';
+      if (!result.items.length) resultText.value += 'No barcode found\n';
     }
   } catch (ex: any) {
     let errMsg = ex.message || ex;
@@ -283,7 +282,7 @@ onBeforeUnmount(async () => {
     <div class="input-container">
       <input type="file" multiple @change="captureImage" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" />
     </div>
-    <div class="results" ref="resultContainer"></div>
+    <div class="results">{{ resultText }}</div>
   </div>
 </template>
 ```
@@ -298,6 +297,7 @@ onBeforeUnmount(async () => {
 <!-- /src/App.vue -->
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
+import vueLogo from "./assets/logo.svg";
 import VideoCapture from "./components/VideoCapture.vue";
 import ImageCapture from "./components/ImageCapture.vue";
 
@@ -309,6 +309,7 @@ const mode: Ref<string> = ref("video");
   <div class='App'>
     <div class='title'>
       <h2 class='title-text'>Hello World for Vue</h2>
+      <img class='title-logo' :src="vueLogo" alt="logo" />
     </div>
     <div class='buttons-container'>
       <button @click="mode = 'video'"
@@ -336,7 +337,7 @@ const mode: Ref<string> = ref("video");
 ```cmd
 npm run dev
 ```
-If you followed all the steps correctly, you will have a working page that turns one of the cameras hooked to or built in your computer or mobile device into a barcode scanner. Also, if you want to decode a local image, just click the `Decode Image` button and select the image you want to decode. Once barcodes are found, the results will show in a dialog. 
+If you followed all the steps correctly, you will have a working page that turns one of the cameras hooked to or built in your computer or mobile device into a barcode scanner. Also, if you want to decode a local image, just click the `Decode Image` button and select the image you want to decode. Once barcodes are found, the results will show in a dialog.
 
 ### Comment out the following code in `assets/main.css`. (optional)
 
