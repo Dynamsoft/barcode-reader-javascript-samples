@@ -118,7 +118,7 @@ ng generate component video-capture
 ></div>
 <br />
 Results:
-<div #results class="results"></div>
+<div class="results">{{resultText}}</div>
 ```
 
 * In `video-capture.component.ts`, add code for initializing and destroying some instances. For our stylesheet (CSS) specification, please refer to our [source code](#Official-Sample).
@@ -141,7 +141,7 @@ const componentDestroyedErrorMsg = 'VideoCapture Component Destroyed';
 })
 export class VideoCaptureComponent {
   @ViewChild('cameraViewContainer') cameraViewContainer?: ElementRef<HTMLDivElement>;
-  @ViewChild('results') resultsContainer?: ElementRef<HTMLDivElement>;
+  resultText = "";
 
   resolveInit?: () => void;
   pInit: Promise<void> = new Promise((r) => {
@@ -179,10 +179,10 @@ export class VideoCaptureComponent {
         onDecodedBarcodesReceived: (result) => {
           if (!result.barcodeResultItems.length) return;
 
-          this.resultsContainer!.nativeElement.textContent = '';
+          this.resultText = '';
           console.log(result);
           for (let item of result.barcodeResultItems) {
-            this.resultsContainer!.nativeElement.textContent += `${item.formatString}: ${item.text}\n\n`;
+            this.resultText += `${item.formatString}: ${item.text}\n\n`;
           }
         },
       });
@@ -200,6 +200,7 @@ export class VideoCaptureComponent {
 
       // Open camera and start scanning single barcode.
       await this.cameraEnhancer.open();
+      cameraView.setScanLaserVisible(true);
       if (this.isDestroyed) {
         throw Error(componentDestroyedErrorMsg);
       }
@@ -235,7 +236,7 @@ export class VideoCaptureComponent {
 ```
 > Note:
 >
-> If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customize-the-ui)
+> If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customizing-the-ui)
 
 
 ### Generate and edit the `image-capture` component
@@ -259,7 +260,7 @@ ng generate component image-capture
       accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp"
     />
   </div>
-  <div class="results" #results></div>
+  <div class="results">{{resultText}}</div>
 </div>
 ```
 
@@ -280,7 +281,7 @@ import { CaptureVisionRouter } from 'dynamsoft-capture-vision-router';
   standalone: true,
 })
 export class ImageCaptureComponent {
-  @ViewChild('results') resultsContainer?: ElementRef<HTMLDivElement>;
+  resultText = "";
 
   pCvRouter?: Promise<CaptureVisionRouter>;
   isDestroyed = false;
@@ -288,7 +289,7 @@ export class ImageCaptureComponent {
   captureImage = async (e: Event) => {
     let files = [...((e.target! as HTMLInputElement).files as any as File[])];
     (e.target! as HTMLInputElement).value = ''; // reset input
-    this.resultsContainer!.nativeElement.innerText = '';
+    this.resultText = '';
     try {
       // ensure cvRouter is created only once
       const cvRouter = await (this.pCvRouter =
@@ -296,25 +297,25 @@ export class ImageCaptureComponent {
       if (this.isDestroyed) return;
 
       for (let file of files) {
-        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-        const result = await cvRouter.capture(file, 'ReadBarcodes_SpeedFirst');
+        // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+        const result = await cvRouter.capture(file, 'ReadBarcodes_ReadRateFirst');
+        console.log(result);
         if (this.isDestroyed) return;
 
         // Print file name if there's multiple files
         if (files.length > 1) {
-          this.resultsContainer!.nativeElement.innerText += `\n${file.name}:\n`;
+          this.resultText += `\n${file.name}:\n`;
         }
         for (let _item of result.items) {
           if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
             continue; // check if captured result item is a barcode
           }
           let item = _item as BarcodeResultItem;
-          this.resultsContainer!.nativeElement.innerText += item.text + '\n'; // output the decoded barcode text
-          console.log(item.text);
+          this.resultText += item.text + '\n'; // output the decoded barcode text
         }
         // If no items are found, display that no barcode was detected
         if (!result.items.length)
-          this.resultsContainer!.nativeElement.innerText +=
+          this.resultText +=
             'No barcode found\n';
       }
     } catch (ex: any) {

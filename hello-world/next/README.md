@@ -111,17 +111,18 @@ CoreModule.loadWasm(["DBR"]);
 
 ```tsx
 /* /components/VideoCapture/VideoCapture.tsx */
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
+import "./VideoCapture.css";
 
 const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
 function VideoCapture() {
   const cameraViewContainer = useRef<HTMLDivElement>(null);
-  const resultsContainer = useRef<HTMLDivElement>(null);
+  const [resultsText, setResultText] = useState("");
 
   useEffect((): any => {
     let resolveInit: () => void;
@@ -160,11 +161,12 @@ function VideoCapture() {
           onDecodedBarcodesReceived: (result) => {
             if (!result.barcodeResultItems.length) return;
 
-            resultsContainer.current!.textContent = "";
+            let _resultText = "";
             console.log(result);
             for (let item of result.barcodeResultItems) {
-              resultsContainer.current!.textContent += `${item.formatString}: ${item.text}\n\n`;
+              _resultText += `${item.formatString}: ${item.text}\n\n`;
             }
+            setResultText(_resultText);
           },
         });
 
@@ -181,6 +183,7 @@ function VideoCapture() {
 
         // Open camera and start scanning single barcode.
         await cameraEnhancer.open();
+        cameraView.setScanLaserVisible(true);
         if (isDestroyed) {
           throw Error(componentDestroyedErrorMsg);
         }
@@ -224,9 +227,9 @@ function VideoCapture() {
           background: "#eee",
         }}
       ></div>
-      Results:
       <br />
-      <div ref={resultsContainer} className="results"></div>
+      Results:
+      <div className="results">{resultsText}</div>
     </div>
   );
 }
@@ -237,7 +240,7 @@ export default VideoCapture;
 > Note:
 >
 > * The component should never update so that events bound to the UI stay valid. In this component, the useEffect() hook is used to handle the component’s mount and unmount lifecycle events, and there are no state updates that would cause a re-render.
-> * If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customize-the-ui)
+> * If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customizing-the-ui)
 
 ### Create and edit the `ImageCapture` component
 
@@ -247,14 +250,15 @@ export default VideoCapture;
 
 ```tsx
 /* /components/ImageCapture/ImageCapture.tsx */
-import React, { useRef, useEffect, MutableRefObject } from "react";
+import React, { useRef, useEffect, MutableRefObject, useState } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import { EnumCapturedResultItemType } from "dynamsoft-core";
 import { BarcodeResultItem } from "dynamsoft-barcode-reader";
 import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
+import "./ImageCapture.css";
 
 function ImageCapture() {
-  const resultsContainer: MutableRefObject<HTMLDivElement | null> = useRef(null);
+  const [resultText, setResultText] = useState("");
 
   let pCvRouter: MutableRefObject<Promise<CaptureVisionRouter> | null> = useRef(null);
   let isDestroyed = useRef(false);
@@ -262,7 +266,7 @@ function ImageCapture() {
   const captureImage = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = [...(e.target.files as any as File[])];
     e.target.value = ""; // reset input
-    resultsContainer.current!.innerText = "";
+    let _resultText = "";
 
     try {
       // ensure cvRouter is created only once
@@ -270,24 +274,26 @@ function ImageCapture() {
       if (isDestroyed.current) return;
 
       for (let file of files) {
-        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-        const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+        // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+        const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+        console.log(result);
         if (isDestroyed.current) return;
 
+        let _resultText = "";
         // Print file name if there's multiple files
         if (files.length > 1) {
-          resultsContainer.current!.innerText += `\n${file.name}:\n`;
+          _resultText += `\n${file.name}:\n`;
         }
         for (let _item of result.items) {
           if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
             continue; // check if captured result item is a barcode
           }
           let item = _item as BarcodeResultItem;
-          resultsContainer.current!.innerText += item.text + "\n"; // output the decoded barcode text
-          console.log(item.text);
+          _resultText += item.text + "\n"; // output the decoded barcode text
         }
         // If no items are found, display that no barcode was detected
-        if (!result.items.length) resultsContainer.current!.innerText += "No barcode found";
+        if (!result.items.length) _resultText = "No barcode found";
+        setResultText(_resultText);
       }
     } catch (ex: any) {
       let errMsg = ex.message || ex;
@@ -316,7 +322,7 @@ function ImageCapture() {
       <div className="input-container">
         <input type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" onChange={captureImage} />
       </div>
-      <div className="results" ref={resultsContainer}></div>
+      <div className="results">{resultText}</div>
     </div>
   );
 }
