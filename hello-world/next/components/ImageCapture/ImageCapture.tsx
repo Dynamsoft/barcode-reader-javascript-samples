@@ -11,7 +11,7 @@ function ImageCapture() {
   let pCvRouter: MutableRefObject<Promise<CaptureVisionRouter> | null> = useRef(null);
   let isDestroyed = useRef(false);
 
-  const captureImage = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const captureImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = [...(e.target.files as any as File[])];
     e.target.value = ""; // reset input
     let _resultText = "";

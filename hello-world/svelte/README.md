@@ -110,7 +110,7 @@ CoreModule.loadWasm(["DBR"]);
   const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
   let cameraViewContainer: HTMLDivElement;
-  let resultsContainer: HTMLDivElement;
+  let resultText = "";
 
   let resolveInit: () => void;
   const pInit: Promise<void> = new Promise((r) => {
@@ -149,10 +149,10 @@ CoreModule.loadWasm(["DBR"]);
           onDecodedBarcodesReceived: (result) => {
             if (!result.barcodeResultItems.length) return;
 
-            resultsContainer.textContent = "";
+            resultText = "";
             console.log(result);
             for (let item of result.barcodeResultItems) {
-              resultsContainer.textContent += `${item.formatString}: ${item.text}\n\n`;
+              resultText += `${item.formatString}: ${item.text}\n\n`;
             }
           },
         });
@@ -170,6 +170,7 @@ CoreModule.loadWasm(["DBR"]);
 
         //  Open camera and start scanning single barcode.
         await cameraEnhancer.open();
+        cameraView.setScanLaserVisible(true);
         if (isDestroyed) {
           throw Error(componentDestroyedErrorMsg);
         }
@@ -204,15 +205,18 @@ CoreModule.loadWasm(["DBR"]);
 </script>
 
 <div>
-  <div bind:this={cameraViewContainer} style="width: 100%; height: 70vh; background: #eee;"></div>
+  <div
+    bind:this={cameraViewContainer}
+    style="width: 100%; height: 70vh; background: #eee;"
+  ></div>
   Results:<br />
-  <div bind:this={resultsContainer} class="results"></div>
+  <div class="results">{resultText}</div>
 </div>
 ```
 
 > Note:
 > 
-> * If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customize-the-ui)
+> * If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customizing-the-ui)
 
 ### Create and edit the `ImageCapture` component
 
@@ -229,39 +233,38 @@ CoreModule.loadWasm(["DBR"]);
   import { type BarcodeResultItem } from "dynamsoft-barcode-reader";
   import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
 
-  let resultsContainer: HTMLDivElement;
-
   let pCvRouter: Promise<CaptureVisionRouter>;
   let isDestroyed = false;
+  let resultText = "";
 
   const captureImage = async (e: Event) => {
     let files = [...(e.target! as HTMLInputElement).files!];
     (e.target! as HTMLInputElement).value = ""; // reset input
-    resultsContainer.innerText = "";
+    resultText = "";
 
     try {
       const cvRouter = await (pCvRouter = pCvRouter || CaptureVisionRouter.createInstance());
       if (isDestroyed) return;
 
       for (let file of files) {
-        // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-        const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+        // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+        const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+        console.log(result);
         if (isDestroyed) return;
 
         // Print file name if there's multiple files
         if (files.length > 1) {
-          resultsContainer.innerText += `\n${file.name}:\n`;
+          resultText += `\n${file.name}:\n`;
         }
         for (let _item of result.items) {
           if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
             continue; // check if captured result item is a barcode
           }
           let item = _item as BarcodeResultItem;
-          resultsContainer.innerText += item.text + "\n"; // output the decoded barcode text
-          console.log(item.text);
+          resultText += item.formatString + ": " + item.text + "\n"; // output the decoded barcode text
         }
         // If no items are found, display that no barcode was detected
-        if (!result.items.length) resultsContainer.innerText += "No barcode found\n";
+        if (!result.items.length) resultText += "No barcode found\n";
       }
     } catch (ex: any) {
       let errMsg = ex.message || ex;
@@ -287,7 +290,7 @@ CoreModule.loadWasm(["DBR"]);
   <div class="input-container">
     <input type="file" multiple on:change={captureImage} accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" />
   </div>
-  <div class="result" bind:this={resultsContainer}></div>
+  <div class="result">{resultText}</div>
 </div>
 ```
 
