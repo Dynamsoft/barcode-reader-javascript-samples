@@ -46,7 +46,7 @@
 
           for (let file of files) {
             // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-            const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+            const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
 
             if (files.length > 1) {
               resultsContainer.innerText += `\n${file.name}:\n`;
