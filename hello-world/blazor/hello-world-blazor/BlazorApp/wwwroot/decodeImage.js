@@ -9,8 +9,8 @@ window.startImageDecode = async () => {
   try {
     for (let file of files) {
       cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-      // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-      const result = await cvRouter.capture(file, "ReadBarcodes_SpeedFirst");
+      // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+      const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
       if (files.length > 1) {
         resultsContainer.innerText += `\nFile: ${file.name}\n`;
       }
