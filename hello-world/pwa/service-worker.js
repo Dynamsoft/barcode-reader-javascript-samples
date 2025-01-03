@@ -1,12 +1,12 @@
 const engineResourcePaths = {
-  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.4.10/dist/",
-  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.4.20/dist/",
-  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.4.21/dist/",
-  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.4.21/dist/",
-  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.4.22/dist/",
-  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.4.20/dist/",
-  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.1.0/dist/",
-  utility: "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.4.21/dist/",
+  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.4.21/dist/",
+  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.4.31/dist/",
+  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.4.31/dist/",
+  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.4.31/dist/",
+  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.4.33/dist/",
+  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.4.31/dist/",
+  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.1.1/dist/",
+  utility: "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.4.32/dist/",
 };
 
 // Files to cache
