@@ -74,7 +74,7 @@ import { LicenseManager } from "dynamsoft-license";
 import "dynamsoft-barcode-reader";
 
 // Configures the paths where the .wasm files and other necessary resources for modules are located.
-CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
+CoreModule.engineResourcePaths.rootDirectory = "https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@10.4.3100-dev-20250221112701/";
 
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.

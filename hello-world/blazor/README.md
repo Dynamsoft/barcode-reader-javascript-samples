@@ -283,7 +283,7 @@ Inside the `wwwroot\index.html` file, we will initialize the license and necessa
       ...
     <script src="_framework/blazor.webassembly.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.4.3100/dist/dbr.bundle.min.js"></script>
+    <script src="https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@10.4.3100-dev-20250221112701/dynamsoft-barcode-reader-bundle@10.4.3100/dist/dbr.bundle.min.js"></script>
     <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.

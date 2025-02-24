@@ -37,7 +37,7 @@ We will try to turn our basic "Hello World" sample into a PWA. Follow these step
     <br />
     Results:
     <div id="results" style="width: 100%; height: 10vh; overflow: auto"></div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.4.3100/dist/dbr.bundle.min.js"></script>
+    <script src="https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@10.4.3100-dev-20250221112701/dynamsoft-barcode-reader-bundle@10.4.3100/dist/dbr.bundle.min.js"></script>
     <script>
       if (location.protocol === "file:") {
         const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;

@@ -23,6 +23,7 @@
   "dependencies": {
     "dynamsoft-barcode-reader-bundle": "10.4.3100",
     "dynamsoft-capture-vision-std": "1.4.21",
-    "dynamsoft-image-processing": "2.4.31"
+    "dynamsoft-image-processing": "2.4.31",
+    "@dynamsoft/dynamsoft-barcode-reader-bundle": "10.4.3100-dev-20250221112701"
   }
 }
