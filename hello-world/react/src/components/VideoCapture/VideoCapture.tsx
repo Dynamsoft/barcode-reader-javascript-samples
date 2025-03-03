@@ -9,7 +9,7 @@ const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
 class VideoCapture extends React.Component {
   state = {
-    resultText: ""
+    resultText: "",
   };
   cameraViewContainer: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -47,13 +47,13 @@ class VideoCapture extends React.Component {
       this.cvRouter.addResultReceiver({
         onDecodedBarcodesReceived: (result) => {
           if (!result.barcodeResultItems.length) return;
-          
+
           let _resultText = "";
           console.log(result);
           for (let item of result.barcodeResultItems) {
             _resultText += `${item.formatString}: ${item.text}\n\n`;
           }
-          this.setState({resultText: _resultText})
+          this.setState({ resultText: _resultText });
         },
       });
 
@@ -102,15 +102,10 @@ class VideoCapture extends React.Component {
     } catch (_) {}
   }
 
-  shouldComponentUpdate() {
-    // Never update UI after mount, sdk use native way to bind event, update will remove it.
-    return false;
-  }
-
   render() {
     return (
       <div>
-        <div ref={this.cameraViewContainer} style={{  width: "100%", height: "70vh" }}></div>
+        <div ref={this.cameraViewContainer} style={{ width: "100%", height: "70vh" }}></div>
         <br />
         Results:
         <div className="results">{this.state.resultText}</div>
