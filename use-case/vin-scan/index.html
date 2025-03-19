@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="description" content="Scan VINs instantly from a live camera stream with Dynamsoft Capture Vision." />
+    <meta name="keywords" content="vin, scan vin, read vin, ocr, barcode, camera, capture vision" />
+    <title>Dynamsoft Capture Vision - VIN Scanner</title>
+  </head>
+  <body>
+    <style>
+      @keyframes dce-scanlight {
+        from {
+          top: 0;
+        }
+        to {
+          top: 97%;
+        }
+      }
+      @keyframes dce-rotate {
+        from {
+          transform: rotate(0turn);
+        }
+        to {
+          transform: rotate(1turn);
+        }
+      }
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", sans-serif;
+        color: #ddd;
+        overscroll-behavior-y: none;
+        overflow: hidden;
+        margin: 0;
+      }
+      #camera-view-container {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      #camera-view-header {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+      }
+      #top-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem;
+        background-color: rgb(34, 34, 34, 0.4);
+      }
+      #top-header-center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      #top-header-right {
+        margin-left: auto;
+      }
+      #camera-view-title {
+        margin: 0;
+      }
+      #scan-title {
+        margin: 0;
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: normal;
+      }
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: white;
+      }
+      #settings-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+        justify-content: center;
+        align-items: center;
+      }
+      #settings-modal-content {
+        background-color: rgb(68, 68, 68);
+        padding: 2rem;
+      }
+      #settings-modal-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      .settings-option-button {
+        background-color: rgb(34, 34, 34);
+        padding: 0.5rem;
+        color: white;
+      }
+      #close-settings-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .selected {
+        background-color: #fe8e14;
+      }
+      #result-container {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgb(34, 34, 34);
+        display: none;
+        justify-content: center;
+        align-items: center;
+      }
+      #result-content {
+        background-color: rgb(68, 68, 68);
+        padding: 2rem;
+        margin: auto;
+        width: 50%;
+      }
+      #result-content-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      #close-result-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #save-image-button,
+      #copy-result-button {
+        background-color: #fe8e14;
+        padding: 1rem;
+        margin-top: 1rem;
+      }
+      #select-camera-dropdown {
+        color: white;
+        background-color: rgb(34, 34, 34, 0.4);
+        border: 0;
+        padding: 0.5rem;
+        font-size: 1rem;
+        overflow: hidden;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      #notification {
+        text-align: center;
+        font-weight: normal;
+        text-align: center;
+        border-radius: 0.2rem;
+        padding: 0.5rem;
+        margin: 0;
+        margin-top: 1rem;
+        width: -moz-fit-content;
+        width: fit-content;
+
+        /* Fade in animation */
+        opacity: 0;
+        transition: opacity 300ms;
+      }
+      .banner-default {
+        background-color: rgb(254, 142, 20, 0.4);
+        border: 1px solid #fe8e14;
+      }
+      .banner-error {
+        background-color: rgb(252, 2, 0, 0.4);
+        border: 1px solid #fc0200;
+      }
+      .banner-success {
+        background-color: rgb(124, 252, 0, 0.4);
+        border: 1px solid #7cfc00;
+      }
+      @media screen and (max-width: 600px) {
+        #result-content {
+          padding: 2rem;
+          width: 100%;
+          height: 100%;
+        }
+        #settings-modal-content {
+          width: 100%;
+          height: 100%;
+          margin-top: 4rem;
+        }
+      }
+    </style>
+    <div id="camera-view-container">
+      <div style="position: relative; width: 100%; height: 100%">
+        <!-- DCE loading component -->
+        <svg
+          class="dce-bg-loading"
+          style="
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 40%;
+            height: 40%;
+            fill: #aaa;
+            animation: 1s linear infinite dce-rotate;
+          "
+          viewBox="0 0 1792 1792"
+        >
+          <path
+            d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z"
+          />
+        </svg>
+        <div class="dce-video-container" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%"></div>
+        <div
+          class="dce-scanarea"
+          style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; overflow: hidden"
+        >
+          <div
+            class="dce-scanlight"
+            hidden
+            style="
+              width: 100%;
+              display: none;
+              height: 10px;
+              position: absolute;
+              animation: 3s infinite dce-scanlight;
+              background-image: linear-gradient(#ffffff00, #ffb668);
+              border-bottom: 2px solid #ff8400;
+              user-select: none;
+            "
+          ></div>
+        </div>
+        <div id="camera-view-header">
+          <div id="top-header">
+            <div id="top-header-center">
+              <h3 id="camera-view-title">VIN Scanner</h3>
+            </div>
+            <div id="top-header-right">
+              <button id="settings-button" type="button" title="Settings">
+                <img src="./resources/icons/settings.svg" alt="settings" style="width: 2rem; height: 2rem" />
+              </button>
+            </div>
+          </div>
+          <h3 id="scan-title"></h3>
+          <div style="display: flex; justify-content: center">
+            <h3 id="notification">Test</h3>
+          </div>
+        </div>
+      </div>
+      <div id="settings-modal">
+        <div id="settings-modal-content">
+          <div id="settings-modal-top">
+            <h3 style="margin: 0; text-align: left">Settings</h3>
+            <button id="close-settings-button" type="button">
+              <img alt="close" src="./resources/icons/close.svg" width="18px" height="18px" />
+            </button>
+          </div>
+          <!-- [Optional - Custom UI to select camera and resolution -->
+          <h4 style="margin: 0; margin-bottom: 1rem; font-weight: normal">Select Camera</h4>
+          <select type="button" id="select-camera-dropdown"></select>
+          <h4 style="margin: 0; margin-bottom: 1rem; font-weight: normal">Scan Mode</h4>
+          <div style="display: flex; gap: 1rem">
+            <button type="button" class="settings-option-button" id="scan-both-button">Scan Text & Barcode</button>
+            <button type="button" class="settings-option-button" id="scan-text-button">Scan Text Only</button>
+            <button type="button" class="settings-option-button" id="scan-barcode-button">Scan Barcode Only</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="result-container">
+      <div id="result-content">
+        <div id="result-content-top">
+          <h3 style="margin: 0">Result</h3>
+          <button id="close-result-button" type="button">
+            <img alt="close" src="./resources/icons/close.svg" width="18px" height="18px" />
+          </button>
+        </div>
+        <div id="result-image-container" style="width: 100%; padding-bottom: 1rem"></div>
+        <div id="results"></div>
+        <button id="save-image-button" type="button">Save Image</button>
+        <button id="copy-result-button" type="button">Copy Result</button>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30/dist/dlr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/dcp.js"></script>
+    <script>
+      /** LICENSE ALERT - README
+       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+       */
+
+      Dynamsoft.License.LicenseManager.initLicense(
+        "DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAyODk0NDUwLVRYbFhaV0pRY205cSIsIm1haW5TZXJ2ZXJVUkwiOiJodHRwczovL21sdHMuZHluYW1zb2Z0LmNvbSIsIm9yZ2FuaXphdGlvbklEIjoiMTAyODk0NDUwIiwic3RhbmRieVNlcnZlclVSTCI6Imh0dHBzOi8vc2x0cy5keW5hbXNvZnQuY29tIiwiY2hlY2tDb2RlIjoxMDUxNjY0NjUyfQ==",
+        true
+      );
+
+      /**
+       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+       * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+       * LICENSE ALERT - THE END
+       */
+
+      // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
+      Dynamsoft.Core.CoreModule.loadWasm(["DBR", "DLR", "DCP"]);
+
+      const resultContainer = document.getElementById("result-container");
+      const notification = document.getElementById("notification");
+
+      // Custom UI to select camera and resolution
+      // Ref: https://github.com/Dynamsoft/barcode-reader-javascript-demo
+      const cameraDropdownContainer = document.getElementById("select-camera-dropdown");
+      const resolutionList = ["Full HD", "HD"];
+      const resolution = {
+        [resolutionList[0]]: [1920, 1080], // Full HD
+        [resolutionList[1]]: [1280, 720], // HD
+      };
+      /** Check if current resolution is Full HD or HD
+       * Ref: https://github.com/Dynamsoft/barcode-reader-javascript-demo/blob/main/src/views/BarcodeScanner.vue
+       * @params {Object} currentResolution - an object with `width` and `height` to represent the current resolution of the camera
+       * @returns {string} Either "HD" or "Full HD" depending of the resolution of the screen
+       */
+      const judgeCurResolution = (currentResolution) => {
+        const { width, height } = currentResolution;
+        const minValue = Math.min(width, height);
+        const maxValue = Math.max(width, height);
+
+        if (minValue > 480 && minValue < 960 && maxValue > 960 && maxValue < 1440) {
+          return "HD";
+        } else if (minValue > 900 && minValue < 1440 && maxValue > 1400 && maxValue < 2160) {
+          return "Full HD";
+        }
+      };
+
+      const init = async () => {
+        // [Optional] - Create custom UI for CameraView
+        // Ref: https://www.dynamsoft.com/camera-enhancer/docs/web/programming/javascript/user-guide/index.html#customize-the-ui
+        const cameraView = await Dynamsoft.DCE.CameraView.createInstance(
+          document.getElementById("camera-view-container")
+        );
+        // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+        const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+
+        cameraView.setVideoFit("cover");
+        cameraView.setScanLaserVisible(true);
+        await cameraEnhancer.setScanRegion({
+          x: 10,
+          y: 35,
+          width: 80,
+          height: 20,
+          isMeasuredInPercentage: true,
+        });
+
+        // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+        const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+        cvRouter.setInput(cameraEnhancer);
+
+        // Filter out unchecked and duplicate results.
+        const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+        filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
+        filter.enableResultDeduplication("barcode", true); // Filter out duplicate barcodes within 3 seconds.
+        filter.enableResultCrossVerification("text_line", true); // Filter out unchecked text lines
+        filter.enableResultDeduplication("text_line", true); // Filter out duplicate text lines within 3 seconds
+
+        await cvRouter.addResultFilter(filter);
+
+        // Set parameters to read VIN through DLR and DBR
+        await cvRouter.initSettings("./resources/VIN_Template.json");
+
+        const EnumCRIT = Dynamsoft.Core.EnumCapturedResultItemType;
+        const resultImageContainer = document.getElementById("result-image-container");
+        const results = document.querySelector("#results");
+
+        // Define a callback for results.
+        cvRouter.addResultReceiver({
+          onCapturedResultReceived: async (result) => {
+            if (!result.items.length) return;
+
+            for (let item of result.items) {
+              // Skip non barcodes and non text line  results
+              if (item.type != EnumCRIT.CRIT_BARCODE && item.type != EnumCRIT.CRIT_TEXT_LINE) {
+                continue;
+              }
+
+              // Reset results
+              resultImageContainer.innerHTML = "";
+              results.textContent = "";
+
+              if (item.text) {
+                // Stop Capturing if result is found
+                await cvRouter.stopCapturing();
+                await cameraEnhancer.close();
+
+                resultContainer.style.display = "flex";
+
+                const resultType = item.type === EnumCRIT.CRIT_BARCODE ? "barcode" : "text";
+                const parsedVIN = parseVinInfo(
+                  result.parsedResultItems.find((x) => x.taskName === `dcp_vin_${resultType}`)
+                ); // Parse Code from CodeParser
+
+                const resultContent = `Scanned by ${resultType}\nVIN: ${item.text}\n${parsedVIN}`;
+                results.innerText = resultContent;
+              }
+
+              // Get Scanned VIN Image and append to results container
+              const imageData = result.items.find((item) => item.type === EnumCRIT.CRIT_ORIGINAL_IMAGE)?.imageData;
+              if (imageData) {
+                // Get Scanned VIN Image as a canvas
+                const imageCanvas = imageData.toCanvas();
+                // Resize the Scanned VIN canvas
+                const resizedCanvas = document.createElement("canvas");
+                resizedCanvas.width = resultImageContainer.clientWidth;
+                // Calculate the new height to maintain the aspect ratio
+                const aspectRatio = imageCanvas.height / imageCanvas.width;
+                resizedCanvas.height = resultImageContainer.clientWidth * aspectRatio;
+
+                // Get context of resizedCanvas to draw original image
+                const ctx = resizedCanvas.getContext("2d");
+                ctx.drawImage(imageCanvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
+
+                resultImageContainer.append(resizedCanvas);
+              }
+            }
+          },
+        });
+
+        // [Optional] - Custom UI to select camera and resolution
+        try {
+          await cameraEnhancer.open();
+
+          // Populate a list of cameras and the resolution
+          const cameraList = await cameraEnhancer.getAllCameras();
+          // Get current camera and current resolution to set as selected
+          const currentCamera = await cameraEnhancer.getSelectedCamera();
+          const currentResolution = await cameraEnhancer.getResolution();
+
+          if (cameraList.length > 0) {
+            for (let i of cameraList) {
+              for (let j of resolutionList) {
+                const cameraAndResolutionOption = document.createElement("option");
+                cameraAndResolutionOption.innerText = `${i?.label} (${j})`;
+                cameraAndResolutionOption.value = [i?.deviceId, j];
+
+                // Set as selected if option matches current camera and resolution
+                // Note: We checked with `resolution.includes(width)` and `resolution.includes(height)`
+                // instead of matching the width and height respectively because on mobile,
+                // the width and the height are switched.
+                if (currentCamera.deviceId === i.deviceId && judgeCurResolution(currentResolution) === j) {
+                  cameraAndResolutionOption.selected = true;
+                }
+
+                // Add camera and resolution options to the select element
+                cameraDropdownContainer.append(cameraAndResolutionOption);
+              }
+            } // Open camera
+          }
+        } catch (ex) {
+          const errMsg = ex.message || ex;
+          console.error(errMsg);
+        }
+
+        return {
+          cameraEnhancer,
+          cvRouter,
+        };
+      };
+      let pInit; // promise of init
+
+      const scanTitle = document.getElementById("scan-title");
+      const SCAN_MODES = ["barcode", "text", "both"];
+      const SCAN_TEMPLATES = {
+        [SCAN_MODES[0]]: "ReadVINBarcode",
+        [SCAN_MODES[1]]: "ReadVINText",
+        [SCAN_MODES[2]]: "ReadVIN",
+      };
+      const SCAN_MODE_TITLES = {
+        [SCAN_MODES[0]]: "Scanning by Barcode",
+        [SCAN_MODES[1]]: "Scanning by Text",
+        [SCAN_MODES[2]]: "Scanning Text and Barcode",
+      };
+
+      const settingsButton = document.getElementById("settings-button");
+      const settingsModal = document.getElementById("settings-modal");
+      const closeSettingsButton = document.getElementById("close-settings-button");
+
+      // Set scan mode as "Scan Both" by default
+      let currentMode = SCAN_MODES[2];
+
+      // Create event listener for each scan modes
+      SCAN_MODES.map((mode) =>
+        document.getElementById(`scan-${mode}-button`).addEventListener("click", async function (event) {
+          try {
+            const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
+
+            // Change Page Title
+            scanTitle.innerText = SCAN_MODE_TITLES[mode];
+
+            if (cvRouter) {
+              await cvRouter.stopCapturing();
+            }
+
+            // Open camera and start scanning single barcode.
+            await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
+
+            // Update button styles to show selected and close modal
+            document.querySelectorAll(".settings-option-button").forEach((button) => {
+              button.classList.remove("selected");
+            });
+            event.target.classList.add("selected");
+            settingsModal.style.display = "none";
+
+            // Show success notification on scan mode switch
+            notification.classList.add("banner-success");
+            notification.innerText = `Now ${SCAN_MODE_TITLES[mode]}`;
+            // Fade in animation for notificaiton
+            notification.style.opacity = 1;
+            setTimeout(function () {
+              notification.style.opacity = 0;
+            }, 5000);
+
+            currentMode = mode;
+          } catch (ex) {
+            let errMsg = ex.message || ex;
+            console.error(errMsg);
+            alert(errMsg);
+          }
+        })
+      );
+
+      // Return parsed VIN info as an object
+      function extractVinDetails(result) {
+        if (result.exception) return {};
+
+        const parseResultInfo = {
+          Region: result.getFieldValue("region"),
+          "Check Digit": result.getFieldValue("checkDigit"),
+          "Model Year": result.getFieldValue("modelYear"),
+          "Plant Code": result.getFieldValue("plantCode"),
+          VIS: result.getFieldValue("VIS"),
+        };
+
+        return parseResultInfo;
+      }
+
+      // Return formatted parsed VIN info as string
+      function parseVinInfo(result) {
+        let parsedDetails = extractVinDetails(result);
+        if (Object.keys(parsedDetails).length === 0) {
+          console.error("Parse Failed!");
+          return "";
+        }
+
+        let formattedVIN = Object.entries(parsedDetails)
+          .map(([key, value]) => (value ? `${key}: ${value}` : ""))
+          .filter((x) => x) // Filter empty values
+          .join("\n");
+        return formattedVIN;
+      }
+
+      // Trigger the default scan mode button click event once DOM is ready
+      document.addEventListener("DOMContentLoaded", () => {
+        scanTitle.innerText = SCAN_MODE_TITLES[currentMode];
+        document.getElementById(`scan-${currentMode}-button`).click();
+      });
+
+      // Open Settings modal
+      settingsButton.addEventListener("click", () => {
+        settingsModal.style.display = "flex";
+        console.log("here");
+      });
+
+      // Close Settings modal
+      closeSettingsButton.addEventListener("click", () => {
+        settingsModal.style.display = "none";
+      });
+      window.onclick = function (event) {
+        if (event.target == settingsModal) {
+          settingsModal.style.display = "none";
+        }
+      };
+
+      // Copy result
+      const copyResultButton = document.getElementById("copy-result-button");
+      copyResultButton.addEventListener("click", () => {
+        const results = document.querySelector("#results").innerText;
+
+        navigator.clipboard
+          .writeText(results)
+          .then(function () {
+            console.log("Result copied successfully!");
+          })
+          .catch((ex) => {
+            let errMsg = ex.message || ex;
+            console.error("Failed to copy result", errMsg);
+          });
+      });
+
+      // Save Image
+      const saveImageButton = document.getElementById("save-image-button");
+      saveImageButton.addEventListener("click", () => {
+        const imageCanvas = document.querySelector("#result-image-container").querySelector("canvas");
+
+        imageCanvas.toBlob((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          let download = document.createElement("a");
+          download.download = Date.now().toString();
+          download.href = url;
+          download.click();
+        });
+      });
+
+      // Close Result Container
+      const closeResultButton = document.getElementById("close-result-button");
+      closeResultButton.addEventListener("click", async (event) => {
+        try {
+          const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
+
+          // Open camera and start scanning single barcode.
+          await cameraEnhancer.open();
+          await cvRouter.startCapturing(SCAN_TEMPLATES[currentMode]);
+        } catch (ex) {
+          let errMsg = ex.message || ex;
+          console.err(errMsg);
+        } finally {
+          resultContainer.style.display = "none";
+        }
+      });
+
+      // Event Listener to change camera and resolution
+      cameraDropdownContainer.addEventListener("change", async function (event) {
+        // Get selected cameraID and resolution from chosen option
+        const { options, selectedIndex } = event.target;
+        const [selectedCameraId, selectedRes] = (options[selectedIndex].value || "").split(",");
+        const [width, height] = resolution[selectedRes];
+
+        // Set the cameraId and resolution
+        try {
+          const { cameraEnhancer } = await (pInit = pInit || init());
+          await cameraEnhancer.selectCamera(selectedCameraId);
+          await cameraEnhancer.setResolution({ width, height });
+
+          // Confirm if camera/resolution switch is successful
+          const currentCamera = await cameraEnhancer.getSelectedCamera();
+          const currentResolution = await cameraEnhancer.getResolution();
+
+          // Show notification status for switching camera/resolution
+          notification.className = "";
+          if (currentCamera.deviceId !== selectedCameraId) {
+            notification.classList.add("banner-error");
+            notification.innerText = `Switch camera failed!`;
+          } else if (judgeCurResolution(currentResolution) !== selectedRes) {
+            notification.classList.add("banner-error");
+            notification.innerText = `Switch resolution failed! ${selectedRes} might be unsupported in the camera.`;
+
+            // Update the selected camera to the current camera if the resolution is not supported by camera
+            for (let option of options) {
+              const [optionCamera, optionRes] = (option.value || "").split(",");
+              if (optionCamera === currentCamera.deviceId && optionRes === judgeCurResolution(currentResolution)) {
+                option.selected = true;
+                // Manually dispatch a change event to update to default camera
+                const changeEvent = new Event("change", { bubbles: true });
+                event.target.dispatchEvent(changeEvent);
+                break;
+              }
+            }
+          } else {
+            notification.classList.add("banner-success");
+            notification.innerText = `Switched to ${currentCamera.label} (${selectedRes}) successfully!`;
+          }
+
+          // On switch, close the settings modal
+          settingsModal.style.display = "none";
+
+          // Fade in animation for notificaiton
+          notification.style.opacity = 1;
+          setTimeout(function () {
+            notification.style.opacity = 0;
+          }, 5000);
+        } catch (ex) {
+          const errorMessage = ex.message || ex;
+          console.error(errorMessage);
+        }
+      });
+    </script>
+  </body>
+</html>
