@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Read barcodes from camera with Dynamsoft Barcode Reader. Save the processed frames for debugging."
+    />
+    <meta name="keywords" content="read barcode from camera, debug" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Dynamsoft Barcode Reader Sample - Debug</title>
+  </head>
+
+  <body>
+    <h1 style="font-size: 1.5em">Read Barcodes from Camera - Debug</h1>
+    <button id="btn-start-capturing">start capturing</button>
+    <button id="btn-stop-capturing">stop capturing</button>
+    <br /><br />
+    <label><input type="radio" name="video-settings" checked value="default" />default</label>
+    <label><input type="radio" name="video-settings" value="back-camera" />back camera</label>
+    <label><input type="radio" name="video-settings" value="only-video" />only video</label>
+    <br /><br />
+    <label><input id="cb-send-img" type="checkbox" />send image to</label
+    ><input id="ipt-server-url" placeholder="server url, default ./collect" />
+    <br />
+    <div id="div-ui-container" style="width: 100%; height: calc(100vh - 150px)"></div>
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.4.3100/dist/dbr.bundle.min.js"></script>
+    <script>
+      eruda.init();
+
+      Dynamsoft.Core.CoreModule.enableLogging();
+      Dynamsoft.CVR.CaptureVisionRouter._onLog = console.log;
+      Dynamsoft.DCE.CameraEnhancer._onLog = console.log;
+
+      /** LICENSE ALERT - README
+       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+       */
+
+      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+
+      /**
+       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
+       * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=10.4.3100&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
+       * LICENSE ALERT - THE END
+       */
+
+      // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
+      Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
+
+      const init = async () => {
+        try {
+          // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+          const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+          const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+          // Get default UI and append it to DOM.
+          document.querySelector("#div-ui-container").append(cameraView.getUIElement());
+
+          // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+          const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+          cvRouter.setInput(cameraEnhancer);
+
+          // Filter out unchecked and duplicate results.
+          const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+          filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
+          // Filter out duplicate barcodes within 3 seconds.
+          filter.enableResultDeduplication("barcode", true);
+          filter.setDuplicateForgetTime("barcode", 3000);
+          await cvRouter.addResultFilter(filter);
+
+          let ss = await cvRouter.getSimplifiedSettings("ReadSingleBarcode");
+          ss.timeout = 100000;
+          ss.minImageCaptureInterval = 100;
+          ss.capturedResultItemTypes |= Dynamsoft.Core.EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE;
+          await cvRouter.updateSettings("ReadSingleBarcode", ss);
+
+          // Define a callback for results.
+          const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+          let processingCount = 0;
+          resultReceiver.onCapturedResultReceived = async (result) => {
+            const resultItems = result.items;
+            if (!resultItems.length) return;
+
+            if (resultItems.some((item) => item.type === "barcode")) {
+              Dynamsoft.DCE.Feedback.beep();
+            }
+
+            let bSendImg = !!document.getElementById("cb-send-img").checked;
+            /**
+             * The barcode reading speed is very fast, we must limit
+             * the number of uploaded frames (4), so that it is feasible.
+             */
+            if (bSendImg && processingCount < 4) {
+              ++processingCount;
+              try {
+                /**
+                 * The 'cvs' is the one the sdk worked on,
+                 * we can collect it for futher testing and debugging.
+                 */
+                let cvs;
+                for (let item of resultItems) {
+                  if (item.type !== Dynamsoft.Core.EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE) continue;
+                  const imageData = item.imageData;
+                  console.log(item);
+                  cvs = imageData.toCanvas();
+                }
+
+                let fd = new FormData();
+                if (cvs != null) {
+                  let blob = cvs.convertToBlob
+                    ? await cvs.convertToBlob()
+                    : await new Promise((resolve) => {
+                        cvs.toBlob((blob) => resolve(blob));
+                      });
+                  fd.append("img", blob);
+                  await fetch(document.getElementById("ipt-server-url").value || "collect", {
+                    method: "POST",
+                    body: fd,
+                  });
+                }
+              } catch (ex) {
+                console.error(ex);
+              }
+              --processingCount;
+            }
+          };
+          cvRouter.addResultReceiver(resultReceiver);
+
+          return {
+            cameraView,
+            cameraEnhancer,
+            cvRouter,
+          };
+        } catch (ex) {
+          let errMsg = ex.message || ex;
+          console.error(errMsg);
+          alert(errMsg);
+        }
+      };
+      let pInit = init();
+
+      document.getElementById("btn-start-capturing").addEventListener("click", async () => {
+        const { cameraEnhancer, cvRouter, cameraView } = await pInit;
+
+        // Open camera and start scanning single barcode.
+        await cameraEnhancer.open();
+        cameraView.setScanLaserVisible(true);
+        await cvRouter.startCapturing("ReadSingleBarcode");
+      });
+
+      document.getElementById("btn-stop-capturing").addEventListener("click", async () => {
+        const { cameraEnhancer, cvRouter, cameraView } = await pInit;
+
+        cvRouter.stopCapturing();
+        cameraEnhancer.close();
+        cameraView.setScanLaserVisible(false);
+      });
+
+      let switchVideoSettings = async () => {
+        const { cameraEnhancer } = await pInit;
+
+        switch (document.querySelector('input[name="video-settings"]:checked').value) {
+          case "back-camera":
+            await cameraEnhancer.updateVideoSettings({
+              video: {
+                facingMode: "environment",
+              },
+            });
+            break;
+          case "only-video":
+            await cameraEnhancer.updateVideoSettings({
+              video: true,
+            });
+            break;
+          default:
+            await cameraEnhancer.updateVideoSettings({
+              video: {
+                width: {
+                  ideal: 1280,
+                },
+                height: {
+                  ideal: 720,
+                },
+                facingMode: {
+                  ideal: "environment",
+                },
+              },
+            });
+        }
+      };
+      for (let ipt of document.querySelectorAll('input[name="video-settings"]')) {
+        ipt.addEventListener("change", switchVideoSettings);
+      }
+    </script>
+  </body>
+</html>
