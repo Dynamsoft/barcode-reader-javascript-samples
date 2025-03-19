@@ -14,7 +14,7 @@
   </head>
 
   <body>
-    <span id="span-tip">Aim at the barcode on the driver's license.</span>
+    <span id="span-tip">Click the play button to activate the camera.</span>
     <h1>Read a Driver's License</h1>
     <div id="message-container">
       <em class="message-icon"
@@ -46,10 +46,8 @@
       </div>
     </div>
     <div id="main-container">
-      <svg id="svg-start" viewBox="0 0 2048 1792">
-        <path
-          d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z"
-        />
+      <svg id="svg-start" t="1742347975823" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2701" width="50" height="50">
+        <path d="M169.258667 904.533333V119.466667A102.4 102.4 0 0 1 333.098667 37.546667l523.349333 392.533333a102.4 102.4 0 0 1 0 163.84l-523.349333 392.533333A102.4 102.4 0 0 1 169.258667 904.533333z" p-id="2702"></path>
       </svg>
       <div id="camera-view-container"></div>
     </div>
@@ -68,19 +66,19 @@
       </div>
       <div class="result-body"></div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.4.2002/dist/dbr.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.4.20/dist/dcp.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.4.3100/dist/dbr.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.4.32/dist/dcp.js"></script>
     <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
        */
 
-      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLWRicl9qc19zYW1wbGVzIiwib3JnYW5pemF0aW9uSUQiOiIyMDAwMDAifQ==");
+      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
       /**
        * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
        * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-       * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=10.4.2002&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=10.4.3100&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
        * LICENSE ALERT - THE END
        */
 
@@ -155,6 +153,8 @@
 
         let settings = await cvRouter.getSimplifiedSettings("ReadDenseBarcodes");
         settings.barcodeSettings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_PDF417;
+        settings.barcodeSettings.localizationModes = [16, 2, 0, 0, 0, 0, 0, 0];
+        settings.barcodeSettings.expectBarcodeCount = 1;
         await cvRouter.updateSettings("ReadDenseBarcodes", settings);
 
         return {
