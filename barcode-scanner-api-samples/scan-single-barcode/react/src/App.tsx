@@ -7,7 +7,7 @@ function App() {
   useEffect(() => {
     const config = {
       license: "YOUR-LICENSE-KEY", 
-      container: ".dbs-container",
+      container: ".barcode-scanner-view ",
       engineResourcePaths: {
         rootDirectory: "https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250417174703/dist/",
       },
@@ -15,18 +15,18 @@ function App() {
         cameraEnhancerUIPath: "https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250417174703/dist/",
       },
     }
-    const dbs = new BarcodeScanner(config);
-    dbs.launch().then((result)=>{
+    const barcodeScanner = new BarcodeScanner(config);
+    barcodeScanner.launch().then((result)=>{
       console.log(result);
     });
   })
   return (
-    <div className="dbs-hello-world-page">
-      <div className="dbs-title">
-        <h2 className="dbs-title-text">Hello World for React</h2>
-        <img className="dbs-title-logo" src={reactLogo} alt="logo"></img>
+    <div className="barcode-scanner-hello-world-page">
+      <div className="barcode-scanner-title">
+        <h2 className="barcode-scanner-title-text">Hello World for React</h2>
+        <img className="barcode-scanner-title-logo" src={reactLogo} alt="logo"></img>
       </div>
-      <div className="dbs-container"></div>
+      <div className="barcode-scanner-view "></div>
     </div>
   )
 }

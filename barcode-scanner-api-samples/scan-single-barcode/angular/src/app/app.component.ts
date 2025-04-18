@@ -14,7 +14,7 @@ export class AppComponent {
   async ngAfterViewInit(): Promise<void> {
     const config = {
       license: "YOUR-LICENSE-KEY",
-      container: ".dbs-container",
+      container: ".barcode-scanner-view",
       engineResourcePaths: {
         rootDirectory: "https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250417174703/dist/",
       },
@@ -22,8 +22,8 @@ export class AppComponent {
         cameraEnhancerUIPath: "https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250417174703/dist/",
       },
     }
-    const dbs = new BarcodeScanner(config);
-    dbs.launch().then((result) => {
+    const barcodeScanner = new BarcodeScanner(config);
+    barcodeScanner.launch().then((result) => {
       console.log(result);
     });
   }
