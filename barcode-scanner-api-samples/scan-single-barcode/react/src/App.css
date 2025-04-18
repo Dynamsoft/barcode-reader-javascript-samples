@@ -1,0 +1,34 @@
+.dbs-hello-world-page {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.dbs-title {
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.dbs-title .dbs-title-logo {
+  width: 60px;
+  height: 60px;
+  animation: retate 5s infinite linear;
+}
+
+.dbs-container {
+  width: 100%;
+  height: calc(100% - 90px);
+}
+
+@keyframes retate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
