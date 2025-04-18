@@ -24,7 +24,7 @@ onMounted(() => {
 <template>
   <div class="barcode-scanner-hello-world-page">
     <div class="barcode-scanner-title">
-      <h2 class="barcode-scanner-title-text">Hello World for Veu</h2>
+      <h2 class="barcode-scanner-title-text">Hello World for Vue</h2>
       <img class="barcode-scanner-title-logo" :src="vueLogo" alt="logo"></img>
     </div>
     <div class="barcode-scanner-view"></div>
