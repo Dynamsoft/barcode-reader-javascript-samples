@@ -6,7 +6,7 @@ import vueLogo from "./assets/vue.svg";
 onMounted(() => {
   const config = {
     license: "YOUR-LICENSE-KEY", 
-    container: ".dbs-container",
+    container: ".barcode-scanner-view",
     engineResourcePaths: {
       rootDirectory: "https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250417174703/dist/",
     },
@@ -14,31 +14,31 @@ onMounted(() => {
       cameraEnhancerUIPath: "https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250417174703/dist/",
     },
   }
-  const dbs = new BarcodeScanner(config);
-  dbs.launch().then((result)=>{
+  const barcodeScanner = new BarcodeScanner(config);
+  barcodeScanner.launch().then((result)=>{
     console.log(result);
   });
 })
 </script>
 
 <template>
-  <div class="dbs-hello-world-page">
-    <div class="dbs-title">
-      <h2 class="dbs-title-text">Hello World for Veu</h2>
-      <img class="dbs-title-logo" :src="vueLogo" alt="logo"></img>
+  <div class="barcode-scanner-hello-world-page">
+    <div class="barcode-scanner-title">
+      <h2 class="barcode-scanner-title-text">Hello World for Veu</h2>
+      <img class="barcode-scanner-title-logo" :src="vueLogo" alt="logo"></img>
     </div>
-    <div class="dbs-container"></div>
+    <div class="barcode-scanner-view"></div>
   </div>
 </template>
 
 <style scoped>
-.dbs-hello-world-page {
+.barcode-scanner-hello-world-page {
   width: 100%;
   height: 100%;
   text-align: center;
 }
 
-.dbs-title {
+.barcode-scanner-title {
   height: 90px;
   display: flex;
   justify-content: center;
@@ -46,14 +46,14 @@ onMounted(() => {
   padding: 20px 0;
 }
 
-.dbs-title .dbs-title-logo {
+.barcode-scanner-title .barcode-scanner-title-logo {
   width: 30px;
   height: 30px;
   animation: retate 5s infinite linear;
   margin-left: 10px;
 }
 
-.dbs-container {
+.barcode-scanner-view {
   width: 100%;
   height: calc(100% - 90px);
 }
