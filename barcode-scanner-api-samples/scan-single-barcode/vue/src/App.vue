@@ -49,7 +49,6 @@ onMounted(() => {
 .barcode-scanner-title .barcode-scanner-title-logo {
   width: 30px;
   height: 30px;
-  animation: retate 5s infinite linear;
   margin-left: 10px;
 }
 
