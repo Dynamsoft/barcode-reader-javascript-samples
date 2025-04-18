@@ -38,7 +38,7 @@
       container: ".barcode-scanner-view",
     }
     const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
-    barcodeScannerD.launch().then((result)=>{
+    barcodeScanner.launch().then((result)=>{
       console.log(result);
     })
   </script>
