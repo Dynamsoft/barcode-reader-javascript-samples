@@ -1,5 +1,33 @@
-# Vue 3 + TypeScript + Vite
+# 📦 Scan Single Barcode - Vue
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This sample shows how to integrate the `BarcodeScanner` API from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/overview/javascript/) into a **Vue 3** application to scan a single barcode from video.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## ✨ Features
+
+- Easy integration with pre-built UI
+- BarcodeScanner instance created in a Vue component
+- Scans one barcode at a time from video
+
+## 🚀 Quick Start
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Run the App
+
+```bash
+npm run dev
+```
+
+Then open http://localhost:5173/ to view the sample app.
+
+## 📌 Customization
+
+Please refer to sample [`scan-multiple-barcodes`](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-multiple-barcodes) or check the official [documentation](https://dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/barcode-scanner-customization.html).
+
+## 📄 Support
+
+If you have any questions, feel free to [contact Dynamsoft Support](https://www.dynamsoft.com/company/contact?utm_source=sampleReadme).
