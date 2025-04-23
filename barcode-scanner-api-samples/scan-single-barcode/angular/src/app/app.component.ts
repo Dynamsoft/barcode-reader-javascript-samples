@@ -22,7 +22,7 @@ export class AppComponent {
     }
     const barcodeScanner = new BarcodeScanner(config);
     barcodeScanner.launch().then((result) => {
-      console.log(result);
+      alert(result.barcodeResults[0].text);
     });
   }
 }
