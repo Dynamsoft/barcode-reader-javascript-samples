@@ -66,13 +66,13 @@
           throw Error(componentDestroyedErrorMsg);
         }
 
-        //  Open camera and start scanning single barcode.
+        //  Open camera and start scanning barcode.
         await cameraEnhancer.open();
         cameraView.setScanLaserVisible(true);
         if (isDestroyed) {
           throw Error(componentDestroyedErrorMsg);
         }
-        await cvRouter.startCapturing("ReadSingleBarcode");
+        await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
         if (isDestroyed) {
           throw Error(componentDestroyedErrorMsg);
         }

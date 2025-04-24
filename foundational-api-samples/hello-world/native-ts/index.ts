@@ -62,10 +62,10 @@ let cvRouter: CaptureVisionRouter;
     filter.enableResultDeduplication("barcode", true);
     await cvRouter.addResultFilter(filter);
 
-    // Open camera and start scanning single barcode.
+    // Open camera and start scanning barcode.
     await cameraEnhancer.open();
     cameraView.setScanLaserVisible(true);
-    await cvRouter.startCapturing("ReadSingleBarcode");
+    await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
   } catch (ex: any) {
     let errMsg = ex.message || ex;
     console.error(errMsg);

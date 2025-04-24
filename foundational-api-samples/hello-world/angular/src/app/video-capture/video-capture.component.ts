@@ -71,13 +71,13 @@ export class VideoCaptureComponent {
         throw Error(componentDestroyedErrorMsg);
       }
 
-      // Open camera and start scanning single barcode.
+      // Open camera and start scanning barcode.
       await this.cameraEnhancer.open();
       cameraView.setScanLaserVisible(true);
       if (this.isDestroyed) {
         throw Error(componentDestroyedErrorMsg);
       }
-      await this.cvRouter.startCapturing('ReadSingleBarcode');
+      await this.cvRouter.startCapturing('ReadBarcodes_SpeedFirst');
       if (this.isDestroyed) {
         throw Error(componentDestroyedErrorMsg);
       }
