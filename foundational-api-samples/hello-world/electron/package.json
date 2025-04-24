@@ -21,7 +21,7 @@
     "electron": "^26.4.1"
   },
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "10.4.3100",
+    "dynamsoft-barcode-reader-bundle": "10.5.3000",
     "dynamsoft-capture-vision-std": "1.4.21",
     "dynamsoft-image-processing": "2.4.31"
   }
