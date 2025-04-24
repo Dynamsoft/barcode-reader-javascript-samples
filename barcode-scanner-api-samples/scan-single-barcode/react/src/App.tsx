@@ -26,7 +26,7 @@ function App() {
     barcodeScanner.launch().then((result) => {
       alert(result.barcodeResults[0].text);
     });
-  });
+  }, []);
   return (
     <div className="barcode-scanner-hello-world-page">
       <div className="barcode-scanner-title">
