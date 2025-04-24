@@ -6,7 +6,7 @@ import vueLogo from "./assets/vue.svg";
 onMounted(() => {
   // Configuration object for initializing the BarcodeScanner instance
   const config = {
-    license: "YOUR-LICENSE-KEY", // Replace with your Dynamsoft license key
+    license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
     container: ".barcode-scanner-view", // Specify where to render the scanner UI
 
     // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
