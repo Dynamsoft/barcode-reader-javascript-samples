@@ -48,4 +48,4 @@ barcodeScanner.launch();
 Scan multiple barcodes:
 
 * [**Hello World**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-multiple-barcodes): Scan multiple barcodes from video stream with minimum code in JavaScript.
-* [**List Builder**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-multiple-barcodes): Simulates a shopping experience where users scan barcodes to add items to a dynamic cart. 
+* [**Cart Builder**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-multiple-barcodes): Simulates a shopping experience where users scan barcodes to add items to a dynamic cart. 
