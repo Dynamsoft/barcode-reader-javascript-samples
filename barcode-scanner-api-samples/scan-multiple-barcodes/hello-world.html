@@ -52,11 +52,64 @@
   <!-- This div will act as the container for the barcode scanner UI -->
   <div class="barcode-scanner-view"></div>
 
+  <noscript> 
+
+    <iframe 
+
+      src="https://www.googletagmanager.com/ns.html?id=GTM-538F83" 
+
+      height="0" 
+
+      width="0" 
+
+      style="display: none; visibility: hidden" 
+
+    ></iframe> 
+
+  </noscript> 
+
+  <script> 
+
+    if (!navigator.webdriver) { 
+
+      setTimeout(() => { 
+
+        (function (w, d, s, l, i) { 
+
+          w[l] = w[l] || []; 
+
+          w[l].push({ 
+
+            "gtm.start": new Date().getTime(), 
+
+            event: "gtm.js", 
+
+          }); 
+
+          var f = d.getElementsByTagName(s)[0], 
+
+            j = d.createElement(s), 
+
+            dl = l != "dataLayer" ? "&l=" + l : ""; 
+
+          j.async = true; 
+
+          j.src = "//www.googletagmanager.com/gtm.js?id=" + i + dl; 
+
+          f.parentNode.insertBefore(j, f); 
+
+        })(window, document, "script", "dataLayer", "GTM-538F83"); 
+
+      }, 0); 
+
+    } 
+
+  </script> 
   <script>
     // Configuration object for initializing the BarcodeScanner instance. Refer to https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html#barcodescannerconfig
     let config = {
       // Replace with your Dynamsoft license key
-      license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9",
+      license: "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLWRicl9qc19zYW1wbGVzIiwib3JnYW5pemF0aW9uSUQiOiIyMDAwMDAifQ==",
 
       // Specify where to render the scanner UI
       container: ".barcode-scanner-view",

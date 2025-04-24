@@ -50,7 +50,7 @@ We will try to turn our basic "Hello World" sample into a PWA. Follow these step
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
        */
 
-      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", {
+      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLWRicl9qc19zYW1wbGVzIiwib3JnYW5pemF0aW9uSUQiOiIyMDAwMDAifQ==", {
         executeNow: true,
       });
 

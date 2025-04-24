@@ -19,12 +19,65 @@
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
   <!-- <script src="../../../distributables/dbr.bundle.js"></script> -->
 
+  <noscript> 
+
+    <iframe 
+
+      src="https://www.googletagmanager.com/ns.html?id=GTM-538F83" 
+
+      height="0" 
+
+      width="0" 
+
+      style="display: none; visibility: hidden" 
+
+    ></iframe> 
+
+  </noscript> 
+
+  <script> 
+
+    if (!navigator.webdriver) { 
+
+      setTimeout(() => { 
+
+        (function (w, d, s, l, i) { 
+
+          w[l] = w[l] || []; 
+
+          w[l].push({ 
+
+            "gtm.start": new Date().getTime(), 
+
+            event: "gtm.js", 
+
+          }); 
+
+          var f = d.getElementsByTagName(s)[0], 
+
+            j = d.createElement(s), 
+
+            dl = l != "dataLayer" ? "&l=" + l : ""; 
+
+          j.async = true; 
+
+          j.src = "//www.googletagmanager.com/gtm.js?id=" + i + dl; 
+
+          f.parentNode.insertBefore(j, f); 
+
+        })(window, document, "script", "dataLayer", "GTM-538F83"); 
+
+      }, 0); 
+
+    } 
+
+  </script> 
   <script>
     /** LICENSE ALERT - README
      * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
      */
 
-    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLWRicl9qc19zYW1wbGVzIiwib3JnYW5pemF0aW9uSUQiOiIyMDAwMDAifQ==");
 
     /**
      * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
