@@ -62,7 +62,7 @@ This sample simulates a shopping experience where users scan barcodes to add ite
 
 ### 🔧 How It Works
 
-The scanning logic mirrors the Hello World sample.
+The scanning logic mirrors the Hello World sample, but scanned results populate the cart instead of just displaying in the result view.
 
 The UI features a "Scan Barcode" button, a styled cart, and basic interactivity with vanilla JavaScript and CSS.
 
