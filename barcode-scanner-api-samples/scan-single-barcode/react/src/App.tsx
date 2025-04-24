@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import reactLogo from "./assets/logo.svg";
-import { BarcodeScanner } from "@dynamsoft/dynamsoft-barcode-reader-bundle";
+import { BarcodeScanner } from "dynamsoft-barcode-reader-bundle";
 import "./App.css";
 
 function App() {
@@ -10,19 +10,14 @@ function App() {
       license: "YOUR-LICENSE-KEY", // Replace with your Dynamsoft license key
       container: ".barcode-scanner-view", // Specify where to render the scanner UI
 
+      // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
+      uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.3000-beta-202504231853/dist/",
+
       // Specify custom paths for the engine resources
       engineResourcePaths: {
-        rootDirectory:
-          "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250417174703/dist/",
+        rootDirectory: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.3000-beta-202504231853/dist/",
       },
-
-      // Configuration for the scanner UI
-      scannerViewConfig: {
-        // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
-        cameraEnhancerUIPath:
-          "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250417174703/dist/",
-      },
-    };
+    }
 
     // Create an instance of the BarcodeScanner with the provided configuration
     const barcodeScanner = new BarcodeScanner(config);
