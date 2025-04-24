@@ -2,7 +2,7 @@
 
 [Electron](https://www.electronjs.org/) is a framework for creating native applications with web technologies. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into an Electron application.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.4.3100`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.4.3100).
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.5.3000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.5.3000).
 
 > Note:
 >
@@ -50,7 +50,7 @@ npm init
 npm install electron --save-dev
 npm install dynamsoft-capture-vision-std@1.4.10 -E
 npm install dynamsoft-image-processing@2.4.20 -E
-npm install dynamsoft-barcode-reader-bundle@10.4.3100 -E
+npm install dynamsoft-barcode-reader-bundle@10.5.3000 -E
 ```
 
 ## Start to implement
@@ -163,7 +163,7 @@ Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMD
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
  * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=10.4.3100&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=10.5.3000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
  * LICENSE ALERT - THE END
  */
 

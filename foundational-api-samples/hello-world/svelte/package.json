@@ -10,7 +10,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "10.4.3100"
+    "dynamsoft-barcode-reader-bundle": "10.5.3000"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
