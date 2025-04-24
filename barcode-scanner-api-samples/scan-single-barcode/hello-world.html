@@ -1,47 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Dynamsoft Barcode Scanner Sample - Hello World (Decode via Camera)
+    </title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamsoft Barcode Scanner Sample - Hello World (Decode via Camera)</title>
-  <script src="https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250418130750/dist/dbr.bundle.js"></script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      width: 100%;
-      height: 100%;
-    }
-    .barcode-scanner-title {
-      height: 80px;
-      text-align: center;
-      font-size: 20px;
-      padding: 20px 0;
-    }
-    .barcode-scanner-view {
-      width: 100%; 
-      height: calc(100% - 80px);
-    }
-  </style>
-</head>
+    <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.3000-beta-202504231853/dist/dbr.bundle.js"></script>
 
-<body>
-  <h1 class="barcode-scanner-title">Hello World (Decode via Camera)</h1>
-  <div class="barcode-scanner-view"></div>
-  <script>
-    let config = {
-      license: "YOUR-LICENSE-KEY",
-      container: ".barcode-scanner-view",
-    }
-    const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
-    barcodeScanner.launch().then((result)=>{
-      alert(result.barcodeResults[0].text);
-    })
-  </script>
-</body>
+    <style>
+      /* Reset default margin and padding, and apply border-box sizing */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
+      /* Ensure html and body take full viewport size */
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Style for the scanner title */
+      .barcode-scanner-title {
+        height: 80px;
+        text-align: center;
+        font-size: 20px;
+        padding: 20px 0;
+      }
+
+      /* Container where the barcode scanner will be rendered */
+      .barcode-scanner-view {
+        width: 100%;
+        height: calc(100% - 80px); /* Fill remaining space below the title */
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1 class="barcode-scanner-title">
+      Hello World (Scan One Single Barcode via Camera)
+    </h1>
+    <!-- This div will host the barcode scanner's camera view -->
+    <div class="barcode-scanner-view"></div>
+
+    <script>
+      // Configuration object for initializing the BarcodeScanner instance. Refer to https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html#barcodescannerconfig
+      let config = {
+        license: "YOUR-LICENSE-KEY", // Replace with your Dynamsoft license key
+        container: ".barcode-scanner-view", // Specify where to render the scanner UI
+      };
+
+      // Create a new instance of the Dynamsoft Barcode Scanner
+      const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
+
+      // Launch the scanner and handle the scanned result
+      barcodeScanner.launch().then((result) => {
+        // Display the first detected barcode's text in an alert
+        alert(result.barcodeResults[0].text);
+      });
+    </script>
+  </body>
 </html>
