@@ -25,15 +25,19 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 
 ### Barcode Scanner API samples
 
-**Hello World**
+**Scan single barcode**
 
 Get the basic features working with plain/native JavaScript or within a framework like [Angular](https://angular.io/), [React](https://reactjs.org/) or [Vue](https://vuejs.org/), with RTU-BarcodeScanner APIs.
 
 * [**Scan Single Barcode**](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-single-barcode/hello-world.html?utm_source=sampleReadme): Scan single barcode from video stream with minimum code in JavaScript.
-* [**Scan Multiple Barcodes**](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/hello-world.html?utm_source=sampleReadme): Scan barcodes from video stream with minimum code in JavaScript.
 * [**Hello World in Angular**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/angular): Read single barcode from camera in an Angular application.
 * [**Hello World in React**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/react): Read single barcode from camera in a React application.
 * [**Hello World in Vue**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/vue): Read single barcode from camera in a Vue application.
+
+**Scan multiple barcodes**
+
+* [**Scan Multiple Barcodes**](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/hello-world.html?utm_source=sampleReadme): Scan barcodes from video stream with minimum code in JavaScript.
+* [**Cart Builder**](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/cart-builder.html?utm_source=sampleReadme): Simulates a shopping experience where users scan barcodes to add items to a dynamic cart in JavaScript.
 
 ### Foundational API samples
 
