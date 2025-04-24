@@ -49,7 +49,7 @@ barcodeScanner.launch();
 - This sample scans **multiple unique barcodes**, you can configure `scanMode` to change the behavior to scan one single barcode.
 - To avoid network-related loading issues, consider hosting all required resources locally.
 
-## 🛒 List Builder
+## 🛒 Cart Builder
 
 This sample simulates a shopping experience where users scan barcodes to add items to a dynamic cart. 
 
