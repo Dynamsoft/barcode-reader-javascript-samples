@@ -1,16 +1,18 @@
 
-# 📦 Scan Multiple Barcodes Sample
+# 📦 Scan Multiple Barcodes Samples
+
+## 🚀 Hello World
 
 This sample demonstrates how to use the `BarcodeScanner` API from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/) to scan **multiple barcodes continuously** from a video stream in a web application.
 
-## ✨ Features
+### ✨ Features
 
 - Scan multiple 1D/2D barcodes
 - Live video decoding using `BarcodeScanner` component
 - Easy integration into your web application
 - UI rendered into a customizable container
 
-## 🔧 How It Works
+### 🔧 How It Works
 
 The sample uses the `BarcodeScanner` class to launch a scanner and decode barcodes from a camera stream. The key configuration includes:
 
@@ -42,10 +44,29 @@ const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
 barcodeScanner.launch();
 ```
 
-## 📌 Notes
+### 📌 Notes
 
 - This sample scans **multiple unique barcodes**, you can configure `scanMode` to change the behavior to scan one single barcode.
 - To avoid network-related loading issues, consider hosting all required resources locally.
+
+## 🛒 List Builder
+
+This sample simulates a shopping experience where users scan barcodes to add items to a dynamic cart. 
+
+### ✨ Features
+
+- Scan multiple 1D/2D barcodes
+- Live video decoding using `BarcodeScanner` component
+- Floating and draggable scanner window.
+- Dynamic cart updates on each scan.
+
+### 🔧 How It Works
+
+The scanning logic mirrors the Hello World sample.
+
+The UI features a "Scan Barcode" button, a styled cart, and basic interactivity with vanilla JavaScript and CSS.
+
+A list of 20 dummy products is used, with each scan randomly adding a product to the cart showing its name, shortened barcode, and price.
 
 ## 📄 See other BarcodeScanner samples
 
