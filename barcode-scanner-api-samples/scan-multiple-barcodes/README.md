@@ -1,7 +1,7 @@
 
 # 📦 Scan Multiple Barcodes Samples
 
-## 🚀 Hello World
+## 🚀 1. Hello World
 
 This sample demonstrates how to use the `BarcodeScanner` API from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/) to scan **multiple barcodes continuously** from a video stream in a web application.
 
@@ -49,7 +49,7 @@ barcodeScanner.launch();
 - This sample scans **multiple unique barcodes**, you can configure `scanMode` to change the behavior to scan one single barcode.
 - To avoid network-related loading issues, consider hosting all required resources locally.
 
-## 🛒 Cart Builder
+## 🛒 2. Cart Builder
 
 This sample simulates a shopping experience where users scan barcodes to add items to a dynamic cart. 
 
