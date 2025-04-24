@@ -10,7 +10,7 @@ This sample demonstrates how to use the `BarcodeScanner` API from the [Dynamsoft
 
 ## 🔧 How It Works
 
-The sample uses the `BarcodeScanner` class to launch a scanner and decode barcodes from a camera stream. The key configuration includes:
+The sample uses the `BarcodeScanner` class to launch a scanner and decode a single barcode from a camera stream. The key configuration includes:
 
 - **License Key** – Required to activate the SDK.
 - **`engineResourcePaths`** – Points to required resources hosted on a CDN or locally.
@@ -27,7 +27,7 @@ const config = {
 };
 ```
 
-The barcodeScanner is launched like this:
+The BarcodeScanner instance is created and launched like this:
 
 ```ts
 const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
@@ -36,10 +36,10 @@ barcodeScanner.launch();
 
 ## 📌 Notes
 
-- This sample scans **single barcode**, you can configure the `scanMode` to control this behavior.
-- To avoid network-related loading issues, you can consider hosting all required resources locally.
+- This sample scans one **single barcode**, you can configure `scanMode` to change the behavior to scan multiple barcodes.
+- To avoid network-related loading issues, consider hosting all required resources locally.
 
-## 📄 See other barcodeScanner samples
+## 📄 See other BarcodeScanner samples
 
 * [**Hello World in Angular**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/angular): Read single barcode from camera in an Angular application.
 * [**Hello World in React**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/react): Read single barcode from camera in a React application.

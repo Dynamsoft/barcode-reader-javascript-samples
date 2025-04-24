@@ -4,20 +4,33 @@ import { BarcodeScanner } from '@dynamsoft/dynamsoft-barcode-reader-bundle';
 import vueLogo from "./assets/vue.svg";
 
 onMounted(() => {
-  const config = {
-    license: "YOUR-LICENSE-KEY", 
-    container: ".barcode-scanner-view",
-    engineResourcePaths: {
-      rootDirectory: "https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250417174703/dist/",
-    },
-    scannerViewConfig: {
-      cameraEnhancerUIPath: "https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250417174703/dist/",
-    },
-  }
-  const barcodeScanner = new BarcodeScanner(config);
-  barcodeScanner.launch().then((result)=>{
-    alert(result.barcodeResults[0].text);
-  });
+
+    // Configuration object for initializing the BarcodeScanner instance
+    const config = {
+        license: "YOUR-LICENSE-KEY", // Replace with your Dynamsoft license key
+        container: ".barcode-scanner-view", // Specify where to render the scanner UI
+
+        // Specify custom paths for the engine resources
+        engineResourcePaths: {
+        rootDirectory:
+            "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250417174703/dist/",
+        },
+
+        // Configuration for the scanner UI
+        scannerViewConfig: {
+        // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
+        cameraEnhancerUIPath:
+            "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.1000-dev-20250417174703/dist/",
+        },
+    };
+    
+    // Create an instance of the BarcodeScanner with the provided configuration
+    const barcodeScanner = new BarcodeScanner(config);
+
+    // Launch the scanner; once a barcode is detected, display its text in an alert
+    barcodeScanner.launch().then((result) => {
+      alert(result.barcodeResults[0].text);
+    });
 })
 </script>
 
@@ -27,6 +40,7 @@ onMounted(() => {
       <h2 class="barcode-scanner-title-text">Hello World for Vue</h2>
       <img class="barcode-scanner-title-logo" :src="vueLogo" alt="logo"></img>
     </div>
+    <!-- This div will host the barcode scanner's camera view -->
     <div class="barcode-scanner-view"></div>
   </div>
 </template>

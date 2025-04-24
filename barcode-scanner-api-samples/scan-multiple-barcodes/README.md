@@ -35,7 +35,7 @@ const config = {
 };
 ```
 
-The barcodeScanner is launched like this:
+The BarcodeScanner instance is created and launched like this:
 
 ```ts
 const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
@@ -44,12 +44,12 @@ barcodeScanner.launch();
 
 ## 📌 Notes
 
-- This sample scans **multiple unique barcodes**, you can configure the `scanMode` to control this behavior.
-- To avoid network-related loading issues, you can consider hosting all required resources locally.
+- This sample scans **multiple unique barcodes**, you can configure `scanMode` to change the behavior to scan one single barcode.
+- To avoid network-related loading issues, consider hosting all required resources locally.
 
-## 📄 See other barcodeScanner samples
+## 📄 See other BarcodeScanner samples
 
-Scan single barcode:
+Multiple samples are provided for single barcode scanning. These samples can be easily adapted to scan multiple unique barcodes by simply updating the `config` object.
 
 * [**Hello World**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode): Scan single barcode from video stream with minimum code in JavaScript.
 * [**Hello World in Angular**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/angular): Read single barcode from camera in an Angular application.
