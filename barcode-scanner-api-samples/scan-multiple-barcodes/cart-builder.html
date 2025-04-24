@@ -177,13 +177,6 @@
 
       let cart = [];
 
-      // Initialize Scan Button
-      window.onload = () => {
-        document
-          .getElementById("barcodeBtn")
-          .addEventListener("click", startScanner);
-      };
-
       // Simulate adding product to cart
       function simulateAddingToCart(barcodeText) {
         const product = {
@@ -218,26 +211,33 @@
         });
       }
 
-      // Draggable Floating Div
-      const dragDiv = document.getElementById("floatingDiv");
-      let offsetX = 0,
-        offsetY = 0,
-        isDragging = false;
+      // Initialize Scan Button
+      window.onload = () => {
+        document
+          .getElementById("barcodeBtn")
+          .addEventListener("click", startScanner);
 
-      dragDiv.addEventListener("mousedown", (e) => {
-        isDragging = true;
-        offsetX = e.clientX - dragDiv.offsetLeft;
-        offsetY = e.clientY - dragDiv.offsetTop;
-      });
+        // Make the Floating Div Draggable
+        const dragDiv = document.getElementById("floatingDiv");
+        let offsetX = 0,
+          offsetY = 0,
+          isDragging = false;
 
-      document.addEventListener("mousemove", (e) => {
-        if (isDragging) {
-          dragDiv.style.left = `${e.clientX - offsetX}px`;
-          dragDiv.style.top = `${e.clientY - offsetY}px`;
-        }
-      });
+        dragDiv.addEventListener("mousedown", (e) => {
+          isDragging = true;
+          offsetX = e.clientX - dragDiv.offsetLeft;
+          offsetY = e.clientY - dragDiv.offsetTop;
+        });
 
-      document.addEventListener("mouseup", () => (isDragging = false));
+        document.addEventListener("mousemove", (e) => {
+          if (isDragging) {
+            dragDiv.style.left = `${e.clientX - offsetX}px`;
+            dragDiv.style.top = `${e.clientY - offsetY}px`;
+          }
+        });
+
+        document.addEventListener("mouseup", () => (isDragging = false));
+      };
     </script>
   </body>
 </html>
