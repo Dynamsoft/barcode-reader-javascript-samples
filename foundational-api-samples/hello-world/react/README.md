@@ -200,12 +200,7 @@ class VideoCapture extends React.Component {
       this.cameraEnhancer?.dispose();
     } catch (_) {}
   }
-
-  shouldComponentUpdate() {
-    // Never update UI after mount, sdk use native way to bind event, update will remove it.
-    return false;
-  }
-
+  
   render() {
     return (
       <div>
