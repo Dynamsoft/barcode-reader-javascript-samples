@@ -12,8 +12,8 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.5.3000](htt
 
 ## Official Sample
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/pwa/helloworld-pwa.html">Hello World in PWA - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/pwa">Hello World in PWA - Source Code</a>
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/foundational-api-samples/hello-world/pwa/helloworld-pwa.html">Hello World in PWA - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/pwa">Hello World in PWA - Source Code</a>
 
 ## Preparation
 

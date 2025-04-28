@@ -12,7 +12,7 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.5.3000`](ht
 
 ## Official sample
 
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/hello-world/angular">Hello World in Angular - Source Code</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/angular">Hello World in Angular - Source Code</a>
 
 ## Preparation
 Make sure you have [node](https://nodejs.org/) and [Angular CLI](https://cli.angular.io/) installed. 
