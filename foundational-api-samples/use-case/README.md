@@ -4,8 +4,8 @@ It's difficult to type long text on mobile devices, but if that text is encoded 
 
 The following sample demonstrates how to utilize the SDK to fill out form fields.
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/fill-a-form-with-barcode-reading.html">Read Barcodes and Fill Form Fields - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/use-case/fill-a-form-with-barcode-reading.html">Read Barcodes and Fill Form Fields - Source Code</a>
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/foundational-api-samples/use-case/fill-a-form-with-barcode-reading.html">Read Barcodes and Fill Form Fields - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/use-case/fill-a-form-with-barcode-reading.html">Read Barcodes and Fill Form Fields - Source Code</a>
 
 ## Read the PDF417 Barcode on the Driver's License
 
@@ -13,8 +13,8 @@ The PDF417 barcode on an AAMVA-compatible driver's license contains information 
 
 The following official sample shows how to use the SDK to read and extract driver's license information.
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/read-a-drivers-license/index.html">Read the PDF417 Barcode on the Driver&apos;s License - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/use-case/read-a-drivers-license/index.html">Read the PDF417 Barcode on the Driver&apos;s License - Source Code</a>
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/foundational-api-samples/use-case/read-a-drivers-license/index.html">Read the PDF417 Barcode on the Driver&apos;s License - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/use-case/read-a-drivers-license/index.html">Read the PDF417 Barcode on the Driver&apos;s License - Source Code</a>
 
 Also, see [Driver's License Scanner SDK for Mobile and Web](https://www.dynamsoft.com/use-cases/driver-license/).
 
@@ -24,8 +24,8 @@ When the SDK picks up a barcode in a video stream, it will automatically highlig
 
 The following official sample shows how to show the result texts on the video.
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/show-result-texts-on-the-video.html">Read barcodes via camera and show result texts on the video - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/use-case/show-result-texts-on-the-video.html">Read barcodes via camera and show result texts on the video - Source Code</a>
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/foundational-api-samples/use-case/show-result-texts-on-the-video.html">Read barcodes via camera and show result texts on the video - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/use-case/show-result-texts-on-the-video.html">Read barcodes via camera and show result texts on the video - Source Code</a>
 
 ## Locate an Item via Barcode
 
@@ -35,8 +35,8 @@ The following sample demonstrates how to utilize the SDK to find an item using a
 
 Additionally, this sample demonstrates how to utilize the SDK to fill out form fields, creating a custom UI with [Dynamsoft Camera Enhancer (DCE)](https://www.dynamsoft.com/camera-enhancer/docs/core/introduction/index.html), and using DCE to draw shapes/images on the CameraView to create indicators for each barcode that has been detected!
 
-* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/locate-an-item-with-barcode/index.html">Locate an Item with Barcode - Demo</a>
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/use-case/locate-an-item-with-barcode/index.html">Locate an Item with Barcode - Source Code</a>
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/foundational-api-samples/use-case/locate-an-item-with-barcode/index.html">Locate an Item with Barcode - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/use-case/locate-an-item-with-barcode/index.html">Locate an Item with Barcode - Source Code</a>
 
 
 ## Support

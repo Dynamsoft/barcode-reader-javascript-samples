@@ -6,7 +6,7 @@ This sample is designed to:
 2. Check if your device and browser are compatible with the camera and to what extent.
 3. Collect video frames for analysis. (Require to host the sample locally)
 
-You can directly debug 1 and 2 in this link: [https://demo.dynamsoft.com/Samples/DBR/JS/others/debug/public/index.html](https://demo.dynamsoft.com/Samples/DBR/JS/others/debug/public/index.html)
+You can directly debug 1 and 2 in this link: [https://demo.dynamsoft.com/Samples/DBR/JS/foundational-api-samples/others/debug/public/index.html](https://demo.dynamsoft.com/Samples/DBR/JS/foundational-api-samples/others/debug/public/index.html)
 
 Item 3 we will introduce in detail.
 
@@ -20,7 +20,7 @@ The following shows how to host the sample and collect frames.
 
 The sample can be downloaded from
 
-<a target_="blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/others/debug" alt="Debug Sample on GitHub">Debug Sample on GitHub</a>
+<a target_="blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/others/debug" alt="Debug Sample on GitHub">Debug Sample on GitHub</a>
 
 Note that the entire folder is required. To download only the files in this folder, try using "https://downgit.github.io/#/home".
 
