@@ -1,9 +1,0 @@
-# dependencies
-/node_modules
-
-# collected images
-/public/collect
-
-# others
-
-*.lock
