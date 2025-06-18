@@ -36,8 +36,8 @@ Get the basic features working with plain/native JavaScript or within a framewor
 
 **Scan multiple barcodes**
 
-* [**Scan Multiple Barcodes**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scan-multiple-barcodes/hello-world.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/hello-world.html?utm_source=sampleReadme): Scan barcodes from video stream with minimum code in JavaScript.
-* [**Cart Builder**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scan-multiple-barcodes/cart-builder.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/cart-builder.html?utm_source=sampleReadme): Simulates a shopping experience where users scan barcodes to add items to a dynamic cart in JavaScript.
+* [**Scan Multiple Barcodes**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-multiple-barcodes/hello-world.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/hello-world.html?utm_source=sampleReadme): Scan barcodes from video stream with minimum code in JavaScript.
+* [**Cart Builder**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-multiple-barcodes/cart-builder.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/cart-builder.html?utm_source=sampleReadme): Simulates a shopping experience where users scan barcodes to add items to a dynamic cart in JavaScript.
 
 ### Foundational API samples
 
