@@ -1,12 +1,6 @@
 // Configures the paths where the .wasm files and other necessary resources for modules are located.
 Dynamsoft.Core.CoreModule.engineResourcePaths = {
-  std: "./node_modules/dynamsoft-capture-vision-std/dist/",
-  dip: "./node_modules/dynamsoft-image-processing/dist/",
-  core: "./node_modules/dynamsoft-core/dist/",
-  license: "./node_modules/dynamsoft-license/dist/",
-  cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
-  dbr: "./node_modules/dynamsoft-barcode-reader/dist/",
-  dce: "./node_modules/dynamsoft-camera-enhancer/dist/",
+  dbrBundle: "./node_modules/dynamsoft-barcode-reader-bundle/dist/",
 };
 
 /** LICENSE ALERT - README
@@ -20,12 +14,12 @@ Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMD
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
  * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=10.5.3000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=11.0.3000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
  * LICENSE ALERT - THE END
  */
 
 // Optional. Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
-Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
+Dynamsoft.Core.CoreModule.loadWasm();
 
 (async () => {
   // Defined globally for easy debugging.

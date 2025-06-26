@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scan & Search with BarcodeScanner</title>
+   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/dbr.bundle.js"></script>
+</head>
+
+<body>
+  <h3></h3>
+  <div id="container">
+    <button id="scan-btn" aria-label="Scan barcode">
+      <div class="scan-icon">
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+      </div>
+    </button>
+    <input type="text" id="text-input" placeholder="Search By Barcode or Text" />
+    <button id="search-btn" aria-label="Search">
+      <div class="search-icon"></div>
+    </button>
+  </div>
+
+  <textarea id="search-result" placeholder="Search Result..."></textarea>
+  <div id="scanner-container"></div>
+
+  <script>
+    const scanBtn = document.getElementById("scan-btn");
+    const searchBtn = document.getElementById("search-btn");
+    const inputBox = document.getElementById("text-input");
+    const scannerContainer = document.getElementById("scanner-container");
+    const searchResult = document.querySelector("#search-result");
+
+    async function startScanner() {
+      const barcodeScanner = new Dynamsoft.BarcodeScanner({
+        license: "", // Replace with valid license key
+        scanMode: Dynamsoft.EnumScanMode.SM_SINGLE,
+        showUploadImageButton: true,
+        scannerViewConfig: {
+          container: scannerContainer,
+          showCloseButton: true,
+        },
+      });
+
+      scanBtn.disabled = true;
+      const result = await barcodeScanner.launch();
+
+      if (result.barcodeResults[0])
+        searchResult.value = `Barcode Text to Query from Database: \n\n${result.barcodeResults[0].text} \n\n-------------------\n\nProduct name: xxx \n\nBrand: xxx \n\nCategory: xxx \n\nPrice: xxx \n\nDescription: xxx`;
+
+      scannerContainer.style.display = "none";
+      scanBtn.disabled = false;
+    }
+
+    window.onload = () => {
+      scanBtn.addEventListener("click", () => {
+        scannerContainer.style.display = "flex";
+        startScanner();
+      });
+
+      searchBtn.addEventListener("click", () => {
+        searchResult.value = `Text to Query from Database: \n\n${inputBox.value} \n\n-------------------\n\nProduct name: xxx \n\nBrand: xxx \n\nCategory: xxx \n\nPrice: xxx \n\nDescription: xxx`;
+      });
+    };
+  </script>
+</body>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 10px;
+    margin: 0;
+  }
+
+  #container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  #scan-btn {
+    width: 48px;
+    height: 48px;
+    background-color: #ff5000;
+    border: none;
+    border-radius: 6px 0 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #scan-btn:hover {
+    background-color: #e54c00;
+  }
+
+  #text-input {
+    flex: 1;
+    height: 48px;
+    padding: 0 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-right: none;
+    box-sizing: border-box;
+  }
+
+  #search-btn {
+    width: 48px;
+    height: 48px;
+    background-color: #ff5000;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #search-btn:hover {
+    background-color: #e54c00;
+  }
+
+  .search-icon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 3px solid white;
+    border-radius: 50%;
+    box-sizing: border-box;
+  }
+
+  .search-icon::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 3px;
+    background: white;
+    transform: rotate(45deg);
+    right: -6px;
+    bottom: -3px;
+    transform-origin: center;
+  }
+
+  .scan-icon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+
+  .scan-icon::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background-color: white;
+    transform: translateY(-50%);
+  }
+
+  .corner {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border: 2px solid white;
+  }
+
+  .tl {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .tr {
+    top: 0;
+    right: 0;
+    border-left: none;
+    border-bottom: none;
+  }
+
+  .bl {
+    bottom: 0;
+    left: 0;
+    border-right: none;
+    border-top: none;
+  }
+
+  .br {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
+  }
+
+  #scanner-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    display: none;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+  }
+
+  textarea {
+    width: 100%;
+    max-width: 380px;
+    height: 300px;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    transition: border-color 0.3s;
+  }
+
+  textarea:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  @media (max-width: 480px) {
+
+    #scan-btn,
+    #search-btn {
+      width: 40px;
+      height: 40px;
+    }
+
+    #text-input {
+      height: 40px;
+      font-size: 14px;
+    }
+
+    textarea {
+      height: 200px;
+      font-size: 14px;
+    }
+  }
+</style>
+
+</html>

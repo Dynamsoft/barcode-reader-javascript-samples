@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import "../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
-  import { CameraEnhancer, CameraView } from "dynamsoft-camera-enhancer";
-  import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
-  import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
+  import { CameraEnhancer, CameraView } from "dynamsoft-barcode-reader-bundle";
+  import { CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
+  import { MultiFrameResultCrossFilter } from "dynamsoft-barcode-reader-bundle";
 
   const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
