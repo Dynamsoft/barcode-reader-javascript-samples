@@ -1,10 +1,9 @@
-import "dynamsoft-barcode-reader"
-import { CoreModule } from "dynamsoft-core";
-import { LicenseManager } from "dynamsoft-license";
-import { CameraView, CameraEnhancer } from "dynamsoft-camera-enhancer";
-import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
-import { MultiFrameResultCrossFilter } from "dynamsoft-utility";
-import { DecodedBarcodesResult } from "dynamsoft-barcode-reader";
+import { CoreModule } from "dynamsoft-barcode-reader-bundle";
+import { LicenseManager } from "dynamsoft-barcode-reader-bundle";
+import { CameraView, CameraEnhancer } from "dynamsoft-barcode-reader-bundle";
+import { CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
+import { MultiFrameResultCrossFilter } from "dynamsoft-barcode-reader-bundle";
+import { DecodedBarcodesResult } from "dynamsoft-barcode-reader-bundle";
 
 // Configures the paths where the .wasm files and other necessary resources for modules are located.
 CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
@@ -23,7 +22,7 @@ LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
  */
 
 // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
-CoreModule.loadWasm(["DBR"]);
+CoreModule.loadWasm();
 // Defined globally for easy debugging.
 let cameraEnhancer: CameraEnhancer;
 let cvRouter: CaptureVisionRouter;
