@@ -21,6 +21,13 @@ export class AppComponent {
       // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
       uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/",
 
+      // showUploadImageButton: true,
+      // showPoweredByDynamsoft: false,
+      // scannerViewConfig: {
+      //   showFlashButton: true,
+      //   cameraSwitchControl: "toggleFrontBack",
+      // },
+
       // Specify custom paths for the engine resources
       engineResourcePaths: {
         rootDirectory: "https://cdn.jsdelivr.net/npm/",
