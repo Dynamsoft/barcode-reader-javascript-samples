@@ -9,7 +9,7 @@
   </title>
 
   <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.3000/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
   <!-- <script src="../../../distributables/dbr.bundle.js"></script> -->
 
@@ -57,7 +57,14 @@
     // Configuration object for initializing the BarcodeScanner instance. Refer to https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html#barcodescannerconfig
     let config = {
       license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
-      container: ".barcode-scanner-view", // Specify where to render the scanner UI
+      container: document.querySelector(".barcode-scanner-view"), // Specify where to render the scanner UI
+
+      // showUploadImageButton: true,
+      // showPoweredByDynamsoft: false,
+      // scannerViewConfig: {
+      //   showFlashButton: true,
+      //   cameraSwitchControl: "toggleFrontBack",
+      // },
     };
 
     // Create a new instance of the Dynamsoft Barcode Scanner
@@ -66,7 +73,9 @@
     // Launch the scanner and handle the scanned result
     barcodeScanner.launch().then((result) => {
       // Display the first detected barcode's text in an alert
-      alert(result.barcodeResults[0].text);
+      if (result.barcodeResults.length) {
+        alert(result.barcodeResults[0].text);
+      }
     });
   </script>
 </body>

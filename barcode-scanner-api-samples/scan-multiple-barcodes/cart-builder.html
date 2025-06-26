@@ -7,7 +7,7 @@
   <title>List-Builder - Scan to Cart Simulation</title>
 
   <!-- Dynamsoft Barcode Reader Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.3000/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
   <!-- <script src="../../../distributables/dbr.bundle.js"></script> -->
 
@@ -123,17 +123,13 @@
         // License key for Dynamsoft Barcode Reader (replace with a valid key)
         license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9",
 
-        // Specify the path to the engine resources (loaded from CDN in this case)
-        engineResourcePaths: {
-          rootDirectory:
-            "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.3000/dist/",
-        },
-
         // Set scanning mode to detect multiple unique barcodes in one session
         scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
 
         // Time in milliseconds to forget duplicate barcodes (prevents rapid duplicate scans)
         duplicateForgetTime: 5000,
+
+        showResultView: false,
 
         // Configure the scanner view (UI settings)
         scannerViewConfig: {
@@ -244,6 +240,21 @@
       });
 
       document.addEventListener("mouseup", () => (isDragging = false));
+
+      dragDiv.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        offsetX = e.touches[0].clientX - dragDiv.offsetLeft;
+        offsetY = e.touches[0].clientY - dragDiv.offsetTop;
+      });
+
+      document.addEventListener("touchmove", (e) => {
+        if (isDragging) {
+          dragDiv.style.left = `${e.touches[0].clientX - offsetX}px`;
+          dragDiv.style.top = `${e.touches[0].clientY - offsetY}px`;
+        }
+      });
+
+      document.addEventListener("touchend", () => (isDragging = false));
     };
   </script>
 </body>
