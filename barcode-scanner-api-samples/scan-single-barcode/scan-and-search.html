@@ -38,10 +38,6 @@
     async function startScanner() {
       const barcodeScanner = new Dynamsoft.BarcodeScanner({
         license: "", // Replace with valid license key
-        engineResourcePaths: {
-          rootDirectory:
-            "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/",
-        },
         scanMode: Dynamsoft.EnumScanMode.SM_SINGLE,
         showUploadImageButton: true,
         scannerViewConfig: {
