@@ -4,10 +4,26 @@ This repository contains multiple samples that demonstrates how to use the [Dyna
 
 ## Get the Code
 
-Since the repository has a lot of history, it is slow to clone directly. Please download the [zip](https://github.com/Dynamsoft/barcode-reader-javascript-samples/archive/refs/heads/main.zip)/[tar.gz](https://github.com/Dynamsoft/barcode-reader-javascript-samples/archive/refs/heads/main.tar.gz), or use the `--depth 1` to clone the code.
+Cloning the full repository may be slow due to its extensive history. To get started quickly, you have a few options:
+
+- Download as [zip](https://github.com/Dynamsoft/barcode-reader-javascript-samples/archive/refs/heads/main.zip)
+- Download as [tar.gz](https://github.com/Dynamsoft/barcode-reader-javascript-samples/archive/refs/heads/main.tar.gz)
+- Shallow clone with Git:
+
 ```git
 git clone https://github.com/Dynamsoft/barcode-reader-javascript-samples.git --depth 1
 ```
+
+> [!NOTE]
+> If you expect unstable network conditions or prefer to work entirely offline, you can download the [offline package from Dynamsoft website](https://www.dynamsoft.com/barcode-reader/downloads/1000003-confirmation/). This includes the full repository and all required dependencies for offline use.
+>
+> **Running the Samples Locally**
+>
+> Opening HTML files directly may not work as expected. Instead, run a local development server. Here’s a quick method using [Visual Studio Code](https://code.visualstudio.com/):
+>
+> 1. Install the [Five Server extension](https://marketplace.visualstudio.com/items?itemName=yandeu.five-server) from the VS Code Marketplace.
+>
+> 2. Right-click on `hello-world.html` and select "Open with Five Server". This will serve the application at `http://127.0.0.1:5500/hello-world.html`.
 
 ## Request a trial license
 
@@ -15,7 +31,7 @@ A default license is included which allows you to test the sample apps for up to
 
 ## Documentation
 
-For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=10.5.1000&utm_source=sampleReadme).
+For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=10.5.3000&utm_source=sampleReadme).
 
 ## Support
 
@@ -30,6 +46,7 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 Get the basic features working with plain/native JavaScript or within a framework like [Angular](https://angular.io/), [React](https://reactjs.org/) or [Vue](https://vuejs.org/), with RTU-BarcodeScanner APIs.
 
 * [**Scan Single Barcode**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/hello-world.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-single-barcode/hello-world.html?utm_source=sampleReadme): Scan single barcode from video stream with minimum code in JavaScript.
+* [**Scan Single Barcode**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/scan-and-search.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-single-barcode/scan-and-search.html?utm_source=sampleReadme): Scan a barcode to retrieve the relevant product information from the database in JavaScript.
 * [**Hello World in Angular**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/angular): Read single barcode from camera in an Angular application.
 * [**Hello World in React**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/react): Read single barcode from camera in a React application.
 * [**Hello World in Vue**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/vue): Read single barcode from camera in a Vue application.
