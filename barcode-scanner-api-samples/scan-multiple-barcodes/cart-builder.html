@@ -246,7 +246,6 @@
       document.addEventListener("mouseup", () => (isDragging = false));
 
       dragDiv.addEventListener("touchstart", (e) => {
-        e.preventDefault();
         isDragging = true;
         offsetX = e.touches[0].clientX - dragDiv.offsetLeft;
         offsetY = e.touches[0].clientY - dragDiv.offsetTop;
@@ -258,7 +257,7 @@
           dragDiv.style.left = `${e.touches[0].clientX - offsetX}px`;
           dragDiv.style.top = `${e.touches[0].clientY - offsetY}px`;
         }
-      });
+      }, { passive: false });
 
       document.addEventListener("touchend", () => (isDragging = false));
     };
