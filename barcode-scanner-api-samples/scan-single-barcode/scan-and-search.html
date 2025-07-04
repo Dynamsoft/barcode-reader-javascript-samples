@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scan & Search with BarcodeScanner</title>
-   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/dbr.bundle.js"></script>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
         <div class="corner br"></div>
       </div>
     </button>
-    <input type="text" id="text-input" placeholder="Search By Barcode or Text" />
+    <input type="text" id="text-input" placeholder="Enter any UPC, EAN, or ISBN number" />
     <button id="search-btn" aria-label="Search">
       <div class="search-icon"></div>
     </button>
@@ -49,8 +49,10 @@
       scanBtn.disabled = true;
       const result = await barcodeScanner.launch();
 
-      if (result.barcodeResults[0])
+      if (result.barcodeResults[0]) {
         searchResult.value = `Barcode Text to Query from Database: \n\n${result.barcodeResults[0].text} \n\n-------------------\n\nProduct name: xxx \n\nBrand: xxx \n\nCategory: xxx \n\nPrice: xxx \n\nDescription: xxx`;
+        inputBox.value = result.barcodeResults[0].text;
+      }
 
       scannerContainer.style.display = "none";
       scanBtn.disabled = false;
@@ -63,6 +65,7 @@
       });
 
       searchBtn.addEventListener("click", () => {
+        if(!inputBox.value) return;
         searchResult.value = `Text to Query from Database: \n\n${inputBox.value} \n\n-------------------\n\nProduct name: xxx \n\nBrand: xxx \n\nCategory: xxx \n\nPrice: xxx \n\nDescription: xxx`;
       });
     };
