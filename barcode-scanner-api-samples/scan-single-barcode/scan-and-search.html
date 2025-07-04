@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scan & Search with BarcodeScanner</title>
-  
+
   <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
@@ -13,6 +13,8 @@
 </head>
 
 <body>
+  <h1>📦 Instant Product Information Lookup</h1>
+  <h2>Enter a UPC, EAN, or ISBN number to retrieve accurate product data from a specific database</h2>
   <h3></h3>
   <div id="container">
     <button id="scan-btn" aria-label="Scan barcode">
@@ -23,7 +25,7 @@
         <div class="corner br"></div>
       </div>
     </button>
-    <input type="text" id="text-input" placeholder="Enter any UPC, EAN, or ISBN number" />
+    <input type="text" id="text-input" placeholder="e.g. 049000042511" />
     <button id="search-btn" aria-label="Search">
       <div class="search-icon"></div>
     </button>
@@ -41,7 +43,7 @@
 
     async function startScanner() {
       const barcodeScanner = new Dynamsoft.BarcodeScanner({
-        license: "", // Replace with valid license key
+        license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with valid license key
         scanMode: Dynamsoft.EnumScanMode.SM_SINGLE,
         showUploadImageButton: true,
         scannerViewConfig: {
