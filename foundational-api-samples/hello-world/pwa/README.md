@@ -2,7 +2,7 @@
 
 [PWA](https://web.dev/progressive-web-apps/) is short for Progressive Web Apps, which are web applications designed to mimic the functionality and user experience of platform-specific (native) applications. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a PWA application.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 10.5.3000](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/10.5.3000).
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.0.3000](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/11.0.3000).
 
 > Note:
 >
@@ -37,7 +37,7 @@ We will try to turn our basic "Hello World" sample into a PWA. Follow these step
     <br />
     Results:
     <div id="results" style="width: 100%; height: 10vh; overflow: auto"></div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.3000/dist/dbr.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/dbr.bundle.js"></script>
     <script>
       if (location.protocol === "file:") {
         const message = `The page is opened via file:// and our SDKs may not work properly. Please open the page via https:// or host it on "http://localhost/".`;
@@ -57,7 +57,7 @@ We will try to turn our basic "Hello World" sample into a PWA. Follow these step
       /**
        * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
        * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-       * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=10.5.3000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=11.0.3000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
        * LICENSE ALERT - THE END
        */
 
@@ -260,14 +260,7 @@ Add this code below to the `service-worker.js`
 ```javascript
 /* /service-worker.js */
 const engineResourcePaths = {
-  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.4.10/dist/",
-  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.4.20/dist/",
-  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.4.20/dist/",
-  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.4.20/dist/",
-  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.4.21/dist/",
-  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.4.20/dist/",
-  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.1.0/dist/",
-  utility: "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.4.20/dist/",
+  dbrBundle: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/",
 };
 
 // Files to cache
@@ -277,24 +270,32 @@ const appShellFiles = [
   "./dynamsoft-192x192.png",
   "./dynamsoft-512x512.png",
   "./helloworld-pwa.json",
-  `${engineResourcePaths.std}std.js`,
-  `${engineResourcePaths.std}std.wasm`,
-  `${engineResourcePaths.dip}dip.wasm`,
-  `${engineResourcePaths.core}core.js`,
-  `${engineResourcePaths.core}core.worker.js`,
-  `${engineResourcePaths.core}core.wasm`,
-  `${engineResourcePaths.license}license.js`,
-  `${engineResourcePaths.license}dls.license.dialog.html`,
-  `${engineResourcePaths.license}license.wasm`,
-  `${engineResourcePaths.utility}utility.js`,
-  `${engineResourcePaths.dbr}dbr.js`,
-  `${engineResourcePaths.dbr}dbr.wasm`,
-  `${engineResourcePaths.dbr}DBR-PresetTemplates.json`,
-  `${engineResourcePaths.cvr}cvr.js`,
-  `${engineResourcePaths.cvr}cvr.wasm`,
-  `${engineResourcePaths.cvr}cvr.worker.js`,
-  `${engineResourcePaths.dce}dce.js`,
-  `${engineResourcePaths.dce}dce.ui.html`,
+  `${engineResourcePaths.dbrBundle}dbr.bundle.worker.js`,
+  `${engineResourcePaths.dbrBundle}dynamsoft-capture-vision-bundle.js`
+  `${engineResourcePaths.dbrBundle}dynamsoft-capture-vision-bundle.wasm`,
+  `${engineResourcePaths.dbrBundle}models/OneDDeblur.data`,
+  `${engineResourcePaths.dbrBundle}parser-resources/AADHAAR_Map.txt`,
+  `${engineResourcePaths.dbrBundle}parser-resources/AADHAAR.dcpres`,
+  `${engineResourcePaths.dbrBundle}parser-resources/AAMVA_DL_ID_WITH_MAG_STRIPE.dcpres`,
+  `${engineResourcePaths.dbrBundle}parser-resources/AAMVA_DL_ID.dcpres`,
+  `${engineResourcePaths.dbrBundle}parser-resources/AAMVA_Map.txt`,
+  `${engineResourcePaths.dbrBundle}parser-resources/GS1_AI_Map.txt`,
+  `${engineResourcePaths.dbrBundle}parser-resources/GS1_AI.txt`,
+  `${engineResourcePaths.dbrBundle}parser-resources/MRTD_Map.txt`,
+  `${engineResourcePaths.dbrBundle}parser-resources/MRTD_TD1_ID.dcpres`,
+  `${engineResourcePaths.dbrBundle}parser-resources/MRTD_TD2_FRENCH_ID.dcpres`,
+  `${engineResourcePaths.dbrBundle}parser-resources/MRTD_TD2_ID.dcpres`,
+  `${engineResourcePaths.dbrBundle}parser-resources/MRTD_TD2_VISA.dcpres`,
+  `${engineResourcePaths.dbrBundle}parser-resources/MRTD_TD3_PASSPORT.dcpres`,
+  `${engineResourcePaths.dbrBundle}parser-resources/MRTD_TD3_VISA.dcpres`,
+  `${engineResourcePaths.dbrBundle}parser-resources/SOUTH_AFRICA_DL_Map.txt`,
+  `${engineResourcePaths.dbrBundle}parser-resources/SOUTH_AFRICA_DL.dcpres`,
+  `${engineResourcePaths.dbrBundle}parser-resources/VIN_Map.txt`,
+  `${engineResourcePaths.dbrBundle}parser-resources/VIN.dcpres`,
+  `${engineResourcePaths.dbrBundle}templates/DBR-PresetTemplates.json`,
+  `${engineResourcePaths.dbrBundle}ui/barcode-scanner.ui.xml`,
+  `${engineResourcePaths.dbrBundle}ui/dce.ui.xml`,
+  `${engineResourcePaths.dbrBundle}ui/dls.license.dialog.html`,
 ];
 ```
 

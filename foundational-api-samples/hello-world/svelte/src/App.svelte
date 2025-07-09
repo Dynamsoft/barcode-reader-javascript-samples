@@ -9,7 +9,7 @@
   <div class="App">
     <div class="title">
       <h2 class="title-text">Hello World for Svelte</h2>
-      <img class="title-logo" src="https://www.svelte.cn/svelte-logo-horizontal.svg" alt="svelte" />
+      <img class="title-logo" src="../logo.svg" alt="svelte" />
     </div>
     <div class="buttons-container">
       <button

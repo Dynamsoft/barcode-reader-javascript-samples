@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref } from "vue";
 import "../dynamsoft.config";
-import { EnumCapturedResultItemType } from "dynamsoft-core";
-import type { BarcodeResultItem } from "dynamsoft-barcode-reader";
-import { CaptureVisionRouter } from "dynamsoft-capture-vision-router";
+import { EnumCapturedResultItemType } from "dynamsoft-barcode-reader-bundle";
+import type { BarcodeResultItem } from "dynamsoft-barcode-reader-bundle";
+import { CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
 
 let pCvRouter: Promise<CaptureVisionRouter>;
 let isDestroyed = false;
