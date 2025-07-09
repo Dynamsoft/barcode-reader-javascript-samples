@@ -69,7 +69,6 @@
 
     // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
     Dynamsoft.Core.CoreModule.loadWasm();
-    // // If the network is unstable or you prefer to self-host the SDK, uncomment the line below to define the root path of the engine files
     Dynamsoft.DCP.CodeParserModule.loadSpec("AAMVA_DL_ID");
     Dynamsoft.DCP.CodeParserModule.loadSpec("AAMVA_DL_ID_WITH_MAG_STRIPE");
     Dynamsoft.DCP.CodeParserModule.loadSpec("SOUTH_AFRICA_DL");

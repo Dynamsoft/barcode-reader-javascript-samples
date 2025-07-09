@@ -47,7 +47,6 @@
 
     // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
     Dynamsoft.Core.CoreModule.loadWasm();
-    // // If the network is unstable or you prefer to self-host the SDK, uncomment the line below to define the root path of the engine files
     const init = async () => {
       try {
         // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
