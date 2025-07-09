@@ -162,7 +162,7 @@ Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMD
  */
 
 // Optional. Preload .wasm file for reading barcodes. It will save time on the initial decoding by skipping the resource loading.
-CoreModule.loadWasm();
+Dynamsoft.Core.CoreModule.loadWasm();
 
 (async () => {
   // Defined globally for easy debugging.
