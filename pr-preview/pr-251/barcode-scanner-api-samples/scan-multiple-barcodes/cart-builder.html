@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List-Builder - Scan to Cart Simulation</title>
+
+  <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/dbr.bundle.js"></script>
+  <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
+  <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
+
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .scan-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      margin: 0 auto 20px;
+      font-size: 14px;
+      background: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .scan-button:hover {
+      background: #45a049;
+    }
+
+    .barcode-icon {
+      height: 12px;
+      margin-left: 8px;
+    }
+
+    .cart {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    #floatingDiv {
+      position: fixed;
+      top: 40%;
+      left: 10%;
+      width: 50%;
+      height: 25%;
+      max-width: 400px;
+      max-height: 200px;
+      min-width: 150px;
+      min-height: 150px;
+      background: #f9f9f9;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      cursor: move;
+      z-index: 999;
+      padding: 3px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🛒 Scan Barcode to Add Items to Cart</h1>
+  </header>
+
+  <!-- Scan Button -->
+  <button class="scan-button" id="barcodeBtn">
+    Scan Barcode
+    <svg class="barcode-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="4" width="2" height="16" fill="black" />
+      <rect x="6" y="4" width="1" height="16" fill="black" />
+      <rect x="9" y="4" width="2" height="16" fill="black" />
+      <rect x="13" y="4" width="1" height="16" fill="black" />
+      <rect x="16" y="4" width="2" height="16" fill="black" />
+      <rect x="20" y="4" width="1" height="16" fill="black" />
+    </svg>
+  </button>
+
+  <!-- Floating Scanner Container -->
+  <div id="floatingDiv" hidden></div>
+
+  <!-- Shopping Cart -->
+  <div class="cart">
+    <h2>Simulated Shopping Cart</h2>
+    <div id="cart-items">
+      <p>No items in cart. Start scanning!</p>
+    </div>
+  </div>
+
+  <script>
+    const dragDiv = document.getElementById("floatingDiv");
+    // Function to initialize and launch the barcode scanner
+    async function startScanner() {
+      // Create a new instance of Dynamsoft BarcodeScanner with configuration options
+      const scanner = new Dynamsoft.BarcodeScanner({
+        // License key for Dynamsoft Barcode Reader (replace with a valid key)
+        license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9",
+
+        // Set scanning mode to detect multiple unique barcodes in one session
+        scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
+
+        // Time in milliseconds to forget duplicate barcodes (prevents rapid duplicate scans)
+        duplicateForgetTime: 5000,
+
+        showResultView: false,
+
+        // Configure the scanner view (UI settings)
+        scannerViewConfig: {
+          container: document.querySelector("#floatingDiv"), // Attach scanner UI to floating div
+          showCloseButton: true, // Display a close button in the scanner UI
+        },
+
+        // Callback triggered when a unique barcode is detected
+        onUniqueBarcodeScanned: (result) => {
+          // Simulate adding the scanned barcode to the shopping cart
+          simulateAddingToCart(result.text);
+        },
+      });
+
+      // Show the floating scanner container
+      document.querySelector("#floatingDiv").hidden = false;
+
+      // Launch the scanner (opens camera and starts scanning)
+      await scanner.launch();
+
+      // Hide the scanner container after scanning is complete or closed
+      document.querySelector("#floatingDiv").hidden = true;
+    }
+
+    // Product List
+    const products = [
+      { name: "Wireless Mouse", price: 19.99 },
+      { name: "Bluetooth Speaker", price: 29.99 },
+      { name: "USB-C Cable", price: 9.99 },
+      { name: "Notebook", price: 4.99 },
+      { name: "Water Bottle", price: 14.99 },
+      { name: "Laptop Stand", price: 34.99 },
+      { name: "Wireless Keyboard", price: 24.99 },
+      { name: "Portable Charger", price: 39.99 },
+      { name: "LED Desk Lamp", price: 22.5 },
+      { name: "Backpack", price: 49.99 },
+      { name: "Earbuds", price: 17.99 },
+      { name: "Smartphone Holder", price: 12.99 },
+      { name: "Desk Organizer", price: 15.49 },
+      { name: "Fitness Tracker", price: 59.99 },
+      { name: "Coffee Mug", price: 8.99 },
+      { name: "HDMI Cable", price: 6.99 },
+      { name: "Flash Drive 64GB", price: 14.49 },
+      { name: "Gaming Headset", price: 45.0 },
+      { name: "Desk Chair Cushion", price: 27.99 },
+      { name: "Sticky Notes Pack", price: 3.99 },
+    ];
+
+    let cart = [];
+
+    // Simulate adding product to cart
+    function simulateAddingToCart(barcodeText) {
+      const product = {
+        ...products[Math.floor(Math.random() * products.length)],
+      };
+      product.name += ` (${shortenString(barcodeText)})`;
+      cart.push(product);
+      updateCartDisplay();
+    }
+
+    // Shorten barcode text
+    const shortenString = (str, max = 15) =>
+      str.length <= max ? str : str.slice(0, max) + "...";
+
+    // Update Cart UI
+    function updateCartDisplay() {
+      const cartDiv = document.getElementById("cart-items");
+      cartDiv.innerHTML = "";
+
+      const header = document.createElement("div");
+      header.className = "cart-item";
+      header.innerHTML = `<strong>Item</strong><strong>Price</strong>`;
+      cartDiv.appendChild(header);
+
+      cart.forEach((item) => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `<span>${item.name}</span><span>$${item.price.toFixed(
+          2
+        )}</span>`;
+        cartDiv.appendChild(div);
+      });
+    }
+
+    // Initialize Scan Button
+    window.onload = () => {
+      document
+        .getElementById("barcodeBtn")
+        .addEventListener("click", startScanner);
+
+      // Make the Floating Div Draggable
+      let offsetX = 0,
+        offsetY = 0,
+        isDragging = false;
+
+      dragDiv.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - dragDiv.offsetLeft;
+        offsetY = e.clientY - dragDiv.offsetTop;
+      });
+
+      document.addEventListener("mousemove", (e) => {
+        if (isDragging) {
+          dragDiv.style.left = `${e.clientX - offsetX}px`;
+          dragDiv.style.top = `${e.clientY - offsetY}px`;
+        }
+      });
+
+      document.addEventListener("mouseup", () => (isDragging = false));
+
+      dragDiv.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        offsetX = e.touches[0].clientX - dragDiv.offsetLeft;
+        offsetY = e.touches[0].clientY - dragDiv.offsetTop;
+      });
+
+      document.addEventListener("touchmove", (e) => {
+        if (isDragging) {
+          e.preventDefault();
+          dragDiv.style.left = `${e.touches[0].clientX - offsetX}px`;
+          dragDiv.style.top = `${e.touches[0].clientY - offsetY}px`;
+        }
+      }, { passive: false });
+
+      document.addEventListener("touchend", () => (isDragging = false));
+    };
+
+    window.addEventListener("orientationchange", () => {
+      dragDiv.style.left = "10%"
+      dragDiv.style.top = "40%"
+    })
+  </script>
+</body>
+
+</html>

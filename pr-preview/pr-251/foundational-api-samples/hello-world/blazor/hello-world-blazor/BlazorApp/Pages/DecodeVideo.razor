@@ -1,0 +1,48 @@
+﻿@page "/video"
+@inject IJSRuntime JS
+
+<PageTitle>Dynamsoft Barcode Reader Hello World - Blazor</PageTitle>
+
+<h1>Decode Video</h1>
+<button @onclick="ToggleVideoTask" style="margin-bottom: 1rem">@videoDecodeBtn</button>
+<div id="camera-view-container" style="width: 100%; height: 50vh; display: none"></div>
+<h3>Results:</h3>
+<div id="results" style="width: 100%; height: 30vh; overflow: auto; white-space: pre-wrap; border: 1px solid black;">
+</div>
+
+
+@code {
+    // reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0#invoke-js-functions
+    
+    private string mode = "stop";
+    private string videoDecodeBtn = "Decode Video";
+
+    private async Task ToggleVideoTask()
+    {
+        await JS.InvokeVoidAsync("loadDecodeVideoModule");
+
+        if (mode == "videoDecode")
+        {
+            await StopDecodeVideoTask();
+        }
+        else if (mode == "stop")
+        {
+            await DecodeVideoTask();
+
+        }
+    }
+
+    private async Task DecodeVideoTask()
+    {
+        mode = "videoDecode";
+        videoDecodeBtn = "Stop Decode";
+        await JS.InvokeAsync<string>("startVideoDecode");
+    }
+
+    private async Task StopDecodeVideoTask()
+    {
+        mode = "stop";
+        videoDecodeBtn = "Decode Video";
+        await JS.InvokeAsync<string>("stopVideoDecode");
+    }
+}
