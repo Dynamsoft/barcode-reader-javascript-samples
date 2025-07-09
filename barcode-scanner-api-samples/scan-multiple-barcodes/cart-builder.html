@@ -6,10 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>List-Builder - Scan to Cart Simulation</title>
 
-  <!-- Dynamsoft Barcode Reader Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.3000/dist/dbr.bundle.js"></script>
+  <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
-  <!-- <script src="../../../distributables/dbr.bundle.js"></script> -->
+  <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
 
 
   <style>
@@ -70,16 +70,20 @@
 
     #floatingDiv {
       position: fixed;
-      top: 400px;
-      left: 100px;
-      width: 400px;
-      height: 200px;
+      top: 40%;
+      left: 10%;
+      width: 50%;
+      height: 25%;
+      max-width: 400px;
+      max-height: 200px;
+      min-width: 150px;
+      min-height: 150px;
       background: #f9f9f9;
       border: 2px solid #ccc;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       cursor: move;
-      z-index: 9999;
+      z-index: 999;
       padding: 3px;
       box-sizing: border-box;
     }
@@ -116,6 +120,7 @@
   </div>
 
   <script>
+    const dragDiv = document.getElementById("floatingDiv");
     // Function to initialize and launch the barcode scanner
     async function startScanner() {
       // Create a new instance of Dynamsoft BarcodeScanner with configuration options
@@ -123,17 +128,13 @@
         // License key for Dynamsoft Barcode Reader (replace with a valid key)
         license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9",
 
-        // Specify the path to the engine resources (loaded from CDN in this case)
-        engineResourcePaths: {
-          rootDirectory:
-            "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.3000/dist/",
-        },
-
         // Set scanning mode to detect multiple unique barcodes in one session
         scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
 
         // Time in milliseconds to forget duplicate barcodes (prevents rapid duplicate scans)
         duplicateForgetTime: 5000,
+
+        showResultView: false,
 
         // Configure the scanner view (UI settings)
         scannerViewConfig: {
@@ -225,7 +226,6 @@
         .addEventListener("click", startScanner);
 
       // Make the Floating Div Draggable
-      const dragDiv = document.getElementById("floatingDiv");
       let offsetX = 0,
         offsetY = 0,
         isDragging = false;
@@ -244,7 +244,28 @@
       });
 
       document.addEventListener("mouseup", () => (isDragging = false));
+
+      dragDiv.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        offsetX = e.touches[0].clientX - dragDiv.offsetLeft;
+        offsetY = e.touches[0].clientY - dragDiv.offsetTop;
+      });
+
+      document.addEventListener("touchmove", (e) => {
+        if (isDragging) {
+          e.preventDefault();
+          dragDiv.style.left = `${e.touches[0].clientX - offsetX}px`;
+          dragDiv.style.top = `${e.touches[0].clientY - offsetY}px`;
+        }
+      }, { passive: false });
+
+      document.addEventListener("touchend", () => (isDragging = false));
     };
+
+    window.addEventListener("orientationchange", () => {
+      dragDiv.style.left = "10%"
+      dragDiv.style.top = "40%"
+    })
   </script>
 </body>
 

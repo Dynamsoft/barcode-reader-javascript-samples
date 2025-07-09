@@ -45,9 +45,9 @@
   <h3>Scan barcodes to display results as overlays on video</h3>
   <div id="camera-view-container" style="width: 100%; height: 90vh"></div>
   <div id="results"></div>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.5.3000/dist/dbr.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
-  <!-- <script src="../../../distributables/dbr.bundle.js"></script> -->
+  <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
   <script>
     /** LICENSE ALERT - README
      * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -58,14 +58,12 @@
     /**
      * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
      * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-     * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=10.5.3000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
+     * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=11.0.3000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
      * LICENSE ALERT - THE END
      */
 
     // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
-    Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
-    // // If the network is unstable or you prefer to self-host the SDK, uncomment the line below to define the root path of the engine files
-    // Dynamsoft.Core.CoreModule.engineResourcePaths.rootDirectory = "../../../distributables/";
+    Dynamsoft.Core.CoreModule.loadWasm();
     const resultsContainer = document.querySelector("#results");
 
     (async () => {
