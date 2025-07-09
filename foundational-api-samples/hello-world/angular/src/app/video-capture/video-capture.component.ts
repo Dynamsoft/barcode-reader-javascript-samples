@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, NgZone  } from '@angular/core';
 import '../dynamsoft.config';
 import { CameraEnhancer, CameraView } from 'dynamsoft-barcode-reader-bundle';
 import { CaptureVisionRouter } from 'dynamsoft-barcode-reader-bundle';
@@ -13,6 +13,8 @@ const componentDestroyedErrorMsg = 'VideoCapture Component Destroyed';
   standalone: true,
 })
 export class VideoCaptureComponent {
+  constructor(private ngZone: NgZone) { }
+
   @ViewChild('cameraViewContainer') cameraViewContainer?: ElementRef<HTMLDivElement>;
   resultText = "";
 
@@ -51,12 +53,13 @@ export class VideoCaptureComponent {
       this.cvRouter.addResultReceiver({
         onDecodedBarcodesReceived: (result) => {
           if (!result.barcodeResultItems.length) return;
-
-          this.resultText = '';
           console.log(result);
-          for (let item of result.barcodeResultItems) {
-            this.resultText += `${item.formatString}: ${item.text}\n\n`;
-          }
+          this.ngZone.run(() => {
+            this.resultText = '';
+            for (let item of result.barcodeResultItems) {
+              this.resultText += `${item.formatString}: ${item.text}\n\n`;
+            }
+          });
         },
       });
 
@@ -103,6 +106,6 @@ export class VideoCaptureComponent {
       await this.pInit;
       this.cvRouter?.dispose();
       this.cameraEnhancer?.dispose();
-    } catch (_) {}
+    } catch (_) { }
   }
 }
