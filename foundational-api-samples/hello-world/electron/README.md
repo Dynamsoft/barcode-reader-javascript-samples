@@ -143,13 +143,7 @@ Create the `action.js` file at the root folder, and define it like this:
 /* /action.js */
 // Configures the paths where the .wasm files and other necessary resources for modules are located.
 Dynamsoft.Core.CoreModule.engineResourcePaths = {
-  std: "./node_modules/dynamsoft-capture-vision-std/dist/",
-  dip: "./node_modules/dynamsoft-image-processing/dist/",
-  core: "./node_modules/dynamsoft-core/dist/",
-  license: "./node_modules/dynamsoft-license/dist/",
-  cvr: "./node_modules/dynamsoft-capture-vision-router/dist/",
-  dbr: "./node_modules/dynamsoft-barcode-reader/dist/",
-  dce: "./node_modules/dynamsoft-camera-enhancer/dist/",
+  dbrBundle: "./node_modules/dynamsoft-barcode-reader-bundle/dist/",
 };
 
 /** LICENSE ALERT - README

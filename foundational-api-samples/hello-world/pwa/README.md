@@ -260,14 +260,7 @@ Add this code below to the `service-worker.js`
 ```javascript
 /* /service-worker.js */
 const engineResourcePaths = {
-  std: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-std@1.4.10/dist/",
-  dip: "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.4.20/dist/",
-  core: "https://cdn.jsdelivr.net/npm/dynamsoft-core@3.4.20/dist/",
-  license: "https://cdn.jsdelivr.net/npm/dynamsoft-license@3.4.20/dist/",
-  cvr: "https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-router@2.4.21/dist/",
-  dbr: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader@10.4.20/dist/",
-  dce: "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@4.1.0/dist/",
-  utility: "https://cdn.jsdelivr.net/npm/dynamsoft-utility@1.4.20/dist/",
+  dbrBundle: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/",
 };
 
 // Files to cache
@@ -277,24 +270,21 @@ const appShellFiles = [
   "./dynamsoft-192x192.png",
   "./dynamsoft-512x512.png",
   "./helloworld-pwa.json",
-  `${engineResourcePaths.std}std.js`,
-  `${engineResourcePaths.std}std.wasm`,
-  `${engineResourcePaths.dip}dip.wasm`,
-  `${engineResourcePaths.core}core.js`,
-  `${engineResourcePaths.core}core.worker.js`,
-  `${engineResourcePaths.core}core.wasm`,
-  `${engineResourcePaths.license}license.js`,
-  `${engineResourcePaths.license}dls.license.dialog.html`,
-  `${engineResourcePaths.license}license.wasm`,
-  `${engineResourcePaths.utility}utility.js`,
-  `${engineResourcePaths.dbr}dbr.js`,
-  `${engineResourcePaths.dbr}dbr.wasm`,
-  `${engineResourcePaths.dbr}DBR-PresetTemplates.json`,
-  `${engineResourcePaths.cvr}cvr.js`,
-  `${engineResourcePaths.cvr}cvr.wasm`,
-  `${engineResourcePaths.cvr}cvr.worker.js`,
-  `${engineResourcePaths.dce}dce.js`,
-  `${engineResourcePaths.dce}dce.ui.html`,
+  `${engineResourcePaths.dbrBundle}DBR-PresetTemplates.json`,
+  `${engineResourcePaths.dbrBundle}dce.ui.xml`,
+  `${engineResourcePaths.dbrBundle}barcode-reader.ui.xml`,
+  `${engineResourcePaths.dbrBundle}dbr-with-onnx-simd.js`,
+  `${engineResourcePaths.dbrBundle}dbr-with-onnx-simd.wasm`,
+  `${engineResourcePaths.dbrBundle}dbr-with-onnx.js`,
+  `${engineResourcePaths.dbrBundle}dbr-with-onnx.wasm`,
+  `${engineResourcePaths.dbrBundle}dbr-without-onnx.js`,
+  `${engineResourcePaths.dbrBundle}dbr-without-onnx.wasm`,
+  `${engineResourcePaths.dbrBundle}dbr.bundle.esm.js`,
+  `${engineResourcePaths.dbrBundle}dbr.bundle.js`,
+  `${engineResourcePaths.dbrBundle}dbr.bundle.mjs`,
+  `${engineResourcePaths.dbrBundle}dbr.bundle.worker.js`,
+  `${engineResourcePaths.dbrBundle}dls.license.dialog.html`,
+  `${engineResourcePaths.dbrBundle}OneDDeblur.data`,
 ];
 ```
 
