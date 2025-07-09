@@ -298,7 +298,7 @@ Inside the `wwwroot\index.html` file, we will initialize the license and necessa
        */
 
       // Optional. Preload .wasm file for reading barcodes. It will save time on the initial decoding by skipping the resource loading.
-      CoreModule.loadWasm();
+      Dynamsoft.Core.CoreModule.loadWasm();
 
       // Defined globally for easy debugging.
       let cameraEnhancer, cvRouter;
