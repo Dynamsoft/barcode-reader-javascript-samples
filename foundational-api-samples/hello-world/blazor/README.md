@@ -297,8 +297,8 @@ Inside the `wwwroot\index.html` file, we will initialize the license and necessa
        * LICENSE ALERT - THE END
        */
 
-      // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
-      Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
+      // Optional. Preload .wasm file for reading barcodes. It will save time on the initial decoding by skipping the resource loading.
+      CoreModule.loadWasm();
 
       // Defined globally for easy debugging.
       let cameraEnhancer, cvRouter;

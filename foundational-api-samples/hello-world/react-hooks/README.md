@@ -75,8 +75,8 @@ LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", {
  * LICENSE ALERT - THE END
  */
 
-// Optional. Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
-CoreModule.loadWasm(["DBR"]);
+// Optional. Preload .wasm file for reading barcodes. It will save time on the initial decoding by skipping the resource loading.
+CoreModule.loadWasm();
 ```
 
 > Note:
