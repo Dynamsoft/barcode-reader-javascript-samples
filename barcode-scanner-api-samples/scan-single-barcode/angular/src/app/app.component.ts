@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { BarcodeScanner, BarcodeScannerConfig, CameraEnhancer, CameraView, CaptureVisionRouter } from 'dynamsoft-barcode-reader-bundle';
+import { BarcodeScanner, BarcodeScannerConfig } from 'dynamsoft-barcode-reader-bundle';
 
 @Component({
   selector: 'app-root',
