@@ -81,6 +81,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background-color: #F5F5F5;
 }
 
 .summary-view .session .total-count-in-this-session {
@@ -149,6 +150,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #F5F5F5;
 }
 
 .summary-view .duration .time {
