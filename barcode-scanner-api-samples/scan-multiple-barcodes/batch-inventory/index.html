@@ -47,7 +47,9 @@
   <script>
     const barcodeScannerView = document.querySelector(".barcode-reader-view");
     const summaryView = document.querySelector(".summary-view");
+    const finishBtn = document.querySelector(".finish-btn");
     const backBtn = document.querySelector(".icon-back");
+    let totalUniqueBarcodesResult = {};
     let totalUniqueBarcodesCount = 0;
 
     const launchBarcodeScanenr = () => {
@@ -69,7 +71,7 @@
         document.querySelector(".total-count-in-this-session .count").innerText = result.barcodeResults.length;
         document.querySelector(".time").innerText = getDurationTime(startTime);
         readerResultList(result);
-        console.log(result);
+        console.log("Current Scan Session Result: ", result);
       })
     }
 
@@ -78,17 +80,42 @@
     const readerResultList = (result) => {
       const resultListNode = document.querySelector(".result-list");
       resultListNode.innerText = "";
-      for (let i = 0; i < result.barcodeResults.length; i++) {
-        const item = result.barcodeResults[i];
+      const countResult = countByFormat(result.barcodeResults);
+      for (let formatString in countResult) {
         const itemLi = document.createElement("li");
         const itemFormatSpan = document.createElement("span");
         const itemCountSpan = document.createElement("span");
         itemFormatSpan.className = "format";
         itemCountSpan.className = "decode-count";
-        itemFormatSpan.innerText = item.formatString;
-        itemCountSpan.innerText = item.count;
+        itemFormatSpan.innerText = formatString;
+        itemCountSpan.innerText = countResult[formatString];
         itemLi.append(itemFormatSpan, itemCountSpan);
         resultListNode.append(itemLi);
+      }
+    }
+
+    const countByFormat = (items) => {
+      const result = {};
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (!result.hasOwnProperty(item.formatString)) {
+          result[item.formatString] = 1;
+        } else {
+          result[item.formatString]++;
+        }
+      }
+      mergeResult(result);
+      console.log("Total Unique Barcodes Result: ", totalUniqueBarcodesResult);
+      return result;
+    }
+
+    const mergeResult = (newResult) => {
+      for (let formatString in newResult) {
+        if(!totalUniqueBarcodesResult.hasOwnProperty(formatString)) {
+          totalUniqueBarcodesResult[formatString] = newResult[formatString];
+        } else {
+          totalUniqueBarcodesResult[formatString] += newResult[formatString];
+        }
       }
     }
 
