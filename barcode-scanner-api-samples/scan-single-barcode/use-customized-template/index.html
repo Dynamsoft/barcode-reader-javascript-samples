@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Use Customized Template with BarcodeScanner</title>
+  <link rel="stylesheet" href="./index.css">
+  <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.5000/dist/dbr.bundle.js"></script> -->
+  <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
+  <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
+  <script src="https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@11.0.5000-dev-20250804150436/dist/dbr.bundle.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>Use Customized Template</header>
+    <div class="content">
+      <div class="templates">
+        <label class="template dpm">
+          <div class="radio"><input type="radio" name="template" class="ReadDPM" checked></div>
+          <div class="title">Direct Part Marking (DPM)</div>
+        </label>
+        <label class="template dot-code">
+          <div class="radio"><input type="radio" name="template" class="ReadDotcode"></div>
+          <div class="title">Dot Code</div>
+        </label>
+        <label class="template oned-retail">
+          <div class="radio"><input type="radio" name="template" class="ReadOneDRetail"></div>
+          <div class="title">OneD Retail</div>
+        </label>
+        <label class="template oned-industrial">
+          <div class="radio"><input type="radio" name="template" class="ReadOneDIndustrial"></div>
+          <div class="title">OneD Industrial</div>
+        </label>
+      </div>
+      <div class="barcode-scanner-view"></div>
+    </div>
+  </div>
+
+  <script>
+    const templateBtns = document.querySelectorAll(".template");
+    const barcodeScannerView = document.querySelector(".barcode-scanner-view");
+    const radios = document.querySelectorAll('input[name="template"]');
+    let barcodeScanner = null;
+
+    const launchBarcodeScanner = async (templateFilePath, templateName) => {
+      barcodeScanner?.dispose();
+      let config = {
+        license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
+        container: barcodeScannerView, // Specify where to render the scanner UI
+        templateFilePath,
+        utilizedTemplateNames: {
+          single: templateName,
+        },
+        onInitReady: (components, stop) => {
+          components.cameraView?.setVideoFit("contain");
+        }
+      }
+
+      // Create a new instance of the Dynamsoft Barcode Scanner
+      barcodeScanner = new Dynamsoft.BarcodeScanner(config);
+
+      barcodeScanner.launch().then((result) => {
+        if(result.barcodeResults.length) {
+          alert(result.barcodeResults[0].text);
+        }
+        console.log("result: ", result);
+      })
+    }
+
+    launchBarcodeScanner("./ReadDPM.json", "ReadDPM");
+
+    for (let i = 0; i < radios.length; i++) {
+      const radio = radios[i];
+      const templateBtn = templateBtns[i];
+      radio.addEventListener("change", (e) => {
+        const siblings = [...templateBtn.parentNode.children].filter(el => el !== templateBtn);
+        siblings.forEach(node => node.style.borderColor = "#AAAAAA");
+        templateBtn.style.borderColor = "#323234";
+        launchBarcodeScanner(`./${radio.className}.json`, radio.className);
+      })
+    }
+  </script>
+</body>
+
+</html>
