@@ -67,6 +67,8 @@
           alert(result.barcodeResults[0].text);
         }
         console.log("result: ", result);
+      }).catch((err)=>{
+        console.error(err);
       })
     }
 
