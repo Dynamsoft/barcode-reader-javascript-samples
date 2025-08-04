@@ -1,0 +1,78 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.container header {
+  width: 100%;
+  height: 50px;
+  background-color: #202020;
+  color: #ffffff;
+  font-size: 21px;
+  text-align: center;
+  line-height: 50px;
+}
+
+.container .content {
+  width: 100%;
+  height: calc(100% - 50px);
+  padding: 20px 20px 16px 20px;
+}
+
+.container .content .templates {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.container .content .templates .template {
+  width: 45%;
+  height: 40%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  background-color: #F5F5F5;
+  border: 1px solid #AAAAAA;
+  border-radius: 4px;
+  color: #323234;
+  font-size: 16px;
+  padding-right: 5px;
+}
+
+.container .content .templates .template .radio {
+  height: 100%;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container .content .templates .template .title {
+  flex: 1;
+}
+
+.container .content .templates .dpm {
+  font-size: 14px;
+  border-color: #323234;
+}
+
+.container .content .barcode-scanner-view {
+  width: 100%;
+  height: 80%;
+  background-color: #CFCFCF;
+}

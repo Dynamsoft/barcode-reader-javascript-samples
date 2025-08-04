@@ -1,0 +1,112 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+}
+
+input {
+  height: 100%;
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #AAAAAA;
+  padding: 0 5px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.container .barcode-scanner-view {
+  width: 100%;
+  height: 60%;
+  display: none;
+}
+
+.container .guide-view {
+  width: 100%;
+  height: 60%;
+  background-color: #202020;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px;
+  color: #5D5D5D;
+  font-size: 16px;
+  text-align: center;
+}
+
+.container .form-view {
+  width: 100%;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.container .form-view .item {
+  width: calc(100% - 30px);
+  height: 42px;
+  display: flex;
+  align-items: center;
+}
+
+.container .form-view .item .content {
+  width: 83%;
+  height: 100%;
+  display: flex;
+}
+
+.container .form-view .sn .content input,
+.container .form-view .mac .content input,
+.container .form-view .eid .content input {
+  border-right: unset;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.container .form-view .item .title {
+  width: 17%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.container .form-view .item .content .open-btn,
+.container .form-view .item .content .decode-btn {
+  height: 100%;
+  border: unset;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  color: #FFFFFF;
+  font-size: 16px;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  cursor: pointer;
+}
+
+.container .form-view .item .content .open-btn {
+  width: 35%;
+  background-color: #306877;
+}
+
+.container .form-view .item .content .decode-btn {
+  width: 50%;
+  background-color: #FE8E14;
+  display: none;
+}
