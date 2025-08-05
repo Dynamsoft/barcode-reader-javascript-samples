@@ -82,15 +82,13 @@
       resultListNode.innerText = "";
       const countResult = countByFormat(result.barcodeResults);
       for (let formatString in countResult) {
-        const itemLi = document.createElement("li");
-        const itemFormatSpan = document.createElement("span");
-        const itemCountSpan = document.createElement("span");
-        itemFormatSpan.className = "format";
-        itemCountSpan.className = "decode-count";
-        itemFormatSpan.innerText = formatString;
-        itemCountSpan.innerText = countResult[formatString];
-        itemLi.append(itemFormatSpan, itemCountSpan);
-        resultListNode.append(itemLi);
+        const nodeLiStr = `
+          <li>
+            <span class="format">${formatString}</span>
+            <span class="decode-count">${countResult[formatString]}</span>
+          </li>
+        `;
+        resultListNode.insertAdjacentHTML("beforeend", nodeLiStr);
       }
     }
 
