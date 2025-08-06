@@ -68,6 +68,40 @@ The UI features a "Scan Barcode" button, a styled cart, and basic interactivity 
 
 A list of 20 dummy products is used, with each scan randomly adding a product to the cart showing its name, shortened barcode, and price.
 
+## 🛒 3. Batch inventory
+
+This project is a simple web-based inventory management tool that uses `BarcodeScanner` to scan barcodes in batches and provide real-time analysis of the scanned data.
+
+### ✨ Features
+
+- Automatically deduplicate barcodes in each session
+
+- Show session summary:
+  - Total unique barcodes
+  - Barcode type distribution
+  - Session duration
+
+- Track duration of each scan session
+
+### 🔧 How It Works
+
+- The scanner is embedded using `BarcodeScanner` with `SM_MULTI_UNIQUE` mode to capture unique barcodes.
+
+- Once the scan completes, the results are analyzed.
+
+- You can click the back arrow to restart scanning.
+
+### 📌 Notes
+
+- The barcode value must be unique, otherwise it won’t be counted.
+
+- Applicable scenarios may include:
+
+  - Warehouse inventory checks
+  - Retail stock intake
+  - Barcode-based asset tracking
+  - Batch QR code scanning
+
 ## 📄 See other BarcodeScanner samples
 
 Multiple samples are provided for single barcode scanning. These samples can be easily adapted to scan multiple unique barcodes by simply updating the `config` object.
