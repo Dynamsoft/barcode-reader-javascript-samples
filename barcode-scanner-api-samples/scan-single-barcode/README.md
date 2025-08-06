@@ -1,4 +1,4 @@
-# 📦 Scan Single Barcode 
+# 📦 Scan Single Barcode
 
 ## 🚀 1.Hello World
 
@@ -43,7 +43,7 @@ barcodeScanner.launch();
 
 ## 🛒 2. Scan and Search
 
-This simple demonstrates how to use the `BarcodeScanner` API from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/) to scan a product barcode and simulate a search from a product database.
+This simple demonstrates how to use the `BarcodeScanner` API to scan a product barcode and simulate a search from a product database.
 
 ### ✨ Features
 
@@ -52,7 +52,7 @@ This simple demonstrates how to use the `BarcodeScanner` API from the [Dynamsoft
 - Displays mock product data as search results
 - Responsive UI with modern styling
 
-### 🔧 How It Works
+### 🔄 Sample Usage Flow
 
 1. Click the Scan button to launch the barcode scanner.
 2. Once a barcode is detected, its value is displayed along with placeholder product information.
@@ -63,6 +63,68 @@ This simple demonstrates how to use the `BarcodeScanner` API from the [Dynamsoft
 
 - No real backend is connected in this demo; results are mocked.
 - You can integrate with a real product API by replacing the placeholder content in the searchResult.value.
+
+## 📷 3. Pick One To Fill
+
+A web-based form-filling utility that uses the `BarcodeScanner` to scan and auto-fill fields by simply opening the camera and scanning a barcode.
+
+### ✨ Features
+
+- Field-specific Camera Activation
+Open the camera individually for different fields.
+
+- Manual control when to start decoding
+Start decoding manually after aiming at the target to reduce the risk of misreads and missed barcodes.
+
+- Auto-Fill with Scan Result
+Automatically populates input fields with scanned barcode values.
+
+### 🔄 Sample Usage Flow
+
+1. Click the "Open Camera" button to activate the camera.
+
+2. Aim at the sample image shown below.
+
+3. Click the "Decode" button to start barcode recognition.
+
+4. If only one barcode is detected, its value will be automatically filled into the corresponding field.
+   If multiple barcodes are detected, the video stream will freeze, and you’ll need to manually select one from the decoded results to fill in.
+
+### 📌 Notes
+
+- This usage is especially suitable for scenarios with densely packed barcodes, where secondary confirmation or manual selection is highly needed.
+- You can find a sample reference image in `./pick-one-to-fill/`.
+
+## 🎥 4. Use Customized Template
+
+This is a sample web application demonstrating how to use the `BarcodeScanner` with different customized templates for scanning various barcode types.
+
+It allows users to dynamically select a scanning template (e.g., DPM, Dot Code, OneD Retail, OneD Industrial), and launch a camera-based barcode scanner accordingly.
+
+### ✨ Features
+
+- Support for custom barcode scanning templates using local JSON files.
+
+- Easily switch between different template configurations.
+
+### 🔄 Sample Usage Flow
+
+1. Open the HTML file in a browser. The app will automatically initialize the scanner using the ReadDPM template.
+
+2. Choose from the available templates:
+    - Direct Part Marking (DPM)
+    - Dot Code
+    - OneD Retail
+    - OneD Industrial
+
+    Scanner Loads with Selected Template. When a new template is selected, the scanner is re-initialized using the corresponding .json file.
+
+3. Point your camera at a barcode matching the selected template type. A popup alert will display the result upon successful detection.
+
+### 📌 Notes
+
+- The scanner is disposed and recreated every time a different template is selected, ensuring the correct settings are applied.
+- You can find sample images in `./use-customized-template/`.
 
 ## 📄 See other BarcodeScanner samples
 

@@ -18,7 +18,7 @@ The following official sample shows how to use the SDK to read and extract drive
 
 Also, see [Driver's License Scanner SDK for Mobile and Web](https://www.dynamsoft.com/use-cases/driver-license/).
 
-## Read barcodes via camera and show result texts on the video
+## Read Barcodes via Camera and Show Result Texts on the Video
 
 When the SDK picks up a barcode in a video stream, it will automatically highlight it with a built-in style. But it is also possible to show the barcode text on the video with the help of the function `convertToPageCoordinates()` or `convertToClientCoordinates()`.
 
@@ -38,6 +38,14 @@ Additionally, this sample demonstrates how to utilize the SDK to fill out form f
 * <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/foundational-api-samples/use-case/locate-an-item-with-barcode/index.html">Locate an Item with Barcode - Demo</a>
 * <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/use-case/locate-an-item-with-barcode/index.html">Locate an Item with Barcode - Source Code</a>
 
+## Read the GS1-AI Barcode and Parse it
+
+GS1-AI barcodes contain standardized information such as product ID (GTIN), expiration date, batch/lot number, and more, encoded using specific Application Identifiers (AIs).
+
+This sample demonstrates how to scan a GS1 Application Identifier (AI) barcode using the Dynamsoft Barcode Reader SDK and parse its structured data.
+
+* <a target = "_blank" href="https://demo.dynamsoft.com/Samples/DBR/JS/foundational-api-samples/use-case/read-and-parse-GS1-AI/index.html">Read the GS1-AI Barcode and Parse It - Demo</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/use-case/read-and-parse-GS1-AI/index.html">Read the GS1-AI Barcode and Parse It - Source Code</a>
 
 ## Support
 
