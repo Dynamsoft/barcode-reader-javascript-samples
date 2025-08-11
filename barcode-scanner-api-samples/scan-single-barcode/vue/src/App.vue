@@ -15,7 +15,6 @@ onMounted(() => {
     uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/",
 
     // showUploadImageButton: true,
-    // showPoweredByDynamsoft: false,
     // scannerViewConfig: {
     //   showFlashButton: true,
     //   cameraSwitchControl: "toggleFrontBack",
