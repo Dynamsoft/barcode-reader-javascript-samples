@@ -10,8 +10,8 @@ const appShellFiles = [
   "./dynamsoft-512x512.png",
   "./helloworld-pwa.json",
   `${engineResourcePaths.dbrBundle}dbr.bundle.worker.js`,
-  `${engineResourcePaths.dbrBundle}dynamsoft-capture-vision-bundle.js`
-  `${engineResourcePaths.dbrBundle}dynamsoft-capture-vision-bundle.wasm`,
+  `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle.js`
+  `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle.wasm`,
   `${engineResourcePaths.dbrBundle}models/OneDDeblur.data`,
   `${engineResourcePaths.dbrBundle}parser-resources/AADHAAR_Map.txt`,
   `${engineResourcePaths.dbrBundle}parser-resources/AADHAAR.dcpres`,
