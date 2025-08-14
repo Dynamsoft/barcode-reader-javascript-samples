@@ -13,7 +13,60 @@
 </head>
 
 <body>
-  <div class="barcode-reader-view"></div>
+  
+  <noscript> 
+
+    <iframe 
+
+      src="https://www.googletagmanager.com/ns.html?id=GTM-538F83" 
+
+      height="0" 
+
+      width="0" 
+
+      style="display: none; visibility: hidden" 
+
+    ></iframe> 
+
+  </noscript> 
+
+  <script> 
+
+    if (!navigator.webdriver) { 
+
+      setTimeout(() => { 
+
+        (function (w, d, s, l, i) { 
+
+          w[l] = w[l] || []; 
+
+          w[l].push({ 
+
+            "gtm.start": new Date().getTime(), 
+
+            event: "gtm.js", 
+
+          }); 
+
+          var f = d.getElementsByTagName(s)[0], 
+
+            j = d.createElement(s), 
+
+            dl = l != "dataLayer" ? "&l=" + l : ""; 
+
+          j.async = true; 
+
+          j.src = "//www.googletagmanager.com/gtm.js?id=" + i + dl; 
+
+          f.parentNode.insertBefore(j, f); 
+
+        })(window, document, "script", "dataLayer", "GTM-538F83"); 
+
+      }, 0); 
+
+    } 
+
+  </script>   <div class="barcode-reader-view"></div>
   <div class="summary-view">
     <header>
       <svg t="1754028476225" class="icon-back" viewBox="0 0 1445 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1408" id="mx_n_1754028476225" width="25" height="25">
