@@ -15,10 +15,9 @@ function App() {
         container: scannerViewRef.current!, // Specify where to render the scanner UI
 
         // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
-        uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/",
+        uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/",
 
         // showUploadImageButton: true,
-        // showPoweredByDynamsoft: false,
         // scannerViewConfig: {
         //   showFlashButton: true,
         //   cameraSwitchControl: "toggleFrontBack",

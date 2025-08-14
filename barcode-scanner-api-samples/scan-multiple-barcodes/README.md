@@ -25,7 +25,7 @@ const config = {
   license: "YOUR-LICENSE-KEY",
   engineResourcePaths: {
     // feel free to change it to your own path
-    rootDirectory: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/",
+    rootDirectory: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/",
   },
   container: ".barcode-scanner-view",
   scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
@@ -67,6 +67,40 @@ The scanning logic mirrors the Hello World sample, but scanned results populate 
 The UI features a "Scan Barcode" button, a styled cart, and basic interactivity with vanilla JavaScript and CSS.
 
 A list of 20 dummy products is used, with each scan randomly adding a product to the cart showing its name, shortened barcode, and price.
+
+## 🛒 3. Batch inventory
+
+This project is a simple web-based inventory management tool that uses `BarcodeScanner` to scan barcodes in batches and provide real-time analysis of the scanned data.
+
+### ✨ Features
+
+- Automatically deduplicate barcodes in each session
+
+- Show session summary:
+  - Total unique barcodes
+  - Barcode type distribution
+  - Session duration
+
+- Track duration of each scan session
+
+### 🔧 How It Works
+
+- The scanner is embedded using `BarcodeScanner` with `SM_MULTI_UNIQUE` mode to capture unique barcodes.
+
+- Once the scan completes, the results are analyzed.
+
+- You can click the back arrow to restart scanning.
+
+### 📌 Notes
+
+- The barcode value must be unique, otherwise it won’t be counted.
+
+- Applicable scenarios may include:
+
+  - Warehouse inventory checks
+  - Retail stock intake
+  - Barcode-based asset tracking
+  - Batch QR code scanning
 
 ## 📄 See other BarcodeScanner samples
 

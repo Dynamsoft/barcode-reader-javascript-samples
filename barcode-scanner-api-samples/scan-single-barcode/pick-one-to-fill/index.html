@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pick One To Fill with BarcodeScanner</title>
+  <link rel="stylesheet" href="./index.css">
+  <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/dbr.bundle.js"></script>
+  <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
+  <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
+</head>
+
+<body>
+  <div class="container">
+    <!-- This div will host the barcode scanner's camera view -->
+    <div class="barcode-scanner-view"></div>
+    <div class="guide-view">
+      <span>Please click the "<span style="color: #999999;">Open Camera</span>" button below to open the scanning interface.</span>
+    </div>
+
+    <div class="form-view">
+      <div class="item pn">
+        <label class="title">Product Name: </label>
+        <input type="text">
+      </div>
+      <div class="item sn">
+        <label class="title">SN: </label>
+        <div class="content">
+          <input type="text">
+          <button class="open-btn open-sn">Open Camera</button>
+          <button class="decode-btn decode-sn">Decode to Auto-Fill</button>
+        </div>
+      </div>
+      <div class="item mac">
+        <label class="title">MAC: </label>
+        <div class="content">
+          <input type="text">
+          <button class="open-btn open-mac">Open Camera</button>
+          <button class="decode-btn decode-mac">Decode to Auto-Fill</button>
+        </div>
+      </div>
+      <div class="item eid">
+        <label class="title">EID: </label>
+        <div class="content">
+          <input type="text">
+          <button class="open-btn open-eid">Open Camera</button>
+          <button class="decode-btn decode-mac">Decode to Auto-Fill</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const guideView = document.querySelector(".guide-view");
+    const barcodeScannerView = document.querySelector(".barcode-scanner-view");
+    const scanBtns = document.querySelectorAll(".open-btn");
+    const decodeBtns = document.querySelectorAll(".decode-btn");
+    let barcodeScanner = null;
+    let cvRouter = null;
+
+    for (let i = 0; i < scanBtns.length; i++) {
+      const scanBtn = scanBtns[i];
+      const decodeBtn = decodeBtns[i];
+
+      scanBtn.addEventListener("click", (e) => {
+        if (barcodeScanner) return;
+        // Configuration object for initializing the BarcodeScanner instance. Refer to https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html#barcodescannerconfig
+        let config = {
+          license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
+          container: barcodeScannerView, // Specify where to render the scanner UI
+          autoStartCapturing: false,
+          onInitReady: (components) => {
+            components.cameraView.setVideoFit("contain");
+            cvRouter = components.cvRouter;
+          }
+        };
+
+        // Create a new instance of the Dynamsoft Barcode Scanner
+        barcodeScanner = new Dynamsoft.BarcodeScanner(config);
+
+        guideView.style.display = "none";
+        barcodeScannerView.style.display = "block";
+        scanBtn.style.display = "none";
+        decodeBtn.style.display = "inline-block";
+
+        const target = e.target.classList[1].split("-")[1];
+        const targetInput = document.querySelector(`.${target} input`)
+
+        // Launch the scanner and handle the scanned result
+        barcodeScanner.launch().then((result) => {
+          // Display the first detected barcode's text in an alert
+          if (result.barcodeResults.length) {
+            targetInput.value = result.barcodeResults[0].text;
+          }
+          guideView.style.display = "flex";
+          barcodeScannerView.style.display = "none";
+          scanBtn.style.display = "inline-block";
+          decodeBtn.style.display = "none";
+          barcodeScanner = null;
+        });
+      })
+
+      decodeBtn.addEventListener("click", () => {
+        cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+      })
+    }
+  </script>
+</body>
+
+</html>

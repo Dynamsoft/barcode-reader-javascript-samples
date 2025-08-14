@@ -1,0 +1,114 @@
+{
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "Name": "task_gs1_ai_barcode",
+      "ExpectedBarcodesCount": 1,
+      "BarcodeFormatIds": [
+        "BF_GS1_DATABAR",
+        "BF_CODE_128",
+        "BF_GS1_COMPOSITE"
+      ],
+      "BarcodeFormatSpecificationNameArray": [
+        "bfs_gs1_ai"
+      ],
+      "SectionArray": [
+        {
+          "Section": "ST_REGION_PREDETECTION",
+          "ImageParameterName": "ip_barcode",
+          "StageArray": [
+            {
+              "Stage": "SST_PREDETECT_REGIONS"
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip_barcode",
+          "StageArray": [
+            {
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES"
+            },
+            {
+              "Stage": "SST_LOCALIZE_BARCODES"
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip_barcode",
+          "StageArray": [
+            {
+              "Stage": "SST_RESIST_DEFORMATION"
+            },
+            {
+              "Stage": "SST_COMPLEMENT_BARCODE"
+            },
+            {
+              "Stage": "SST_SCALE_BARCODE_IMAGE"
+            },
+            {
+              "Stage": "SST_DECODE_BARCODES"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "BarcodeFormatSpecificationOptions": [
+    {
+      "Name": "bfs_gs1_ai",
+      "BarcodeFormatIds": [
+        "BF_GS1_DATABAR",
+        "BF_CODE_128",
+        "BF_GS1_COMPOSITE"
+      ],
+      "IncludeTrailingCheckDigit": 0,
+      "IncludeImpliedAI01": 1
+    }
+  ],
+  "CaptureVisionTemplates": [
+    {
+      "Name": "ReadGS1AI",
+      "ImageROIProcessingNameArray": [
+        "roi_gs1_ai_barcode"
+      ]
+    }
+  ],
+  "ImageParameterOptions": [
+    {
+      "Name": "ip_barcode",
+      "ApplicableStages": [
+        {
+          "Stage": "SST_BINARIZE_IMAGE",
+          "BinarizationModes": [
+            {
+              "Mode": "BM_LOCAL_BLOCK"
+            }
+          ]
+        },
+        {
+          "Stage": "SST_BINARIZE_TEXTURE_REMOVED_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_TRANSFORM_GRAYSCALE",
+          "GrayscaleTransformationModes": [
+            {
+              "Mode": "GTM_ORIGINAL"
+            },
+            {
+              "Mode": "GTM_INVERTED"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "roi_gs1_ai_barcode",
+      "TaskSettingNameArray": [
+        "task_gs1_ai_barcode"
+      ]
+    }
+  ]
+}
