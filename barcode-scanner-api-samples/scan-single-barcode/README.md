@@ -23,7 +23,7 @@ const config = {
   license: "YOUR-LICENSE-KEY",
   engineResourcePaths: {
     // feel free to change it to your own path
-    rootDirectory: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.3000/dist/",
+    rootDirectory: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/",
   },
   container: ".barcode-scanner-view",
 };
