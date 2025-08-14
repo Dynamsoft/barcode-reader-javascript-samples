@@ -15,7 +15,7 @@ export class AppComponent {
   async ngAfterViewInit(): Promise<void> {
     // Configuration object for initializing the BarcodeScanner instance
     const config: BarcodeScannerConfig = {
-      license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
+      license: "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLWRicl9qc19zYW1wbGVzIiwib3JnYW5pemF0aW9uSUQiOiIyMDAwMDAifQ== ", // Replace with your Dynamsoft license key
       container: this.scannerView.nativeElement, // Specify where to render the scanner UI
 
       // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
