@@ -11,10 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "npm:@dynamsoft/dynamsoft-capture-vision-bundle@3.0.5000-dev-20250728091606"
-  },
-  "overrides": {
-    "dynamsoft-barcode-reader-bundle": "$dynamsoft-barcode-reader-bundle"
+    "dynamsoft-barcode-reader-bundle": "11.0.6000"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.3.0",
