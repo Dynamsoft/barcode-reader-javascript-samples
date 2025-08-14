@@ -1,0 +1,130 @@
+{
+  "BarcodeFormatSpecificationOptions": [
+    {
+      "BarcodeFormatIds": [
+        "BF_DOTCODE"
+      ],
+      "MinResultConfidence": 0,
+      "Name": "FP_1"
+    }
+  ],
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "BarcodeFormatIds": [
+        "BF_DOTCODE"
+      ],
+      "BarcodeFormatSpecificationNameArray": [
+        "FP_1"
+      ],
+      "ExpectedBarcodesCount": 1,
+      "Name": "BR_1",
+      "SectionArray": [
+        {
+          "ImageParameterName": "IP_1",
+          "Section": "ST_REGION_PREDETECTION",
+          "StageArray": [
+            {
+              "Stage": "SST_PREDETECT_REGIONS"
+            }
+          ]
+        },
+        {
+          "ImageParameterName": "IP_1",
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "StageArray": [
+            {
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_STATISTICS_MARKS"
+                }
+              ],
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES"
+            }
+          ]
+        },
+        {
+          "ImageParameterName": "IP_1",
+          "Section": "ST_BARCODE_DECODING",
+          "StageArray": [
+            {
+              "DeblurModes": [
+                {
+                  "Mode": "DM_DEEP_ANALYSIS"
+                }
+              ],
+              "Stage": "SST_DECODE_BARCODES"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "CaptureVisionTemplates": [
+    {
+      "ImageROIProcessingNameArray": [
+        "roi_default"
+      ],
+      "Name": "ReadDotcode"
+    }
+  ],
+  "ImageParameterOptions": [
+    {
+      "ApplicableStages": [
+        {
+          "GrayscaleTransformationModes": [
+            {
+              "Mode": "GTM_INVERTED"
+            }
+          ],
+          "Stage": "SST_TRANSFORM_GRAYSCALE"
+        },
+        {
+          "BinarizationModes": [
+            {
+              "BlockSizeX": 9,
+              "BlockSizeY": 9,
+              "EnableFillBinaryVacancy": 0,
+              "Mode": "BM_LOCAL_BLOCK",
+              "ThresholdCompensation": 20
+            },
+            {
+              "BlockSizeX": 15,
+              "BlockSizeY": 15,
+              "EnableFillBinaryVacancy": 0,
+              "Mode": "BM_LOCAL_BLOCK",
+              "MorphOperation": "open",
+              "MorphOperationKernelSizeX": 3,
+              "MorphOperationKernelSizeY": 3,
+              "MorphShape": "Ellipse"
+            },
+            {
+              "BlockSizeX": 15,
+              "BlockSizeY": 15,
+              "EnableFillBinaryVacancy": 0,
+              "Mode": "BM_LOCAL_BLOCK",
+              "ThresholdCompensation": 20
+            }
+          ],
+          "Stage": "SST_BINARIZE_IMAGE"
+        },
+        {
+          "Stage": "SST_DETECT_TEXTURE",
+          "TextureDetectionModes": [
+            {
+              "Mode": "TDM_SKIP"
+            }
+          ]
+        }
+      ],
+      "Name": "IP_1"
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "roi_default",
+      "TaskSettingNameArray": [
+        "BR_1"
+      ]
+    }
+  ]
+}
