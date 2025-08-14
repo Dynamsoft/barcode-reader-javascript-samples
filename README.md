@@ -31,7 +31,7 @@ A default license is included which allows you to test the sample apps for up to
 
 ## Documentation
 
-For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.0.3000&utm_source=sampleReadme).
+For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.0.6000&utm_source=sampleReadme).
 
 ## Support
 
@@ -47,6 +47,8 @@ Get the basic features working with plain/native JavaScript or within a framewor
 
 * [**Scan Single Barcode**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/hello-world.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-single-barcode/hello-world.html?utm_source=sampleReadme): Scan single barcode from video stream with minimum code in JavaScript.
 * [**Scan And Search**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/scan-and-search.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-single-barcode/scan-and-search.html?utm_source=sampleReadme): Scan a barcode to retrieve the relevant product information from the database in JavaScript.
+* [**Pick One to Fill**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/pick-one-to-fill/index.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-single-barcode/pick-one-to-fill/index.html?utm_source=sampleReadme): Pick one and auto-fill fields by simply opening the camera and scanning a group of barcodes.
+* [**Use Customized Template**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/use-customized-template/index.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-single-barcode/use-customized-template/index.html?utm_source=sampleReadme): Use different customized templates for scanning various barcode types.
 * [**Hello World in Angular**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/angular): Read single barcode from camera in an Angular application.
 * [**Hello World in React**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/react): Read single barcode from camera in a React application.
 * [**Hello World in Vue**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/vue): Read single barcode from camera in a Vue application.
@@ -55,6 +57,7 @@ Get the basic features working with plain/native JavaScript or within a framewor
 
 * [**Scan Multiple Barcodes**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-multiple-barcodes/hello-world.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/hello-world.html?utm_source=sampleReadme): Scan barcodes from video stream with minimum code in JavaScript.
 * [**Cart Builder**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-multiple-barcodes/cart-builder.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/cart-builder.html?utm_source=sampleReadme): Simulates a shopping experience where users scan barcodes to add items to a dynamic cart in JavaScript.
+* [**Batch Inventory**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-multiple-barcodes/batch-inventory/index.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/batch-inventory/index.html?utm_source=sampleReadme): An inventory management tool scan barcodes in batches and provide real-time analysis of the scanned data.
 
 ### Foundational API samples
 
@@ -83,6 +86,7 @@ Get the basic features of the library working with plain/native JavaScript or wi
 * [**Read a Driver's License**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/use-case/read-a-drivers-license/index.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/foundational-api-samples/use-case/read-a-drivers-license/index.html?utm_source=sampleReadme): Read the PDF417 barcode on a driver's license (AAMVA compliant) and parse it.
 * [**Show Result Texts on the Video**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/use-case/show-result-texts-on-the-video.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/foundational-api-samples/use-case/show-result-texts-on-the-video.html?utm_source=sampleReadme): Read barcodes via camera and show result texts on the video.
 * [**Locate an Item with Barcode**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/use-case/locate-an-item-with-barcode/index.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/foundational-api-samples/use-case/locate-an-item-with-barcode/index.html?utm_source=sampleReadme): Find a specific item in a large collection by scanning its unique barcode
+* [**Read and Parse GS1-AI**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/use-case/read-and-parse-GS1-AI/index.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/foundational-api-samples/use-case/read-and-parse-GS1-AI/index.html?utm_source=sampleReadme): Read GS1 Application Identifier (AI) barcode and parse its structured data.
 
 ***Others***
 

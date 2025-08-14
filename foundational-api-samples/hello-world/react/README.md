@@ -2,7 +2,7 @@
 
 [React](https://reactjs.org/) is a JavaScript library meant explicitly for creating interactive UIs. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a React application. Note that in this sample we will use `TypeScript` and define components as classes. Also, there is another sample `react-hooks` using `Hooks` in React.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.0.3000](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/11.0.3000).
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.0.6000](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/11.0.6000).
 
 > Note:
 >
@@ -44,7 +44,7 @@ npx create-react-app my-app --template typescript
 
 ```cmd
 cd my-app
-npm install dynamsoft-barcode-reader-bundle@11.0.3000 -E
+npm install dynamsoft-barcode-reader-bundle@11.0.6000 -E
 ```
 
 ## Start to implement
@@ -71,7 +71,7 @@ LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", {
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
  * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=11.0.3000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
+ * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=11.0.6000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
  * LICENSE ALERT - THE END
  */
 

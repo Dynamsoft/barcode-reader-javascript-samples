@@ -1,0 +1,87 @@
+{
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "BarcodeFormatIds": ["BF_CODE_128", "BF_CODE_39", "BF_ITF", "BF_MATRIX_25", "BF_USPSINTELLIGENTMAIL"],
+      "ExpectedBarcodesCount": 1,
+      "Name": "task_read_single_barcode",
+      "SectionArray": [
+        {
+          "ImageParameterName": "ip_read_single_barcode",
+          "Section": "ST_REGION_PREDETECTION"
+        },
+        {
+          "ImageParameterName": "ip_read_single_barcode",
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "StageArray": [
+            {
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_SCAN_DIRECTLY",
+                  "ScanDirection": 2
+                },
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                }
+              ],
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES"
+            }
+          ]
+        },
+        {
+          "ImageParameterName": "ip_read_single_barcode",
+          "Section": "ST_BARCODE_DECODING",
+          "StageArray": [
+            {
+              "DeblurModes": [
+                {
+                  "Mode": "DM_BASED_ON_LOC_BIN"
+                },
+                {
+                  "Mode": "DM_DIRECT_BINARIZATION"
+                },
+                {
+                  "Mode": "DM_DEEP_ANALYSIS"
+                }
+              ],
+              "Stage": "SST_DECODE_BARCODES"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "CaptureVisionTemplates": [
+    {
+      "ImageROIProcessingNameArray": [
+        "roi_read_single_barcode"
+      ],
+      "Name": "ReadOneDIndustrial"
+    }
+  ],
+  "ImageParameterOptions": [
+    {
+      "ApplicableStages": [
+        {
+          "BinarizationModes": [
+            {
+              "BlockSizeX": 27,
+              "BlockSizeY": 27,
+              "EnableFillBinaryVacancy": 0,
+              "Mode": "BM_LOCAL_BLOCK"
+            }
+          ],
+          "Stage": "SST_BINARIZE_IMAGE"
+        }
+      ],
+      "Name": "ip_read_single_barcode"
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "roi_read_single_barcode",
+      "TaskSettingNameArray": [
+        "task_read_single_barcode"
+      ]
+    }
+  ]
+}
