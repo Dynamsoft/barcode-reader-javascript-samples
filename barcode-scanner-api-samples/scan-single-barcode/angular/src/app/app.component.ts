@@ -9,17 +9,21 @@ import { BarcodeScanner, BarcodeScannerConfig } from 'dynamsoft-barcode-reader-b
 
 export class AppComponent {
   title = 'angular';
+  barcodeScanner: BarcodeScanner | null = null;
 
-  @ViewChild('scannerView') scannerView!: ElementRef<HTMLDivElement>;
+  @ViewChild('barcodeScannerViewRef') barcodeScannerViewRef!: ElementRef<HTMLDivElement>;
 
   async ngAfterViewInit(): Promise<void> {
     // Configuration object for initializing the BarcodeScanner instance
     const config: BarcodeScannerConfig = {
       license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
-      container: this.scannerView.nativeElement, // Specify where to render the scanner UI
+
+      // Specify where to render the scanner UI
+      // If container is not specified, the UI will take up the full screen
+      container: this.barcodeScannerViewRef.nativeElement, 
 
       // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
-      uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/",
+      uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/ui/barcode-scanner.ui.xml",
 
       // showUploadImageButton: true,
       // scannerViewConfig: {
@@ -34,13 +38,16 @@ export class AppComponent {
     }
 
     // Create an instance of the BarcodeScanner with the provided configuration
-    const barcodeScanner = new BarcodeScanner(config);
+    this.barcodeScanner = new BarcodeScanner(config);
 
     // Launch the scanner; once a barcode is detected, display its text in an alert
-    barcodeScanner.launch().then((result) => {
-      if (result.barcodeResults.length) {
-        alert(result.barcodeResults[0].text);
-      }
-    });
+    let result = await this.barcodeScanner.launch();
+    if (result.barcodeResults.length) {
+      alert(result.barcodeResults[0].text);
+    }
+  }
+  async ngOnDestroy(): Promise<void> { 
+    // Dispose of the barcode scanner when the component unmounts
+    this.barcodeScanner?.dispose();
   }
 }

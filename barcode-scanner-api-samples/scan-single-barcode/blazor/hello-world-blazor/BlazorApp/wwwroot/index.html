@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlazorApp</title>
+  <base href="/" />
+</head>
+
+<body>
+  <div id="app">
+  </div>
+
+  <script src="_framework/blazor.webassembly.js"></script>
+
+  <script>
+    let DBRJSModule = null;
+
+    async function decodeBarcodeViaCamera() {
+
+      // Lazy load Decode video module until needed
+      if(!DBRJSModule) {
+        DBRJSModule = await import("https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/dbr.bundle.mjs");
+      }
+
+      const { BarcodeScanner } = DBRJSModule;
+      
+      // Configuration object for initializing the BarcodeScanner instance. Refer to https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html#barcodescannerconfig
+      let config = {
+        license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
+        container: document.querySelector(".barcode-scanner-view"), // Specify where to render the scanner UI
+
+        // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
+        uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/ui/barcode-scanner.ui.xml",
+
+        // showUploadImageButton: true,
+        // scannerViewConfig: {
+        //   showFlashButton: true,
+        //   cameraSwitchControl: "toggleFrontBack",
+        // },
+
+        // Specify custom paths for the engine resources
+        engineResourcePaths: {
+          rootDirectory: "https://cdn.jsdelivr.net/npm/",
+        },
+      };
+
+      // Create a new instance of the Dynamsoft Barcode Scanner
+      const barcodeScanner = new BarcodeScanner(config);
+
+
+      // Launch the scanner; once a barcode is detected, return to blazor
+      let result = await barcodeScanner.launch();
+      if (result.barcodeResults.length) {
+        return result.barcodeResults[0].text;
+      }
+      return null;
+    }
+  </script>
+</body>
+
+</html>
