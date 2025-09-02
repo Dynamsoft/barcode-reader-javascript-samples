@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <meta name="description" content="Instantly Read PDF417 barcodes on Driver Licenses with Dynamsoft Barcode Reader." />
-  <meta name="keywords" content="read driver license barcode" />
-  <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/read-a-drivers-license/index.html" />
+  <meta name="description" content="Instantly Read GS1-AI barcodes and Parse It with Dynamsoft Barcode Reader." />
+  <meta name="keywords" content="read GS1 AI barcode" />
+  <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/use-case/read-and-parse-GS1-AI/index.html" />
   <link rel="stylesheet" href="./index.css">
   <title>Dynamsoft Barcode Reader Sample - Read a GS1-AI</title>
 </head>
@@ -167,7 +167,7 @@
 
     async function backToCameraMode() {
       closeResultAlert();
-      document.querySelector("#span-tip").innerText = "Aim at the barcode on the driver's license.";
+      document.querySelector("#span-tip").innerText = "Aim at the GS1 barcode.";
 
       await switchToVideo();
     }
@@ -184,7 +184,7 @@
 
     async function switchToVideo() {
       document.querySelector("#main-container").style.display = "block";
-      document.querySelector("#span-tip").innerText = "Aim at the barcode on the driver's license.";
+      document.querySelector("#span-tip").innerText = "Aim at the GS1 barcode.";
       document.querySelector("#span-tip").hidden = false;
       cameraViewContainer.style.display = "block";
 
