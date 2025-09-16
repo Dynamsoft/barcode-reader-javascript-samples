@@ -52,6 +52,15 @@ Get the basic features working with plain/native JavaScript or within a framewor
 * [**Hello World in Angular**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/angular): Read single barcode from camera in an Angular application.
 * [**Hello World in React**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/react): Read single barcode from camera in a React application.
 * [**Hello World in Vue**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/vue): Read single barcode from camera in a Vue application.
+* [**Hello World in Svelte**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/svelte): Read single barcode from camera in a Svelte application.
+* [**Hello World in Capacitor**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/capacitor): Read single barcode from camera in a Capacitor application.
+* [**Hello World in Webview**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/webview): Read single barcode from camera in a Webview application.
+* [**Hello World in Typescript**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/native-ts): Read single barcode from camera in a Typescript application.
+* [**Hello World in Electron**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/electron): Read single barcode from camera in a Electron application.
+* [**Hello World in Blazor**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/blazor): Read single barcode from camera in a Blazor application.
+* [**Hello World in RequireJS**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/requirejs.html): Read single barcode from camera in a RequireJS application.
+* [**Hello World in ES6**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/es6.html): Read single barcode from camera in a ES6 application.
+* [**Hello World in PWA**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/pwa): Read single barcode from camera in a PWA application.
 
 **Scan multiple barcodes**
 
