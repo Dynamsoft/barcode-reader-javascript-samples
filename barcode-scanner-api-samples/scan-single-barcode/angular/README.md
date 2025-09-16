@@ -19,7 +19,7 @@ npm install
 ### 2. Run the App
 
 ```bash
-ng serve
+npm run start
 ```
 
 Then open your browser at http://localhost:4200 to view the sample app.

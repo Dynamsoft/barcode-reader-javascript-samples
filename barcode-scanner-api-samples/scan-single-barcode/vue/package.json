@@ -1,5 +1,5 @@
 {
-  "name": "vue",
+  "name": "dbr-vue",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,13 +10,13 @@
   },
   "dependencies": {
     "dynamsoft-barcode-reader-bundle": "11.0.6000",
-    "vue": "^3.5.13"
+    "vue": "^3.5.18"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.2",
+    "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.7.0",
-    "typescript": "~5.7.2",
-    "vite": "^6.3.1",
-    "vue-tsc": "^2.2.8"
+    "typescript": "~5.8.3",
+    "vite": "^7.1.2",
+    "vue-tsc": "^3.0.5"
   }
 }
