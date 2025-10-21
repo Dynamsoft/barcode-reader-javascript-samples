@@ -70,7 +70,7 @@
         let ss = await cvRouter.getSimplifiedSettings("ReadBarcodes_SpeedFirst");
         ss.timeout = 100000;
         ss.minImageCaptureInterval = 100;
-        ss.capturedResultItemTypes |= Dynamsoft.Core.EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE;
+        ss.outputOriginalImage = true;
         await cvRouter.updateSettings("ReadBarcodes_SpeedFirst", ss);
 
         // Define a callback for results.
@@ -78,7 +78,6 @@
         let processingCount = 0;
         resultReceiver.onCapturedResultReceived = async (result) => {
           const resultItems = result.items;
-          if (!resultItems.length) return;
 
           if (resultItems.some((item) => item.type === "barcode")) {
             Dynamsoft.DCE.Feedback.beep();
