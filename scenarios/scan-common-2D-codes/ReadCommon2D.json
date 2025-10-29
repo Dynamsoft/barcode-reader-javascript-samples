@@ -1,0 +1,110 @@
+{
+  "GlobalParameter": 
+  {
+    "IntraOpNumThreads": 2
+  },
+  "CaptureVisionTemplates": [
+    {
+      "ImageROIProcessingNameArray": [
+        "ROI_Common2D"
+      ],
+      "Name": "ReadCommon2D",
+      "MaxParallelTasks": 0,
+      "Timeout": 500
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "ROI_Common2D",
+      "TaskSettingNameArray": [
+        "Task_Common2D"
+      ]
+    }
+  ],
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "Name": "Task_Common2D",
+      "BarcodeFormatIds": ["BF_QR_CODE", "BF_DATAMATRIX", "BF_PDF417"],
+      "ExpectedBarcodesCount":1,
+      "MaxThreadsInOneTask": 1,
+      "SectionArray": [
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                },
+                {
+                  "Mode": "LM_LINES"
+                },
+                {
+                  "Mode": "LM_NEURAL_NETWORK",
+                  "ModelNameArray": ["DataMatrixQRCodeLocalization"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_DECODE_BARCODES",
+              "DeblurModes": [
+                {
+                  "Mode": "DM_BASED_ON_LOC_BIN"
+                },
+                {
+                  "Mode": "DM_THRESHOLD_BINARIZATION"
+                },
+                {
+                  "Mode": "DM_DEEP_ANALYSIS",
+                  "Methods": ["TwoDGeneral"]
+                }
+              ]
+            },
+            {
+              "Stage": "SST_COMPLEMENT_BARCODE",
+              "BarcodeComplementModes": [
+                {
+                  "Mode": "BCM_GENERAL" 
+                }
+              ]
+            },
+            {
+              "Stage": "SST_RESIST_DEFORMATION",
+              "DeformationResistingModes": [
+                {
+                  "Mode" : "DRM_AUTO"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ImageParameterOptions": [
+    {
+      "ApplicableStages": [
+        {
+          "Stage": "SST_SCALE_IMAGE"
+        },
+        {
+          "GrayscaleTransformationModes": [
+            {
+              "Mode": "GTM_ORIGINAL"
+            }
+          ],
+          "Stage": "SST_TRANSFORM_GRAYSCALE"
+        }
+      ],
+      "Name": "ip"
+    }
+  ]
+}

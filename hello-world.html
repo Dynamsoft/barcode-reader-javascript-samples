@@ -17,7 +17,7 @@
   <div class="barcode-scanner-view"></div>
 
   <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.2000/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
   <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
 
@@ -26,7 +26,6 @@
     let config = {
       license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
       container: document.querySelector(".barcode-scanner-view"), // Specify where to render the scanner UI
-
       // showUploadImageButton: true,
       // scannerViewConfig: {
       //   showFlashButton: true,
@@ -42,7 +41,10 @@
       // Display the first detected barcode's text in an alert
       if (result.barcodeResults.length) {
         alert(result.barcodeResults[0].text);
+      } else{
+        alert("No barcode found");
       }
+
     });
   </script>
 

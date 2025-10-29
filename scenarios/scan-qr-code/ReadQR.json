@@ -1,0 +1,90 @@
+{
+  "GlobalParameter": 
+  {
+    "IntraOpNumThreads": 2
+  },
+  "CaptureVisionTemplates": [
+    {
+      "ImageROIProcessingNameArray": [
+        "ROI_QR"
+      ],
+      "Name": "ReadQR",
+      "MaxParallelTasks": 0,
+      "Timeout": 500
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "ROI_QR",
+      "TaskSettingNameArray": [
+        "Task_QR"
+      ]
+    }
+  ],
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "Name": "Task_QR",
+      "BarcodeFormatIds": ["BF_QR_CODE"],
+      "ExpectedBarcodesCount":0,
+      "MaxThreadsInOneTask": 1,
+      "SectionArray": [
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                },
+                {
+                  "Mode": "LM_NEURAL_NETWORK",
+                  "ModelNameArray": ["DataMatrixQRCodeLocalization"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_DECODE_BARCODES",
+              "DeblurModes":[
+                {
+                  "Mode": "DM_BASED_ON_LOC_BIN"
+                },
+                {
+                  "Mode": "DM_DIRECT_BINARIZATION"
+                },
+                {
+                  "Mode": "DM_DEEP_ANALYSIS"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ImageParameterOptions": [
+    {
+      "ApplicableStages": [
+        {
+          "Stage": "SST_SCALE_IMAGE"
+        },
+        {
+          "GrayscaleTransformationModes": [
+            {
+              "Mode": "GTM_ORIGINAL"
+            }
+          ],
+          "Stage": "SST_TRANSFORM_GRAYSCALE"
+        }
+      ],
+      "Name": "ip"
+    }
+  ]
+}

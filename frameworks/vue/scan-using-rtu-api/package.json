@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "11.0.6000",
+    "dynamsoft-barcode-reader-bundle": "11.2.2000",
     "vue": "^3.5.18"
   },
   "devDependencies": {

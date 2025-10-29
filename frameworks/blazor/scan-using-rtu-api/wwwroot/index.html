@@ -21,7 +21,7 @@
 
       // Lazy load Decode video module until needed
       if(!DBRJSModule) {
-        DBRJSModule = await import("https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/dbr.bundle.mjs");
+        DBRJSModule = await import("https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.2000/dist/dbr.bundle.mjs");
       }
 
       const { BarcodeScanner } = DBRJSModule;
@@ -32,7 +32,7 @@
         container: document.querySelector(".barcode-scanner-view"), // Specify where to render the scanner UI
 
         // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
-        uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/ui/barcode-scanner.ui.xml",
+        uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.2000/dist/ui/barcode-scanner.ui.xml",
 
         // showUploadImageButton: true,
         // scannerViewConfig: {
