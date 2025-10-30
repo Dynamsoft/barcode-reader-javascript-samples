@@ -10,7 +10,15 @@
       ],
       "Name": "ReadCommon2D",
       "MaxParallelTasks": 0,
-      "Timeout": 500
+      "Timeout": 1000
+    },
+    {
+      "ImageROIProcessingNameArray": [
+        "ROI_Common2D_ReadRate"
+      ],
+      "Name": "ReadCommon2D_ReadRate",
+      "MaxParallelTasks": 0,
+      "Timeout": 10000
     }
   ],
   "TargetROIDefOptions": [
@@ -18,6 +26,12 @@
       "Name": "ROI_Common2D",
       "TaskSettingNameArray": [
         "Task_Common2D"
+      ]
+    },
+    {
+      "Name": "ROI_Common2D_ReadRate",
+      "TaskSettingNameArray": [
+        "Task_Common2D_ReadRate"
       ]
     }
   ],
@@ -30,7 +44,7 @@
       "SectionArray": [
         {
           "Section": "ST_BARCODE_LOCALIZATION",
-          "ImageParameterName": "ip",
+          "ImageParameterName": "ip_include_inverted",
           "StageArray": [
             {
               "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
@@ -51,11 +65,11 @@
         },
         {
           "Section": "ST_BARCODE_DECODING",
-          "ImageParameterName": "ip",
+          "ImageParameterName": "ip_include_inverted",
           "StageArray": [
             {
               "Stage": "SST_DECODE_BARCODES",
-              "DeblurModes": [
+              "DeblurModes":[
                 {
                   "Mode": "DM_BASED_ON_LOC_BIN"
                 },
@@ -63,10 +77,64 @@
                   "Mode": "DM_THRESHOLD_BINARIZATION"
                 },
                 {
-                  "Mode": "DM_DEEP_ANALYSIS",
-                  "Methods": ["TwoDGeneral"]
+                  "Mode": "DM_DEEP_ANALYSIS"
                 }
               ]
+            },
+            {
+              "Stage": "SST_COMPLEMENT_BARCODE",
+              "BarcodeComplementModes": [
+                {
+                  "Mode": "BCM_GENERAL" 
+                }
+              ]
+            },
+            {
+              "Stage": "SST_RESIST_DEFORMATION",
+              "DeformationResistingModes": [
+                {
+                  "Mode" : "DRM_AUTO"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Task_Common2D_ReadRate",
+      "BarcodeFormatIds": ["BF_QR_CODE", "BF_DATAMATRIX", "BF_PDF417"],
+      "ExpectedBarcodesCount": 999,
+      "MaxThreadsInOneTask": 1,
+      "SectionArray": [
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip_include_inverted",
+          "StageArray": [
+            {
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                },
+                {
+                  "Mode": "LM_LINES"
+                },
+                {
+                  "Mode": "LM_NEURAL_NETWORK",
+                  "ModelNameArray": ["DataMatrixQRCodeLocalization"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip_include_inverted",
+          "StageArray": [
+            {
+              "Stage": "SST_DECODE_BARCODES",
+              "DeblurModes": null
             },
             {
               "Stage": "SST_COMPLEMENT_BARCODE",
@@ -93,18 +161,25 @@
     {
       "ApplicableStages": [
         {
+          "ImageScaleSetting": {
+            "EdgeLengthThreshold": 100000,
+            "ScaleType": "ST_SCALE_DOWN"
+          },
           "Stage": "SST_SCALE_IMAGE"
         },
         {
           "GrayscaleTransformationModes": [
             {
               "Mode": "GTM_ORIGINAL"
+            },
+            {
+              "Mode": "GTM_INVERTED"
             }
           ],
           "Stage": "SST_TRANSFORM_GRAYSCALE"
         }
       ],
-      "Name": "ip"
+      "Name": "ip_include_inverted"
     }
   ]
 }

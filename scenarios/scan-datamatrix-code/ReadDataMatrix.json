@@ -10,7 +10,15 @@
       ],
       "Name": "ReadDataMatrix",
       "MaxParallelTasks": 0,
-      "Timeout": 500
+      "Timeout": 1000
+    },
+    {
+      "ImageROIProcessingNameArray": [
+        "ROI_DataMatrix_ReadRate"
+      ],
+      "Name": "ReadDataMatrix_ReadRate",
+      "MaxParallelTasks": 0,
+      "Timeout": 10000
     }
   ],
   "TargetROIDefOptions": [
@@ -19,18 +27,24 @@
       "TaskSettingNameArray": [
         "Task_DataMatrix"
       ]
+    },
+    {
+      "Name": "ROI_DataMatrix_ReadRate",
+      "TaskSettingNameArray": [
+        "Task_DataMatrix_ReadRate"
+      ]
     }
   ],
   "BarcodeReaderTaskSettingOptions": [
     {
       "Name": "Task_DataMatrix",
       "BarcodeFormatIds": ["BF_DATAMATRIX"],
-      "ExpectedBarcodesCount": 0,
+      "ExpectedBarcodesCount": 1,
       "MaxThreadsInOneTask": 1,
       "SectionArray": [
         {
           "Section": "ST_BARCODE_LOCALIZATION",
-          "ImageParameterName": "ip",
+          "ImageParameterName": "ip_include_inverted",
           "StageArray": [
             {
               "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
@@ -51,18 +65,68 @@
         },
         {
           "Section": "ST_BARCODE_DECODING",
-          "ImageParameterName": "ip",
+          "ImageParameterName": "ip_include_inverted",
           "StageArray": [
             {
               "Stage": "SST_DECODE_BARCODES",
               "DeblurModes":[
                 {
-                  "Mode": "DM_DIRECT_BINARIZATION"
+                  "Mode": "DM_BASED_ON_LOC_BIN"
+                },
+                {
+                  "Mode": "DM_THRESHOLD_BINARIZATION"
                 },
                 {
                   "Mode": "DM_DEEP_ANALYSIS"
                 }
               ]
+            },
+            {
+              "Stage": "SST_RESIST_DEFORMATION",
+              "DeformationResistingModes": [
+                {
+                  "Mode" : "DRM_AUTO"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Task_DataMatrix_ReadRate",
+      "BarcodeFormatIds": ["BF_DATAMATRIX"],
+      "ExpectedBarcodesCount":999,
+      "MaxThreadsInOneTask": 1,
+      "SectionArray": [
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip_include_inverted",
+          "StageArray": [
+            {
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                },
+                {
+                  "Mode": "LM_LINES"
+                },
+                {
+                  "Mode": "LM_NEURAL_NETWORK",
+                  "ModelNameArray": ["DataMatrixQRCodeLocalization"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip_include_inverted",
+          "StageArray": [
+            {
+              "Stage": "SST_DECODE_BARCODES",
+              "DeblurModes": null
             },
             {
               "Stage": "SST_RESIST_DEFORMATION",
@@ -81,6 +145,10 @@
     {
       "ApplicableStages": [
         {
+          "ImageScaleSetting": {
+            "EdgeLengthThreshold": 100000,
+            "ScaleType": "ST_SCALE_DOWN"
+          },
           "Stage": "SST_SCALE_IMAGE"
         },
         {
@@ -95,7 +163,7 @@
           "Stage": "SST_TRANSFORM_GRAYSCALE"
         }
       ],
-      "Name": "ip"
+      "Name": "ip_include_inverted"
     }
   ]
 }

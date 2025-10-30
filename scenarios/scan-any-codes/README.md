@@ -5,7 +5,7 @@ This sample demonstrates scanning a wide range of barcode formats (1D and 2D) us
 ## Included files
 
 - `index.html` — Demo page (camera & image input) and UI.
-- `ReadAllBarcodeFormats.json` — Example configuration used by the sample (if present).
+- `ReadAllBarcodeFormats.json` — Example configuration used by the sample.
 
 ## Quick start
 

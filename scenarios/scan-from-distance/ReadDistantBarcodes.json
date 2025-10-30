@@ -5,7 +5,7 @@
   },
   "BarcodeReaderTaskSettingOptions": [
     {
-      "ExpectedBarcodesCount": 0,
+      "ExpectedBarcodesCount": 1,
       "Name": "task_read_distant_barcodes",
       "SectionArray": [
         {

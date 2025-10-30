@@ -5,7 +5,7 @@ This sample demonstrates techniques for scanning barcodes from a distance, inclu
 ## Included files
 
 - `index.html` — Demo page (camera & image input) and UI.
-- `ReadDistantBarcodes.json` — Example configuration used by the sample (if present).
+- `ReadDistantBarcodes.json` — Example configuration used by the sample.
 
 ## Quick start
 

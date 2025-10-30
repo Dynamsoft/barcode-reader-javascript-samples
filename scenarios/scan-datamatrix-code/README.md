@@ -5,7 +5,7 @@ This sample demonstrates decoding DataMatrix barcodes from camera or image input
 ## Included files
 
 - `index.html` — Demo page (camera & image input) and UI.
-- `ReadDataMatrix.json` — Example configuration used by the sample (if present).
+- `ReadDataMatrix.json` — Example configuration used by the sample.
 
 ## Quick start
 

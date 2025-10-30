@@ -5,11 +5,19 @@
   },
   "CaptureVisionTemplates": [
     {
-      "Name": "ReadCommon1DAnd2D",
+      "Name": "ReadAllBarcodeFormats",
       "ImageROIProcessingNameArray": [
         "roi-read-barcodes"
       ],
-      "Timeout": 500,
+      "Timeout": 1000,
+      "MaxParallelTasks": 0
+    },
+    {
+      "Name": "ReadAllBarcodeFormats_DecodeImage",
+      "ImageROIProcessingNameArray": [
+        "roi-read-barcodes-decode-image"
+      ],
+      "Timeout": 10000,
       "MaxParallelTasks": 0
     }
   ],
@@ -18,6 +26,12 @@
       "Name": "roi-read-barcodes",
       "TaskSettingNameArray": [
         "task-read-barcodes"
+      ]
+    },
+    {
+      "Name": "roi-read-barcodes-decode-image",
+      "TaskSettingNameArray": [
+        "task-read-barcodes-decode-image"
       ]
     }
   ],
@@ -39,8 +53,8 @@
                   "Mode": "LM_CONNECTED_BLOCKS"
                 },
                 {
-                  "Mode": "LM_SCAN_DIRECTLY"
-                } 
+                  "Mode": "LM_LINES"
+                }
               ]
             },
             {
@@ -56,27 +70,25 @@
               "Stage": "SST_DECODE_BARCODES",
               "DeblurModes": [
                 {
-                  "Mode": "DM_BASED_ON_LOC_BIN"
+                  "Mode": "DM_DIRECT_BINARIZATION"
                 },
                 {
-                  "Mode": "DM_THRESHOLD_BINARIZATION"
+                  "Mode": "DM_NEURAL_NETWORK"
                 },
                 {
-                  "Mode": "DM_NEURAL_NETWORK",
-                  "ModelNameArray": [
-                    "Code128Decoder",
-                    "EAN13Decoder"
-                  ]
-                },
-                {
-                  "Mode": "DM_DEEP_ANALYSIS",
-                  "Methods": ["OneDGeneral","TwoDGeneral"]
+                  "Mode": "DM_DEEP_ANALYSIS"
                 }
               ]
             }
           ]
         }
       ]
+    },
+    {
+      "Name": "task-read-barcodes-decode-image",
+      "BarcodeFormatIds": ["BF_ALL"],
+      "BaseBarcodeReaderTaskSettingName": "task-read-barcodes-read-rate",
+      "ExpectedBarcodesCount": 999
     }
   ],
   "ImageParameterOptions": [
@@ -96,13 +108,24 @@
           "IfEraseTextZone": 1
         },
         {
-          "Stage": "SST_BINARIZE_IMAGE"
+          "Stage": "SST_BINARIZE_IMAGE",
+          "BinarizationModes": [
+            {
+              "Mode": "BM_LOCAL_BLOCK",
+              "BlockSizeX": 27,
+              "BlockSizeY": 27,
+              "EnableFillBinaryVacancy": 0
+            }
+          ]
         },
         {
           "Stage": "SST_TRANSFORM_GRAYSCALE",
           "GrayscaleTransformationModes": [
             {
               "Mode": "GTM_ORIGINAL"
+            },
+            {
+              "Mode": "GTM_INVERTED"
             }
           ]
         }

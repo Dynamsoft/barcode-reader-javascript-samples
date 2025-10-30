@@ -5,7 +5,7 @@ This sample demonstrates tuning for industrial 1D barcodes (high-density, damage
 ## Included files
 
 - `index.html` — Demo page and UI.
-- `ReadOneDIndustrial.json` — Example configuration used by the sample (if present).
+- `ReadOneDIndustrial.json` — Example configuration used by the sample.
 
 ## Quick start
 

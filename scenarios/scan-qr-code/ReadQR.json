@@ -10,7 +10,15 @@
       ],
       "Name": "ReadQR",
       "MaxParallelTasks": 0,
-      "Timeout": 500
+      "Timeout": 1000
+    },
+    {
+      "ImageROIProcessingNameArray": [
+        "ROI_QR_ReadRate"
+      ],
+      "Name": "ReadQR_ReadRate",
+      "MaxParallelTasks": 0,
+      "Timeout": 10000
     }
   ],
   "TargetROIDefOptions": [
@@ -19,13 +27,19 @@
       "TaskSettingNameArray": [
         "Task_QR"
       ]
+    },
+    {
+      "Name": "ROI_QR_ReadRate",
+      "TaskSettingNameArray": [
+        "Task_QR_ReadRate"
+      ]
     }
   ],
   "BarcodeReaderTaskSettingOptions": [
     {
       "Name": "Task_QR",
       "BarcodeFormatIds": ["BF_QR_CODE"],
-      "ExpectedBarcodesCount":0,
+      "ExpectedBarcodesCount":1,
       "MaxThreadsInOneTask": 1,
       "SectionArray": [
         {
@@ -37,10 +51,6 @@
               "LocalizationModes": [
                 {
                   "Mode": "LM_CONNECTED_BLOCKS"
-                },
-                {
-                  "Mode": "LM_NEURAL_NETWORK",
-                  "ModelNameArray": ["DataMatrixQRCodeLocalization"]
                 }
               ]
             }
@@ -67,12 +77,54 @@
           ]
         }
       ]
+    },
+    {
+      "Name": "Task_QR_ReadRate",
+      "BarcodeFormatIds": ["BF_QR_CODE"],
+      "ExpectedBarcodesCount": 999,
+      "MaxThreadsInOneTask": 1,
+      "SectionArray": [
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                },
+                {
+                  "Mode": "LM_LINES"
+                },
+                {
+                  "Mode": "LM_NEURAL_NETWORK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_DECODE_BARCODES",
+              "DeblurModes": null
+            }
+          ]
+        }
+      ]
     }
   ],
   "ImageParameterOptions": [
     {
       "ApplicableStages": [
         {
+          "ImageScaleSetting": {
+            "EdgeLengthThreshold": 100000,
+            "ScaleType": "ST_SCALE_DOWN"
+          },
           "Stage": "SST_SCALE_IMAGE"
         },
         {
