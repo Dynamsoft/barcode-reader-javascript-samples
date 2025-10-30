@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "nuxt": "3.2.3"
+    "nuxt": "^3.2.3"
   },
   "dependencies": {
     "dynamsoft-barcode-reader-bundle": "11.0.6000"
