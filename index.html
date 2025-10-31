@@ -4,17 +4,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="description" content="Browse 30+ JavaScript barcode scanning samples including framework integrations (Angular, React, Vue, Next.js, etc.) and real-world scenarios. Try live demos and explore source code.">
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/index.html">
     <title>Dynamsoft Barcode Reader Samples</title>
 </head>
 
 <body>
-    <!-- This is a sample routing page. SDK users are not necessary to study this html. -->
+    <!-- This is a sample routing page. SDK users do not need to study this html. -->
     <style>
         body {
             text-align: center;
             font-family: "Open Sans", sans-serif;
+            background-color: #ffffff;
+            margin: 20px;
         }
         .filetree .ds-logo {
             height: 3vh;
@@ -23,45 +26,105 @@
     </style>
     <!--
         For document, copy start from here
-        search `href="barcode-scanner-api-samples` replace to `href="https://demo.dynamsoft.com/Samples/DBR/JS/barcode-scanner-api-samples`
-        search `href="foundational-api-samples` replace to `href="https://demo.dynamsoft.com/Samples/DBR/JS/foundational-api-samples`
+        search `href="frameworks` replace to `href="https://demo.dynamsoft.com/Samples/DBR/JS/frameworks`
+        search `href="scenarios` replace to `href="https://demo.dynamsoft.com/Samples/DBR/JS/scenarios`
     -->
     <style>
         /* `balloon.min.css` used for tooltip styling */
-        :root{--balloon-border-radius: 2px;--balloon-color: rgba(16,16,16,0.95);--balloon-text-color: #fff;--balloon-font-size: 12px;--balloon-move: 4px}button[aria-label][data-balloon-pos]{overflow:visible}[aria-label][data-balloon-pos]{position:relative;cursor:pointer}[aria-label][data-balloon-pos]:after{opacity:0;pointer-events:none;transition:all 0.18s ease-out 0.18s;text-indent:0;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;font-weight:normal;font-style:normal;text-shadow:none;font-size:var(--balloon-font-size);background:var(--balloon-color);border-radius:2px;color:var(--balloon-text-color);border-radius:var(--balloon-border-radius);content:attr(aria-label);padding:.5em 1em;position:absolute;white-space:nowrap;z-index:10}[aria-label][data-balloon-pos]:before{width:0;height:0;border:5px solid transparent;border-top-color:var(--balloon-color);opacity:0;pointer-events:none;transition:all 0.18s ease-out 0.18s;content:"";position:absolute;z-index:10}[aria-label][data-balloon-pos]:hover:before,[aria-label][data-balloon-pos]:hover:after,[aria-label][data-balloon-pos][data-balloon-visible]:before,[aria-label][data-balloon-pos][data-balloon-visible]:after,[aria-label][data-balloon-pos]:not([data-balloon-nofocus]):focus:before,[aria-label][data-balloon-pos]:not([data-balloon-nofocus]):focus:after{opacity:1;pointer-events:none}[aria-label][data-balloon-pos].font-awesome:after{font-family:FontAwesome, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif}[aria-label][data-balloon-pos][data-balloon-break]:after{white-space:pre}[aria-label][data-balloon-pos][data-balloon-break][data-balloon-length]:after{white-space:pre-line;word-break:break-word}[aria-label][data-balloon-pos][data-balloon-blunt]:before,[aria-label][data-balloon-pos][data-balloon-blunt]:after{transition:none}[aria-label][data-balloon-pos][data-balloon-pos="up"]:hover:after,[aria-label][data-balloon-pos][data-balloon-pos="up"][data-balloon-visible]:after,[aria-label][data-balloon-pos][data-balloon-pos="down"]:hover:after,[aria-label][data-balloon-pos][data-balloon-pos="down"][data-balloon-visible]:after{transform:translate(-50%, 0)}[aria-label][data-balloon-pos][data-balloon-pos="up"]:hover:before,[aria-label][data-balloon-pos][data-balloon-pos="up"][data-balloon-visible]:before,[aria-label][data-balloon-pos][data-balloon-pos="down"]:hover:before,[aria-label][data-balloon-pos][data-balloon-pos="down"][data-balloon-visible]:before{transform:translate(-50%, 0)}[aria-label][data-balloon-pos][data-balloon-pos*="-left"]:after{left:0}[aria-label][data-balloon-pos][data-balloon-pos*="-left"]:before{left:5px}[aria-label][data-balloon-pos][data-balloon-pos*="-right"]:after{right:0}[aria-label][data-balloon-pos][data-balloon-pos*="-right"]:before{right:5px}[aria-label][data-balloon-pos][data-balloon-po*="-left"]:hover:after,[aria-label][data-balloon-pos][data-balloon-po*="-left"][data-balloon-visible]:after,[aria-label][data-balloon-pos][data-balloon-pos*="-right"]:hover:after,[aria-label][data-balloon-pos][data-balloon-pos*="-right"][data-balloon-visible]:after{transform:translate(0, 0)}[aria-label][data-balloon-pos][data-balloon-po*="-left"]:hover:before,[aria-label][data-balloon-pos][data-balloon-po*="-left"][data-balloon-visible]:before,[aria-label][data-balloon-pos][data-balloon-pos*="-right"]:hover:before,[aria-label][data-balloon-pos][data-balloon-pos*="-right"][data-balloon-visible]:before{transform:translate(0, 0)}[aria-label][data-balloon-pos][data-balloon-pos^="up"]:before,[aria-label][data-balloon-pos][data-balloon-pos^="up"]:after{bottom:100%;transform-origin:top;transform:translate(0, var(--balloon-move))}[aria-label][data-balloon-pos][data-balloon-pos^="up"]:after{margin-bottom:10px}[aria-label][data-balloon-pos][data-balloon-pos="up"]:before,[aria-label][data-balloon-pos][data-balloon-pos="up"]:after{left:50%;transform:translate(-50%, var(--balloon-move))}[aria-label][data-balloon-pos][data-balloon-pos^="down"]:before,[aria-label][data-balloon-pos][data-balloon-pos^="down"]:after{top:100%;transform:translate(0, calc(var(--balloon-move) * -1))}[aria-label][data-balloon-pos][data-balloon-pos^="down"]:after{margin-top:10px}[aria-label][data-balloon-pos][data-balloon-pos^="down"]:before{width:0;height:0;border:5px solid transparent;border-bottom-color:var(--balloon-color)}[aria-label][data-balloon-pos][data-balloon-pos="down"]:after,[aria-label][data-balloon-pos][data-balloon-pos="down"]:before{left:50%;transform:translate(-50%, calc(var(--balloon-move) * -1))}[aria-label][data-balloon-pos][data-balloon-pos="left"]:hover:after,[aria-label][data-balloon-pos][data-balloon-pos="left"][data-balloon-visible]:after,[aria-label][data-balloon-pos][data-balloon-pos="right"]:hover:after,[aria-label][data-balloon-pos][data-balloon-pos="right"][data-balloon-visible]:after{transform:translate(0, -50%)}[aria-label][data-balloon-pos][data-balloon-pos="left"]:hover:before,[aria-label][data-balloon-pos][data-balloon-pos="left"][data-balloon-visible]:before,[aria-label][data-balloon-pos][data-balloon-pos="right"]:hover:before,[aria-label][data-balloon-pos][data-balloon-pos="right"][data-balloon-visible]:before{transform:translate(0, -50%)}[aria-label][data-balloon-pos][data-balloon-pos="left"]:after,[aria-label][data-balloon-pos][data-balloon-pos="left"]:before{right:100%;top:50%;transform:translate(var(--balloon-move), -50%)}[aria-label][data-balloon-pos][data-balloon-pos="left"]:after{margin-right:10px}[aria-label][data-balloon-pos][data-balloon-pos="left"]:before{width:0;height:0;border:5px solid transparent;border-left-color:var(--balloon-color)}[aria-label][data-balloon-pos][data-balloon-pos="right"]:after,[aria-label][data-balloon-pos][data-balloon-pos="right"]:before{left:100%;top:50%;transform:translate(calc(var(--balloon-move) * -1), -50%)}[aria-label][data-balloon-pos][data-balloon-pos="right"]:after{margin-left:10px}[aria-label][data-balloon-pos][data-balloon-pos="right"]:before{width:0;height:0;border:5px solid transparent;border-right-color:var(--balloon-color)}[aria-label][data-balloon-pos][data-balloon-length]:after{white-space:normal}[aria-label][data-balloon-pos][data-balloon-length="small"]:after{width:80px}[aria-label][data-balloon-pos][data-balloon-length="medium"]:after{width:150px}[aria-label][data-balloon-pos][data-balloon-length="large"]:after{width:260px}[aria-label][data-balloon-pos][data-balloon-length="xlarge"]:after{width:380px}@media screen and (max-width: 768px){[aria-label][data-balloon-pos][data-balloon-length="xlarge"]:after{width:90vw}}[aria-label][data-balloon-pos][data-balloon-length="fit"]:after{width:100%}
+        :root{--balloon-border-radius: 6px;--balloon-color: #24292e;--balloon-text-color: #fff;--balloon-font-size: 13px;--balloon-move: 4px}button[aria-label][data-balloon-pos]{overflow:visible}[aria-label][data-balloon-pos]{position:relative;cursor:pointer}[aria-label][data-balloon-pos]:after{opacity:0;pointer-events:none;transition:all 0.18s ease-out 0.18s;text-indent:0;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;font-weight:normal;font-style:normal;text-shadow:none;font-size:var(--balloon-font-size);background:var(--balloon-color);color:var(--balloon-text-color);border-radius:var(--balloon-border-radius);content:attr(aria-label);padding:.5em 1em;position:absolute;white-space:nowrap;z-index:10}[aria-label][data-balloon-pos]:before{width:0;height:0;border:5px solid transparent;border-top-color:var(--balloon-color);opacity:0;pointer-events:none;transition:all 0.18s ease-out 0.18s;content:"";position:absolute;z-index:10}[aria-label][data-balloon-pos]:hover:before,[aria-label][data-balloon-pos]:hover:after,[aria-label][data-balloon-pos][data-balloon-visible]:before,[aria-label][data-balloon-pos][data-balloon-visible]:after,[aria-label][data-balloon-pos]:not([data-balloon-nofocus]):focus:before,[aria-label][data-balloon-pos]:not([data-balloon-nofocus]):focus:after{opacity:1;pointer-events:none}[aria-label][data-balloon-pos].font-awesome:after{font-family:FontAwesome, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif}[aria-label][data-balloon-pos][data-balloon-break]:after{white-space:pre}[aria-label][data-balloon-pos][data-balloon-break][data-balloon-length]:after{white-space:pre-line;word-break:break-word}[aria-label][data-balloon-pos][data-balloon-blunt]:before,[aria-label][data-balloon-pos][data-balloon-blunt]:after{transition:none}[aria-label][data-balloon-pos][data-balloon-pos="up"]:hover:after,[aria-label][data-balloon-pos][data-balloon-pos="up"][data-balloon-visible]:after,[aria-label][data-balloon-pos][data-balloon-pos="down"]:hover:after,[aria-label][data-balloon-pos][data-balloon-pos="down"][data-balloon-visible]:after{transform:translate(-50%, 0)}[aria-label][data-balloon-pos][data-balloon-pos="up"]:hover:before,[aria-label][data-balloon-pos][data-balloon-pos="up"][data-balloon-visible]:before,[aria-label][data-balloon-pos][data-balloon-pos="down"]:hover:before,[aria-label][data-balloon-pos][data-balloon-pos="down"][data-balloon-visible]:before{transform:translate(-50%, 0)}[aria-label][data-balloon-pos][data-balloon-pos*="-left"]:after{left:0}[aria-label][data-balloon-pos][data-balloon-pos*="-left"]:before{left:5px}[aria-label][data-balloon-pos][data-balloon-pos*="-right"]:after{right:0}[aria-label][data-balloon-pos][data-balloon-pos*="-right"]:before{right:5px}[aria-label][data-balloon-pos][data-balloon-po*="-left"]:hover:after,[aria-label][data-balloon-pos][data-balloon-po*="-left"][data-balloon-visible]:after,[aria-label][data-balloon-pos][data-balloon-pos*="-right"]:hover:after,[aria-label][data-balloon-pos][data-balloon-pos*="-right"][data-balloon-visible]:after{transform:translate(0, 0)}[aria-label][data-balloon-pos][data-balloon-po*="-left"]:hover:before,[aria-label][data-balloon-pos][data-balloon-po*="-left"][data-balloon-visible]:before,[aria-label][data-balloon-pos][data-balloon-pos*="-right"]:hover:before,[aria-label][data-balloon-pos][data-balloon-pos*="-right"][data-balloon-visible]:before{transform:translate(0, 0)}[aria-label][data-balloon-pos][data-balloon-pos^="up"]:before,[aria-label][data-balloon-pos][data-balloon-pos^="up"]:after{bottom:100%;transform-origin:top;transform:translate(0, var(--balloon-move))}[aria-label][data-balloon-pos][data-balloon-pos^="up"]:after{margin-bottom:10px}[aria-label][data-balloon-pos][data-balloon-pos="up"]:before,[aria-label][data-balloon-pos][data-balloon-pos="up"]:after{left:50%;transform:translate(-50%, var(--balloon-move))}[aria-label][data-balloon-pos][data-balloon-pos^="down"]:before,[aria-label][data-balloon-pos][data-balloon-pos^="down"]:after{top:100%;transform:translate(0, calc(var(--balloon-move) * -1))}[aria-label][data-balloon-pos][data-balloon-pos^="down"]:after{margin-top:10px}[aria-label][data-balloon-pos][data-balloon-pos^="down"]:before{width:0;height:0;border:5px solid transparent;border-bottom-color:var(--balloon-color)}[aria-label][data-balloon-pos][data-balloon-pos="down"]:after,[aria-label][data-balloon-pos][data-balloon-pos="down"]:before{left:50%;transform:translate(-50%, calc(var(--balloon-move) * -1))}[aria-label][data-balloon-pos][data-balloon-pos="left"]:hover:after,[aria-label][data-balloon-pos][data-balloon-pos="left"][data-balloon-visible]:after,[aria-label][data-balloon-pos][data-balloon-pos="right"]:hover:after,[aria-label][data-balloon-pos][data-balloon-pos="right"][data-balloon-visible]:after{transform:translate(0, -50%)}[aria-label][data-balloon-pos][data-balloon-pos="left"]:hover:before,[aria-label][data-balloon-pos][data-balloon-pos="left"][data-balloon-visible]:before,[aria-label][data-balloon-pos][data-balloon-pos="right"]:hover:before,[aria-label][data-balloon-pos][data-balloon-pos="right"][data-balloon-visible]:before{transform:translate(0, -50%)}[aria-label][data-balloon-pos][data-balloon-pos="left"]:after,[aria-label][data-balloon-pos][data-balloon-pos="left"]:before{right:100%;top:50%;transform:translate(var(--balloon-move), -50%)}[aria-label][data-balloon-pos][data-balloon-pos="left"]:after{margin-right:10px}[aria-label][data-balloon-pos][data-balloon-pos="left"]:before{width:0;height:0;border:5px solid transparent;border-left-color:var(--balloon-color)}[aria-label][data-balloon-pos][data-balloon-pos="right"]:after,[aria-label][data-balloon-pos][data-balloon-pos="right"]:before{left:100%;top:50%;transform:translate(calc(var(--balloon-move) * -1), -50%)}[aria-label][data-balloon-pos][data-balloon-pos="right"]:after{margin-left:10px}[aria-label][data-balloon-pos][data-balloon-pos="right"]:before{width:0;height:0;border:5px solid transparent;border-right-color:var(--balloon-color)}[aria-label][data-balloon-pos][data-balloon-length]:after{white-space:normal}[aria-label][data-balloon-pos][data-balloon-length="small"]:after{width:80px}[aria-label][data-balloon-pos][data-balloon-length="medium"]:after{width:150px}[aria-label][data-balloon-pos][data-balloon-length="large"]:after{width:260px}[aria-label][data-balloon-pos][data-balloon-length="xlarge"]:after{width:380px}@media screen and (max-width: 768px){[aria-label][data-balloon-pos][data-balloon-length="xlarge"]:after{width:90vw}}[aria-label][data-balloon-pos][data-balloon-length="fit"]:after{width:100%}
     </style>
     <style>
         .filetree {
             text-align: left;
-            background-color: #fafafa;
-            border: 4px solid #dbdbdb;
-            border-radius: 4px;
+            background-color: #f8f9fa;
+            border: 2px solid #e1e4e8;
+            border-radius: 8px;
             margin: 0 auto;
-            max-width: 800px;
-            padding: 16px 32px;
+            max-width: 1200px;
+            padding: 24px 40px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
-        
+
         .filetree h3 {
-            margin: 1vh auto;
+            margin: 2em 0 1em 0;
+            padding-bottom: 0.5em;
+            color: #24292e;
+            font-weight: 600;
+            font-size: 1.3em;
+            border-bottom: 2px solid #e1e4e8;
         }
-        
+
+        .filetree h3:first-of-type {
+            margin-top: 0.5em;
+        }
+
         .filetree .file {
             display: block;
             font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
             letter-spacing: 0.3px;
             line-height: 32px;
-            color: #333;
+            color: #24292e;
         }
-        
+
+        /* Category headings (Workflow Examples, Barcode Type Focused, etc.) */
+        .filetree .children > .file:not(:has(span)) {
+            font-weight: 600;
+            color: #586069;
+            margin-top: 1.2em;
+            margin-bottom: 0.4em;
+            font-size: 1.05em;
+            padding: 2px 0 2px 4px;
+            border-left: 3px solid #d1d5da;
+            background-color: rgba(88, 96, 105, 0.03);
+        }
+
+        .filetree .children > .file:not(:has(span))::before {
+            display: none;
+        }
+
+        /* First category in each section */
+        .filetree .children > .file:not(:has(span)):first-child {
+            margin-top: 0.6em;
+        }
+
+        /* Add spacing between main sections */
+        .filetree > .file:has(h3) {
+            margin-top: 2em;
+        }
+
+        .filetree > .file:has(h3):first-child {
+            margin-top: 0;
+        }
+
         .filetree .children {
             padding-left: 24px;
             position: relative;
         }
-        
+
+        /* Two-column layout for all top-level sample lists */
+        .filetree > .children {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5em 32px;
+        }
+
+        /* Category headings span full width */
+        .filetree > .children > .file:not(:has(span)) {
+            grid-column: 1 / -1;
+        }
+
+        /* Nested children under categories also need grid */
+        .filetree > .children > .children {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.3em 32px;
+        }
+
         .filetree .children .file {
             position: relative;
         }
-        
+
         .filetree .children .file::before {
             content: '';
             left: -18px;
@@ -71,349 +134,765 @@
             position: absolute;
             border-width: 0 0 1px 1px;
             border-style: solid;
-            border-color: #dbdbdb;
+            border-color: #e1e4e8;
             border-radius: 0 0 0 3px;
         }
-        
+
         .filetree .button.title {
-            line-height: 15px;
+            line-height: 1.5;
+            color: #0066cc;
+            text-decoration: none;
+            transition: color 0.2s ease;
         }
-        
+
+        .filetree .button.title:hover {
+            color: #0052a3;
+            text-decoration: underline;
+        }
+
+        /* GitHub icon indicator for framework links */
+        .filetree .button.title.github-link::before {
+            content: "";
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+            vertical-align: text-bottom;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23586069'%3E%3Cpath fill-rule='evenodd' d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.6;
+        }
+
+        .filetree .button.title.github-link:hover::before {
+            opacity: 0.8;
+        }
+
+        /* Demo link - play icon before text */
+        .filetree .button.title.demo-link::before {
+            content: "";
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+            vertical-align: text-bottom;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230066cc'%3E%3Cpath d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/%3E%3Cpath d='M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+        }
+
+        .filetree .button.title.demo-link:hover::before {
+            opacity: 1;
+        }
+
+        /* Source code link - inline GitHub icon */
+        .filetree .button.title.source-link {
+            color: #586069;
+            font-size: 0.9em;
+            margin-left: 8px;
+            padding-left: 8px;
+            border-left: 1px solid #e1e4e8;
+        }
+
+        .filetree .button.title.source-link::before {
+            content: "";
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            margin-right: 5px;
+            vertical-align: text-bottom;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23586069'%3E%3Cpath fill-rule='evenodd' d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.6;
+        }
+
+        .filetree .button.title.source-link:hover {
+            color: #0366d6;
+        }
+
+        .filetree .button.title.source-link:hover::before {
+            opacity: 1;
+        }
+
+        /* Better spacing for sample items */
+        .filetree .children .children .file {
+            margin-bottom: 0;
+        }
+
+        /* Featured Section Container - Side by Side */
+        .filetree .featured-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 1em 0 2em 0;
+        }
+
+        .filetree .featured-box {
+            border-radius: 8px;
+            padding: 20px 24px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: block;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .filetree .featured-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .filetree .featured-box:active {
+            transform: translateY(0);
+        }
+
+        /* Quick Start - Purple Gradient */
+        .filetree .quick-start {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Official Demo - Pink/Red Gradient */
+        .filetree .official-demo {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .filetree .featured-box .label {
+            display: block;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .filetree .featured-box .title {
+            color: #ffffff;
+            font-size: 1.15em;
+            font-weight: 700;
+            display: block;
+            margin: 0;
+        }
+
+        .filetree .featured-box .description {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.9em;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        /* Badge styles - shared by github-badge and guide-badge */
+        .filetree .featured-box .github-badge,
+        .filetree .featured-box .guide-badge {
+            position: absolute;
+            top: 12px;
+            width: 32px;
+            height: 32px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .filetree .featured-box .github-badge {
+            right: 12px;
+        }
+
+        .filetree .featured-box .guide-badge {
+            left: 12px;
+        }
+
+        .filetree .featured-box .github-badge:hover,
+        .filetree .featured-box .guide-badge:hover {
+            background-color: rgba(255, 255, 255, 0.35);
+            transform: scale(1.15);
+        }
+
+        .filetree .featured-box .github-badge:active,
+        .filetree .featured-box .guide-badge:active {
+            transform: scale(0.95);
+        }
+
+        .filetree .featured-box .github-badge svg,
+        .filetree .featured-box .guide-badge svg {
+            display: block;
+        }
+
         .filetree .title img,
         .filetree .title svg {
             height: 17px;
             vertical-align: middle;
         }
-        
-        .filetree .tooltipIcon {
-            display: inline-block;
-            width: 17px;
-            height: 17px;
-            vertical-align: middle;
-            background-size: 100%;
-            margin-left: 5px;
-            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAAAXNSR0IArs4c6QAAAg5JREFUOBGVkktrE2EUhjuTSUJwExCColSwFAIFaZFSwaZ0abx110rugf4Ef0Drr3AxaTKJZNFSNwYDJbgxblQQN22xFFpF0J07Dbn1OaFnGMciZOCb833vec/9GBMXfNlstmCa5n3DMBKoDznx4XDYBmuUy2XHb2J4gWKxuAB5h2Nj0EbuVyqVH4VC4UogEJjpdruL4Nl+v/+kVqt9VFvXSSqVuhEKhXYty3pg2/ZPJfhlJpO5isPXBFipVqtfXb1kkM/nXc+u4j8X+J84t4ViyU9KCAaD83L3ful0+jqZvaQ3S5T1x6vD5iH4W7CbxnkTJx3HeeYl6V3KrNfrp/r2Snq1wfvYkikMBoPnXqXcISSIttTr9f6ZhnKl+diumzJGGrWvCpXgQQiXKPOFYn5JgAMCLZooDmWMfgL78CYajW6C3/Hr9M10vhPsSJzEZQ9UMY7M5XLXyGTa5NeWRRrHWLlMboZMZJPNhmyiKsaRbO5d+vJqtLEszREZLUuNXifJZDIci8VanU5nLRKJBOjTN9VTyiQJ7NHPuPRkgscKabWUoLLZbHbQPQ2Hww6TshUXCd4Ceyz3USZywfNlHH0go3tk9EWwiz6GEAff49wii1/CcZ3Ig7KmEFuc9zj7TLQ2zftN3RGwBJFnCTQHViyVSqdgo+8vJwoS7RFOVnlPYbSAfMc5wck2WTaUp/IMAjTZicjWFTcAAAAASUVORK5CYII=) right center no-repeat;
+
+        /* Search Bar */
+        .filetree .search-container {
+            position: relative;
+            margin: 1.5em auto 2em auto;
+            max-width: 350px;
+            transition: max-width 0.3s ease;
         }
-        
-        .filetree .github {
-            display: inline-block;
-            width: 17px;
-            height: 17px;
-            vertical-align: middle;
-            background-size: 100%;
-            margin-left: 5px;
-            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAALISURBVDhPhZNrSNNRGMafzamVW8s0nWbetSw0wWtFIQlBoFTohzKioqK+VEJBhbm+BVnQByPICgksy+blgxeqeQntoqikhppadjG1i7Q5t0Ur38553QaG0A/Ozt7nvOc577n8QQtQUvaQ0rPySBkST1CHcp+WtYdulFU4M+Yzz8RQ+5jgHcQTao0tZLPbWbfbf1Jd41NKz84jeAVRZd0T1l24TfSXiwnaCOobGHIqC9M3OCzywklfVOxUnCaGOlHB0gj65XCw+D8cjt+8YGX9XEVsIrfQ0/+GhUvXb1NGzgGa/DZF3X39VPOoibp6++nL9ynKyD1IRWJc0ivy4R3M/1Uldw1IztyChLhYSIZHP6KluRW6mBRAqRBNCczOikYcx0SGcl68yE/J3Iyb9wxQlj6oRuGJozwgGRoZhadGDU2APzT+ftAs953rRSz1oZH3zkzgfP4xlN6vhkJen2ngBTRqH3ye/IqQ6CSog4OgUIgq/kFUjpnxCYyNdGGlLgCWGSt8126EctY0zQYSKUKlWtBAwrqHCharjWM574/JLHbsuxQms4XF1VERIslDHIE4gwVgXSyyJiqc4x9mMzyWaaFMTYyHse0li3KhwnMnYf00DqvNxuVLZG+12VkvOHOcNUljWzvSxHzIJ564LUfeFJ29eJX7552v6PBpPflEJ3NbEp1E+/MLqPlZB4+7SMjcReJ2nO/ES8fvxDxtoZDkrZwgY+jiSB2TQlgRS2MTk6y76Oju5fclYRP58uSHJrlTUUMIjCPPsPW0ODKJNLGpBL9oamhq5XGJ2BrBZxVVNRg5ZhPJhSvX2Gjw7SjHckuygjmTGGpt72a9s+c1G+hFvgu3iaSq3khYFEybdu6jQ6f0hOB1c9sRvYw3ZO8leAa6vxkXCvnjPGw3t8orUV5Tj+F3H/j6tVoNYiPDsHvHdhzJy3VmuQD+AtcedHvcbgpyAAAAAElFTkSuQmCC);
+
+        .filetree .search-container:focus-within {
+            max-width: 600px;
+        }
+
+        .filetree .search-input {
+            width: 100%;
+            padding: 12px 45px 12px 16px;
+            font-size: 15px;
+            border: 2px solid #e1e4e8;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #24292e;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .filetree .search-input:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .filetree .search-input::placeholder {
+            color: #959da5;
+        }
+
+        .filetree .search-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        /* Sample Count Badges */
+        .filetree h3 .sample-count {
+            font-size: 0.75em;
+            font-weight: 400;
+            color: #586069;
+            background-color: #f1f3f5;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 8px;
+        }
+
+        /* Back to Top Button */
+        .filetree .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+            z-index: 1000;
+        }
+
+        .filetree .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        .filetree .back-to-top:hover {
+            background-color: #0052a3;
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 102, 204, 0.4);
+        }
+
+        .filetree .back-to-top:active {
+            transform: scale(0.95);
+        }
+
+        /* Framework Icons */
+        .filetree .button.title.github-link[href*="/angular"]::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23DD0031'%3E%3Cpath d='M9.931 12.645h4.138l-2.07-4.908m0-7.737L.68 3.982l1.726 14.771L12 24l9.596-5.242L23.32 3.984 11.999.001zm7.064 18.31l-2.096-1.218-4.9-2.686-4.898 2.686-2.098 1.218-1.726-14.771L12 3.982l9.596 5.242-1.726 14.771z'/%3E%3C/svg%3E");
+        }
+
+        .filetree .button.title.github-link[href*="/react"]::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2361DAFB'%3E%3Cpath d='M12 10.11c1.03 0 1.87.84 1.87 1.89 0 1-.84 1.85-1.87 1.85S10.13 13 10.13 12c0-1.05.84-1.89 1.87-1.89M7.37 20c.63.38 2.01-.2 3.6-1.7-.52-.59-1.03-1.23-1.51-1.9a21 21 0 0 1-2.4-.36c-.51 2.14-.32 3.61.31 3.96m.71-5.74l-.29-.51c-.11.29-.22.58-.29.86.27.06.57.11.88.16l-.3-.51m6.54-.76l.81-1.5-.81-1.5c-.3-.53-.62-1-.91-1.47C13.17 9 12.6 9 12 9s-1.17 0-1.71.03c-.29.47-.61.94-.91 1.47L8.57 12l.81 1.5c.3.53.62 1 .91 1.47.54.03 1.11.03 1.71.03s1.17 0 1.71-.03c.29-.47.61-.94.91-1.47M12 6.78c-.19.22-.39.45-.59.72h1.18c-.2-.27-.4-.5-.59-.72m0 10.44c.19-.22.39-.45.59-.72h-1.18c.2.27.4.5.59.72M16.62 4c-.62-.38-2 .2-3.59 1.7.52.59 1.03 1.23 1.51 1.9.82.08 1.63.2 2.4.36.51-2.14.32-3.61-.32-3.96m-.7 5.74l.29.51c.11-.29.22-.58.29-.86-.27-.06-.57-.11-.88-.16l.3.51m1.45-7.05c1.47.84 1.63 3.05 1.01 5.63 2.54.75 4.37 1.99 4.37 3.68s-1.83 2.93-4.37 3.68c.62 2.58.46 4.79-1.01 5.63-1.46.84-3.45-.12-5.37-1.95-1.92 1.83-3.91 2.79-5.38 1.95-1.46-.84-1.62-3.05-1-5.63-2.54-.75-4.37-1.99-4.37-3.68s1.83-2.93 4.37-3.68c-.62-2.58-.46-4.79 1-5.63 1.47-.84 3.46.12 5.38 1.95 1.92-1.83 3.91-2.79 5.37-1.95M17.08 12c.34.75.64 1.5.89 2.26 2.1-.63 3.28-1.53 3.28-2.26s-1.18-1.63-3.28-2.26c-.25.76-.55 1.51-.89 2.26M6.92 12c-.34-.75-.64-1.5-.89-2.26-2.1.63-3.28 1.53-3.28 2.26s1.18 1.63 3.28 2.26c.25-.76.55-1.51.89-2.26m9 2.26l-.3.51c.31-.05.61-.1.88-.16-.07-.28-.18-.57-.29-.86l-.29.51m-2.89 4.04c1.59 1.5 2.97 2.08 3.59 1.7.64-.35.83-1.82.32-3.96-.77.16-1.58.28-2.4.36-.48.67-.99 1.31-1.51 1.9M8.08 9.74l.3-.51c-.31.05-.61.1-.88.16.07.28.18.57.29.86l.29-.51m2.89-4.04C9.38 4.2 8 3.62 7.37 4c-.63.35-.82 1.82-.31 3.96a21 21 0 0 1 2.4-.36c.48-.67.99-1.31 1.51-1.9z'/%3E%3C/svg%3E");
+        }
+
+        .filetree .button.title.github-link[href*="/vue"]::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234FC08D'%3E%3Cpath d='M2 3h3.5L12 15l6.5-12H22L12 21 2 3m4.5 0h3L12 7.58 14.5 3h3L12 13.08 6.5 3z'/%3E%3C/svg%3E");
+        }
+
+        .filetree .button.title.github-link[href*="/svelte"]::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF3E00'%3E%3Cpath d='M10.354 21.125a4.44 4.44 0 0 1-4.765-1.767 4.109 4.109 0 0 1-.703-3.107 3.898 3.898 0 0 1 .134-.522l.105-.321.287.21a7.21 7.21 0 0 0 2.186 1.092l.208.063-.02.208a1.253 1.253 0 0 0 .226.83c.214.28.538.465.904.512a1.379 1.379 0 0 0 .624-.04l.002-.001 6.717-2.439a1.379 1.379 0 0 0 .904-1.051 1.277 1.277 0 0 0-.205-.973 1.379 1.379 0 0 0-.904-.512 1.379 1.379 0 0 0-.624.04l-2.589.94a4.356 4.356 0 0 1-1.977.123 4.44 4.44 0 0 1-3.37-2.376 4.109 4.109 0 0 1-.703-3.107 4.43 4.43 0 0 1 2.782-3.396l6.717-2.439a4.356 4.356 0 0 1 1.977-.123 4.44 4.44 0 0 1 3.37 2.376c.26.537.417 1.127.456 1.73a3.898 3.898 0 0 1-.134.522l-.105.321-.287-.21a7.21 7.21 0 0 0-2.186-1.092l-.208-.063.02-.208a1.253 1.253 0 0 0-.226-.83 1.379 1.379 0 0 0-.904-.512 1.379 1.379 0 0 0-.624.04l-6.717 2.439a1.379 1.379 0 0 0-.904 1.051 1.277 1.277 0 0 0 .205.973c.214.28.538.465.904.512.216.025.434.006.624-.04l2.589-.94a4.356 4.356 0 0 1 1.977-.123 4.44 4.44 0 0 1 3.37 2.376c.26.537.417 1.127.456 1.73a4.109 4.109 0 0 1-.703 3.107 4.43 4.43 0 0 1-2.782 3.396l-6.717 2.439a4.356 4.356 0 0 1-1.977.123z'/%3E%3C/svg%3E");
+        }
+
+        .filetree .button.title.github-link[href*="/next"]::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'%3E%3Cpath d='M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.049-.106.005-4.703.007-4.705.073-.091a.637.637 0 0 1 .174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 0 0 4.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 0 0 2.466-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 0 0-2.499-.523A33.119 33.119 0 0 0 11.573 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 0 1 .237.277c.018.06.023 1.365.018 4.304l-.006 4.218-0.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 0 1 .233-.296c.096-.05.13-.054.5-.054z'/%3E%3C/svg%3E");
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            body {
+                margin: 10px;
+            }
+
+            .filetree {
+                padding: 16px 20px;
+                border-radius: 6px;
+                max-width: 100%;
+            }
+
+            .filetree h3 {
+                font-size: 1.15em;
+                margin: 1.5em 0 0.8em 0;
+                padding-bottom: 0.4em;
+            }
+
+            .filetree h3:first-of-type {
+                margin-top: 0.3em;
+            }
+
+            .filetree .file {
+                line-height: 28px;
+                font-size: 14px;
+            }
+
+            .filetree .children {
+                padding-left: 16px;
+            }
+
+            /* Single column on mobile */
+            .filetree > .children,
+            .filetree > .children > .children {
+                grid-template-columns: 1fr;
+                gap: 0.3em;
+            }
+
+            .filetree .children > .file:not(:has(span)) {
+                font-size: 1em;
+                margin-top: 1em;
+                margin-bottom: 0.3em;
+            }
+
+            .filetree .button.title {
+                font-size: 14px;
+                word-break: break-word;
+            }
+
+            .filetree .featured-container {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin: 0.8em 0 1.5em 0;
+            }
+
+            .filetree .featured-box {
+                padding: 16px 20px;
+            }
+
+            .filetree .featured-box .title {
+                font-size: 1.1em;
+            }
+
+            .filetree .featured-box .description {
+                font-size: 0.85em;
+            }
+
+            .filetree .search-container {
+                margin: 1em 0 1.5em 0;
+                max-width: 280px;
+            }
+
+            .filetree .search-container:focus-within {
+                max-width: 100%;
+            }
+
+            .filetree .search-input {
+                padding: 10px 40px 10px 14px;
+                font-size: 14px;
+            }
+
+            .filetree .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 44px;
+                height: 44px;
+                font-size: 22px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            body {
+                margin: 5px;
+            }
+
+            .filetree {
+                padding: 12px 16px;
+                border-width: 1px;
+                border-radius: 4px;
+            }
+
+            .filetree h3 {
+                font-size: 1.05em;
+                margin: 1.2em 0 0.6em 0;
+                padding-bottom: 0.3em;
+                border-bottom-width: 1px;
+            }
+
+            .filetree h3:first-of-type {
+                margin-top: 0.2em;
+            }
+
+            .filetree .file {
+                line-height: 26px;
+                font-size: 13px;
+            }
+
+            .filetree .children {
+                padding-left: 12px;
+            }
+
+            .filetree .children .file::before {
+                left: -12px;
+                width: 12px;
+                height: 16px;
+            }
+
+            .filetree .children > .file:not(:has(span)) {
+                font-size: 0.95em;
+                margin-top: 0.8em;
+                margin-bottom: 0.2em;
+            }
+
+            .filetree .button.title {
+                font-size: 13px;
+                line-height: 1.4;
+                display: inline-block;
+            }
+
+            .filetree .title img,
+            .filetree .title svg {
+                height: 14px;
+            }
+
+            .filetree .button.title.github-link::before {
+                width: 14px;
+                height: 14px;
+                margin-right: 5px;
+            }
+
+            .filetree .button.title.demo-link::before {
+                width: 14px;
+                height: 14px;
+                margin-right: 5px;
+            }
+
+            .filetree .button.title.source-link {
+                font-size: 0.85em;
+                margin-left: 6px;
+                padding-left: 6px;
+            }
+
+            .filetree .button.title.source-link::before {
+                width: 12px;
+                height: 12px;
+                margin-right: 4px;
+            }
+
+            .filetree .featured-container {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin: 0.6em 0 1.2em 0;
+            }
+
+            .filetree .featured-box {
+                padding: 14px 16px;
+            }
+
+            .filetree .featured-box .label {
+                font-size: 0.75em;
+                margin-bottom: 6px;
+            }
+
+            .filetree .featured-box .title {
+                font-size: 1em;
+            }
+
+            .filetree .featured-box .description {
+                font-size: 0.8em;
+                margin-top: 6px;
+            }
+
+            .filetree .featured-box .github-badge {
+                top: 10px;
+                right: 10px;
+                width: 28px;
+                height: 28px;
+            }
+
+            .filetree .featured-box .github-badge svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            .filetree .featured-box .guide-badge {
+                top: 10px;
+                left: 10px;
+                width: 28px;
+                height: 28px;
+            }
+
+            .filetree .featured-box .guide-badge svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            .filetree .search-container {
+                margin: 0.8em 0 1.2em 0;
+                max-width: 250px;
+            }
+
+            .filetree .search-container:focus-within {
+                max-width: 100%;
+            }
+
+            .filetree .search-input {
+                padding: 9px 38px 9px 12px;
+                font-size: 13px;
+            }
+
+            .filetree .search-icon {
+                font-size: 16px;
+                right: 14px;
+            }
+
+            .filetree .back-to-top {
+                bottom: 15px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+        }
+
+        /* Tablet landscape and larger */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .filetree {
+                max-width: 90%;
+            }
+        }
+
+        /* Touch device improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .filetree .button.title {
+                padding: 4px 0;
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+            }
         }
     </style>
     <div class="filetree">
         <a href="https://www.dynamsoft.com/" target="_blank">
             <div class="ds-logo"></div>
         </a>
+
+        <!-- Featured Section - Quick Start & Official Demo -->
+        <div class="featured-container">
+            <a href="hello-world.html" class="featured-box quick-start">
+                <span class="label">🚀 Quick Start</span>
+                <div class="title">Hello World - Scan Your First Barcode</div>
+                <div class="description">The simplest example to get started with barcode scanning in under 2 minutes</div>
+                <span class="guide-badge" title="View user guide documentation" onclick="event.stopPropagation(); window.open('https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/barcode-scanner.html', '_blank'); return false;">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="white">
+                        <path fill-rule="evenodd" d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z"></path>
+                    </svg>
+                </span>
+                <span class="github-badge" title="View source code on GitHub" onclick="event.stopPropagation(); window.open('https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/hello-world.html', '_blank'); return false;">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="white">
+                        <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                </span>
+            </a>
+            <a href="https://demo.dynamsoft.com/barcode-reader-js/" target="_blank" class="featured-box official-demo">
+                <span class="label">✨ Full Demo</span>
+                <div class="title">Official Online Demo</div>
+                <div class="description">Explore all features and capabilities in our comprehensive live demo</div>
+                <span class="github-badge" title="View source code on GitHub" onclick="event.stopPropagation(); window.open('https://github.com/Dynamsoft/barcode-reader-javascript-demo', '_blank'); return false;">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="white">
+                        <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                </span>
+            </a>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search samples..." aria-label="Search samples">
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <!-- Framework Samples -->
         <div class="file">
-            <h3>BarcodeScanner API Samples</h3>
+            <h3>Framework Samples <span class="sample-count">(14)</span></h3>
         </div>
         <div class="children">
-            <div class="file">Scan Single Barcode</div>
-            <div class="children">
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Minimum necessary 
-                    JavaScript code to scan a barcode from camera."><a class="button title" href="barcode-scanner-api-samples/scan-single-barcode/hello-world.html">Hello World</a><span id="icon001" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-single-barcode/hello-world.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Scan a product barcode
-                    and simulate a search from a product database."><a class="button title" href="barcode-scanner-api-samples/scan-single-barcode/scan-and-search.html">Scan and Search</a><span id="icon001" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-single-barcode/scan-and-search.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Pick one and auto-fill
-                    fields by simply opening the camera and scanning a group of barcodes."><a class="button title" href="barcode-scanner-api-samples/scan-single-barcode/pick-one-to-fill/index.html">Pick One to Fill</a><span id="icon001" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-single-barcode/pick-one-to-fill/index.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Use different customized
-                    templates for scanning various barcode types."><a class="button title" href="barcode-scanner-api-samples/scan-single-barcode/use-customized-template/index.html">Use Customized Template</a><span id="icon001" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-single-barcode/use-customized-template/index.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in Angular
-                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/angular">Hello World in
-                        Angular (<img alt="Angular logo"
-                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" />)</a>
-                    <span id="icon003" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/angular" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in React
-                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/react">
-                        Hello World in
-                        React (<img alt="React logo"
-                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NDEuOSA1OTUuMyI+PGcgZmlsbD0iIzYxREFGQiI+PHBhdGggZD0iTTY2Ni4zIDI5Ni41YzAtMzIuNS00MC43LTYzLjMtMTAzLjEtODIuNCAxNC40LTYzLjYgOC0xMTQuMi0yMC4yLTEzMC40LTYuNS0zLjgtMTQuMS01LjYtMjIuNC01LjZ2MjIuM2M0LjYgMCA4LjMuOSAxMS40IDIuNiAxMy42IDcuOCAxOS41IDM3LjUgMTQuOSA3NS43LTEuMSA5LjQtMi45IDE5LjMtNS4xIDI5LjQtMTkuNi00LjgtNDEtOC41LTYzLjUtMTAuOS0xMy41LTE4LjUtMjcuNS0zNS4zLTQxLjYtNTAgMzIuNi0zMC4zIDYzLjItNDYuOSA4NC00Ni45Vjc4Yy0yNy41IDAtNjMuNSAxOS42LTk5LjkgNTMuNi0zNi40LTMzLjgtNzIuNC01My4yLTk5LjktNTMuMnYyMi4zYzIwLjcgMCA1MS40IDE2LjUgODQgNDYuNi0xNCAxNC43LTI4IDMxLjQtNDEuMyA0OS45LTIyLjYgMi40LTQ0IDYuMS02My42IDExLTIuMy0xMC00LTE5LjctNS4yLTI5LTQuNy0zOC4yIDEuMS02Ny45IDE0LjYtNzUuOCAzLTEuOCA2LjktMi42IDExLjUtMi42Vjc4LjVjLTguNCAwLTE2IDEuOC0yMi42IDUuNi0yOC4xIDE2LjItMzQuNCA2Ni43LTE5LjkgMTMwLjEtNjIuMiAxOS4yLTEwMi43IDQ5LjktMTAyLjcgODIuMyAwIDMyLjUgNDAuNyA2My4zIDEwMy4xIDgyLjQtMTQuNCA2My42LTggMTE0LjIgMjAuMiAxMzAuNCA2LjUgMy44IDE0LjEgNS42IDIyLjUgNS42IDI3LjUgMCA2My41LTE5LjYgOTkuOS01My42IDM2LjQgMzMuOCA3Mi40IDUzLjIgOTkuOSA1My4yIDguNCAwIDE2LTEuOCAyMi42LTUuNiAyOC4xLTE2LjIgMzQuNC02Ni43IDE5LjktMTMwLjEgNjItMTkuMSAxMDIuNS00OS45IDEwMi41LTgyLjN6bS0xMzAuMi02Ni43Yy0zLjcgMTIuOS04LjMgMjYuMi0xMy41IDM5LjUtNC4xLTgtOC40LTE2LTEzLjEtMjQtNC42LTgtOS41LTE1LjgtMTQuNC0yMy40IDE0LjIgMi4xIDI3LjkgNC43IDQxIDcuOXptLTQ1LjggMTA2LjVjLTcuOCAxMy41LTE1LjggMjYuMy0yNC4xIDM4LjItMTQuOSAxLjMtMzAgMi00NS4yIDItMTUuMSAwLTMwLjItLjctNDUtMS45LTguMy0xMS45LTE2LjQtMjQuNi0yNC4yLTM4LTcuNi0xMy4xLTE0LjUtMjYuNC0yMC44LTM5LjggNi4yLTEzLjQgMTMuMi0yNi44IDIwLjctMzkuOSA3LjgtMTMuNSAxNS44LTI2LjMgMjQuMS0zOC4yIDE0LjktMS4zIDMwLTIgNDUuMi0yIDE1LjEgMCAzMC4yLjcgNDUgMS45IDguMyAxMS45IDE2LjQgMjQuNiAyNC4yIDM4IDcuNiAxMy4xIDE0LjUgMjYuNCAyMC44IDM5LjgtNi4zIDEzLjQtMTMuMiAyNi44LTIwLjcgMzkuOXptMzIuMy0xM2M1LjQgMTMuNCAxMCAyNi44IDEzLjggMzkuOC0xMy4xIDMuMi0yNi45IDUuOS00MS4yIDggNC45LTcuNyA5LjgtMTUuNiAxNC40LTIzLjcgNC42LTggOC45LTE2LjEgMTMtMjQuMXpNNDIxLjIgNDMwYy05LjMtOS42LTE4LjYtMjAuMy0yNy44LTMyIDkgLjQgMTguMi43IDI3LjUuNyA5LjQgMCAxOC43LS4yIDI3LjgtLjctOSAxMS43LTE4LjMgMjIuNC0yNy41IDMyem0tNzQuNC01OC45Yy0xNC4yLTIuMS0yNy45LTQuNy00MS03LjkgMy43LTEyLjkgOC4zLTI2LjIgMTMuNS0zOS41IDQuMSA4IDguNCAxNiAxMy4xIDI0IDQuNyA4IDkuNSAxNS44IDE0LjQgMjMuNHpNNDIwLjcgMTYzYzkuMyA5LjYgMTguNiAyMC4zIDI3LjggMzItOS0uNC0xOC4yLS43LTI3LjUtLjctOS40IDAtMTguNy4yLTI3LjguNyA5LTExLjcgMTguMy0yMi40IDI3LjUtMzJ6bS03NCA1OC45Yy00LjkgNy43LTkuOCAxNS42LTE0LjQgMjMuNy00LjYgOC04LjkgMTYtMTMgMjQtNS40LTEzLjQtMTAtMjYuOC0xMy44LTM5LjggMTMuMS0zLjEgMjYuOS01LjggNDEuMi03Ljl6bS05MC41IDEyNS4yYy0zNS40LTE1LjEtNTguMy0zNC45LTU4LjMtNTAuNiAwLTE1LjcgMjIuOS0zNS42IDU4LjMtNTAuNiA4LjYtMy43IDE4LTcgMjcuNy0xMC4xIDUuNyAxOS42IDEzLjIgNDAgMjIuNSA2MC45LTkuMiAyMC44LTE2LjYgNDEuMS0yMi4yIDYwLjYtOS45LTMuMS0xOS4zLTYuNS0yOC0xMC4yek0zMTAgNDkwYy0xMy42LTcuOC0xOS41LTM3LjUtMTQuOS03NS43IDEuMS05LjQgMi45LTE5LjMgNS4xLTI5LjQgMTkuNiA0LjggNDEgOC41IDYzLjUgMTAuOSAxMy41IDE4LjUgMjcuNSAzNS4zIDQxLjYgNTAtMzIuNiAzMC4zLTYzLjIgNDYuOS04NCA0Ni45LTQuNS0uMS04LjMtMS0xMS4zLTIuN3ptMjM3LjItNzYuMmM0LjcgMzguMi0xLjEgNjcuOS0xNC42IDc1LjgtMyAxLjgtNi45IDIuNi0xMS41IDIuNi0yMC43IDAtNTEuNC0xNi41LTg0LTQ2LjYgMTQtMTQuNyAyOC0zMS40IDQxLjMtNDkuOSAyMi42LTIuNCA0NC02LjEgNjMuNi0xMSAyLjMgMTAuMSA0LjEgMTkuOCA1LjIgMjkuMXptMzguNS02Ni43Yy04LjYgMy43LTE4IDctMjcuNyAxMC4xLTUuNy0xOS42LTEzLjItNDAtMjIuNS02MC45IDkuMi0yMC44IDE2LjYtNDEuMSAyMi4yLTYwLjYgOS45IDMuMSAxOS4zIDYuNSAyOC4xIDEwLjIgMzUuNCAxNS4xIDU4LjMgMzQuOSA1OC4zIDUwLjYtLjEgMTUuNy0yMyAzNS42LTU4LjQgNTAuNnpNMzIwLjggNzguNHoiLz48Y2lyY2xlIGN4PSI0MjAuOSIgY3k9IjI5Ni41IiByPSI0NS43Ii8+PHBhdGggZD0iTTUyMC41IDc4LjF6Ii8+PC9nPjwvc3ZnPg==" />)</a>
-                    <span id="icon004" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/react" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in Vue 3
-                                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/vue">
-                        Hello World in
-                        Vue (<img alt="Vue logo"
-                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDE0IDc5LjE1Njc5NywgMjAxNC8wOC8yMC0wOTo1MzowMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OTk2QkI4RkE3NjE2MTFFNUE4NEU4RkIxNjQ5MTYyRDgiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OTk2QkI4Rjk3NjE2MTFFNUE4NEU4RkIxNjQ5MTYyRDgiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NjU2QTEyNzk3NjkyMTFFMzkxODk4RDkwQkY4Q0U0NzYiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NjU2QTEyN0E3NjkyMTFFMzkxODk4RDkwQkY4Q0U0NzYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5WHowqAAAXNElEQVR42uxda4xd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" />)</a>
-                    <span id="icon006" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/vue" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in Svelte
-                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/svelte">Hello World in
-                        Svelte (<img alt = "Svelte logo"
-                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzU2Nzk3NzM5OTIzIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjU0MTUiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTg0Ny4wNCAxODIuNGEyODcuMTM2IDI4Ny4xMzYgMCAwIDAtMzc3LjM3Ni03OC41MjhMMjU0LjcyIDIzNi44YTIzOC43NTIgMjM4Ljc1MiAwIDAgMC0xMTEuMzkyIDE2MC4yODggMjQ1Ljk1MiAyNDUuOTUyIDAgMCAwIDI1LjYgMTYxLjg1NiAyMzUuNDU2IDIzNS40NTYgMCAwIDAtMzYuODMyIDg5LjYgMjQ5LjI0OCAyNDkuMjQ4IDAgMCAwIDQ0LjggMTkyLjg5NiAyODcuMjY0IDI4Ny4yNjQgMCAwIDAgMzc3LjQwOCA3OC42NTZMNzY5LjI4IDc4Ny4yYTIzOC45NzYgMjM4Ljk3NiAwIDAgMCAxMTEuMzkyLTE2MC4yODggMjQ1LjUzNiAyNDUuNTM2IDAgMCAwLTI1LjYtMTYxLjk4NCAyMzUuMTM2IDIzNS4xMzYgMCAwIDAgMzYuODY0LTg5LjZBMjQ5LjEyIDI0OS4xMiAwIDAgMCA4NDcuMDQgMTgyLjQiIGZpbGw9IiNGRjNFMDAiIHAtaWQ9IjU0MTYiPjwvcGF0aD48cGF0aCBkPSJNNDQ4LjcwNCA4NTIuNDhBMTczLjIxNiAxNzMuMjE2IDAgMCAxIDI2NS42IDc4Ni41OTJhMTQ5LjY5NiAxNDkuNjk2IDAgMCAxLTI3LjEzNi0xMTYgMTM3LjgyNCAxMzcuODI0IDAgMCAxIDUuMDg4LTE5LjUybDQuMDY0LTEyIDExLjAwOCA3LjYxNmEyODAuMzIgMjgwLjMyIDAgMCAwIDg0LjA5NiA0MC43NjhsNy44NCAyLjMzNi0wLjggNy41ODRhNDYuMTEyIDQ2LjExMiAwIDAgMCA4LjY3MiAzMC45NzYgNTIuMTYgNTIuMTYgMCAwIDAgNTUuNzc2IDIwLjM1MiA0OC4zODQgNDguMzg0IDAgMCAwIDEzLjE1Mi01LjZsMjE0LjQtMTMyLjkyOGE0My43MTIgNDMuNzEyIDAgMCAwIDIwLjI1Ni0yOS4wODggNDUuMDI0IDQ1LjAyNCAwIDAgMC03LjgwOC0zNC45MTIgNTIuMjg4IDUyLjI4OCAwIDAgMC01NS4yMzItMTkuOTA0IDQ4LjI4OCA0OC4yODggMCAwIDAtMTMuMjE2IDUuNjMybC04Mi4zMDQgNTAuNjg4YTE1Ny44ODggMTU3Ljg4OCAwIDAgMS00My42NDggMTguNjI0IDE3My4yOCAxNzMuMjggMCAwIDEtMTgzLjI2NC02NS45MiAxNDkuNjk2IDE0OS42OTYgMCAwIDEtMjYuNTkyLTExNi4wOTZBMTQ0LjIyNCAxNDQuMjI0IDAgMCAxIDMxNi44IDMyMi44OGwyMTQuNjU2LTEzMi45MjhhMTU3LjgyNCAxNTcuODI0IDAgMCAxIDQzLjY0OC0xOC41OTJBMTczLjIxNiAxNzMuMjE2IDAgMCAxIDc1OC40IDIzNy4yNDhhMTQ5LjcyOCAxNDkuNzI4IDAgMCAxIDI3LjEzNiAxMTYgMTM2LjcwNCAxMzYuNzA0IDAgMCAxLTUuMDg4IDE5LjUybC00LjA2NCAxMi0xMS4wMDgtNy41ODRhMjc4LjgxNiAyNzguODE2IDAgMCAwLTg0LjA5Ni00MC43NjhsLTcuODQtMi4zNjggMC44LTcuNTg0YTQ2LjAxNiA0Ni4wMTYgMCAwIDAtOC43MDQtMzAuOTc2IDUyLjEyOCA1Mi4xMjggMCAwIDAtNTUuMi0xOS45MDQgNDcuNDg4IDQ3LjQ4OCAwIDAgMC0xMy4xNTIgNS42MzJsLTIxNS4xMDQgMTMyLjQ4YTQzLjI5NiA0My4yOTYgMCAwIDAtMjAuMTkyIDI5LjA1NiA0NC42MDggNDQuNjA4IDAgMCAwIDcuODA4IDM0Ljk0NCA1Mi4yODggNTIuMjg4IDAgMCAwIDU1LjIzMiAxOS44NzIgNDkuMjE2IDQ5LjIxNiAwIDAgMCAxMy4yMTYtNS42bDgxLjk4NC01MC43MmExNTYuOCAxNTYuOCAwIDAgMSA0My42NDgtMTguNTkyIDE3My4zNDQgMTczLjM0NCAwIDAgMSAxODMuMjk2IDY1Ljg4OCAxNDkuNzkyIDE0OS43OTIgMCAwIDEgMjYuOTc2IDExNiAxNDQgMTQ0IDAgMCAxLTY2Ljg0OCA5Ni40MTZsLTIxNC42MjQgMTMyLjkyOGExNTYuOCAxNTYuOCAwIDAgMS00My42NDggMTguNTkyIiBmaWxsPSIjRkZGRkZGIiBwLWlkPSI1NDE3Ij48L3BhdGg+PC9zdmc+" />)</a>
-                        <span id="icon014" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/svelte" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in Capacitor
-                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/capacitor">
-                        Hello World in
-                        Capacitor (<img alt = "Capacitor logo"
-                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzU2Nzk3MTAwMjE0IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjQ0MTQiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTgxNC4xMjI2NjcgMTAwLjI2NjY2N2wtMjA0LjU4NjY2NyAyMDQuNTg2NjY2TDQxMC40NTMzMzMgMTA1Ljg5ODY2NyAzMDAuOCAyMTUuNDY2NjY3bDE5OC45OTczMzMgMTk5LjA0IDEwOS42NTMzMzQgMTA5LjY1MzMzMyAyMDAuNzQ2NjY2IDIwMC43NDY2NjcgMTA5LjY1MzMzNC0xMDkuNjUzMzM0LTIwMC43NDY2NjctMjAwLjc0NjY2NiAyMDQuNTg2NjY3LTIwNC42NzJ6TTIxNS41NTIgMzAwLjhsLTEwOS42NTMzMzMgMTA5LjY1MzMzMyAxOTkuMDQgMTk4Ljk5NzMzNEwxMDAuMjY2NjY3IDgxNC4wOGwxMDkuNjUzMzMzIDEwOS42NTMzMzMgMjA0LjYyOTMzMy0yMDQuNjI5MzMzIDIwMC43MDQgMjAwLjc0NjY2NyAxMDkuNjUzMzM0LTEwOS42NTMzMzQtMzEwLjM1NzMzNC0zMTAuMzU3MzMzeiIgZmlsbD0iIzRGQzNGNyIgcC1pZD0iNDQxNSI+PC9wYXRoPjwvc3ZnPg==" />)</a>
-                        <span id="icon015" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/capacitor" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in Webview
-                                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/webview">
-                        Hello World in
-                        Webview (<img alt = "WebView logo"
-                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzU2Nzk4MTMzMTE2IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjY1ODciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTMzNS4xMjcyNzMgNDY1LjQ1NDU0NUgxMzAuMzI3MjczQzU1Ljg1NDU0NSA0NjUuNDU0NTQ1IDAgNDA5LjYgMCAzMzUuMTI3MjczVjEzMC4zMjcyNzNDMCA1NS44NTQ1NDUgNTUuODU0NTQ1IDAgMTMwLjMyNzI3MyAwaDIwOS40NTQ1NDVDNDA5LjYgMCA0NjUuNDU0NTQ1IDU1Ljg1NDU0NSA0NjUuNDU0NTQ1IDEzMC4zMjcyNzN2MjA5LjQ1NDU0NUM0NjUuNDU0NTQ1IDQwOS42IDQwOS42IDQ2NS40NTQ1NDUgMzM1LjEyNzI3MyA0NjUuNDU0NTQ1ek0xMzAuMzI3MjczIDY5LjgxODE4MmMtMzIuNTgxODE4IDAtNTUuODU0NTQ1IDI3LjkyNzI3My01NS44NTQ1NDYgNTUuODU0NTQ1djIwOS40NTQ1NDZjMCAzMi41ODE4MTggMjcuOTI3MjczIDU1Ljg1NDU0NSA1NS44NTQ1NDYgNTUuODU0NTQ1aDIwOS40NTQ1NDVjMzIuNTgxODE4IDAgNTUuODU0NTQ1LTI3LjkyNzI3MyA1NS44NTQ1NDYtNTUuODU0NTQ1VjEzMC4zMjcyNzNjMC0zMi41ODE4MTgtMjcuOTI3MjczLTU1Ljg1NDU0NS01NS44NTQ1NDYtNTUuODU0NTQ2SDEzMC4zMjcyNzN6TTMzNS4xMjcyNzMgMTAyNEgxMzAuMzI3MjczQzU1Ljg1NDU0NSAxMDI0IDAgOTY4LjE0NTQ1NSAwIDg5My42NzI3Mjd2LTIwOS40NTQ1NDVDMCA2MTQuNCA1NS44NTQ1NDUgNTU4LjU0NTQ1NSAxMzAuMzI3MjczIDU1OC41NDU0NTVoMjA5LjQ1NDU0NWM2OS44MTgxODIgMCAxMzAuMzI3MjczIDU1Ljg1NDU0NSAxMzAuMzI3MjczIDEzMC4zMjcyNzJ2MjA5LjQ1NDU0NkM0NjUuNDU0NTQ1IDk2OC4xNDU0NTUgNDA5LjYgMTAyNCAzMzUuMTI3MjczIDEwMjR6IG0tMjA0LjgtMzk1LjYzNjM2NGMtMzIuNTgxODE4IDAtNTUuODU0NTQ1IDI3LjkyNzI3My01NS44NTQ1NDYgNTUuODU0NTQ2djIwOS40NTQ1NDVjMCAzMi41ODE4MTggMjcuOTI3MjczIDU1Ljg1NDU0NSA1NS44NTQ1NDYgNTUuODU0NTQ2aDIwOS40NTQ1NDVjMzIuNTgxODE4IDAgNTUuODU0NTQ1LTI3LjkyNzI3MyA1NS44NTQ1NDYtNTUuODU0NTQ2di0yMDkuNDU0NTQ1YzAtMzIuNTgxODE4LTI3LjkyNzI3My01NS44NTQ1NDUtNTUuODU0NTQ2LTU1Ljg1NDU0NkgxMzAuMzI3Mjczek04OTMuNjcyNzI3IDQ2NS40NTQ1NDVoLTIwOS40NTQ1NDVDNjE0LjQgNDY1LjQ1NDU0NSA1NTguNTQ1NDU1IDQwOS42IDU1OC41NDU0NTUgMzM1LjEyNzI3M1YxMzAuMzI3MjczQzU1OC41NDU0NTUgNTUuODU0NTQ1IDYxNC40IDAgNjg4Ljg3MjcyNyAwaDIwOS40NTQ1NDZDOTY4LjE0NTQ1NSAwIDEwMjQgNTUuODU0NTQ1IDEwMjQgMTMwLjMyNzI3M3YyMDkuNDU0NTQ1YzAgNjkuODE4MTgyLTU1Ljg1NDU0NSAxMjUuNjcyNzI3LTEzMC4zMjcyNzMgMTI1LjY3MjcyN3ogbS0yMDQuOC0zOTUuNjM2MzYzYy0zMi41ODE4MTggMC01NS44NTQ1NDUgMjcuOTI3MjczLTU1Ljg1NDU0NSA1NS44NTQ1NDV2MjA5LjQ1NDU0NmMwIDMyLjU4MTgxOCAyNy45MjcyNzMgNTUuODU0NTQ1IDU1Ljg1NDU0NSA1NS44NTQ1NDVoMjA5LjQ1NDU0NmMzMi41ODE4MTggMCA1NS44NTQ1NDUtMjcuOTI3MjczIDU1Ljg1NDU0NS01NS44NTQ1NDVWMTMwLjMyNzI3M2MwLTMyLjU4MTgxOC0yNy45MjcyNzMtNTUuODU0NTQ1LTU1Ljg1NDU0NS01NS44NTQ1NDZoLTIwOS40NTQ1NDZ6TTg5My42NzI3MjcgMTAyNGgtMjA5LjQ1NDU0NWMtNjkuODE4MTgyIDAtMTMwLjMyNzI3My01NS44NTQ1NDUtMTMwLjMyNzI3My0xMzAuMzI3Mjczdi0yMDkuNDU0NTQ1YzAtNjkuODE4MTgyIDU1Ljg1NDU0NS0xMzAuMzI3MjczIDEzMC4zMjcyNzMtMTMwLjMyNzI3M2gyMDkuNDU0NTQ1YzY5LjgxODE4MiAwIDEzMC4zMjcyNzMgNTUuODU0NTQ1IDEzMC4zMjcyNzMgMTMwLjMyNzI3M3YyMDkuNDU0NTQ1YzAgNzQuNDcyNzI3LTU1Ljg1NDU0NSAxMzAuMzI3MjczLTEzMC4zMjcyNzMgMTMwLjMyNzI3M3ogbS0yMDQuOC0zOTUuNjM2MzY0Yy0zMi41ODE4MTggMC01NS44NTQ1NDUgMjcuOTI3MjczLTU1Ljg1NDU0NSA1NS44NTQ1NDZ2MjA5LjQ1NDU0NWMwIDMyLjU4MTgxOCAyNy45MjcyNzMgNTUuODU0NTQ1IDU1Ljg1NDU0NSA1NS44NTQ1NDZoMjA5LjQ1NDU0NmMzMi41ODE4MTggMCA1NS44NTQ1NDUtMjcuOTI3MjczIDU1Ljg1NDU0NS01NS44NTQ1NDZ2LTIwOS40NTQ1NDVjMC0zMi41ODE4MTgtMjcuOTI3MjczLTU1Ljg1NDU0NS01NS44NTQ1NDUtNTUuODU0NTQ2aC0yMDkuNDU0NTQ2eiIgZmlsbD0iIzE5MTkxOSIgcC1pZD0iNjU4OCI+PC9wYXRoPjwvc3ZnPg==" />)</a>
-                        <span id="icon007" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/webview" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in Typescript
-                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/native-ts">Hello World in
-                        Typescript (<img alt = "Typescript logo"
-                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzU2Nzk4MTQ2MzIwIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9Ijc1ODEiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTk0LjIwOCA5NC4yMDh2ODM1LjU4NGg4MzUuNTg0Vjk0LjIwOEg5NC4yMDh6IG02MzQuOTIwOTYgNDA1Ljg1MjE2djAuMDEyMjg4YzguMDExNzc2IDAuMDI0NTc2IDE3LjExOTIzMiAwLjQzNjIyNCAyMy45Njc3NDQgMS4xNzk2NDggMjcuODkxNzEyIDMuMDE2NzA0IDQ5LjYxMjggMTUuMDUwNzUyIDY4LjA5MTkwNCAzNy43MTU5NjggOS4yMDE2NjQgMTEuMjkwNjI0IDEyLjM0OTQ0IDE2LjIzMDQgMTEuNjc5NzQ0IDE4LjM0MzkzNi0wLjQzMjEyOCAxLjM2Mzk2OC02Ljc0NjExMiA1Ljg4NTk1Mi0yNi44MjA2MDggMTkuMjEwMjQtMTkuNzIwMTkyIDEzLjA5Mjg2NC0yNi4wNzEwNCAxNy4wMTQ3ODQtMjcuNTQ1NiAxNy4wMTQ3ODQtMS40OTcwODggMC00LjYxNDE0NC0zLjIwNzE2OC05LjEwNTQwOC05LjM2NTUwNC04LjY1MjgtMTEuODU1ODcyLTE3LjQ4NTgyNC0xNy4yNjY2ODgtMzEuMTM5ODQtMTkuMDcwOTc2LTE0LjY4NDE2LTEuOTQ1Ni0yNy44NTY4OTYgMi42ODI4OC0zNC4zMDgwOTYgMTIuMDU4NjI0LTUuNTE1MjY0IDguMDExNzc2LTYuMzQ4OCAyMC45MDE4ODgtMS45NjYwOCAzMC4yNjk0NCA1LjA3OTA0IDEwLjg0ODI1NiAxNC4yNzA0NjQgMTYuODQ2ODQ4IDQ5LjQ5NDAxNiAzMi4yOTA4MTYgNDAuNjI0MTI4IDE3LjgxMzUwNCA2MS4yMTA2MjQgMzAuMDA1MjQ4IDc2LjIwNDAzMiA0NS4xMzc5MiAxNi4xNDY0MzIgMTYuMjkzODg4IDI0LjMyNjE0NCAzNS4xMDY4MTYgMjYuODM5MDQgNjEuNzE4NTI4IDEuMjI2NzUyIDEyLjk3MjAzMi0wLjI3MjM4NCAyOC4zNDQzMi0zLjk4MzM2IDQwLjg0MzI2NC05LjEwMzM2IDMwLjY0MDEyOC0zMy42NjkxMiA1My4wNzU5NjgtNjkuNjcyOTYgNjMuNjM1NDU2LTkuOTUzMjggMi45MTg0LTE5LjIxNDMzNiA0LjY2MTI0OC0yOC4zNzUwNCA1LjMzMjk5Mi0xMy45ODU3OTIgMS4wMzAxNDQtMzQuMDAyOTQ0IDAuNDYyODQ4LTQ2LjA1MTMyOC0xLjI5MDI0LTMwLjQ4MjQzMi00LjQ0MjExMi02NC44OTI5MjgtMjIuMTc5ODQtODIuMDUxMDcyLTQyLjI5MTItOC40MjM0MjQtOS44NzM0MDgtMTkuMTc3NDcyLTI2LjEyMjI0LTE5LjE3NzQ3Mi0yOC45NzkyIDAtMS4zODAzNTIgMC42ODQwMzItMi4xNjQ3MzYgMy4zOTE0ODgtMy44ODUwNTYgOC4wMzIyNTYtNS4xMDM2MTYgNTQuMDU0OTEyLTMxLjQxMjIyNCA1NC45NDc4NC0zMS40MTIyMjQgMC41NDA2NzIgMCAyLjk0NTAyNCAyLjgzMjM4NCA1LjM0MTE4NCA2LjI5NTU1MiA1LjQyOTI0OCA3LjgzOTc0NCAxOC43ODAxNiAyMS4zMTM1MzYgMjUuNTY3MjMyIDI1LjgwODg5NiA1LjU0MzkzNiAzLjY3MjA2NCAxMi42MzQxMTIgNi42MTkxMzYgMjEuMDUxMzkyIDguNzQ3MDA4IDQuODIwOTkyIDEuMjAyMTc2IDcuMzcyOCAxLjQxNzIxNiAxNy44OTEzMjggMS40MTcyMTYgMTAuNzQ3OTA0LTAuMDA0MDk2IDEyLjk1MTU1Mi0wLjE4NDMyIDE3Ljc2MDI1Ni0xLjQ3NjYwOCAxMi43MTgwOC0zLjQyMjIwOCAyMi42NDQ3MzYtMTAuNTA2MjQgMjYuODUxMzI4LTE5LjE1Njk5MiAxLjg0MzItMy43Mzc2IDEuODgwMDY0LTQuMjA0NTQ0IDEuODgwMDY0LTEzLjI3MTA0di05LjQwMDMybC0yLjI2MDk5Mi00LjQ4NTEyYy01LjQ3NDMwNC0xMC44NjY2ODgtMTcuMjcwNzg0LTE4LjMyMzQ1Ni01NC41Njg5Ni0zNC40NzgwOC0xNy4xMzE1Mi03LjQyMTk1Mi0zOC4xMTMyOC0xNy44ODUxODQtNDYuMzA1MjgtMjMuMDkxMi0xOC42OTYxOTItMTEuODgwNDQ4LTMxLjY1Mzg4OC0yNS40NjI3ODQtNDAuMTU3MTg0LTQyLjA4ODQ0OC04LjQ1ODI0LTE2LjUzMzUwNC05LjcxNzc2LTIyLjY4Nzc0NC05LjczODI0LTQ3LjU0ODQxNi0wLjAyMDQ4LTE5LjQ2MjE0NC0wLjA1MzI0OC0xOS4yMjI1MjggMy45NzUxNjgtMzEuNjQzNjQ4IDMuNjU1NjgtMTEuMjcyMTkyIDExLjEzOTA3Mi0yMy44NjMyOTYgMTkuNDAwNzA0LTMyLjY0NTEyIDE2LjQ4NjQtMTcuNTI0NzM2IDQwLjU3NzAyNC0yOC43ODg3MzYgNjYuMzY3NDg4LTMxLjAyOTI0OCAzLjI5NzI4LTAuMzEzMzQ0IDcuNzE2ODY0LTAuNDM0MTc2IDEyLjUyMzUyLTAuNDE5ODR6IG0tMjIxLjkyMTI4IDMuODQ0MDk2aDAuMDA4MTkyYzQ5LjY3MDE0NCAwLjAyNDU3NiA3OC4xNDM0ODggMC4xOTY2MDggNzguNjAwMTkyIDAuNDgzMzI4IDAuODYwMTYgMC41MzI0OCAwLjk2ODcwNCA0Ljg1NTgwOCAwLjk2ODcwNCAzMi40NDQ0MTZ2MzEuODI3OTY4bC00OS41NjM2NDggMC4xODAyMjQtNDkuNTYzNjQ4IDAuMTgwMjI0djE0MC43MjQyMjRjMCA3Ny40MDAwNjQtMC4xNTc2OTYgMTQxLjE4NTAyNC0wLjM3MjczNiAxNDEuNzQ4MjI0LTAuMzUwMjA4IDAuOTQ4MjI0LTQuMTYzNTg0IDEuMDE5OTA0LTM2LjQxMzQ0IDEuMDE5OTA0aC0zNi4wMTgxNzZsLTAuMzcyNzM2LTEuNDU0MDhjLTAuMjM5NjE2LTAuNzk4NzItMC40MTU3NDQtNjQuNTg3Nzc2LTAuNDE5ODQtMTQxLjc1MDI3MmwtMC4wMTIyODgtMTQwLjI5NjE5Mi00OS41NjE2LTAuMTc2MTI4LTQ5LjU2NTY5Ni0wLjE4MDIyNHYtMzEuNDUxMTM2YzAtMjQuOTQ0NjQgMC4xNzIwMzItMzEuNjI1MjE2IDAuODM3NjMyLTMyLjI4ODc2OCAwLjY4MTk4NC0wLjcwMjQ2NCAyNS45NzY4MzItMC44ODI2ODggMTM0Ljk2NzI5Ni0wLjk5MTIzMiAyMS4wMTI0OC0wLjAyMDQ4IDM5LjkyNTc2LTAuMDMwNzIgNTYuNDgzODQtMC4wMjA0OHoiIGZpbGw9IiMwMjg4RDEiIHAtaWQ9Ijc1ODIiPjwvcGF0aD48L3N2Zz4=" />)</a>
-                        <span id="icon016" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/native-ts" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in Electron
-                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/electron">
-                        Hello World in
-                        Electron (<img alt="Electron logo"
-                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAABmJLR0QA/wD/AP+gvaeTAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTAzLTMxVDIzOjUxOjI3KzAwOjAwzwUHXwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wMy0zMVQyMzo1MToyNyswMDowML5Yv+MAAANzSURBVDhPdZRtTFtlFMd/vbe0aymUQh1gmakjE4GhLkt0i1OBbUxXkYFbzAzGaNTEMP1gMrfMTDGonzf3kmX4zbcP7sXBkL2AG27OGESNcYVukGVAHUIUWgT6Xs9zByEz8dzcPDfPec7/+Z9z/uea0mL8x46faKej8xx+f4BQKIzTmU1ZaQm+zTU821A7f2rR7gC5cPES2xtfQ9c07HYbpFJY7XZis7OkNZ1ZWZOy98WnR6muemw+CrT5lYOHW6mrbyTXlYNLXl32VtZs4uHntlPy+BOQiBv7yr+loZEDh1pvB4oZTBQDBbBsmYdkPE46lVQuHG43q7bUk4hEuPFTL7f6/Wi6GT0jg5GRIKdOfk5V5brbIAWeUrnFKbRnKN+4CZfHw1/Dw/R3d5GIRVnicFDz1k6unj2D3eWi/9suLJlZTE1OcSvYj17xwOrms+e60SXXuvdbGOju5vql75gMjlK2fgMPPl0roEXc7OsTciamJyaobnpDznWh+Hq996BnZuU1j46MUvzIGoZ/6WMsMEB2fj7rd7zJ4JXv+f1MJ+OD1w1QBfhbZ4dgmbDY7ETCYWKxOJpqo9VqZWJokIL77sezsoLVDVs51fwufw/fJJVMYha/ZjYb9TLJk+e91wC1WC34+wNo4elpKZbOzOQk0Zl/8FRU0HVgP/acHCNwV89lEtEoiBKUGDJsNhy5ucTm5tBECuGwxGdnZ4kzTSqRYOmKFaTkNgWq9tTNfcePGW1U9VBdW1pcTM/RI5KOzTij4rWyshKikShur1dq8jO/trdR3/KhkYICuXDkkPEtVNCF2VggYDBLxGLExa/iNd9TNUyHQixfs1ZEVWkcPrb7bR6qfYZ1L70slHWDejqZEr3FjRo9uXMX5Rs2Ep4KGaNg6MR913Ie3baNovJyzu/fh7OwEEeem7EBP2tfeFHSUKnJzcIgU3Riczq50dvLj21tTIwPLSj2Mj7fVjyFBVhkVqIzM/h27+Hr9/ZitlgkOMKqunqGfrgirGSOhFVwbJyOjq8WFavqdvDwJ+x5p4WioruNTqjCVb7eRKDnIqVV1XR9vM+ogxqH0eAffPTBXnY0vaJCF0GUKUbPN75qtM62xEpaOpYvHfvz2jVMGRbmZIbUFH/5WavBYMHuAFmwEyfbOf3NefxXB5iS4uXIXP3//wT+Bb4xmi8orIo3AAAAAElFTkSuQmCC">)</a>
-                    <span id="icon009" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/electron" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in Blazor
-                                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/blazor">
-                        Hello World in
-                        Blazor (<img alt="Blazor logo"
-                            src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjIyNDgiIHZpZXdCb3g9Ii0xMC4xMjAyMTg3NSAtNTMuNjA5NTEwMzYgMzM5Ljk1Mzk3NTI5IDM0My4wMjIzNTA5MyIgd2lkdGg9IjI1MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTMwMy45MzUgODguNDc5Yy02LjU5OCA0MS4zNjItMjcuNjUzIDc5LjA0MS01OS40MiAxMDYuMzM1cy03Mi4xODUgNDIuNDMzLTExNC4wNjQgNDIuNzIzYy04LjQ4My4zMjYtMTYuOTc3LS4xOS0yNS4zNTgtMS41MzlhNzcuNzIzIDc3LjcyMyAwIDAgMSAtNjQuNjMtNzMuMjY2IDc1LjQ3OSA3NS40NzkgMCAwIDEgMjIuMTQtNTIuNzYyIDc1LjQ2IDc1LjQ2IDAgMCAxIDEwNS44ODUtLjc0OCA3NS40NzggNzUuNDc4IDAgMCAxIDIyLjg4NCA1Mi40NDNjLjMxNyAxMi41MS01LjEwMiAyMy40ODMtMTYuMjM5IDIzLjgtMTEuODk5IDAtMTcuNDc3LTguNDkxLTE3LjQ3Ny0xOS45MzR2LTMxLjc5N2ExOS40NzggMTkuNDc4IDAgMCAwIC0xOS4zMjMtMTkuNDk0aC0yNi42NTNhNDYuMzg2IDQ2LjM4NiAwIDAgMCAtMzkuMTE5IDIwLjk2MSA0Ni4zOTkgNDYuMzk5IDAgMCAwIDMxLjU4NyA3MS4yNjggNDYuMzkyIDQ2LjM5MiAwIDAgMCA0MS44LTE0LjkxMWwuOTMyLTEuMzkuOTMzIDEuNTQzYTMyLjgyIDMyLjgyIDAgMCAwIDI3Ljk4NiAxMy4zMjggMzYuOTkyIDM2Ljk5MiAwIDAgMCAzNC4yNjgtMzguNjcxIDEwMC42NCAxMDAuNjQgMCAwIDAgLTIuNzYxLTI0LjU3N2MtNC45NDMtMjIuNzM0LTE4LjEyNi00Mi44MzQtMzcuMDA4LTU2LjQyM2E5NC4xNTMgOTQuMTUzIDAgMCAwIC0xMjUuMjM2IDEzLjcxOCA5NC4xNzUgOTQuMTc1IDAgMCAwIC0yMy45MiA2My4wOTcgOTUuMzUyIDk1LjM1MiAwIDAgMCAyNy40NzMgNjUuODI0IDk1LjMzMSA5NS4zMzEgMCAwIDAgNjUuNDQ4IDI4LjM0NHM2Ljk4LjYzNSAxNC44NDkuNDU0YTIwMC45NCAyMDAuOTQgMCAwIDAgMTA3Ljc2OS0zMi4xNTVjLjQ1Ny0uMzE4LjkxNC4zMTcuNjEuNzhhMTU4LjE3NyAxNTguMTc3IDAgMCAxIC0xMjMuMjI1IDUwLjM5NiAxMTEuMTg1IDExMS4xODUgMCAwIDEgLTgwLjk2MS0zMi44NzEgMTExLjIxNSAxMTEuMjE1IDAgMCAxIC0zMi4yMTUtODEuMjMyIDExNS4wOTkgMTE1LjA5OSAwIDAgMSA0Ni4yMjMtOTIuMTcgMTEyLjcwNCAxMTIuNzA0IDAgMCAxIDY2LjQ5Ny0yMS45NTNoMzUuNzcyYTEwMC42MzcgMTAwLjYzNyAwIDAgMCA3NC4yNDctMzIuNzg0IDEuMzkgMS4zOSAwIDAgMSAuNzU1LS40MzEgMS40MTggMS40MTggMCAwIDEgMS41Mi42NjNjLjE1My4yNTcuMjIyLjU1NS4xOTcuODU0YTEwMC45MyAxMDAuOTMgMCAwIDEgLTE1LjYwOCA0NS4xNCAxLjM4NiAxLjM4NiAwIDAgMCAuMTE1IDEuNTExIDEuMzg3IDEuMzg3IDAgMCAwIDEuNDI0LjUwNyAxMDguMTU4IDEwOC4xNTggMCAwIDAgNzUuMTk4LTYyLjAxM2MuMTczLS4yNzcuNDExLS41MDcuNjk1LS42N2ExLjkwMiAxLjkwMiAwIDAgMSAxLjg2OSAwYy4yODQuMTYyLjUyMy4zOTIuNjk0LjY3YTEzNy4wOTggMTM3LjA5OCAwIDAgMSAxMy40NDcgODcuNDMyem0tMTg5Ljk2NCA0NC44NThhMjcuODIzIDI3LjgyMyAwIDAgMCAtMjcuMjkzIDMzLjI1NSAyNy44MyAyNy44MyAwIDAgMCAyMS44NjIgMjEuODY1IDI3LjgyNCAyNy44MjQgMCAwIDAgMzMuMjUxLTI3LjI5NnYtMjUuOTc3YTIuMDA3IDIuMDA3IDAgMCAwIC0xLjkwNC0xLjkwNHoiIGZpbGw9IiM3MDJhZjciLz48L3N2Zz4=" />)</a>
-                    <span id="icon003" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/blazor" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images inRequireJS
-                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/requirejs.html">Hello World in
-                        RequireJS (<img alt="RequireJS logo"
-                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzU2Nzk4MzA2MjM4IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9Ijk3NDciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTI2Ny4xMTQ1IDk3Ni41OThoMzYuMTI2bC0zMy44MTIgMzMuODFjLTcuNDI0IDcuNDI0IDMuNzE2IDE4LjU2NCAxMS4xNCAxMS4xNGw0NC45NS00NC45NWgxNy4xMjRsLTMzLjgxIDMzLjgxYy03LjM5NiA3LjM5NiAzLjc0NCAxOC41MzQgMTEuMTQgMTEuMTRsNDQuOTUtNDQuOTVoMTcuMTI0bC0zMy44MTIgMzMuODFjLTcuMzY0IDcuMzY2IDMuNzc0IDE4LjUwNiAxMS4xNCAxMS4xNGw0NC45NS00NC45NWgxNy4xMjRsLTMzLjgxIDMzLjgxYy03LjQzMiA3LjQzMiAzLjcwNiAxOC41NzIgMTEuMTQgMTEuMTRsNDQuOTUtNDQuOTVoMjE3LjI0djMxLjQ5NmwxMTAuMjU4LTQ3LjI2Ni0xMTAuMjYtNDcuMjY2djMxLjQ5NmgtMjE3LjI0bC00NC45NS00NC45NTJjLTcuNDI0LTcuNDI0LTE4LjU2NCAzLjcxNC0xMS4xNCAxMS4xNGwzMy44MTIgMzMuODEyaC0xNy4xMjRsLTQ0Ljk1LTQ0Ljk1MmMtNy4zMjYtNy4zMjQtMTguNDY0IDMuODE0LTExLjE0IDExLjE0bDMzLjgxMiAzMy44MTJoLTE3LjEyNGwtNDQuOTUyLTQ0Ljk1MmMtNy40NTYtNy40NTYtMTguNTk0IDMuNjg0LTExLjE0IDExLjE0bDMzLjgxMiAzMy44MTJoLTE3LjEyNGwtNDQuOTUtNDQuOTUyYy03LjM1Ni03LjM1Ni0xOC40OTYgMy43ODQtMTEuMTQgMTEuMTRsMzMuODEyIDMzLjgxMkgyNjcuMTE0NWMtMTguMTUyIDEuMjgtMjMuMDc2IDI3LjM4OCAwIDMxLjU0eiBtMzEuMDYtOTE5LjM2Yy0yODIuOSAxNjMuMDk0LTI4Mi45IDU3My4wNDQgMCA3MzYuMTM2czYzOC40NC00MS44OCA2MzguNDQtMzY4LjA2OFM1ODEuMDcyNS0xMDUuODU0IDI5OC4xNzQ1IDU3LjI0eiBtNTEuMzEyIDY0Ny40NzhjLTIxNC43ODgtMTIzLjgyOC0yMTQuNzg4LTQzNS4wOCAwLTU1OC45MDZTODM0LjIyMDUgMTc3LjYwOCA4MzQuMjIwNSA0MjUuMjYycy0yNjkuOTQyIDQwMy4yOC00ODQuNzMyIDI3OS40NTR6TTY1My4wNjI1IDQyNS4yNmMwIDEwOC43Mi0xMTguNTAyIDE3Ny4wMzYtMjEyLjc5MiAxMjIuNjc4LTk0LjI5LTU0LjM2LTk0LjI5LTE5MC45OTQgMC0yNDUuMzU0IDk0LjI5LTU0LjM2IDIxMi43OTIgMTMuOTYgMjEyLjc5MiAxMjIuNjc2ek0zNjkuMjMyNSAxNzkuODljLTE4OC41OCAxMDguNzI4LTE4OC41OCAzODIuMDIgMCA0OTAuNzQ2czQyNS41ODQtMjcuOTIgNDI1LjU4NC0yNDUuMzc0UzU1Ny44MTI1IDcxLjE2NCAzNjkuMjMyNSAxNzkuODl6IG01MS4yOTIgNDAyLjE1Yy0xMjAuNS02OS40Ny0xMjAuNS0yNDQuMDg0IDAtMzEzLjU1NCAxMjAuNS02OS40NjggMjcxLjk0IDE3Ljg0IDI3MS45NCAxNTYuNzc2cy0xNTEuNDQgMjI2LjI0Ni0yNzEuOTQgMTU2Ljc3OHoiIGZpbGw9IiMzOUExRTciIHAtaWQ9Ijk3NDgiPjwvcGF0aD48L3N2Zz4=" />)</a>
-                    <span id="icon011" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/requirejs.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in ES6
-                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/es6.html">
-                        Hello World in
-                        ES6 (<img alt="ES6 logo"
-                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzU2Nzk4MzQ3ODAzIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjEwNzY0IiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiPjxwYXRoIGQ9Ik00ODYuMjE1NjkzIDEwMTcuNTE4MDgzYzE0Ljk1MDM5MyA4LjY0MjU1NiAzMy4zNzIxNDMgOC42NDI1NTYgNDguMzIyNTM2IDBsNDAwLjYwOTA3OS0yMzEuNjU5NDA0YTQ4LjM3MzczNiA0OC4zNzM3MzYgMCAwIDAgMjQuMTY2Mzg4LTQxLjk3MzczOVYyODAuMjg5NjUyYTQ4LjUzNzU3NiA0OC41Mzc1NzYgMCAwIDAtMjQuMTY2Mzg4LTQyLjAyNDkzOUw1MzQuNTM4MjI5IDYuNDkyNjY5YTQ4LjMyMjUzNiA0OC4zMjI1MzYgMCAwIDAtNDguMzgzOTc2IDBMODUuNjA2NjEzIDIzOC4yMDMyNzNBNDguNDg2Mzc2IDQ4LjQ4NjM3NiAwIDAgMCA2MS40NDAyMjUgMjgwLjM0MDg1MnY0NjMuNjA1NTI4YzAgMTcuMzA1NTkxIDkuMjE1OTk1IDMzLjMyMDk0MyAyNC4xNjYzODggNDEuOTczNzM5bDQwMC42MDkwOCAyMzEuNjQ5MTY0IiBmaWxsPSIjRjNENjAwIiBwLWlkPSIxMDc2NSI+PC9wYXRoPjxwYXRoIGQ9Ik0yMzUuNTIwMTM4IDcwMC4xMTkyMDJWMzMwLjc5MzMwN2gxNTcuNjk1OTIxdjQ5Ljc5NzA5NUgyODguNDMwMTkydjEwOC40MTA4MjVoOTEuMjk5Nzk0djQ5Ljc5NzA5NmgtOTEuMjk5Nzk0djEwOC40MjEwNjVIMzkzLjIxNjA1OXY1Mi44OTk4MTR6TTU5OC42MzAzNTcgNDM3LjEzNTY1M2gtNTIuOTEwMDU0di0xMS45Mzk4MzRjMC0xMi4xMDM2NzQtMi44NTY5NTktMjIuNTU4NzA5LTguNTYwNjM2LTMxLjM3NTM0NC01LjcwMzY3Ny04LjgxNjYzNi0xNS4zMDg3OTItMTMuMjMwMDczLTI4Ljc5NDg2NS0xMy4yMzAwNzMtNy4yNjAxNTYgMC0xMy4xMzc5MTMgMS4zODIzOTktMTcuNjMzMjcxIDQuMTQ3MTk4LTQuNDk1MzU4IDIuNzY0Nzk5LTguMTMwNTU2IDYuMjI1OTE3LTEwLjg5NTM1NSAxMC4zNzMxMTQtMi43NjQ3OTkgNC41MDU1OTgtNC42Njk0MzggOS42MDUxMTUtNS43MDM2NzcgMTUuMzA4NzkzYTk5LjkwMTM5IDk5LjkwMTM5IDAgMCAwLTEuNTU2NDc5IDE3Ljg4OTI3MWMwIDcuMjcwMzk2IDAuMjU2IDEzLjMxMTk5MyAwLjc3ODIzOSAxOC4xNTU1MTEgMC41MTIgNC44NDM1MTggMS44MTI0NzkgOS4xNjQ3OTUgMy44OTExOTggMTIuOTc0MDczIDIuMDc4NzE5IDMuNzk5MDM4IDUuMDk5NTE3IDcuMDg2MDc2IDkuMDcyNjM2IDkuODUwODc1IDMuOTgzMzU4IDIuNzY0Nzk5IDkuNDIwNzk1IDUuNTI5NTk3IDE2LjM0MzAzMiA4LjI5NDM5Nmw0MC40NTgyMTkgMTYuMDg3MDMyYzExLjc2NTc1NCA0LjUwNTU5OCAyMS4yNjg0NjkgOS43Njg5NTUgMjguNTM4ODY2IDE1LjgyMDc5MmE2OC40MDMxNjYgNjguNDAzMTY2IDAgMCAxIDE3LjExMTAzMiAyMS4wMTI0N2MzLjgwOTI3OCA4LjI5NDM5NiA2LjM5OTk5NyAxNy43MTUxOTEgNy43ODIzOTYgMjguMjYyMzg2IDEuMzgyMzk5IDEwLjU0NzE5NSAyLjA3ODcxOSAyMi41Njg5NDkgMi4wNzg3MTkgMzYuMDU1MDIyIDAgMTUuNTY0NzkyLTEuNTU2NDc5IDMwLjAwMzE4NS00LjY2OTQzOCA0My4zMTUxNzgtMy4xMTI5NTggMTMuMzExOTkzLTguMTMwNTU2IDI0LjYzNzQyOC0xNS4wNTI3OTIgMzMuOTc2MzAzLTcuMjQ5OTE2IDkuNjg3MDM1LTE2Ljc2Mjg3MiAxNy4yOTUzNTEtMjguNTE4Mzg2IDIyLjgyNDk0OS0xMS43NjU3NTQgNS41Mjk1OTctMjYuMTExOTg3IDguMjk0Mzk2LTQzLjA1OTE3OSA4LjI5NDM5NS0xMi43OTk5OTQgMC0yNC43Mjk1ODgtMi4yNTI3OTktMzUuNzg4NzgyLTYuNzM3OTE2YTg1LjEzNTMxNyA4NS4xMzUzMTcgMCAwIDEtMjguNTI4NjI2LTE4LjY3Nzc1MSA5MC44Nzk5NTUgOTAuODc5OTU1IDAgMCAxLTE4Ljk0Mzk5LTI3Ljc1MDM4NmMtNC42NTkxOTgtMTAuNTQ3MTk1LTYuOTkzOTE3LTIyLjA0NjcwOS02Ljk5MzkxNy0zNC40OTg1NDNWNTk1Ljg2NTgxNGg1Mi45MTAwNTR2MTYuNjA5MjcyYzAgOS42NzY3OTUgMi44NDY3MTkgMTguNDExNTExIDguNTYwNjM2IDI2LjE5MzkwNyA1LjcwMzY3NyA3Ljc4MjM5NiAxNS4yOTg1NTIgMTEuNjczNTk0IDI4Ljc4NDYyNSAxMS42NzM1OTQgOC45OTA3MTYgMCAxNS45OTQ4NzItMS4zMDA0NzkgMjEuMDEyNDctMy44OTExOTggNS4wMTc1OTctMi42MDA5NTkgOC45MDg3OTYtNi4zMTgwNzcgMTEuNjczNTk0LTExLjE2MTU5NSAyLjc2NDc5OS00LjgzMzI3OCA0LjQwMzE5OC0xMC42MjkxMTUgNC45MTUxOTgtMTcuMzc3MjcxIDAuNTIyMjQtNi43Mzc5MTcgMC43ODg0OC0xNC4yNjQzMTMgMC43ODg0NzktMjIuNTU4NzA5IDAtOS42ODcwMzUtMC4zNDgxNi0xNy42MzMyNzEtMS4wNDQ0NzktMjMuODU5MTg4LTAuNjg2MDgtNi4yMjU5MTctMi4wNjg0NzktMTEuMjQzNTE0LTQuMTQ3MTk4LTE1LjA1Mjc5MmEyOS4xNjM1MDUgMjkuMTYzNTA1IDAgMCAwLTkuNTk0ODc1LTkuMzI4NjM2Yy0zLjk3MzExOC0yLjQyNjg3OS05LjI0NjcxNS01LjAxNzU5Ny0xNS44MjA3OTMtNy43ODIzOTZsLTM3Ljg2NzUwMS0xNS41NjQ3OTJjLTIyLjgyNDk0OS05LjMzODg3NS0zOC4xMjM1MDEtMjEuNjk4NTQ5LTQ1LjkwNTg5Ny0zNy4wODkyNjEtNy43ODIzOTYtMTUuMzkwNzEyLTExLjY3MzU5NC0zNC42NjIzODMtMTEuNjczNTk0LTU3LjgzNTQ5MSAwLTEzLjgyMzk5MyAxLjkwNDYzOS0yNi45NzIxNDcgNS43MDM2NzctMzkuNDIzOTgxIDMuODA5Mjc4LTEyLjQ1MTgzNCA5LjUxMjk1NS0yMy4xNzMxMDggMTcuMTIxMjcyLTMyLjE1MzU4NCA3LjI3MDM5Ni05LjAwMDk1NSAxNi41MTcxMTItMTYuMTc5MTkyIDI3Ljc1MDM4Ni0yMS41MzQ3MDkgMTEuMjQzNTE0LTUuMzU1NTE3IDI0LjYzNzQyOC04LjAzODM5NiA0MC4yMDIyMi04LjAzODM5NiAxMy4xMzc5MTMgMCAyNS4xNTk2NjcgMi40MTY2MzkgMzYuMDQ0NzgyIDcuMjcwMzk3YTkyLjg2NjUxNCA5Mi44NjY1MTQgMCAwIDEgMjguMjcyNjI2IDE5LjE3OTUxYzE1LjkxMjk1MiAxNi42MDkyNzIgMjMuODU5MTg4IDM1LjYyNDk0MiAyMy44NTkxODggNTcuMDY3NDkxdjI1LjkzNzkwN3pNNzY5LjI5MDExMSAzMzAuNzkzMzA3TDcwOS4xMTk5MDEgNDg1Ljg4ODI2OWwxLjAyNCAxLjA0NDQ4YzEuNzQwNzk5LTEuMzgyMzk5IDQuNDEzNDM4LTIuNTA4Nzk5IDguMDQ4NjM2LTMuMzc5MTk5IDMuNjM1MTk4LTAuODYwMTYgOC4zODY1NTYtMS4yOTAyMzkgMTQuMjY0MzEzLTEuMjkwMjM5IDkuMzM4ODc1IDAgMTcuOTgxNDMxIDIuMjUyNzk5IDI1LjkzNzkwNyA2LjczNzkxNiA3Ljk1NjQ3NiA0LjUwNTU5OCAxNC4xODIzOTMgMTAuMTk5MDM1IDE4LjY3Nzc1IDE3LjEyMTI3MiAyLjQxNjYzOSAzLjc5OTAzOCA0LjMyMTI3OCA3LjYwODMxNiA1LjcwMzY3OCAxMS40MDczNTQgMS4zODIzOTkgMy44MDkyNzggMi41OTA3MTkgOC44MjY4NzYgMy42MjQ5NTggMTUuMDUyNzkzIDAuNjk2MzIgNi4yMTU2NzcgMS4yMTg1NTkgMTQuMDkwMjMzIDEuNTU2NDc5IDIzLjU5Mjk0OCAwLjM0ODE2IDkuNTEyOTU1IDAuNTIyMjQgMjEuNTM0NzA5IDAuNTIyMjQgMzYuMDQ0NzgyIDAgMTIuMTEzOTE0LTAuMTc0MDggMjIuMDU2OTQ5LTAuNTEyIDI5LjgzOTM0NS0wLjM0ODE2IDcuNzgyMzk2LTAuODcwNCAxNC4yNjQzMTMtMS41NjY3MTkgMTkuNDU1OTktMS4wMjM5OTkgNS41Mjk1OTctMi4zMzQ3MTkgMTAuMTk5MDM1LTMuODkxMTk4IDEzLjk5ODA3M2E5NS44NDYzNTIgOTUuODQ2MzUyIDAgMCAxLTUuOTU5Njc3IDExLjkyOTU5NCA3MS41NDY4NDQgNzEuNTQ2ODQ0IDAgMCAxLTI3Ljc1MDM4NiAyNi40NjAxNDdjLTExLjU5MTY3NCA2LjIxNTY3Ny0yNC42Mzc0MjggOS4zMjg2MzUtMzkuMTY3OTgxIDkuMzI4NjM1LTE0LjUyMDMxMyAwLTI3LjQ5NDM4Ni0zLjE5NDg3OC0zOC45MTE5OC05LjU5NDg3NWE3NS4zODY4NDIgNzUuMzg2ODQyIDAgMCAxLTI3LjQ4NDE0Ny0yNi4xOTM5MDcgNjguNDIzNjQ2IDY4LjQyMzY0NiAwIDAgMS02LjQ4MTkxNi0xMS45Mjk1OTRjLTEuNTU2NDc5LTMuNzk5MDM4LTIuNjgyODc5LTguNDY4NDc2LTMuMzc5MTk5LTE0LjAwODMxMy0xLjAyMzk5OS01LjE4MTQzNy0xLjcyMDMxOS0xMS42NzM1OTQtMi4wNjg0NzktMTkuNDU1OTlzLTAuNTEyLTE3LjcxNTE5MS0wLjUxMTk5OS0yOS44MTg4NjVjMC0xMS40MTc1OTQgMC4xNjM4NC0yMC44MzgzOSAwLjUxMTk5OS0yOC4yNjIzODYgMC4zNDgxNi03LjQ0NDQ3NiAwLjg2MDE2LTEzLjkyNjM5MyAxLjU1NjQ4LTE5LjQ1NTk5IDAuNjk2MzItNS4xOTE2NzcgMS43MzA1NTktOS45NDMwMzUgMy4xMTI5NTgtMTQuMjc0NTUzIDEuMzgyMzk5LTQuMzIxMjc4IDIuOTM4ODc5LTguOTA4Nzk2IDQuNjY5NDM4LTEzLjc0MjA3M2w2OS41MDkwODUtMTg1LjcwMjMwN2g1OS4xMzU5N3ogbS0zMy43MjAzMDMgMjI0LjYwNDA0N2MwLTcuOTQ2MjM2LTIuNTkwNzE5LTE0LjM0NjIzMy03Ljc4MjM5Ni0xOS4xODk3NWEyNS43NzQwNjcgMjUuNzc0MDY3IDAgMCAwLTE4LjE1NTUxMS03LjI3MDM5NmMtNi45MTE5OTcgMC0xMi45NjM4MzQgMi40MjY4NzktMTguMTU1NTExIDcuMjcwMzk2LTUuMTgxNDM3IDQuODQzNTE4LTcuNzgyMzk2IDExLjI0MzUxNC03Ljc4MjM5NiAxOS4xODk3NXY2OC40NzQ4NDZjMCA3Ljk1NjQ3NiAyLjYwMDk1OSAxNC4zNDYyMzMgNy43ODIzOTYgMTkuMTg5NzUgNS4xOTE2NzcgNC44NDM1MTggMTEuMjQzNTE0IDcuMjcwMzk2IDE4LjE1NTUxMSA3LjI3MDM5NyA2LjkyMjIzNyAwIDEyLjk3NDA3NC0yLjQyNjg3OSAxOC4xNTU1MTEtNy4yNzAzOTcgNS4xOTE2NzctNC44NDM1MTggNy43ODIzOTYtMTEuMjMzMjc0IDcuNzgyMzk2LTE5LjE4OTc1di02OC40NzQ4NDZ6IiBmaWxsPSIjMjAxOTBFIiBwLWlkPSIxMDc2NiI+PC9wYXRoPjwvc3ZnPg==" />)</a>
-                    <span id="icon012" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/es6.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in PWA
-                                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/pwa">
-                        Hello World in
-                        PWA (<img alt="PWA logo"
-                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzU2Nzk4NTAxOTU0IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE1NTgxIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiPjxwYXRoIGQ9Ik03NDUuNCA2MjUuMmwyOC42LTY4LjZoODIuNGwtMzkuMi0xMDQgNDktMTE3LjQgMTQwLjIgMzUzaC0xMDMuNGwtMjQtNjMuMmgtMTMzLjZ6TTE5Mi44IDQxNi42YzguOCA4LjQgMTMuMiAxOS44IDEzLjIgMzRzLTMuOCAyNS42LTExLjYgMzRjLTguNiA5LjQtMjQuMiAxNC00Ny4yIDE0SDExMS44VjQwNGgzNS42YzIxLjQgMCAzNi42IDQuMiA0NS40IDEyLjZ6IG0tODEgMTUwLjhoNjEuMmMxNi44IDAuMiAzMy4yLTEuOCA0OS40LTZsMTUuOC00Ni40IDQ0LjItMTI5LjRjLTMuNC01LjItNy4yLTEwLTExLjYtMTQuNC0yMi42LTIzLjgtNTUuOC0zNS44LTk5LjQtMzUuOEgxNy42djM1M2g5NC4ydi0xMjF6IG01NDQuNCAxMjEuMmwxNTAtMzUzaC05OS40bC0xMDIuNiAyMjguMi03My0yMjguMmgtNzYuNGwtNzguNCAyMjguMi01NS4yLTEwNC01MCAxNDYuMiA1MC44IDgyLjhoOTcuOEw0OTAuNiA0ODRsNjcuNiAyMDQuNmg5OHoiIHAtaWQ9IjE1NTgyIj48L3BhdGg+PC9zdmc+" />)</a>
-                    <span id="icon010" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/pwa" title="Check code on GitHub"></a></span>
-                </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with Angular framework."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/angular">Angular Samples</a></span>
             </div>
-            <div class="file">Scan Multiple Barcodes</div>
-            <div class="children">
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Minimum necessary 
-                    JavaScript code to read barcodes from camera."><a class="button title" href="barcode-scanner-api-samples/scan-multiple-barcodes/hello-world.html">Hello World
-                </a><span id="icon001" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-multiple-barcodes/hello-world.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Simulates a shopping 
-                    experience where users scan barcodes to add items to a dynamic cart. "><a class="button title" href="barcode-scanner-api-samples/scan-multiple-barcodes/cart-builder.html">Scan 
-                    to Cart Simulation</a><span id="icon001" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-multiple-barcodes/cart-builder.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="An inventory management
-                     tool scan barcodes in batches and provide real-time analysis of the scanned data. "><a class="button title" href="barcode-scanner-api-samples/scan-multiple-barcodes/batch-inventory/index.html">Batch Inventory</a><span id="icon001" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-multiple-barcodes/batch-inventory/index.html" title="Check code on GitHub"></a></span>
-                </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with Blazor (.NET) framework."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/blazor">Blazor Samples</a></span>
+            </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples for Capacitor mobile hybrid applications."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/capacitor">Capacitor Samples</a></span>
+            </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples for Electron desktop applications."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/electron">Electron Samples</a></span>
+            </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples using plain ES6 modules."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/es6">ES6 Samples</a></span>
+            </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples using native TypeScript."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/native-ts">Native TypeScript Samples</a></span>
+            </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with Next.js framework."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/next">Next.js Samples</a></span>
+            </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with Nuxt framework."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/nuxt">Nuxt Samples</a></span>
+            </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples for Progressive Web Apps (PWA)."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/pwa">PWA Samples</a></span>
+            </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with React framework."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/react">React Samples</a></span>
+            </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples using RequireJS (AMD)."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/requirejs">RequireJS Samples</a></span>
+            </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with Svelte framework."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/svelte">Svelte Samples</a></span>
+            </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with Vue framework."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/vue">Vue Samples</a></span>
+            </div>
+            <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples for native WebView on Android and iOS."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/webview">WebView Samples</a></span>
             </div>
         </div>
+
+        <!-- Scenario Samples -->
         <div class="file">
-            <h3>Foundational API Samples</h3>
+            <h3>Scenario Samples <span class="sample-count">(16)</span></h3>
         </div>
         <div class="children">
-            <div class="file">Hello World</div>
+            <div class="file">Workflow Examples</div>
             <div class="children">
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Minimum necessary 
-                    JavaScript code to read barcodes from camera."><a class="button title" href="foundational-api-samples/hello-world/hello-world.html">Hello 
-                    World</a><span id="icon001" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/hello-world/hello-world.html" title="Check code on GitHub"></a></span>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Simulates a shopping experience where users scan barcodes to add items to a dynamic cart."><a class="button title demo-link" href="scenarios/cart-builder.html" title="View live demo">Cart Builder</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/cart-builder.html" title="View source code on GitHub">Source</a></span>
                 </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Decode barcodes
-                    using images that are stored locally,
-                    whether on mobile or desktop."><a class="button title" href="foundational-api-samples/hello-world/read-an-image.html">Read
-                        an Existing
-                        Image</a><span id="icon002" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/hello-world/read-an-image.html" title="Check code on GitHub"></a></span>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Scan a product barcode and simulate a search from a product database."><a class="button title demo-link" href="scenarios/scan-and-search.html" title="View live demo">Scan and Search</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/scan-and-search.html" title="View source code on GitHub">Source</a></span>
                 </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in an Angular
-                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/angular">Hello World in
-                        Angular (<img alt="Angular logo"
-                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" />)</a>
-                    <span id="icon003" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/angular" title="Check code on GitHub"></a></span>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Pick the correct one from multiple candidates by scanning barcodes."><a class="button title demo-link" href="scenarios/pick-one-to-fill/index.html" title="View live demo">Pick One to Fill</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/pick-one-to-fill" title="View source code on GitHub">Source</a></span>
                 </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in a Blazor
-                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/blazor">Hello World in
-                        Blazor (<img alt="Blazor logo"
-                            src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjIyNDgiIHZpZXdCb3g9Ii0xMC4xMjAyMTg3NSAtNTMuNjA5NTEwMzYgMzM5Ljk1Mzk3NTI5IDM0My4wMjIzNTA5MyIgd2lkdGg9IjI1MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTMwMy45MzUgODguNDc5Yy02LjU5OCA0MS4zNjItMjcuNjUzIDc5LjA0MS01OS40MiAxMDYuMzM1cy03Mi4xODUgNDIuNDMzLTExNC4wNjQgNDIuNzIzYy04LjQ4My4zMjYtMTYuOTc3LS4xOS0yNS4zNTgtMS41MzlhNzcuNzIzIDc3LjcyMyAwIDAgMSAtNjQuNjMtNzMuMjY2IDc1LjQ3OSA3NS40NzkgMCAwIDEgMjIuMTQtNTIuNzYyIDc1LjQ2IDc1LjQ2IDAgMCAxIDEwNS44ODUtLjc0OCA3NS40NzggNzUuNDc4IDAgMCAxIDIyLjg4NCA1Mi40NDNjLjMxNyAxMi41MS01LjEwMiAyMy40ODMtMTYuMjM5IDIzLjgtMTEuODk5IDAtMTcuNDc3LTguNDkxLTE3LjQ3Ny0xOS45MzR2LTMxLjc5N2ExOS40NzggMTkuNDc4IDAgMCAwIC0xOS4zMjMtMTkuNDk0aC0yNi42NTNhNDYuMzg2IDQ2LjM4NiAwIDAgMCAtMzkuMTE5IDIwLjk2MSA0Ni4zOTkgNDYuMzk5IDAgMCAwIDMxLjU4NyA3MS4yNjggNDYuMzkyIDQ2LjM5MiAwIDAgMCA0MS44LTE0LjkxMWwuOTMyLTEuMzkuOTMzIDEuNTQzYTMyLjgyIDMyLjgyIDAgMCAwIDI3Ljk4NiAxMy4zMjggMzYuOTkyIDM2Ljk5MiAwIDAgMCAzNC4yNjgtMzguNjcxIDEwMC42NCAxMDAuNjQgMCAwIDAgLTIuNzYxLTI0LjU3N2MtNC45NDMtMjIuNzM0LTE4LjEyNi00Mi44MzQtMzcuMDA4LTU2LjQyM2E5NC4xNTMgOTQuMTUzIDAgMCAwIC0xMjUuMjM2IDEzLjcxOCA5NC4xNzUgOTQuMTc1IDAgMCAwIC0yMy45MiA2My4wOTcgOTUuMzUyIDk1LjM1MiAwIDAgMCAyNy40NzMgNjUuODI0IDk1LjMzMSA5NS4zMzEgMCAwIDAgNjUuNDQ4IDI4LjM0NHM2Ljk4LjYzNSAxNC44NDkuNDU0YTIwMC45NCAyMDAuOTQgMCAwIDAgMTA3Ljc2OS0zMi4xNTVjLjQ1Ny0uMzE4LjkxNC4zMTcuNjEuNzhhMTU4LjE3NyAxNTguMTc3IDAgMCAxIC0xMjMuMjI1IDUwLjM5NiAxMTEuMTg1IDExMS4xODUgMCAwIDEgLTgwLjk2MS0zMi44NzEgMTExLjIxNSAxMTEuMjE1IDAgMCAxIC0zMi4yMTUtODEuMjMyIDExNS4wOTkgMTE1LjA5OSAwIDAgMSA0Ni4yMjMtOTIuMTcgMTEyLjcwNCAxMTIuNzA0IDAgMCAxIDY2LjQ5Ny0yMS45NTNoMzUuNzcyYTEwMC42MzcgMTAwLjYzNyAwIDAgMCA3NC4yNDctMzIuNzg0IDEuMzkgMS4zOSAwIDAgMSAuNzU1LS40MzEgMS40MTggMS40MTggMCAwIDEgMS41Mi42NjNjLjE1My4yNTcuMjIyLjU1NS4xOTcuODU0YTEwMC45MyAxMDAuOTMgMCAwIDEgLTE1LjYwOCA0NS4xNCAxLjM4NiAxLjM4NiAwIDAgMCAuMTE1IDEuNTExIDEuMzg3IDEuMzg3IDAgMCAwIDEuNDI0LjUwNyAxMDguMTU4IDEwOC4xNTggMCAwIDAgNzUuMTk4LTYyLjAxM2MuMTczLS4yNzcuNDExLS41MDcuNjk1LS42N2ExLjkwMiAxLjkwMiAwIDAgMSAxLjg2OSAwYy4yODQuMTYyLjUyMy4zOTIuNjk0LjY3YTEzNy4wOTggMTM3LjA5OCAwIDAgMSAxMy40NDcgODcuNDMyem0tMTg5Ljk2NCA0NC44NThhMjcuODIzIDI3LjgyMyAwIDAgMCAtMjcuMjkzIDMzLjI1NSAyNy44MyAyNy44MyAwIDAgMCAyMS44NjIgMjEuODY1IDI3LjgyNCAyNy44MjQgMCAwIDAgMzMuMjUxLTI3LjI5NnYtMjUuOTc3YTIuMDA3IDIuMDA3IDAgMCAwIC0xLjkwNC0xLjkwNHoiIGZpbGw9IiM3MDJhZjciLz48L3N2Zz4=" />)</a>
-                    <span id="icon003" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/blazor" title="Check code on GitHub"></a></span>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Batch scanning workflow for inventory collection and export."><a class="button title demo-link" href="scenarios/batch-inventory/index.html" title="View live demo">Batch Inventory</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/batch-inventory" title="View source code on GitHub">Source</a></span>
                 </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in a React
-                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/react">
-                        Hello World in
-                        React (<img alt="React logo"
-                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NDEuOSA1OTUuMyI+PGcgZmlsbD0iIzYxREFGQiI+PHBhdGggZD0iTTY2Ni4zIDI5Ni41YzAtMzIuNS00MC43LTYzLjMtMTAzLjEtODIuNCAxNC40LTYzLjYgOC0xMTQuMi0yMC4yLTEzMC40LTYuNS0zLjgtMTQuMS01LjYtMjIuNC01LjZ2MjIuM2M0LjYgMCA4LjMuOSAxMS40IDIuNiAxMy42IDcuOCAxOS41IDM3LjUgMTQuOSA3NS43LTEuMSA5LjQtMi45IDE5LjMtNS4xIDI5LjQtMTkuNi00LjgtNDEtOC41LTYzLjUtMTAuOS0xMy41LTE4LjUtMjcuNS0zNS4zLTQxLjYtNTAgMzIuNi0zMC4zIDYzLjItNDYuOSA4NC00Ni45Vjc4Yy0yNy41IDAtNjMuNSAxOS42LTk5LjkgNTMuNi0zNi40LTMzLjgtNzIuNC01My4yLTk5LjktNTMuMnYyMi4zYzIwLjcgMCA1MS40IDE2LjUgODQgNDYuNi0xNCAxNC43LTI4IDMxLjQtNDEuMyA0OS45LTIyLjYgMi40LTQ0IDYuMS02My42IDExLTIuMy0xMC00LTE5LjctNS4yLTI5LTQuNy0zOC4yIDEuMS02Ny45IDE0LjYtNzUuOCAzLTEuOCA2LjktMi42IDExLjUtMi42Vjc4LjVjLTguNCAwLTE2IDEuOC0yMi42IDUuNi0yOC4xIDE2LjItMzQuNCA2Ni43LTE5LjkgMTMwLjEtNjIuMiAxOS4yLTEwMi43IDQ5LjktMTAyLjcgODIuMyAwIDMyLjUgNDAuNyA2My4zIDEwMy4xIDgyLjQtMTQuNCA2My42LTggMTE0LjIgMjAuMiAxMzAuNCA2LjUgMy44IDE0LjEgNS42IDIyLjUgNS42IDI3LjUgMCA2My41LTE5LjYgOTkuOS01My42IDM2LjQgMzMuOCA3Mi40IDUzLjIgOTkuOSA1My4yIDguNCAwIDE2LTEuOCAyMi42LTUuNiAyOC4xLTE2LjIgMzQuNC02Ni43IDE5LjktMTMwLjEgNjItMTkuMSAxMDIuNS00OS45IDEwMi41LTgyLjN6bS0xMzAuMi02Ni43Yy0zLjcgMTIuOS04LjMgMjYuMi0xMy41IDM5LjUtNC4xLTgtOC40LTE2LTEzLjEtMjQtNC42LTgtOS41LTE1LjgtMTQuNC0yMy40IDE0LjIgMi4xIDI3LjkgNC43IDQxIDcuOXptLTQ1LjggMTA2LjVjLTcuOCAxMy41LTE1LjggMjYuMy0yNC4xIDM4LjItMTQuOSAxLjMtMzAgMi00NS4yIDItMTUuMSAwLTMwLjItLjctNDUtMS45LTguMy0xMS45LTE2LjQtMjQuNi0yNC4yLTM4LTcuNi0xMy4xLTE0LjUtMjYuNC0yMC44LTM5LjggNi4yLTEzLjQgMTMuMi0yNi44IDIwLjctMzkuOSA3LjgtMTMuNSAxNS44LTI2LjMgMjQuMS0zOC4yIDE0LjktMS4zIDMwLTIgNDUuMi0yIDE1LjEgMCAzMC4yLjcgNDUgMS45IDguMyAxMS45IDE2LjQgMjQuNiAyNC4yIDM4IDcuNiAxMy4xIDE0LjUgMjYuNCAyMC44IDM5LjgtNi4zIDEzLjQtMTMuMiAyNi44LTIwLjcgMzkuOXptMzIuMy0xM2M1LjQgMTMuNCAxMCAyNi44IDEzLjggMzkuOC0xMy4xIDMuMi0yNi45IDUuOS00MS4yIDggNC45LTcuNyA5LjgtMTUuNiAxNC40LTIzLjcgNC42LTggOC45LTE2LjEgMTMtMjQuMXpNNDIxLjIgNDMwYy05LjMtOS42LTE4LjYtMjAuMy0yNy44LTMyIDkgLjQgMTguMi43IDI3LjUuNyA5LjQgMCAxOC43LS4yIDI3LjgtLjctOSAxMS43LTE4LjMgMjIuNC0yNy41IDMyem0tNzQuNC01OC45Yy0xNC4yLTIuMS0yNy45LTQuNy00MS03LjkgMy43LTEyLjkgOC4zLTI2LjIgMTMuNS0zOS41IDQuMSA4IDguNCAxNiAxMy4xIDI0IDQuNyA4IDkuNSAxNS44IDE0LjQgMjMuNHpNNDIwLjcgMTYzYzkuMyA5LjYgMTguNiAyMC4zIDI3LjggMzItOS0uNC0xOC4yLS43LTI3LjUtLjctOS40IDAtMTguNy4yLTI3LjguNyA5LTExLjcgMTguMy0yMi40IDI3LjUtMzJ6bS03NCA1OC45Yy00LjkgNy43LTkuOCAxNS42LTE0LjQgMjMuNy00LjYgOC04LjkgMTYtMTMgMjQtNS40LTEzLjQtMTAtMjYuOC0xMy44LTM5LjggMTMuMS0zLjEgMjYuOS01LjggNDEuMi03Ljl6bS05MC41IDEyNS4yYy0zNS40LTE1LjEtNTguMy0zNC45LTU4LjMtNTAuNiAwLTE1LjcgMjIuOS0zNS42IDU4LjMtNTAuNiA4LjYtMy43IDE4LTcgMjcuNy0xMC4xIDUuNyAxOS42IDEzLjIgNDAgMjIuNSA2MC45LTkuMiAyMC44LTE2LjYgNDEuMS0yMi4yIDYwLjYtOS45LTMuMS0xOS4zLTYuNS0yOC0xMC4yek0zMTAgNDkwYy0xMy42LTcuOC0xOS41LTM3LjUtMTQuOS03NS43IDEuMS05LjQgMi45LTE5LjMgNS4xLTI5LjQgMTkuNiA0LjggNDEgOC41IDYzLjUgMTAuOSAxMy41IDE4LjUgMjcuNSAzNS4zIDQxLjYgNTAtMzIuNiAzMC4zLTYzLjIgNDYuOS04NCA0Ni45LTQuNS0uMS04LjMtMS0xMS4zLTIuN3ptMjM3LjItNzYuMmM0LjcgMzguMi0xLjEgNjcuOS0xNC42IDc1LjgtMyAxLjgtNi45IDIuNi0xMS41IDIuNi0yMC43IDAtNTEuNC0xNi41LTg0LTQ2LjYgMTQtMTQuNyAyOC0zMS40IDQxLjMtNDkuOSAyMi42LTIuNCA0NC02LjEgNjMuNi0xMSAyLjMgMTAuMSA0LjEgMTkuOCA1LjIgMjkuMXptMzguNS02Ni43Yy04LjYgMy43LTE4IDctMjcuNyAxMC4xLTUuNy0xOS42LTEzLjItNDAtMjIuNS02MC45IDkuMi0yMC44IDE2LjYtNDEuMSAyMi4yLTYwLjYgOS45IDMuMSAxOS4zIDYuNSAyOC4xIDEwLjIgMzUuNCAxNS4xIDU4LjMgMzQuOSA1OC4zIDUwLjYtLjEgMTUuNy0yMyAzNS42LTU4LjQgNTAuNnpNMzIwLjggNzguNHoiLz48Y2lyY2xlIGN4PSI0MjAuOSIgY3k9IjI5Ni41IiByPSI0NS43Ii8+PHBhdGggZD0iTTUyMC41IDc4LjF6Ii8+PC9nPjwvc3ZnPg==" />)</a>
-                    <span id="icon004" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/react" title="Check code on GitHub"></a></span>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Interactive UI to help you locate items with barcodes in a list or layout."><a class="button title demo-link" href="scenarios/locate-an-item-with-barcode/index.html" title="View live demo">Locate an Item with Barcode</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/locate-an-item-with-barcode" title="View source code on GitHub">Source</a></span>
                 </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in a React
-                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/react-hooks">
-                    Hello World in
-                        React(using Hooks)(<img alt="React logo"
-                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NDEuOSA1OTUuMyI+PGcgZmlsbD0iIzYxREFGQiI+PHBhdGggZD0iTTY2Ni4zIDI5Ni41YzAtMzIuNS00MC43LTYzLjMtMTAzLjEtODIuNCAxNC40LTYzLjYgOC0xMTQuMi0yMC4yLTEzMC40LTYuNS0zLjgtMTQuMS01LjYtMjIuNC01LjZ2MjIuM2M0LjYgMCA4LjMuOSAxMS40IDIuNiAxMy42IDcuOCAxOS41IDM3LjUgMTQuOSA3NS43LTEuMSA5LjQtMi45IDE5LjMtNS4xIDI5LjQtMTkuNi00LjgtNDEtOC41LTYzLjUtMTAuOS0xMy41LTE4LjUtMjcuNS0zNS4zLTQxLjYtNTAgMzIuNi0zMC4zIDYzLjItNDYuOSA4NC00Ni45Vjc4Yy0yNy41IDAtNjMuNSAxOS42LTk5LjkgNTMuNi0zNi40LTMzLjgtNzIuNC01My4yLTk5LjktNTMuMnYyMi4zYzIwLjcgMCA1MS40IDE2LjUgODQgNDYuNi0xNCAxNC43LTI4IDMxLjQtNDEuMyA0OS45LTIyLjYgMi40LTQ0IDYuMS02My42IDExLTIuMy0xMC00LTE5LjctNS4yLTI5LTQuNy0zOC4yIDEuMS02Ny45IDE0LjYtNzUuOCAzLTEuOCA2LjktMi42IDExLjUtMi42Vjc4LjVjLTguNCAwLTE2IDEuOC0yMi42IDUuNi0yOC4xIDE2LjItMzQuNCA2Ni43LTE5LjkgMTMwLjEtNjIuMiAxOS4yLTEwMi43IDQ5LjktMTAyLjcgODIuMyAwIDMyLjUgNDAuNyA2My4zIDEwMy4xIDgyLjQtMTQuNCA2My42LTggMTE0LjIgMjAuMiAxMzAuNCA2LjUgMy44IDE0LjEgNS42IDIyLjUgNS42IDI3LjUgMCA2My41LTE5LjYgOTkuOS01My42IDM2LjQgMzMuOCA3Mi40IDUzLjIgOTkuOSA1My4yIDguNCAwIDE2LTEuOCAyMi42LTUuNiAyOC4xLTE2LjIgMzQuNC02Ni43IDE5LjktMTMwLjEgNjItMTkuMSAxMDIuNS00OS45IDEwMi41LTgyLjN6bS0xMzAuMi02Ni43Yy0zLjcgMTIuOS04LjMgMjYuMi0xMy41IDM5LjUtNC4xLTgtOC40LTE2LTEzLjEtMjQtNC42LTgtOS41LTE1LjgtMTQuNC0yMy40IDE0LjIgMi4xIDI3LjkgNC43IDQxIDcuOXptLTQ1LjggMTA2LjVjLTcuOCAxMy41LTE1LjggMjYuMy0yNC4xIDM4LjItMTQuOSAxLjMtMzAgMi00NS4yIDItMTUuMSAwLTMwLjItLjctNDUtMS45LTguMy0xMS45LTE2LjQtMjQuNi0yNC4yLTM4LTcuNi0xMy4xLTE0LjUtMjYuNC0yMC44LTM5LjggNi4yLTEzLjQgMTMuMi0yNi44IDIwLjctMzkuOSA3LjgtMTMuNSAxNS44LTI2LjMgMjQuMS0zOC4yIDE0LjktMS4zIDMwLTIgNDUuMi0yIDE1LjEgMCAzMC4yLjcgNDUgMS45IDguMyAxMS45IDE2LjQgMjQuNiAyNC4yIDM4IDcuNiAxMy4xIDE0LjUgMjYuNCAyMC44IDM5LjgtNi4zIDEzLjQtMTMuMiAyNi44LTIwLjcgMzkuOXptMzIuMy0xM2M1LjQgMTMuNCAxMCAyNi44IDEzLjggMzkuOC0xMy4xIDMuMi0yNi45IDUuOS00MS4yIDggNC45LTcuNyA5LjgtMTUuNiAxNC40LTIzLjcgNC42LTggOC45LTE2LjEgMTMtMjQuMXpNNDIxLjIgNDMwYy05LjMtOS42LTE4LjYtMjAuMy0yNy44LTMyIDkgLjQgMTguMi43IDI3LjUuNyA5LjQgMCAxOC43LS4yIDI3LjgtLjctOSAxMS43LTE4LjMgMjIuNC0yNy41IDMyem0tNzQuNC01OC45Yy0xNC4yLTIuMS0yNy45LTQuNy00MS03LjkgMy43LTEyLjkgOC4zLTI2LjIgMTMuNS0zOS41IDQuMSA4IDguNCAxNiAxMy4xIDI0IDQuNyA4IDkuNSAxNS44IDE0LjQgMjMuNHpNNDIwLjcgMTYzYzkuMyA5LjYgMTguNiAyMC4zIDI3LjggMzItOS0uNC0xOC4yLS43LTI3LjUtLjctOS40IDAtMTguNy4yLTI3LjguNyA5LTExLjcgMTguMy0yMi40IDI3LjUtMzJ6bS03NCA1OC45Yy00LjkgNy43LTkuOCAxNS42LTE0LjQgMjMuNy00LjYgOC04LjkgMTYtMTMgMjQtNS40LTEzLjQtMTAtMjYuOC0xMy44LTM5LjggMTMuMS0zLjEgMjYuOS01LjggNDEuMi03Ljl6bS05MC41IDEyNS4yYy0zNS40LTE1LjEtNTguMy0zNC45LTU4LjMtNTAuNiAwLTE1LjcgMjIuOS0zNS42IDU4LjMtNTAuNiA4LjYtMy43IDE4LTcgMjcuNy0xMC4xIDUuNyAxOS42IDEzLjIgNDAgMjIuNSA2MC45LTkuMiAyMC44LTE2LjYgNDEuMS0yMi4yIDYwLjYtOS45LTMuMS0xOS4zLTYuNS0yOC0xMC4yek0zMTAgNDkwYy0xMy42LTcuOC0xOS41LTM3LjUtMTQuOS03NS43IDEuMS05LjQgMi45LTE5LjMgNS4xLTI5LjQgMTkuNiA0LjggNDEgOC41IDYzLjUgMTAuOSAxMy41IDE4LjUgMjcuNSAzNS4zIDQxLjYgNTAtMzIuNiAzMC4zLTYzLjIgNDYuOS04NCA0Ni45LTQuNS0uMS04LjMtMS0xMS4zLTIuN3ptMjM3LjItNzYuMmM0LjcgMzguMi0xLjEgNjcuOS0xNC42IDc1LjgtMyAxLjgtNi45IDIuNi0xMS41IDIuNi0yMC43IDAtNTEuNC0xNi41LTg0LTQ2LjYgMTQtMTQuNyAyOC0zMS40IDQxLjMtNDkuOSAyMi42LTIuNCA0NC02LjEgNjMuNi0xMSAyLjMgMTAuMSA0LjEgMTkuOCA1LjIgMjkuMXptMzguNS02Ni43Yy04LjYgMy43LTE4IDctMjcuNyAxMC4xLTUuNy0xOS42LTEzLjItNDAtMjIuNS02MC45IDkuMi0yMC44IDE2LjYtNDEuMSAyMi4yLTYwLjYgOS45IDMuMSAxOS4zIDYuNSAyOC4xIDEwLjIgMzUuNCAxNS4xIDU4LjMgMzQuOSA1OC4zIDUwLjYtLjEgMTUuNy0yMyAzNS42LTU4LjQgNTAuNnpNMzIwLjggNzguNHoiLz48Y2lyY2xlIGN4PSI0MjAuOSIgY3k9IjI5Ni41IiByPSI0NS43Ii8+PHBhdGggZD0iTTUyMC41IDc4LjF6Ii8+PC9nPjwvc3ZnPg==" />)</a>
-                    <span id="icon013" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/react-hooks" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in a Vue 3
-                                    Application."><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/vue">
-                        Hello World in
-                        Vue (<img alt="Vue logo"
-                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDE0IDc5LjE1Njc5NywgMjAxNC8wOC8yMC0wOTo1MzowMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OTk2QkI4RkE3NjE2MTFFNUE4NEU4RkIxNjQ5MTYyRDgiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OTk2QkI4Rjk3NjE2MTFFNUE4NEU4RkIxNjQ5MTYyRDgiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NjU2QTEyNzk3NjkyMTFFMzkxODk4RDkwQkY4Q0U0NzYiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NjU2QTEyN0E3NjkyMTFFMzkxODk4RDkwQkY4Q0U0NzYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5WHowqAAAXNElEQVR42uxda4xd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" />)</a>
-                    <span id="icon006" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/vue" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in a Next.js
-                            Application." target="_blank"><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/next#readme">
-                        Hello World in
-                        Next.js (<svg width="30px" height="17px" viewBox="0 0 207 124" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <g id="Black-Next.js" transform="translate(-247.000000, -138.000000)" fill="#000000"
-                                    fill-rule="nonzero">
-                                    <g id="next-black" transform="translate(247.000000, 138.000000)">
-                                        <g id="EXT-+-Type-something">
-                                            <path
-                                                d="M48.9421964,32.6320058 L87.9011585,32.6320058 L87.9011585,35.7136421 L52.5134345,35.7136421 L52.5134345,58.9070103 L85.7908813,58.9070103 L85.7908813,61.9886466 L52.5134345,61.9886466 L52.5134345,87.4526941 L88.306981,87.4526941 L88.306981,90.5343303 L48.9421964,90.5343303 L48.9421964,32.6320058 Z M91.3912326,32.6320058 L95.5306221,32.6320058 L113.8738,58.0960534 L132.622801,32.6320058 L158.124498,0.286809811 L116.22757,60.7722112 L137.817329,90.5343303 L133.51561,90.5343303 L113.8738,63.4483691 L94.1508254,90.5343303 L89.9302715,90.5343303 L111.682358,60.7722112 L91.3912326,32.6320058 Z M139.359455,35.713642 L139.359455,32.6320058 L183.756439,32.6320058 L183.756439,35.7136421 L163.302983,35.7136421 L163.302983,90.5343303 L159.731745,90.5343303 L159.731745,35.7136421 L139.359455,35.713642 Z"
-                                                id="EXT"></path>
-                                            <polygon id="Type-something"
-                                                points="0.202923647 32.6320058 4.66697141 32.6320058 66.2235778 124.303087 40.785176 90.5343303 3.93649086 37.0111732 3.77416185 90.5343303 0.202923647 90.5343303">
-                                            </polygon>
-                                        </g>
-                                        <path
-                                            d="M183.396622,86.5227221 C184.134938,86.5227221 184.673474,85.9601075 184.673474,85.233037 C184.673474,84.5059658 184.134938,83.9433513 183.396622,83.9433513 C182.666993,83.9433513 182.11977,84.5059658 182.11977,85.233037 C182.11977,85.9601075 182.666993,86.5227221 183.396622,86.5227221 Z M186.905793,83.1297235 C186.905793,85.2763149 188.460599,86.678523 190.727662,86.678523 C193.142388,86.678523 194.601647,85.233037 194.601647,82.7229099 L194.601647,73.8855335 L192.655968,73.8855335 L192.655968,82.7142542 C192.655968,84.1078073 191.952397,84.8521899 190.710289,84.8521899 C189.598473,84.8521899 188.842785,84.1597409 188.816727,83.1297235 L186.905793,83.1297235 Z M197.146664,83.0172011 C197.285642,85.2503478 199.153145,86.678523 201.932686,86.678523 C204.903321,86.678523 206.762139,85.1811034 206.762139,82.792155 C206.762139,80.9138876 205.702439,79.8752151 203.131364,79.2779777 L201.750279,78.9404092 C200.117298,78.5595622 199.457158,78.0488813 199.457158,77.1573541 C199.457158,76.0321243 200.482113,75.296398 202.019547,75.296398 C203.478806,75.296398 204.48639,76.0148135 204.668797,77.1660091 L206.562359,77.1660091 C206.44944,75.0626962 204.590622,73.5825873 202.045605,73.5825873 C199.309495,73.5825873 197.48542,75.0626962 197.48542,77.2871878 C197.48542,79.1221767 198.519063,80.2127835 200.786126,80.7407758 L202.401734,81.1302779 C204.060773,81.5197807 204.790402,82.091051 204.790402,83.0431676 C204.790402,84.1510859 203.643842,84.9560573 202.08035,84.9560573 C200.403939,84.9560573 199.240006,84.2030196 199.074971,83.0172011 L197.146664,83.0172011 Z"
-                                            id=".JS"></path>
-                                    </g>
-                                </g>
-                            </g>
-                        </svg>)</a><span id="icon007" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/next" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in a NuxtJS
-                            Application."><a class="button title" target="_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/nuxt#readme">
-                        Hello World in
-                        NuxtJS (<svg width="20px" height="17px" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 400 400">
-                            <g fill-rule="nonzero" transform="translate(0 50)" fill="none">
-                                <path
-                                    d="M227.92099 83.45116l-13.6889 24.10141-46.8148-82.44693L23.7037 278.17052h97.3037c0 13.31084 10.61252 24.10142 23.70371 24.10142H23.70371c-8.46771 0-16.29145-4.59601-20.5246-12.05272-4.23315-7.4567-4.23272-16.64312.00114-24.0994L146.89383 13.05492c4.23415-7.45738 12.0596-12.05138 20.5284-12.05138 8.46878 0 16.29423 4.594 20.52839 12.05138l39.97037 70.39623z"
-                                    fill="#00C58E" />
-                                <path
-                                    d="M331.6642 266.11981l-90.05432-158.56724-13.6889-24.10141-13.68888 24.10141-90.04445 158.56724c-4.23385 7.45629-4.23428 16.64271-.00113 24.09941 4.23314 7.4567 12.05689 12.05272 20.5246 12.05272h166.4c8.46946 0 16.29644-4.591 20.532-12.04837 4.23555-7.45736 4.23606-16.64592.00132-24.10376h.01976zM144.7111 278.17052L227.921 131.65399l83.19012 146.51653h-166.4z"
-                                    fill="#2F495E" />
-                                <path
-                                    d="M396.04938 290.22123c-4.23344 7.45557-12.05656 12.0507-20.52345 12.0507H311.1111c13.0912 0 23.7037-10.79057 23.7037-24.10141h40.66173L260.09877 74.98553l-18.4889 32.56704L227.921 83.45116l11.65432-20.51634c4.23416-7.45738 12.0596-12.05138 20.5284-12.05138 8.46879 0 16.29423 4.594 20.52839 12.05138l115.41728 203.185c4.23426 7.457 4.23426 16.6444 0 24.1014z"
-                                    fill="#108775" />
-                            </g>
-                        </svg>)</a><span id="icon008" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/nuxt" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera and images in a Electron
-                            Application."><a class="button title" target="_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/electron#readme">
-                        Hello World in
-                        Electron (<img alt="Electron logo"
-                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAABmJLR0QA/wD/AP+gvaeTAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTAzLTMxVDIzOjUxOjI3KzAwOjAwzwUHXwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wMy0zMVQyMzo1MToyNyswMDowML5Yv+MAAANzSURBVDhPdZRtTFtlFMd/vbe0aymUQh1gmakjE4GhLkt0i1OBbUxXkYFbzAzGaNTEMP1gMrfMTDGonzf3kmX4zbcP7sXBkL2AG27OGESNcYVukGVAHUIUWgT6Xs9zByEz8dzcPDfPec7/+Z9z/uea0mL8x46faKej8xx+f4BQKIzTmU1ZaQm+zTU821A7f2rR7gC5cPES2xtfQ9c07HYbpFJY7XZis7OkNZ1ZWZOy98WnR6muemw+CrT5lYOHW6mrbyTXlYNLXl32VtZs4uHntlPy+BOQiBv7yr+loZEDh1pvB4oZTBQDBbBsmYdkPE46lVQuHG43q7bUk4hEuPFTL7f6/Wi6GT0jg5GRIKdOfk5V5brbIAWeUrnFKbRnKN+4CZfHw1/Dw/R3d5GIRVnicFDz1k6unj2D3eWi/9suLJlZTE1OcSvYj17xwOrms+e60SXXuvdbGOju5vql75gMjlK2fgMPPl0roEXc7OsTciamJyaobnpDznWh+Hq996BnZuU1j46MUvzIGoZ/6WMsMEB2fj7rd7zJ4JXv+f1MJ+OD1w1QBfhbZ4dgmbDY7ETCYWKxOJpqo9VqZWJokIL77sezsoLVDVs51fwufw/fJJVMYha/ZjYb9TLJk+e91wC1WC34+wNo4elpKZbOzOQk0Zl/8FRU0HVgP/acHCNwV89lEtEoiBKUGDJsNhy5ucTm5tBECuGwxGdnZ4kzTSqRYOmKFaTkNgWq9tTNfcePGW1U9VBdW1pcTM/RI5KOzTij4rWyshKikShur1dq8jO/trdR3/KhkYICuXDkkPEtVNCF2VggYDBLxGLExa/iNd9TNUyHQixfs1ZEVWkcPrb7bR6qfYZ1L70slHWDejqZEr3FjRo9uXMX5Rs2Ep4KGaNg6MR913Ie3baNovJyzu/fh7OwEEeem7EBP2tfeFHSUKnJzcIgU3Riczq50dvLj21tTIwPLSj2Mj7fVjyFBVhkVqIzM/h27+Hr9/ZitlgkOMKqunqGfrgirGSOhFVwbJyOjq8WFavqdvDwJ+x5p4WioruNTqjCVb7eRKDnIqVV1XR9vM+ogxqH0eAffPTBXnY0vaJCF0GUKUbPN75qtM62xEpaOpYvHfvz2jVMGRbmZIbUFH/5WavBYMHuAFmwEyfbOf3NefxXB5iS4uXIXP3//wT+Bb4xmi8orIo3AAAAAElFTkSuQmCC">)</a>
-                    <span id="icon009" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/electron" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera in a progressive web application."><a class="button title" href="foundational-api-samples/hello-world/pwa/helloworld-pwa.html">Hello World in
-                        PWA (<img alt="PWA logo"
-                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzU2Nzk4NTAxOTU0IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE1NTgxIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiPjxwYXRoIGQ9Ik03NDUuNCA2MjUuMmwyOC42LTY4LjZoODIuNGwtMzkuMi0xMDQgNDktMTE3LjQgMTQwLjIgMzUzaC0xMDMuNGwtMjQtNjMuMmgtMTMzLjZ6TTE5Mi44IDQxNi42YzguOCA4LjQgMTMuMiAxOS44IDEzLjIgMzRzLTMuOCAyNS42LTExLjYgMzRjLTguNiA5LjQtMjQuMiAxNC00Ny4yIDE0SDExMS44VjQwNGgzNS42YzIxLjQgMCAzNi42IDQuMiA0NS40IDEyLjZ6IG0tODEgMTUwLjhoNjEuMmMxNi44IDAuMiAzMy4yLTEuOCA0OS40LTZsMTUuOC00Ni40IDQ0LjItMTI5LjRjLTMuNC01LjItNy4yLTEwLTExLjYtMTQuNC0yMi42LTIzLjgtNTUuOC0zNS44LTk5LjQtMzUuOEgxNy42djM1M2g5NC4ydi0xMjF6IG01NDQuNCAxMjEuMmwxNTAtMzUzaC05OS40bC0xMDIuNiAyMjguMi03My0yMjguMmgtNzYuNGwtNzguNCAyMjguMi01NS4yLTEwNC01MCAxNDYuMiA1MC44IDgyLjhoOTcuOEw0OTAuNiA0ODRsNjcuNiAyMDQuNmg5OHoiIHAtaWQ9IjE1NTgyIj48L3BhdGg+PC9zdmc+" />)</a>
-                    <span id="icon010" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/pwa" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera in a web application that uses RequireJS."><a class="button title" href="foundational-api-samples/hello-world/requirejs.html">Hello
-                        World with
-                        RequireJS (<img alt="RequireJS logo"
-                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzU2Nzk4MzA2MjM4IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9Ijk3NDciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTI2Ny4xMTQ1IDk3Ni41OThoMzYuMTI2bC0zMy44MTIgMzMuODFjLTcuNDI0IDcuNDI0IDMuNzE2IDE4LjU2NCAxMS4xNCAxMS4xNGw0NC45NS00NC45NWgxNy4xMjRsLTMzLjgxIDMzLjgxYy03LjM5NiA3LjM5NiAzLjc0NCAxOC41MzQgMTEuMTQgMTEuMTRsNDQuOTUtNDQuOTVoMTcuMTI0bC0zMy44MTIgMzMuODFjLTcuMzY0IDcuMzY2IDMuNzc0IDE4LjUwNiAxMS4xNCAxMS4xNGw0NC45NS00NC45NWgxNy4xMjRsLTMzLjgxIDMzLjgxYy03LjQzMiA3LjQzMiAzLjcwNiAxOC41NzIgMTEuMTQgMTEuMTRsNDQuOTUtNDQuOTVoMjE3LjI0djMxLjQ5NmwxMTAuMjU4LTQ3LjI2Ni0xMTAuMjYtNDcuMjY2djMxLjQ5NmgtMjE3LjI0bC00NC45NS00NC45NTJjLTcuNDI0LTcuNDI0LTE4LjU2NCAzLjcxNC0xMS4xNCAxMS4xNGwzMy44MTIgMzMuODEyaC0xNy4xMjRsLTQ0Ljk1LTQ0Ljk1MmMtNy4zMjYtNy4zMjQtMTguNDY0IDMuODE0LTExLjE0IDExLjE0bDMzLjgxMiAzMy44MTJoLTE3LjEyNGwtNDQuOTUyLTQ0Ljk1MmMtNy40NTYtNy40NTYtMTguNTk0IDMuNjg0LTExLjE0IDExLjE0bDMzLjgxMiAzMy44MTJoLTE3LjEyNGwtNDQuOTUtNDQuOTUyYy03LjM1Ni03LjM1Ni0xOC40OTYgMy43ODQtMTEuMTQgMTEuMTRsMzMuODEyIDMzLjgxMkgyNjcuMTE0NWMtMTguMTUyIDEuMjgtMjMuMDc2IDI3LjM4OCAwIDMxLjU0eiBtMzEuMDYtOTE5LjM2Yy0yODIuOSAxNjMuMDk0LTI4Mi45IDU3My4wNDQgMCA3MzYuMTM2czYzOC40NC00MS44OCA2MzguNDQtMzY4LjA2OFM1ODEuMDcyNS0xMDUuODU0IDI5OC4xNzQ1IDU3LjI0eiBtNTEuMzEyIDY0Ny40NzhjLTIxNC43ODgtMTIzLjgyOC0yMTQuNzg4LTQzNS4wOCAwLTU1OC45MDZTODM0LjIyMDUgMTc3LjYwOCA4MzQuMjIwNSA0MjUuMjYycy0yNjkuOTQyIDQwMy4yOC00ODQuNzMyIDI3OS40NTR6TTY1My4wNjI1IDQyNS4yNmMwIDEwOC43Mi0xMTguNTAyIDE3Ny4wMzYtMjEyLjc5MiAxMjIuNjc4LTk0LjI5LTU0LjM2LTk0LjI5LTE5MC45OTQgMC0yNDUuMzU0IDk0LjI5LTU0LjM2IDIxMi43OTIgMTMuOTYgMjEyLjc5MiAxMjIuNjc2ek0zNjkuMjMyNSAxNzkuODljLTE4OC41OCAxMDguNzI4LTE4OC41OCAzODIuMDIgMCA0OTAuNzQ2czQyNS41ODQtMjcuOTIgNDI1LjU4NC0yNDUuMzc0UzU1Ny44MTI1IDcxLjE2NCAzNjkuMjMyNSAxNzkuODl6IG01MS4yOTIgNDAyLjE1Yy0xMjAuNS02OS40Ny0xMjAuNS0yNDQuMDg0IDAtMzEzLjU1NCAxMjAuNS02OS40NjggMjcxLjk0IDE3Ljg0IDI3MS45NCAxNTYuNzc2cy0xNTEuNDQgMjI2LjI0Ni0yNzEuOTQgMTU2Ljc3OHoiIGZpbGw9IiMzOUExRTciIHAtaWQ9Ijk3NDgiPjwvcGF0aD48L3N2Zz4=" />)</a>
-                    <span id="icon011" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/hello-world/requirejs.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera in a web application that uses ES6."><a class="button title" href="foundational-api-samples/hello-world/es6.html">Hello
-                        World with
-                        ES6 (<img alt="ES6 logo"
-                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzU2Nzk4MzQ3ODAzIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjEwNzY0IiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiPjxwYXRoIGQ9Ik00ODYuMjE1NjkzIDEwMTcuNTE4MDgzYzE0Ljk1MDM5MyA4LjY0MjU1NiAzMy4zNzIxNDMgOC42NDI1NTYgNDguMzIyNTM2IDBsNDAwLjYwOTA3OS0yMzEuNjU5NDA0YTQ4LjM3MzczNiA0OC4zNzM3MzYgMCAwIDAgMjQuMTY2Mzg4LTQxLjk3MzczOVYyODAuMjg5NjUyYTQ4LjUzNzU3NiA0OC41Mzc1NzYgMCAwIDAtMjQuMTY2Mzg4LTQyLjAyNDkzOUw1MzQuNTM4MjI5IDYuNDkyNjY5YTQ4LjMyMjUzNiA0OC4zMjI1MzYgMCAwIDAtNDguMzgzOTc2IDBMODUuNjA2NjEzIDIzOC4yMDMyNzNBNDguNDg2Mzc2IDQ4LjQ4NjM3NiAwIDAgMCA2MS40NDAyMjUgMjgwLjM0MDg1MnY0NjMuNjA1NTI4YzAgMTcuMzA1NTkxIDkuMjE1OTk1IDMzLjMyMDk0MyAyNC4xNjYzODggNDEuOTczNzM5bDQwMC42MDkwOCAyMzEuNjQ5MTY0IiBmaWxsPSIjRjNENjAwIiBwLWlkPSIxMDc2NSI+PC9wYXRoPjxwYXRoIGQ9Ik0yMzUuNTIwMTM4IDcwMC4xMTkyMDJWMzMwLjc5MzMwN2gxNTcuNjk1OTIxdjQ5Ljc5NzA5NUgyODguNDMwMTkydjEwOC40MTA4MjVoOTEuMjk5Nzk0djQ5Ljc5NzA5NmgtOTEuMjk5Nzk0djEwOC40MjEwNjVIMzkzLjIxNjA1OXY1Mi44OTk4MTR6TTU5OC42MzAzNTcgNDM3LjEzNTY1M2gtNTIuOTEwMDU0di0xMS45Mzk4MzRjMC0xMi4xMDM2NzQtMi44NTY5NTktMjIuNTU4NzA5LTguNTYwNjM2LTMxLjM3NTM0NC01LjcwMzY3Ny04LjgxNjYzNi0xNS4zMDg3OTItMTMuMjMwMDczLTI4Ljc5NDg2NS0xMy4yMzAwNzMtNy4yNjAxNTYgMC0xMy4xMzc5MTMgMS4zODIzOTktMTcuNjMzMjcxIDQuMTQ3MTk4LTQuNDk1MzU4IDIuNzY0Nzk5LTguMTMwNTU2IDYuMjI1OTE3LTEwLjg5NTM1NSAxMC4zNzMxMTQtMi43NjQ3OTkgNC41MDU1OTgtNC42Njk0MzggOS42MDUxMTUtNS43MDM2NzcgMTUuMzA4NzkzYTk5LjkwMTM5IDk5LjkwMTM5IDAgMCAwLTEuNTU2NDc5IDE3Ljg4OTI3MWMwIDcuMjcwMzk2IDAuMjU2IDEzLjMxMTk5MyAwLjc3ODIzOSAxOC4xNTU1MTEgMC41MTIgNC44NDM1MTggMS44MTI0NzkgOS4xNjQ3OTUgMy44OTExOTggMTIuOTc0MDczIDIuMDc4NzE5IDMuNzk5MDM4IDUuMDk5NTE3IDcuMDg2MDc2IDkuMDcyNjM2IDkuODUwODc1IDMuOTgzMzU4IDIuNzY0Nzk5IDkuNDIwNzk1IDUuNTI5NTk3IDE2LjM0MzAzMiA4LjI5NDM5Nmw0MC40NTgyMTkgMTYuMDg3MDMyYzExLjc2NTc1NCA0LjUwNTU5OCAyMS4yNjg0NjkgOS43Njg5NTUgMjguNTM4ODY2IDE1LjgyMDc5MmE2OC40MDMxNjYgNjguNDAzMTY2IDAgMCAxIDE3LjExMTAzMiAyMS4wMTI0N2MzLjgwOTI3OCA4LjI5NDM5NiA2LjM5OTk5NyAxNy43MTUxOTEgNy43ODIzOTYgMjguMjYyMzg2IDEuMzgyMzk5IDEwLjU0NzE5NSAyLjA3ODcxOSAyMi41Njg5NDkgMi4wNzg3MTkgMzYuMDU1MDIyIDAgMTUuNTY0NzkyLTEuNTU2NDc5IDMwLjAwMzE4NS00LjY2OTQzOCA0My4zMTUxNzgtMy4xMTI5NTggMTMuMzExOTkzLTguMTMwNTU2IDI0LjYzNzQyOC0xNS4wNTI3OTIgMzMuOTc2MzAzLTcuMjQ5OTE2IDkuNjg3MDM1LTE2Ljc2Mjg3MiAxNy4yOTUzNTEtMjguNTE4Mzg2IDIyLjgyNDk0OS0xMS43NjU3NTQgNS41Mjk1OTctMjYuMTExOTg3IDguMjk0Mzk2LTQzLjA1OTE3OSA4LjI5NDM5NS0xMi43OTk5OTQgMC0yNC43Mjk1ODgtMi4yNTI3OTktMzUuNzg4NzgyLTYuNzM3OTE2YTg1LjEzNTMxNyA4NS4xMzUzMTcgMCAwIDEtMjguNTI4NjI2LTE4LjY3Nzc1MSA5MC44Nzk5NTUgOTAuODc5OTU1IDAgMCAxLTE4Ljk0Mzk5LTI3Ljc1MDM4NmMtNC42NTkxOTgtMTAuNTQ3MTk1LTYuOTkzOTE3LTIyLjA0NjcwOS02Ljk5MzkxNy0zNC40OTg1NDNWNTk1Ljg2NTgxNGg1Mi45MTAwNTR2MTYuNjA5MjcyYzAgOS42NzY3OTUgMi44NDY3MTkgMTguNDExNTExIDguNTYwNjM2IDI2LjE5MzkwNyA1LjcwMzY3NyA3Ljc4MjM5NiAxNS4yOTg1NTIgMTEuNjczNTk0IDI4Ljc4NDYyNSAxMS42NzM1OTQgOC45OTA3MTYgMCAxNS45OTQ4NzItMS4zMDA0NzkgMjEuMDEyNDctMy44OTExOTggNS4wMTc1OTctMi42MDA5NTkgOC45MDg3OTYtNi4zMTgwNzcgMTEuNjczNTk0LTExLjE2MTU5NSAyLjc2NDc5OS00LjgzMzI3OCA0LjQwMzE5OC0xMC42MjkxMTUgNC45MTUxOTgtMTcuMzc3MjcxIDAuNTIyMjQtNi43Mzc5MTcgMC43ODg0OC0xNC4yNjQzMTMgMC43ODg0NzktMjIuNTU4NzA5IDAtOS42ODcwMzUtMC4zNDgxNi0xNy42MzMyNzEtMS4wNDQ0NzktMjMuODU5MTg4LTAuNjg2MDgtNi4yMjU5MTctMi4wNjg0NzktMTEuMjQzNTE0LTQuMTQ3MTk4LTE1LjA1Mjc5MmEyOS4xNjM1MDUgMjkuMTYzNTA1IDAgMCAwLTkuNTk0ODc1LTkuMzI4NjM2Yy0zLjk3MzExOC0yLjQyNjg3OS05LjI0NjcxNS01LjAxNzU5Ny0xNS44MjA3OTMtNy43ODIzOTZsLTM3Ljg2NzUwMS0xNS41NjQ3OTJjLTIyLjgyNDk0OS05LjMzODg3NS0zOC4xMjM1MDEtMjEuNjk4NTQ5LTQ1LjkwNTg5Ny0zNy4wODkyNjEtNy43ODIzOTYtMTUuMzkwNzEyLTExLjY3MzU5NC0zNC42NjIzODMtMTEuNjczNTk0LTU3LjgzNTQ5MSAwLTEzLjgyMzk5MyAxLjkwNDYzOS0yNi45NzIxNDcgNS43MDM2NzctMzkuNDIzOTgxIDMuODA5Mjc4LTEyLjQ1MTgzNCA5LjUxMjk1NS0yMy4xNzMxMDggMTcuMTIxMjcyLTMyLjE1MzU4NCA3LjI3MDM5Ni05LjAwMDk1NSAxNi41MTcxMTItMTYuMTc5MTkyIDI3Ljc1MDM4Ni0yMS41MzQ3MDkgMTEuMjQzNTE0LTUuMzU1NTE3IDI0LjYzNzQyOC04LjAzODM5NiA0MC4yMDIyMi04LjAzODM5NiAxMy4xMzc5MTMgMCAyNS4xNTk2NjcgMi40MTY2MzkgMzYuMDQ0NzgyIDcuMjcwMzk3YTkyLjg2NjUxNCA5Mi44NjY1MTQgMCAwIDEgMjguMjcyNjI2IDE5LjE3OTUxYzE1LjkxMjk1MiAxNi42MDkyNzIgMjMuODU5MTg4IDM1LjYyNDk0MiAyMy44NTkxODggNTcuMDY3NDkxdjI1LjkzNzkwN3pNNzY5LjI5MDExMSAzMzAuNzkzMzA3TDcwOS4xMTk5MDEgNDg1Ljg4ODI2OWwxLjAyNCAxLjA0NDQ4YzEuNzQwNzk5LTEuMzgyMzk5IDQuNDEzNDM4LTIuNTA4Nzk5IDguMDQ4NjM2LTMuMzc5MTk5IDMuNjM1MTk4LTAuODYwMTYgOC4zODY1NTYtMS4yOTAyMzkgMTQuMjY0MzEzLTEuMjkwMjM5IDkuMzM4ODc1IDAgMTcuOTgxNDMxIDIuMjUyNzk5IDI1LjkzNzkwNyA2LjczNzkxNiA3Ljk1NjQ3NiA0LjUwNTU5OCAxNC4xODIzOTMgMTAuMTk5MDM1IDE4LjY3Nzc1IDE3LjEyMTI3MiAyLjQxNjYzOSAzLjc5OTAzOCA0LjMyMTI3OCA3LjYwODMxNiA1LjcwMzY3OCAxMS40MDczNTQgMS4zODIzOTkgMy44MDkyNzggMi41OTA3MTkgOC44MjY4NzYgMy42MjQ5NTggMTUuMDUyNzkzIDAuNjk2MzIgNi4yMTU2NzcgMS4yMTg1NTkgMTQuMDkwMjMzIDEuNTU2NDc5IDIzLjU5Mjk0OCAwLjM0ODE2IDkuNTEyOTU1IDAuNTIyMjQgMjEuNTM0NzA5IDAuNTIyMjQgMzYuMDQ0NzgyIDAgMTIuMTEzOTE0LTAuMTc0MDggMjIuMDU2OTQ5LTAuNTEyIDI5LjgzOTM0NS0wLjM0ODE2IDcuNzgyMzk2LTAuODcwNCAxNC4yNjQzMTMtMS41NjY3MTkgMTkuNDU1OTktMS4wMjM5OTkgNS41Mjk1OTctMi4zMzQ3MTkgMTAuMTk5MDM1LTMuODkxMTk4IDEzLjk5ODA3M2E5NS44NDYzNTIgOTUuODQ2MzUyIDAgMCAxLTUuOTU5Njc3IDExLjkyOTU5NCA3MS41NDY4NDQgNzEuNTQ2ODQ0IDAgMCAxLTI3Ljc1MDM4NiAyNi40NjAxNDdjLTExLjU5MTY3NCA2LjIxNTY3Ny0yNC42Mzc0MjggOS4zMjg2MzUtMzkuMTY3OTgxIDkuMzI4NjM1LTE0LjUyMDMxMyAwLTI3LjQ5NDM4Ni0zLjE5NDg3OC0zOC45MTE5OC05LjU5NDg3NWE3NS4zODY4NDIgNzUuMzg2ODQyIDAgMCAxLTI3LjQ4NDE0Ny0yNi4xOTM5MDcgNjguNDIzNjQ2IDY4LjQyMzY0NiAwIDAgMS02LjQ4MTkxNi0xMS45Mjk1OTRjLTEuNTU2NDc5LTMuNzk5MDM4LTIuNjgyODc5LTguNDY4NDc2LTMuMzc5MTk5LTE0LjAwODMxMy0xLjAyMzk5OS01LjE4MTQzNy0xLjcyMDMxOS0xMS42NzM1OTQtMi4wNjg0NzktMTkuNDU1OTlzLTAuNTEyLTE3LjcxNTE5MS0wLjUxMTk5OS0yOS44MTg4NjVjMC0xMS40MTc1OTQgMC4xNjM4NC0yMC44MzgzOSAwLjUxMTk5OS0yOC4yNjIzODYgMC4zNDgxNi03LjQ0NDQ3NiAwLjg2MDE2LTEzLjkyNjM5MyAxLjU1NjQ4LTE5LjQ1NTk5IDAuNjk2MzItNS4xOTE2NzcgMS43MzA1NTktOS45NDMwMzUgMy4xMTI5NTgtMTQuMjc0NTUzIDEuMzgyMzk5LTQuMzIxMjc4IDIuOTM4ODc5LTguOTA4Nzk2IDQuNjY5NDM4LTEzLjc0MjA3M2w2OS41MDkwODUtMTg1LjcwMjMwN2g1OS4xMzU5N3ogbS0zMy43MjAzMDMgMjI0LjYwNDA0N2MwLTcuOTQ2MjM2LTIuNTkwNzE5LTE0LjM0NjIzMy03Ljc4MjM5Ni0xOS4xODk3NWEyNS43NzQwNjcgMjUuNzc0MDY3IDAgMCAwLTE4LjE1NTUxMS03LjI3MDM5NmMtNi45MTE5OTcgMC0xMi45NjM4MzQgMi40MjY4NzktMTguMTU1NTExIDcuMjcwMzk2LTUuMTgxNDM3IDQuODQzNTE4LTcuNzgyMzk2IDExLjI0MzUxNC03Ljc4MjM5NiAxOS4xODk3NXY2OC40NzQ4NDZjMCA3Ljk1NjQ3NiAyLjYwMDk1OSAxNC4zNDYyMzMgNy43ODIzOTYgMTkuMTg5NzUgNS4xOTE2NzcgNC44NDM1MTggMTEuMjQzNTE0IDcuMjcwMzk2IDE4LjE1NTUxMSA3LjI3MDM5NyA2LjkyMjIzNyAwIDEyLjk3NDA3NC0yLjQyNjg3OSAxOC4xNTU1MTEtNy4yNzAzOTcgNS4xOTE2NzctNC44NDM1MTggNy43ODIzOTYtMTEuMjMzMjc0IDcuNzgyMzk2LTE5LjE4OTc1di02OC40NzQ4NDZ6IiBmaWxsPSIjMjAxOTBFIiBwLWlkPSIxMDc2NiI+PC9wYXRoPjwvc3ZnPg==" />)</a>
-                    <span id="icon012" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/es6.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read barcodes from camera in WebView." target="_blank"><a class="button title" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/webview">
-                    Hello World in
-                    WebView (<img alt = "WebView logo"
-                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzU2Nzk4MTMzMTE2IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjY1ODciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTMzNS4xMjcyNzMgNDY1LjQ1NDU0NUgxMzAuMzI3MjczQzU1Ljg1NDU0NSA0NjUuNDU0NTQ1IDAgNDA5LjYgMCAzMzUuMTI3MjczVjEzMC4zMjcyNzNDMCA1NS44NTQ1NDUgNTUuODU0NTQ1IDAgMTMwLjMyNzI3MyAwaDIwOS40NTQ1NDVDNDA5LjYgMCA0NjUuNDU0NTQ1IDU1Ljg1NDU0NSA0NjUuNDU0NTQ1IDEzMC4zMjcyNzN2MjA5LjQ1NDU0NUM0NjUuNDU0NTQ1IDQwOS42IDQwOS42IDQ2NS40NTQ1NDUgMzM1LjEyNzI3MyA0NjUuNDU0NTQ1ek0xMzAuMzI3MjczIDY5LjgxODE4MmMtMzIuNTgxODE4IDAtNTUuODU0NTQ1IDI3LjkyNzI3My01NS44NTQ1NDYgNTUuODU0NTQ1djIwOS40NTQ1NDZjMCAzMi41ODE4MTggMjcuOTI3MjczIDU1Ljg1NDU0NSA1NS44NTQ1NDYgNTUuODU0NTQ1aDIwOS40NTQ1NDVjMzIuNTgxODE4IDAgNTUuODU0NTQ1LTI3LjkyNzI3MyA1NS44NTQ1NDYtNTUuODU0NTQ1VjEzMC4zMjcyNzNjMC0zMi41ODE4MTgtMjcuOTI3MjczLTU1Ljg1NDU0NS01NS44NTQ1NDYtNTUuODU0NTQ2SDEzMC4zMjcyNzN6TTMzNS4xMjcyNzMgMTAyNEgxMzAuMzI3MjczQzU1Ljg1NDU0NSAxMDI0IDAgOTY4LjE0NTQ1NSAwIDg5My42NzI3Mjd2LTIwOS40NTQ1NDVDMCA2MTQuNCA1NS44NTQ1NDUgNTU4LjU0NTQ1NSAxMzAuMzI3MjczIDU1OC41NDU0NTVoMjA5LjQ1NDU0NWM2OS44MTgxODIgMCAxMzAuMzI3MjczIDU1Ljg1NDU0NSAxMzAuMzI3MjczIDEzMC4zMjcyNzJ2MjA5LjQ1NDU0NkM0NjUuNDU0NTQ1IDk2OC4xNDU0NTUgNDA5LjYgMTAyNCAzMzUuMTI3MjczIDEwMjR6IG0tMjA0LjgtMzk1LjYzNjM2NGMtMzIuNTgxODE4IDAtNTUuODU0NTQ1IDI3LjkyNzI3My01NS44NTQ1NDYgNTUuODU0NTQ2djIwOS40NTQ1NDVjMCAzMi41ODE4MTggMjcuOTI3MjczIDU1Ljg1NDU0NSA1NS44NTQ1NDYgNTUuODU0NTQ2aDIwOS40NTQ1NDVjMzIuNTgxODE4IDAgNTUuODU0NTQ1LTI3LjkyNzI3MyA1NS44NTQ1NDYtNTUuODU0NTQ2di0yMDkuNDU0NTQ1YzAtMzIuNTgxODE4LTI3LjkyNzI3My01NS44NTQ1NDUtNTUuODU0NTQ2LTU1Ljg1NDU0NkgxMzAuMzI3Mjczek04OTMuNjcyNzI3IDQ2NS40NTQ1NDVoLTIwOS40NTQ1NDVDNjE0LjQgNDY1LjQ1NDU0NSA1NTguNTQ1NDU1IDQwOS42IDU1OC41NDU0NTUgMzM1LjEyNzI3M1YxMzAuMzI3MjczQzU1OC41NDU0NTUgNTUuODU0NTQ1IDYxNC40IDAgNjg4Ljg3MjcyNyAwaDIwOS40NTQ1NDZDOTY4LjE0NTQ1NSAwIDEwMjQgNTUuODU0NTQ1IDEwMjQgMTMwLjMyNzI3M3YyMDkuNDU0NTQ1YzAgNjkuODE4MTgyLTU1Ljg1NDU0NSAxMjUuNjcyNzI3LTEzMC4zMjcyNzMgMTI1LjY3MjcyN3ogbS0yMDQuOC0zOTUuNjM2MzYzYy0zMi41ODE4MTggMC01NS44NTQ1NDUgMjcuOTI3MjczLTU1Ljg1NDU0NSA1NS44NTQ1NDV2MjA5LjQ1NDU0NmMwIDMyLjU4MTgxOCAyNy45MjcyNzMgNTUuODU0NTQ1IDU1Ljg1NDU0NSA1NS44NTQ1NDVoMjA5LjQ1NDU0NmMzMi41ODE4MTggMCA1NS44NTQ1NDUtMjcuOTI3MjczIDU1Ljg1NDU0NS01NS44NTQ1NDVWMTMwLjMyNzI3M2MwLTMyLjU4MTgxOC0yNy45MjcyNzMtNTUuODU0NTQ1LTU1Ljg1NDU0NS01NS44NTQ1NDZoLTIwOS40NTQ1NDZ6TTg5My42NzI3MjcgMTAyNGgtMjA5LjQ1NDU0NWMtNjkuODE4MTgyIDAtMTMwLjMyNzI3My01NS44NTQ1NDUtMTMwLjMyNzI3My0xMzAuMzI3Mjczdi0yMDkuNDU0NTQ1YzAtNjkuODE4MTgyIDU1Ljg1NDU0NS0xMzAuMzI3MjczIDEzMC4zMjcyNzMtMTMwLjMyNzI3M2gyMDkuNDU0NTQ1YzY5LjgxODE4MiAwIDEzMC4zMjcyNzMgNTUuODU0NTQ1IDEzMC4zMjcyNzMgMTMwLjMyNzI3M3YyMDkuNDU0NTQ1YzAgNzQuNDcyNzI3LTU1Ljg1NDU0NSAxMzAuMzI3MjczLTEzMC4zMjcyNzMgMTMwLjMyNzI3M3ogbS0yMDQuOC0zOTUuNjM2MzY0Yy0zMi41ODE4MTggMC01NS44NTQ1NDUgMjcuOTI3MjczLTU1Ljg1NDU0NSA1NS44NTQ1NDZ2MjA5LjQ1NDU0NWMwIDMyLjU4MTgxOCAyNy45MjcyNzMgNTUuODU0NTQ1IDU1Ljg1NDU0NSA1NS44NTQ1NDZoMjA5LjQ1NDU0NmMzMi41ODE4MTggMCA1NS44NTQ1NDUtMjcuOTI3MjczIDU1Ljg1NDU0NS01NS44NTQ1NDZ2LTIwOS40NTQ1NDVjMC0zMi41ODE4MTgtMjcuOTI3MjczLTU1Ljg1NDU0NS01NS44NTQ1NDUtNTUuODU0NTQ2aC0yMDkuNDU0NTQ2eiIgZmlsbD0iIzE5MTkxOSIgcC1pZD0iNjU4OCI+PC9wYXRoPjwvc3ZnPg==" />)</a>
-                        <span id="icon007" class="tooltipIcon"></span>
-                <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/webview" title="Check code on GitHub"></a></span>
-            </div>
-            </div>
-            <div class="file">Use Case</div>
-            <div class="children">
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="up" aria-label="Read barcodes to fill a form."><a class="button title" href="foundational-api-samples/use-case/fill-a-form-with-barcode-reading.html">Read Video and
-                        Fill a
-                        Form</a><span id="icon041" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/use-case/fill-a-form-with-barcode-reading.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="up" aria-label="Read the PDF417 barcode on a driver's
-                    license (AAMVA compliant) and parse it."><a class="button title" href="foundational-api-samples/use-case/read-a-drivers-license/index.html">Read a
-                        Driver's License</a><span id="icon042" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/use-case/read-a-drivers-license/index.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="up" aria-label="Read barcodes from camera and show result texts on the video."><a class="button title" href="foundational-api-samples/use-case/show-result-texts-on-the-video.html">Show Result Texts on the Video</a><span id="icon042" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/use-case/show-result-texts-on-the-video.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="up" aria-label="Locate an item quickly by scanning barcodes."><a class="button title" href="foundational-api-samples/use-case/locate-an-item-with-barcode/index.html">Find Item via Barcode</a><span id="icon042" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/use-case/locate-an-item-with-barcode/index.html" title="Check code on GitHub"></a></span>
-                </div>
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="up" aria-label="Read the GS1-AI barcode and parse it."><a class="button title" href="foundational-api-samples/use-case/read-and-parse-GS1-AI/index.html">Read the GS1-AI Barcode and Parse It</a><span id="icon042" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/foundational-api-samples/use-case/read-and-parse-GS1-AI/index.html" title="Check code on GitHub"></a></span>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Display decoded barcode text overlaid on the live camera video."><a class="button title demo-link" href="scenarios/show-result-texts-on-the-video.html" title="View live demo">Show Result Texts on Video</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/show-result-texts-on-the-video.html" title="View source code on GitHub">Source</a></span>
                 </div>
             </div>
-            <div class="file">Others</div>
+
+            <div class="file">Barcode Type Focused</div>
             <div class="children">
-                <div class="file"><span data-balloon-length="large" data-balloon-pos="up" aria-label="Collect image frames which failed to be read for debugging purposes."><a class="button title" target="_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/others/debug">Collect
-                        Images for Debugging</a><span id="icon051" class="tooltipIcon"></span>
-                    <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/others/debug" title="Check code on GitHub"></a></span>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="QR code targeted demo with optimized settings."><a class="button title demo-link" href="scenarios/scan-qr-code/index.html" title="View live demo">Scan QR Code</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-qr-code" title="View source code on GitHub">Source</a></span>
+                </div>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="DataMatrix code targeted demo with optimized settings."><a class="button title demo-link" href="scenarios/scan-datamatrix-code/index.html" title="View live demo">Scan DataMatrix Code</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-datamatrix-code" title="View source code on GitHub">Source</a></span>
+                </div>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Demo focused on decoding common 2D barcode formats."><a class="button title demo-link" href="scenarios/scan-common-2D-codes/index.html" title="View live demo">Scan Common 2D Codes</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-common-2D-codes" title="View source code on GitHub">Source</a></span>
+                </div>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="1D retail barcode tuning example (EAN, UPC, etc.)."><a class="button title demo-link" href="scenarios/scan-1D-Retail/index.html" title="View live demo">Scan 1D Retail Barcodes</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-1D-Retail" title="View source code on GitHub">Source</a></span>
+                </div>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="1D industrial barcode tuning example (Code 39, Code 128, etc.)."><a class="button title demo-link" href="scenarios/scan-1D-Industrial/index.html" title="View live demo">Scan 1D Industrial Barcodes</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-1D-Industrial" title="View source code on GitHub">Source</a></span>
+                </div>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Demo configured to detect a wide range of barcode formats."><a class="button title demo-link" href="scenarios/scan-any-codes/index.html" title="View live demo">Scan Any Codes</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-any-codes" title="View source code on GitHub">Source</a></span>
+                </div>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Demo for scanning barcodes from a distance with zoom and ROI tuning."><a class="button title demo-link" href="scenarios/scan-from-distance/index.html" title="View live demo">Scan from Distance</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-from-distance" title="View source code on GitHub">Source</a></span>
+                </div>
+            </div>
+
+            <div class="file">Data Parsing</div>
+            <div class="children">
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Read the PDF417 barcode on a driver's license (AAMVA compliant) and parse it."><a class="button title demo-link" href="scenarios/read-a-drivers-license/index.html" title="View live demo">Read a Driver's License</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-a-drivers-license" title="View source code on GitHub">Source</a></span>
+                </div>
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Example showing GS1 AI parsing and data extraction."><a class="button title demo-link" href="scenarios/read-and-parse-GS1-AI/index.html" title="View live demo">Read and Parse GS1-AI</a><a class="button title source-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-and-parse-GS1-AI" title="View source code on GitHub">Source</a></span>
+                </div>
+            </div>
+
+            <div class="file">Utilities</div>
+            <div class="children">
+                <div class="file"><span data-balloon-length="large" data-balloon-pos="down" aria-label="Debug utilities and frame collector for testing and troubleshooting."><a class="button title github-link" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/debug" title="View source code on GitHub">Debug Tools</a></span>
                 </div>
             </div>
         </div>
-        <div class="file"><span data-balloon-length="large" data-balloon-pos="up" aria-label="Official demo for Dynamsoft Barcode Reader JavaScript Edition"><a class="button title" href="https://demo.dynamsoft.com/barcode-reader-js/" target="_blank">Official Online Demo</a>
-            <span id="icon051" class="tooltipIcon"></span>
-            <a class="github" href="https://github.com/Dynamsoft/barcode-reader-javascript-demo" title="Check code on GitHub"></a></span>
-        </div>
+
+        <!-- Back to Top Button -->
+        <button id="backToTop" class="back-to-top" title="Back to top" aria-label="Back to top">
+            ↑
+        </button>
     </div>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const allSamples = document.querySelectorAll('.filetree .children .file:has(span)');
+            const categories = document.querySelectorAll('.filetree .children > .file:not(:has(span))');
+
+            allSamples.forEach(sample => {
+                const text = sample.textContent.toLowerCase();
+                const label = sample.querySelector('span')?.getAttribute('aria-label')?.toLowerCase() || '';
+
+                if (text.includes(searchTerm) || label.includes(searchTerm)) {
+                    sample.style.display = 'block';
+                } else {
+                    sample.style.display = 'none';
+                }
+            });
+
+            // Hide empty categories
+            categories.forEach(category => {
+                const nextSibling = category.nextElementSibling;
+                if (nextSibling && nextSibling.classList.contains('children')) {
+                    const visibleItems = Array.from(nextSibling.querySelectorAll('.file:has(span)')).filter(item => item.style.display !== 'none');
+                    if (visibleItems.length === 0 && searchTerm !== '') {
+                        category.style.display = 'none';
+                    } else {
+                        category.style.display = 'block';
+                    }
+                }
+            });
+        });
+
+        // Back to top button
+        const backToTopButton = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 </body>
 
 </html>
