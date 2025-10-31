@@ -86,9 +86,79 @@
     },
     {
       "Name": "task-read-barcodes-decode-image",
+      "ExpectedBarcodesCount": 999,
+      "MaxThreadsInOneTask": 1,
       "BarcodeFormatIds": ["BF_ALL"],
-      "BaseBarcodeReaderTaskSettingName": "task-read-barcodes-read-rate",
-      "ExpectedBarcodesCount": 999
+      "SectionArray": [
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip-read-barcodes-read-rate",
+          "StageArray": [
+            {
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                },                
+                {
+                  "Mode": "LM_LINES"
+                },
+                {
+                  "Mode": "LM_STATISTICS"
+                },
+                {
+                  "Mode": "LM_NEURAL_NETWORK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip-read-barcodes-read-rate",
+          "StageArray": [
+            {
+              "Stage": "SST_DECODE_BARCODES",
+              "DeblurModes": [
+                {
+                  "Mode": "DM_BASED_ON_LOC_BIN"
+                },
+                {
+                  "Mode": "DM_THRESHOLD_BINARIZATION"
+                },
+                {
+                  "Mode": "DM_DIRECT_BINARIZATION"
+                },
+                {
+                  "Mode": "DM_NEURAL_NETWORK"
+                },  
+                {
+                  "Mode": "DM_SMOOTHING"
+                },
+                {
+                  "Mode": "DM_DEEP_ANALYSIS"
+                }
+              ]
+            },
+            {
+              "Stage": "SST_COMPLEMENT_BARCODE",
+              "BarcodeComplementModes": [
+                {
+                  "Mode": "BCM_GENERAL" 
+                }
+              ]
+            },
+            {
+              "Stage": "SST_RESIST_DEFORMATION",
+              "DeformationResistingModes": [
+                {
+                  "Mode" : "DRM_AUTO"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "ImageParameterOptions": [

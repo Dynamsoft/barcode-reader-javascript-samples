@@ -10,7 +10,7 @@
       "SectionArray": [
         {
           "Section": "ST_BARCODE_LOCALIZATION",
-          "ImageParameterName": "ip_localize_barcode",
+          "ImageParameterName": "ip",
           "StageArray": [
             {
               "LocalizationModes": [
@@ -30,7 +30,7 @@
         },
         {
           "Section": "ST_BARCODE_DECODING",
-          "ImageParameterName": "ip_decode_barcode",
+          "ImageParameterName": "ip",
           "StageArray": [
             {
               "DeblurModes": [
@@ -57,62 +57,12 @@
       "Name": "ReadDriversLicense",
       "ImageROIProcessingNameArray": [
         "roi_pdf417_barcode"
-      ],
-      "SemanticProcessingNameArray": [
-        "sp_dl"
       ]
     }
   ],
   "ImageParameterOptions": [
     {
-      "Name": "ip_localize_barcode",
-      "ApplicableStages": [
-        {
-          "Stage": "SST_INPUT_COLOR_IMAGE"
-        },
-        {
-          "Stage": "SST_SCALE_IMAGE"
-        },
-        {
-          "Stage": "SST_CONVERT_TO_GRAYSCALE"
-        },
-        {
-          "Stage": "SST_TRANSFORM_GRAYSCALE"
-        },
-        {
-          "Stage": "SST_ENHANCE_GRAYSCALE"
-        },
-        {
-          "Stage": "SST_BINARIZE_IMAGE"
-        },
-        {
-          "Stage": "SST_DETECT_TEXTURE"
-        },
-        {
-          "Stage": "SST_REMOVE_TEXTURE_FROM_GRAYSCALE"
-        },
-        {
-          "Stage": "SST_BINARIZE_TEXTURE_REMOVED_GRAYSCALE"
-        },
-        {
-          "Stage": "SST_FIND_CONTOURS"
-        },
-        {
-          "Stage": "SST_DETECT_SHORTLINES"
-        },
-        {
-          "Stage": "SST_ASSEMBLE_LINES"
-        },
-        {
-          "Stage": "SST_DETECT_TEXT_ZONES"
-        },
-        {
-          "Stage": "SST_REMOVE_TEXT_ZONES_FROM_BINARY"
-        }
-      ]
-    },
-    {
-      "Name": "ip_decode_barcode",
+      "Name": "ip",
       "ApplicableStages": [
         {
           "Stage": "SST_INPUT_COLOR_IMAGE"
@@ -168,29 +118,6 @@
       "Name": "roi_pdf417_barcode",
       "TaskSettingNameArray": [
         "task_pdf417_barcode"
-      ]
-    }
-  ],
-  "SemanticProcessingOptions": [
-    {
-      "Name": "sp_dl",
-      "ReferenceObjectFilter": {
-        "ReferenceTargetROIDefNameArray": [
-          "roi_pdf417_barcode"
-        ]
-      },
-      "TaskSettingNameArray": [
-        "dcp_dl"
-      ]
-    }
-  ],
-  "CodeParserTaskSettingOptions": [
-    {
-      "Name": "dcp_dl",
-      "CodeSpecifications": [
-        "AAMVA_DL_ID",
-        "AAMVA_DL_ID_WITH_MAG_STRIPE",
-        "SOUTH_AFRICA_DL"
       ]
     }
   ]

@@ -1,11 +1,21 @@
-# Scan From Distance
+# 🔭 Scan From Distance
 
-This sample demonstrates techniques for scanning barcodes from a distance, including ROI, zoom and resolution tuning with the Dynamsoft Barcode Reader (JavaScript edition).
+A demo that demonstrates techniques for scanning barcodes from a distance (ROI, zoom and resolution tuning) using the Dynamsoft Barcode Reader (JavaScript edition).
 
 ## Included files
 
-- `index.html` — Demo page (camera & image input) and UI.
-- `ReadDistantBarcodes.json` — Example configuration used by the sample.
+- `index.html` — demo page (camera + UI).  
+- `ReadDistantBarcodes.json` — example configuration used by the sample.  
+
+## ✨ Features
+
+- Camera/ROI/decoder tuning for distant targets  
+- Example configuration for resolution and ROI adjustments  
+
+## 🔧 How it works
+
+- The demo adjusts camera resolution and ROI to favor distant targets, and exposes decoder parameters to improve detection at smaller apparent sizes.  
+- The sample shows common trade-offs and provides an example JSON to reproduce settings.
 
 ## Quick start
 
@@ -13,17 +23,14 @@ Opening HTML files directly may not work as expected. Instead, run a local devel
 
 1. Install the [Five Server extension](https://marketplace.visualstudio.com/items?itemName=yandeu.five-server) from the VS Code Marketplace.
 
-2. Right-click on `index.html` and select "Open with Five Server". This will serve the application at `http://127.0.0.1:5500/index.html`.
+2. Right-click on `index.html` and select "Open with Five Server".
 
-3. Allow camera access when prompted and point the camera at a barcode.
+## 💡 Tips
 
-## What this sample shows
+- Use a tripod or stable mount for distant scanning.  
+- Increase camera resolution and narrow ROI to target likely barcode areas.
 
-- Adjusting camera resolution and ROI for distant targets.
-- Using zoom/scale strategies and decoder parameters to improve distant scanning.
-- Practical trade-offs between resolution and performance.
+## 📌 Notes
 
-## Notes
-
-- Use a stable mount or tripod for consistent distant scanning results.
-- Serve via localhost/HTTPS for camera permissions; see root `README.md` for API docs.
+- Serve on localhost/HTTPS to enable camera access.  
+- For production, pair software tuning with suitable optics/camera hardware.

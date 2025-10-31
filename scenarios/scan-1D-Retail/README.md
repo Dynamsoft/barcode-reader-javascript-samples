@@ -1,11 +1,22 @@
-# Scan 1D Retail
+# 🛒 Scan 1D Retail
 
-This sample demonstrates tuning for retail 1D barcodes (high-density, damaged, or specialized 1D formats) using the Dynamsoft Barcode Reader (JavaScript edition).
+A demo tuned for retail 1D barcodes (UPC/EAN etc.) demonstrating speed and accuracy trade-offs for checkout-like scenarios.
 
 ## Included files
 
-- `index.html` — Demo page and UI.
-- `ReadOneDRetail.json` — Example configuration used by the sample.
+- `index.html` — demo page (camera + UI).  
+- `ReadOneDRetail.json` — example decoder configuration for retail 1D formats.  
+
+## ✨ Features
+
+- Optimized decoding for common retail 1D symbologies  
+- Fast decode settings for high-throughput scenarios  
+- Example configuration for quick adjustments
+
+## 🔧 How it works
+
+- The scanner uses a retail-focused config to prioritize 1D formats and reduce unnecessary decoding overhead.  
+- Results appear in a compact UI suitable for POS prototyping; parameters are stored in the JSON file for easy tuning.
 
 ## Quick start
 
@@ -13,17 +24,14 @@ Opening HTML files directly may not work as expected. Instead, run a local devel
 
 1. Install the [Five Server extension](https://marketplace.visualstudio.com/items?itemName=yandeu.five-server) from the VS Code Marketplace.
 
-2. Right-click on `index.html` and select "Open with Five Server". This will serve the application at `http://127.0.0.1:5500/index.html`.
+2. Right-click on `index.html` and select "Open with Five Server".
 
-3. Allow camera access when prompted and point the camera at a barcode.
+## 💡 Tips
 
-## What this sample shows
+- Use fixed camera mount or consistent hand positioning for fast scans.  
+- Narrow ROI to the expected barcode area to improve throughput.
 
-- Decoder parameters targeted for retail 1D symbols (damage-tolerance, scan direction).
-- Handling low-contrast or distorted barcodes.
-- Example configuration and practical tuning tips.
+## 📌 Notes
 
-## Notes
-
-- Serve via localhost/HTTPS to enable camera access.
-- See the repository root `README.md` for general instructions and API docs.
+- Serve on localhost/HTTPS to allow camera access.  
+- Replace the trial/demo license for extended evaluation.

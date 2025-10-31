@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Read a GS1 Application Identifier (AI)</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="landing-page" class="landing-page">
+      <div class="landing-title">Read a GS1 Application Identifier (AI)</div>
+      <div id="play-button" class="play-button disabled">
+        <div class="play-icon"></div>
+      </div>
+      <a href="https://www.dynamsoft.com/" target="_blank" class="logo">
+        <img src="logo-dynamsoft-blackBg-190x47-DZ66W3xz.png" alt="logo">
+      </a>
+    </div>
+    <div id="barcode-scanner-view" class="barcode-scanner-view" style="display:none;"></div>
+    <div id="result-page" class="result-page" style="display: none">
+      <canvas id="barcode-image" style="width:100%;height:30%;object-fit:fill;display:none;"></canvas>
+      <div id="barcode-text" class="barcode-text">[01]08059710154093[17]160213[3103]000210[3922]000187</div>
+      <div class="goods-name" style="display:none;">&lt;Goods Name&gt;</div>
+      <div id="gs1AI-info" class="gs1AI-info"></div>
+      <button id="back-to-scan" class="back-to-scan">Back to Scan</button>
+      <div class="powered-by-dynamsoft"></div>
+    </div>
+    <div class="dm-camera-mn-toast"></div>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.2000-beta-202510282254/dist/dbr.bundle.js"></script>
+    <script src="convert-GS1AI-title.js"></script>
+    <script>
+      const licenseString = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAwLTEwMzk4OTAwMyIsIm1haW5TZXJ2ZXJVUkwiOiJodHRwczovL21sdHMuZHluYW1zb2Z0LmNvbS8iLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMCIsInN0YW5kYnlTZXJ2ZXJVUkwiOiJodHRwczovL3NsdHMuZHluYW1zb2Z0LmNvbS8iLCJjaGVja0NvZGUiOjk0NTQ3NzkxMX0=";
+      let parser;
+      let isInitialized = false;
+
+      const elLandingPage = document.getElementById("landing-page");
+      const elPlayButton = document.getElementById("play-button");
+
+      const elBarcodeScannerView = document.getElementById("barcode-scanner-view");
+
+      const elResultPage = document.getElementById("result-page");
+      const elBarcodeImage = document.getElementById("barcode-image");
+      const ctxBarcodeImage = elBarcodeImage.getContext("2d");
+      const elBarcodeText = document.getElementById("barcode-text");
+
+      const elGs1AIInfo = document.getElementById("gs1AI-info");
+
+      const elToast = document.querySelector('.dm-camera-mn-toast');
+      
+      // Start initialization immediately in the background
+      const initPromise = (async () => {
+        try {
+          console.log("Starting background initialization...");
+          await Dynamsoft.License.LicenseManager.initLicense(licenseString, { executeNow: true });
+          console.log("License initialized.");
+
+          // Wait for spec loading (needed for parser creation)
+          await Dynamsoft.DCP.CodeParserModule.loadSpec("GS1_AI");
+          console.log("GS1_AI spec loaded.");
+          parser = await Dynamsoft.DCP.CodeParser.createInstance();
+          console.log("CodeParser instance created.");
+
+          isInitialized = true;
+          console.log("Background initialization complete!");
+
+          // Enable the play button
+          elPlayButton.classList.remove("disabled");
+        } catch (ex) {
+          alert(`Failed to initialize: ${ex?.message||ex}`);
+          throw ex;
+        }
+      })();
+
+      // Play button click handler
+      elPlayButton.addEventListener("click", async () => {
+        // Button should only be clickable when initialized, but check just in case
+        if (!isInitialized) {
+          console.warn("Button clicked before initialization complete");
+          return;
+        }
+
+        // Hide landing page and start scanner
+        elLandingPage.style.display = "none";
+        funcRunProcess();
+      });
+
+      const funcRunProcess = async () => {
+        elResultPage.style.display = "none";
+        elBarcodeScannerView.style.display = "";
+
+        let parseSuccess = false;
+
+        while(!parseSuccess){
+
+          let result;
+          try{
+            result = await funcOpenScanner();
+          }catch(ex){
+            alert(`Scanner error: ${ex.message || ex}`);
+            // if scanner throw error, most time it can't work anymore, just stop then debug
+            throw ex;
+          }
+          if (!result?.barcodeResults?.length) {
+            // Decode from an image may no result
+            alert("No barcode detected, retrying...");
+            continue;
+          }
+
+          await funcHandleBarcodeImageAndText(result);
+
+          try{
+            await funcParseResult(result);
+            parseSuccess = true;
+          }catch(ex){
+            // maybe just because format not supported
+            // you can continue and try other barcode
+            console.error(ex);
+            alert(`Parse failed: ${ex.message||ex}`);
+          }
+        }
+
+        elBarcodeScannerView.style.display = "none";
+        elResultPage.style.display = "";
+      };
+
+      const funcOpenScanner = async () => {
+        // Initialize the Dynamsoft Barcode Scanner
+        const barcodeScanner = new Dynamsoft.BarcodeScanner({
+          // Please don't forget to replace YOUR_LICENSE_KEY_HERE
+          license: licenseString,
+          templateFilePath: "./rtu_gs1.json",
+          showUploadImageButton: true,
+          container: elBarcodeScannerView,
+          scannerViewConfig: {
+            showFlashButton: true,
+            showCloseButton: false,
+            cameraSwitchControl: "toggleFrontBack",
+          },
+          onInitReady: (components) => {
+            // Do something with the foundational components
+            // Set the scan laser to be visible in cameraView
+            components.cameraView.setScanLaserVisible(true);
+
+            // Set the scan region to a rectangle with percentage values by cameraEnhancer
+            let region = {
+              x: 10,
+              y: 20,
+              width: 80,
+              height: 60,
+              isMeasuredInPercentage: true,
+            };
+            components.cameraEnhancer.setScanRegion(region);
+          },
+        });
+
+        // Launch the scanner and wait for the result
+        return await barcodeScanner.launch();
+      };
+
+      const funcHandleBarcodeImageAndText = async(result)=>{
+        
+        const barcodeResult = result.barcodeResults[0];
+
+        console.log(barcodeResult.text);
+        elBarcodeText.textContent = barcodeResult.text;
+
+        //// The sample does not currently require displaying the barcode image.
+        // const barcodeImage = result.barcodeImage;
+        // if (barcodeImage) {
+        //   //console.log(barcodeImage);
+        //   ctxBarcodeImage.canvas.width = barcodeImage.width;
+        //   ctxBarcodeImage.canvas.height = barcodeImage.height;
+        //   const imageData = new ImageData(new Uint8ClampedArray(barcodeImage.bytes), barcodeImage.width, barcodeImage.height);
+        //   ctxBarcodeImage.putImageData(imageData, 0, 0);
+        // } else {
+        //   console.warn("No barcode image available");
+        // }
+
+      }
+
+      const funcParseResult = async(result)=>{
+        
+        const barcodeResult = result.barcodeResults[0];
+
+        const strNotValidGS1AI = "Not a GS1-compliant barcode.";
+        // Parse GS1 barcode
+        let parseResult;
+        try{
+          parseResult = await parser.parse(barcodeResult.bytes);
+        }catch(ex){
+          console.error(ex);
+          throw Error(strNotValidGS1AI);
+        }
+        if (parseResult.codeType !== "GS1_AI") {
+          throw Error(strNotValidGS1AI);
+        }
+        const gs1AIInfo = JSON.parse(parseResult.jsonString).ResultInfo;
+        console.log(gs1AIInfo);
+        if (!gs1AIInfo?.length) {
+          throw Error(strNotValidGS1AI);
+        }
+
+        elGs1AIInfo.innerHTML = "";
+        for(let info of gs1AIInfo){
+          const infoAI = info.FieldName;
+          const fullDescription = info.ChildFields[0][0]?.Value;
+          const title = funcConvertGs1AIToTitle(infoAI);
+          const rawValue = info.ChildFields[0][1]?.Value;
+          let value; // friendly value
+
+          const intAI = parseInt(infoAI);
+          if(intAI >= 11 && intAI < 20){
+            const dateFields = info.ChildFields[0][1]?.ChildFields?.[0];
+            if(dateFields?.length >= 3){
+              value = `${dateFields[0].Value}-${dateFields[1].Value}-${dateFields[2].Value}`;
+            }
+          }
+
+          const div = document.createElement("div");
+          const spName = document.createElement("span");
+          spName.textContent = title || fullDescription;
+          if(title){
+            const funcShowDescription = ()=>funcShowToast(fullDescription);
+            spName.addEventListener("pointerdown", funcShowDescription);
+            spName.addEventListener("pointerover", funcShowDescription);
+            spName.classList.add("has-info");
+          }
+          div.append(spName);
+          div.append(": ");
+          div.append(value || rawValue);
+          div.append(" (AI ");
+          div.append(infoAI);
+          div.append(")");
+          elGs1AIInfo.appendChild(div);
+        }
+      };
+
+      document.getElementById("back-to-scan").addEventListener("click", funcRunProcess);
+      
+      let taskShowToast = null;
+      const funcShowToast = (info, duration = 3000)=>{
+        if(!elToast){ return; }
+        elToast.textContent = info;
+        elToast.style.display = '';
+        if(null != taskShowToast){
+          clearTimeout(taskShowToast);
+          taskShowToast = null;
+        }
+        taskShowToast = setTimeout(()=>{
+          elToast.style.display = 'none';
+          taskShowToast = null;
+        }, duration);
+      };
+    </script>
+  </body>
+</html>
