@@ -16,6 +16,9 @@
               "LocalizationModes": [
                 {
                   "Mode": "LM_CONNECTED_BLOCKS"
+                },
+                {
+                  "Mode": "LM_NEURAL_NETWORK"
                 }
               ],
               "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES"
@@ -133,6 +136,20 @@
       "TaskSettingNameArray": [
         "task_read_distant_barcodes"
       ]
+    }
+  ],
+  "CaptureVisionModelOptions": [
+    {
+      "Name": "OneDLocalization",
+        "ModelArgs": {
+          "ImageDimensionThreshold": 3000000
+      }
+    },
+    {
+      "Name": "DataMatrixQRCodeLocalization",
+        "ModelArgs": {
+          "ImageDimensionThreshold": 3000000
+      }
     }
   ]
 }

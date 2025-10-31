@@ -35,10 +35,24 @@
       ]
     }
   ],
+  "BarcodeFormatSpecificationOptions": [
+    {
+      "BarcodeFormatIds": [
+        "BF_DATAMATRIX"
+      ],
+			"EnableDataMatrixECC000-140" : 1,
+			"DataMatrixSizeOptions" : 
+			[
+				"DMS_ALL"
+			],
+      "Name": "FS_0"
+    }
+  ],
   "BarcodeReaderTaskSettingOptions": [
     {
       "Name": "Task_DataMatrix",
       "BarcodeFormatIds": ["BF_DATAMATRIX"],
+      "BarcodeFormatSpecificationNameArray" : ["FS_0"],
       "ExpectedBarcodesCount": 1,
       "MaxThreadsInOneTask": 1,
       "SectionArray": [
@@ -96,6 +110,7 @@
     {
       "Name": "Task_DataMatrix_ReadRate",
       "BarcodeFormatIds": ["BF_DATAMATRIX"],
+      "BarcodeFormatSpecificationNameArray" : ["FS_0"],
       "ExpectedBarcodesCount":999,
       "MaxThreadsInOneTask": 1,
       "SectionArray": [

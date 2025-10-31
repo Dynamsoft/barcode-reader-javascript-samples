@@ -35,10 +35,20 @@
       ]
     }
   ],
+  "BarcodeFormatSpecificationOptions": [
+    {
+      "BarcodeFormatIds": [
+        "BF_QR_CODE"
+      ],
+			"EnableQRCodeModel1" : 1,
+      "Name": "FS_0"
+    }
+  ],
   "BarcodeReaderTaskSettingOptions": [
     {
       "Name": "Task_QR",
       "BarcodeFormatIds": ["BF_QR_CODE"],
+      "BarcodeFormatSpecificationNameArray" : ["FS_0"],
       "ExpectedBarcodesCount":1,
       "MaxThreadsInOneTask": 1,
       "SectionArray": [
@@ -81,6 +91,7 @@
     {
       "Name": "Task_QR_ReadRate",
       "BarcodeFormatIds": ["BF_QR_CODE"],
+      "BarcodeFormatSpecificationNameArray" : ["FS_0"],
       "ExpectedBarcodesCount": 999,
       "MaxThreadsInOneTask": 1,
       "SectionArray": [
