@@ -59,9 +59,9 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 ### Scenarios
 
 - [pick-one-to-fill/](./scenarios/pick-one-to-fill/) — Picking the correct one from multiple candidates by scanning barcodes.
-- [cart-builder.html](./scenarios/cart-builder/) — Single-page demo illustrating adding scanned items into a shopping cart.
-- [scan-and-search.html](./scenarios/scan-and-search/) — Example that scans a barcode and performs a lookup/search operation.
-- [show-result-texts-on-the-video.html](./scenarios/show-result-texts-on-the-video/) — Overlay decoded text on live video while scanning.
+- [cart-builder/](./scenarios/cart-builder/) — Single-page demo illustrating adding scanned items into a shopping cart.
+- [scan-and-search/](./scenarios/scan-and-search/) — Example that scans a barcode and performs a lookup/search operation.
+- [show-result-texts-on-the-video/](./scenarios/show-result-texts-on-the-video/) — Overlay decoded text on live video while scanning.
 - [batch-inventory/](./scenarios/batch-inventory/) — Batch scanning workflow for inventory collection and export.
 - [read-a-drivers-license/](./scenarios/read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.
 - [read-and-parse-GS1-AI/](./scenarios/read-and-parse-GS1-AI/) — Example showing GS1 AI parsing and data extraction.
