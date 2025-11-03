@@ -92,7 +92,7 @@
       "SectionArray": [
         {
           "Section": "ST_BARCODE_LOCALIZATION",
-          "ImageParameterName": "ip-read-barcodes-read-rate",
+          "ImageParameterName": "ip-read-barcodes",
           "StageArray": [
             {
               "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
@@ -115,7 +115,7 @@
         },
         {
           "Section": "ST_BARCODE_DECODING",
-          "ImageParameterName": "ip-read-barcodes-read-rate",
+          "ImageParameterName": "ip-read-barcodes",
           "StageArray": [
             {
               "Stage": "SST_DECODE_BARCODES",
