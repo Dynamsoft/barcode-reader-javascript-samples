@@ -58,21 +58,21 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 
 ### Scenarios
 
-- [pick-one-to-fill/](./scenarios/pick-one-to-fill/)  
-- [cart-builder](./scenarios/cart-builder.html)
-- [scan-and-search](./scenarios/scan-and-search.html)  
-- [show-result-texts-on-the-video](./scenarios/show-result-texts-on-the-video.html)  
-- [batch-inventory/](./scenarios/batch-inventory/)  
-- [read-a-drivers-license/](./scenarios/read-a-drivers-license/)  
-- [read-and-parse-GS1-AI/](./scenarios/read-and-parse-GS1-AI/)  
-- [scan-qr-code/](./scenarios/scan-qr-code/)  
-- [scan-any-codes/](./scenarios/scan-any-codes/)  
-- [scan-common-2D-codes/](./scenarios/scan-common-2D-codes/)  
-- [scan-1D-Retail/](./scenarios/scan-1D-Retail/)  
-- [scan-1D-Industrial/](./scenarios/scan-1D-Industrial/)  
-- [scan-from-distance/](./scenarios/scan-from-distance/)  
-- [locate-an-item-with-barcode/](./scenarios/locate-an-item-with-barcode/)  
-- [debug/](./scenarios/debug/)
+- [pick-one-to-fill/](./scenarios/pick-one-to-fill/) — Picking the correct one from multiple candidates by scanning barcodes.
+- [cart-builder.html](./scenarios/cart-builder/) — Single-page demo illustrating adding scanned items into a shopping cart.
+- [scan-and-search.html](./scenarios/scan-and-search/) — Example that scans a barcode and performs a lookup/search operation.
+- [show-result-texts-on-the-video.html](./scenarios/show-result-texts-on-the-video/) — Overlay decoded text on live video while scanning.
+- [batch-inventory/](./scenarios/batch-inventory/) — Batch scanning workflow for inventory collection and export.
+- [read-a-drivers-license/](./scenarios/read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.
+- [read-and-parse-GS1-AI/](./scenarios/read-and-parse-GS1-AI/) — Example showing GS1 AI parsing and data extraction.
+- [scan-qr-code/](./scenarios/scan-qr-code/) — QR code targeted demo and settings.
+- [scan-any-codes/](./scenarios/scan-any-codes/) — Demo configured to detect a wide range of barcode formats.
+- [scan-common-2D-codes/](./scenarios/scan-common-2D-codes/) — Focused on common 2D barcode formats decoding.
+- [scan-1D-Retail/](./scenarios/scan-1D-Retail/) — 1D retail barcode tuning example.
+- [scan-1D-Industrial/](./scenarios/scan-1D-Industrial/) — 1D industrial barcode tuning example.
+- [scan-from-distance/](./scenarios/scan-from-distance/) — Demo for scanning barcodes from a distance (zoom/ROI tuning).
+- [locate-an-item-with-barcode/](./scenarios/locate-an-item-with-barcode/) — UI to help locate items with barcodes in a list or layout.
+- [debug/](./scenarios/debug/) — Debug utilities and a small server (frame collector) used for testing and troubleshooting.
 
 ### Official Online Demo
 

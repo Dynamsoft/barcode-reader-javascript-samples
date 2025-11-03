@@ -5,9 +5,9 @@ This directory contains focused scenario samples that show common real-world use
 Included samples
 
 - [pick-one-to-fill/](./pick-one-to-fill/) — Picking the correct one from multiple candidates by scanning barcodes.
-- [cart-builder.html](./cart-builder.html) — Single-page demo illustrating adding scanned items into a shopping cart.
-- [scan-and-search.html](./scan-and-search.html) — Example that scans a barcode and performs a lookup/search operation.
-- [show-result-texts-on-the-video.html](./show-result-texts-on-the-video.html) — Overlay decoded text on live video while scanning.
+- [cart-builder.html](./cart-builder/) — Single-page demo illustrating adding scanned items into a shopping cart.
+- [scan-and-search.html](./scan-and-search/) — Example that scans a barcode and performs a lookup/search operation.
+- [show-result-texts-on-the-video.html](./show-result-texts-on-the-video/) — Overlay decoded text on live video while scanning.
 - [batch-inventory/](./batch-inventory/) — Batch scanning workflow for inventory collection and export.
 - [read-a-drivers-license/](./read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.
 - [read-and-parse-GS1-AI/](./read-and-parse-GS1-AI/) — Example showing GS1 AI parsing and data extraction.
