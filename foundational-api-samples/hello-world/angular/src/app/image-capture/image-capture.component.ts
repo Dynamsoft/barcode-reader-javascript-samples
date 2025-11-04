@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import '../dynamsoft.config';
-import { EnumCapturedResultItemType } from 'dynamsoft-barcode-reader-bundle';
+import { EnumCapturedResultItemType, CaptureVisionRouter } from 'dynamsoft-barcode-reader-bundle';
 import type { BarcodeResultItem } from 'dynamsoft-barcode-reader-bundle';
-import { CaptureVisionRouter } from 'dynamsoft-barcode-reader-bundle';
 
 @Component({
   selector: 'app-image-capture',

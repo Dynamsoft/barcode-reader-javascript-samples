@@ -14,7 +14,7 @@
       container: barcodeScannerViewRef, 
 
       // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
-      uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/ui/barcode-scanner.ui.xml",
+      uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.2000/dist/ui/barcode-scanner.ui.xml",
 
       // showUploadImageButton: true,
       // scannerViewConfig: {

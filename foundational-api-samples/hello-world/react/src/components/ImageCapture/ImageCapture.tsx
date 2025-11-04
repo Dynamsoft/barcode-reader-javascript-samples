@@ -1,8 +1,7 @@
 import React, { ChangeEvent } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
-import { EnumCapturedResultItemType } from "dynamsoft-barcode-reader-bundle";
+import { EnumCapturedResultItemType, CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
 import type { BarcodeResultItem } from "dynamsoft-barcode-reader-bundle";
-import { CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
 import "./ImageCapture.css";
 
 class ImageCapture extends React.Component {

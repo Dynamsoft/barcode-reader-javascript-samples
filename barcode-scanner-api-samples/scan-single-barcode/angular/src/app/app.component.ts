@@ -20,10 +20,10 @@ export class AppComponent {
 
       // Specify where to render the scanner UI
       // If container is not specified, the UI will take up the full screen
-      container: this.barcodeScannerViewRef.nativeElement, 
+      container: this.barcodeScannerViewRef.nativeElement,
 
       // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
-      uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/ui/barcode-scanner.ui.xml",
+      uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.2000/dist/ui/barcode-scanner.ui.xml",
 
       // showUploadImageButton: true,
       // scannerViewConfig: {
@@ -46,7 +46,7 @@ export class AppComponent {
       alert(result.barcodeResults[0].text);
     }
   }
-  async ngOnDestroy(): Promise<void> { 
+  async ngOnDestroy(): Promise<void> {
     // Dispose of the barcode scanner when the component unmounts
     this.barcodeScanner?.dispose();
   }
