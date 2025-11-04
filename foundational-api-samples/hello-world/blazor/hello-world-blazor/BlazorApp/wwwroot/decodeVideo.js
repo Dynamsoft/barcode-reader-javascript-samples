@@ -42,7 +42,7 @@ window.startVideoDecode = async () => {
         await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
     } catch (ex) {
         let errMsg = ex.message || ex;
-        console.error(errMsg);
+        console.error(ex);
     }
 }
 
@@ -65,6 +65,6 @@ window.stopVideoDecode = async () => {
         resultsContainer.textContent = "";
     } catch (ex) {
         let errMsg = ex.message || ex;
-        console.error(errMsg);
+        console.error(ex);
     }
 }

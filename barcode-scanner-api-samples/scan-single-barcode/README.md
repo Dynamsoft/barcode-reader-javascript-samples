@@ -23,7 +23,7 @@ const config = {
   license: "YOUR-LICENSE-KEY",
   engineResourcePaths: {
     // feel free to change it to your own path
-    rootDirectory: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/",
+    rootDirectory: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.2000/dist/",
   },
   container: ".barcode-scanner-view",
 };
@@ -125,6 +125,28 @@ It allows users to dynamically select a scanning template (e.g., DPM, Dot Code, 
 
 - The scanner is disposed and recreated every time a different template is selected, ensuring the correct settings are applied.
 - You can find sample images in `./use-customized-template/`.
+
+## 🧾 5. Read and Parse GS1 AI
+
+This sample demonstrates how to read a GS1-formatted barcode string (containing Application Identifiers, AIs) and parse it into human‑readable fields using a local AI definition file.
+
+### ✨ Features
+
+- Parse GS1 AI strings into labeled fields (GTIN, expiration, batch/lot, serial, etc.).
+- Map AI keys to readable titles.
+- Browser example with a small UI (`index.html`) and styling (`style.css`).
+- Utility script (`convert-GS1AI-title.js`) that converts raw GS1 data to a structured object.
+
+### 🔧 How It Works
+
+- `index.html` provides an input area where you can paste a scanned GS1 barcode value (or test values).
+- `convert-GS1AI-title.js` parses the GS1 string into AI-value pairs and looks up human-friendly labels.
+- Parsed results are shown in the page for easy inspection or copy-paste into downstream systems.
+
+### 📌 Notes
+
+- This sample focuses on parsing and presentation; integrate the parser into your scanner workflow to convert live scan results to structured data.
+- For accurate parsing of variable-length AIs, ensure your input uses proper GS1 separators when applicable.
 
 ## 📄 See other BarcodeScanner samples
 

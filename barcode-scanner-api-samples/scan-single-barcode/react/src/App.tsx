@@ -4,10 +4,8 @@ import { BarcodeScanner, type BarcodeScannerConfig } from "dynamsoft-barcode-rea
 
 function App() {
   const barcodeScannerViewRef = useRef(null);
-  const hasRun = useRef(false); // walkaround react strict mode
   
-  useEffect(() => { 
-    if(hasRun.current){ return; } // walkaround react strict mode
+  useEffect(() => {
 
     // Configuration object for initializing the BarcodeScanner instance
     const config: BarcodeScannerConfig = {
@@ -18,7 +16,7 @@ function App() {
       container: barcodeScannerViewRef.current!, 
 
       // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
-      uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/ui/barcode-scanner.ui.xml",
+      uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.2000/dist/ui/barcode-scanner.ui.xml",
 
       // showUploadImageButton: true,
       // scannerViewConfig: {
@@ -43,14 +41,10 @@ function App() {
       }
     })();
 
-    hasRun.current = true;
-
-    //// We have bug in react strict mode.
-    //// It will be fixed in next version.
-    // return ()=>{
-    //   // Dispose of the barcode scanner when the component unmounts
-    //   barcodeScanner?.dispose();
-    // };
+    return ()=>{
+      // Dispose of the barcode scanner when the component unmounts
+      barcodeScanner?.dispose();
+    };
   }, []);
 
   return (

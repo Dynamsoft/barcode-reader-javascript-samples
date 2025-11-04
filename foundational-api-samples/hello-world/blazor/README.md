@@ -2,7 +2,7 @@
 
 [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) is a framework for building interactive client-side web apps with .NET and C#. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a Blazor application using [JavaScript Interlop](https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0#invoke-js-functions).
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.0.6000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/11.0.6000). We also used .NET 8.0 (version 8.0.8) to develop this sample. To ensure the sample app runs properly, please refer to this guide to update your .NET installation - https://learn.microsoft.com/en-us/dotnet/core/install/upgrade.
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.2.2000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/11.2.2000). We also used .NET 8.0 (version 8.0.8) to develop this sample. To ensure the sample app runs properly, please refer to this guide to update your .NET installation - https://learn.microsoft.com/en-us/dotnet/core/install/upgrade.
 
 > Note:
 >
@@ -161,7 +161,7 @@ window.startVideoDecode = async () => {
         await cvRouter.startCapturing("ReadSingleBarcode");
     } catch (ex) {
         let errMsg = ex.message || ex;
-        console.error(errMsg);
+        console.error(ex);
     }
 }
 
@@ -184,7 +184,7 @@ window.stopVideoDecode = async () => {
         resultsContainer.textContent = "";
     } catch (ex) {
         let errMsg = ex.message || ex;
-        console.error(errMsg);
+        console.error(ex);
     }
 }
 ```
@@ -261,7 +261,7 @@ window.startImageDecode = async () => {
     }
   } catch (ex) {
     let errMsg = ex.message || ex;
-    console.error(errMsg);
+    console.error(ex);
     alert(errMsg);
   } finally {
     inputElement.value = "";
@@ -283,7 +283,7 @@ Inside the `wwwroot\index.html` file, we will initialize the license and necessa
       ...
     <script src="_framework/blazor.webassembly.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/dbr.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.2000/dist/dbr.bundle.js"></script>
     <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -293,7 +293,7 @@ Inside the `wwwroot\index.html` file, we will initialize the license and necessa
       /**
        * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
        * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-       * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=11.0.6000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=11.2.2000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
        * LICENSE ALERT - THE END
        */
 

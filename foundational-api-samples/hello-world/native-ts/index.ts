@@ -1,9 +1,4 @@
-import { CoreModule } from "dynamsoft-barcode-reader-bundle";
-import { LicenseManager } from "dynamsoft-barcode-reader-bundle";
-import { CameraView, CameraEnhancer } from "dynamsoft-barcode-reader-bundle";
-import { CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
-import { MultiFrameResultCrossFilter } from "dynamsoft-barcode-reader-bundle";
-import { DecodedBarcodesResult } from "dynamsoft-barcode-reader-bundle";
+import { CoreModule, LicenseManager, CameraView, CameraEnhancer, CaptureVisionRouter, MultiFrameResultCrossFilter, DecodedBarcodesResult } from "dynamsoft-barcode-reader-bundle";
 
 // Configures the paths where the .wasm files and other necessary resources for modules are located.
 CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
@@ -67,7 +62,7 @@ let cvRouter: CaptureVisionRouter;
     await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
   } catch (ex: any) {
     let errMsg = ex.message || ex;
-    console.error(errMsg);
+    console.error(ex);
     alert(errMsg);
   }
 })();

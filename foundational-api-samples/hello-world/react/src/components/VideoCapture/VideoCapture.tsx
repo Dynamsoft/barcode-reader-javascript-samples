@@ -1,8 +1,6 @@
 import React from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
-import { CameraEnhancer, CameraView } from "dynamsoft-barcode-reader-bundle";
-import { CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
-import { MultiFrameResultCrossFilter } from "dynamsoft-barcode-reader-bundle";
+import { CameraEnhancer, CameraView, CaptureVisionRouter, MultiFrameResultCrossFilter } from "dynamsoft-barcode-reader-bundle";
 import "./VideoCapture.css";
 
 const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
@@ -83,7 +81,7 @@ class VideoCapture extends React.Component {
         console.log(componentDestroyedErrorMsg);
       } else {
         let errMsg = ex.message || ex;
-        console.error(errMsg);
+        console.error(ex);
         alert(errMsg);
       }
     }

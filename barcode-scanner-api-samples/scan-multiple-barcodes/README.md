@@ -25,7 +25,7 @@ const config = {
   license: "YOUR-LICENSE-KEY",
   engineResourcePaths: {
     // feel free to change it to your own path
-    rootDirectory: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.0.6000/dist/",
+    rootDirectory: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.2000/dist/",
   },
   container: ".barcode-scanner-view",
   scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
@@ -106,10 +106,11 @@ This project is a simple web-based inventory management tool that uses `BarcodeS
 
 Multiple samples are provided for single barcode scanning. These samples can be easily adapted to scan multiple unique barcodes by simply updating the `config` object.
 
-* [**Hello World**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode): Scan single barcode from video stream with minimum code in JavaScript.
-* [**Scan and Search**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode): Scan a barcode to retrieve the relevant product information from the database in JavaScript.
-* [**Pick one to fill**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/pick-one-to-fill): Pick one and auto-fill fields by simply opening the camera and scanning a group of barcodes.
-* [**Use customized template**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/use-customized-template): Use different customized templates for scanning various barcode types.
+* [**Hello World**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/hello-world.html): Scan single barcode from video stream with minimum code in JavaScript.
+* [**Scan and Search**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/sacn-and-search.html): Scan a barcode to retrieve the relevant product information from the database in JavaScript.
+* [**Pick one to fill**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/pick-one-to-fill): Pick one and auto-fill fields by simply opening the camera and scanning a group of barcodes.
+* [**Use customized template**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/use-customized-template): Use different customized templates for scanning various barcode types.
+* [**Read and Parse GS1-AI**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/read-and-parse-GS1-AI): Read GS1 Application Identifier (AI) barcode and parse its structured data.
 * [**Hello World in Angular**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/angular): Read single barcode from camera in an Angular application.
 * [**Hello World in React**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/react): Read single barcode from camera in a React application.
 * [**Hello World in Vue**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/vue): Read single barcode from camera in a Vue application.

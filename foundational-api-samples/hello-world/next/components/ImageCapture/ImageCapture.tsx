@@ -1,8 +1,6 @@
 import React, { useRef, useEffect, MutableRefObject, useState } from "react";
 import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
-import { EnumCapturedResultItemType } from "dynamsoft-barcode-reader-bundle";
-import { BarcodeResultItem } from "dynamsoft-barcode-reader-bundle";
-import { CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
+import { EnumCapturedResultItemType, CaptureVisionRouter, BarcodeResultItem } from "dynamsoft-barcode-reader-bundle";
 import "./ImageCapture.css";
 
 function ImageCapture() {
@@ -45,7 +43,7 @@ function ImageCapture() {
       }
     } catch (ex: any) {
       let errMsg = ex.message || ex;
-      console.error(errMsg);
+      console.error(ex);
       alert(errMsg);
     }
   };
