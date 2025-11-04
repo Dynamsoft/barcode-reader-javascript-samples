@@ -53,24 +53,6 @@
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
   <!-- <script src="../../../../dist/dbr.bundle.js"></script> -->
   <script>
-    /** LICENSE ALERT - README
-     * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
-     */
-
-    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
-
-    /**
-     * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
-     * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-     * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=11.2.2000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
-     * LICENSE ALERT - THE END
-     */
-
-    // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
-    Dynamsoft.Core.CoreModule.loadWasm();
-    Dynamsoft.DCP.CodeParserModule.loadSpec("AAMVA_DL_ID");
-    Dynamsoft.DCP.CodeParserModule.loadSpec("AAMVA_DL_ID_WITH_MAG_STRIPE");
-    Dynamsoft.DCP.CodeParserModule.loadSpec("SOUTH_AFRICA_DL");
 
     const svgStart = document.querySelector("#svg-start");
     const openImageBtn = document.querySelector("#btn-open-image");
@@ -88,6 +70,26 @@
     let oriParseInfo = {};
 
     const init = async () => {
+      
+      /** LICENSE ALERT - README
+       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+       */
+
+      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+
+      /**
+       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
+       * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?ver=11.2.2000&cVer=true#specify-the-license&utm_source=samples or contact support@dynamsoft.com.
+       * LICENSE ALERT - THE END
+       */
+
+      // Preload "BarcodeReader" module for reading barcodes. It will save time on the initial decoding by skipping the module loading.
+      await Dynamsoft.Core.CoreModule.loadWasm();
+      await Dynamsoft.DCP.CodeParserModule.loadSpec("AAMVA_DL_ID");
+      await Dynamsoft.DCP.CodeParserModule.loadSpec("AAMVA_DL_ID_WITH_MAG_STRIPE");
+      await Dynamsoft.DCP.CodeParserModule.loadSpec("SOUTH_AFRICA_DL");
+
       const parser = await Dynamsoft.DCP.CodeParser.createInstance();
 
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
