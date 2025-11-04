@@ -81,7 +81,7 @@ function VideoCapture() {
           console.log(componentDestroyedErrorMsg);
         } else {
           let errMsg = ex.message || ex;
-          console.error(errMsg);
+          console.error(ex);
           alert(errMsg);
         }
       }

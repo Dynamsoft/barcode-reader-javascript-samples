@@ -64,7 +64,7 @@ Dynamsoft.Core.CoreModule.loadWasm();
     await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
   } catch (ex) {
     let errMsg = ex.message || ex;
-    console.error(errMsg);
+    console.error(ex);
     alert(errMsg);
   }
 })();

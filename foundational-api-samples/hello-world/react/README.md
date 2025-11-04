@@ -182,7 +182,7 @@ class VideoCapture extends React.Component {
         console.log(componentDestroyedErrorMsg);
       } else {
         let errMsg = ex.message || ex;
-        console.error(errMsg);
+        console.error(ex);
         alert(errMsg);
       }
     }
@@ -275,7 +275,7 @@ class ImageCapture extends React.Component {
       }
     } catch (ex: any) {
       let errMsg = ex.message || ex;
-      console.error(errMsg);
+      console.error(ex);
       alert(errMsg);
     }
   }

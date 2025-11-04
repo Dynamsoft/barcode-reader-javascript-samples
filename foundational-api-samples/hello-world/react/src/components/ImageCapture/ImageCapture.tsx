@@ -41,7 +41,7 @@ class ImageCapture extends React.Component {
       }
     } catch (ex: any) {
       let errMsg = ex.message || ex;
-      console.error(errMsg);
+      console.error(ex);
       alert(errMsg);
     }
   }

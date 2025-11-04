@@ -172,7 +172,7 @@ onMounted(async () => {
       console.log(componentDestroyedErrorMsg);
     } else {
       let errMsg = ex.message || ex;
-      console.error(errMsg);
+      console.error(ex);
       alert(errMsg);
     }
   }
@@ -263,7 +263,7 @@ const captureImage = async (e: Event) => {
     }
   } catch (ex: any) {
     let errMsg = ex.message || ex;
-    console.error(errMsg);
+    console.error(ex);
     alert(errMsg);
   }
 }

@@ -62,7 +62,7 @@ let cvRouter: CaptureVisionRouter;
     await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
   } catch (ex: any) {
     let errMsg = ex.message || ex;
-    console.error(errMsg);
+    console.error(ex);
     alert(errMsg);
   }
 })();
