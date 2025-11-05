@@ -5,13 +5,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>
-    Dynamsoft Barcode Scanner Sample - Scan Any codes
+    Dynamsoft Barcode Scanner Sample - Scan Common 1D And 2D
   </title>
 </head>
 
 <body>
   <h1 class="barcode-scanner-title">
-    Scan Any codes
+    Scan Common 1D And 2D
   </h1>
   <!-- This div will host the barcode scanner's camera view -->
   <div class="barcode-scanner-view"></div>
@@ -31,10 +31,10 @@
         showFlashButton: true,
         cameraSwitchControl: "toggleFrontBack",
       },
-      templateFilePath:'./ReadAllBarcodeFormats.json',
-      utilizedTemplateNames:{"single": "ReadAllBarcodeFormats",
-       "multi_unique": "ReadAllBarcodeFormats", 
-       "image": "ReadAllBarcodeFormats_DecodeImage"},
+      templateFilePath:'./ReadCommon1DAnd2D.json',
+      utilizedTemplateNames:{"single": "ReadCommon1DAnd2D",
+       "multi_unique": "ReadCommon1DAnd2D", 
+       "image": "ReadCommon1DAnd2D_ReadRate"},
       onInitReady: (components) => {
         // Set the scan region to a rectangle with percentage values by cameraEnhancer
         let region = {

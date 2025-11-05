@@ -12,7 +12,7 @@ Included samples
 - [read-a-drivers-license/](./read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.
 - [read-and-parse-GS1-AI/](./read-and-parse-GS1-AI/) — Example showing GS1 AI parsing and data extraction.
 - [scan-qr-code/](./scan-qr-code/) — QR code targeted demo and settings.
-- [scan-any-codes/](./scan-any-codes/) — Demo configured to detect a wide range of barcode formats.
+- [scan-common-1D-and-2D/](./scan-common-1D-and-2D/) — Demo configured to detect a wide range of barcode formats.
 - [scan-common-2D-codes/](./scan-common-2D-codes/) — Focused on common 2D barcode formats decoding.
 - [scan-1D-Retail/](./scan-1D-Retail/) — 1D retail barcode tuning example.
 - [scan-1D-Industrial/](./scan-1D-Industrial/) — 1D industrial barcode tuning example.
