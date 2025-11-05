@@ -26,7 +26,7 @@
       <div class="powered-by-dynamsoft"></div>
     </div>
     <div class="dm-camera-mn-toast"></div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.2000/dist/dbr.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.2000-beta-202510282254/dist/dbr.bundle.js"></script>
     <script src="convert-GS1AI-title.js"></script>
     <script>
       const licenseString = "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9";
@@ -92,9 +92,9 @@
 
         while(!parseSuccess){
 
-          let result;
+          let result, is_EANUPC;
           try{
-            result = await funcOpenScanner();
+            [result, is_EANUPC] = await funcOpenScanner();
           }catch(ex){
             alert(`Scanner error: ${ex.message || ex}`);
             // if scanner throw error, most time it can't work anymore, just stop then debug
@@ -109,7 +109,7 @@
           await funcHandleBarcodeImageAndText(result);
 
           try{
-            await funcParseResult(result);
+            await funcParseResult(result, is_EANUPC);
             parseSuccess = true;
           }catch(ex){
             // maybe just because format not supported
@@ -124,6 +124,8 @@
       };
 
       const funcOpenScanner = async () => {
+        let is_EANUPC = false;
+
         // Initialize the Dynamsoft Barcode Scanner
         const barcodeScanner = new Dynamsoft.BarcodeScanner({
           // Please don't forget to replace YOUR_LICENSE_KEY_HERE
@@ -136,8 +138,22 @@
             showCloseButton: false,
             cameraSwitchControl: "toggleFrontBack",
           },
-          onInitReady: (components) => {
+          onInitReady: async(components) => {
             // Do something with the foundational components
+
+            let irr = new Dynamsoft.CVR.IntermediateResultReceiver();
+            irr.onDecodedBarcodesReceived=(result, info)=>{
+              if(!info.isSectionLevelResult && result.decodedBarcodes.length > 0){
+                const barcode = result.decodedBarcodes[0];
+                //console.log(barcode)
+                if(["EAN_8","EAN_13","UPC_A","UPC_E"].includes(barcode.formatString)){
+                  is_EANUPC = true;
+                }
+              }
+            }
+            let irrmanager = components.cvRouter.getIntermediateResultManager();
+            await irrmanager.addResultReceiver(irr);
+
             // Set the scan laser to be visible in cameraView
             components.cameraView.setScanLaserVisible(true);
 
@@ -154,7 +170,7 @@
         });
 
         // Launch the scanner and wait for the result
-        return await barcodeScanner.launch();
+        return [await barcodeScanner.launch(), is_EANUPC];
       };
 
       const funcHandleBarcodeImageAndText = async(result)=>{
@@ -178,15 +194,25 @@
 
       }
 
-      const funcParseResult = async(result)=>{
+      const funcParseResult = async(result, is_EANUPC)=>{
         
         const barcodeResult = result.barcodeResults[0];
+        let bytes = barcodeResult.bytes;
 
         const strNotValidGS1AI = "Not a GS1-compliant barcode.";
         // Parse GS1 barcode
         let parseResult;
         try{
-          parseResult = await parser.parse(barcodeResult.bytes);
+          if (is_EANUPC) {
+            if (barcodeResult.formatString === "GS1_COMPOSITE" ){
+              let barcodeText = barcodeResult.text.split('|')[0];
+              // if EAN/UPC 's length is less than 14, add zero to the front
+              let zero_count = 14 - barcodeText.length;
+              // unshift '01', 48 is '0', 49 is '1'
+              bytes = new Uint8Array([48, 49, ...new Array(zero_count).fill(48), ...bytes]);
+            }
+          } 
+          parseResult = await parser.parse(bytes);
         }catch(ex){
           console.error(ex);
           throw Error(strNotValidGS1AI);
