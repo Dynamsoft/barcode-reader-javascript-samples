@@ -66,7 +66,7 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 - [read-a-drivers-license/](./scenarios/read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.
 - [read-and-parse-GS1-AI/](./scenarios/read-and-parse-GS1-AI/) — Example showing GS1 AI parsing and data extraction.
 - [scan-qr-code/](./scenarios/scan-qr-code/) — QR code targeted demo and settings.
-- [scan-any-codes/](./scenarios/scan-any-codes/) — Demo configured to detect a wide range of barcode formats.
+- [scan-common-1D-and-2D/](./scenarios/scan-common-1D-and-2D/) — Demo configured to detect a wide range of barcode formats.
 - [scan-common-2D-codes/](./scenarios/scan-common-2D-codes/) — Focused on common 2D barcode formats decoding.
 - [scan-1D-Retail/](./scenarios/scan-1D-Retail/) — 1D retail barcode tuning example.
 - [scan-1D-Industrial/](./scenarios/scan-1D-Industrial/) — 1D industrial barcode tuning example.
