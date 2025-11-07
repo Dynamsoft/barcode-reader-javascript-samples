@@ -39,7 +39,7 @@
     {
       "Name": "Task_Industrial",
       "BarcodeFormatSpecificationNameArray": ["bfs1"],
-      "BarcodeFormatIds": ["BF_CODE_128", "BF_CODE_39", "BF_ITF", "BF_CODABAR", "BF_MSI_CODE "],
+      "BarcodeFormatIds": ["BF_CODE_128", "BF_CODE_39", "BF_ITF", "BF_CODABAR", "BF_MSI_CODE"],
       "ExpectedBarcodesCount":1,
       "MaxThreadsInOneTask": 1,
       "SectionArray": [
