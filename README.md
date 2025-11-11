@@ -41,20 +41,20 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 
 ### Frameworks
 
-- [Angular/](./frameworks/angular/)
-- [Blazor/](./frameworks/blazor/)  
-- [Capacitor/](./frameworks/capacitor/)  
-- [Electron/](./frameworks/electron/)  
-- [es6/](./frameworks/es6/)  
-- [Native-ts/](./frameworks/native-ts/)  
-- [Next/](./frameworks/next/)  
-- [Nuxt/](./frameworks/nuxt/)  
-- [PWA/](./frameworks/pwa/)  
-- [React/](./frameworks/react/)  
-- [Requirejs/](./frameworks/requirejs/)  
-- [Svelte/](./frameworks/svelte/)  
-- [Vue/](./frameworks/vue/)  
-- [Webview/](./frameworks/webview/)
+- [angular/](./frameworks/angular/) — Angular examples.
+- [blazor/](./frameworks/blazor/) — Blazor (.NET) examples.
+- [capacitor/](./frameworks/capacitor/) — Capacitor mobile hybrid examples.
+- [electron/](./frameworks/electron/) — Electron desktop examples.
+- [es6/](./frameworks/es6/) — Plain ES6 module examples.
+- [native-ts/](./frameworks/native-ts/) — Native TypeScript examples.
+- [next/](./frameworks/next/) — Next.js examples.
+- [nuxt/](./frameworks/nuxt/) — Nuxt examples.
+- [pwa/](./frameworks/pwa/) — Progressive Web App examples.
+- [react/](./frameworks/react/) — React examples.
+- [requirejs/](./frameworks/requirejs/) — RequireJS (AMD) examples.
+- [svelte/](./frameworks/svelte/) — Svelte examples.
+- [vue/](./frameworks/vue/) — Vue examples.
+- [webview/](./frameworks/webview/) — Native WebView examples for Android/iOS.
 
 ### Scenarios
 

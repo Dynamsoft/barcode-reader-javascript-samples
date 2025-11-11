@@ -12,7 +12,7 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.2.4000](htt
 
 ## Official Sample
 
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/svelte">Hello World for Vite + Svelte + TS - Source Code</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/svelte">Hello World for Vite + Svelte + TS - Source Code</a>
 
 ## Preparation
 

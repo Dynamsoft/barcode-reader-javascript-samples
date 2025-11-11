@@ -24,7 +24,7 @@ npm run start
 
 ## 📌 Customization
 
-Please refer to sample [`scan-multiple-barcodes`](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-multiple-barcodes) or check the official [documentation](https://dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/barcode-scanner-customization.html).
+Please check the official [documentation](https://dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/barcode-scanner-customization.html).
 
 ## 📄 Support
 

@@ -12,7 +12,7 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.2.4000`](ht
 
 ## Official Sample
 
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/next">Hello World in Next.js - Source Code</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/next">Hello World in Next.js - Source Code</a>
 
 ## Preparation
 

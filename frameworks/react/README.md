@@ -1,16 +1,23 @@
 # React samples
 
-This directory contains React examples demonstrating how to use the Dynamsoft Barcode Reader in React applications.
+This directory contains React-based examples demonstrating how to use the Dynamsoft Barcode Reader (JavaScript edition) in React projects.
 
-Included examples
-- scan-using-foundational-api/ — React + TypeScript example using foundational API.
-- scan-using-rtu-api/ — RTU API React example.
+**Included examples**
 
-Quick start
+- `scan-using-foundational-api/` — React + TypeScript example using the foundational API.
+- `scan-using-rtu-api/` — React example using the RTU API.
+
+## Quick start
+
 1. Change to a subexample directory, e.g.:
-   - cd scan-using-foundational-api
-2. Follow the subexample README for exact steps (typically: npm install && npm run dev).
 
-Notes
-- Run via the framework dev server to ensure module loading and camera access work correctly.
-- See the repository root README.md for general usage and license information.
+   ```bash
+   cd scan-using-foundational-api
+   ```
+
+2. Follow the subexample README for exact steps (typically: `npm install` && `npm run dev` or `npm run start`).
+
+## Notes
+
+- Run examples via the framework dev server. Opening files directly may break module loading or camera access.
+- See the repository root `README.md` for general usage and license information.

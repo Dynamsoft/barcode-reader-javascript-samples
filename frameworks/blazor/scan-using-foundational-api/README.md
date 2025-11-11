@@ -12,7 +12,7 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.2.4000`](ht
 
 ## Official Sample
 
-* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/blazor">Hello World in Blazor - Source Code</a>
+* <a target = "_blank" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/blazor">Hello World in Blazor - Source Code</a>
 
 ## Preparation
 
