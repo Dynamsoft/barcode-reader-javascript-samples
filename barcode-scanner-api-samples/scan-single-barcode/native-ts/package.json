@@ -12,7 +12,7 @@
   "dependencies": {
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-typescript": "^12.1.1",
-    "dynamsoft-barcode-reader-bundle": "11.2.2000",
+    "dynamsoft-barcode-reader-bundle": "11.2.4000",
     "rollup": "^4.24.0",
     "tslib": "^2.8.0",
     "typescript": "^5.6.3"
