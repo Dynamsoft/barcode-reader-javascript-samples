@@ -68,6 +68,7 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 - [scan-qr-code/](./scenarios/scan-qr-code/) — QR code targeted demo and settings.
 - [scan-common-1D-and-2D/](./scenarios/scan-common-1D-and-2D/) — Demo configured to detect a wide range of barcode formats.
 - [scan-common-2D-codes/](./scenarios/scan-common-2D-codes/) — Focused on common 2D barcode formats decoding.
+- [scan-datamatrix-code/](./scenarios/scan-datamatrix-code/) — DataMatrix code targeted demo with optimized settings.
 - [scan-1D-Retail/](./scenarios/scan-1D-Retail/) — 1D retail barcode tuning example.
 - [scan-1D-Industrial/](./scenarios/scan-1D-Industrial/) — 1D industrial barcode tuning example.
 - [scan-from-distance/](./scenarios/scan-from-distance/) — Demo for scanning barcodes from a distance (zoom/ROI tuning).
