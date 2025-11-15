@@ -1,5 +1,5 @@
 {
-  "name": "dbrjs-electron-sample",
+  "name": "dbrjs-electron-foundational",
   "version": "1.2.0",
   "description": "How to read barcodes from a video input in an Electron App",
   "main": "main.js",
