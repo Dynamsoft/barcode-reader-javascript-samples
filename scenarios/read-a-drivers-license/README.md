@@ -1,4 +1,4 @@
-# 🪪 Read a Driver's License
+# 🚗 Read a Driver's License
 
 A focused demo that decodes and parses barcode data from driver's license images (camera or file input). The sample demonstrates extracting structured fields (name, DOB, license number, address, etc.) using a parsing template.
 
