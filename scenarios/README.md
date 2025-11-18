@@ -10,8 +10,10 @@ Included samples
 - [show-result-texts-on-the-video/](./show-result-texts-on-the-video/) — Overlay decoded text on live video while scanning.
 - [batch-inventory/](./batch-inventory/) — Batch scanning workflow for inventory collection and export.
 - [read-a-drivers-license/](./read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.
+- [read-vin/](./read-vin/) — Demo for reading and parsing a VIN(vehicle identification number) code.
 - [read-and-parse-GS1-AI/](./read-and-parse-GS1-AI/) — Example showing GS1 AI parsing and data extraction.
 - [scan-qr-code/](./scan-qr-code/) — QR code targeted demo and settings.
+- [scan-datamatrix-code/](./scan-datamatrix-code/) — DataMatrix code targeted demo and settings.
 - [scan-common-1D-and-2D/](./scan-common-1D-and-2D/) — Demo configured to detect a wide range of barcode formats.
 - [scan-common-2D-codes/](./scan-common-2D-codes/) — Focused on common 2D barcode formats decoding.
 - [scan-1D-Retail/](./scan-1D-Retail/) — 1D retail barcode tuning example.
