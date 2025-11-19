@@ -35,7 +35,8 @@
       /* `balloon.min.css` used for tooltip styling */
       :root {
         --balloon-border-radius: 6px;
-        --balloon-color: #24292e;
+        /* use a slightly opaque background to mask underlying page text */
+        --balloon-color: rgba(36,41,46,0.95);
         --balloon-text-color: #fff;
         --balloon-font-size: 13px;
         --balloon-move: 4px;
@@ -57,14 +58,21 @@
         font-style: normal;
         text-shadow: none;
         font-size: var(--balloon-font-size);
+        /* solid background and slight blur to improve legibility over page content */
         background: var(--balloon-color);
         color: var(--balloon-text-color);
         border-radius: var(--balloon-border-radius);
         content: attr(aria-label);
-        padding: 0.5em 1em;
+        padding: 0.55em 0.9em;
         position: absolute;
+        display: inline-block;
         white-space: nowrap;
-        z-index: 10;
+        z-index: 9999;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+        -webkit-backdrop-filter: blur(3px);
+        backdrop-filter: blur(3px);
+        max-width: 90vw;
+        overflow-wrap: break-word;
       }
       [aria-label][data-balloon-pos]:before {
         width: 0;
@@ -76,7 +84,7 @@
         transition: all 0.18s ease-out 0.18s;
         content: "";
         position: absolute;
-        z-index: 10;
+        z-index: 9999;
       }
       [aria-label][data-balloon-pos]:hover:before,
       [aria-label][data-balloon-pos]:hover:after,
