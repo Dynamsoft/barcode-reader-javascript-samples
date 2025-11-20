@@ -29,14 +29,14 @@
     </style>
     <!--
         For document, copy start from here
-        search `href="frameworks` replace to `href="https://demo.dynamsoft.com/Samples/DBR/JS/frameworks`
         search `href="scenarios` replace to `href="https://demo.dynamsoft.com/Samples/DBR/JS/scenarios`
     -->
     <style>
       /* `balloon.min.css` used for tooltip styling */
       :root {
         --balloon-border-radius: 6px;
-        --balloon-color: #24292e;
+        /* use a slightly opaque background to mask underlying page text */
+        --balloon-color: rgba(36,41,46,0.95);
         --balloon-text-color: #fff;
         --balloon-font-size: 13px;
         --balloon-move: 4px;
@@ -58,14 +58,21 @@
         font-style: normal;
         text-shadow: none;
         font-size: var(--balloon-font-size);
+        /* solid background and slight blur to improve legibility over page content */
         background: var(--balloon-color);
         color: var(--balloon-text-color);
         border-radius: var(--balloon-border-radius);
         content: attr(aria-label);
-        padding: 0.5em 1em;
+        padding: 0.55em 0.9em;
         position: absolute;
+        display: inline-block;
         white-space: nowrap;
-        z-index: 10;
+        z-index: 9999;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+        -webkit-backdrop-filter: blur(3px);
+        backdrop-filter: blur(3px);
+        max-width: 90vw;
+        overflow-wrap: break-word;
       }
       [aria-label][data-balloon-pos]:before {
         width: 0;
@@ -77,7 +84,7 @@
         transition: all 0.18s ease-out 0.18s;
         content: "";
         position: absolute;
-        z-index: 10;
+        z-index: 9999;
       }
       [aria-label][data-balloon-pos]:hover:before,
       [aria-label][data-balloon-pos]:hover:after,
@@ -1272,7 +1279,7 @@
       <!-- Scenario Samples -->
       <div class="file">
         <h3>
-          Scenario Samples <span class="sample-count">(16)</span>
+          Scenario Samples <span class="sample-count">(17)</span>
           <a
             class="button title readme-link section-readme-link"
             href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/README.md"
@@ -1384,7 +1391,7 @@
             <span data-balloon-length="large" data-balloon-pos="down" aria-label="Demo focused on decoding common 2D barcode formats."
               ><a
                 class="button title demo-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-common-2D-codes/index.html"
+                href="scenarios/scan-common-2D-codes/index.html"
                 title="View live demo"
                 >Scan Common 2D Codes</a
               ><a
@@ -1449,6 +1456,17 @@
               ><a
                 class="button title source-link"
                 href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-a-drivers-license"
+                title="View source code on GitHub"
+                >Source</a
+              ></span
+            >
+          </div>
+          <div class="file">
+            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Read the VIN(vehicle identification number) code and parse it."
+              ><a class="button title demo-link" href="scenarios/read-vin/index.html" title="View live demo">Read VIN</a
+              ><a
+                class="button title source-link"
+                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-vin"
                 title="View source code on GitHub"
                 >Source</a
               ></span
