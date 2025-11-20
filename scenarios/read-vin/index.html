@@ -2,23 +2,22 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <meta name="description" content="Instantly Read PDF417 barcodes on Driver Licenses with Dynamsoft Barcode Reader." />
-  <meta name="keywords" content="read driver license barcode" />
-  <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/scenarios/read-a-drivers-license/index.html" />
-  <title>Dynamsoft Barcode Reader Sample - Read a Driver's License</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="read vin" />
+  <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/scenarios/read-vin/index.html" />
   <link rel="stylesheet" href="./style.css" />
+  <title>Dynamsoft Barcode Reader Sample - Read a VIN</title>
   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
 </head>
 
 <body>
   <div class="home-page">
-    <h1 class="home-page-title">Read a Driver's License</h1>
+    <h1 class="home-page-title">Read VIN</h1>
     <div class="start-btn">
       <div class="start-icon"></div>
       <div class="loading"></div>
-
     </div>
     <img class="logo-dynamsoft" src="./logo-dynamsoft.png" alt="logo-dynamsoft">
   </div>
@@ -41,21 +40,22 @@
 
     (async () => {
       await Dynamsoft.License.LicenseManager.initLicense(licenseString, { executeNow: true });
-      Dynamsoft.DCP.CodeParserModule.loadSpec(["AAMVA_DL_ID", "AAMVA_DL_ID_WITH_MAG_STRIPE", "SOUTH_AFRICA_DL"]);
+      Dynamsoft.DCP.CodeParserModule.loadSpec("VIN");
     })();
 
     (async () => {
+
       const pParser = Dynamsoft.DCP.CodeParser.createInstance();
 
       async function launch() {
         const scanner = new Dynamsoft.BarcodeScanner({
           license: licenseString,
-          templateFilePath: "./read_dl.json",
+          templateFilePath: "./read_vin.json",
           showUploadImageButton: true,
           utilizedTemplateNames: {
-            "single": "ReadDriversLicense",
-            "multi_unique": "ReadDriversLicense",
-            "image": "ReadDriversLicense"
+            "single": "ReadVIN",
+            "multi_unique": "ReadVIN",
+            "image": "ReadVIN"
           },
           onInitReady: () => {
             homePage.style.display = "none";
@@ -68,7 +68,7 @@
           try {
             const parser = await pParser;
             const parsedResult = await parser.parse(result.barcodeResults[0].bytes);
-            processedResult = handleDLResult(parsedResult);
+            processedResult = handleVINResult(parsedResult);
           } catch (ex) {
             processedResult = [
               { description: "Error", value: ex.message || "parse failed." },
@@ -79,55 +79,29 @@
             ]
           } finally {
             generateResultList(processedResult);
-            barcodeText.innerText = result.barcodeResults[0].text.replace(/\n/g, "");
+            barcodeText.innerText = result.barcodeResults[0].text;
           }
           parsedResultView.style.display = "block";
         }
       }
 
-      function handleDLResult(parsedResult) {
+      function handleVINResult(parsedResult) {
         const oriParseInfo = [];
         const resultInfo = JSON.parse(parsedResult.jsonString);
-        if (parsedResult.codeType === "AAMVA_DL_ID") {
-          for (let info of resultInfo.ResultInfo) {
-            if (info.FieldName !== "commonSubfile") continue;
-            if (info.ChildFields) {
-              wrapResultObject(info.ChildFields);
-            }
-          }
-        } else if (parsedResult.codeType === "AAMVA_DL_ID_WITH_MAG_STRIPE") {
-          for (let info of resultInfo.ResultInfo) {
-            if (info.FieldName.includes("track")) {
-              if (info.ChildFields) {
-                wrapResultObject(info.ChildFields);
-              }
-            }
-          }
-        } else if (parsedResult.codeType === "SOUTH_AFRICA_DL") {
-          for (let info of resultInfo.ResultInfo) {
-            if (info.ChildFields) {
-              wrapResultObject(info.ChildFields);
-            } else {
-              if (info.Value) {
-                oriParseInfo.push({
-                  description: info.FieldName,
-                  value: info.Value,
-                });
-              }
-            }
+        for (let info of resultInfo.ResultInfo) {
+          if (info.ChildFields) {
+            wrapResultObject(info.ChildFields);
           }
         }
 
         function wrapResultObject(childFields) {
           for (let childField of childFields) {
             for (let field of childField) {
-              if (!["dataElementSeparator", "segmentTerminator", "subfile", "subfileType"].includes(field.FieldName)) {
-                if (field.Value) {
-                  oriParseInfo.push({
-                    description: field.FieldName,
-                    value: field.Value,
-                  });
-                }
+              if (field.Value) {
+                oriParseInfo.push({
+                  description: field.FieldName,
+                  value: field.Value,
+                });
               }
               if (field.ChildFields) {
                 wrapResultObject(field.ChildFields);

@@ -1,0 +1,139 @@
+{
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "Name": "task_vin_barcode",
+      "MaxThreadsInOneTask": 1,
+      "ExpectedBarcodesCount": 1,
+      "BarcodeFormatIds": [
+        "BF_CODE_39",
+        "BF_CODE_128",
+        "BF_CODE_93",
+        "BF_CODABAR",
+        "BF_ITF",
+        "BF_INDUSTRIAL_25",
+        "BF_CODE_39_EXTENDED",
+        "BF_QR_CODE",
+        "BF_DATAMATRIX"
+      ],
+      "SectionArray": [
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                },
+                {
+                  "Mode": "LM_SCAN_DIRECTLY"
+                }
+              ],
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES"
+            },
+            {
+              "Stage": "SST_LOCALIZE_BARCODES"
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "DeblurModes": [
+                {
+                  "Mode": "DM_BASED_ON_LOC_BIN"
+                },
+                {
+                  "Mode": "DM_THRESHOLD_BINARIZATION"
+                },
+                {
+                  "Mode": "DM_DEEP_ANALYSIS"
+                }
+              ],
+              "Stage": "SST_DECODE_BARCODES"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "CaptureVisionTemplates": [
+    {
+      "Name": "ReadVIN",
+      "ImageROIProcessingNameArray": [
+        "roi_vin_barcode"
+      ]
+    }
+  ],
+  "ImageParameterOptions": [
+    {
+      "Name": "ip",
+      "ApplicableStages": [
+        {
+          "Stage": "SST_INPUT_COLOR_IMAGE"
+        },
+        {
+          "ImageScaleSetting": {
+            "EdgeLengthThreshold": 100000,
+            "ScaleType": "ST_SCALE_DOWN"
+          },
+          "Stage": "SST_SCALE_IMAGE"
+        },
+        {
+          "Stage": "SST_CONVERT_TO_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_TRANSFORM_GRAYSCALE",
+          "GrayscaleTransformationModes": [
+            {
+              "Mode": "GTM_ORIGINAL"
+            },
+            {
+              "Mode": "GTM_INVERTED"
+            }
+          ]
+        },
+        {
+          "Stage": "SST_ENHANCE_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_BINARIZE_IMAGE"
+        },
+        {
+          "Stage": "SST_DETECT_TEXTURE"
+        },
+        {
+          "Stage": "SST_REMOVE_TEXTURE_FROM_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_BINARIZE_TEXTURE_REMOVED_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_FIND_CONTOURS"
+        },
+        {
+          "Stage": "SST_DETECT_SHORTLINES"
+        },
+        {
+          "Stage": "SST_ASSEMBLE_LINES"
+        },
+        {
+          "Stage": "SST_DETECT_TEXT_ZONES"
+        },
+        {
+          "Stage": "SST_REMOVE_TEXT_ZONES_FROM_BINARY"
+        }
+      ]
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "roi_vin_barcode",
+      "TaskSettingNameArray": [
+        "task_vin_barcode"
+      ]
+    }
+  ]
+}

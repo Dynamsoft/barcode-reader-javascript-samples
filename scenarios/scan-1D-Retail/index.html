@@ -31,10 +31,12 @@
         showFlashButton: true,
         cameraSwitchControl: "toggleFrontBack",
       },
-      templateFilePath:'./ReadOneDRetail.json',
-      utilizedTemplateNames:{"single": "ReadOneDRetail",
-       "multi_unique": "ReadOneDRetail", 
-       "image": "ReadOneDRetail_ReadRate"},
+      templateFilePath: './ReadOneDRetail.json',
+      utilizedTemplateNames: {
+        "single": "ReadOneDRetail",
+        "multi_unique": "ReadOneDRetail",
+        "image": "ReadOneDRetail_ReadRate"
+      },
       onInitReady: (components) => {
         // Set the scan region to a rectangle with percentage values by cameraEnhancer
         let region = {
@@ -56,7 +58,7 @@
       // Display the first detected barcode's text in an alert
       if (result.barcodeResults.length) {
         alert(result.barcodeResults[0].text);
-      } else{
+      } else {
         alert("No barcode found");
       }
     });
