@@ -7,7 +7,6 @@ A focused demo that decodes and parses barcode data from driver's license images
 - `index.html` — main demo page (camera + image input UI).  
 - `SampleDriversLicense.jpg` — example license image.  
 - `read_dl.json` — JSON template used by the sample.  
-- `style.css` — page styles.
 
 ## ✨ Features
 

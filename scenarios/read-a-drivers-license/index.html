@@ -37,7 +37,7 @@
     const parsedResultList = document.querySelector(".parsed-result-list");
     const backToScan = document.querySelector(".back-to-scan");
 
-    const licenseString = "DLS2eyJoYW5kc2hha2VDb2RlIjoiODAwMC04MDAwIiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vMTkyLjE2OC44LjEyMi9kbHMvIiwib3JnYW5pemF0aW9uSUQiOiI4MDAwIiwiY2hlY2tDb2RlIjotMTA1NjUzOTM3M30=";
+    const licenseString = "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9";
 
     (async () => {
       await Dynamsoft.License.LicenseManager.initLicense(licenseString, { executeNow: true });
@@ -56,6 +56,11 @@
             "single": "ReadDriversLicense",
             "multi_unique": "ReadDriversLicense",
             "image": "ReadDriversLicense"
+          },
+          scannerViewConfig: {
+            showFlashButton: true,
+            showCloseButton: false,
+            cameraSwitchControl: "toggleFrontBack",
           },
           onInitReady: () => {
             homePage.style.display = "none";
