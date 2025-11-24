@@ -1,6 +1,0 @@
-{
-  "appId": "com.dynamsoft.dbrjs",
-  "appName": "dbrjs capacitor",
-  "webDir": "dist",
-  "bundledWebRuntime": true
-}

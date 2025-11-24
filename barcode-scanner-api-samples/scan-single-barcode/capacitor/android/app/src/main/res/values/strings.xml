@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">dbrjs capacitor</string>
-    <string name="title_activity_main">dbrjs capacitor</string>
-    <string name="package_name">com.dynamsoft.dbrjs</string>
-    <string name="custom_url_scheme">com.dynamsoft.dbrjs</string>
-</resources>
