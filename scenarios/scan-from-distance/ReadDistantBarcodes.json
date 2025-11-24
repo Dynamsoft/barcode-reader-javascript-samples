@@ -1,0 +1,155 @@
+{
+  "GlobalParameter": 
+  {
+    "IntraOpNumThreads": 2
+  },
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "ExpectedBarcodesCount": 1,
+      "Name": "task_read_distant_barcodes",
+      "SectionArray": [
+        {
+          "ImageParameterName": "ip_read_distant_barcodes",
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "StageArray": [
+            {
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                },
+                {
+                  "Mode": "LM_NEURAL_NETWORK"
+                }
+              ],
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES"
+            },
+            {
+              "Stage": "SST_LOCALIZE_BARCODES"
+            }
+          ]
+        },
+        {
+          "ImageParameterName": "ip_read_distant_barcodes",
+          "Section": "ST_BARCODE_DECODING",
+          "StageArray": [
+            {
+              "Stage": "SST_RESIST_DEFORMATION"
+            },
+            {
+              "Stage": "SST_COMPLEMENT_BARCODE"
+            },
+            {
+              "BarcodeScaleModes": [
+                {
+                  "Mode": "BSM_LINEAR_INTERPOLATION",
+                  "ModuleSizeThreshold": 4,
+                  "TargetModuleSize": 6
+                }
+              ],
+              "Stage": "SST_SCALE_BARCODE_IMAGE"
+            },
+            {
+              "Stage": "SST_DECODE_BARCODES"
+            }
+          ]
+        }
+      ],
+      "TextResultOrderModes": [
+        {
+          "Mode": "TROM_POSITION"
+        },
+        {
+          "Mode": "TROM_FORMAT"
+        },
+        {
+          "Mode": "TROM_CONFIDENCE"
+        }
+      ]
+    }
+  ],
+  "CaptureVisionTemplates": [
+    {
+      "ImageROIProcessingNameArray": [
+        "roi_read_distant_barcodes"
+      ],
+      "MaxParallelTasks": 0,
+      "Name": "ReadDistantBarcodes",
+      "Timeout": 5000
+    }
+  ],
+  "ImageParameterOptions": [
+    {
+      "ApplicableStages": [
+        {
+          "Stage": "SST_INPUT_COLOR_IMAGE"
+        },
+        {
+          "ImageScaleSetting": {
+            "EdgeLengthThreshold": 10000,
+            "ScaleType": "ST_SCALE_DOWN"
+          },
+          "Stage": "SST_SCALE_IMAGE"
+        },
+        {
+          "Stage": "SST_CONVERT_TO_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_TRANSFORM_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_ENHANCE_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_BINARIZE_IMAGE"
+        },
+        {
+          "Stage": "SST_DETECT_TEXTURE"
+        },
+        {
+          "Stage": "SST_REMOVE_TEXTURE_FROM_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_BINARIZE_TEXTURE_REMOVED_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_FIND_CONTOURS"
+        },
+        {
+          "Stage": "SST_DETECT_SHORTLINES"
+        },
+        {
+          "Stage": "SST_ASSEMBLE_LINES"
+        },
+        {
+          "Stage": "SST_DETECT_TEXT_ZONES"
+        },
+        {
+          "Stage": "SST_REMOVE_TEXT_ZONES_FROM_BINARY"
+        }
+      ],
+      "Name": "ip_read_distant_barcodes"
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "roi_read_distant_barcodes",
+      "TaskSettingNameArray": [
+        "task_read_distant_barcodes"
+      ]
+    }
+  ],
+  "CaptureVisionModelOptions": [
+    {
+      "Name": "OneDLocalization",
+        "ModelArgs": {
+          "ImageDimensionThreshold": 3000000
+      }
+    },
+    {
+      "Name": "DataMatrixQRCodeLocalization",
+        "ModelArgs": {
+          "ImageDimensionThreshold": 3000000
+      }
+    }
+  ]
+}
