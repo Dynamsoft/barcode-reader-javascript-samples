@@ -31,7 +31,7 @@ A default license is included which allows you to test the sample apps for up to
 
 ## Documentation
 
-For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.0.6000&utm_source=sampleReadme).
+For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.2.4000&utm_source=sampleReadme).
 
 ## Support
 
@@ -39,67 +39,42 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 
 ## Sample list
 
-### Barcode Scanner API samples
+### Frameworks
 
-**Scan single barcode**
+- [angular/](./frameworks/angular/) — Angular examples.
+- [blazor/](./frameworks/blazor/) — Blazor (.NET) examples.
+- [capacitor/](./frameworks/capacitor/) — Capacitor mobile hybrid examples.
+- [electron/](./frameworks/electron/) — Electron desktop examples.
+- [es6/](./frameworks/es6/) — Plain ES6 module examples.
+- [native-ts/](./frameworks/native-ts/) — Native TypeScript examples.
+- [next/](./frameworks/next/) — Next.js examples.
+- [nuxt/](./frameworks/nuxt/) — Nuxt examples.
+- [pwa/](./frameworks/pwa/) — Progressive Web App examples.
+- [react/](./frameworks/react/) — React examples.
+- [requirejs/](./frameworks/requirejs/) — RequireJS (AMD) examples.
+- [svelte/](./frameworks/svelte/) — Svelte examples.
+- [vue/](./frameworks/vue/) — Vue examples.
+- [webview/](./frameworks/webview/) — Native WebView examples for Android/iOS.
 
-Get the basic features working with plain/native JavaScript or within a framework like [Angular](https://angular.io/), [React](https://reactjs.org/) or [Vue](https://vuejs.org/), with RTU-BarcodeScanner APIs.
+### Scenarios
 
-* [**Scan Single Barcode**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/hello-world.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-single-barcode/hello-world.html?utm_source=sampleReadme): Scan single barcode from video stream with minimum code in JavaScript.
-* [**Scan And Search**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/scan-and-search.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-single-barcode/scan-and-search.html?utm_source=sampleReadme): Scan a barcode to retrieve the relevant product information from the database in JavaScript.
-* [**Pick One to Fill**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/pick-one-to-fill/index.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-single-barcode/pick-one-to-fill/index.html?utm_source=sampleReadme): Pick one and auto-fill fields by simply opening the camera and scanning a group of barcodes.
-* [**Use Customized Template**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/use-customized-template/index.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-single-barcode/use-customized-template/index.html?utm_source=sampleReadme): Use different customized templates for scanning various barcode types.
-* [**Read and Parse GS1-AI**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/read-and-parse-GS1-AI/index.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-single-barcode/read-and-parse-GS1-AI/index.html?utm_source=sampleReadme): Read GS1 Application Identifier (AI) barcode and parse its structured data.
-* [**Hello World in Angular**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/angular): Read single barcode from camera in an Angular application.
-* [**Hello World in React**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/react): Read single barcode from camera in a React application.
-* [**Hello World in Vue**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/vue): Read single barcode from camera in a Vue application.
-* [**Hello World in Svelte**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/svelte): Read single barcode from camera in a Svelte application.
-* [**Hello World in Capacitor**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/capacitor): Read single barcode from camera in a Capacitor application.
-* [**Hello World in Webview**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/webview): Read single barcode from camera in a Webview application.
-* [**Hello World in Typescript**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/native-ts): Read single barcode from camera in a Typescript application.
-* [**Hello World in Electron**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/electron): Read single barcode from camera in a Electron application.
-* [**Hello World in Blazor**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/blazor): Read single barcode from camera in a Blazor application.
-* [**Hello World in RequireJS**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/requirejs.html): Read single barcode from camera in a RequireJS application.
-* [**Hello World in ES6**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/es6.html): Read single barcode from camera in a ES6 application.
-* [**Hello World in PWA**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/barcode-scanner-api-samples/scan-single-barcode/pwa): Read single barcode from camera in a PWA application.
-
-**Scan multiple barcodes**
-
-* [**Scan Multiple Barcodes**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-multiple-barcodes/hello-world.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/hello-world.html?utm_source=sampleReadme): Scan barcodes from video stream with minimum code in JavaScript.
-* [**Cart Builder**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-multiple-barcodes/cart-builder.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/cart-builder.html?utm_source=sampleReadme): Simulates a shopping experience where users scan barcodes to add items to a dynamic cart in JavaScript.
-* [**Batch Inventory**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/barcode-scanner-api-samples/scan-multiple-barcodes/batch-inventory/index.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/barcode-scanner-api-samples/scan-multiple-barcodes/batch-inventory/index.html?utm_source=sampleReadme): An inventory management tool scan barcodes in batches and provide real-time analysis of the scanned data.
-
-### Foundational API samples
-
-**Hello World**
-
-Get the basic features of the library working with plain/native JavaScript or within a framework like [Angular](https://angular.io/), [React](https://reactjs.org/) or [Vue](https://vuejs.org/), etc.
-
-* [**Hello World**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/hello-world.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/foundational-api-samples/hello-world/hello-world.html?utm_source=sampleReadme): Scan barcodes from video stream with minimum code in JavaScript.
-* [**Read an Image**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/read-an-image.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/foundational-api-samples/hello-world/read-an-image.html?utm_source=sampleReadme): Decode barcodes from images in mobile album or desktop file system.
-* [**Hello World in Angular**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/angular#readme): Read barcodes from camera and images in an Angular application.
-* [**Hello World in Blazor**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/blazor#readme): Read barcodes from camera and images in a Blazor application.
-* [**Hello World in React**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/react#readme): Read barcodes from camera and images in a React application.
-* [**Hello World in React using Hooks**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/react-hooks#readme): Read barcodes from camera and images in a React application and use the Hooks charactor of React.
-* [**Hello World in Vue**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/vue#readme): Read barcodes from camera and images in a Vue 3 application.
-* [**Hello World in Next.js**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/next#readme): Read barcodes from camera and images in a Next.js application.
-* [**Hello World in Nuxt**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/nuxt#readme): Read barcodes from camera and images in a Nuxt application.
-* [**Hello World in Electron**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/electron#readme): Read barcodes from camera and images in a Electron application.
-* [**Hello World in PWA**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/pwa#readme): Decode video stream in a PWA application from a webcam or a built-in camera.
-* [**Hello World with RequireJS**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/requirejs.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/foundational-api-samples/hello-world/requirejs.html?utm_source=sampleReadme): Decode video stream in an application using RequireJS from a webcam or a built-in camera.
-* [**Hello World with ES6**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/es6.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/foundational-api-samples/hello-world/es6.html?utm_source=sampleReadme): Decode video stream in an application using ES6 from a webcam or a built-in camera.
-* [**Hello World in WebView**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/hello-world/webview): Decode video stream in an application in WebView from camera. 
-
-***Use Cases***
-
-* [**Read Video and Fill a Form**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/use-case/fill-a-form-with-barcode-reading.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/foundational-api-samples/use-case/fill-a-form-with-barcode-reading.html?utm_source=sampleReadme): Read barcodes to fill a form.
-* [**Read a Driver's License**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/use-case/read-a-drivers-license/index.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/foundational-api-samples/use-case/read-a-drivers-license/index.html?utm_source=sampleReadme): Read the PDF417 barcode on a driver's license (AAMVA compliant) and parse it.
-* [**Show Result Texts on the Video**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/use-case/show-result-texts-on-the-video.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/foundational-api-samples/use-case/show-result-texts-on-the-video.html?utm_source=sampleReadme): Read barcodes via camera and show result texts on the video.
-* [**Locate an Item with Barcode**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/use-case/locate-an-item-with-barcode/index.html) - [run&nearrow;](https://demo.dynamsoft.com/samples/dbr/js/foundational-api-samples/use-case/locate-an-item-with-barcode/index.html?utm_source=sampleReadme): Find a specific item in a large collection by scanning its unique barcode
-
-***Others***
-
-* [**Debug**](https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/foundational-api-samples/others/debug#readme): Collect the actual image frames for debugging purposes.
+- [pick-one-to-fill/](./scenarios/pick-one-to-fill/) — Picking the correct one from multiple candidates by scanning barcodes.
+- [cart-builder/](./scenarios/cart-builder/) — Single-page demo illustrating adding scanned items into a shopping cart.
+- [scan-and-search/](./scenarios/scan-and-search/) — Example that scans a barcode and performs a lookup/search operation.
+- [show-result-texts-on-the-video/](./scenarios/show-result-texts-on-the-video/) — Overlay decoded text on live video while scanning.
+- [batch-inventory/](./scenarios/batch-inventory/) — Batch scanning workflow for inventory collection and export.
+- [read-a-drivers-license/](./scenarios/read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.
+- [read-vin/](./scenarios/read-vin/) — Demo for reading and parsing a VIN(vehicle identification number) code.
+- [read-and-parse-GS1-AI/](./scenarios/read-and-parse-GS1-AI/) — Example showing GS1 AI parsing and data extraction.
+- [scan-qr-code/](./scenarios/scan-qr-code/) — QR code targeted demo and settings.
+- [scan-common-1D-and-2D/](./scenarios/scan-common-1D-and-2D/) — Demo configured to detect a wide range of barcode formats.
+- [scan-common-2D-codes/](./scenarios/scan-common-2D-codes/) — Focused on common 2D barcode formats decoding.
+- [scan-datamatrix-code/](./scenarios/scan-datamatrix-code/) — DataMatrix code targeted demo with optimized settings.
+- [scan-1D-Retail/](./scenarios/scan-1D-Retail/) — 1D retail barcode tuning example.
+- [scan-1D-Industrial/](./scenarios/scan-1D-Industrial/) — 1D industrial barcode tuning example.
+- [scan-from-distance/](./scenarios/scan-from-distance/) — Demo for scanning barcodes from a distance (zoom/ROI tuning).
+- [locate-an-item-with-barcode/](./scenarios/locate-an-item-with-barcode/) — UI to help locate items with barcodes in a list or layout.
+- [debug/](./scenarios/debug/) — Debug utilities and a small server (frame collector) used for testing and troubleshooting.
 
 ### Official Online Demo
 

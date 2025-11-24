@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="description" content="" />
+  <meta name="keywords" content="read vin" />
+  <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/scenarios/read-vin/index.html" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>Dynamsoft Barcode Reader Sample - Read a VIN</title>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
+</head>
+
+<body>
+  <div class="home-page">
+    <h1 class="home-page-title">Read VIN</h1>
+    <div class="start-btn">
+      <div class="start-icon"></div>
+      <div class="loading"></div>
+    </div>
+    <img class="logo-dynamsoft" src="./logo-dynamsoft.png" alt="logo-dynamsoft">
+  </div>
+  <div class="parsed-result-view">
+    <div class="barcode-text"></div>
+    <ul class="parsed-result-list"></ul>
+    <div class="back-to-scan">Back to Scan</div>
+  </div>
+  <script>
+    const parsedResultView = document.querySelector(".parsed-result-view");
+    const homePage = document.querySelector(".home-page");
+    const startIcon = document.querySelector(".start-icon");
+    const startBtn = document.querySelector(".start-btn");
+    const loading = document.querySelector(".loading");
+    const barcodeText = document.querySelector(".barcode-text");
+    const parsedResultList = document.querySelector(".parsed-result-list");
+    const backToScan = document.querySelector(".back-to-scan");
+
+    const licenseString = "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9";
+
+    (async () => {
+      await Dynamsoft.License.LicenseManager.initLicense(licenseString, { executeNow: true });
+      Dynamsoft.DCP.CodeParserModule.loadSpec("VIN");
+    })();
+
+    (async () => {
+
+      const pParser = Dynamsoft.DCP.CodeParser.createInstance();
+
+      async function launch() {
+        const scanner = new Dynamsoft.BarcodeScanner({
+          license: licenseString,
+          templateFilePath: "./read_vin.json",
+          showUploadImageButton: true,
+          utilizedTemplateNames: {
+            "single": "ReadVIN",
+            "multi_unique": "ReadVIN",
+            "image": "ReadVIN"
+          },
+          scannerViewConfig: {
+            showFlashButton: true,
+            showCloseButton: false,
+            cameraSwitchControl: "toggleFrontBack",
+          },
+          onInitReady: () => {
+            homePage.style.display = "none";
+          }
+        });
+
+        const result = await scanner.launch();
+        if (result.barcodeResults.length > 0) {
+          let processedResult;
+          try {
+            const parser = await pParser;
+            const parsedResult = await parser.parse(result.barcodeResults[0].bytes);
+            processedResult = handleVINResult(parsedResult);
+          } catch (ex) {
+            processedResult = [
+              { description: "Error", value: ex.message || "parse failed." },
+              {
+                description: "Original text",
+                value: result.barcodeResults[0].text,
+              },
+            ]
+          } finally {
+            generateResultList(processedResult);
+            barcodeText.innerText = result.barcodeResults[0].text;
+          }
+          parsedResultView.style.display = "block";
+        }
+      }
+
+      function handleVINResult(parsedResult) {
+        const oriParseInfo = [];
+        const resultInfo = JSON.parse(parsedResult.jsonString);
+        for (let info of resultInfo.ResultInfo) {
+          if (info.ChildFields) {
+            wrapResultObject(info.ChildFields);
+          }
+        }
+
+        function wrapResultObject(childFields) {
+          for (let childField of childFields) {
+            for (let field of childField) {
+              if (field.Value) {
+                oriParseInfo.push({
+                  description: field.FieldName,
+                  value: field.Value,
+                });
+              }
+              if (field.ChildFields) {
+                wrapResultObject(field.ChildFields);
+              }
+            }
+          }
+        }
+        return oriParseInfo;
+      }
+
+      function generateResultList(processedResult) {
+        parsedResultList.innerHTML = "";
+        const resultList = [];
+        for (let item of processedResult) {
+          const resultItem = document.createElement("li");
+          resultItem.className = "parsed-result-item";
+          resultItem.innerHTML = `<strong>${item.description}: </strong><span>${item.value}</span>`;
+          resultList.push(resultItem);
+        }
+        parsedResultList.append(...resultList);
+      }
+
+      startBtn.addEventListener("click", () => {
+        loading.style.display = "block";
+        startIcon.style.display = "none";
+        launch();
+      })
+
+      backToScan.addEventListener("click", () => {
+        parsedResultView.style.display = "none";
+        launch();
+      })
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+{
+  "GlobalParameter": 
+  {
+    "IntraOpNumThreads": 2
+  },
+  "CaptureVisionTemplates": [
+    {
+      "ImageROIProcessingNameArray": [
+        "ROI_OneDRetail"
+      ],
+      "Name": "ReadOneDRetail",
+      "MaxParallelTasks": 0,
+      "Timeout": 1000
+    },
+    {
+      "ImageROIProcessingNameArray": [
+        "ROI_OneDRetail_ReadRate"
+      ],
+      "Name": "ReadOneDRetail_ReadRate",
+      "MaxParallelTasks": 0,
+      "Timeout": 10000
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "ROI_OneDRetail",
+      "TaskSettingNameArray": [
+        "Task_OneDRetail"
+      ]
+    },
+    {
+      "Name": "ROI_OneDRetail_ReadRate",
+      "TaskSettingNameArray": [
+        "Task_OneDRetail_ReadRate"
+      ]
+    }
+  ],
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "Name": "Task_OneDRetail",
+      "BarcodeFormatIds": ["BF_EAN_13", "BF_EAN_8", "BF_UPC_A", "BF_UPC_E", "BF_GS1_DATABAR"],
+      "ExpectedBarcodesCount":1,
+      "MaxThreadsInOneTask": 1,
+      "SectionArray": [
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_SCAN_DIRECTLY",
+                  "ScanDirection": 2
+                },
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_DECODE_BARCODES",
+              "DeblurModes":[
+                {
+                  "Mode": "DM_DIRECT_BINARIZATION"
+                },
+                {
+                  "Mode": "DM_NEURAL_NETWORK",
+                  "ModelNameArray": ["EAN13Decoder", "OneDDeblur"]
+                },
+                {
+                  "Mode": "DM_DEEP_ANALYSIS"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Task_OneDRetail_ReadRate",
+      "BarcodeFormatIds": ["BF_EAN_13", "BF_EAN_8", "BF_UPC_A", "BF_UPC_E", "BF_GS1_DATABAR"],
+      "ExpectedBarcodesCount": 999,
+      "MaxThreadsInOneTask": 1,
+      "SectionArray": [
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_SCAN_DIRECTLY",
+                  "ScanDirection": 2
+                },
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                },
+                {
+                  "Mode": "LM_NEURAL_NETWORK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_DECODE_BARCODES",
+              "DeblurModes": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ImageParameterOptions": [
+    {
+      "ApplicableStages": [
+        {
+          "ImageScaleSetting": {
+            "EdgeLengthThreshold": 100000,
+            "ScaleType": "ST_SCALE_DOWN"
+          },
+          "Stage": "SST_SCALE_IMAGE"
+        },
+        {
+          "GrayscaleTransformationModes": [
+            {
+              "Mode": "GTM_ORIGINAL"
+            }
+          ],
+          "Stage": "SST_TRANSFORM_GRAYSCALE"
+        }
+      ],
+      "Name": "ip"
+    }
+  ]
+}

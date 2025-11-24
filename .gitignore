@@ -41,6 +41,10 @@ yarn.lock
 /.gitattributes
 /.*ignore
 
+# Build artifacts
+obj/
+.gradle/
+
 !bower.json
 !composer.json
 !package.js

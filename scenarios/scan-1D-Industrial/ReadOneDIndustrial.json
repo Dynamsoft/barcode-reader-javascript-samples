@@ -1,0 +1,155 @@
+{
+  "GlobalParameter": 
+  {
+    "IntraOpNumThreads": 2
+  },
+  "CaptureVisionTemplates": [
+    {
+      "ImageROIProcessingNameArray": [
+        "ROI_Industrial"
+      ],
+      "Name": "ReadOneDIndustrial",
+      "MaxParallelTasks": 0,
+      "Timeout": 1000
+    },
+    {
+      "ImageROIProcessingNameArray": [
+        "ROI_Industrial_ReadRate"
+      ],
+      "Name": "ReadOneDIndustrial_ReadRate",
+      "MaxParallelTasks": 0,
+      "Timeout": 10000
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "ROI_Industrial",
+      "TaskSettingNameArray": [
+        "Task_Industrial"
+      ]
+    },
+    {
+      "Name": "ROI_Industrial_ReadRate",
+      "TaskSettingNameArray": [
+        "Task_Industrial_ReadRate"
+      ]
+    }
+  ],
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "Name": "Task_Industrial",
+      "BarcodeFormatSpecificationNameArray": ["bfs1"],
+      "BarcodeFormatIds": ["BF_CODE_128", "BF_CODE_39", "BF_ITF", "BF_CODABAR", "BF_MSI_CODE"],
+      "ExpectedBarcodesCount":1,
+      "MaxThreadsInOneTask": 1,
+      "SectionArray": [
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                },
+                {
+                  "Mode": "LM_SCAN_DIRECTLY"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_DECODE_BARCODES",
+              "DeblurModes":[
+                {
+                  "Mode": "DM_DIRECT_BINARIZATION"
+                },
+                {
+                  "Mode": "DM_NEURAL_NETWORK",
+                  "ModelNameArray": ["Code128Decoder", "OneDDeblur"]
+                },
+                {
+                  "Mode": "DM_DEEP_ANALYSIS"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Task_Industrial_ReadRate",
+      "BarcodeFormatSpecificationNameArray": ["bfs1"],
+      "BarcodeFormatIds": ["BF_CODE_128", "BF_CODE_39", "BF_ITF", "BF_CODABAR", "BF_MSI_CODE "],
+      "ExpectedBarcodesCount": 999,
+      "MaxThreadsInOneTask": 1,
+      "SectionArray": [
+        {
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES",
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                },
+                {
+                  "Mode": "LM_SCAN_DIRECTLY"
+                },
+                {
+                  "Mode": "LM_NEURAL_NETWORK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Section": "ST_BARCODE_DECODING",
+          "ImageParameterName": "ip",
+          "StageArray": [
+            {
+              "Stage": "SST_DECODE_BARCODES",
+              "DeblurModes": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+	"BarcodeFormatSpecificationOptions": [
+		{
+			"Name": "bfs1",
+      "BarcodeZoneMinDistanceToImageBorders": 10,
+      "MinQuietZoneWidth": 6
+		}
+  ],
+  "ImageParameterOptions": [
+    {
+      "ApplicableStages": [
+        {
+          "ImageScaleSetting": {
+            "EdgeLengthThreshold": 100000,
+            "ScaleType": "ST_SCALE_DOWN"
+          },
+          "Stage": "SST_SCALE_IMAGE"
+        },
+        {
+          "GrayscaleTransformationModes": [
+            {
+              "Mode": "GTM_ORIGINAL"
+            }
+          ],
+          "Stage": "SST_TRANSFORM_GRAYSCALE"
+        }
+      ],
+      "Name": "ip"
+    }
+  ]
+}
