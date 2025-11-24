@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    Dynamsoft Barcode Scanner Sample - Hello World (Decode via Camera)
+  </title>
+  <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
+  <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
+  <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
+
+
+  <style>
+    /* Reset default margins and paddings, apply consistent box-sizing */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Make html and body take up the full viewport */
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Style for the scanner title/header */
+    .barcode-scanner-title {
+      height: 80px;
+      text-align: center;
+      font-size: 20px;
+      padding: 20px 0;
+    }
+
+    /* Container where the barcode scanner will display the camera feed */
+    .barcode-scanner-view {
+      width: 100%;
+      height: calc(100% - 80px);
+      /* Remaining space after header */
+    }
+  </style>
+</head>
+
+<body>
+  <h1 class="barcode-scanner-title">
+    Hello World (Scan Multiple Barcodes via Camera)
+  </h1>
+  <!-- This div will act as the container for the barcode scanner UI -->
+  <div class="barcode-scanner-view"></div>
+
+  <script>
+    // Configuration object for initializing the BarcodeScanner instance. Refer to https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html#barcodescannerconfig
+    let config = {
+      // Replace with your Dynamsoft license key
+      license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9",
+
+      // Specify where to render the scanner UI
+      container: document.querySelector(".barcode-scanner-view"),
+
+      // Set scan mode to detect multiple unique barcodes per scan session
+      scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
+
+      // showResultView: true,
+
+      // Enable an "Upload Image" button for scanning barcodes from existing images
+      showUploadImageButton: true,
+
+      // Additional configuration for the scanner UI
+      scannerViewConfig: {
+        // showCloseButton: false, // Uncomment to show a close button in the scanner UI
+        showFlashButton: true,
+        cameraSwitchControl: "toggleFrontBack"
+      },
+    };
+
+    // Instantiate the barcode scanner with the above configuration
+    const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
+
+    // Launch the scanner and handle the scan result
+    barcodeScanner.launch().then((result) => {
+      // Log the full result object to the console for debugging or further processing
+      console.log(result);
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+﻿@page "/"
+@inject IJSRuntime JS
+
+<PageTitle>Dynamsoft Barcode Reader Sample - Hello World (Decode via Camera)</PageTitle>
+
+<h1>Barcode Scanner for Svelte</h1>
+<div class="barcode-scanner-view" style="width:100%;height:80vh">
+</div>
+
+@code {
+    // reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0#invoke-js-functions
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // This code will only run once after the component has rendered.
+            // It's the ideal place to call JavaScript functions that
+            // need access to the rendered HTML.
+            var resultTxt = await JS.InvokeAsync<string>("decodeBarcodeViaCamera");
+            await JS.InvokeVoidAsync("alert", resultTxt);
+        }
+    }
+}

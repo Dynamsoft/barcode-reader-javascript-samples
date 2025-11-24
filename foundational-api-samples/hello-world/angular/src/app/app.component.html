@@ -1,0 +1,14 @@
+<div class='App'>
+  <div class='title'>
+    <h2 class='title-text'>Hello World for Angular</h2>
+  </div>
+  <div class='buttons-container'>
+    <button (click)="switchMode('video')" [ngStyle]="{'background-color': mode === 'video' ? 'rgb(255,174,55)' : 'white'}">Decode Video</button>
+    <button (click)="switchMode('image')" [ngStyle]="{'background-color': mode === 'image' ? 'rgb(255,174,55)' : 'white'}">Decode Image</button>
+  </div>
+  @if (mode === 'video') {
+    <app-video-capture></app-video-capture>
+  } @else {
+    <app-image-capture></app-image-capture>
+  }
+</div>
