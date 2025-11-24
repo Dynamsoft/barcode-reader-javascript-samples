@@ -207,7 +207,7 @@ Dynamsoft.Core.CoreModule.loadWasm();
     await cvRouter.startCapturing("ReadSingleBarcode");
   } catch (ex) {
     let errMsg = ex.message || ex;
-    console.error(errMsg);
+    console.error(ex);
     alert(errMsg);
   }
 })();

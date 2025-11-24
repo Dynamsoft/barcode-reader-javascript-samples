@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref, type Ref } from "vue";
 import "../dynamsoft.config";
-import { EnumCapturedResultItemType } from "dynamsoft-barcode-reader-bundle";
+import { EnumCapturedResultItemType, CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
 import type { BarcodeResultItem } from "dynamsoft-barcode-reader-bundle";
-import { CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
 
 const resultText = ref("");
 
@@ -41,7 +40,7 @@ const captureImage = async (e: Event) => {
     }
   } catch (ex: any) {
     let errMsg = ex.message || ex;
-    console.error(errMsg);
+    console.error(ex);
     alert(errMsg);
   }
 }

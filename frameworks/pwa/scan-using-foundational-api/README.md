@@ -103,7 +103,7 @@ We will try to turn our basic "Hello World" sample into a PWA. Follow these step
           await cvRouter.startCapturing("ReadSingleBarcode");
         } catch (ex) {
           let errMsg = ex.message || ex;
-          console.error(errMsg);
+          console.error(ex);
           alert(errMsg);
         }
       })();

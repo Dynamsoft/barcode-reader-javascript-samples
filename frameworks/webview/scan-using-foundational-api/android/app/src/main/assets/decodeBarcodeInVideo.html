@@ -30,7 +30,7 @@
        */
 
       // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
-      Dynamsoft.Core.CoreModule.loadWasm(["DBR"]);
+      Dynamsoft.Core.CoreModule.loadWasm();
 
       (async () => {
         try {
@@ -71,7 +71,7 @@
           await cvRouter.startCapturing("ReadSingleBarcode");
         } catch (ex) {
           let errMsg = ex.message || ex;
-          console.error(errMsg);
+          console.error(ex);
           alert(errMsg);
         }
       })();

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.dynamsoft.dbrjswebview.rtu'
+    namespace 'com.dynamsoft.dbrjswebview'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.dynamsoft.dbrjswebview.rtu"
+        applicationId "com.dynamsoft.dbrjswebview"
         minSdk 19
         targetSdk 33
         versionCode 1

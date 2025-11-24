@@ -11,7 +11,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   Build-Demo:
-    if: ${{ github.ref == 'refs/heads/2025_Nov_re-structure' }}    
+    if: ${{ github.ref == 'refs/heads/demo' }}    
     
     # The type of runner that the job will run on
     runs-on: [self-hosted, sample-upload]
@@ -25,7 +25,7 @@ jobs:
         run: |
           cd /home/ubuntu
           [ -d barcode-reader-javascript-samples ] && rm -rf barcode-reader-javascript-samples
-          git clone --depth 1 -b 2025_Nov_re-structure https://github.com/Dynamsoft/barcode-reader-javascript-samples.git 
+          git clone --depth 1 -b demo https://github.com/Dynamsoft/barcode-reader-javascript-samples.git 
           
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
@@ -34,5 +34,5 @@ jobs:
           username: ${{ secrets.FTP_DEMO_USERNAME }}
           password: ${{ secrets.FTP_DEMO_PASSWORD }}
           port: 21 
-          local-dir: /home/ubuntu/barcode-reader-javascript-samples/scenarios/read-and-parse-GS1-AI/scan-using-rtu-api/
-          server-dir: /Demo.dynamsoft.com/Samples/DBR/JS/scenarios/read-and-parse-GS1-AI/scan-using-rtu-api/
+          local-dir: /home/ubuntu/barcode-reader-javascript-samples/
+          server-dir: /Demo.dynamsoft.com/Samples/DBR/JS/

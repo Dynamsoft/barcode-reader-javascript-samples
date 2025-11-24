@@ -1,8 +1,6 @@
 import { Component, ElementRef, ViewChild, NgZone  } from '@angular/core';
 import '../dynamsoft.config';
-import { CameraEnhancer, CameraView } from 'dynamsoft-barcode-reader-bundle';
-import { CaptureVisionRouter } from 'dynamsoft-barcode-reader-bundle';
-import { MultiFrameResultCrossFilter } from 'dynamsoft-barcode-reader-bundle';
+import { CameraEnhancer, CameraView, MultiFrameResultCrossFilter, CaptureVisionRouter } from 'dynamsoft-barcode-reader-bundle';
 
 const componentDestroyedErrorMsg = 'VideoCapture Component Destroyed';
 
@@ -89,7 +87,7 @@ export class VideoCaptureComponent {
         console.log(componentDestroyedErrorMsg);
       } else {
         let errMsg = ex.message || ex;
-        console.error(errMsg);
+        console.error(ex);
         alert(errMsg);
       }
     }

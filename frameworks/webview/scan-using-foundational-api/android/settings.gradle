@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Dynamsoft Barcode - Foundational API"
+rootProject.name = "Dynamsoft Barcode"
 include ':app'

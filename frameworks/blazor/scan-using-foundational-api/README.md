@@ -161,7 +161,7 @@ window.startVideoDecode = async () => {
         await cvRouter.startCapturing("ReadSingleBarcode");
     } catch (ex) {
         let errMsg = ex.message || ex;
-        console.error(errMsg);
+        console.error(ex);
     }
 }
 
@@ -184,7 +184,7 @@ window.stopVideoDecode = async () => {
         resultsContainer.textContent = "";
     } catch (ex) {
         let errMsg = ex.message || ex;
-        console.error(errMsg);
+        console.error(ex);
     }
 }
 ```
@@ -261,7 +261,7 @@ window.startImageDecode = async () => {
     }
   } catch (ex) {
     let errMsg = ex.message || ex;
-    console.error(errMsg);
+    console.error(ex);
     alert(errMsg);
   } finally {
     inputElement.value = "";

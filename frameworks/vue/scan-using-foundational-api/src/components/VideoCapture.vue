@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, type Ref } from "vue";
 import "../dynamsoft.config";
-import { CameraEnhancer, CameraView } from "dynamsoft-barcode-reader-bundle";
-import { CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
-import { MultiFrameResultCrossFilter } from "dynamsoft-barcode-reader-bundle";
+import { CameraEnhancer, CameraView, CaptureVisionRouter, MultiFrameResultCrossFilter } from "dynamsoft-barcode-reader-bundle";
 
 const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
 
@@ -69,7 +67,7 @@ onMounted(async () => {
       console.log(componentDestroyedErrorMsg);
     } else {
       let errMsg = ex.message || ex;
-      console.error(errMsg);
+      console.error(ex);
       alert(errMsg);
     }
   }
