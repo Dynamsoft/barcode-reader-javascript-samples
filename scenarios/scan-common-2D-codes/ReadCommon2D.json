@@ -56,6 +56,9 @@
                   "Mode": "LM_LINES"
                 },
                 {
+                  "Mode": "LM_SCAN_DIRECTLY"
+                },
+                {
                   "Mode": "LM_NEURAL_NETWORK",
                   "ModelNameArray": ["DataMatrixQRCodeLocalization"]
                 }
