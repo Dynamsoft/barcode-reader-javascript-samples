@@ -61,7 +61,10 @@
               "LocalizationModes": [
                 {
                   "Mode": "LM_CONNECTED_BLOCKS"
-                }
+                },
+                {
+                  "Mode": "LM_SCAN_DIRECTLY"
+                } 
               ]
             }
           ]
@@ -77,7 +80,7 @@
                   "Mode": "DM_BASED_ON_LOC_BIN"
                 },
                 {
-                  "Mode": "DM_DIRECT_BINARIZATION"
+                  "Mode": "DM_THRESHOLD_BINARIZATION"
                 },
                 {
                   "Mode": "DM_DEEP_ANALYSIS"
