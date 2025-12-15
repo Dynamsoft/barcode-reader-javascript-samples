@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "dynamsoft-barcode-reader-bundle": "11.2.4000",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
