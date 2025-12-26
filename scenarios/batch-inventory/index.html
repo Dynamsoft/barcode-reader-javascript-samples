@@ -51,7 +51,7 @@
     let totalUniqueBarcodesResult = {};
     let totalUniqueBarcodesCount = 0;
 
-    const launchBarcodeScanenr = () => {
+    const launchBarcodeScanner = () => {
       summaryView.style.display = "none";
       let config = {
         license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
@@ -74,7 +74,7 @@
       })
     }
 
-    launchBarcodeScanenr();
+    launchBarcodeScanner();
 
     const readerResultList = (result) => {
       const resultListNode = document.querySelector(".result-list");
@@ -147,7 +147,7 @@
       return `${formattedHours}:${formattedMinutes}:${formattedSeconds} (${startTime} ~ ${endTime})`;
     }
 
-    backBtn.addEventListener("click", launchBarcodeScanenr);
+    backBtn.addEventListener("click", launchBarcodeScanner);
   </script>
 </body>
 
