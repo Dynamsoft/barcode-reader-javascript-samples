@@ -32,219 +32,6 @@
         search `href="scenarios` replace to `href="https://demo.dynamsoft.com/Samples/DBR/JS/scenarios`
     -->
     <style>
-      /* `balloon.min.css` used for tooltip styling */
-      :root {
-        --balloon-border-radius: 6px;
-        /* use a slightly opaque background to mask underlying page text */
-        --balloon-color: rgba(36,41,46,0.95);
-        --balloon-text-color: #fff;
-        --balloon-font-size: 13px;
-        --balloon-move: 4px;
-      }
-      button[aria-label][data-balloon-pos] {
-        overflow: visible;
-      }
-      [aria-label][data-balloon-pos] {
-        position: relative;
-        cursor: pointer;
-      }
-      [aria-label][data-balloon-pos]:after {
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.18s ease-out 0.18s;
-        text-indent: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-        font-weight: normal;
-        font-style: normal;
-        text-shadow: none;
-        font-size: var(--balloon-font-size);
-        /* solid background and slight blur to improve legibility over page content */
-        background: var(--balloon-color);
-        color: var(--balloon-text-color);
-        border-radius: var(--balloon-border-radius);
-        content: attr(aria-label);
-        padding: 0.55em 0.9em;
-        position: absolute;
-        display: inline-block;
-        white-space: nowrap;
-        z-index: 9999;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-        -webkit-backdrop-filter: blur(3px);
-        backdrop-filter: blur(3px);
-        max-width: 90vw;
-        overflow-wrap: break-word;
-      }
-      [aria-label][data-balloon-pos]:before {
-        width: 0;
-        height: 0;
-        border: 5px solid transparent;
-        border-top-color: var(--balloon-color);
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.18s ease-out 0.18s;
-        content: "";
-        position: absolute;
-        z-index: 9999;
-      }
-      [aria-label][data-balloon-pos]:hover:before,
-      [aria-label][data-balloon-pos]:hover:after,
-      [aria-label][data-balloon-pos][data-balloon-visible]:before,
-      [aria-label][data-balloon-pos][data-balloon-visible]:after,
-      [aria-label][data-balloon-pos]:not([data-balloon-nofocus]):focus:before,
-      [aria-label][data-balloon-pos]:not([data-balloon-nofocus]):focus:after {
-        opacity: 1;
-        pointer-events: none;
-      }
-      [aria-label][data-balloon-pos].font-awesome:after {
-        font-family: FontAwesome, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      }
-      [aria-label][data-balloon-pos][data-balloon-break]:after {
-        white-space: pre;
-      }
-      [aria-label][data-balloon-pos][data-balloon-break][data-balloon-length]:after {
-        white-space: pre-line;
-        word-break: break-word;
-      }
-      [aria-label][data-balloon-pos][data-balloon-blunt]:before,
-      [aria-label][data-balloon-pos][data-balloon-blunt]:after {
-        transition: none;
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos="up"]:hover:after,
-      [aria-label][data-balloon-pos][data-balloon-pos="up"][data-balloon-visible]:after,
-      [aria-label][data-balloon-pos][data-balloon-pos="down"]:hover:after,
-      [aria-label][data-balloon-pos][data-balloon-pos="down"][data-balloon-visible]:after {
-        transform: translate(-50%, 0);
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos="up"]:hover:before,
-      [aria-label][data-balloon-pos][data-balloon-pos="up"][data-balloon-visible]:before,
-      [aria-label][data-balloon-pos][data-balloon-pos="down"]:hover:before,
-      [aria-label][data-balloon-pos][data-balloon-pos="down"][data-balloon-visible]:before {
-        transform: translate(-50%, 0);
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos*="-left"]:after {
-        left: 0;
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos*="-left"]:before {
-        left: 5px;
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos*="-right"]:after {
-        right: 0;
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos*="-right"]:before {
-        right: 5px;
-      }
-      [aria-label][data-balloon-pos][data-balloon-po*="-left"]:hover:after,
-      [aria-label][data-balloon-pos][data-balloon-po*="-left"][data-balloon-visible]:after,
-      [aria-label][data-balloon-pos][data-balloon-pos*="-right"]:hover:after,
-      [aria-label][data-balloon-pos][data-balloon-pos*="-right"][data-balloon-visible]:after {
-        transform: translate(0, 0);
-      }
-      [aria-label][data-balloon-pos][data-balloon-po*="-left"]:hover:before,
-      [aria-label][data-balloon-pos][data-balloon-po*="-left"][data-balloon-visible]:before,
-      [aria-label][data-balloon-pos][data-balloon-pos*="-right"]:hover:before,
-      [aria-label][data-balloon-pos][data-balloon-pos*="-right"][data-balloon-visible]:before {
-        transform: translate(0, 0);
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos^="up"]:before,
-      [aria-label][data-balloon-pos][data-balloon-pos^="up"]:after {
-        bottom: 100%;
-        transform-origin: top;
-        transform: translate(0, var(--balloon-move));
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos^="up"]:after {
-        margin-bottom: 10px;
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos="up"]:before,
-      [aria-label][data-balloon-pos][data-balloon-pos="up"]:after {
-        left: 50%;
-        transform: translate(-50%, var(--balloon-move));
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos^="down"]:before,
-      [aria-label][data-balloon-pos][data-balloon-pos^="down"]:after {
-        top: 100%;
-        transform: translate(0, calc(var(--balloon-move) * -1));
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos^="down"]:after {
-        margin-top: 10px;
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos^="down"]:before {
-        width: 0;
-        height: 0;
-        border: 5px solid transparent;
-        border-bottom-color: var(--balloon-color);
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos="down"]:after,
-      [aria-label][data-balloon-pos][data-balloon-pos="down"]:before {
-        left: 50%;
-        transform: translate(-50%, calc(var(--balloon-move) * -1));
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos="left"]:hover:after,
-      [aria-label][data-balloon-pos][data-balloon-pos="left"][data-balloon-visible]:after,
-      [aria-label][data-balloon-pos][data-balloon-pos="right"]:hover:after,
-      [aria-label][data-balloon-pos][data-balloon-pos="right"][data-balloon-visible]:after {
-        transform: translate(0, -50%);
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos="left"]:hover:before,
-      [aria-label][data-balloon-pos][data-balloon-pos="left"][data-balloon-visible]:before,
-      [aria-label][data-balloon-pos][data-balloon-pos="right"]:hover:before,
-      [aria-label][data-balloon-pos][data-balloon-pos="right"][data-balloon-visible]:before {
-        transform: translate(0, -50%);
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos="left"]:after,
-      [aria-label][data-balloon-pos][data-balloon-pos="left"]:before {
-        right: 100%;
-        top: 50%;
-        transform: translate(var(--balloon-move), -50%);
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos="left"]:after {
-        margin-right: 10px;
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos="left"]:before {
-        width: 0;
-        height: 0;
-        border: 5px solid transparent;
-        border-left-color: var(--balloon-color);
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos="right"]:after,
-      [aria-label][data-balloon-pos][data-balloon-pos="right"]:before {
-        left: 100%;
-        top: 50%;
-        transform: translate(calc(var(--balloon-move) * -1), -50%);
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos="right"]:after {
-        margin-left: 10px;
-      }
-      [aria-label][data-balloon-pos][data-balloon-pos="right"]:before {
-        width: 0;
-        height: 0;
-        border: 5px solid transparent;
-        border-right-color: var(--balloon-color);
-      }
-      [aria-label][data-balloon-pos][data-balloon-length]:after {
-        white-space: normal;
-      }
-      [aria-label][data-balloon-pos][data-balloon-length="small"]:after {
-        width: 80px;
-      }
-      [aria-label][data-balloon-pos][data-balloon-length="medium"]:after {
-        width: 150px;
-      }
-      [aria-label][data-balloon-pos][data-balloon-length="large"]:after {
-        width: 260px;
-      }
-      [aria-label][data-balloon-pos][data-balloon-length="xlarge"]:after {
-        width: 380px;
-      }
-      @media screen and (max-width: 768px) {
-        [aria-label][data-balloon-pos][data-balloon-length="xlarge"]:after {
-          width: 90vw;
-        }
-      }
-      [aria-label][data-balloon-pos][data-balloon-length="fit"]:after {
-        width: 100%;
-      }
-    </style>
-    <style>
       .filetree {
         text-align: left;
         background-color: #f8f9fa;
@@ -278,7 +65,7 @@
       }
 
       /* Category headings (Workflow Examples, Barcode Type Focused, etc.) */
-      .filetree .children > .file:not(:has(span)) {
+      .filetree .children > .file:not(:has(a)) {
         font-weight: 600;
         color: #586069;
         margin-top: 1.2em;
@@ -289,12 +76,12 @@
         background-color: rgba(88, 96, 105, 0.03);
       }
 
-      .filetree .children > .file:not(:has(span))::before {
+      .filetree .children > .file:not(:has(a))::before {
         display: none;
       }
 
       /* First category in each section */
-      .filetree .children > .file:not(:has(span)):first-child {
+      .filetree .children > .file:not(:has(a)):first-child {
         margin-top: 0.6em;
       }
 
@@ -320,7 +107,7 @@
       }
 
       /* Category headings span full width */
-      .filetree > .children > .file:not(:has(span)) {
+      .filetree > .children > .file:not(:has(a)) {
         grid-column: 1 / -1;
       }
 
@@ -520,7 +307,9 @@
         opacity: 1;
       }
 
-      .filetree .button.title.readme-link::after {
+      /* External link indicator - shared by readme-link and source-link */
+      .filetree .button.title.readme-link::after,
+      .filetree .button.title.source-link::after {
         content: "";
         display: inline-block;
         width: 11px;
@@ -534,8 +323,9 @@
         transition: opacity 0.2s ease;
       }
 
-      .filetree .button.title.readme-link:hover::after {
-        opacity: 0.8;
+      .filetree .button.title.readme-link:hover::after,
+      .filetree .button.title.source-link:hover::after {
+        opacity: 0.9;
       }
 
       /* Main README link styling */
@@ -551,25 +341,6 @@
       .filetree .section-readme-link {
         font-size: 0.75em;
         margin-left: 10px;
-      }
-
-      /* External link indicator for source links */
-      .filetree .button.title.source-link::after {
-        content: "";
-        display: inline-block;
-        width: 11px;
-        height: 11px;
-        margin-left: 5px;
-        vertical-align: text-bottom;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23586069'%3E%3Cpath d='M3.75 2A1.75 1.75 0 002 3.75v8.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 12.25v-3.5a.75.75 0 00-1.5 0v3.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-8.5a.25.25 0 01.25-.25h3.5a.75.75 0 000-1.5h-3.5z'/%3E%3Cpath d='M6.854 6.146a.5.5 0 010 .708l-.354.353a.5.5 0 11-.707-.707l.353-.354a.5.5 0 01.708 0zM10 1.75a.75.75 0 01.75-.75h3.5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0V2.56l-4.72 4.72a.75.75 0 11-1.06-1.06l4.72-4.72h-2.69a.75.75 0 01-.75-.75z'/%3E%3C/svg%3E");
-        background-size: contain;
-        background-repeat: no-repeat;
-        opacity: 0.5;
-        transition: opacity 0.2s ease;
-      }
-
-      .filetree .button.title.source-link:hover::after {
-        opacity: 0.9;
       }
 
       /* Better spacing for sample items */
@@ -819,7 +590,7 @@
           gap: 0.3em;
         }
 
-        .filetree .children > .file:not(:has(span)) {
+        .filetree .children > .file:not(:has(a)) {
           font-size: 1em;
           margin-top: 1em;
           margin-bottom: 0.3em;
@@ -908,7 +679,7 @@
           height: 16px;
         }
 
-        .filetree .children > .file:not(:has(span)) {
+        .filetree .children > .file:not(:has(a)) {
           font-size: 0.95em;
           margin-top: 0.8em;
           margin-bottom: 0.2em;
@@ -1121,157 +892,129 @@
       </div>
       <div class="children">
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with Angular framework."
-            ><span class="github-label angular">Angular Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/angular"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label angular">Angular Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/angular"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with Blazor (.NET) framework."
-            ><span class="github-label blazor">Blazor Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/blazor"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label blazor">Blazor Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/blazor"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples for Capacitor mobile hybrid applications."
-            ><span class="github-label capacitor">Capacitor Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/capacitor"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label capacitor">Capacitor Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/capacitor"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples for Electron desktop applications."
-            ><span class="github-label electron">Electron Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/electron"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label electron">Electron Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/electron"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples using plain ES6 modules."
-            ><span class="github-label js">ES6 Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/es6"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label js">ES6 Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/es6"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples using native TypeScript."
-            ><span class="github-label typescript">Native TypeScript Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/native-ts"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label typescript">Native TypeScript Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/native-ts"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with Next.js framework."
-            ><span class="github-label next">Next.js Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/next"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label next">Next.js Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/next"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with Nuxt framework."
-            ><span class="github-label nuxt">Nuxt Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/nuxt"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label nuxt">Nuxt Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/nuxt"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples for Progressive Web Apps (PWA)."
-            ><span class="github-label pwa">PWA Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/pwa"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label pwa">PWA Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/pwa"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with React framework."
-            ><span class="github-label react">React Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/react"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label react">React Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/react"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples using RequireJS (AMD)."
-            ><span class="github-label requirejs">RequireJS Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/requirejs"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label requirejs">RequireJS Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/requirejs"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with Svelte framework."
-            ><span class="github-label svelte">Svelte Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/svelte"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label svelte">Svelte Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/svelte"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples integrated with Vue framework."
-            ><span class="github-label vue">Vue Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/vue"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label vue">Vue Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/vue"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
         <div class="file">
-          <span data-balloon-length="large" data-balloon-pos="down" aria-label="Barcode reading examples for native WebView on Android and iOS."
-            ><span class="github-label webview">WebView Samples</span> -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/webview"
-              title="View source code on GitHub"
-              >Source</a
-            ></span
+          <span class="github-label webview">WebView Samples</span> -
+          <a
+            class="button title source-link"
+            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/webview"
+            title="View source code on GitHub"
+            >Source</a
           >
         </div>
       </div>
@@ -1292,73 +1035,59 @@
         <div class="file">Workflow Examples</div>
         <div class="children">
           <div class="file">
-            <span
-              data-balloon-length="large"
-              data-balloon-pos="down"
-              aria-label="Simulates a shopping experience where users scan barcodes to add items to a dynamic cart."
-              ><a class="button title demo-link" href="scenarios/cart-builder/cart-builder.html" title="View live demo">Cart Builder</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/cart-builder"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/cart-builder/cart-builder.html" title="View live demo">Cart Builder</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/cart-builder"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Scan a product barcode and simulate a search from a product database."
-              ><a class="button title demo-link" href="scenarios/scan-and-search/scan-and-search.html" title="View live demo">Scan and Search</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/scan-and-search"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/scan-and-search/scan-and-search.html" title="View live demo">Scan and Search</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/scan-and-search"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Pick the correct one from multiple candidates by scanning barcodes."
-              ><a class="button title demo-link" href="scenarios/pick-one-to-fill/index.html" title="View live demo">Pick One to Fill</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/pick-one-to-fill"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/pick-one-to-fill/index.html" title="View live demo">Pick One to Fill</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/pick-one-to-fill"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Batch scanning workflow for inventory collection and export."
-              ><a class="button title demo-link" href="scenarios/batch-inventory/index.html" title="View live demo">Batch Inventory</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/batch-inventory"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/batch-inventory/index.html" title="View live demo">Batch Inventory</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/batch-inventory"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Interactive UI to help you locate items with barcodes in a list or layout."
-              ><a class="button title demo-link" href="scenarios/locate-an-item-with-barcode/index.html" title="View live demo">Locate an Item with Barcode</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/locate-an-item-with-barcode"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/locate-an-item-with-barcode/index.html" title="View live demo">Locate an Item with Barcode</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/locate-an-item-with-barcode"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Display decoded barcode text overlaid on the live camera video."
-              ><a class="button title demo-link" href="scenarios/show-result-texts-on-the-video/show-result-texts-on-the-video.html" title="View live demo"
-                >Show Result Texts on Video</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/show-result-texts-on-the-video"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/show-result-texts-on-the-video/show-result-texts-on-the-video.html" title="View live demo"
+              >Show Result Texts on Video</a
+            >
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/show-result-texts-on-the-video"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
         </div>
@@ -1366,84 +1095,71 @@
         <div class="file">Barcode Type Focused</div>
         <div class="children">
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="QR code targeted demo with optimized settings."
-              ><a class="button title demo-link" href="scenarios/scan-qr-code/index.html" title="View live demo">Scan QR Code</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-qr-code"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/scan-qr-code/index.html" title="View live demo">Scan QR Code</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-qr-code"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="DataMatrix code targeted demo with optimized settings."
-              ><a class="button title demo-link" href="scenarios/scan-datamatrix-code/index.html" title="View live demo">Scan DataMatrix Code</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-datamatrix-code"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/scan-datamatrix-code/index.html" title="View live demo">Scan DataMatrix Code</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-datamatrix-code"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Demo focused on decoding common 2D barcode formats."
-              ><a
-                class="button title demo-link"
-                href="scenarios/scan-common-2D-codes/index.html"
-                title="View live demo"
-                >Scan Common 2D Codes</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-common-2D-codes"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a
+              class="button title demo-link"
+              href="scenarios/scan-common-2D-codes/index.html"
+              title="View live demo"
+              >Scan Common 2D Codes</a
+            >
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-common-2D-codes"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="1D retail barcode tuning example (EAN, UPC, etc.)."
-              ><a class="button title demo-link" href="scenarios/scan-1D-Retail/index.html" title="View live demo">Scan 1D Retail Barcodes</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-1D-Retail"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/scan-1D-Retail/index.html" title="View live demo">Scan 1D Retail Barcodes</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-1D-Retail"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="1D industrial barcode tuning example (Code 39, Code 128, etc.)."
-              ><a class="button title demo-link" href="scenarios/scan-1D-Industrial/index.html" title="View live demo">Scan 1D Industrial Barcodes</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-1D-Industrial"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/scan-1D-Industrial/index.html" title="View live demo">Scan 1D Industrial Barcodes</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-1D-Industrial"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Demo configured to detect a wide range of barcode formats."
-              ><a class="button title demo-link" href="scenarios/scan-common-1D-and-2D/index.html" title="View live demo">Scan Any Codes</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-common-1D-and-2D"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/scan-common-1D-and-2D/index.html" title="View live demo">Scan Any Codes</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-common-1D-and-2D"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Demo for scanning barcodes from a distance with zoom and ROI tuning."
-              ><a class="button title demo-link" href="scenarios/scan-from-distance/index.html" title="View live demo">Scan from Distance</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-from-distance"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/scan-from-distance/index.html" title="View live demo">Scan from Distance</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-from-distance"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
         </div>
@@ -1451,37 +1167,32 @@
         <div class="file">Data Parsing</div>
         <div class="children">
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Read the PDF417 barcode on a driver's license (AAMVA compliant) and parse it."
-              ><a class="button title demo-link" href="scenarios/read-a-drivers-license/index.html" title="View live demo">Read a Driver's License</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-a-drivers-license"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/read-a-drivers-license/index.html" title="View live demo">Read a Driver's License</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-a-drivers-license"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Read the VIN(vehicle identification number) code and parse it."
-              ><a class="button title demo-link" href="scenarios/read-vin/index.html" title="View live demo">Read VIN</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-vin"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/read-vin/index.html" title="View live demo">Read VIN</a>
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-vin"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Example showing GS1 AI parsing and data extraction."
-              ><a class="button title demo-link" href="scenarios/read-and-parse-GS1-AI/scan-using-rtu-api/index.html" title="View live demo"
-                >Read and Parse GS1-AI</a
-              ><a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-and-parse-GS1-AI/"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="button title demo-link" href="scenarios/read-and-parse-GS1-AI/scan-using-rtu-api/index.html" title="View live demo"
+              >Read and Parse GS1-AI</a
+            >
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-and-parse-GS1-AI/"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
         </div>
@@ -1489,16 +1200,14 @@
         <div class="file">Utilities</div>
         <div class="children">
           <div class="file">
-            <span data-balloon-length="large" data-balloon-pos="down" aria-label="Debug utilities and frame collector for testing and troubleshooting."
-              ><a class="github-label debug" href="scenarios/debug/public/index.html" title="View live demo"
-                >Debug Tools</a
-              > -
-              <a
-                class="button title source-link"
-                href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/debug"
-                title="View source code on GitHub"
-                >Source</a
-              ></span
+            <a class="github-label debug" href="scenarios/debug/public/index.html" title="View live demo"
+              >Debug Tools</a
+            > -
+            <a
+              class="button title source-link"
+              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/debug"
+              title="View source code on GitHub"
+              >Source</a
             >
           </div>
         </div>
@@ -1513,14 +1222,13 @@
       const searchInput = document.getElementById("searchInput");
       searchInput.addEventListener("input", (e) => {
         const searchTerm = e.target.value.toLowerCase();
-        const allSamples = document.querySelectorAll(".filetree .children .file:has(span)");
-        const categories = document.querySelectorAll(".filetree .children > .file:not(:has(span))");
+        const allSamples = document.querySelectorAll(".filetree .children .file:has(a)");
+        const categories = document.querySelectorAll(".filetree .children > .file:not(:has(a))");
 
         allSamples.forEach((sample) => {
           const text = sample.textContent.toLowerCase();
-          const label = sample.querySelector("span")?.getAttribute("aria-label")?.toLowerCase() || "";
 
-          if (text.includes(searchTerm) || label.includes(searchTerm)) {
+          if (text.includes(searchTerm)) {
             sample.style.display = "block";
           } else {
             sample.style.display = "none";
@@ -1531,7 +1239,7 @@
         categories.forEach((category) => {
           const nextSibling = category.nextElementSibling;
           if (nextSibling && nextSibling.classList.contains("children")) {
-            const visibleItems = Array.from(nextSibling.querySelectorAll(".file:has(span)")).filter((item) => item.style.display !== "none");
+            const visibleItems = Array.from(nextSibling.querySelectorAll(".file:has(a)")).filter((item) => item.style.display !== "none");
             if (visibleItems.length === 0 && searchTerm !== "") {
               category.style.display = "none";
             } else {
