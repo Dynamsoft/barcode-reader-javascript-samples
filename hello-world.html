@@ -31,16 +31,13 @@
         scanMode controls the scanning behavior:
           - SM_MULTI_UNIQUE: Continuously scans and collects each unique barcode.
           - SM_SINGLE: Stops scanning after the first barcode is detected.
-        // Example:
         // scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
 
         // onUniqueBarcodeScanned: (result) => {
-        //   // Called every time a barcode is decoded in MULTI_UNIQUE mode.
-        //   // You can add custom logic here, e.g.: let decodeCount = 0; // Declare an outside variable to keep track of decode count
-        //   // decodeCount++;
-        //   // if (decodeCount >= 3) {
-        //   //   barcodeScanner._cvRouter.stopCapturing(); // Stop after 3 successful decodes
-        //   //   barcodeScanner._cameraEnhancer.close(); // Close the camera
+        //   // console.log("Scanned barcode: ", result.text);
+        //   // You can add custom logic here to handle each scanned barcode.: 
+        //   // if (condition) {
+        //   //   barcodeScanner.dispose(); // Stop scanning
         //   // }
         // },
       */
