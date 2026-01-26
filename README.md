@@ -39,6 +39,11 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 
 ## Sample list
 
+### Hello-world
+
+- [hello-world.html](./hello-world.html) — The simplest example to get started with single barcode scanning.
+- [read-an-image.html](./read-an-image.html) — Demonstrates how to decode and read barcodes from uploaded image files.
+
 ### Frameworks
 
 - [angular/](./frameworks/angular/) — Angular examples.

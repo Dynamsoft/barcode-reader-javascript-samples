@@ -26,6 +26,20 @@
     let config = {
       license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
       container: document.querySelector(".barcode-scanner-view"), // Specify where to render the scanner UI
+
+      /*
+        scanMode controls the scanning behavior:
+          - SM_MULTI_UNIQUE: Continuously scans and collects each unique barcode.
+          - SM_SINGLE: Stops scanning after the first barcode is detected.
+      */
+      // scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
+      // onUniqueBarcodeScanned: (result) => {
+      //   console.log("Scanned barcode: ", result.text);
+      //   if (condition) { // You can add custom logic here to handle each scanned barcode
+      //     barcodeScanner.dispose(); // Stop scanning
+      //   }
+      // },
+
       // showUploadImageButton: true,
       // scannerViewConfig: {
       //   showFlashButton: true,
