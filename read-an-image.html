@@ -43,8 +43,8 @@
       resultsContainer.innerText = "";
       try {
         for (let file of files) {
-          // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-          const result = await barcodeScanner.decode(file, "ReadBarcodes_SpeedFirst");
+          // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+          const result = await barcodeScanner.decode(file, "ReadBarcodes_ReadRateFirst");
           const barcodeResultItems = result.decodedBarcodesResult?.barcodeResultItems;
 
           if (files.length > 1) {
