@@ -55,14 +55,22 @@ git clone https://github.com/Dynamsoft/barcode-reader-javascript-samples.git --d
 
 > [!NOTE]
 > If you expect unstable network conditions or prefer to work entirely offline, you can download the [offline package from Dynamsoft website](https://www.dynamsoft.com/barcode-reader/downloads/1000003-confirmation/). This includes the full repository and all required dependencies for offline use.
->
-> **Running the Samples Locally**
->
-> Opening HTML files directly may not work as expected. Instead, run a local development server. Here’s a quick method using [Visual Studio Code](https://code.visualstudio.com/):
->
-> 1. Install the [Five Server extension](https://marketplace.visualstudio.com/items?itemName=yandeu.five-server) from the VS Code Marketplace.
->
-> 2. Right-click on `hello-world.html` and select "Open with Five Server". This will serve the application at `http://127.0.0.1:5500/hello-world.html`.
+
+---
+
+## Running the Samples Locally
+
+The standalone samples (`hello-world.html`, `read-an-image.html`) and scenario samples load the SDK from a CDN, so you can open them directly by double-clicking — no web server required (an internet connection is needed).
+
+To browse all available samples, open `index.html` in your browser — it links to every sample in the repository.
+
+For framework samples, follow the instructions in each subfolder's README (typically `npm install` then `npm run dev`).
+
+If you need a web server for standalone or scenario samples (for example, to serve SDK resources from a local `dist/` folder), here's a quick method using [Visual Studio Code](https://code.visualstudio.com/):
+
+1. Install the [Five Server extension](https://marketplace.visualstudio.com/items?itemName=yandeu.five-server) from the VS Code Marketplace.
+
+2. Right-click on an HTML file and select "Open with Five Server". This will serve the application at `http://127.0.0.1:5500/`.
 
 ---
 
@@ -97,8 +105,6 @@ If you are looking for a fully customizable barcode decoding library with comple
 ## Documentation
 
 For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.2.4000&utm_source=sampleReadme).
-
-For API reference and more advanced usage, visit:
 
 - [Barcode Scanner API Docs](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html?utm_source=sampleReadme)
 - [Foundational API Docs](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/index.html?utm_source=sampleReadme)
@@ -143,7 +149,7 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 - [show-result-texts-on-the-video/](./scenarios/show-result-texts-on-the-video/) — Overlay decoded text on live video while scanning.
 - [batch-inventory/](./scenarios/batch-inventory/) — Batch scanning workflow for inventory collection and export.
 - [read-a-drivers-license/](./scenarios/read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.
-- [read-vin/](./scenarios/read-vin/) — Demo for reading and parsing a VIN(vehicle identification number) code.
+- [read-vin/](./scenarios/read-vin/) — Demo for reading and parsing a VIN (vehicle identification number) code.
 - [read-and-parse-GS1-AI/](./scenarios/read-and-parse-GS1-AI/) — Example showing GS1 AI parsing and data extraction.
 - [scan-qr-code/](./scenarios/scan-qr-code/) — QR code targeted demo and settings.
 - [scan-common-1D-and-2D/](./scenarios/scan-common-1D-and-2D/) — Demo configured to detect a wide range of barcode formats.
@@ -157,4 +163,4 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 
 ### Official Online Demo
 
-- [**Official Online Demo**](https://demo.dynamsoft.com/barcode-reader-js): Official demo for Dynamsoft Barcode Reader JavaScript Edition (written in Vue). Take our barcode scanner demo and see how it works in different modes!
+- [**Official Online Demo**](https://demo.dynamsoft.com/barcode-reader-js): Try the Dynamsoft Barcode Reader JavaScript Edition demo (written in Vue) and see how it works in different modes!
