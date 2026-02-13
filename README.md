@@ -1,6 +1,46 @@
-# Dynamsoft Barcode Reader samples for the web
+# Dynamsoft Barcode Reader Samples for the Web
 
-This repository contains multiple samples that demonstrates how to use the [Dynamsoft Barcode Reader JavaScript Edition](https://www.dynamsoft.com/barcode-reader/sdk-javascript/?utm_source=sampleReadme) for creating web-based barcode scanning applications.
+This repository contains multiple samples that demonstrate how to use the [Dynamsoft Barcode Reader JavaScript Edition](https://www.dynamsoft.com/barcode-reader/sdk-javascript/?utm_source=sampleReadme) for creating web-based barcode scanning applications.
+
+---
+
+## System Requirements
+
+### Secure Context (HTTPS Deployment)
+
+When deploying your application/website for production, make sure to serve it via a secure HTTPS connection. This is required for two reasons:
+
+- Access to the camera video stream is only granted in a security context. Most browsers impose this restriction.
+
+  > Some browsers like Chrome may grant access for `http://127.0.0.1` and `http://localhost` or even for pages opened directly from the local disk (`file:///...`). This can be helpful for temporary development and testing.
+
+- Dynamsoft License requires a secure context to work.
+
+### Browser Compatibility
+
+The following table is a list of supported browsers based on the above requirements:
+
+| Browser Name |     Version      |
+| :----------: | :--------------: |
+|    Chrome    | v78+<sup>1</sup> |
+|   Firefox    | v68+<sup>1</sup> |
+|     Edge     |       v79+       |
+|    Safari    |      v14.5+      |
+
+<sup>1</sup> Devices running iOS need to be on iOS 14.5+ for camera video streaming to work in Chrome, Firefox or other apps using webviews.
+
+Apart from the browsers, the operating systems may impose some limitations of their own that could restrict the use of the SDK.
+
+---
+
+## License
+
+A default trial license is included which allows you to test the sample apps for up to 24 hours. You can [request a 30-day trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=sampleReadme) via the Dynamsoft website to evaluate further.
+
+>[!IMPORTANT]
+> Once your trial license expires, the SDK will throw an error and cease to function. You can visit the [Dynamsoft Customer Portal](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&utm_source=sampleReadme&package=js) to view your trial license details. Additionally, it's possible to extend the trial period via the customer portal, allowing for a total trial duration of 60 days.
+
+---
 
 ## Get the Code
 
@@ -25,21 +65,56 @@ git clone https://github.com/Dynamsoft/barcode-reader-javascript-samples.git --d
 >
 > 2. Right-click on `hello-world.html` and select "Open with Five Server". This will serve the application at `http://127.0.0.1:5500/hello-world.html`.
 
-## Request a trial license
+---
 
-A default license is included which allows you to test the sample apps for up to 24 hours. You can [request a 30-day trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=sampleReadme) via Dynamsoft website to evaluate further.
+## Sample Folders
+
+The repository includes two main sample directories:
+
+- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks. Each framework folder contains one or more runnable sub-examples (such as `scan-using-foundational-api` and/or `scan-using-rtu-api`) showing practical integration patterns.
+
+- **`scenarios/`** - Focused scenario samples that show common real-world uses of Dynamsoft Barcode Reader.
+
+---
+
+## Choosing an API
+
+The SDK provides two approaches for integrating barcode scanning capabilities:
+
+### RTU API (BarcodeScanner)
+
+The RTU API offers the quickest path to a working barcode scanner (**Recommended for most users**):
+
+- **One-line integration** – Launch a full scanner with a single API call
+- **Built-in UI** – Pre-designed viewfinder and scan region highlighting
+- **Simple configuration** – Customize behavior through intuitive config objects
+
+### Foundational APIs
+
+If you are looking for a fully customizable barcode decoding library with complete control over the scanning process and UI, you are welcome to use the Foundational APIs.
+
+---
 
 ## Documentation
 
 For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.2.4000&utm_source=sampleReadme).
 
+For API reference and more advanced usage, visit:
+
+- [Barcode Scanner API Docs](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html?utm_source=sampleReadme)
+- [Foundational API Docs](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/index.html?utm_source=sampleReadme)
+
+---
+
 ## Support
 
 If you have any questions, feel free to [contact Dynamsoft support](https://www.dynamsoft.com/company/contact?utm_source=sampleReadme).
 
-## Sample list
+---
 
-### Hello-world
+## Sample List
+
+### Hello World
 
 - [hello-world.html](./hello-world.html) — The simplest example to get started with single barcode scanning.
 - [read-an-image.html](./read-an-image.html) — Demonstrates how to decode and read barcodes from uploaded image files.
