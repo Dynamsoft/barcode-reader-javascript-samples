@@ -11,10 +11,9 @@ This repository contains multiple samples that demonstrate how to use the [Dynam
 When deploying your application/website for production, make sure to serve it via a secure HTTPS connection. This is required for two reasons:
 
 - Access to the camera video stream is only granted in a security context. Most browsers impose this restriction.
-
-  > Some browsers like Chrome may grant access for `http://127.0.0.1` and `http://localhost` or even for pages opened directly from the local disk (`file:///...`). This can be helpful for temporary development and testing.
-
 - Dynamsoft License requires a secure context to work.
+
+> Some browsers like Chrome may grant access for `http://127.0.0.1` and `http://localhost` or even for pages opened directly from the local disk (`file:///...`). This can be helpful for temporary development and testing.
 
 ### Browser Compatibility
 
@@ -81,7 +80,7 @@ The repository includes two main sample directories:
 
 The SDK provides two approaches for integrating barcode scanning capabilities:
 
-### RTU API (BarcodeScanner)
+### Ready-To-Use (RTU) API — BarcodeScanner
 
 The RTU API offers the quickest path to a working barcode scanner (**Recommended for most users**):
 
