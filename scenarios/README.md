@@ -14,6 +14,7 @@ Included samples
 - [read-and-parse-GS1-AI/](./read-and-parse-GS1-AI/) — Example showing GS1 AI parsing and data extraction.
 - [scan-qr-code/](./scan-qr-code/) — QR code targeted demo and settings.
 - [scan-datamatrix-code/](./scan-datamatrix-code/) — DataMatrix code targeted demo and settings.
+- [scan-dpm-codes/](./scan-dpm-codes/) — Demo for reading Direct Part Mark (DPM) codes etched or marked on surfaces.
 - [scan-common-1D-and-2D/](./scan-common-1D-and-2D/) — Demo configured to detect a wide range of barcode formats.
 - [scan-common-2D-codes/](./scan-common-2D-codes/) — Focused on common 2D barcode formats decoding.
 - [scan-1D-Retail/](./scan-1D-Retail/) — 1D retail barcode tuning example.
