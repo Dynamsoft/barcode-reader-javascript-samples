@@ -1,6 +1,37 @@
-# Hello World Sample for Next.js
+# 📦 Scan Single Barcode - Next.js
 
-[Next.js](https://nextjs.org/) is a react framework that enables functionalities such as server-side rendering and generating static websites for react-based web applications. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a Next.js application. Note that in this sample, `TypeScript` is used.
+This sample demonstrates how to use the `BarcodeScanner` API from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) in a **Next.js** app to scan a single barcode using the camera.
+
+## ✨ Features
+
+- Easy integration with pre-built UI
+- `BarcodeScanner` instance created in a client-side Next.js component
+- Scans one barcode at a time from video
+- Supports uploading local images as well
+
+## 🚀 Quick Start
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Start the App
+
+```bash
+npm run dev
+```
+
+Then open http://localhost:3000/ to view the sample app.
+
+## 📌 Customization
+
+Please check the official [documentation](https://dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/barcode-scanner-customization.html).
+
+## 📄 Support
+
+If you have any questions, feel free to [contact Dynamsoft Support](https://www.dynamsoft.com/company/contact?utm_source=sampleReadme).
 
 In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.2.4000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/11.2.4000).
 

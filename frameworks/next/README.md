@@ -2,9 +2,10 @@
 
 This directory contains Next.js examples demonstrating how to integrate the Dynamsoft Barcode Reader into Next.js apps.
 
-**Included example**
+**Included examples**
 
-- scan-using-foundational-api/ — Next.js example (Vite/Next dev server).
+- `scan-using-foundational-api/` — Next.js example using the foundational API.
+- `scan-using-rtu-api/` — Next.js example using the RTU API. (**Recommended for most users**)
 
 ## Quick start
 
