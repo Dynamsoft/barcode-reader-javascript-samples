@@ -7,9 +7,7 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
  */
 
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", {
-  executeNow: true,
-});
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", { executeNow: true });
 
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.

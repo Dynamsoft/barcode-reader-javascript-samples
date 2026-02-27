@@ -55,10 +55,11 @@
       // Display the first detected barcode's text in an alert
       if (result.barcodeResults.length) {
         alert(result.barcodeResults[0].text);
-      } else{
+      } else {
         alert("No barcode found");
       }
-
+    }).catch((err) => {
+      alert(err.message || err); 
     });
   </script>
 

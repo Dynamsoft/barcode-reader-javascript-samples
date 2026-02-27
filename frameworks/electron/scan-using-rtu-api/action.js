@@ -19,4 +19,6 @@ barcodeScanner.launch().then((result) => {
   if (result.barcodeResults.length) {
     alert(result.barcodeResults[0].text);
   }
-});
+}).catch((err) => {
+  alert(err.message || err);
+});;

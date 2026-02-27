@@ -8,8 +8,8 @@ const config: BarcodeScannerConfig = {
   // If container is not specified, the UI will take up the full screen
   container: document.querySelector(".barcode-scanner-view") as HTMLElement, // Specify where to render the scanner UI
 
-  // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
-  uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/ui/barcode-scanner.ui.xml",
+  // // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
+  // uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/ui/barcode-scanner.ui.xml",
 
   // showUploadImageButton: true,
   // scannerViewConfig: {

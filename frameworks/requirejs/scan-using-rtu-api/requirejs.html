@@ -20,7 +20,7 @@
   <script>
     requirejs(
       ["https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"],
-      ({BarcodeScanner})=>{
+      ({ BarcodeScanner }) => {
         // Configuration object for initializing the BarcodeScanner instance. Refer to https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html#barcodescannerconfig
         let config = {
           license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
@@ -50,7 +50,9 @@
           if (result.barcodeResults.length) {
             alert(result.barcodeResults[0].text);
           }
-        });
+        }).catch((err) => {
+          alert(err.message || err);
+        });;
       }
     );
   </script>
