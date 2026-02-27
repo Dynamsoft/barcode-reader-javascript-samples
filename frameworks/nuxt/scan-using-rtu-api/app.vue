@@ -1,5 +1,5 @@
 <template>
-  <h1 style="margin: 20px 0">Barcode Scanner for Vue3</h1>
+  <h1 style="margin: 20px 0">Barcode Scanner for Nuxt.js</h1>
   <div ref="barcodeScannerViewRef" style="width:100%;height:80vh">
   </div>
 </template>
