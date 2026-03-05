@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta name="description" content="Read barcodes from camera with Dynamsoft Barcode Reader in a PWA application." />
-    <meta name="keywords" content="barcode, camera, PWA" />
-    <title>Dynamsoft Barcode Reader PWA Sample - Hello World (Decode via Camera)</title>
-    <link rel="manifest" href="./helloworld-pwa.json" />
-    <meta name="theme-color" content="#B12A34" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="sample for ios" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <link rel="apple-touch-icon" sizes="192x192" href="./dynamsoft-192x192.png" />
-    <link rel="apple-touch-icon" sizes="512x512" href="./dynamsoft-512x512.png" />
-  </head>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="description" content="Read barcodes from camera with Dynamsoft Barcode Reader in a PWA application." />
+  <meta name="keywords" content="barcode, camera, PWA" />
+  <title>Dynamsoft Barcode Reader PWA Sample - Hello World (Decode via Camera)</title>
+  <link rel="manifest" href="./helloworld-pwa.json" />
+  <meta name="theme-color" content="#B12A34" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="sample for ios" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="apple-touch-icon" sizes="192x192" href="./dynamsoft-192x192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="./dynamsoft-512x512.png" />
+</head>
 
 
 <body>
@@ -35,11 +36,21 @@
       license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
       container: document.querySelector(".barcode-scanner-view"), // Specify where to render the scanner UI
 
+      /*
+        scanMode controls the scanning behavior:
+          - SM_MULTI_UNIQUE: Continuously scans and collects each unique barcode.
+          - SM_SINGLE: Stops scanning after the first barcode is detected.
+      */
+      scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
+
       // showUploadImageButton: true,
       // scannerViewConfig: {
       //   showFlashButton: true,
       //   cameraSwitchControl: "toggleFrontBack",
       // },
+      
+      // The watermark can be removed via showPoweredByDynamsoft configuration option.
+      // showPoweredByDynamsoft: false,
     };
 
     // Create a new instance of the Dynamsoft Barcode Scanner

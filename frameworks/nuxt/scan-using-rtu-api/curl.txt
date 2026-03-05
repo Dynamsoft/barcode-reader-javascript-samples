@@ -1,0 +1,14 @@
+﻿HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+content-type: text/html;charset=utf-8
+x-powered-by: Nuxt
+date: Wed, 04 Mar 2026 06:48:36 GMT
+connection: close
+content-length: 1020
+
+<!DOCTYPE html>
+<html >
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preload" as="style" href="/_nuxt/assets/main.css"><link rel="modulepreload" as="script" crossorigin href="/_nuxt/D:/Desktop/repository/barcode-reader-javascript-samples/frameworks/nuxt/scan-using-rtu-api/node_modules/nuxt/dist/app/entry.mjs"><link rel="stylesheet" href="/_nuxt/assets/main.css"></head>
+<body ><div id="__nuxt"><!--[--><h1 style="margin:20px 0;">Barcode Scanner for Nuxt.js</h1><div style="width:100%;height:80vh;"></div><!--]--></div><script>window.__NUXT__={data:{},state:{},_errors:{},serverRendered:true,config:{public:{},app:{baseURL:"\u002F",buildAssetsDir:"\u002F_nuxt\u002F",cdnURL:""}}}</script><script type="module" src="/_nuxt/@vite/client" crossorigin></script><script type="module" src="/_nuxt/D:/Desktop/repository/barcode-reader-javascript-samples/frameworks/nuxt/scan-using-rtu-api/node_modules/nuxt/dist/app/entry.mjs" crossorigin></script></body>
+</html>

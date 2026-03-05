@@ -19,6 +19,10 @@ onMounted(async () => {
   try {
     // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
     const cameraView = await CameraView.createInstance();
+
+    // Hide the "Powered by Message" overlay on the scanner view
+    // cameraView.setPowerByMessageVisible(false);
+    
     if (isDestroyed) { throw Error(componentDestroyedErrorMsg); } // Check if component is destroyed after every async
 
     cameraEnhancer = await CameraEnhancer.createInstance(cameraView);

@@ -24,8 +24,10 @@
   <div class="parsed-result-view">
     <div class="barcode-text"></div>
     <ul class="parsed-result-list"></ul>
-    <div class="back-to-scan">Back to Scan</div>
+    <div class="back-to-scan" style="cursor: pointer;">Back to Scan</div>
   </div>
+  <span>No PDF417 detected. Please try again.</span> <br>
+  <button onclick="launchFunction()">launch</button>
   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
   <script>
     const parsedResultView = document.querySelector(".parsed-result-view");
@@ -42,49 +44,57 @@
     Dynamsoft.License.LicenseManager.initLicense(licenseString, { executeNow: true });
     Dynamsoft.DCP.CodeParserModule.loadSpec(["AAMVA_DL_ID", "AAMVA_DL_ID_WITH_MAG_STRIPE", "SOUTH_AFRICA_DL"]);
 
+    let launchFunction = null;
     (async () => {
       let pParser;
 
-      async function launch() {
-        const scanner = new Dynamsoft.BarcodeScanner({
-          license: licenseString,
-          templateFilePath: "./read_dl.json",
-          showUploadImageButton: true,
-          utilizedTemplateNames: {
-            "single": "ReadDriversLicense",
-            "multi_unique": "ReadDriversLicense",
-            "image": "ReadDriversLicense"
-          },
-          scannerViewConfig: {
-            showFlashButton: true,
-            showCloseButton: false,
-            cameraSwitchControl: "toggleFrontBack",
-          },
-          onInitReady: () => {
-            homePage.style.display = "none";
-          }
-        });
+      launchFunction = async function() {
+        try {
+          const scanner = new Dynamsoft.BarcodeScanner({
+            license: licenseString,
+            templateFilePath: "./read_dl.json",
+            showUploadImageButton: true,
+            utilizedTemplateNames: {
+              "single": "ReadDriversLicense",
+              "multi_unique": "ReadDriversLicense",
+              "image": "ReadDriversLicense"
+            },
+            scannerViewConfig: {
+              showFlashButton: true,
+              showCloseButton: false,
+              cameraSwitchControl: "toggleFrontBack",
+            },
+            onInitReady: () => {
+              homePage.style.display = "none";
+            },
+            // The watermark can be removed via showPoweredByDynamsoft configuration option.
+            // showPoweredByDynamsoft: false,
+          });
 
-        const result = await scanner.launch();
-        if (result.barcodeResults.length > 0) {
-          let processedResult;
-          try {
-            const parser = await (pParser || (pParser = Dynamsoft.DCP.CodeParser.createInstance()));
-            const parsedResult = await parser.parse(result.barcodeResults[0].bytes);
-            processedResult = handleDLResult(parsedResult);
-          } catch (ex) {
-            processedResult = [
-              { description: "Error", value: ex.message || "parse failed." },
-              {
-                description: "Original text",
-                value: result.barcodeResults[0].text,
-              },
-            ]
-          } finally {
-            generateResultList(processedResult);
-            barcodeText.innerText = result.barcodeResults[0].text.replace(/\n/g, "");
+          const result = await scanner.launch();
+          if (result.barcodeResults.length > 0) {
+            let processedResult;
+            try {
+              const parser = await (pParser || (pParser = Dynamsoft.DCP.CodeParser.createInstance()));
+              const parsedResult = await parser.parse(result.barcodeResults[0].bytes);
+              processedResult = handleDLResult(parsedResult);
+            } catch (ex) {
+              processedResult = [
+                { description: "Error", value: ex.message || "parse failed." },
+                {
+                  description: "Original text",
+                  value: result.barcodeResults[0].text,
+                },
+              ]
+            } finally {
+              generateResultList(processedResult);
+              barcodeText.innerText = result.barcodeResults[0].text.replace(/\n/g, "");
+            }
+            parsedResultView.style.display = "block";
           }
-          parsedResultView.style.display = "block";
+        } catch (ex) {
+          console.log(ex.message || ex);
+          alert(ex.message || ex);
         }
       }
 
@@ -156,12 +166,12 @@
       startBtn.addEventListener("click", () => {
         loading.style.display = "block";
         startIcon.style.display = "none";
-        launch();
+        launchFunction();
       })
 
       backToScan.addEventListener("click", () => {
         parsedResultView.style.display = "none";
-        launch();
+        launchFunction();
       })
     })();
   </script>

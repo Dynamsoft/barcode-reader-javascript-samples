@@ -71,6 +71,10 @@
         // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
         const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
         const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+
+        // Hide the "Powered by Message" overlay on the scanner view
+        // cameraView.setPowerByMessageVisible(false);
+
         // Get default UI and append it to DOM.
         document.querySelector("#camera-view-container").append(cameraView.getUIElement());
 
@@ -82,6 +86,9 @@
         const bodyStyle = getComputedStyle(document.body);
         cvRouter.addResultReceiver({
           onCapturedResultReceived: (result) => {
+            if(!cameraEnhancer.isOpen()) {
+              return; // If camera is closed, skip processing results to avoid potential errors.
+            }
             // Reset results
             resultsContainer.innerText = "";
 

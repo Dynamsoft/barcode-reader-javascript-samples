@@ -56,7 +56,9 @@
       let config = {
         license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
         container: barcodeScannerView, // Specify where to render the scanner UI
-        scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE
+        scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
+        // The watermark can be removed via showPoweredByDynamsoft configuration option.
+        // showPoweredByDynamsoft: false,
       }
 
       // Create a new instance of the Dynamsoft Barcode Scanner
@@ -108,7 +110,7 @@
 
     const mergeResult = (newResult) => {
       for (let formatString in newResult) {
-        if(!totalUniqueBarcodesResult.hasOwnProperty(formatString)) {
+        if (!totalUniqueBarcodesResult.hasOwnProperty(formatString)) {
           totalUniqueBarcodesResult[formatString] = newResult[formatString];
         } else {
           totalUniqueBarcodesResult[formatString] += newResult[formatString];

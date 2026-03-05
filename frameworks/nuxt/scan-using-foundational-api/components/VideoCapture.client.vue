@@ -25,6 +25,9 @@ onMounted(async () => {
     cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
     if (isDestroyed) { throw Error(componentDestroyedErrorMsg); }
 
+    // Hide the "Powered by Message" overlay on the scanner view
+    // cameraView.setPowerByMessageVisible(false);
+
     // Get default UI and append it to DOM.
     cameraViewContainer.value!.append(cameraView.getUIElement());
 
@@ -38,7 +41,7 @@ onMounted(async () => {
       onDecodedBarcodesReceived: (result) => {
         if (!result.barcodeResultItems.length) return;
 
-          resultText.value = '';
+        resultText.value = '';
         console.log(result);
         for (let item of result.barcodeResultItems) {
           resultText.value += `${item.formatString}: ${item.text}\n\n`;

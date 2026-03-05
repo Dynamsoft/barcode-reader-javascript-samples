@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { BarcodeScanner, BarcodeScannerConfig } from 'dynamsoft-barcode-reader-bundle';
+import { BarcodeScanner, BarcodeScannerConfig, EnumScanMode } from 'dynamsoft-barcode-reader-bundle';
 
 @Component({
   selector: 'app-root',
@@ -20,10 +20,17 @@ export class AppComponent {
 
       // Specify where to render the scanner UI
       // If container is not specified, the UI will take up the full screen
-      container: this.barcodeScannerViewRef.nativeElement, 
+      container: this.barcodeScannerViewRef.nativeElement,
 
       // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
       uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/ui/barcode-scanner.ui.xml",
+
+      /*
+        scanMode controls the scanning behavior:
+          - SM_MULTI_UNIQUE: Continuously scans and collects each unique barcode.
+          - SM_SINGLE: Stops scanning after the first barcode is detected.
+      */
+      scanMode: EnumScanMode.SM_MULTI_UNIQUE,
 
       // showUploadImageButton: true,
       // scannerViewConfig: {
@@ -35,6 +42,9 @@ export class AppComponent {
       engineResourcePaths: {
         rootDirectory: "https://cdn.jsdelivr.net/npm/",
       },
+
+      // The watermark can be removed via showPoweredByDynamsoft configuration option.
+      // showPoweredByDynamsoft: false,
     }
 
     // Create an instance of the BarcodeScanner with the provided configuration
@@ -46,7 +56,7 @@ export class AppComponent {
       alert(result.barcodeResults[0].text);
     }
   }
-  async ngOnDestroy(): Promise<void> { 
+  async ngOnDestroy(): Promise<void> {
     // Dispose of the barcode scanner when the component unmounts
     this.barcodeScanner?.dispose();
   }

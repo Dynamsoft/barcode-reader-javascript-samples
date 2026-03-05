@@ -74,7 +74,9 @@
           onInitReady: (components) => {
             components.cameraView.setVideoFit("contain");
             cvRouter = components.cvRouter;
-          }
+          },
+          // The watermark can be removed via showPoweredByDynamsoft configuration option.
+          // showPoweredByDynamsoft: false,
         };
 
         // Create a new instance of the Dynamsoft Barcode Scanner
@@ -98,11 +100,13 @@
           barcodeScannerView.style.display = "none";
           scanBtn.style.display = "inline-block";
           decodeBtn.style.display = "none";
+          decodeBtn.innerText = "Decode to Auto-Fill";
           barcodeScanner = null;
         });
       })
 
       decodeBtn.addEventListener("click", () => {
+        decodeBtn.innerText = "Scanning...";
         cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
       })
     }

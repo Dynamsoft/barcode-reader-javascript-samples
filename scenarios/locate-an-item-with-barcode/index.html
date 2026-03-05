@@ -376,7 +376,10 @@
       const cameraView = await Dynamsoft.DCE.CameraView.createInstance(cameraViewContainer);
       // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
       const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
-      cameraView.setVideoFit("cover");
+      // cameraView.setVideoFit("cover");
+
+      // Hide the "Powered by Message" overlay on the scanner view
+      // cameraView.setPowerByMessageVisible(false);
 
       // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
       const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();

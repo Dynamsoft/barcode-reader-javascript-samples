@@ -3,11 +3,21 @@ let config = {
   license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
   container: document.querySelector(".barcode-scanner-view"), // Specify where to render the scanner UI
 
+  /*
+    scanMode controls the scanning behavior:
+      - SM_MULTI_UNIQUE: Continuously scans and collects each unique barcode.
+      - SM_SINGLE: Stops scanning after the first barcode is detected.
+  */
+  scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
+
   // showUploadImageButton: true,
   // scannerViewConfig: {
   //   showFlashButton: true,
   //   cameraSwitchControl: "toggleFrontBack",
   // },
+
+  // The watermark can be removed via showPoweredByDynamsoft configuration option.
+  // showPoweredByDynamsoft: false,
 };
 
 // Create a new instance of the Dynamsoft Barcode Scanner

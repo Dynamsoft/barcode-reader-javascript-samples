@@ -17,7 +17,7 @@
   <div class="barcode-scanner-view"></div>
 
   <script type="module">
-    import { BarcodeScanner } from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.mjs";
+    import { BarcodeScanner, EnumScanMode } from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.mjs";
 
     // Configuration object for initializing the BarcodeScanner instance. Refer to https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html#barcodescannerconfig
     let config = {
@@ -26,6 +26,13 @@
 
       // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
       uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/ui/barcode-scanner.ui.xml",
+
+      /*
+        scanMode controls the scanning behavior:
+         - SM_MULTI_UNIQUE: Continuously scans and collects each unique barcode.
+         - SM_SINGLE: Stops scanning after the first barcode is detected.
+      */
+      scanMode: EnumScanMode.SM_MULTI_UNIQUE,
 
       // showUploadImageButton: true,
       // scannerViewConfig: {
@@ -37,6 +44,8 @@
       engineResourcePaths: {
         rootDirectory: "https://cdn.jsdelivr.net/npm/",
       },
+      // The watermark can be removed via showPoweredByDynamsoft configuration option.
+      // showPoweredByDynamsoft: false,
     };
 
     // Create a new instance of the Dynamsoft Barcode Scanner

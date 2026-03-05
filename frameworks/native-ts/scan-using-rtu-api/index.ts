@@ -1,4 +1,4 @@
-import { BarcodeScanner, BarcodeScannerConfig } from "dynamsoft-barcode-reader-bundle";
+import { BarcodeScanner, BarcodeScannerConfig, EnumScanMode } from "dynamsoft-barcode-reader-bundle";
 
 // Configuration object for initializing the BarcodeScanner instance
 const config: BarcodeScannerConfig = {
@@ -9,7 +9,14 @@ const config: BarcodeScannerConfig = {
   container: document.querySelector(".barcode-scanner-view") as HTMLElement, // Specify where to render the scanner UI
 
   // // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
-  // uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/ui/barcode-scanner.ui.xml",
+  uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/ui/barcode-scanner.ui.xml",
+
+  /*
+    scanMode controls the scanning behavior:
+      - SM_MULTI_UNIQUE: Continuously scans and collects each unique barcode.
+      - SM_SINGLE: Stops scanning after the first barcode is detected.
+  */
+  scanMode: EnumScanMode.SM_MULTI_UNIQUE,
 
   // showUploadImageButton: true,
   // scannerViewConfig: {
@@ -21,12 +28,14 @@ const config: BarcodeScannerConfig = {
   engineResourcePaths: {
     rootDirectory: "https://cdn.jsdelivr.net/npm/",
   },
+  // The watermark can be removed via showPoweredByDynamsoft configuration option.
+  // showPoweredByDynamsoft: false,
 };
 
 // Create a new instance of the Dynamsoft Barcode Scanner
 const barcodeScanner = new BarcodeScanner(config);
 
-(async()=>{
+(async () => {
   // Launch the scanner; once a barcode is detected, display its text in an alert
   let result = await barcodeScanner.launch();
   if (result.barcodeResults.length) {

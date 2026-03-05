@@ -1,10 +1,10 @@
-import { useEffect, useRef  } from 'react';
-import { BarcodeScanner, type BarcodeScannerConfig } from "dynamsoft-barcode-reader-bundle";
+import { useEffect, useRef } from 'react';
+import { BarcodeScanner, EnumScanMode, type BarcodeScannerConfig } from "dynamsoft-barcode-reader-bundle";
 
 
 function App() {
   const barcodeScannerViewRef = useRef(null);
-  
+
   useEffect(() => {
 
     // Configuration object for initializing the BarcodeScanner instance
@@ -13,10 +13,17 @@ function App() {
 
       // Specify where to render the scanner UI
       // If container is not specified, the UI will take up the full screen
-      container: barcodeScannerViewRef.current!, 
+      container: barcodeScannerViewRef.current!,
 
       // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
       uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/ui/barcode-scanner.ui.xml",
+
+      /*
+        scanMode controls the scanning behavior:
+          - SM_MULTI_UNIQUE: Continuously scans and collects each unique barcode.
+          - SM_SINGLE: Stops scanning after the first barcode is detected.
+      */
+      scanMode: EnumScanMode.SM_MULTI_UNIQUE,
 
       // showUploadImageButton: true,
       // scannerViewConfig: {
@@ -28,12 +35,14 @@ function App() {
       engineResourcePaths: {
         rootDirectory: "https://cdn.jsdelivr.net/npm/",
       },
+      // The watermark can be removed via showPoweredByDynamsoft configuration option.
+      // showPoweredByDynamsoft: false,
     }
 
     // Create an instance of the BarcodeScanner with the provided configuration
     const barcodeScanner = new BarcodeScanner(config);
 
-    (async ()=>{
+    (async () => {
       // Launch the scanner; once a barcode is detected, display its text in an alert
       let result = await barcodeScanner.launch();
       if (result.barcodeResults.length) {
@@ -41,7 +50,7 @@ function App() {
       }
     })();
 
-    return ()=>{
+    return () => {
       // Dispose of the barcode scanner when the component unmounts
       barcodeScanner?.dispose();
     };

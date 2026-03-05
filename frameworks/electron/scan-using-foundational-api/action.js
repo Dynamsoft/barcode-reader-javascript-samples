@@ -30,6 +30,9 @@ Dynamsoft.Core.CoreModule.loadWasm();
     // Get default UI and append it to DOM.
     document.querySelector("#camera-view-container").append(cameraView.getUIElement());
 
+    // Hide the "Powered by Message" overlay on the scanner view
+    // cameraView.setPowerByMessageVisible(false);
+
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
     cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
     cvRouter.setInput(cameraEnhancer);

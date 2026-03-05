@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import "./page.css";
-import { BarcodeScanner, BarcodeScannerConfig } from "dynamsoft-barcode-reader-bundle";
+import { BarcodeScanner, BarcodeScannerConfig, EnumScanMode } from "dynamsoft-barcode-reader-bundle";
 
 export default function Home() {
   const barcodeScannerViewRef = useRef(null);
@@ -19,6 +19,13 @@ export default function Home() {
       // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
       uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/ui/barcode-scanner.ui.xml",
 
+      /*
+        scanMode controls the scanning behavior:
+         - SM_MULTI_UNIQUE: Continuously scans and collects each unique barcode.
+         - SM_SINGLE: Stops scanning after the first barcode is detected.
+      */
+      scanMode: EnumScanMode.SM_MULTI_UNIQUE,
+
       // showUploadImageButton: true,
       // scannerViewConfig: {
       //   showFlashButton: true,
@@ -29,6 +36,8 @@ export default function Home() {
       engineResourcePaths: {
         rootDirectory: "https://cdn.jsdelivr.net/npm/",
       },
+      // The watermark can be removed via showPoweredByDynamsoft configuration option.
+      // showPoweredByDynamsoft: false,
     }
 
     // Create an instance of the BarcodeScanner with the provided configuration
@@ -50,7 +59,7 @@ export default function Home() {
 
   return (
     <>
-      <h1 style={{margin: "20px 0"}}>Barcode Scanner for Next.js</h1>
+      <h1 style={{ margin: "20px 0", textAlign: "center" }}>Barcode Scanner for Next.js</h1>
       <div ref={barcodeScannerViewRef} style={{ width: '100%', height: '80vh' }}>
       </div>
     </>
