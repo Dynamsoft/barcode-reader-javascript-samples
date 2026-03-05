@@ -1,5 +1,0 @@
-
- WARN  Current version of Node.js (20.19.6) is unsupported and might cause issues.
-       Please upgrade to a compatible version (^14.18.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0).
-
-^C
