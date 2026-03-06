@@ -60,7 +60,7 @@ git clone https://github.com/Dynamsoft/barcode-reader-javascript-samples.git --d
 
 ## Running the Samples Locally
 
-The standalone samples (`hello-world.html`, `read-an-image.html`) and scenario samples load the SDK from a CDN, so you can open them directly by double-clicking — no web server required (an internet connection is needed).
+The standalone samples (`hello-world.html`, `scan-a-single-barcode.html`, `read-an-image.html`) and scenario samples load the SDK from a CDN, so you can open them directly by double-clicking — no web server required (an internet connection is needed).
 
 To browse all available samples, open `index.html` in your browser — it links to every sample in the repository.
 
@@ -121,7 +121,8 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 
 ### Hello World
 
-- [hello-world.html](./hello-world.html) — The simplest example to get started with single barcode scanning.
+- [hello-world.html](./hello-world.html) — Demonstrates continuously scanning and collecting multiple unique barcodes via camera.
+- [scan-a-single-barcode.html](./scan-a-single-barcode.html) — Demonstrates single-barcode scanning: stops and returns as soon as the first barcode is detected.
 - [read-an-image.html](./read-an-image.html) — Demonstrates how to decode and read barcodes from uploaded image files.
 
 ### Frameworks
