@@ -125,6 +125,11 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 - [scan-a-single-barcode.html](./scan-a-single-barcode.html) — Demonstrates single-barcode scanning: stops and returns as soon as the first barcode is detected.
 - [read-an-image.html](./read-an-image.html) — Demonstrates how to decode and read barcodes from uploaded image files.
 
+### Hello-world
+
+- [hello-world.html](./hello-world.html) — The simplest example to get started with single barcode scanning.
+- [read-an-image.html](./read-an-image.html) — Demonstrates how to decode and read barcodes from uploaded image files.
+
 ### Frameworks
 
 - [angular/](./frameworks/angular/) — Angular examples.
