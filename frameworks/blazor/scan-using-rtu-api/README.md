@@ -1,6 +1,6 @@
 # 📦 Scan Single Barcode - Blazor
 
-This sample demonstrates how to use the `BarcodeScanner` API from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/overview/javascript/) in a **Blazor** app to scan a single barcode using the camera.
+This sample demonstrates how to use the `BarcodeScanner` API from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) in a **Blazor** app to scan a single barcode using the camera.
 
 ## ✨ Features
 

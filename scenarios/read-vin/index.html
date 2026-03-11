@@ -24,8 +24,10 @@
   <div class="parsed-result-view">
     <div class="barcode-text"></div>
     <ul class="parsed-result-list"></ul>
-    <div class="back-to-scan">Back to Scan</div>
+    <div class="back-to-scan" style="cursor: pointer;">Back to Scan</div>
   </div>
+  <span>No VIN Barcode detected. Please try again.</span> <br>
+  <button onclick="launchFunction()">Scan Again</button>
   <script>
     const parsedResultView = document.querySelector(".parsed-result-view");
     const homePage = document.querySelector(".home-page");
@@ -43,50 +45,59 @@
       Dynamsoft.DCP.CodeParserModule.loadSpec("VIN");
     })();
 
+    let launchFunction = null;
+
     (async () => {
 
       const pParser = Dynamsoft.DCP.CodeParser.createInstance();
 
-      async function launch() {
-        const scanner = new Dynamsoft.BarcodeScanner({
-          license: licenseString,
-          templateFilePath: "./read_vin.json",
-          showUploadImageButton: true,
-          utilizedTemplateNames: {
-            "single": "ReadVIN",
-            "multi_unique": "ReadVIN",
-            "image": "ReadVIN"
-          },
-          scannerViewConfig: {
-            showFlashButton: true,
-            showCloseButton: false,
-            cameraSwitchControl: "toggleFrontBack",
-          },
-          onInitReady: () => {
-            homePage.style.display = "none";
-          }
-        });
+      launchFunction = async function () {
+        try {
+          const scanner = new Dynamsoft.BarcodeScanner({
+            license: licenseString,
+            templateFilePath: "./read_vin.json",
+            showUploadImageButton: true,
+            utilizedTemplateNames: {
+              "single": "ReadVIN",
+              "multi_unique": "ReadVIN",
+              "image": "ReadVIN"
+            },
+            scannerViewConfig: {
+              showFlashButton: true,
+              showCloseButton: false,
+              cameraSwitchControl: "toggleFrontBack",
+            },
+            onInitReady: () => {
+              homePage.style.display = "none";
+            },
+            // The watermark can be removed via showPoweredByDynamsoft configuration option.
+            // showPoweredByDynamsoft: false,
+          });
 
-        const result = await scanner.launch();
-        if (result.barcodeResults.length > 0) {
-          let processedResult;
-          try {
-            const parser = await pParser;
-            const parsedResult = await parser.parse(result.barcodeResults[0].bytes);
-            processedResult = handleVINResult(parsedResult);
-          } catch (ex) {
-            processedResult = [
-              { description: "Error", value: ex.message || "parse failed." },
-              {
-                description: "Original text",
-                value: result.barcodeResults[0].text,
-              },
-            ]
-          } finally {
-            generateResultList(processedResult);
-            barcodeText.innerText = result.barcodeResults[0].text;
+          const result = await scanner.launch();
+          if (result.barcodeResults.length > 0) {
+            let processedResult;
+            try {
+              const parser = await pParser;
+              const parsedResult = await parser.parse(result.barcodeResults[0].bytes);
+              processedResult = handleVINResult(parsedResult);
+            } catch (ex) {
+              processedResult = [
+                { description: "Error", value: ex.message || "parse failed." },
+                {
+                  description: "Original text",
+                  value: result.barcodeResults[0].text,
+                },
+              ]
+            } finally {
+              generateResultList(processedResult);
+              barcodeText.innerText = result.barcodeResults[0].text;
+            }
+            parsedResultView.style.display = "block";
           }
-          parsedResultView.style.display = "block";
+        } catch (ex) {
+          console.log(ex.message || ex);
+          alert(ex.message || ex);
         }
       }
 
@@ -132,12 +143,12 @@
       startBtn.addEventListener("click", () => {
         loading.style.display = "block";
         startIcon.style.display = "none";
-        launch();
+        launchFunction();
       })
 
       backToScan.addEventListener("click", () => {
         parsedResultView.style.display = "none";
-        launch();
+        launchFunction();
       })
     })();
   </script>

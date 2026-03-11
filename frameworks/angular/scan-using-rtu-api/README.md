@@ -1,6 +1,6 @@
 # 📦 Scan Single Barcode - Angular
 
-This sample shows how to integrate the `BarcodeScanner` from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/overview/javascript/) in an **Angular** project for scanning a single barcode from live video.
+This sample shows how to integrate the `BarcodeScanner` from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) in an **Angular** project for scanning a single barcode from live video.
 
 ## ✨ Features
 

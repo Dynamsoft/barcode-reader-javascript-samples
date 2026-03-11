@@ -1,20 +1,32 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { BarcodeScanner, type BarcodeScannerConfig } from "dynamsoft-barcode-reader-bundle";
+  import {
+    BarcodeScanner,
+    EnumScanMode,
+    type BarcodeScannerConfig,
+  } from "dynamsoft-barcode-reader-bundle";
 
   let barcodeScannerViewRef: HTMLElement;
-  
-  onMount(() => { 
+
+  onMount(() => {
     // Configuration object for initializing the BarcodeScanner instance
     const config: BarcodeScannerConfig = {
       license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
 
       // Specify where to render the scanner UI
       // If container is not specified, the UI will take up the full screen
-      container: barcodeScannerViewRef, 
+      container: barcodeScannerViewRef,
 
       // Specify the path for the definition file "barcode-scanner.ui.xml" for the scanner view.
-      uiPath: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/ui/barcode-scanner.ui.xml",
+      uiPath:
+        "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/ui/barcode-scanner.ui.xml",
+
+      /*
+        scanMode controls the scanning behavior:
+          - SM_MULTI_UNIQUE: Continuously scans and collects each unique barcode.
+          - SM_SINGLE: Stops scanning after the first barcode is detected.
+      */
+      scanMode: EnumScanMode.SM_MULTI_UNIQUE,
 
       // showUploadImageButton: true,
       // scannerViewConfig: {
@@ -26,12 +38,14 @@
       engineResourcePaths: {
         rootDirectory: "https://cdn.jsdelivr.net/npm/",
       },
-    }
+      // The watermark can be removed via showPoweredByDynamsoft configuration option.
+      // showPoweredByDynamsoft: false,
+    };
 
     // Create an instance of the BarcodeScanner with the provided configuration
     const barcodeScanner = new BarcodeScanner(config);
 
-    (async ()=>{
+    (async () => {
       // Launch the scanner; once a barcode is detected, display its text in an alert
       let result = await barcodeScanner.launch();
       if (result.barcodeResults.length) {
@@ -40,16 +54,14 @@
     })();
 
     // onBeforeUnmount
-    return ()=>{
+    return () => {
       // Dispose of the barcode scanner when the component unmounts
       barcodeScanner?.dispose();
     };
   });
-
 </script>
 
 <main>
   <h1>Barcode Scanner for Svelte</h1>
-  <div bind:this={barcodeScannerViewRef} style="width:100%;height:80vh">
-  </div>
+  <div bind:this={barcodeScannerViewRef} style="width:100%;height:80vh"></div>
 </main>

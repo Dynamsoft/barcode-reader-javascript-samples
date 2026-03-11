@@ -26,6 +26,7 @@
     let config = {
       license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
       container: document.querySelector(".barcode-scanner-view"), // Specify where to render the scanner UI
+      scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
       showUploadImageButton: true,
       scannerViewConfig: {
         showFlashButton: true,
@@ -48,6 +49,8 @@
         };
         components.cameraEnhancer.setScanRegion(region);
       },
+      // The watermark can be removed via showPoweredByDynamsoft configuration option.
+      // showPoweredByDynamsoft: false,
     };
 
     // Create a new instance of the Dynamsoft Barcode Scanner

@@ -48,6 +48,8 @@
         scannerViewConfig: {
           container: scannerContainer,
         },
+        // The watermark can be removed via showPoweredByDynamsoft configuration option.
+        // showPoweredByDynamsoft: false,
       });
 
       scanBtn.disabled = true;
@@ -69,7 +71,7 @@
       });
 
       searchBtn.addEventListener("click", () => {
-        if(!inputBox.value) return;
+        if (!inputBox.value) return;
         searchResult.value = `Text to Query from Database: \n\n${inputBox.value} \n\n-------------------\n\nProduct name: xxx \n\nBrand: xxx \n\nCategory: xxx \n\nPrice: xxx \n\nDescription: xxx`;
       });
     };

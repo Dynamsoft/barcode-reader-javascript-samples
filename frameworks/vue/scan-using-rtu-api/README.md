@@ -1,6 +1,6 @@
 # 📦 Scan Single Barcode - Vue
 
-This sample shows how to integrate the `BarcodeScanner` API from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/overview/javascript/) into a **Vue 3** application to scan a single barcode from video.
+This sample shows how to integrate the `BarcodeScanner` API from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) into a **Vue 3** application to scan a single barcode from video.
 
 ## ✨ Features
 

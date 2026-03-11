@@ -31,6 +31,9 @@ function VideoCapture() {
           throw Error(componentDestroyedErrorMsg);
         }
 
+        // Hide the "Powered by Message" overlay on the scanner view
+        // cameraView.setPowerByMessageVisible(false);
+
         // Get default UI and append it to DOM.
         cameraViewContainer.current!.append(cameraView.getUIElement());
 
@@ -98,7 +101,7 @@ function VideoCapture() {
         await pInit;
         cvRouter?.dispose();
         cameraEnhancer?.dispose();
-      } catch (_) {}
+      } catch (_) { }
     };
   }, []);
 

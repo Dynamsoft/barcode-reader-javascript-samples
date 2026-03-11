@@ -7,9 +7,7 @@ Dynamsoft.Core.CoreModule.engineResourcePaths = {
  * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
  */
 
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", {
-  executeNow: true,
-});
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", { executeNow: true });
 
 /**
  * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
@@ -31,6 +29,9 @@ Dynamsoft.Core.CoreModule.loadWasm();
     cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
     // Get default UI and append it to DOM.
     document.querySelector("#camera-view-container").append(cameraView.getUIElement());
+
+    // Hide the "Powered by Message" overlay on the scanner view
+    // cameraView.setPowerByMessageVisible(false);
 
     // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
     cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();

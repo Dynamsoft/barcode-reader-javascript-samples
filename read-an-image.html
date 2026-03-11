@@ -12,7 +12,9 @@
 
 <body>
   <h1>Hello World (Read an Image)</h1>
-  <input id="input-file" type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" /><br />
+  <input id="input-file" type="file" multiple accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" />
+  <span id="decoding" style="display: none;">Decoding...</span>
+  <br />
   Results:<br />
   <div id="results"></div>
   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
@@ -29,41 +31,39 @@
      * LICENSE ALERT - THE END
      */
     let config = {
-        license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9",
-      };
+      license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9",
+    };
 
     // Create a new instance of the Dynamsoft Barcode Scanner
-    barcodeScanner = new Dynamsoft.BarcodeScanner(config);
+    const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
 
     const resultsContainer = document.querySelector("#results");
 
-    document.querySelector("#input-file").addEventListener("change", async function () {
-      let files = [...this.files];
+    document.querySelector("#input-file").addEventListener("change", async function (e) {
+      let file = e.target.files[0];
       this.value = "";
       resultsContainer.innerText = "";
       try {
-        for (let file of files) {
-          // Decode selected image with 'ReadBarcodes_SpeedFirst' template.
-          const result = await barcodeScanner.decode(file, "ReadBarcodes_SpeedFirst");
-          const barcodeResultItems = result.decodedBarcodesResult?.barcodeResultItems;
+        document.querySelector("#decoding").style.display = "inline"; // Show decoding indicator during the decoding process
+        // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
+        const result = await barcodeScanner.decode(file, "ReadBarcodes_ReadRateFirst");
+        const barcodeResultItems = result.decodedBarcodesResult?.barcodeResultItems;
+        
+        if (!barcodeResultItems) {
+          resultsContainer.innerText += "No barcode found\n";
+          return;
+        }
 
-          if (files.length > 1) {
-            resultsContainer.innerText += `\n${file.name}:\n`;
-          }
-          if (!barcodeResultItems?.length){
-            resultsContainer.innerText += "No barcode found\n";
-            continue;
-          }
-
-          for (let item of barcodeResultItems) {
-            resultsContainer.innerText += item.text + "\n";
-            console.log(item.text);
-          }
+        for (let item of barcodeResultItems) {
+          resultsContainer.innerText += item.text + "\n";
+          console.log(item.text);
         }
       } catch (ex) {
         let errMsg = ex.message || ex;
         console.error(ex);
         alert(errMsg);
+      } finally {
+        document.querySelector("#decoding").style.display = "none"; // Hide decoding indicator after the decoding process
       }
     });
   </script>

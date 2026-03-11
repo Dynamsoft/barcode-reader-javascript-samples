@@ -2,9 +2,10 @@
 
 This directory contains Nuxt examples demonstrating use of the Dynamsoft Barcode Reader in Nuxt projects.
 
-**Included example**
+**Included examples**
 
-- scan-using-foundational-api/ — Nuxt example using foundational API.
+- `scan-using-foundational-api/` — Nuxt example using the foundational API.
+- `scan-using-rtu-api/` — Nuxt example using the RTU API. (**Recommended for most users**)
 
 ## Quick start
 
