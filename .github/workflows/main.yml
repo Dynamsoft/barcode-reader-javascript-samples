@@ -11,7 +11,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   Build-Demo:
-    if: ${{ github.ref == 'refs/heads/demo' }}    
+    if: ${{ github.ref == 'refs/heads/demo0311' }}    
     
     # The type of runner that the job will run on
     runs-on: [self-hosted, sample-upload]
