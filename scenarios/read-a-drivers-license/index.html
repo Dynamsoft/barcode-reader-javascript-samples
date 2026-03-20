@@ -41,8 +41,9 @@
 
     const licenseString = "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9";
 
-    Dynamsoft.License.LicenseManager.initLicense(licenseString, { executeNow: true });
-    Dynamsoft.DCP.CodeParserModule.loadSpec(["AAMVA_DL_ID", "AAMVA_DL_ID_WITH_MAG_STRIPE", "SOUTH_AFRICA_DL"]);
+    Dynamsoft.License.LicenseManager.initLicense(licenseString, { executeNow: true }).then(()=>{
+      Dynamsoft.DCP.CodeParserModule.loadSpec(["AAMVA_DL_ID", "AAMVA_DL_ID_WITH_MAG_STRIPE", "SOUTH_AFRICA_DL"]);
+    });
 
     let launchFunction = null;
     (async () => {
