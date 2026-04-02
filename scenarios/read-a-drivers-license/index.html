@@ -21,14 +21,13 @@
     </div>
     <img class="logo-dynamsoft" src="./logo-dynamsoft.png" alt="logo-dynamsoft">
   </div>
+  <div class="barcode-scanner-view"></div>
   <div class="parsed-result-view">
     <div class="barcode-text"></div>
     <ul class="parsed-result-list"></ul>
     <div class="back-to-scan" style="cursor: pointer;">Back to Scan</div>
   </div>
-  <span>No PDF417 detected. Please try again.</span> <br>
-  <button onclick="launchFunction()">Scan Again</button>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
+  <script src="https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260402141436/dist/dbr.bundle.js"></script>
   <script>
     const parsedResultView = document.querySelector(".parsed-result-view");
     const homePage = document.querySelector(".home-page");
@@ -38,143 +37,139 @@
     const barcodeText = document.querySelector(".barcode-text");
     const parsedResultList = document.querySelector(".parsed-result-list");
     const backToScan = document.querySelector(".back-to-scan");
+    const barcodeScannerView = document.querySelector(".barcode-scanner-view");
 
-    const licenseString = "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9";
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+    Dynamsoft.DCP.CodeParserModule.loadSpec(["AAMVA_DL_ID", "SOUTH_AFRICA_DL"]);
 
-    Dynamsoft.License.LicenseManager.initLicense(licenseString, { executeNow: true }).then(()=>{
-      Dynamsoft.DCP.CodeParserModule.loadSpec(["AAMVA_DL_ID", "AAMVA_DL_ID_WITH_MAG_STRIPE", "SOUTH_AFRICA_DL"]);
-    });
+    let cameraView, cameraEnhancer, cvRouter, parser;
+    let pInit = (async function () {
+      try {
+        cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+        cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+        cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
 
-    let launchFunction = null;
-    (async () => {
-      let pParser;
+        cvRouter.setInput(cameraEnhancer);
 
-      launchFunction = async function() {
-        try {
-          const scanner = new Dynamsoft.BarcodeScanner({
-            license: licenseString,
-            templateFilePath: "./read_dl.json",
-            showUploadImageButton: true,
-            utilizedTemplateNames: {
-              "single": "ReadDriversLicense",
-              "multi_unique": "ReadDriversLicense",
-              "image": "ReadDriversLicense"
-            },
-            scannerViewConfig: {
-              showFlashButton: true,
-              showCloseButton: false,
-              cameraSwitchControl: "toggleFrontBack",
-            },
-            onInitReady: () => {
-              homePage.style.display = "none";
-            },
-            // The watermark can be removed via showPoweredByDynamsoft configuration option.
-            // showPoweredByDynamsoft: false,
-          });
-
-          const result = await scanner.launch();
-          if (result.barcodeResults.length > 0) {
+        const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+        resultReceiver.onDecodedBarcodesReceived = async (result) => {
+          if (result.barcodeResultItems.length > 0) {
             let processedResult;
             try {
-              const parser = await (pParser || (pParser = Dynamsoft.DCP.CodeParser.createInstance()));
-              const parsedResult = await parser.parse(result.barcodeResults[0].bytes);
+              parser = await Dynamsoft.DCP.CodeParser.createInstance();
+              const parsedResult = await parser.parse(result.barcodeResultItems[0].bytes);
               processedResult = handleDLResult(parsedResult);
             } catch (ex) {
               processedResult = [
                 { description: "Error", value: ex.message || "parse failed." },
                 {
                   description: "Original text",
-                  value: result.barcodeResults[0].text,
+                  value: result.barcodeResultItems[0].text,
                 },
               ]
             } finally {
               generateResultList(processedResult);
-              barcodeText.innerText = result.barcodeResults[0].text.replace(/\n/g, "");
+              barcodeText.innerText = result.barcodeResultItems[0].text.replace(/\n/g, "");
             }
             parsedResultView.style.display = "block";
+            barcodeScannerView.style.display = "none";
+            cameraView.clearAllInnerDrawingItems();
+            cvRouter.stopCapturing();
           }
-        } catch (ex) {
-          console.log(ex.message || ex);
-          alert(ex.message || ex);
+        }
+        await cvRouter.addResultReceiver(resultReceiver);
+        await cvRouter.initSettings("./read_dl.json");
+
+        barcodeScannerView.append(cameraView.getUIElement());
+      } catch (ex) {
+        console.log(ex.message || ex);
+        alert(ex.message || ex);
+      }
+    })();
+
+    async function start() {
+      await pInit;
+      await cameraEnhancer.open();
+      await cvRouter.startCapturing("ReadDriversLicense");
+      homePage.style.display = "none";
+    }
+
+    function handleDLResult(parsedResult) {
+      const oriParseInfo = [];
+      const resultInfo = JSON.parse(parsedResult.jsonString);
+      if (parsedResult.codeType === "AAMVA_DL_ID") {
+        for (let info of resultInfo.ResultInfo) {
+          if (info.FieldName !== "commonSubfile") continue;
+          if (info.ChildFields) {
+            wrapResultObject(info.ChildFields);
+          }
+        }
+      } else if (parsedResult.codeType === "AAMVA_DL_ID_WITH_MAG_STRIPE") {
+        for (let info of resultInfo.ResultInfo) {
+          if (info.FieldName.includes("track")) {
+            if (info.ChildFields) {
+              wrapResultObject(info.ChildFields);
+            }
+          }
+        }
+      } else if (parsedResult.codeType === "SOUTH_AFRICA_DL") {
+        for (let info of resultInfo.ResultInfo) {
+          if (info.ChildFields) {
+            wrapResultObject(info.ChildFields);
+          } else {
+            if (info.Value) {
+              oriParseInfo.push({
+                description: info.FieldName,
+                value: info.Value,
+              });
+            }
+          }
         }
       }
 
-      function handleDLResult(parsedResult) {
-        const oriParseInfo = [];
-        const resultInfo = JSON.parse(parsedResult.jsonString);
-        if (parsedResult.codeType === "AAMVA_DL_ID") {
-          for (let info of resultInfo.ResultInfo) {
-            if (info.FieldName !== "commonSubfile") continue;
-            if (info.ChildFields) {
-              wrapResultObject(info.ChildFields);
-            }
-          }
-        } else if (parsedResult.codeType === "AAMVA_DL_ID_WITH_MAG_STRIPE") {
-          for (let info of resultInfo.ResultInfo) {
-            if (info.FieldName.includes("track")) {
-              if (info.ChildFields) {
-                wrapResultObject(info.ChildFields);
-              }
-            }
-          }
-        } else if (parsedResult.codeType === "SOUTH_AFRICA_DL") {
-          for (let info of resultInfo.ResultInfo) {
-            if (info.ChildFields) {
-              wrapResultObject(info.ChildFields);
-            } else {
-              if (info.Value) {
+      function wrapResultObject(childFields) {
+        for (let childField of childFields) {
+          for (let field of childField) {
+            if (!["dataElementSeparator", "segmentTerminator", "subfile", "subfileType"].includes(field.FieldName)) {
+              if (field.Value) {
                 oriParseInfo.push({
-                  description: info.FieldName,
-                  value: info.Value,
+                  description: field.FieldName,
+                  value: field.Value,
                 });
               }
             }
-          }
-        }
-
-        function wrapResultObject(childFields) {
-          for (let childField of childFields) {
-            for (let field of childField) {
-              if (!["dataElementSeparator", "segmentTerminator", "subfile", "subfileType"].includes(field.FieldName)) {
-                if (field.Value) {
-                  oriParseInfo.push({
-                    description: field.FieldName,
-                    value: field.Value,
-                  });
-                }
-              }
-              if (field.ChildFields) {
-                wrapResultObject(field.ChildFields);
-              }
+            if (field.ChildFields) {
+              wrapResultObject(field.ChildFields);
             }
           }
         }
-        return oriParseInfo;
       }
+      return oriParseInfo;
+    }
 
-      function generateResultList(processedResult) {
-        parsedResultList.innerHTML = "";
-        const resultList = [];
-        for (let item of processedResult) {
-          const resultItem = document.createElement("li");
-          resultItem.className = "parsed-result-item";
-          resultItem.innerHTML = `<strong>${item.description}: </strong><span>${item.value}</span>`;
-          resultList.push(resultItem);
-        }
-        parsedResultList.append(...resultList);
+    function generateResultList(processedResult) {
+      parsedResultList.innerHTML = "";
+      const resultList = [];
+      for (let item of processedResult) {
+        const resultItem = document.createElement("li");
+        resultItem.className = "parsed-result-item";
+        resultItem.innerHTML = `<strong>${item.description}: </strong><span>${item.value}</span>`;
+        resultList.push(resultItem);
       }
+      parsedResultList.append(...resultList);
+    }
 
-      startBtn.addEventListener("click", () => {
-        loading.style.display = "block";
-        startIcon.style.display = "none";
-        launchFunction();
-      })
+    startBtn.addEventListener("click", () => {
+      loading.style.display = "block";
+      startIcon.style.display = "none";
+      start();
+    })
 
-      backToScan.addEventListener("click", () => {
-        parsedResultView.style.display = "none";
-        launchFunction();
-      })
-    })();
+    backToScan.addEventListener("click", () => {
+      parsedResultView.style.display = "none";
+      barcodeScannerView.style.display = "block";
+      start();
+    })
   </script>
 </body>
 

@@ -12,7 +12,10 @@
     "react": "^18",
     "react-dom": "^18",
     "next": "14.2.35",
-    "dynamsoft-barcode-reader-bundle": "11.2.4000"
+    "dynamsoft-barcode-reader-bundle": "npm:@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260325180754"
+  },
+  "overrides": {
+    "dynamsoft-barcode-reader-bundle": "$dynamsoft-barcode-reader-bundle"
   },
   "devDependencies": {
     "typescript": "^5",

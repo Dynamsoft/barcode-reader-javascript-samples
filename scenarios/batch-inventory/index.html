@@ -7,13 +7,13 @@
   <title>Batch Inventory with BarcodeScanner</title>
   <link rel="stylesheet" href="./index.css">
   <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
+  <script src="https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260401135230/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
   <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
 </head>
 
 <body>
-  <div class="barcode-reader-view"></div>
+  <div class="barcode-reader-view" style="width: 100%; height: 80%;"></div>
   <div class="summary-view">
     <header>
       <svg t="1754028476225" class="icon-back" viewBox="0 0 1445 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1408" id="mx_n_1754028476225" width="25" height="25">
@@ -51,29 +51,53 @@
     let totalUniqueBarcodesResult = {};
     let totalUniqueBarcodesCount = 0;
 
-    const launchBarcodeScanner = () => {
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiODAwMC04MDAwIiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vMTkyLjE2OC44LjEyMi9kbHMvIiwib3JnYW5pemF0aW9uSUQiOiI4MDAwIiwiY2hlY2tDb2RlIjotMTA1NjUzOTM3M30=", { executeNow: true });
+
+    const launchBarcodeScanner = async () => {
       summaryView.style.display = "none";
-      let config = {
-        license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
-        container: barcodeScannerView, // Specify where to render the scanner UI
-        scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
-        // The watermark can be removed via showPoweredByDynamsoft configuration option.
-        // showPoweredByDynamsoft: false,
-      }
+      // let config = {
+      //   license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
+      //   container: barcodeScannerView, // Specify where to render the scanner UI
+      //   scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
+      //   // The watermark can be removed via showPoweredByDynamsoft configuration option.
+      //   // showPoweredByDynamsoft: false,
+      // }
 
       // Create a new instance of the Dynamsoft Barcode Scanner
-      const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
+      // const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
+
+      const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+
+      cvRouter.setInput(cameraEnhancer);
+
+      const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+      resultReceiver.onDecodedBarcodesReceived = (result) => {
+        console.log(result);
+      }
+      await cvRouter.addResultReceiver(resultReceiver);
+
+      const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+      filter.enableResultCrossVerification("barcode", true);
+      filter.enableResultDeduplication("barcode", true);
+      await cvRouter.addResultFilter(filter);
+
+      barcodeScannerView.append(cameraView.getUIElement());
+
+      await cameraEnhancer.open();
+      await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
 
       const startTime = Date.now();
-      barcodeScanner.launch().then((result) => {
-        summaryView.style.display = "flex";
-        totalUniqueBarcodesCount += result.barcodeResults.length;
-        document.querySelector(".total-unique-barcodes-count .count").innerText = totalUniqueBarcodesCount;
-        document.querySelector(".total-count-in-this-session .count").innerText = result.barcodeResults.length;
-        document.querySelector(".time").innerText = getDurationTime(startTime);
-        readerResultList(result);
-        console.log("Current Scan Session Result: ", result);
-      })
+      // barcodeScanner.launch().then((result) => {
+      //   summaryView.style.display = "flex";
+      //   totalUniqueBarcodesCount += result.barcodeResults.length;
+      //   document.querySelector(".total-unique-barcodes-count .count").innerText = totalUniqueBarcodesCount;
+      //   document.querySelector(".total-count-in-this-session .count").innerText = result.barcodeResults.length;
+      //   document.querySelector(".time").innerText = getDurationTime(startTime);
+      //   readerResultList(result);
+      //   console.log("Current Scan Session Result: ", result);
+      // })
     }
 
     launchBarcodeScanner();

@@ -11,8 +11,11 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "11.2.4000",
+    "dynamsoft-barcode-reader-bundle": "npm:@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260401135230",
     "vue": "^3.2.45"
+  },
+  "overrides": {
+    "dynamsoft-barcode-reader-bundle": "$dynamsoft-barcode-reader-bundle"
   },
   "devDependencies": {
     "@types/node": "^18.11.12",

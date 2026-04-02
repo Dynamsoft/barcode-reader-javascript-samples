@@ -18,10 +18,13 @@
     "@angular/platform-browser": "19.2.19",
     "@angular/platform-browser-dynamic": "19.2.19",
     "@angular/router": "19.2.19",
-    "dynamsoft-barcode-reader-bundle": "11.2.4000",
+    "dynamsoft-barcode-reader-bundle": "npm:@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260325180754",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
+  },
+  "overrides": {
+    "dynamsoft-barcode-reader-bundle": "$dynamsoft-barcode-reader-bundle"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "19.2.19",
