@@ -6,7 +6,7 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.2.4000](htt
 
 > Note:
 >
-> If you’re looking to integrate DBR-JS into a framework that we don't yet have a sample, don't worry! We have a [comprehensive guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/use-in-framework.html) that provides detailed instruction and best practices for a seamless  integration into any frameworks!
+> If you're looking to integrate DBR-JS into a framework that we don't yet have a sample, don't worry! We have a [comprehensive guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/use-in-framework.html) that provides detailed instruction and best practices for a seamless  integration into any frameworks!
 >
 > Additionally, we're here to help! Please don't hesitate to [contact us](#Support) for any support or questions you might have.
 

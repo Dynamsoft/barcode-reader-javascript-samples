@@ -6,7 +6,7 @@ In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.2.4000](htt
 
 > Note:
 >
-> If you’re looking to integrate DBR-JS into a framework that we don't yet have a sample, don't worry! We have a [comprehensive guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/use-in-framework.html) that provides detailed instruction and best practices for a seamless  integration into any frameworks!
+> If you're looking to integrate DBR-JS into a framework that we don't yet have a sample, don't worry! We have a [comprehensive guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/use-in-framework.html) that provides detailed instruction and best practices for a seamless  integration into any frameworks!
 >
 > Additionally, we're here to help! Please don't hesitate to [contact us](#Support) for any support or questions you might have.
 
@@ -216,7 +216,7 @@ export default VideoCapture;
 
 > Note:
 >
-> * The component should never update so that events bound to the UI stay valid. In this copmonent, the useEffect() hook is used to handle the component’s mount and unmount lifecycle events, and there are no state updates that would cause a re-render.
+> * The component should never update so that events bound to the UI stay valid. In this copmonent, the useEffect() hook is used to handle the component's mount and unmount lifecycle events, and there are no state updates that would cause a re-render.
 > * If you're looking to customize the UI, the UI customization feature are provided by the auxiliary SDK "Dynamsoft Camera Enhancer". For more details, refer to our [User Guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#customizing-the-ui)
 
 ### Create and edit the `ImageCapture` component
