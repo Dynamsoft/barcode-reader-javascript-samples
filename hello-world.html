@@ -4,9 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>
-    Dynamsoft Barcode Scanner Sample - Hello World (Decode via Camera)
-  </title>
+  <title>Dynamsoft Barcode Scanner Sample - Hello World (Decode via Camera)</title>
+
+  <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
+  <script src="https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260407141136/dist/dbr.bundle.js"></script>
+  <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
+  <!-- <script src="../dist/dbr.bundle.js"></script> -->
 </head>
 
 <body>
@@ -15,56 +18,33 @@
   </h1>
   <!-- This div will host the barcode scanner's camera view -->
   <div class="barcode-scanner-view"></div>
-
-  <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
-  <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
-  <!-- <script src="../dist/dbr.bundle.js"></script> -->
-
   <script>
-    // Configuration object for initializing the BarcodeScanner instance. Refer to https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html#barcodescannerconfig
-    let config = {
-      license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
-      container: document.querySelector(".barcode-scanner-view"), // Specify where to render the scanner UI
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", { executeNow: true });
+    (async () => {
+      const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
 
-      /*
-        scanMode controls the scanning behavior:
-          - SM_MULTI_UNIQUE: Continuously scans and collects each unique barcode.
-          - SM_SINGLE: Stops scanning after the first barcode is detected.
-      */
-      scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
-      
-      // onUniqueBarcodeScanned: (result) => {
-      //   console.log("Scanned barcode: ", result.text);
-      //   if (condition) { // You can add custom logic here to handle each scanned barcode
-      //     barcodeScanner.dispose(); // Stop scanning
-      //   }
-      // },
+      cvRouter.setInput(cameraEnhancer);
 
-      // showUploadImageButton: true,
-      // scannerViewConfig: {
-      //   showFlashButton: true,
-      //   cameraSwitchControl: "toggleFrontBack",
-      // },
+      const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+      resultReceiver.onDecodedBarcodesReceived = console.log;
+      cvRouter.addResultReceiver(resultReceiver);
 
-      // The watermark can be removed via showPoweredByDynamsoft configuration option.
-      // showPoweredByDynamsoft: false,
-    };
+      // Filter out unchecked and duplicate results.
+      const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+      // Filter out unchecked barcodes.
+      filter.enableResultCrossVerification("barcode", true);
+      // Filter out duplicate barcodes within 3 seconds.
+      filter.enableResultDeduplication("barcode", true);
+      await cvRouter.addResultFilter(filter);
 
-    // Create a new instance of the Dynamsoft Barcode Scanner
-    const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
+      const uiElement = cameraView.getUIElement();
+      document.querySelector(".barcode-scanner-view").append(uiElement);
 
-    // Launch the scanner and handle the scanned result
-    barcodeScanner.launch().then((result) => {
-      // Display the first detected barcode's text in an alert
-      if (result.barcodeResults.length) {
-        alert(result.barcodeResults[0].text);
-      } else {
-        alert("No barcode found");
-      }
-    }).catch((err) => {
-      alert(err.message || err);
-    });
+      await cameraEnhancer.open();
+      await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+    })();
   </script>
 
   <!--
