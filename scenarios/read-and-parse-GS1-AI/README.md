@@ -9,13 +9,6 @@ A focused demo that decodes GS1-formatted barcodes and parses Application Identi
   - `index.css` — styles used by the foundational demo.
   - `read_and_parse_gs1.json` — GS1 template file used by this implementation.
 
-- scan-using-rtu-api/ — RTU implementation:
-  - `rtu.html` — RTU demo page.
-  - `rtu_gs1.json` — GS1 template file used by this implementation.
-  - `convert-GS1AI-title.js` — helper to convert or format AI titles for display.
-  - `style.css` — RTU demo styles.
-  - `info.svg`, `logo-dynamsoft-blackBg-190x47-DZ66W3xz.png` — visual assets used by the RTU demo.
-
 ## ✨ Features
 
 - Decode GS1 barcodes (GS1-128 / EAN / GS1 Databar variants) from live camera or static image inputs.  

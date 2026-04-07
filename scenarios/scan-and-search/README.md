@@ -4,7 +4,7 @@ A demo that scans a barcode and performs a lookup/search operation (product or i
 
 ## Included files
 
-- `scan-and-search.html` — single‑file demo (scan UI + search/lookup flow).  
+- `index.html` — single‑file demo (scan UI + search/lookup flow).  
 
 ## ✨ Features
 

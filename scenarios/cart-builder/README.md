@@ -4,7 +4,8 @@ A lightweight demo that simulates a shopping experience: scan a barcode and add 
 
 ## Included files
 
-- `cart-builder.html` — single‑file sample.
+- `index.html` — the demo page (simple UI and prototype flows).
+- `index.css` — styles for the demo.
 
 ## ✨ Features
 

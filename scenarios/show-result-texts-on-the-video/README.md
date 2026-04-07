@@ -4,7 +4,7 @@ A demo that overlays decoded barcode text directly onto the live camera video. U
 
 ## Included files
 
-- `show-result-texts-on-the-video.html` — demo page that overlays decoded text on video.  
+- `index.html` — demo page that overlays decoded text on video.  
 
 ## ✨ Features
 
