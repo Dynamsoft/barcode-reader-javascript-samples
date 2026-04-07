@@ -70,10 +70,12 @@
       filter.enableResultDeduplication("barcode", true);
       await cvRouter.addResultFilter(filter);
 
-      document.querySelector(".floatingDiv").append(cameraView.getUIElement());
+      const uiElement = cameraView.getUIElement();
+      uiElement.querySelector(".dce-sel-camera").style.display = "none";
+      uiElement.querySelector(".dce-sel-resolution").style.display = "none";
+      cameraEnhancer.setVideoFit("cover");
+      dragDiv.append(uiElement);
 
-      cameraView.getUIElement().querySelector(".dce-sel-camera").style.display = "none";
-      cameraView.getUIElement().querySelector(".dce-sel-resolution").style.display = "none";
       return {
         cameraView,
         cameraEnhancer,
@@ -85,14 +87,14 @@
       const { cameraView, cameraEnhancer, cvRouter } = await pInit;
       await cameraEnhancer.open();
       await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
-      document.querySelector(".floatingDiv").hidden = false;
+      dragDiv.hidden = false;
     }
 
     async function stopScanner() {
       const { cameraEnhancer, cvRouter } = await pInit;
       await cvRouter.stopCapturing();
       await cameraEnhancer.close();
-      document.querySelector(".floatingDiv").hidden = true;
+      dragDiv.hidden = true;
     }
 
     // Product List
