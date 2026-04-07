@@ -13,7 +13,16 @@
 </head>
 
 <body>
-  <div class="barcode-reader-view" style="width: 100%; height: 80%;"></div>
+  <div class="barcode-reader-view">
+    <div class="scanner-view"></div>
+    <div class="result-view">
+      <div class="result-list"></div>
+      <div class="footer-toolbar">
+        <div class="clear-btn">Clear</div>
+        <div class="done-btn">Done</div>
+      </div>
+    </div>
+  </div>
   <div class="summary-view">
     <header>
       <svg t="1754028476225" class="icon-back" viewBox="0 0 1445 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1408" id="mx_n_1754028476225" width="25" height="25">
@@ -45,16 +54,57 @@
 
   <script>
     const barcodeScannerView = document.querySelector(".barcode-reader-view");
+    const scannerView = document.querySelector(".scanner-view");
+    const resultView = document.querySelector(".result-view");
+    const resultList = document.querySelector(".result-list");
     const summaryView = document.querySelector(".summary-view");
     const finishBtn = document.querySelector(".finish-btn");
     const backBtn = document.querySelector(".icon-back");
+    const clearBtn = document.querySelector(".clear-btn");
+    const doneBtn = document.querySelector(".done-btn");
+
+    let currentSessionResult = [];
     let totalUniqueBarcodesResult = {};
     let totalUniqueBarcodesCount = 0;
+    let startTime;
 
-    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiODAwMC04MDAwIiwibWFpblNlcnZlclVSTCI6Imh0dHBzOi8vMTkyLjE2OC44LjEyMi9kbHMvIiwib3JnYW5pemF0aW9uSUQiOiI4MDAwIiwiY2hlY2tDb2RlIjotMTA1NjUzOTM3M30=", { executeNow: true });
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", { executeNow: true });
+    const pInit = (async () => {
+      const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+
+      cvRouter.setInput(cameraEnhancer);
+
+      const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+      resultReceiver.onDecodedBarcodesReceived = (result) => {
+        for (let item of result.barcodeResultItems) {
+          if (!hasItem(item)) {
+            currentSessionResult.push(item);
+          }
+        }
+        renderScanResult();
+        console.log(result);
+      }
+      cvRouter.addResultReceiver(resultReceiver);
+
+      // const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+      // filter.enableResultCrossVerification("barcode", true);
+      // filter.enableResultDeduplication("barcode", true);
+      // await cvRouter.addResultFilter(filter);
+
+      scannerView.append(cameraView.getUIElement());
+
+      return {
+        cameraView,
+        cameraEnhancer,
+        cvRouter
+      }
+    })();
 
     const launchBarcodeScanner = async () => {
       summaryView.style.display = "none";
+      currentSessionResult = [];
       // let config = {
       //   license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
       //   container: barcodeScannerView, // Specify where to render the scanner UI
@@ -65,30 +115,14 @@
 
       // Create a new instance of the Dynamsoft Barcode Scanner
       // const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
+      const { cameraView, cameraEnhancer, cvRouter } = await pInit;
 
-      const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
-      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-
-      cvRouter.setInput(cameraEnhancer);
-
-      const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
-      resultReceiver.onDecodedBarcodesReceived = (result) => {
-        console.log(result);
-      }
-      await cvRouter.addResultReceiver(resultReceiver);
-
-      const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-      filter.enableResultCrossVerification("barcode", true);
-      filter.enableResultDeduplication("barcode", true);
-      await cvRouter.addResultFilter(filter);
-
-      barcodeScannerView.append(cameraView.getUIElement());
+      startTime = Date.now();
 
       await cameraEnhancer.open();
       await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
 
-      const startTime = Date.now();
+      // const startTime = Date.now();
       // barcodeScanner.launch().then((result) => {
       //   summaryView.style.display = "flex";
       //   totalUniqueBarcodesCount += result.barcodeResults.length;
@@ -102,10 +136,25 @@
 
     launchBarcodeScanner();
 
-    const readerResultList = (result) => {
+    const hasItem = (item) => {
+      return currentSessionResult.find((result) => {
+        return result.text === item.text && result.formatString === item.formatString;
+      })
+    }
+
+    const renderScanResult = () => {
+      resultList.innerText = "";
+      for (let item of currentSessionResult) {
+        const resultItemDiv = document.createElement("div");
+        resultItemDiv.innerText = `format: ${item.formatString}, text: ${item.text}`;
+        resultList.append(resultItemDiv);
+      }
+    }
+
+    const readerResultList = () => {
       const resultListNode = document.querySelector(".result-list");
       resultListNode.innerText = "";
-      const countResult = countByFormat(result.barcodeResults);
+      const countResult = countByFormat(currentSessionResult);
       for (let formatString in countResult) {
         const nodeLiStr = `
           <li>
@@ -174,6 +223,25 @@
     }
 
     backBtn.addEventListener("click", launchBarcodeScanner);
+
+    clearBtn.addEventListener("click", () => {
+      currentSessionResult = [];
+      renderScanResult();
+    });
+
+    doneBtn.addEventListener("click", async () => {
+      const { cameraEnhancer, cvRouter } = await pInit;
+      await cameraEnhancer.close();
+      await cvRouter.stopCapturing();
+      barcodeScannerView.style.display = "none";
+      summaryView.style.display = "flex";
+      totalUniqueBarcodesCount += currentSessionResult.length;
+      document.querySelector(".total-unique-barcodes-count .count").innerText = totalUniqueBarcodesCount;
+      document.querySelector(".total-count-in-this-session .count").innerText = currentSessionResult.length;
+      document.querySelector(".time").innerText = getDurationTime(startTime);
+      readerResultList();
+      console.log("Current Scan Session Result: ", currentSessionResult);
+    });
   </script>
 </body>
 

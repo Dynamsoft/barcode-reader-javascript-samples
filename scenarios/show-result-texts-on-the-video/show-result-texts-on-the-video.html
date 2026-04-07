@@ -8,7 +8,33 @@
   <meta name="keywords" content="read barcode from camera, overlay" />
   <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/scenarios/show-result-texts-on-the-video/show-result-texts-on-the-video.html" />
   <title>Dynamsoft Barcode Reader Sample - Display Barcode Results as Video Overlays</title>
+
+  <script src="https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260402175550/dist/dbr.bundle.js"></script>
+  <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
+  <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
+
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    h3 {
+      margin: 15px 0;
+    }
+
+    .camera-view-container {
+      width: 100%; 
+      height: calc(100% - 97px);
+    }
+
     .bubble-box-container {
       position: absolute;
       display: flex;
@@ -43,11 +69,8 @@
 <body>
   <h1>Display Barcode Results as Video Overlays</h1>
   <h3>Scan barcodes to display results as overlays on video</h3>
-  <div id="camera-view-container" style="width: 100%; height: 90vh"></div>
-  <div id="results"></div>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
-  <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
-  <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
+  <div class="camera-view-container"></div>
+  <div class="results"></div>
   <script>
     /** LICENSE ALERT - README
      * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -64,7 +87,7 @@
 
     // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
     Dynamsoft.Core.CoreModule.loadWasm();
-    const resultsContainer = document.querySelector("#results");
+    const resultsContainer = document.querySelector(".results");
 
     (async () => {
       try {
@@ -76,7 +99,7 @@
         // cameraView.setPowerByMessageVisible(false);
 
         // Get default UI and append it to DOM.
-        document.querySelector("#camera-view-container").append(cameraView.getUIElement());
+        document.querySelector(".camera-view-container").append(cameraView.getUIElement());
 
         // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
         const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
@@ -86,9 +109,10 @@
         const bodyStyle = getComputedStyle(document.body);
         cvRouter.addResultReceiver({
           onCapturedResultReceived: (result) => {
-            if(!cameraEnhancer.isOpen()) {
+            if (!cameraEnhancer.isOpen()) {
               return; // If camera is closed, skip processing results to avoid potential errors.
             }
+
             // Reset results
             resultsContainer.innerText = "";
 
@@ -162,11 +186,6 @@
             }
           },
         });
-
-        // Filter out unchecked and duplicate results.
-        const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-        // Filter out unchecked barcodes.
-        filter.enableResultCrossVerification("barcode", true);
 
         // Open camera and start scanning single barcode.
         await cameraEnhancer.open();

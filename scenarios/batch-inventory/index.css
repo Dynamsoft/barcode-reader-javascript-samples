@@ -18,6 +18,67 @@ body {
   position: fixed;
   top: 0;
   left: 0;
+  display: flex;
+}
+
+@media (orientation: portrait) {
+  .barcode-reader-view {
+    flex-direction: column;
+  }
+
+  .barcode-reader-view .scanner-view,
+  .barcode-reader-view .result-view {
+    width: 100%;
+    height: 50%;
+  }
+}
+
+@media (orientation: landscape) {
+
+  .barcode-reader-view .scanner-view,
+  .barcode-reader-view .result-view {
+    width: 50%;
+    height: 100%;
+  }
+}
+
+.barcode-reader-view .result-view {
+  position: relative;
+  background-color: #323234;
+  color: #fff;
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.barcode-reader-view .result-view .result-list {
+  width: 100%;
+  height: calc(100% - 50px);
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.barcode-reader-view .result-view .footer-toolbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #000000;
+  color: #FE8E14;
+}
+
+.barcode-reader-view .result-view .footer-toolbar .clear-btn,
+.barcode-reader-view .result-view .footer-toolbar .done-btn {
+  cursor: pointer;
+}
+
+.barcode-reader-view .result-view div {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .summary-view {

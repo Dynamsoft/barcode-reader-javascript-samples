@@ -1,0 +1,85 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: #f0f0f0;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.scan-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  margin: 0 auto 20px;
+  font-size: 14px;
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.scan-btn:hover {
+  background: #45a049;
+}
+
+.barcode-icon {
+  height: 12px;
+  margin-left: 8px;
+}
+
+.cart {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.floatingDiv {
+  position: fixed;
+  top: 40%;
+  left: 10%;
+  width: 50%;
+  height: 25%;
+  max-width: 400px;
+  max-height: 200px;
+  min-width: 150px;
+  min-height: 150px;
+  background: #f9f9f9;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: move;
+  z-index: 999;
+  padding: 3px;
+  box-sizing: border-box;
+  touch-action: none;
+}
+
+.floatingDiv .btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  z-index: 1;
+  cursor: pointer;
+}

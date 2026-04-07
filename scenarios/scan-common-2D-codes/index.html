@@ -78,7 +78,7 @@
             reusltView.append(div);
           }
         }
-        await cvRouter.addResultReceiver(resultReceiver);
+        cvRouter.addResultReceiver(resultReceiver);
         await cvRouter.initSettings("./ReadCommon2D.json");
 
         document.querySelector(".barcode-scanner-view").append(cameraView.getUIElement());

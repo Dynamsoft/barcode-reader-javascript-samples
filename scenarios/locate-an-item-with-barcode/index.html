@@ -6,236 +6,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <meta name="description" content="Locate an item quickly with Dynamsoft Barcode Reader." />
   <meta name="keywords" content="locate item barcode, locate item barcode" />
+  <link rel="stylesheet" href="./index.css">
   <title>Dynamsoft Barcode Reader Sample - Locate an Item with Barcode</title>
-  <style>
-    body {
-      width: 100vw;
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      gap: 1rem;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", sans-serif;
-      color: white;
-      background-color: rgb(34, 34, 34);
-      overscroll-behavior-y: none;
-      overflow: hidden;
-    }
 
-    .dls-license-msg-content {
-      color: black;
-    }
-
-    #inputs-container {
-      margin: 2rem;
-      padding-bottom: 2rem;
-      background-color: rgb(68, 68, 68);
-      border-radius: 0.2rem;
-    }
-
-    #item-id {
-      display: block;
-      margin: 0 auto;
-      padding: 0.4rem 0.8rem;
-      color: black;
-      border: 1px solid #fe8e14;
-      font-size: 1rem;
-      border-radius: 0.2rem;
-    }
-
-    #item-id::placeholder {
-      color: #b0bec5;
-    }
-
-    #item-id:focus {
-      outline: none;
-      box-shadow: 0.1rem 0.4rem 0.8rem #fe8e14;
-    }
-
-    @keyframes shake {
-      0% {
-        transform: translateX(0);
-      }
-
-      25% {
-        transform: translateX(-5px);
-      }
-
-      50% {
-        transform: translateX(5px);
-      }
-
-      75% {
-        transform: translateX(-5px);
-      }
-
-      100% {
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes dce-rotate {
-      from {
-        transform: rotate(0turn);
-      }
-
-      to {
-        transform: rotate(1turn);
-      }
-    }
-
-    .error-animation {
-      animation: shake 0.1s;
-      animation-iteration-count: 2;
-    }
-
-    #camera-view-container {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
-
-    #camera-view-options {
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      padding: 1rem;
-    }
-
-    #select-camera-dropdown {
-      color: white;
-      background-color: rgb(34, 34, 34, 0.4);
-      border: 0;
-      border-radius: 0.2rem;
-      padding: 0.5rem;
-      font-size: 1rem;
-      overflow: hidden;
-      max-width: 10rem;
-    }
-
-    #camera-view-title {
-      text-align: center;
-      border-radius: 0.2rem;
-      padding: 0.5rem;
-      width: -moz-fit-content;
-      width: fit-content;
-    }
-
-    .banner-default {
-      background-color: rgb(254, 142, 20, 0.4);
-      border: 1px solid #fe8e14;
-    }
-
-    .banner-error {
-      background-color: rgb(252, 2, 0, 0.4);
-      border: 1px solid #fc0200;
-    }
-
-    .banner-success {
-      background-color: rgb(124, 252, 0, 0.4);
-      border: 1px solid #7cfc00;
-    }
-
-    #camera-switch-notification {
-      text-align: center;
-      border-radius: 0.2rem;
-      padding: 0.5rem;
-      margin: 0;
-      width: -moz-fit-content;
-      width: fit-content;
-
-      /* Fade in animation */
-      opacity: 0;
-      transition: opacity 500ms;
-    }
-
-    button {
-      padding: 0.5rem;
-      background-color: #fe8e14;
-      font-size: 1rem;
-      border: 0;
-      border-radius: 0.2rem;
-      color: white;
-      transition: ease-in 0.2s all;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-
-    button:hover {
-      box-shadow: -0.5rem 0.5rem 0 0px rgb(34, 34, 34);
-      transform: translate(0.5rem, -0.5rem);
-    }
-
-    #scan-id-button {
-      background-color: rgb(34, 34, 34);
-      border: 1px solid #fe8e14;
-    }
-
-    #search-button {
-      width: 100%;
-    }
-
-    #close-button {
-      font-size: 1rem;
-      font-weight: unset;
-    }
-
-    .bubble-box-container {
-      position: absolute;
-      z-index: 2;
-      display: flex;
-      color: black;
-      justify-content: center;
-    }
-
-    .bubble-box-container>.bubble-box {
-      position: absolute;
-      width: max-content;
-      max-width: 20rem;
-      background: white;
-      border-radius: 4px;
-      padding: 4px;
-      word-break: break-all;
-      word-wrap: break-word;
-      box-shadow: 5px 5px 5px 3px rgba(0, 0, 0, 0.2);
-      transform: translateY(calc(-100% - 4px));
-    }
-
-    .bubble-box-container>.bubble-box::after {
-      content: "";
-      position: absolute;
-      bottom: -8px;
-      left: calc(50% - 8px);
-      border-left: 8px solid transparent;
-      border-top: 8px solid white;
-      border-right: 8px solid transparent;
-    }
-
-    @media screen and (min-width: 600px) {
-      #inputs-container {
-        margin: 0 auto;
-      }
-
-      #item-id,
-      select,
-      button {
-        font-size: 1.5rem;
-      }
-
-      #select-camera-dropdown {
-        max-width: unset;
-      }
-    }
-  </style>
+  <script src="https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260403162411/dist/dbr.bundle.js"></script>
+  <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
+  <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
 </head>
 
 <body>
@@ -306,9 +82,6 @@
   <!-- Images to indicate barcodes -->
   <img hidden id="checkmark-icon" src="icons/checkmark-icon.svg" />
   <img hidden id="cross-icon" src="icons/cross-icon.svg" />
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
-  <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
-  <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
 
   <script>
     /** LICENSE ALERT - README
@@ -328,407 +101,354 @@
     const cameraViewContainer = document.getElementById("camera-view-container");
     const cameraViewTitle = document.getElementById("camera-view-title");
     const closeButton = document.getElementById("close-button");
-
     const inputsContainer = document.getElementById("inputs-container");
     const errorMessage = document.getElementById("error-message");
-
     const loadingIndicator = document.getElementById("lib-load");
     const cameraSwitchNotification = document.getElementById("camera-switch-notification");
-
     const resultsContainer = document.getElementById("results");
-
-    // Create Custom Drawing Layer to create our Barcode Indicators
-    let customDrawingLayer;
-
-    // [Optional] - Custom UI to select camera and resolution
-    // Ref: https://github.com/Dynamsoft/barcode-reader-javascript-demo
     const cameraDropdownElement = document.getElementById("select-camera-dropdown");
+    const itemIdInput = document.getElementById("item-id");
+    const scanIdButton = document.getElementById("scan-id-button");
+    const searchButton = document.getElementById("search-button");
+    const checkmarkIcon = document.getElementById("checkmark-icon");
+    const crossIcon = document.getElementById("cross-icon");
+
     const resolutionList = ["Full HD", "HD"];
     const resolution = {
-      [resolutionList[0]]: [1920, 1080], // Full HD
-      [resolutionList[1]]: [1280, 720], // HD
+      [resolutionList[0]]: [1920, 1080],
+      [resolutionList[1]]: [1280, 720],
     };
-    /** Check if current resolution is Full HD or HD
-     * Ref: https://github.com/Dynamsoft/barcode-reader-javascript-demo/blob/main/src/views/BarcodeScanner.vue
-     * @params {Object} currentResolution - an object with `width` and `height` to represent the current resolution of the camera
-     * @returns {string} Either "HD" or "Full HD" depending of the resolution of the screen
-     */
-    const judgeCurResolution = (currentResolution) => {
-      const { width, height } = currentResolution;
+
+    let customDrawingLayer;
+    let pInit;
+    let resultReceiver;
+    let notificationTimer;
+
+    const imageDrawingStyleId = Dynamsoft.DCE.DrawingStyleManager.createDrawingStyle({
+      strokeStyle: "rgba(0, 0, 0, 0)",
+    });
+
+    const showError = (error) => {
+      const message = error?.message || error;
+      console.error(error);
+      alert(message);
+    };
+
+    const setBanner = (className, text) => {
+      cameraViewTitle.className = className;
+      cameraViewTitle.innerText = text;
+    };
+
+    const showCameraView = () => {
+      cameraViewContainer.style.display = "";
+    };
+
+    const hideCameraView = () => {
+      cameraViewContainer.style.display = "none";
+    };
+
+    const resetResults = () => {
+      resultsContainer.innerHTML = "";
+      resultsContainer.style.display = "none";
+      customDrawingLayer?.clearDrawingItems();
+    };
+
+    const showInputs = () => {
+      inputsContainer.style.display = "";
+      loadingIndicator.style.display = "none";
+    };
+
+    const showLoading = () => {
+      inputsContainer.style.display = "none";
+      loadingIndicator.style.display = "";
+    };
+
+    const judgeCurResolution = ({ width, height }) => {
       const minValue = Math.min(width, height);
       const maxValue = Math.max(width, height);
 
       if (minValue > 480 && minValue < 960 && maxValue > 960 && maxValue < 1440) {
         return "HD";
-      } else if (minValue > 900 && minValue < 1440 && maxValue > 1400 && maxValue < 2160) {
+      }
+
+      if (minValue > 900 && minValue < 1440 && maxValue > 1400 && maxValue < 2160) {
         return "Full HD";
       }
     };
 
-    // Initialize Image Procesing through CaptureVisionRouter
-    const init = async () => {
-      // Show loading library message
-      inputsContainer.style.display = "none";
-      loadingIndicator.style.display = "";
-
-      // [Optional] - Create custom UI for CameraView
-      // Ref: https://www.dynamsoft.com/camera-enhancer/docs/web/programming/javascript/api-reference/cameraview.html#createInstance
-      const cameraView = await Dynamsoft.DCE.CameraView.createInstance(cameraViewContainer);
-      // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
-      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
-      // cameraView.setVideoFit("cover");
-
-      // Hide the "Powered by Message" overlay on the scanner view
-      // cameraView.setPowerByMessageVisible(false);
-
-      // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-      cvRouter.setInput(cameraEnhancer);
-
-      // Filter out unchecked and duplicate results.
-      const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-      // Filter out unchecked barcodes.
-      filter.enableResultCrossVerification("barcode", true);
-      await cvRouter.addResultFilter(filter);
-
-      // Remove library loading message
-      loadingIndicator.style.display = "none";
-
-      // The DrawingLayerId for BarcodeReader results is 2.
-      // We want to remove the default indicator, QuadDrawingItem, to replace with an ImageDrawingItem. See L390
-      // Ref: https://www.dynamsoft.com/camera-enhancer/docs/web/programming/javascript/api-reference/drawinglayer.html
-      const dbrDrawingLayer = cameraView.getDrawingLayer(2);
-      dbrDrawingLayer.setVisible(false);
-      // Create the custom Drawing Layer
-      customDrawingLayer = cameraEnhancer.getCameraView().createDrawingLayer();
-
-      // [Optional] - Custom UI to select camera and resolution
-      try {
-        await cameraEnhancer.open();
-        // Populate a list of cameras and the resolution
-        const cameraList = await cameraEnhancer.getAllCameras();
-        // Get current camera and current resolution to set as selected
-        const currentCamera = await cameraEnhancer.getSelectedCamera();
-        const currentResolution = await cameraEnhancer.getResolution();
-
-        if (cameraList.length > 0) {
-          for (let i of cameraList) {
-            for (let j of resolutionList) {
-              const cameraAndResolutionOption = document.createElement("option");
-              cameraAndResolutionOption.innerText = `${i?.label} (${j})`;
-              cameraAndResolutionOption.value = [i?.deviceId, j];
-
-              // Set as selected if option matches current camera and resolution
-              // Note: We checked with `resolution.includes(width)` and `resolution.includes(height)`
-              // instead of matching the width and height respectively because on mobile,
-              // the width and the height are switched.
-              if (currentCamera.deviceId === i.deviceId && judgeCurResolution(currentResolution) === j) {
-                cameraAndResolutionOption.selected = true;
-              }
-
-              // Add camera and resolution options to the select element
-              cameraDropdownElement.append(cameraAndResolutionOption);
-            }
-          } // Open camera
-        }
-      } catch (ex) {
-        const errMsg = ex.message || ex;
-        console.error(ex);
-        alert(errMsg);
+    const selectCameraOption = (cameraId, resolutionLabel) => {
+      for (const option of cameraDropdownElement.options) {
+        const [optionCameraId, optionResolution] = (option.value || "").split(",");
+        option.selected = optionCameraId === cameraId && optionResolution === resolutionLabel;
       }
+    };
+
+    const showSwitchNotification = (className, text) => {
+      clearTimeout(notificationTimer);
+      cameraSwitchNotification.className = className;
+      cameraSwitchNotification.innerText = text;
+      cameraSwitchNotification.style.opacity = 1;
+      notificationTimer = setTimeout(() => {
+        cameraSwitchNotification.style.opacity = 0;
+      }, 5000);
+    };
+
+    const getBarcodeBounds = (item) => {
+      const points = item.location.points;
+      const topLeft = {
+        x: Math.min(points[0].x, points[1].x, points[2].x, points[3].x),
+        y: Math.min(points[0].y, points[1].y, points[2].y, points[3].y),
+      };
+      const bottomRight = {
+        x: Math.max(points[0].x, points[1].x, points[2].x, points[3].x),
+        y: Math.max(points[0].y, points[1].y, points[2].y, points[3].y),
+      };
 
       return {
-        cameraEnhancer,
-        cvRouter,
-        cameraView
+        topLeft,
+        bottomRight,
+        midPoint: {
+          x: (topLeft.x + bottomRight.x) / 2,
+          y: (topLeft.y + bottomRight.y) / 2,
+        },
       };
     };
-    let pInit; // promise of init
-    let resultReceiver; // listener for cvRouter result receiver
 
-    // Event listener to scan the item ID
-    document.getElementById("scan-id-button").addEventListener("click", async function (event) {
-      // Rename the Camera View title and close button to prompt users to scan the barcode ID
-      cameraViewTitle.className = "";
-      cameraViewTitle.classList.add("banner-default");
-      cameraViewTitle.innerText = "Scan the item ID by barcode";
-      closeButton.innerText = "Type the item ID";
-
-      const itemIdInput = document.getElementById("item-id");
-      try {
-        const { cameraEnhancer, cvRouter, cameraView } = await (pInit = pInit || init());
-
-        // Define a callback for results.
-        resultReceiver = {
-          onDecodedBarcodesReceived: async (result) => {
-            const resultItems = result.barcodeResultItems;
-            if (!resultItems.length) return;
-
-            // Set item ID input value to the scanned ID
-            const scannedId = resultItems[0].text;
-            itemIdInput.value = scannedId;
-
-            // Hide Camera View
-            cameraViewContainer.style.display = "none";
-            // Remove error if id is found
-            errorMessage.style.display = "none";
-            // Show inputs-container after id is scanned
-            inputsContainer.style.display = "";
-
-            // Close cvRouter & camera enhancer after id is scanned
-            cvRouter.stopCapturing();
-            cameraEnhancer.close();
-            cvRouter.removeResultReceiver(resultReceiver);
-          },
-        };
-        cvRouter.addResultReceiver(resultReceiver);
-
-        // Show camera view container
-        cameraViewContainer.style.display = "";
-
-        // Open camera and start scanning single barcode.
-        if (!cameraEnhancer.isOpen()) await cameraEnhancer.open();
-        // Start capturing barcodes
-        await cvRouter.startCapturing("ReadSingleBarcode");
-      } catch (ex) {
-        const errMsg = ex.message || ex;
-        console.error(ex);
-        alert(errMsg);
-      }
-    });
-
-    // Remove the yellow stroke surrounding the image created by DrawingStyle's default config
-    // Ref: https://www.dynamsoft.com/camera-enhancer/docs/web/programming/javascript/api-reference/interface/drawingstyle.html
-    const imageDrawingStyleId = Dynamsoft.DCE.DrawingStyleManager.createDrawingStyle({
-      strokeStyle: "rgba(0, 0, 0, 0)",
-    });
-    /**
-     * Creates a barcode indicator with ImageDrawingItem
-     * Ref: https://www.dynamsoft.com/camera-enhancer/docs/web/programming/javascript/api-reference/imagedrawingitem.html
-     * @param {number} xCoordinate - X-coordinate of the midpoint of the quadrilateral
-     * @param {number} yCoordinate - Y-coordinate of the midpoint of the quadrilateral
-     * @param {string} imageId - The ID of the image to be drawn
-     * @returns {Dynamsoft.DCE.ImageDrawingItem} An image drawing item styled according to the provided parameters.
-     */
-    function createBarcodeIndicator(xCoordinate, yCoordinate, imageId) {
+    const createBarcodeIndicator = (xCoordinate, yCoordinate, imageElement) => {
       const iconSize = 50;
-      // Set the ImageDrawingItem to the center of BarcodeResultItem's location - which is a Quadrilateral
-      // Ref: https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/interfaces/barcode-result-item.html
-      const x = xCoordinate - iconSize / 2;
-      const y = yCoordinate - iconSize / 2;
-      const imageDrawingItem = new Dynamsoft.DCE.ImageDrawingItem(
-        document.getElementById(imageId),
+      return new Dynamsoft.DCE.ImageDrawingItem(
+        imageElement,
         {
-          x,
-          y,
+          x: xCoordinate - iconSize / 2,
+          y: yCoordinate - iconSize / 2,
           width: iconSize,
           height: iconSize,
         },
         true,
         imageDrawingStyleId
       );
+    };
 
-      return imageDrawingItem;
-    }
+    const createBubbleBox = (cameraEnhancer, item, bounds) => {
+      const bubbleBoxContainer = document.createElement("div");
+      bubbleBoxContainer.className = "bubble-box-container";
 
-    // Event listener to start searching for the item ID
-    document.getElementById("search-button").addEventListener("click", async function (event) {
-      const itemIdInput = document.getElementById("item-id");
-      const itemId = itemIdInput.value;
+      const bubbleBoxOverlay = document.createElement("div");
+      bubbleBoxOverlay.className = "bubble-box";
+      bubbleBoxOverlay.innerText = item.text;
+      bubbleBoxContainer.append(bubbleBoxOverlay);
 
-      // If item ID not provided, show an error message to the user
-      if (!itemId) {
-        itemIdInput.classList.add("error-animation");
-        itemIdInput.style.border = "1px solid red";
-        errorMessage.style.display = "block";
-        return;
-      } else {
-        itemIdInput.classList.remove("error-animation");
-        itemIdInput.style.border = "1px solid #fe8e14";
-        errorMessage.style.display = "none";
+      const clientTopLeft = cameraEnhancer.convertToClientCoordinates(bounds.topLeft);
+      const clientBottomRight = cameraEnhancer.convertToClientCoordinates(bounds.bottomRight);
+      bubbleBoxContainer.style.top = `${clientTopLeft.y}px`;
+      bubbleBoxContainer.style.left = `${(clientTopLeft.x + clientBottomRight.x) / 2}px`;
+
+      return bubbleBoxContainer;
+    };
+
+    const setResultReceiver = (cvRouter, receiver) => {
+      if (resultReceiver) {
+        cvRouter.removeResultReceiver(resultReceiver);
       }
+      resultReceiver = receiver;
+      cvRouter.addResultReceiver(resultReceiver);
+    };
 
-      // Rename the close button to prompt users to start scanning barcodes
-      closeButton.innerText = "Locate another item";
+    const openCameraAndCapture = async (cameraEnhancer, cvRouter, templateName) => {
+      showCameraView();
+      if (!cameraEnhancer.isOpen()) {
+        await cameraEnhancer.open();
+      }
+      await cvRouter.startCapturing(templateName);
+    };
+
+    const stopScanning = async () => {
+      const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
+      if (resultReceiver) {
+        cvRouter.removeResultReceiver(resultReceiver);
+        resultReceiver = null;
+      }
+      cvRouter.stopCapturing();
+      cameraEnhancer.close();
+    };
+
+    const closeCameraView = async () => {
+      resetResults();
+      hideCameraView();
+      showInputs();
+      await stopScanning();
+    };
+
+    const populateCameraOptions = async (cameraEnhancer) => {
+      const cameraList = await cameraEnhancer.getAllCameras();
+      const currentCamera = await cameraEnhancer.getSelectedCamera();
+      const currentResolution = await cameraEnhancer.getResolution();
+      const currentResolutionLabel = judgeCurResolution(currentResolution);
+
+      cameraDropdownElement.innerHTML = "";
+
+      for (const camera of cameraList) {
+        for (const resolutionLabel of resolutionList) {
+          const option = document.createElement("option");
+          option.innerText = `${camera?.label} (${resolutionLabel})`;
+          option.value = `${camera?.deviceId},${resolutionLabel}`;
+          option.selected = currentCamera.deviceId === camera.deviceId && currentResolutionLabel === resolutionLabel;
+          cameraDropdownElement.append(option);
+        }
+      }
+    };
+
+    const init = async () => {
+      showLoading();
+
+      const cameraView = await Dynamsoft.DCE.CameraView.createInstance(cameraViewContainer);
+      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+      cvRouter.setInput(cameraEnhancer);
+
+      const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+      filter.enableResultCrossVerification("barcode", true);
+      await cvRouter.addResultFilter(filter);
+
+      cameraView.getDrawingLayer(2).setVisible(false);
+      customDrawingLayer = cameraEnhancer.getCameraView().createDrawingLayer();
 
       try {
-        const { cameraEnhancer, cvRouter, cameraView } = await (pInit = pInit || init());
+        await cameraEnhancer.open();
+        await populateCameraOptions(cameraEnhancer);
+      } finally {
+        showInputs();
+      }
 
-        // Prepare to show overlay of the item ID on the CameraView
-        resultsContainer.innerHTML = "";
-        resultsContainer.style.display = "";
+      return { cameraEnhancer, cvRouter, cameraView };
+    };
 
-        resultReceiver = {
-          onCapturedResultReceived: async (result) => {
-            // Reset drawing layer & text bubble container on each result found
-            customDrawingLayer.clearDrawingItems();
-            resultsContainer.innerHTML = "";
+    const validateItemId = () => {
+      const itemId = itemIdInput.value;
+      const hasValue = Boolean(itemId);
 
-            // Set title to inform user to start scanning barcodes
-            cameraViewTitle.innerText = "Scan barcodes to search for the item";
-            cameraViewTitle.className = "";
-            cameraViewTitle.classList.add("banner-default");
+      itemIdInput.classList.toggle("error-animation", !hasValue);
+      itemIdInput.style.border = hasValue ? "1px solid #fe8e14" : "1px solid red";
+      errorMessage.style.display = hasValue ? "none" : "block";
 
-            // Loop every barcode
-            for (let item of result.items) {
-              // Only detect items that are barcode
-              if (item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
-                continue;
-              }
+      return hasValue ? itemId : "";
+    };
 
-              // If we found the barcode that we're looking for, show the code in a bubble text and display a checkmark icon
-              // Otherwise, display a cross icon
-              // Ref: https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/use-case/show-result-texts-on-the-video.html
-              const p = item.location.points; // Get the points of the quadrilateral surrounding the scanned barcode
-              const barcodeTopLeft = {
-                x: Math.min(p[0].x, p[1].x, p[2].x, p[3].x),
-                y: Math.min(p[0].y, p[1].y, p[2].y, p[3].y),
-              };
-              const barcodeBottomRight = {
-                x: Math.max(p[0].x, p[1].x, p[2].x, p[3].x),
-                y: Math.max(p[0].y, p[1].y, p[2].y, p[3].y),
-              };
+    scanIdButton.addEventListener("click", async () => {
+      setBanner("banner-default", "Scan the item ID by barcode");
+      closeButton.innerText = "Type the item ID";
 
-              // Get midpoints of the barcode quadrilateral to display the barcode indicators
-              const barcodeMidPoint = {
-                x: (barcodeTopLeft.x + barcodeBottomRight.x) / 2,
-                y: (barcodeTopLeft.y + barcodeBottomRight.y) / 2,
-              };
-              let searchedBarcodeMarker;
+      try {
+        const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
 
-              if (item?.text === itemId) {
-                // Create div element to show the found item ID
-                // Create an `absolute` positioned container to overlay on top of the video
-                const bubbleBoxContainer = document.createElement("div");
-                bubbleBoxContainer.className = "bubble-box-container";
-
-                // Create the overlay element to display decoded barcode results
-                const bubbleBoxOverlay = document.createElement("div");
-                bubbleBoxOverlay.className = "bubble-box";
-                bubbleBoxOverlay.innerText = item.text;
-                bubbleBoxContainer.append(bubbleBoxOverlay);
-
-                // 'convertToClientCoordinates()' is used to converts coordinate of a barcode location to the coordinate relative to the viewport.
-                // Then we can place a div element according to the converted coordinate.
-                const clientTopLeft = cameraEnhancer.convertToClientCoordinates(barcodeTopLeft);
-                const clientBottomRight = cameraEnhancer.convertToClientCoordinates(barcodeBottomRight);
-                const clientMidX = (clientTopLeft.x + clientBottomRight.x) / 2;
-                // Set the div element to start on the top and center of the barcode area
-                bubbleBoxContainer.style.top = `${clientTopLeft.y}px`;
-                bubbleBoxContainer.style.left = `${clientMidX}px`;
-
-                resultsContainer.append(bubbleBoxContainer);
-                // You can also add more information, such as displaying product images.
-
-                // Create a checkmark barcode marker to indicate that the searched item is found
-                searchedBarcodeMarker = createBarcodeIndicator(
-                  barcodeMidPoint.x,
-                  barcodeMidPoint.y,
-                  "checkmark-icon"
-                );
-
-                // Change the title to indicate that the item has been located
-                cameraViewTitle.innerText = "Item Found!";
-                cameraViewTitle.className = "";
-                cameraViewTitle.classList.add("banner-success");
-              } else {
-                // If barcode not found, create a cross barcode marker
-                searchedBarcodeMarker = createBarcodeIndicator(barcodeMidPoint.x, barcodeMidPoint.y, "cross-icon");
-              }
-              // Draw indicator on the new drawing layer
-              customDrawingLayer.addDrawingItem(searchedBarcodeMarker);
+        setResultReceiver(cvRouter, {
+          onDecodedBarcodesReceived: (result) => {
+            const scannedItem = result.barcodeResultItems?.[0];
+            if (!scannedItem) {
+              return;
             }
+
+            itemIdInput.value = scannedItem.text;
+            errorMessage.style.display = "none";
+            closeCameraView().catch(showError);
           },
-        };
-        cvRouter.addResultReceiver(resultReceiver);
+        });
 
-        // Show camera view container
-        cameraViewContainer.style.display = "";
-
-        // Open camera and start scanning single barcode.
-        if (!cameraEnhancer.isOpen()) await cameraEnhancer.open();
-        // Start capturing barcodes
-        await cvRouter.startCapturing("ReadBarcodes_Balance");
-      } catch (ex) {
-        const errMsg = ex.message || ex;
-        console.error(ex);
-        alert(errMsg);
+        await openCameraAndCapture(cameraEnhancer, cvRouter, "ReadSingleBarcode");
+      } catch (error) {
+        showError(error);
       }
     });
 
-    // Event Listener to change camera and resolution
-    cameraDropdownElement.addEventListener("change", async function (event) {
-      // Get selected cameraID and resolution from chosen option
-      const { options, selectedIndex } = event.target;
-      const [selectedCameraId, selectedRes] = (options[selectedIndex].value || "").split(",");
-      const [width, height] = resolution[selectedRes];
+    searchButton.addEventListener("click", async () => {
+      const itemId = validateItemId();
+      if (!itemId) {
+        return;
+      }
 
-      // Set the cameraId and resolution
+      closeButton.innerText = "Locate another item";
+
+      try {
+        const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
+        resultsContainer.innerHTML = "";
+        resultsContainer.style.display = "";
+
+        setResultReceiver(cvRouter, {
+          onCapturedResultReceived: (result) => {
+            customDrawingLayer.clearDrawingItems();
+            resultsContainer.innerHTML = "";
+            setBanner("banner-default", "Scan barcodes to search for the item");
+
+            for (const item of result.items) {
+              if (item.type !== Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE) {
+                continue;
+              }
+
+              const bounds = getBarcodeBounds(item);
+              const isMatchedItem = item.text === itemId;
+              const marker = createBarcodeIndicator(
+                bounds.midPoint.x,
+                bounds.midPoint.y,
+                isMatchedItem ? checkmarkIcon : crossIcon
+              );
+
+              if (isMatchedItem) {
+                resultsContainer.append(createBubbleBox(cameraEnhancer, item, bounds));
+                setBanner("banner-success", "Item Found!");
+              }
+
+              customDrawingLayer.addDrawingItems([marker]);
+            }
+          },
+        });
+
+        await openCameraAndCapture(cameraEnhancer, cvRouter, "ReadBarcodes_Balance");
+      } catch (error) {
+        showError(error);
+      }
+    });
+
+    cameraDropdownElement.addEventListener("change", async (event) => {
+      const [selectedCameraId, selectedRes] = (event.target.value || "").split(",");
+      const [width, height] = resolution[selectedRes] || [];
+
       try {
         const { cameraEnhancer } = await (pInit = pInit || init());
         await cameraEnhancer.selectCamera(selectedCameraId);
         await cameraEnhancer.setResolution({ width, height });
 
-        // Confirm if camera/resolution switch is successful
         const currentCamera = await cameraEnhancer.getSelectedCamera();
         const currentResolution = await cameraEnhancer.getResolution();
+        const currentResolutionLabel = judgeCurResolution(currentResolution);
 
-        // Show notification status for switching camera/resolution
-        cameraSwitchNotification.className = "";
         if (currentCamera.deviceId !== selectedCameraId) {
-          cameraSwitchNotification.classList.add("banner-error");
-          cameraSwitchNotification.innerText = `Switch camera failed!`;
-        } else if (judgeCurResolution(currentResolution) !== selectedRes) {
-          cameraSwitchNotification.classList.add("banner-error");
-          cameraSwitchNotification.innerText = `Switch resolution failed! ${selectedRes} might be unsupported in the camera.`;
-
-          // Update the selected camera to the current camera if the resolution is not supported by camera
-          for (let option of options) {
-            const [optionCamera, optionRes] = (option.value || "").split(",");
-            if (optionCamera === currentCamera.deviceId && optionRes === judgeCurResolution(currentResolution)) {
-              option.selected = true;
-              // Manually dispatch a change event to update to default camera
-              const changeEvent = new Event("change", { bubbles: true });
-              event.target.dispatchEvent(changeEvent);
-              break;
-            }
-          }
-        } else {
-          cameraSwitchNotification.classList.add("banner-success");
-          cameraSwitchNotification.innerText = `Switched to ${currentCamera.label} (${selectedRes}) successfully!`;
+          showSwitchNotification("banner-error", "Switch camera failed!");
+          return;
         }
 
-        // Fade in animation for notificaiton
-        cameraSwitchNotification.style.opacity = 1;
-        setTimeout(function () {
-          cameraSwitchNotification.style.opacity = 0;
-        }, 5000);
-      } catch (ex) {
-        const errMsg = ex.message || ex;
-        console.error(ex);
-        alert(errMsg);
+        if (currentResolutionLabel !== selectedRes) {
+          selectCameraOption(currentCamera.deviceId, currentResolutionLabel);
+          showSwitchNotification(
+            "banner-error",
+            `Switch resolution failed! ${selectedRes} might be unsupported in the camera.`
+          );
+          return;
+        }
+
+        showSwitchNotification(
+          "banner-success",
+          `Switched to ${currentCamera.label} (${selectedRes}) successfully!`
+        );
+      } catch (error) {
+        showError(error);
       }
     });
 
-    // Event Listener to exit from camera view
-    closeButton.addEventListener("click", async function () {
+    closeButton.addEventListener("click", async () => {
       try {
-        const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
-
-        resultsContainer.style.display = "none";
-        cameraViewContainer.style.display = "none";
-        // Clear all indicators in customDrawingLayer when the window is closed
-        customDrawingLayer.clearDrawingItems();
-        // Show inputs-container when closing camera
-        inputsContainer.style.display = "";
-
-        cvRouter.removeResultReceiver(resultReceiver);
-        cvRouter.stopCapturing();
-        cameraEnhancer.close();
-      } catch (ex) {
-        const errMsg = ex.message || ex;
-        console.error(ex);
-        alert(errMsg);
+        await closeCameraView();
+      } catch (error) {
+        showError(error);
       }
     });
   </script>

@@ -77,7 +77,7 @@
             cvRouter.stopCapturing();
           }
         }
-        await cvRouter.addResultReceiver(resultReceiver);
+        cvRouter.addResultReceiver(resultReceiver);
         await cvRouter.initSettings("./read_dl.json");
 
         barcodeScannerView.append(cameraView.getUIElement());

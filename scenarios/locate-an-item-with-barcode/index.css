@@ -1,0 +1,227 @@
+ body {
+   width: 100vw;
+   height: 100vh;
+   margin: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   gap: 1rem;
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", sans-serif;
+   color: white;
+   background-color: rgb(34, 34, 34);
+   overscroll-behavior-y: none;
+   overflow: hidden;
+ }
+
+ .dls-license-msg-content {
+   color: black;
+ }
+
+ #inputs-container {
+   margin: 2rem;
+   padding-bottom: 2rem;
+   background-color: rgb(68, 68, 68);
+   border-radius: 0.2rem;
+ }
+
+ #item-id {
+   display: block;
+   margin: 0 auto;
+   padding: 0.4rem 0.8rem;
+   color: black;
+   border: 1px solid #fe8e14;
+   font-size: 1rem;
+   border-radius: 0.2rem;
+ }
+
+ #item-id::placeholder {
+   color: #b0bec5;
+ }
+
+ #item-id:focus {
+   outline: none;
+   box-shadow: 0.1rem 0.4rem 0.8rem #fe8e14;
+ }
+
+ @keyframes shake {
+   0% {
+     transform: translateX(0);
+   }
+
+   25% {
+     transform: translateX(-5px);
+   }
+
+   50% {
+     transform: translateX(5px);
+   }
+
+   75% {
+     transform: translateX(-5px);
+   }
+
+   100% {
+     transform: translateX(0);
+   }
+ }
+
+ @keyframes dce-rotate {
+   from {
+     transform: rotate(0turn);
+   }
+
+   to {
+     transform: rotate(1turn);
+   }
+ }
+
+ .error-animation {
+   animation: shake 0.1s;
+   animation-iteration-count: 2;
+ }
+
+ #camera-view-container {
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   left: 0;
+   top: 0;
+ }
+
+ #camera-view-options {
+   position: absolute;
+   left: 0;
+   top: 0;
+   right: 0;
+   padding: 1rem;
+ }
+
+ #select-camera-dropdown {
+   color: white;
+   background-color: rgb(34, 34, 34, 0.4);
+   border: 0;
+   border-radius: 0.2rem;
+   padding: 0.5rem;
+   font-size: 1rem;
+   overflow: hidden;
+   max-width: 10rem;
+ }
+
+ #camera-view-title {
+   text-align: center;
+   border-radius: 0.2rem;
+   padding: 0.5rem;
+   width: -moz-fit-content;
+   width: fit-content;
+ }
+
+ .banner-default {
+   background-color: rgb(254, 142, 20, 0.4);
+   border: 1px solid #fe8e14;
+ }
+
+ .banner-error {
+   background-color: rgb(252, 2, 0, 0.4);
+   border: 1px solid #fc0200;
+ }
+
+ .banner-success {
+   background-color: rgb(124, 252, 0, 0.4);
+   border: 1px solid #7cfc00;
+ }
+
+ #camera-switch-notification {
+   text-align: center;
+   border-radius: 0.2rem;
+   padding: 0.5rem;
+   margin: 0;
+   width: -moz-fit-content;
+   width: fit-content;
+
+   /* Fade in animation */
+   opacity: 0;
+   transition: opacity 500ms;
+ }
+
+ button {
+   padding: 0.5rem;
+   background-color: #fe8e14;
+   font-size: 1rem;
+   border: 0;
+   border-radius: 0.2rem;
+   color: white;
+   transition: ease-in 0.2s all;
+   cursor: pointer;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-weight: bold;
+   white-space: nowrap;
+ }
+
+ button:hover {
+   box-shadow: -0.5rem 0.5rem 0 0px rgb(34, 34, 34);
+   transform: translate(0.5rem, -0.5rem);
+ }
+
+ #scan-id-button {
+   background-color: rgb(34, 34, 34);
+   border: 1px solid #fe8e14;
+ }
+
+ #search-button {
+   width: 100%;
+ }
+
+ #close-button {
+   font-size: 1rem;
+   font-weight: unset;
+ }
+
+ .bubble-box-container {
+   position: absolute;
+   z-index: 2;
+   display: flex;
+   color: black;
+   justify-content: center;
+ }
+
+ .bubble-box-container>.bubble-box {
+   position: absolute;
+   width: max-content;
+   max-width: 20rem;
+   background: white;
+   border-radius: 4px;
+   padding: 4px;
+   word-break: break-all;
+   word-wrap: break-word;
+   box-shadow: 5px 5px 5px 3px rgba(0, 0, 0, 0.2);
+   transform: translateY(calc(-100% - 4px));
+ }
+
+ .bubble-box-container>.bubble-box::after {
+   content: "";
+   position: absolute;
+   bottom: -8px;
+   left: calc(50% - 8px);
+   border-left: 8px solid transparent;
+   border-top: 8px solid white;
+   border-right: 8px solid transparent;
+ }
+
+ @media screen and (min-width: 600px) {
+   #inputs-container {
+     margin: 0 auto;
+   }
+
+   #item-id,
+   select,
+   button {
+     font-size: 1.5rem;
+   }
+
+   #select-camera-dropdown {
+     max-width: unset;
+   }
+ }

@@ -5,89 +5,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>List-Builder - Scan to Cart Simulation</title>
+  <link rel="stylesheet" href="./index.css">
 
   <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
+  <script src="https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260403134442/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
   <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
-
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #f0f0f0;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .scan-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 16px;
-      margin: 0 auto 20px;
-      font-size: 14px;
-      background: #4caf50;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .scan-button:hover {
-      background: #45a049;
-    }
-
-    .barcode-icon {
-      height: 12px;
-      margin-left: 8px;
-    }
-
-    .cart {
-      max-width: 600px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .cart-item:last-child {
-      border-bottom: none;
-    }
-
-    #floatingDiv {
-      position: fixed;
-      top: 40%;
-      left: 10%;
-      width: 50%;
-      height: 25%;
-      max-width: 400px;
-      max-height: 200px;
-      min-width: 150px;
-      min-height: 150px;
-      background: #f9f9f9;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      cursor: move;
-      z-index: 999;
-      padding: 3px;
-      box-sizing: border-box;
-    }
-  </style>
 </head>
 
 <body>
@@ -96,7 +19,7 @@
   </header>
 
   <!-- Scan Button -->
-  <button class="scan-button" id="barcodeBtn">
+  <button class="scan-btn">
     Scan Barcode
     <svg class="barcode-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="4" width="2" height="16" fill="black" />
@@ -109,56 +32,67 @@
   </button>
 
   <!-- Floating Scanner Container -->
-  <div id="floatingDiv" hidden></div>
+  <div class="floatingDiv" hidden>
+    <svg class="btn-close" id="closed" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="26" height="26" viewBox="0 0 24 24" style="display: inline;">
+      <g id="Group_2681" data-name="Group 2681">
+        <path id="Path_8292" data-name="Path 8292" d="M12,0h0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0m0,1.914A10.086,10.086,0,1,1,1.914,12,10.1,10.1,0,0,1,12,1.914" fill="#fff"></path>
+        <path id="Path_8293" data-name="Path 8293" d="M7.416,16.578a.985.985,0,0,0,1.351,0L12,13.35l3.21,3.208a.958.958,0,0,0,1.665-.6.988.988,0,0,0-.3-.738L13.351,12l3.226-3.226a.959.959,0,0,0,0-1.353l0,0a.959.959,0,0,0-1.353,0L12,10.647,8.755,7.4A.957.957,0,0,0,7.42,8.774L10.646,12,7.421,15.227a.956.956,0,0,0-.005,1.351" fill="#fff"></path>
+      </g>
+    </svg>
+  </div>
 
   <!-- Shopping Cart -->
   <div class="cart">
     <h2>Simulated Shopping Cart</h2>
-    <div id="cart-items">
+    <div class="cart-items">
       <p>No items in cart. Start scanning!</p>
     </div>
   </div>
 
   <script>
-    const dragDiv = document.getElementById("floatingDiv");
+    const dragDiv = document.querySelector(".floatingDiv");
+
+    const pInit = (async () => {
+      const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+
+      cvRouter.setInput(cameraEnhancer);
+
+      const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+      resultReceiver.onDecodedBarcodesReceived = async (result) => {
+        simulateAddingToCart(result.barcodeResultItems[0].text);
+      }
+      cvRouter.addResultReceiver(resultReceiver);
+
+      const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+      filter.enableResultCrossVerification("barcode", true);
+      filter.enableResultDeduplication("barcode", true);
+      await cvRouter.addResultFilter(filter);
+
+      document.querySelector(".floatingDiv").append(cameraView.getUIElement());
+
+      cameraView.getUIElement().querySelector(".dce-sel-camera").style.display = "none";
+      cameraView.getUIElement().querySelector(".dce-sel-resolution").style.display = "none";
+      return {
+        cameraView,
+        cameraEnhancer,
+        cvRouter
+      }
+    })();
     // Function to initialize and launch the barcode scanner
     async function startScanner() {
-      // Create a new instance of Dynamsoft BarcodeScanner with configuration options
-      const scanner = new Dynamsoft.BarcodeScanner({
-        // License key for Dynamsoft Barcode Reader (replace with a valid key)
-        license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9",
+      const { cameraView, cameraEnhancer, cvRouter } = await pInit;
+      await cameraEnhancer.open();
+      await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+      document.querySelector(".floatingDiv").hidden = false;
+    }
 
-        // Set scanning mode to detect multiple unique barcodes in one session
-        scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
-
-        // Time in milliseconds to forget duplicate barcodes (prevents rapid duplicate scans)
-        duplicateForgetTime: 5000,
-
-        showResultView: false,
-
-        // Configure the scanner view (UI settings)
-        scannerViewConfig: {
-          container: document.querySelector("#floatingDiv"), // Attach scanner UI to floating div
-          showCloseButton: true, // Display a close button in the scanner UI
-        },
-
-        // Callback triggered when a unique barcode is detected
-        onUniqueBarcodeScanned: (result) => {
-          // Simulate adding the scanned barcode to the shopping cart
-          simulateAddingToCart(result.text);
-        },
-        // The watermark can be removed via showPoweredByDynamsoft configuration option.
-        // showPoweredByDynamsoft: false,
-      });
-
-      // Show the floating scanner container
-      document.querySelector("#floatingDiv").hidden = false;
-
-      // Launch the scanner (opens camera and starts scanning)
-      await scanner.launch();
-
-      // Hide the scanner container after scanning is complete or closed
-      document.querySelector("#floatingDiv").hidden = true;
+    async function stopScanner() {
+      const { cameraEnhancer, cvRouter } = await pInit;
+      await cvRouter.stopCapturing();
+      await cameraEnhancer.close();
+      document.querySelector(".floatingDiv").hidden = true;
     }
 
     // Product List
@@ -203,7 +137,7 @@
 
     // Update Cart UI
     function updateCartDisplay() {
-      const cartDiv = document.getElementById("cart-items");
+      const cartDiv = document.querySelector(".cart-items");
       cartDiv.innerHTML = "";
 
       const header = document.createElement("div");
@@ -223,14 +157,11 @@
 
     // Initialize Scan Button
     window.onload = () => {
-      document
-        .getElementById("barcodeBtn")
-        .addEventListener("click", startScanner);
+      document.querySelector(".scan-btn").addEventListener("click", startScanner);
+      document.querySelector(".btn-close").addEventListener("click", stopScanner);
 
       // Make the Floating Div Draggable
-      let offsetX = 0,
-        offsetY = 0,
-        isDragging = false;
+      let offsetX = 0, offsetY = 0, isDragging = false;
 
       dragDiv.addEventListener("mousedown", (e) => {
         isDragging = true;
