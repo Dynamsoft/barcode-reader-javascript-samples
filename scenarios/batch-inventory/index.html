@@ -16,7 +16,7 @@
   <div class="barcode-reader-view">
     <div class="scanner-view"></div>
     <div class="result-view">
-      <div class="result-list"></div>
+      <div class="current-session-result-list"></div>
       <div class="footer-toolbar">
         <div class="clear-btn">Clear</div>
         <div class="done-btn">Done</div>
@@ -56,7 +56,7 @@
     const barcodeScannerView = document.querySelector(".barcode-reader-view");
     const scannerView = document.querySelector(".scanner-view");
     const resultView = document.querySelector(".result-view");
-    const resultList = document.querySelector(".result-list");
+    const currentSessionResultList = document.querySelector(".current-session-result-list");
     const summaryView = document.querySelector(".summary-view");
     const finishBtn = document.querySelector(".finish-btn");
     const backBtn = document.querySelector(".icon-back");
@@ -84,7 +84,6 @@
           }
         }
         renderScanResult();
-        console.log(result);
       }
       cvRouter.addResultReceiver(resultReceiver);
 
@@ -103,6 +102,7 @@
     })();
 
     const launchBarcodeScanner = async () => {
+       barcodeScannerView.style.display = "flex";
       summaryView.style.display = "none";
       currentSessionResult = [];
       // let config = {
@@ -143,11 +143,11 @@
     }
 
     const renderScanResult = () => {
-      resultList.innerText = "";
+      currentSessionResultList.innerText = "";
       for (let item of currentSessionResult) {
         const resultItemDiv = document.createElement("div");
         resultItemDiv.innerText = `format: ${item.formatString}, text: ${item.text}`;
-        resultList.append(resultItemDiv);
+        currentSessionResultList.append(resultItemDiv);
       }
     }
 
