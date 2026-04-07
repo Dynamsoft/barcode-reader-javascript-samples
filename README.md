@@ -78,27 +78,9 @@ If you need a web server for standalone or scenario samples (for example, to ser
 
 The repository includes two main sample directories:
 
-- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks. Each framework folder contains one or more runnable sub-examples (such as `scan-using-foundational-api` and/or `scan-using-rtu-api`) showing practical integration patterns.
+- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
 
 - **`scenarios/`** - Focused scenario samples that show common real-world uses of Dynamsoft Barcode Reader.
-
----
-
-## Choosing an API
-
-The SDK provides two approaches for integrating barcode scanning capabilities:
-
-### Ready-To-Use (RTU) API — BarcodeScanner
-
-The RTU API offers the quickest path to a working barcode scanner (**Recommended for most users**):
-
-- **One-line integration** – Launch a full scanner with a single API call
-- **Built-in UI** – Pre-designed viewfinder and scan region highlighting
-- **Simple configuration** – Customize behavior through intuitive config objects
-
-### Foundational APIs
-
-If you are looking for a fully customizable barcode decoding library with complete control over the scanning process and UI, you are welcome to use the Foundational APIs.
 
 ---
 
@@ -106,8 +88,7 @@ If you are looking for a fully customizable barcode decoding library with comple
 
 For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.2.4000&utm_source=sampleReadme).
 
-- [Barcode Scanner API Docs](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html?utm_source=sampleReadme)
-- [Foundational API Docs](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/index.html?utm_source=sampleReadme)
+- [API Docs](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/index.html?utm_source=sampleReadme)
 
 ---
 

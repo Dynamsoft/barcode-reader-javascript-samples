@@ -16,10 +16,8 @@ A focused demo that decodes GS1-formatted barcodes and parses Application Identi
 
 ## 🔧 How it works
 
-- Both demos initialize the barcode scanner to decode GS1 payloads from camera frames or image files.  
+- The demos initialize the barcode scanner to decode GS1 payloads from camera frames or image files.  
 - Decoded GS1 strings are parsed according to the provided JSON template (mapping AIs to labels and formats).  
-- The foundational demo is a compact single-page example that loads `read_and_parse_gs1.json` and renders parsed fields alongside the raw payload.  
-- The RTU demo demonstrates a more integrated UI flow (uses `rtu_gs1.json`, helper script `convert-GS1AI-title.js`, and additional assets/styles) suitable for embedding into larger apps.
 
 ## Quick start
 
@@ -33,7 +31,6 @@ Opening HTML files directly may not work as expected. Instead, run a local devel
 
 - Use high-resolution images or increase camera resolution for small or dense GS1 fields.  
 - Validate AI date/number formats (some AIs imply decimal places or YY/MM/YY formats).  
-- Use the RTU implementation as a reference if you need a richer runtime UI integration.
 
 ## 📌 Notes
 
