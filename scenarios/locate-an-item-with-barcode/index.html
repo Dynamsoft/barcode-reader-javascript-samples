@@ -246,12 +246,12 @@
       return bubbleBoxContainer;
     };
 
-    const setResultReceiver = (cvRouter, receiver) => {
+    const setResultReceiver = async (cvRouter, receiver) => {
       if (resultReceiver) {
         cvRouter.removeResultReceiver(resultReceiver);
       }
       resultReceiver = receiver;
-      cvRouter.addResultReceiver(resultReceiver);
+      await cvRouter.addResultReceiver(resultReceiver);
     };
 
     const openCameraAndCapture = async (cameraEnhancer, cvRouter, templateName) => {
@@ -341,7 +341,7 @@
       try {
         const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
 
-        setResultReceiver(cvRouter, {
+        await setResultReceiver(cvRouter, {
           onDecodedBarcodesReceived: (result) => {
             const scannedItem = result.barcodeResultItems?.[0];
             if (!scannedItem) {
@@ -373,7 +373,7 @@
         resultsContainer.innerHTML = "";
         resultsContainer.style.display = "";
 
-        setResultReceiver(cvRouter, {
+        await setResultReceiver(cvRouter, {
           onCapturedResultReceived: (result) => {
             customDrawingLayer.clearDrawingItems();
             resultsContainer.innerHTML = "";

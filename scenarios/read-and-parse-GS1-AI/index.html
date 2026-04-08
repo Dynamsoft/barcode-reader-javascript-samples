@@ -109,7 +109,7 @@
       await cvRouter.addResultFilter(filter);
 
       // Define a callback for results.
-      cvRouter.addResultReceiver({
+      await cvRouter.addResultReceiver({
         // callback in every frame
         onCapturedResultReceived: (result) => {
           if (cameraEnhancer.singleFrameMode === "disabled") {

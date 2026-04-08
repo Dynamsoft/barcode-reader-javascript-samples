@@ -48,7 +48,7 @@ export class VideoCaptureComponent {
       this.cvRouter.setInput(this.cameraEnhancer);
 
       // Define a callback for results.
-      this.cvRouter.addResultReceiver({
+      await this.cvRouter.addResultReceiver({
         onDecodedBarcodesReceived: (result) => {
           if (!result.barcodeResultItems.length) return;
           console.log(result);

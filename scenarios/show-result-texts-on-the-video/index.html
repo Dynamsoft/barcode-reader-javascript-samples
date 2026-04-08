@@ -107,7 +107,7 @@
 
         // Define a callback for results.
         const bodyStyle = getComputedStyle(document.body);
-        cvRouter.addResultReceiver({
+        await cvRouter.addResultReceiver({
           onCapturedResultReceived: (result) => {
             if (!cameraEnhancer.isOpen()) {
               return; // If camera is closed, skip processing results to avoid potential errors.

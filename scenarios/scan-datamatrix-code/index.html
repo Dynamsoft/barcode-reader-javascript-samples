@@ -72,13 +72,13 @@
         const reusltView = document.querySelector(".result-view");
         resultReceiver.onDecodedBarcodesReceived = (result) => {
           reusltView.innerHTML = "";
-          for(let item of result.barcodeResultItems) {
+          for (let item of result.barcodeResultItems) {
             const div = document.createElement("div");
             div.innerHTML = `format: ${item.formatString}<br> text: ${item.text} <br> ------------------`;
             reusltView.append(div);
           }
         }
-        cvRouter.addResultReceiver(resultReceiver);
+        await cvRouter.addResultReceiver(resultReceiver);
         await cvRouter.initSettings("./ReadDataMatrix.json");
 
         document.querySelector(".barcode-scanner-view").append(cameraView.getUIElement());

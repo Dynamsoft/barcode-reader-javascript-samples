@@ -78,7 +78,7 @@
             reusltView.append(div);
           }
         }
-        cvRouter.addResultReceiver(resultReceiver);
+        await cvRouter.addResultReceiver(resultReceiver);
         await cvRouter.initSettings("./ReadDistantBarcodes.json");
 
         document.querySelector(".barcode-scanner-view").append(cameraView.getUIElement());

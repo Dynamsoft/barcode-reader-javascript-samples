@@ -101,7 +101,7 @@
             cvRouter.removeResultReceiver(resultReceiver);
           }
         }
-        cvRouter.addResultReceiver(resultReceiver);
+        await cvRouter.addResultReceiver(resultReceiver);
 
         guideView.style.display = "none";
         barcodeScannerView.style.display = "block";

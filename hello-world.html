@@ -29,7 +29,7 @@
 
       const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
       resultReceiver.onDecodedBarcodesReceived = console.log;
-      cvRouter.addResultReceiver(resultReceiver);
+      await cvRouter.addResultReceiver(resultReceiver);
 
       // Filter out unchecked and duplicate results.
       const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();

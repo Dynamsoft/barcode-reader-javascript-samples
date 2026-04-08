@@ -37,7 +37,7 @@ onMounted(async () => {
     cvRouter.setInput(cameraEnhancer);
 
     // Define a callback for results.
-    cvRouter.addResultReceiver({
+    await cvRouter.addResultReceiver({
       onDecodedBarcodesReceived: (result) => {
         if (!result.barcodeResultItems.length) return;
 

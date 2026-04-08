@@ -91,7 +91,7 @@
         }
         renderCurrentSessionScanResult();
       }
-      cvRouter.addResultReceiver(resultReceiver);
+      await cvRouter.addResultReceiver(resultReceiver);
 
       const uiElement = cameraView.getUIElement();
       uiElement.querySelector(".dce-sel-camera").style.display = "none";

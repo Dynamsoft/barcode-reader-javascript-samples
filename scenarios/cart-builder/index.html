@@ -63,7 +63,7 @@
       resultReceiver.onDecodedBarcodesReceived = async (result) => {
         simulateAddingToCart(result.barcodeResultItems[0].text);
       }
-      cvRouter.addResultReceiver(resultReceiver);
+      await cvRouter.addResultReceiver(resultReceiver);
 
       const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
       filter.enableResultCrossVerification("barcode", true);

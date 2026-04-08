@@ -35,7 +35,7 @@
         document.querySelector(".barcode-scanner-view").style.display = "none"; // Hide the camera view after scanning is complete
         document.querySelector(".scan-btn").style.display = "block"; // Show the scan button after the scanning process is complete
       };
-      cvRouter.addResultReceiver(resultReceiver);
+      await cvRouter.addResultReceiver(resultReceiver);
 
       const uiElement = cameraView.getUIElement();
       document.querySelector(".barcode-scanner-view").append(uiElement);

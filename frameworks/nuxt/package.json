@@ -13,7 +13,7 @@
     "nuxt": "3.2.3"
   },
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "npm:@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260331161017"
+    "dynamsoft-barcode-reader-bundle": "npm:@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260408134320"
   },
   "overrides": {
     "dynamsoft-barcode-reader-bundle": "$dynamsoft-barcode-reader-bundle"

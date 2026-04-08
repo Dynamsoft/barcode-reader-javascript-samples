@@ -38,7 +38,7 @@ let cvRouter: CaptureVisionRouter;
     cvRouter.setInput(cameraEnhancer);
 
     // Define a callback for results.
-    cvRouter.addResultReceiver({
+    await cvRouter.addResultReceiver({
       onDecodedBarcodesReceived: (result: DecodedBarcodesResult) => {
         if (!result.barcodeResultItems.length) return;
 
