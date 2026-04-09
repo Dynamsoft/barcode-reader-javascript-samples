@@ -5,10 +5,8 @@
       <img class='title-logo' src="./assets/logo.svg" alt="logo" />
     </div>
     <div class='buttons-container'>
-      <button @click="mode = 'video'"
-        :style="{ backgroundColor: mode === 'video' ? 'rgb(255, 174, 55)' : '#FFFFFF' }">Video Capture</button>
-      <button @click="mode = 'image'"
-        :style="{ backgroundColor: mode === 'image' ? 'rgb(255, 174, 55)' : '#FFFFFF' }">Image Capture</button>
+      <button @click="mode = 'video'" :style="{ backgroundColor: mode === 'video' ? 'rgb(255, 174, 55)' : '#FFFFFF' }">Video Capture</button>
+      <button @click="mode = 'image'" :style="{ backgroundColor: mode === 'image' ? 'rgb(255, 174, 55)' : '#FFFFFF' }">Image Capture</button>
     </div>
     <client-only>
       <VideoCapture v-if="mode === 'video'" />
@@ -44,6 +42,7 @@ const mode: Ref<string> = ref("video");
 .buttons-container {
   width: 30%;
   margin: 20px auto;
+  text-align: center;
 }
 
 .buttons-container button {

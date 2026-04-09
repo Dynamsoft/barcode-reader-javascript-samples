@@ -60,7 +60,7 @@ onBeforeUnmount(async () => {
     <div class="input-container">
       <input type="file" multiple @change="captureImage" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" />
     </div>
-    <div class="results">{{resultText}}</div>
+    <div class="results">{{ resultText }}</div>
   </div>
 </template>
 
@@ -84,5 +84,6 @@ onBeforeUnmount(async () => {
   margin-top: 20px;
   height: 100%;
   white-space: pre-wrap;
+  text-align: center;
 }
 </style>
