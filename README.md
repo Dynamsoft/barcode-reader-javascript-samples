@@ -21,7 +21,7 @@ The following table is a list of supported browsers based on the above requireme
 
 | Browser Name |     Version      |
 | :----------: | :--------------: |
-|    Chrome    | v78+<sup>1</sup> |
+|    Chrome    | v88+<sup>1</sup> |
 |   Firefox    | v68+<sup>1</sup> |
 |     Edge     |       v79+       |
 |    Safari    |      v14.5+      |
