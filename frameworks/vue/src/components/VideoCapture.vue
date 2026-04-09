@@ -95,7 +95,7 @@ onBeforeUnmount(async () => {
   <div>
     <div ref="cameraViewContainer" style="width: 100%; height: 70vh; background: #eee;"></div>
     <br />
-    Results:
+    <div style="text-align: center;">Results:</div>
     <div class="results">{{ resultText }}</div>
   </div>
 </template>
@@ -106,5 +106,6 @@ onBeforeUnmount(async () => {
   height: 10vh;
   overflow: auto;
   white-space: pre-wrap;
+  text-align: center;
 }
 </style>

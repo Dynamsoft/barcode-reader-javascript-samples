@@ -42,6 +42,7 @@ const mode: Ref<string> = ref("video");
 .buttons-container {
   width: 30%;
   margin: 20px auto;
+  text-align: center;
 }
 
 .buttons-container button {
