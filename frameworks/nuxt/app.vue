@@ -16,8 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import "./assets/main.css";
-
 import { ref, type Ref } from "vue";
 import VideoCapture from "./components/VideoCapture.client.vue";
 import ImageCapture from "./components/ImageCapture.client.vue";
@@ -26,6 +24,8 @@ const mode: Ref<string> = ref("video");
 </script>
 
 <style scoped>
+@import "./assets/main.css";
+
 .title {
   display: flex;
   justify-content: center;
