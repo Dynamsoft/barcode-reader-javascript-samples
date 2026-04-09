@@ -83,5 +83,6 @@ onBeforeUnmount(async () => {
   margin-top: 20px;
   height: 100%;
   white-space: pre-wrap;
+  text-align: center;
 }
 </style>
