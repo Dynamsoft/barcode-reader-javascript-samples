@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/Dynamsoft/barcode-reader-javascript-samples#readme",
   "devDependencies": {
-    "electron": "^33.2.0"
+    "electron": "39.8.5"
   },
   "dependencies": {
     "dynamsoft-barcode-reader-bundle": "npm:@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260325180754"
