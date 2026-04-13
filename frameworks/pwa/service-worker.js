@@ -1,5 +1,5 @@
 const engineResourcePaths = {
-  dbrBundle: "https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260331161017/dist/",
+  dbrBundle: "https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260410144128/dist/",
 };
 
 // Files to cache
@@ -48,7 +48,8 @@ self.addEventListener("install", (e) => {
       const cache = await caches.open(cacheName);
       console.log(cache);
       console.log("[Service Worker] Caching all: app shell and content");
-      await cache.addAll(appShellFiles);
+      // Avoid failing the whole install if one resource is temporarily unreachable.
+      await Promise.allSettled(appShellFiles.map((file) => cache.add(file)));
     })()
   );
 });
@@ -56,28 +57,38 @@ self.addEventListener("install", (e) => {
 self.addEventListener("fetch", (e) => {
   e.respondWith(
     (async () => {
-      // Fetch cached response if exists
-      const cachedResponse = await caches.match(e.request);
-      console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
-      if (cachedResponse) {
-        return cachedResponse;
+      try {
+        // Fetch cached response if exists
+        const cachedResponse = await caches.match(e.request);
+        console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+
+        // Otherwise, fetch from network
+        const response = await fetch(e.request);
+
+        if (
+          e.request.method === "GET" &&
+          response.ok &&
+          // Authorization requests should not be cached
+          !/https:\/\/.*?\.dynamsoft.com\/auth/.test(e.request.url)
+          // You can add other filter conditions
+        ) {
+          const cache = await caches.open(cacheName);
+          console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
+          cache.put(e.request, response.clone());
+        }
+
+        return response;
+      } catch (error) {
+        // Network fallback: try cache one more time before failing.
+        const fallbackResponse = await caches.match(e.request);
+        if (fallbackResponse) {
+          return fallbackResponse;
+        }
+        throw error;
       }
-
-      // Otherwise, fetch from network
-      const response = await fetch(e.request);
-
-      if (
-        e.request.method !== "POST" &&
-        // Authorization requests should not be cached
-        !/https:\/\/.*?\.dynamsoft.com\/auth/.test(e.request.url)
-        // You can add other filter conditions
-      ) {
-        const cache = await caches.open(cacheName);
-        console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
-        cache.put(e.request, response.clone());
-      }
-
-      return response;
     })()
   );
 });
