@@ -13,19 +13,23 @@ const appShellFiles = [
   "./dynamsoft-512x512.png",
   "./helloworld-pwa.json",
   `${engineResourcePaths.dbrBundle}dbr.bundle.worker.js`,
-  // `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle.js`,
-  // `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle.wasm`,
   `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle-ml-simd.js`,
   `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle-ml-simd.wasm`,
+  `${engineResourcePaths.dbrBundle}models/Code128Decoder.data`,
+  `${engineResourcePaths.dbrBundle}models/EAN13Decoder.data`,
+  `${engineResourcePaths.dbrBundle}models/Code39ITFDecoder.data`,
+  `${engineResourcePaths.dbrBundle}templates/DBR-PresetTemplates.json`,
+  `${engineResourcePaths.dbrBundle}ui/dce.ui.xml`,
+  `${engineResourcePaths.dbrBundle}ui/dls.license.dialog.html`,
+  
+  // `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle.js`,
+  // `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle.wasm`,
   // `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle-ml-simd-pthread.js`,
   // `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle-ml-simd-pthread.worker.js`,
   // `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle-ml-simd-pthread.wasm`,
   // `${engineResourcePaths.dbrBundle}models/OneDDeblur.data`,
   // `${engineResourcePaths.dbrBundle}models/OneDLocalization.data`,
   // `${engineResourcePaths.dbrBundle}models/DataMatrixQRCodeLocalization.data`,
-  `${engineResourcePaths.dbrBundle}models/Code128Decoder.data`,
-  `${engineResourcePaths.dbrBundle}models/EAN13Decoder.data`,
-  `${engineResourcePaths.dbrBundle}models/Code39ITFDecoder.data`,
   // `${engineResourcePaths.dbrBundle}models/DataMatrixQRCodeDeblur.data`,
   // `${engineResourcePaths.dbrBundle}models/PDF417Deblur.data`,
   // `${engineResourcePaths.dbrBundle}models/PDF417Localization.data`,
@@ -35,21 +39,20 @@ const appShellFiles = [
   // `${engineResourcePaths.dbrBundle}parser-resources/MRTD.data`,
   // `${engineResourcePaths.dbrBundle}parser-resources/SOUTH_AFRICA_DL.data`,
   // `${engineResourcePaths.dbrBundle}parser-resources/VIN.data`,
-  `${engineResourcePaths.dbrBundle}templates/DBR-PresetTemplates.json`,
-  `${engineResourcePaths.dbrBundle}ui/dce.ui.xml`,
-  `${engineResourcePaths.dbrBundle}ui/dls.license.dialog.html`,
 ];
 
 // Installing Service Worker
 self.addEventListener("install", (e) => {
   console.log("[Service Worker] Install");
-  (async () => {
-    const cache = await caches.open(cacheName);
-    console.log(cache);
-    console.log("[Service Worker] Caching all: app shell and content");
-    // Avoid failing the whole install if one resource is temporarily unreachable.
-    await Promise.allSettled(appShellFiles.map((file) => cache.add(file)));
-  })()
+  e.waitUntil(
+    (async () => {
+      const cache = await caches.open(cacheName);
+      console.log(cache);
+      console.log("[Service Worker] Caching all: app shell and content");
+      // Avoid failing the whole install if one resource is temporarily unreachable.
+      await Promise.allSettled(appShellFiles.map((file) => cache.add(file)));
+    })()
+  );
 });
 
 self.addEventListener("fetch", (e) => {
