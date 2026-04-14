@@ -2,7 +2,7 @@
 
 [RequireJS](https://requirejs.org/) is a JavaScript file and module loader that implements the AMD (Asynchronous Module Definition) API. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into a RequireJS application using the foundational API to decode barcodes from a live camera stream.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.2.4000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/11.2.4000).
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.4.2000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/11.4.2000).
 
 > Note:
 >
@@ -33,7 +33,7 @@ This sample demonstrates:
 
 ```javascript
 requirejs(
-  ["https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"],
+  ["https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2000/dist/dbr.bundle.js"],
   ({
     Core: { CoreModule },
     License: { LicenseManager },

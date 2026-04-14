@@ -2,7 +2,7 @@
 
 [ES6 modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) allow you to use modern JavaScript features with native import/export syntax. Follow this guide to learn how to implement [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) (hereafter called "the library") into an ES6 application using the foundational API to decode barcodes from a live camera stream.
 
-In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.2.4000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/11.2.4000).
+In this guide, we will be using [`dynamsoft-barcode-reader-bundle 11.4.2000`](https://www.npmjs.com/package/dynamsoft-barcode-reader-bundle/v/11.4.2000).
 
 > Note:
 >
@@ -39,7 +39,7 @@ import {
   CameraView,
   CameraEnhancer,
   MultiFrameResultCrossFilter,
-} from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.mjs";
+} from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2000/dist/dbr.bundle.mjs";
 ```
 
 ### Camera Setup
