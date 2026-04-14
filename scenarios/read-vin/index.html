@@ -38,7 +38,7 @@
     const barcodeScannerView = document.querySelector(".barcode-scanner-view");
     const backToScan = document.querySelector(".back-to-scan");
 
-    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", { executeNow: true });
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
     Dynamsoft.DCP.CodeParserModule.loadSpec("VIN");
 
     let cameraView, cameraEnhancer, cvRouter, parser;

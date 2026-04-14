@@ -19,7 +19,7 @@
   <!-- This div will host the barcode scanner's camera view -->
   <div class="barcode-scanner-view"></div>
   <script>
-    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", { executeNow: true });
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
     (async () => {
       const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
       const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);

@@ -1,6 +1,6 @@
 import { LicenseManager, CameraView, CameraEnhancer, CaptureVisionRouter, CapturedResultReceiver, MultiFrameResultCrossFilter } from "dynamsoft-barcode-reader-bundle";
 
-LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", { executeNow: true });
+LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 (async () => {
   const cameraView = await CameraView.createInstance();
   const cameraEnhancer = await CameraEnhancer.createInstance(cameraView);

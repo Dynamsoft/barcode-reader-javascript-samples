@@ -74,7 +74,7 @@
     let totalUniqueBarcodesCount = 0;
     let startTime;
 
-    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", { executeNow: true });
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
     const pInit = (async () => {
       const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
       const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
