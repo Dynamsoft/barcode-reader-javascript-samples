@@ -66,16 +66,17 @@
         const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
         const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
 
+        cameraEnhancer.enableEnhancedFeatures(Dynamsoft.DCE.EnumEnhancedFeatures.EF_AUTO_ZOOM);
         cvRouter.setInput(cameraEnhancer);
 
         const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
-        const reusltView = document.querySelector(".result-view");
+        const resultView = document.querySelector(".result-view");
         resultReceiver.onDecodedBarcodesReceived = (result) => {
-          reusltView.innerHTML = "";
+          resultView.innerHTML = "";
           for (let item of result.barcodeResultItems) {
             const div = document.createElement("div");
             div.innerHTML = `format: ${item.formatString}<br> text: ${item.text} <br> ------------------`;
-            reusltView.append(div);
+            resultView.append(div);
           }
         }
         await cvRouter.addResultReceiver(resultReceiver);
