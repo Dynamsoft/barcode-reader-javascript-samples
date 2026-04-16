@@ -18,7 +18,7 @@
   <div id="results" style="width: 100%; height: 10vh; overflow: auto; white-space: pre-wrap"></div>
   <script>
     requirejs(
-      ["https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260401135230/dist/dbr.bundle.js"],
+      ["https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2000/dist/dbr.bundle.js"],
       ({
         Core: { CoreModule },
         License: { LicenseManager },
@@ -39,7 +39,7 @@
          * LICENSE ALERT - THE END
          */
 
-        CoreModule.engineResourcePaths.rootDirectory = "https://npm.scannerproxy.com:802/cdn/@dynamsoft/";
+        CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
 
         // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
         CoreModule.loadWasm();

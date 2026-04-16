@@ -11,10 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "npm:@dynamsoft/dynamsoft-barcode-reader-bundle@11.4.2000-dev-20260325180754"
-  },
-  "overrides": {
-    "dynamsoft-barcode-reader-bundle": "$dynamsoft-barcode-reader-bundle"
+    "dynamsoft-barcode-reader-bundle": "11.4.2000"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.3.0",
