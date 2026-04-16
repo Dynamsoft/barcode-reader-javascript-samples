@@ -21,12 +21,10 @@ The following table is a list of supported browsers based on the above requireme
 
 | Browser Name |     Version      |
 | :----------: | :--------------: |
-|    Chrome    | v88+<sup>1</sup> |
-|   Firefox    | v68+<sup>1</sup> |
-|     Edge     |       v79+       |
-|    Safari    |      v14.5+      |
-
-<sup>1</sup> Devices running iOS need to be on iOS 14.5+ for camera video streaming to work in Chrome, Firefox or other apps using webviews.
+|    Chrome    | v88+             |
+|   Firefox    | v88+             |
+|     Edge     | v89+             |
+|    Safari    | v15+             |
 
 Apart from the browsers, the operating systems may impose some limitations of their own that could restrict the use of the SDK.
 
