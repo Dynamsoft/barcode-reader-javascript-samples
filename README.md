@@ -21,12 +21,10 @@ The following table is a list of supported browsers based on the above requireme
 
 | Browser Name |     Version      |
 | :----------: | :--------------: |
-|    Chrome    | v78+<sup>1</sup> |
-|   Firefox    | v68+<sup>1</sup> |
-|     Edge     |       v79+       |
-|    Safari    |      v14.5+      |
-
-<sup>1</sup> Devices running iOS need to be on iOS 14.5+ for camera video streaming to work in Chrome, Firefox or other apps using webviews.
+|    Chrome    | v88+             |
+|   Firefox    | v89+             |
+|     Edge     | v88+             |
+|    Safari    | v15+             |
 
 Apart from the browsers, the operating systems may impose some limitations of their own that could restrict the use of the SDK.
 
@@ -78,36 +76,17 @@ If you need a web server for standalone or scenario samples (for example, to ser
 
 The repository includes two main sample directories:
 
-- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks. Each framework folder contains one or more runnable sub-examples (such as `scan-using-foundational-api` and/or `scan-using-rtu-api`) showing practical integration patterns.
+- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
 
 - **`scenarios/`** - Focused scenario samples that show common real-world uses of Dynamsoft Barcode Reader.
 
 ---
 
-## Choosing an API
-
-The SDK provides two approaches for integrating barcode scanning capabilities:
-
-### Ready-To-Use (RTU) API — BarcodeScanner
-
-The RTU API offers the quickest path to a working barcode scanner (**Recommended for most users**):
-
-- **One-line integration** – Launch a full scanner with a single API call
-- **Built-in UI** – Pre-designed viewfinder and scan region highlighting
-- **Simple configuration** – Customize behavior through intuitive config objects
-
-### Foundational APIs
-
-If you are looking for a fully customizable barcode decoding library with complete control over the scanning process and UI, you are welcome to use the Foundational APIs.
-
----
-
 ## Documentation
 
-For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.2.4000&utm_source=sampleReadme).
+For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.4.2000&utm_source=sampleReadme).
 
-- [Barcode Scanner API Docs](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html?utm_source=sampleReadme)
-- [Foundational API Docs](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/index.html?utm_source=sampleReadme)
+- [API Docs](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/index.html?utm_source=sampleReadme)
 
 ---
 
@@ -123,11 +102,6 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 
 - [hello-world.html](./hello-world.html) — Demonstrates continuously scanning and collecting multiple unique barcodes via camera.
 - [scan-a-single-barcode.html](./scan-a-single-barcode.html) — Demonstrates single-barcode scanning: stops and returns as soon as the first barcode is detected.
-- [read-an-image.html](./read-an-image.html) — Demonstrates how to decode and read barcodes from uploaded image files.
-
-### Hello-world
-
-- [hello-world.html](./hello-world.html) — The simplest example to get started with single barcode scanning.
 - [read-an-image.html](./read-an-image.html) — Demonstrates how to decode and read barcodes from uploaded image files.
 
 ### Frameworks

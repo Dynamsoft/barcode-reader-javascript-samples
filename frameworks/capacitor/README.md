@@ -1,22 +1,43 @@
-# Capacitor samples
+# 📦 Scan Single Barcode - Capacitor
 
-This directory contains Capacitor examples showing how to use the Dynamsoft Barcode Reader in hybrid mobile apps (Android / iOS) via Capacitor.
+This sample demonstrates how to use the `BarcodeScanner` API from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) in a **Capacitor** app to scan a single barcode using the camera.
 
-**Included example**
+We use typescript and rollup inside capacitor for demonstration. You can use any framework you like, or even vanilla javascript.
 
-- scan-using-rtu-api/ — Capacitor project illustrating RTU API usage.
+## ✨ Features
 
-## Quick start
+- Easy integration with pre-built UI
+- Renders barcodeScanner inside a Capacitor container
+- Scans one barcode at a time from video
 
-1. Change to the example directory, e.g.:
-   
-   ```bash
-   cd scan-using-rtu-api
-   ``` 
+## 🚀 Quick Start
 
-2. Follow the subexample README for platform-specific setup (npm install, capacitor sync, open Android Studio/Xcode).
+```bash
+npm install
+npm run build
+npx cap sync
+```
 
-## Notes
+Then build your app in Android Studio and Xcode.
 
-- Mobile platform setup is required to run native apps. See the subexample README for exact steps.
-- See the repository root README.md for general usage and license information.
+## 👓 Camera Permission
+
+Notice we add camera permission in `AndroidManifest.xml` and `Info.plist`.
+
+[android/app/src/main/AndroidManifest.xml](android/app/src/main/AndroidManifest.xml):
+```xml
+<uses-permission android:name="android.permission.CAMERA" />
+```
+[ios/App/App/Info.plist](ios/App/App/Info.plist):
+```xml
+<key>NSCameraUsageDescription</key>
+<string>Decoding barcodes from video needs to access your camera.</string>
+```
+
+## 📌 Customization
+
+Please check the official [documentation](https://dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/barcode-scanner-customization.html).
+
+## 📄 Support
+
+If you have any questions, feel free to [contact Dynamsoft Support](https://www.dynamsoft.com/company/contact?utm_source=sampleReadme).

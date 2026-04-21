@@ -1,0 +1,194 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 10px;
+  margin: 0;
+}
+
+#container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+#scan-btn {
+  width: 48px;
+  height: 48px;
+  background-color: #ff5000;
+  border: none;
+  border-radius: 6px 0 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#scan-btn:hover {
+  background-color: #e54c00;
+}
+
+#text-input {
+  flex: 1;
+  height: 48px;
+  padding: 0 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-right: none;
+  box-sizing: border-box;
+}
+
+#search-btn {
+  width: 48px;
+  height: 48px;
+  background-color: #ff5000;
+  border: none;
+  border-radius: 0 6px 6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#search-btn:hover {
+  background-color: #e54c00;
+}
+
+.search-icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.search-icon::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 3px;
+  background: white;
+  transform: rotate(45deg);
+  right: -6px;
+  bottom: -3px;
+  transform-origin: center;
+}
+
+.scan-icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.scan-icon::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  background-color: white;
+  transform: translateY(-50%);
+}
+
+.corner {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border: 2px solid white;
+}
+
+.tl {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.tr {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.bl {
+  bottom: 0;
+  left: 0;
+  border-right: none;
+  border-top: none;
+}
+
+.br {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+h2 {
+  margin: 20px 0;
+}
+
+#barcode-scanner-view {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+}
+
+textarea {
+  width: 100%;
+  max-width: 380px;
+  height: 300px;
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+@media (max-width: 480px) {
+
+  #scan-btn,
+  #search-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  #text-input {
+    height: 40px;
+    font-size: 14px;
+  }
+
+  textarea {
+    height: 200px;
+    font-size: 14px;
+  }
+}

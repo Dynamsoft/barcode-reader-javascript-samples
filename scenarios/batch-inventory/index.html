@@ -7,13 +7,27 @@
   <title>Batch Inventory with BarcodeScanner</title>
   <link rel="stylesheet" href="./index.css">
   <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2000/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
   <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
 </head>
 
 <body>
-  <div class="barcode-reader-view"></div>
+  <div class="barcode-reader-view">
+    <div class="scanner-view">
+      <div class="loading-view">
+        <div class="loading-spinner"></div>
+        <span class="loading-text">Loading...</span>
+      </div>
+    </div>
+    <div class="result-view">
+      <div class="current-session-result-list"></div>
+      <div class="footer-toolbar">
+        <div class="clear-btn">Clear</div>
+        <div class="done-btn">Done</div>
+      </div>
+    </div>
+  </div>
   <div class="summary-view">
     <header>
       <svg t="1754028476225" class="icon-back" viewBox="0 0 1445 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1408" id="mx_n_1754028476225" width="25" height="25">
@@ -45,43 +59,87 @@
 
   <script>
     const barcodeScannerView = document.querySelector(".barcode-reader-view");
+    const scannerView = document.querySelector(".scanner-view");
+    const resultView = document.querySelector(".result-view");
+    const currentSessionResultList = document.querySelector(".current-session-result-list");
+    const loadingView = document.querySelector(".loading-view");
     const summaryView = document.querySelector(".summary-view");
     const finishBtn = document.querySelector(".finish-btn");
     const backBtn = document.querySelector(".icon-back");
+    const clearBtn = document.querySelector(".clear-btn");
+    const doneBtn = document.querySelector(".done-btn");
+
+    let currentSessionResult = [];
     let totalUniqueBarcodesResult = {};
     let totalUniqueBarcodesCount = 0;
+    let startTime;
 
-    const launchBarcodeScanner = () => {
-      summaryView.style.display = "none";
-      let config = {
-        license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
-        container: barcodeScannerView, // Specify where to render the scanner UI
-        scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
-        // The watermark can be removed via showPoweredByDynamsoft configuration option.
-        // showPoweredByDynamsoft: false,
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+    const pInit = (async () => {
+      const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+
+      cvRouter.setInput(cameraEnhancer);
+
+      const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+      resultReceiver.onDecodedBarcodesReceived = (result) => {
+        for (let item of result.barcodeResultItems) {
+          if (!hasItem(item)) {
+            currentSessionResult.push(item);
+          }
+        }
+        renderCurrentSessionScanResult();
       }
+      await cvRouter.addResultReceiver(resultReceiver);
 
-      // Create a new instance of the Dynamsoft Barcode Scanner
-      const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
+      const uiElement = cameraView.getUIElement();
+      uiElement.querySelector(".dce-sel-camera").style.display = "none";
+      uiElement.querySelector(".dce-sel-resolution").style.display = "none";
+      cameraEnhancer.setVideoFit("cover");
+      scannerView.append(uiElement);
 
-      const startTime = Date.now();
-      barcodeScanner.launch().then((result) => {
-        summaryView.style.display = "flex";
-        totalUniqueBarcodesCount += result.barcodeResults.length;
-        document.querySelector(".total-unique-barcodes-count .count").innerText = totalUniqueBarcodesCount;
-        document.querySelector(".total-count-in-this-session .count").innerText = result.barcodeResults.length;
-        document.querySelector(".time").innerText = getDurationTime(startTime);
-        readerResultList(result);
-        console.log("Current Scan Session Result: ", result);
-      })
+      return {
+        cameraView,
+        cameraEnhancer,
+        cvRouter
+      }
+    })();
+
+    const launchBarcodeScanner = async () => {
+      loadingView.style.display = "flex";
+      barcodeScannerView.style.display = "flex";
+      summaryView.style.display = "none";
+      currentSessionResult = [];
+
+      const { cameraView, cameraEnhancer, cvRouter } = await pInit;
+      startTime = Date.now();
+      await cameraEnhancer.open();
+      await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+      loadingView.style.display = "none";
     }
 
     launchBarcodeScanner();
 
-    const readerResultList = (result) => {
+    const hasItem = (item) => {
+      return currentSessionResult.find((result) => {
+        return result.text === item.text && result.formatString === item.formatString;
+      })
+    }
+
+    const renderCurrentSessionScanResult = () => {
+      currentSessionResultList.innerText = "";
+      for (let item of currentSessionResult) {
+        const resultItemDiv = document.createElement("div");
+        resultItemDiv.innerText = `format: ${item.formatString}, text: ${item.text}`;
+        currentSessionResultList.append(resultItemDiv);
+      }
+    }
+
+    const readerResultList = () => {
       const resultListNode = document.querySelector(".result-list");
       resultListNode.innerText = "";
-      const countResult = countByFormat(result.barcodeResults);
+      const countResult = countByFormat(currentSessionResult);
       for (let formatString in countResult) {
         const nodeLiStr = `
           <li>
@@ -150,6 +208,27 @@
     }
 
     backBtn.addEventListener("click", launchBarcodeScanner);
+
+    clearBtn.addEventListener("click", () => {
+      currentSessionResult = [];
+      renderCurrentSessionScanResult();
+    });
+
+    doneBtn.addEventListener("click", async () => {
+      const { cameraEnhancer, cvRouter } = await pInit;
+      await cameraEnhancer.close();
+      await cvRouter.stopCapturing();
+      barcodeScannerView.style.display = "none";
+      summaryView.style.display = "flex";
+      totalUniqueBarcodesCount += currentSessionResult.length;
+      document.querySelector(".total-unique-barcodes-count .count").innerText = totalUniqueBarcodesCount;
+      document.querySelector(".total-count-in-this-session .count").innerText = currentSessionResult.length;
+      document.querySelector(".time").innerText = getDurationTime(startTime);
+      readerResultList();
+      currentSessionResult = [];
+      renderCurrentSessionScanResult();
+      console.log("Current Scan Session Result: ", currentSessionResult);
+    });
   </script>
 </body>
 

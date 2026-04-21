@@ -1,6 +1,6 @@
 # Frameworks samples
 
-This directory contains framework-specific examples demonstrating how to integrate the Dynamsoft Barcode Reader (JavaScript edition) into common web and hybrid frameworks. Each framework folder contains one or more runnable sub-examples (for example, scan-using-foundational-api and/or scan-using-rtu-api) showing practical integration patterns.
+This directory contains framework-specific examples demonstrating how to integrate the Dynamsoft Barcode Reader (JavaScript edition) into common web and hybrid frameworks.
 
 ## Sample list
 
@@ -23,7 +23,7 @@ This directory contains framework-specific examples demonstrating how to integra
 
 1. Browse into a framework subfolder and choose a subexample, e.g.:
    ```cmd
-   cd react/scan-using-rtu-api
+   cd react
    ```
 1. Follow the subexample README for exact steps. Typical commands:
    ```cmd

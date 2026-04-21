@@ -7,7 +7,7 @@
   <title>Pick One To Fill with BarcodeScanner</title>
   <link rel="stylesheet" href="./index.css">
   <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2000/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
   <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
 </head>
@@ -57,57 +57,62 @@
     const barcodeScannerView = document.querySelector(".barcode-scanner-view");
     const scanBtns = document.querySelectorAll(".open-btn");
     const decodeBtns = document.querySelectorAll(".decode-btn");
-    let barcodeScanner = null;
-    let cvRouter = null;
+
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+    const pInit = (async () => {
+      const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+
+      cvRouter.setInput(cameraEnhancer);
+      barcodeScannerView.append(cameraView.getUIElement());
+
+      return {
+        cameraView,
+        cameraEnhancer,
+        cvRouter
+      }
+    })();
 
     for (let i = 0; i < scanBtns.length; i++) {
       const scanBtn = scanBtns[i];
       const decodeBtn = decodeBtns[i];
 
-      scanBtn.addEventListener("click", (e) => {
-        if (barcodeScanner) return;
-        // Configuration object for initializing the BarcodeScanner instance. Refer to https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html#barcodescannerconfig
-        let config = {
-          license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
-          container: barcodeScannerView, // Specify where to render the scanner UI
-          autoStartCapturing: false,
-          onInitReady: (components) => {
-            components.cameraView.setVideoFit("contain");
-            cvRouter = components.cvRouter;
-          },
-          // The watermark can be removed via showPoweredByDynamsoft configuration option.
-          // showPoweredByDynamsoft: false,
-        };
+      scanBtn.addEventListener("click", async (e) => {
+        const { cameraView, cameraEnhancer, cvRouter } = await pInit;
+        if (cameraEnhancer.isOpen()) return;
+        await cameraEnhancer.open();
 
-        // Create a new instance of the Dynamsoft Barcode Scanner
-        barcodeScanner = new Dynamsoft.BarcodeScanner(config);
+        const target = e.target.classList[1].split("-")[1];
+        const targetInput = document.querySelector(`.${target} input`);
+
+        const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+        resultReceiver.onDecodedBarcodesReceived = (result) => {
+          if (result.barcodeResultItems.length > 0) {
+            //  Display the first detected barcode's text in an alert
+            targetInput.value = result.barcodeResultItems[0].text;
+            guideView.style.display = "flex";
+            barcodeScannerView.style.display = "none";
+            scanBtn.style.display = "inline-block";
+            decodeBtn.style.display = "none";
+            decodeBtn.innerText = "Decode to Auto-Fill";
+            cameraEnhancer.close();
+            cvRouter.stopCapturing();
+            cvRouter.removeResultReceiver(resultReceiver);
+          }
+        }
+        await cvRouter.addResultReceiver(resultReceiver);
 
         guideView.style.display = "none";
         barcodeScannerView.style.display = "block";
         scanBtn.style.display = "none";
         decodeBtn.style.display = "inline-block";
-
-        const target = e.target.classList[1].split("-")[1];
-        const targetInput = document.querySelector(`.${target} input`)
-
-        // Launch the scanner and handle the scanned result
-        barcodeScanner.launch().then((result) => {
-          // Display the first detected barcode's text in an alert
-          if (result.barcodeResults.length) {
-            targetInput.value = result.barcodeResults[0].text;
-          }
-          guideView.style.display = "flex";
-          barcodeScannerView.style.display = "none";
-          scanBtn.style.display = "inline-block";
-          decodeBtn.style.display = "none";
-          decodeBtn.innerText = "Decode to Auto-Fill";
-          barcodeScanner = null;
-        });
       })
 
-      decodeBtn.addEventListener("click", () => {
+      decodeBtn.addEventListener("click", async () => {
         decodeBtn.innerText = "Scanning...";
-        cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+        const { cameraView, cameraEnhancer, cvRouter } = await pInit;
+        await cvRouter.startCapturing("ReadSingleBarcode");
       })
     }
   </script>

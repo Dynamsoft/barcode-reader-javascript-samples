@@ -72,7 +72,7 @@
                 },
                 {
                   "Mode": "DM_NEURAL_NETWORK",
-                  "ModelNameArray": ["EAN13Decoder", "OneDDeblur"]
+                  "ModelNameArray": ["EAN13Decoder"]
                 },
                 {
                   "Mode": "DM_DEEP_ANALYSIS"

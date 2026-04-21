@@ -4,68 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>
-    Dynamsoft Barcode Scanner Sample - Scan oneD Retail codes
-  </title>
-</head>
-
-<body>
-  <h1 class="barcode-scanner-title">
-    Scan oneD Retail codes
-  </h1>
-  <!-- This div will host the barcode scanner's camera view -->
-  <div class="barcode-scanner-view"></div>
-
+  <title>Dynamsoft Barcode Scanner Sample - Scan oneD Retail codes</title>
   <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.2.4000/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2000/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
   <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
-
-  <script>
-    // Configuration object for initializing the BarcodeScanner instance. Refer to https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/barcode-scanner.html#barcodescannerconfig
-    let config = {
-      license: "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", // Replace with your Dynamsoft license key
-      container: document.querySelector(".barcode-scanner-view"), // Specify where to render the scanner UI
-      scanMode: Dynamsoft.EnumScanMode.SM_MULTI_UNIQUE,
-      showUploadImageButton: true,
-      scannerViewConfig: {
-        showFlashButton: true,
-        cameraSwitchControl: "toggleFrontBack",
-      },
-      templateFilePath: './ReadOneDRetail.json',
-      utilizedTemplateNames: {
-        "single": "ReadOneDRetail",
-        "multi_unique": "ReadOneDRetail",
-        "image": "ReadOneDRetail_ReadRate"
-      },
-      onInitReady: (components) => {
-        // Set the scan region to a rectangle with percentage values by cameraEnhancer
-        let region = {
-          "left": 20,
-          "right": 80,
-          "top": 37,
-          "bottom": 63,
-          "isMeasuredInPercentage": true
-        };
-        components.cameraEnhancer.setScanRegion(region);
-      },
-      // The watermark can be removed via showPoweredByDynamsoft configuration option.
-      // showPoweredByDynamsoft: false,
-    };
-
-    // Create a new instance of the Dynamsoft Barcode Scanner
-    const barcodeScanner = new Dynamsoft.BarcodeScanner(config);
-
-    // Launch the scanner and handle the scanned result
-    barcodeScanner.launch().then((result) => {
-      // Display the first detected barcode's text in an alert
-      if (result.barcodeResults.length) {
-        alert(result.barcodeResults[0].text);
-      } else {
-        alert("No barcode found");
-      }
-    });
-  </script>
 
   <!--
     Please note that putting CSS at the end is not a best practice. 
@@ -88,19 +31,64 @@
 
     /* Style for the scanner title */
     .barcode-scanner-title {
-      height: 80px;
+      height: 60px;
+      line-height: 60px;
       text-align: center;
       font-size: 20px;
-      padding: 20px 0;
     }
 
     /* Container where the barcode scanner will be rendered */
     .barcode-scanner-view {
       width: 100%;
-      height: calc(100% - 80px);
+      height: calc(100% - 210px);
       /* Fill remaining space below the title */
     }
+
+    .result-view {
+      width: 100%;
+      height: 150px;
+      padding: 10px;
+      overflow: auto;
+    }
   </style>
+</head>
+
+<body>
+  <h1 class="barcode-scanner-title">Scan oneD Retail codes</h1>
+  <!-- This div will host the barcode scanner's camera view -->
+  <div class="barcode-scanner-view"></div>
+  <div class="result-view"></div>
+
+  <script>
+    (async () => {
+      try {
+        const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+        const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+        const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+
+        cvRouter.setInput(cameraEnhancer);
+
+        const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+        const resultView = document.querySelector(".result-view");
+        resultReceiver.onDecodedBarcodesReceived = (result) => {
+          resultView.innerHTML = "";
+          for (let item of result.barcodeResultItems) {
+            const div = document.createElement("div");
+            div.innerHTML = `format: ${item.formatString}<br> text: ${item.text} <br> ------------------`;
+            resultView.append(div);
+          }
+        }
+        await cvRouter.addResultReceiver(resultReceiver);
+        await cvRouter.initSettings("./ReadOneDRetail.json");
+
+        document.querySelector(".barcode-scanner-view").append(cameraView.getUIElement());
+        await cameraEnhancer.open();
+        await cvRouter.startCapturing("ReadOneDRetail");
+      } catch (ex) {
+        alert(ex.message || ex);
+      }
+    })();
+  </script>
 </body>
 
 </html>

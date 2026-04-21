@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scan & Search with BarcodeScanner</title>
+  <link rel="stylesheet" href="./index.css">
+  <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2000/dist/dbr.bundle.js"></script>
+  <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
+  <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
+</head>
+
+<body>
+  <h1>📦 Instant Product Information Lookup</h1>
+  <h2>Enter a UPC, EAN, or ISBN number to retrieve accurate product data from a specific database</h2>
+  <div id="container">
+    <button id="scan-btn" aria-label="Scan barcode">
+      <div class="scan-icon">
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+      </div>
+    </button>
+    <input type="text" id="text-input" placeholder="e.g. 049000042511" />
+    <button id="search-btn" aria-label="Search">
+      <div class="search-icon"></div>
+    </button>
+  </div>
+
+  <textarea id="search-result" placeholder="Search Result..."></textarea>
+  <div id="barcode-scanner-view"></div>
+
+  <script>
+    const scanBtn = document.querySelector("#scan-btn");
+    const searchBtn = document.querySelector("#search-btn");
+    const inputBox = document.querySelector("#text-input");
+    const barcodeScannerView = document.querySelector("#barcode-scanner-view");
+    const searchResult = document.querySelector("#search-result");
+
+    const pInit = (async () => {
+      const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+
+      cvRouter.setInput(cameraEnhancer);
+
+      const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+      resultReceiver.onDecodedBarcodesReceived = (result) => {
+        if (result.barcodeResultItems.length > 0) {
+          searchResult.value = `Barcode Text to Query from Database: \n\n${result.barcodeResultItems[0].text} \n\n-------------------\n\nProduct name: xxx \n\nBrand: xxx \n\nCategory: xxx \n\nPrice: xxx \n\nDescription: xxx`;
+          inputBox.value = result.barcodeResultItems[0].text;
+        }
+
+        barcodeScannerView.style.display = "none";
+        scanBtn.disabled = false;
+
+        cvRouter.stopCapturing();
+      }
+      await cvRouter.addResultReceiver(resultReceiver);
+
+      return {
+        cameraView,
+        cameraEnhancer,
+        cvRouter
+      }
+    })();
+
+    async function startScanner() {
+      const { cameraView, cameraEnhancer, cvRouter } = await pInit;
+      scanBtn.disabled = true;
+      barcodeScannerView.append(cameraView.getUIElement());
+      await cameraEnhancer.open();
+      await cvRouter.startCapturing("ReadSingleBarcode");
+    }
+
+    scanBtn.addEventListener("click", () => {
+      barcodeScannerView.style.display = "block";
+      startScanner();
+    });
+
+    searchBtn.addEventListener("click", () => {
+      if (!inputBox.value) return;
+      searchResult.value = `Text to Query from Database: \n\n${inputBox.value} \n\n-------------------\n\nProduct name: xxx \n\nBrand: xxx \n\nCategory: xxx \n\nPrice: xxx \n\nDescription: xxx`;
+    });
+  </script>
+</body>
+
+</html>

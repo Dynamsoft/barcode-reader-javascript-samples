@@ -4,7 +4,7 @@ A demo that overlays decoded barcode text directly onto the live camera video. U
 
 ## Included files
 
-- `show-result-texts-on-the-video.html` — demo page that overlays decoded text on video.  
+- `index.html` — demo page that overlays decoded text on video.  
 
 ## ✨ Features
 
@@ -20,7 +20,7 @@ A demo that overlays decoded barcode text directly onto the live camera video. U
 
 ## Quick start
 
-Opening HTML files directly may not work as expected. Instead, run a local development server. Here’s a quick method using [Visual Studio Code](https://code.visualstudio.com/):
+Opening HTML files directly may not work as expected. Instead, run a local development server. Here's a quick method using [Visual Studio Code](https://code.visualstudio.com/):
 
 1. Install the [Five Server extension](https://marketplace.visualstudio.com/items?itemName=yandeu.five-server) from the VS Code Marketplace.
 
