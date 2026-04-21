@@ -60,6 +60,7 @@
   <div class="result-view"></div>
 
   <script>
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
     (async () => {
       try {
         const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
@@ -72,7 +73,7 @@
         const resultView = document.querySelector(".result-view");
         resultReceiver.onDecodedBarcodesReceived = (result) => {
           resultView.innerHTML = "";
-          for(let item of result.barcodeResultItems) {
+          for (let item of result.barcodeResultItems) {
             const div = document.createElement("div");
             div.innerHTML = `format: ${item.formatString}<br> text: ${item.text} <br> ------------------`;
             resultView.append(div);
