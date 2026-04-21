@@ -20,6 +20,7 @@
   <!-- This div will host the barcode scanner's camera view -->
   <div class="barcode-scanner-view"></div>
   <script>
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
     const pInit = (async () => {
       const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
       const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
@@ -49,7 +50,7 @@
     const startScan = async () => {
       document.querySelector(".barcode-scanner-view").style.display = "block";
       document.querySelector(".scan-btn").style.display = "none"; // Hide the scan button during the scanning process
-     
+
       const { cameraEnhancer, cvRouter } = await pInit;
       await cameraEnhancer.open();
       await cvRouter.startCapturing("ReadSingleBarcode");
