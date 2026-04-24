@@ -12,6 +12,7 @@ const ASSETS_TO_CACHE = [
   "./dynamsoft-192x192.png",
   "./dynamsoft-512x512.png",
   "./helloworld-pwa.json",
+  `${engineResourcePaths.dbrBundle}dbr.bundle.js`,
   `${engineResourcePaths.dbrBundle}dbr.bundle.worker.js`,
   `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle-ml-simd.js`,
   `${engineResourcePaths.dbrBundle}dynamsoft-barcode-reader-bundle-ml-simd.wasm`,
@@ -76,7 +77,8 @@ self.addEventListener('fetch', (e) => {
     caches.match(e.request).then((cachedResponse) => {
       // Return cached response if found, but fetch a fresh version anyway
       const fetchPromise = fetch(e.request).then((networkResponse) => {
-        if('GET' === e.request.method && networkResponse.ok &&
+        if(
+          'GET' === e.request.method && networkResponse.ok &&
           // Authorization requests should not be cached
           !/https:\/\/.*?\.dynamsoft.com\/auth/.test(e.request.url)
           // You can add other filter conditions
