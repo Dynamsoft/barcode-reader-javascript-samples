@@ -84,7 +84,7 @@ The repository includes two main sample directories:
 
 ## Documentation
 
-For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.4.2000&utm_source=sampleReadme).
+For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.4.2001&utm_source=sampleReadme).
 
 - [API Docs](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/index.html?utm_source=sampleReadme)
 
