@@ -3,11 +3,11 @@ const engineResourcePaths = {
 };
 
 // Files to cache
-const cacheName = "helloworld-pwa";
-// Here we choose some files into appShellFiles to cache.
-// To keep it simple, you can put all the files
-// in "node_modules/dynamsoft-barcode-reader-bundle/dist" into the list.
-const appShellFiles = [
+const CACHE_PREFIX = "helloworld-pwa-";
+const CACHE_NAME = `${CACHE_PREFIX}v1`;
+// Here we choose some files into ASSETS_TO_CACHE to cache.
+// You can find these files in "node_modules/dynamsoft-barcode-reader-bundle/dist".
+const ASSETS_TO_CACHE = [
   "./helloworld-pwa.html",
   "./dynamsoft-192x192.png",
   "./dynamsoft-512x512.png",
@@ -45,51 +45,52 @@ const appShellFiles = [
 self.addEventListener("install", (e) => {
   console.log("[Service Worker] Install");
   e.waitUntil(
-    (async () => {
-      const cache = await caches.open(cacheName);
-      console.log(cache);
+    caches.open(CACHE_NAME).then((cache) => {
       console.log("[Service Worker] Caching all: app shell and content");
-      // Avoid failing the whole install if one resource is temporarily unreachable.
-      await Promise.allSettled(appShellFiles.map((file) => cache.add(file)));
-    })()
+      return cache.addAll(ASSETS_TO_CACHE);
+    })
+  );
+  // Force the waiting service worker to become the active one
+  self.skipWaiting();
+});
+
+// 2. Activate: Clean up old caches
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName.startsWith(CACHE_PREFIX) && cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
   );
 });
 
-self.addEventListener("fetch", (e) => {
+// 3. Fetch: Stale-While-Revalidate Strategy
+self.addEventListener('fetch', (e) => {
   e.respondWith(
-    (async () => {
-      try {
-        // Fetch cached response if exists
-        const cachedResponse = await caches.match(e.request);
-        console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        // Otherwise, fetch from network
-        const response = await fetch(e.request);
-
-        if (
-          e.request.method === "GET" &&
-          response.ok &&
+    caches.match(e.request).then((cachedResponse) => {
+      // Return cached response if found, but fetch a fresh version anyway
+      const fetchPromise = fetch(e.request).then((networkResponse) => {
+        if('GET' === e.request.method && networkResponse.ok &&
           // Authorization requests should not be cached
           !/https:\/\/.*?\.dynamsoft.com\/auth/.test(e.request.url)
           // You can add other filter conditions
-        ) {
-          const cache = await caches.open(cacheName);
-          console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
-          cache.put(e.request, response.clone());
+        ){
+          // Update the cache with the new version
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(e.request, networkResponse.clone());
+            console.log(`[Service Worker] Cache updated: ${e.request.url}`);
+          });
         }
+        return networkResponse;
+      });
 
-        return response;
-      } catch (error) {
-        // Network fallback: try cache one more time before failing.
-        const fallbackResponse = await caches.match(e.request);
-        if (fallbackResponse) {
-          return fallbackResponse;
-        }
-        throw error;
-      }
-    })()
+      return cachedResponse || fetchPromise;
+    })
   );
 });

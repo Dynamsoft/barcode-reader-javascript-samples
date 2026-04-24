@@ -15,8 +15,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <link rel="apple-touch-icon" sizes="192x192" href="./dynamsoft-192x192.png" />
   <link rel="apple-touch-icon" sizes="512x512" href="./dynamsoft-512x512.png" />
-  <script src="../../eruda.js"></script>
-  <script>eruda.init();</script>
 </head>
 
 <body>
@@ -85,7 +83,19 @@
 
         // Open camera and start scanning barcode.
         await cameraEnhancer.open();
-        cameraView.setScanLaserVisible(true);
+        
+        if('disabled' === cameraEnhancer.singleFrameMode){
+          // Video played successfully.
+          cameraView.setScanLaserVisible(true);
+        }else{
+          // In iOS PWA, if camera open failed,
+          // failback to `singleFrameMode = 'camera'`.
+          // In iOS PWA wasm is slow, so we increase the timeout.
+          const cvrSettings = await cvRouter.outputSettings('ReadBarcodes_SpeedFirst');
+          cvrSettings.CaptureVisionTemplates[0].Timeout = 15000; 
+          await cvRouter.initSettings(cvrSettings);
+        }
+
         await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
       } catch (ex) {
         let errMsg = ex.message || ex;
