@@ -21,6 +21,6 @@
     "electron": "39.8.5"
   },
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "11.4.2000"
+    "dynamsoft-barcode-reader-bundle": "11.4.2001"
   }
 }
