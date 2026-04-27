@@ -84,8 +84,9 @@ self.addEventListener('fetch', (e) => {
           // You can add other filter conditions
         ){
           // Update the cache with the new version
+          const clonedRep = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
-            cache.put(e.request, networkResponse.clone());
+            cache.put(e.request, clonedRep);
             console.log(`[Service Worker] Cache updated: ${e.request.url}`);
           });
         }
