@@ -17,7 +17,6 @@ A lightweight demo for batch scanning and simple inventory collection. The sampl
 
 ## 🔧 How it works
 
-- The page creates a BarcodeScanner instance configured for multi-unique capture (SM_MULTI_UNIQUE or equivalent) so duplicate barcodes within the same session are ignored.
 - Scanned values are accumulated in-memory and analyzed to produce session metrics (counts, distribution, duration).
 - Users can stop a session to view the summary, or restart scanning to begin a new session.
 

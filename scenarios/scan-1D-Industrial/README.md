@@ -15,7 +15,7 @@ A focused demo for decoding industrial-strength 1D barcodes (high-density, damag
 
 ## 🔧 How it works
 
-- The page initializes a BarcodeScanner instance with settings optimized for industrial 1D symbols (longer decode windows, direction tolerance, damage-tolerance options).  
+- The page initializes a `CaptureVisionRouter` instance with settings optimized for industrial 1D symbols (longer decode windows, direction tolerance, damage-tolerance options).  
 - Decoder parameters are loaded from `ReadOneDIndustrial.json` so you can tweak thresholds, expected symbologies, and scan regions without changing application code.  
 - The UI accepts live camera input and shows decoded results.
 
