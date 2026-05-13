@@ -15,6 +15,10 @@ A lightweight demo that simulates a shopping experience: scan a barcode and add 
 
 ## 🔧 How it works
 
+- The page loads the Dynamsoft Barcode Reader bundle and creates a `CaptureVisionRouter` instance configured with:
+  - a result deduplication filter enabled to avoid rapid duplicate captures
+  - a cross verification filter enabled to provide more reliable results
+  - a scanner UI mounted into a floating container
 - When a unique barcode is detected, the sample maps the scan to a random demo product, appends it to the in‑memory cart, and refreshes the cart display.
 - The floating scanner can be dragged around the viewport and is hidden when not in use.
 
