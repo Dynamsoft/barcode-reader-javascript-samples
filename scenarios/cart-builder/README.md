@@ -9,6 +9,7 @@ A lightweight demo that simulates a shopping experience: scan a barcode and add 
 
 ## ✨ Features
 
+- Live camera decoding (1D / 2D) using Dynamsoft Capture Vision API
 - Floating, draggable scanner window attached to the page
 - Sessioned scans: each unique scan appends a product to the simulated cart
 - Demo product list (20 dummy products) and simple cart UI with name and price
