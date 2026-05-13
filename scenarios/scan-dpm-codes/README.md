@@ -16,7 +16,7 @@ A focused demo for decoding **Direct Part Mark (DPM)** barcodes from camera vide
 
 ## 🔧 How it works
 
-- The demo initializes a `BarcodeScanner` instance and loads `ReadDPM.json` via `templateFilePath`, activating DPM-optimized localization and decoding parameters.  
+- The demo initializes a `CaptureVisionRouter` instance and loads `ReadDPM.json` via `templateFilePath`, activating DPM-optimized localization and decoding parameters.  
 - A centered scan region is set via `cameraEnhancer.setScanRegion()` to reduce noise from surrounding surfaces.  
 - Decoded results are surfaced through the standard `launch()` callback; configuration can be tuned via `ReadDPM.json` without changing application code.
 

@@ -1,13 +1,13 @@
 # 📦 Scan Single Barcode - Capacitor
 
-This sample demonstrates how to use the `BarcodeScanner` API from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) in a **Capacitor** app to scan a single barcode using the camera.
+This sample demonstrates how to use the foundational API from the [Dynamsoft Barcode Reader JavaScript SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/) in a **Capacitor** app to scan a single barcode using the camera.
 
 We use typescript and rollup inside capacitor for demonstration. You can use any framework you like, or even vanilla javascript.
 
 ## ✨ Features
 
 - Easy integration with pre-built UI
-- Renders barcodeScanner inside a Capacitor container
+- Renders barcode reader inside a Capacitor container
 - Scans one barcode at a time from video
 
 ## 🚀 Quick Start
