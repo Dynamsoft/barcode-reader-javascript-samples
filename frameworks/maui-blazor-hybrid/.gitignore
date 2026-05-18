@@ -2,4 +2,6 @@
 .vs
 bin
 obj
+*.sln
+*.slnx
 *.user
