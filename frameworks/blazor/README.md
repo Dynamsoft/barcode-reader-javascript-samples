@@ -24,7 +24,7 @@ This sample was developed using Visual Studio 2026. For a more in-depth guide on
 
 1. **Open the application** in Visual Studio 2026 by clicking the `Open a Project or Solution` button, and choosing on the `blazor.slnx` file.
 
-2. **Run the application** by clicking the `Start Debugging` button (a green arrow) in the Debug Toolbar.
+2. **Run the application** by selecting `blazor` as startup-project and clicking the `Start Debugging` button (a green arrow) in the Debug Toolbar.
 
 3.  A window should open to view the sample application
 
@@ -58,6 +58,7 @@ In the Additional information dialog, here is this sample's configuration:
 * Do not use top-level statements: Not selected
 * Use the .dev.localhost TLD in the application URL: Not selected
 
+Other configurations can also be used, though the code will require some minor adjustments accordingly.
 
 ## Start to implement
 
@@ -356,7 +357,7 @@ window.cleanUpImageDecode = async () => {
 
 ## Run the application
 
-We can run the application by clicking the `Start Debugging` button (a green arrow) in the Debug Toolbar.
+We can run the application by selecting first project (no `.Client`) as startup-project and clicking the `Start Debugging` button (a green arrow) in the Debug Toolbar.
 
 If you followed all the steps correctly, you will have a working page that turns one of the cameras hooked to or built in your computer or mobile device into a barcode scanner. Also, if you want to decode a local image, just click the `Decode Image` button and select the image you want to decode. 
 
