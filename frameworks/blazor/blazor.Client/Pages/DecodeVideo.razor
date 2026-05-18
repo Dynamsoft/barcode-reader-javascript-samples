@@ -22,7 +22,6 @@
 
     private async Task ToggleVideoTask()
     {
-        // Proceed with camera access
         await JS.InvokeVoidAsync("loadDecodeVideoModule");
 
         if (mode == "videoDecode")
