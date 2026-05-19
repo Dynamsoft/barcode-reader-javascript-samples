@@ -111,6 +111,7 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 - [capacitor/](./frameworks/capacitor/) — Capacitor mobile hybrid examples.
 - [electron/](./frameworks/electron/) — Electron desktop examples.
 - [es6/](./frameworks/es6/) — Plain ES6 module examples.
+- [maui-blazor-hybrid/](./frameworks/maui-blazor-hybrid/) — MAUI Blazor Hybrid (.NET) examples.
 - [native-ts/](./frameworks/native-ts/) — Native TypeScript examples.
 - [next/](./frameworks/next/) — Next.js examples.
 - [nuxt/](./frameworks/nuxt/) — Nuxt examples.
