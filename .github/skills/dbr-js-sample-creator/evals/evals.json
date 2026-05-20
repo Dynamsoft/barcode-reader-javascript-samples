@@ -1,0 +1,92 @@
+{
+  "skill_name": "dbr-js-sample-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a plain HTML page that uses the Dynamsoft Barcode Reader to continuously scan barcodes via the camera and display the results on the page.",
+      "expected_output": "A single HTML file that loads the SDK from CDN, calls initLicense, creates CameraView + CameraEnhancer + CaptureVisionRouter, adds a result receiver and dedup filter, appends the camera UI to a container div, opens the camera, and starts capturing.",
+      "files": [],
+      "expectations": [
+        "Loads SDK via CDN script tag: dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.js",
+        "Calls Dynamsoft.License.LicenseManager.initLicense() with a license key",
+        "Creates CameraView via Dynamsoft.DCE.CameraView.createInstance()",
+        "Creates CameraEnhancer via Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView)",
+        "Creates CaptureVisionRouter via Dynamsoft.CVR.CaptureVisionRouter.createInstance()",
+        "Calls cvRouter.setInput(cameraEnhancer)",
+        "Adds a result receiver with onDecodedBarcodesReceived callback",
+        "Result callback iterates result.barcodeResultItems and accesses item.formatString and item.text",
+        "Adds MultiFrameResultCrossFilter with cross-verification and deduplication enabled",
+        "Appends cameraView.getUIElement() to a DOM container",
+        "Calls cameraEnhancer.open()",
+        "Calls cvRouter.startCapturing('ReadBarcodes_SpeedFirst')"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write a plain HTML page that lets the user pick an image file and decodes barcodes from it, displaying each barcode's format and text.",
+      "expected_output": "A single HTML file with a file input, that loads the SDK from CDN, calls initLicense, creates a CaptureVisionRouter, captures from the selected file using ReadBarcodes_ReadRateFirst, and displays results.",
+      "files": [],
+      "expectations": [
+        "Loads SDK via CDN script tag: dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.js",
+        "Calls Dynamsoft.License.LicenseManager.initLicense() with a license key",
+        "Has an <input type='file'> element",
+        "Creates CaptureVisionRouter once (not inside the event handler)",
+        "Calls cvRouter.capture(file, 'ReadBarcodes_ReadRateFirst') inside the change event handler",
+        "Resets e.target.value = '' after reading the file",
+        "Accesses result.decodedBarcodesResult?.barcodeResultItems for barcode results",
+        "Displays item.formatString and item.text for each barcode",
+        "Handles the no-barcode case by displaying a message",
+        "Wraps async code in try/catch"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Create a React component that scans barcodes from a live camera feed using the Dynamsoft Barcode Reader SDK (npm package), with proper cleanup when the component unmounts.",
+      "expected_output": "A React functional component using useEffect, with isDestroyed guard after every await, pInit promise pattern for safe cleanup, useRef for the camera container, and dispose calls in the cleanup function.",
+      "files": [],
+      "expectations": [
+        "Imports from 'dynamsoft-barcode-reader-bundle' (npm)",
+        "Imports './dynamsoft.config' (or equivalent) as a side effect",
+        "Uses useRef for the camera container DOM element",
+        "Calls CameraView.createInstance() and CameraEnhancer.createInstance(cameraView)",
+        "Calls CaptureVisionRouter.createInstance() and cvRouter.setInput(cameraEnhancer)",
+        "Checks isDestroyed flag after every await before continuing",
+        "Creates a pInit promise that resolves at the end of the async IIFE",
+        "Awaits pInit in the useEffect cleanup before calling dispose()",
+        "Calls cvRouter.dispose() and cameraEnhancer.dispose() in cleanup",
+        "Adds MultiFrameResultCrossFilter with cross-verification and deduplication",
+        "Uses useState to display barcode results"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Create an ES6 module HTML sample that imports the Dynamsoft Barcode Reader from a CDN .mjs URL and scans barcodes from the camera.",
+      "expected_output": "An HTML file with <script type='module'> that imports named exports from the CDN .mjs bundle, sets engineResourcePaths.rootDirectory, calls initLicense, and implements the full camera scanning pipeline.",
+      "files": [],
+      "expectations": [
+        "Uses <script type='module'>",
+        "Imports from 'https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.mjs'",
+        "Sets CoreModule.engineResourcePaths.rootDirectory = 'https://cdn.jsdelivr.net/npm/'",
+        "Calls LicenseManager.initLicense() with a license key",
+        "Creates CameraView, CameraEnhancer, CaptureVisionRouter instances",
+        "Sets up result receiver with onDecodedBarcodesReceived",
+        "Adds MultiFrameResultCrossFilter",
+        "Calls cameraEnhancer.open() and cvRouter.startCapturing()"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Write a plain HTML barcode scanner that only reads QR codes using a custom JSON template file.",
+      "expected_output": "An HTML file that calls cvRouter.initSettings('./template.json') with a custom template that restricts BarcodeFormatIds to BF_QR_CODE, then calls startCapturing with the template name from the JSON.",
+      "files": [],
+      "expectations": [
+        "Loads SDK from CDN",
+        "Calls cvRouter.initSettings('./template.json') or similar",
+        "The template JSON (or inline JSON) sets BarcodeFormatIds to ['BF_QR_CODE']",
+        "Calls cvRouter.startCapturing() with the template name from the JSON (not a preset string)",
+        "Sets up camera scanning pipeline (CameraView, CameraEnhancer, cvRouter)",
+        "Adds result receiver and displays barcode text"
+      ]
+    }
+  ]
+}
