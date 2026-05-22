@@ -82,6 +82,36 @@ The repository includes two main sample directories:
 
 ---
 
+## Vibe Coding with AI Agents
+
+This repository ships an **AI coding skill** that gives GitHub Copilot, Claude, and Codex deep knowledge of the Dynamsoft Barcode Reader JavaScript SDK — so you can describe what you want and get working code instantly.
+
+### How It Works
+
+The skill lives in:
+
+```
+.github/skills/dbr-js-sample-creator/   ← GitHub Copilot (auto-discovered)
+.claude/skills/dbr-js-sample-creator/   ← Claude Code (auto-discovered)
+.codex/skills/dbr-js-sample-creator/    ← OpenAI Codex (auto-discovered)
+```
+
+No installation or configuration needed — just clone the repo and open it in your AI-enabled editor.
+
+### Example Prompts
+
+Open your AI agent (e.g. GitHub Copilot Chat in agent mode) and try:
+
+- *"Create a plain HTML barcode scanner that reads from camera and shows results"*
+- *"Build a React component that scans barcodes with proper cleanup"*
+- *"Make a Vue 3 page that decodes barcodes from an uploaded image"*
+- *"Write an ES6 module barcode scanner using the CDN .mjs bundle"*
+- *"Scan QR codes only using a custom JSON template"*
+
+The agent will automatically load the skill and generate correct, production-ready code using the right SDK version, license key, API patterns, and framework conventions — without you needing to read any documentation.
+
+---
+
 ## Documentation
 
 For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.4.2001&utm_source=sampleReadme).
