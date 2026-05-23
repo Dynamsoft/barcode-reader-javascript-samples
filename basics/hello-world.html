@@ -4,24 +4,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Continuously scan and collect multiple unique barcodes via camera with Dynamsoft Barcode Reader." />
+  <meta name="keywords" content="barcode, camera, scanning" />
+  <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/basics/hello-world.html" />
   <title>Dynamsoft Barcode Scanner Sample - Hello World (Decode via Camera)</title>
 
   <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
-  <!-- <script src="../dist/dbr.bundle.js"></script> -->
+  <!-- <script src="../../dist/dbr.bundle.js"></script> -->
 </head>
 
 <body>
   <h1 class="barcode-scanner-title">
-    Hello World (Scan One Single Barcode via Camera)
+    Hello World (Scan Barcode via Camera)
   </h1>
-  <button class="scan-btn" onclick="startScan()">scan</button>
   <!-- This div will host the barcode scanner's camera view -->
-  <div class="barcode-scanner-view"></div>
+  <div class="barcode-scanner-view" style="width: 100%; height: 70vh;"></div>
+  <div class="result-view" style="width: 100%; height: calc(30vh - 80px); padding: 10px;overflow: auto;"></div>
   <script>
+    const resultView = document.querySelector(".result-view");
+
     Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
-    const pInit = (async () => {
+    (async () => {
       const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
       const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
       const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
@@ -29,33 +34,31 @@
       cvRouter.setInput(cameraEnhancer);
 
       const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
-      resultReceiver.onDecodedBarcodesReceived = async (result) => {
-        alert(result.barcodeResultItems[0].text);
-        await cameraEnhancer.close();
-        await cvRouter.stopCapturing();
-        document.querySelector(".barcode-scanner-view").style.display = "none"; // Hide the camera view after scanning is complete
-        document.querySelector(".scan-btn").style.display = "block"; // Show the scan button after the scanning process is complete
+      resultReceiver.onDecodedBarcodesReceived = (result) => {
+        console.log(result);
+        resultView.innerHTML = "";
+        for (let item of result.barcodeResultItems) {
+          const div = document.createElement("div");
+          div.innerHTML = `format: ${item.formatString}<br> text: ${item.text} <br> ------------------`;
+          resultView.append(div);
+        }
       };
       await cvRouter.addResultReceiver(resultReceiver);
+
+      // Filter out unchecked and duplicate results.
+      const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+      // Filter out unchecked barcodes.
+      filter.enableResultCrossVerification("barcode", true);
+      // Filter out duplicate barcodes within 3 seconds.
+      filter.enableResultDeduplication("barcode", true);
+      await cvRouter.addResultFilter(filter);
 
       const uiElement = cameraView.getUIElement();
       document.querySelector(".barcode-scanner-view").append(uiElement);
 
-      return {
-        cameraEnhancer,
-        cvRouter
-      }
-    })();
-
-    const startScan = async () => {
-      document.querySelector(".barcode-scanner-view").style.display = "block";
-      document.querySelector(".scan-btn").style.display = "none"; // Hide the scan button during the scanning process
-
-      const { cameraEnhancer, cvRouter } = await pInit;
       await cameraEnhancer.open();
-      await cvRouter.startCapturing("ReadSingleBarcode");
-    }
-    startScan();
+      await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+    })();
   </script>
 
   <!--
@@ -90,11 +93,6 @@
       width: 100%;
       height: calc(100% - 80px);
       /* Fill remaining space below the title */
-    }
-
-    .scan-btn {
-      display: none;
-      margin: 0 auto;
     }
   </style>
 </body>
