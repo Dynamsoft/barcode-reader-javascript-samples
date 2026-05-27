@@ -130,12 +130,16 @@
 
       <h2>System Requirements</h2>
 
-      <h3>Secure Context (HTTPS)</h3>
+      <h3>Secure Context (HTTPS Deployment)</h3>
       <p>
-        Production deployments must use HTTPS. Camera access and Dynamsoft licensing both require a secure context.
+        When deploying your application/website for production, make sure to serve it via a secure HTTPS connection. This is required for two reasons:
       </p>
+      <ul>
+        <li>Access to the camera video stream is only granted in a security context. Most browsers impose this restriction.</li>
+        <li>Dynamsoft License requires a secure context to work.</li>
+      </ul>
       <p class="callout callout-note">
-        For local development, <code>http://127.0.0.1</code>, <code>http://localhost</code>, and <code>file:///</code> are allowed by most browsers.
+        Some browsers like Chrome may grant access for <code>http://127.0.0.1</code> and <code>http://localhost</code> or even for pages opened directly from the local disk (<code>file:///...</code>). This can be helpful for temporary development and testing.
       </p>
 
       <h3>Browser Compatibility</h3>
@@ -158,18 +162,22 @@
         to view your trial license details. The trial period can be extended to a total of 60 days.
       </p>
 
-      <h2>Running Samples Locally</h2>
+      <h2>Running the Samples Locally</h2>
       <p>
-        The standalone samples in <code>basics/</code> and the scenario samples load the SDK from a CDN,
-        so you can open them directly by double-clicking — no web server required (internet connection needed).
+        The standalone samples in the <code>basics/</code> folder (<code>hello-world.html</code>, <code>scan-a-single-barcode.html</code>, <code>read-an-image.html</code>) and scenario samples load the SDK from a CDN, so you can open them directly by double-clicking — no web server required (an internet connection is needed).
       </p>
       <p>
-        If you need a local web server (e.g., to serve SDK resources from <code>dist/</code>), a quick option using
-        <a href="https://code.visualstudio.com/">Visual Studio Code</a>:
+        To browse all available samples, open <a href="./index.html"><code>index.html</code></a> in your browser — it links to every sample in the repository.
+      </p>
+      <p>
+        For framework samples, follow the instructions in each subfolder's README (typically <code>npm install</code> then <code>npm run dev</code>).
+      </p>
+      <p>
+        If you need a web server for standalone or scenario samples (for example, to serve SDK resources from a local <code>dist/</code> folder), here's a quick method using <a href="https://code.visualstudio.com/">Visual Studio Code</a>:
       </p>
       <ol>
-        <li>Install the <a href="https://marketplace.visualstudio.com/items?itemName=yandeu.five-server">Five Server</a> extension.</li>
-        <li>Right-click an HTML file → "Open with Five Server" → served at <code>http://127.0.0.1:5500/</code>.</li>
+        <li>Install the <a href="https://marketplace.visualstudio.com/items?itemName=yandeu.five-server">Five Server</a> extension from the VS Code Marketplace.</li>
+        <li>Right-click on an HTML file and select "Open with Five Server". This will serve the application at <code>http://127.0.0.1:5500/</code>.</li>
       </ol>
 
       <h2>Sample Folders</h2>
@@ -188,6 +196,11 @@
       <h2>Support</h2>
       <p>
         Questions? <a href="https://www.dynamsoft.com/company/contact?utm_source=sampleReadme">Contact Dynamsoft support</a>.
+      </p>
+
+      <h2>Official Online Demo</h2>
+      <p>
+        <a href="https://demo.dynamsoft.com/barcode-reader-js"><strong>Official Online Demo</strong></a>: Try the Dynamsoft Barcode Reader JavaScript Edition demo (written in Vue) and see how it works in different modes!
       </p>
 
       <div class="footer">

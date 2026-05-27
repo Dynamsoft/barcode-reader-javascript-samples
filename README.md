@@ -74,11 +74,11 @@ If you need a web server for standalone or scenario samples (for example, to ser
 
 ## Sample Folders
 
-The repository includes two main sample directories:
-
-- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
+- **`basics/`** - Three foundational samples: hello-world, scan-a-single-barcode, and read-an-image.
 
 - **`scenarios/`** - Focused scenario samples that show common real-world uses of Dynamsoft Barcode Reader.
+
+- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
 
 ---
 
