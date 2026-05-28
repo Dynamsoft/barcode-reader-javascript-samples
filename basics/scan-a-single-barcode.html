@@ -23,6 +23,15 @@
   <!-- This div will host the barcode scanner's camera view -->
   <div class="barcode-scanner-view"></div>
   <script>
+    // Detect file:// protocol and show a helpful tip
+    if (location.protocol === "file:") {
+      const tip = document.createElement("div");
+      tip.style.cssText = "background:#fff3cd;border:1px solid #ffc107;color:#856404;padding:12px 16px;margin:8px;border-radius:6px;font:14px/1.5 sans-serif;text-align:center;";
+      tip.innerHTML = '<strong>Tip:</strong> This page works via <code>file://</code>, but for the best experience, '
+        + 'serve it from a web server (e.g. HTTPS or localhost).';
+      document.body.insertBefore(tip, document.body.firstChild);
+    }
+
     /** LICENSE ALERT - README
      * To use the library, you need to first specify a license key.
      *
