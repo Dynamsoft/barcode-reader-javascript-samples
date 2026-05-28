@@ -1,0 +1,16 @@
+# Exclude files not needed in the ZIP download (GitHub "Download ZIP" / git archive).
+# These are development or CI artifacts that don't help end users run the samples.
+
+# CI/CD and internal tooling
+.github/**             export-ignore
+
+# Git-only files (not useful without a git repo)
+.gitattributes         export-ignore
+.gitignore             export-ignore
+.gitkeep               export-ignore
+
+# Editor configuration
+.editorconfig          export-ignore
+
+# Root logo file (already inlined in README.html)
+logo-dynamsoft-black.svg  export-ignore
