@@ -27,7 +27,8 @@ Read the reference files in `references/` based on the task at hand:
 | `references/api-sdk.md` | Always — SDK loading, namespaces, CoreModule, LicenseManager |
 | `references/api-camera.md` | When the task involves live camera/video scanning |
 | `references/api-image.md` | When the task involves decoding image files or file uploads |
-| `references/api-frameworks.md` | When the task targets React, Vue, Angular, or other frameworks |
+| `references/api-frameworks.md` | When the task targets React, Vue, Angular, Next.js, or other frameworks |
+| `references/api-parsing.md` | When the task involves parsing barcode content (GS1, driver's license, VIN) |
 | `references/sample-patterns.md` | Always — canonical patterns from existing samples; copy-paste ready |
 
 ## SDK Architecture

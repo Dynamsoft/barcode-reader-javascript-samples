@@ -87,6 +87,80 @@
         "Sets up camera scanning pipeline (CameraView, CameraEnhancer, cvRouter)",
         "Adds result receiver and displays barcode text"
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "Build a Next.js 14 App Router page that scans barcodes from a camera, using proper SSR guards.",
+      "expected_output": "A Next.js App Router page with a 'use client' wrapper that uses next/dynamic with ssr: false to load a VideoCapture component. The component follows the React pattern with useEffect, isDestroyed, pInit, and proper disposal.",
+      "files": [],
+      "expectations": [
+        "Page file uses 'use client' directive",
+        "Uses next/dynamic with { ssr: false } to import the VideoCapture component",
+        "VideoCapture component imports from 'dynamsoft-barcode-reader-bundle' (npm)",
+        "VideoCapture component imports dynamsoft.config as side effect",
+        "Uses the full React lifecycle pattern (useEffect, isDestroyed, pInit, dispose)",
+        "Does NOT import SDK packages in any server component",
+        "Camera container uses useRef, not document.querySelector"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Create a plain HTML barcode scanner that shows a tip message when no barcode is detected, and plays a beep sound when a barcode is found.",
+      "expected_output": "An HTML page with camera scanning that uses cameraView.setTipConfig(), cameraView.updateTipMessage(), cameraView.setTipVisible() for guidance, and Dynamsoft.DCE.Feedback.beep() on successful detection.",
+      "files": [],
+      "expectations": [
+        "Loads SDK from CDN",
+        "Sets up camera scanning pipeline (CameraView, CameraEnhancer, CaptureVisionRouter)",
+        "Calls cameraView.setTipConfig() with topLeftPoint, width, and duration",
+        "In result callback: calls cameraView.updateTipMessage() and cameraView.setTipVisible(true) when no barcodes found",
+        "In result callback: calls cameraView.setTipVisible(false) when barcodes are found",
+        "Calls Dynamsoft.DCE.Feedback.beep() on successful barcode detection",
+        "Adds result receiver and dedup filter"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Write a plain HTML page that scans barcodes and lets the user filter by barcode format (1D retail, 1D industrial, 2D, or all) using a dropdown.",
+      "expected_output": "An HTML page with a select dropdown for format presets, that uses cvRouter.outputSettings() to get current settings, modifies BarcodeFormatIds, and re-applies with cvRouter.initSettings().",
+      "files": [],
+      "expectations": [
+        "Loads SDK from CDN",
+        "Has a <select> dropdown with format options (retail, industrial, 2D, all)",
+        "On dropdown change: calls cvRouter.outputSettings() to get current settings",
+        "Modifies settings.BarcodeReaderTaskSettingOptions[0].BarcodeFormatIds with correct BF_* values",
+        "Re-applies settings with cvRouter.initSettings(settings)",
+        "Uses correct BF_* format IDs for each preset (e.g., BF_EAN_13, BF_UPC_A for retail)",
+        "Camera scanning continues after format change"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Create a plain HTML page that scans a GS1 barcode from the camera and displays the parsed Application Identifier fields.",
+      "expected_output": "An HTML page that loads GS1_AI spec via CodeParserModule.loadSpec(), creates a CodeParser, and in the result callback parses barcode bytes to extract structured GS1 AI fields.",
+      "files": [],
+      "expectations": [
+        "Loads SDK from CDN",
+        "Calls Dynamsoft.DCP.CodeParserModule.loadSpec('GS1_AI')",
+        "Creates CodeParser via Dynamsoft.DCP.CodeParser.createInstance()",
+        "Sets up camera scanning pipeline",
+        "In result callback: calls parser.parse(item.bytes) or parser.parse(item.text)",
+        "Accesses parsed.codeType and parsed.jsonString (or getFieldValue)",
+        "Displays structured parsed fields, not just raw barcode text",
+        "Handles parse failures gracefully (try/catch)"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Create a plain HTML barcode scanner with auto-zoom enabled for scanning distant barcodes.",
+      "expected_output": "An HTML page that enables EF_AUTO_ZOOM via cameraEnhancer.enableEnhancedFeatures() for scanning barcodes from a distance.",
+      "files": [],
+      "expectations": [
+        "Loads SDK from CDN",
+        "Sets up camera scanning pipeline",
+        "Calls cameraEnhancer.enableEnhancedFeatures(Dynamsoft.DCE.EnumEnhancedFeatures.EF_AUTO_ZOOM)",
+        "Adds result receiver and displays barcode text",
+        "Adds MultiFrameResultCrossFilter"
+      ]
     }
   ]
 }

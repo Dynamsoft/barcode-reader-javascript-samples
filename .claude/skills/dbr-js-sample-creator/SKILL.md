@@ -25,8 +25,9 @@ The `SKILL.md` file contains:
 - Code style conventions for this repository
 
 The `references/` directory contains:
-- `api-sdk.md` — SDK loading, namespaces, CoreModule, preset templates
-- `api-camera.md` — CameraView, CameraEnhancer, result receiver, dedup filter
+- `api-sdk.md` — SDK loading, namespaces, CoreModule, preset templates, BarcodeFormatIds, dynamic settings
+- `api-camera.md` — CameraView, CameraEnhancer, tip messages, auto-zoom, drawing layers, audio feedback
 - `api-image.md` — File capture, CapturedResult, BarcodeResultItem properties
-- `api-frameworks.md` — React, Vue, Angular complete component patterns
+- `api-frameworks.md` — React, Vue, Angular, Next.js (App Router) complete component patterns
+- `api-parsing.md` — CodeParser for GS1, driver's license (AAMVA), VIN parsing
 - `sample-patterns.md` — Copy-paste ready code for all common scenarios
