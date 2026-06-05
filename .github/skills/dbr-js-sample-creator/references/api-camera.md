@@ -69,6 +69,11 @@ const res = cameraEnhancer.getResolution(); // { width, height }
 
 ### Enhanced Features
 
+> **License note:** Enhanced features (`EF_AUTO_ZOOM`, `EF_TAP_TO_FOCUS`) require a
+> **DCE Advanced Features license**. Without it, the console shows "additional license required"
+> and the features silently fail. Tip messages, `Feedback.beep()`, and all other CameraView/
+> CameraEnhancer APIs work with a standard DBR license — no extra license needed.
+
 ```js
 // Enable auto-zoom for distant barcodes
 cameraEnhancer.enableEnhancedFeatures(Dynamsoft.DCE.EnumEnhancedFeatures.EF_AUTO_ZOOM);
