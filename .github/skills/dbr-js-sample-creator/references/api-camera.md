@@ -43,6 +43,76 @@ await cameraEnhancer.close();
 cameraEnhancer.dispose();
 ```
 
+### Camera Selection
+
+```js
+// List all available cameras
+const cameras = await cameraEnhancer.getAllCameras();
+// cameras = [{ deviceId: "...", label: "Front Camera" }, ...]
+
+// Switch to a specific camera
+await cameraEnhancer.selectCamera(cameras[1]);
+
+// Get currently selected camera
+const current = cameraEnhancer.getSelectedCamera();
+```
+
+### Resolution
+
+```js
+// Set resolution (before or after open)
+await cameraEnhancer.setResolution({ width: 1920, height: 1080 });
+
+// Get current resolution
+const res = cameraEnhancer.getResolution(); // { width, height }
+```
+
+### Enhanced Features
+
+```js
+// Enable auto-zoom for distant barcodes
+cameraEnhancer.enableEnhancedFeatures(Dynamsoft.DCE.EnumEnhancedFeatures.EF_AUTO_ZOOM);
+// (ES module: import { EnumEnhancedFeatures } from "dynamsoft-barcode-reader-bundle")
+
+// Disable auto-zoom
+cameraEnhancer.disableEnhancedFeatures(Dynamsoft.DCE.EnumEnhancedFeatures.EF_AUTO_ZOOM);
+```
+
+Available enhanced features:
+
+- `EF_AUTO_ZOOM` — automatically zooms in when a barcode is detected far away
+- `EF_TAP_TO_FOCUS` — tap the camera view to focus
+
+### Video Fit Mode
+
+```js
+// "contain" (default) or "cover"
+cameraEnhancer.setVideoFit("cover");
+```
+
+### Single Frame Mode
+
+Toggle between camera video and image upload input:
+
+```js
+cameraEnhancer.singleFrameMode = "image";    // show file picker instead of camera
+cameraEnhancer.singleFrameMode = "disabled";  // back to camera video
+```
+
+### Coordinate Conversion
+
+Convert barcode location points from video coordinates to page/viewport coordinates:
+
+```js
+// Convert to page coordinates (relative to document)
+const pagePoint = cameraEnhancer.convertToPageCoordinates(item.location.points[0]);
+
+// Convert to client coordinates (relative to viewport)
+const clientPoint = cameraEnhancer.convertToClientCoordinates(item.location.points[0]);
+```
+
+Useful for positioning custom overlays (tooltips, labels) on top of detected barcodes.
+
 ---
 
 ## CaptureVisionRouter (camera usage)
@@ -195,3 +265,144 @@ Always follow this exact sequence to avoid race conditions:
 8. `cameraEnhancer.open()` — start video stream
 9. `cameraView.setScanLaserVisible(true)` — optional visual indicator
 10. `cvRouter.startCapturing(template)` — begin decoding
+
+---
+
+## Tip Messages
+
+Show guidance text overlaid on the camera view (e.g., "Move closer to the barcode").
+Methods are on `CameraView` (inherited from the abstract `View` class).
+
+### TipConfig
+
+```ts
+interface TipConfig {
+  topLeftPoint: { x: number; y: number }; // position of tip box
+  width: number;                          // tip box width
+  duration: number;                       // auto-hide after N milliseconds
+  coordinateBase?: "view" | "image";      // coordinate system (default: "view")
+}
+```
+
+### Methods
+
+```js
+// Configure tip position, size, and auto-hide duration
+cameraView.setTipConfig({
+  topLeftPoint: { x: 50, y: 50 },
+  width: 200,
+  duration: 3000,
+});
+
+// Get current config
+const config = cameraView.getTipConfig();
+
+// Show or hide the tip
+cameraView.setTipVisible(true);
+cameraView.setTipVisible(false);
+
+// Check if visible
+const visible = cameraView.isTipVisible();
+
+// Update the displayed message
+cameraView.updateTipMessage("Hold the phone closer to the barcode.");
+```
+
+### Typical Usage — Show Tips Based on Scan Results
+
+Tips are **not auto-triggered** by the SDK in JavaScript. Control them manually in your
+result callback:
+
+```js
+resultReceiver.onDecodedBarcodesReceived = (result) => {
+  if (!result.barcodeResultItems.length) {
+    // No barcode detected — show guidance
+    cameraView.updateTipMessage("Move closer to the barcode.");
+    cameraView.setTipVisible(true);
+  } else {
+    cameraView.setTipVisible(false);
+    // process results...
+  }
+};
+```
+
+---
+
+## Audio Feedback
+
+Play a beep sound on successful scan:
+
+```js
+// UMD
+Dynamsoft.DCE.Feedback.beep();
+
+// ES module / npm
+import { Feedback } from "dynamsoft-barcode-reader-bundle";
+Feedback.beep();
+```
+
+Typical usage inside a result callback:
+
+```js
+resultReceiver.onDecodedBarcodesReceived = (result) => {
+  if (!result.barcodeResultItems.length) return;
+  Dynamsoft.DCE.Feedback.beep();
+  // process results...
+};
+```
+
+---
+
+## Drawing Layers and Overlays
+
+Draw custom visual elements (icons, text, shapes) on the camera view overlay.
+
+### Default Drawing Layers
+
+The SDK auto-creates drawing layers for barcode bounding boxes. Access by index:
+
+```js
+// Layer 2 is the default barcode result overlay
+cameraView.getDrawingLayer(2).setVisible(false); // hide default overlays
+```
+
+### Custom Drawing Layer
+
+```js
+// Create a new layer for custom overlays
+const customLayer = cameraView.createDrawingLayer();
+
+// Create a custom drawing style
+const styleId = Dynamsoft.DCE.DrawingStyleManager.createDrawingStyle({
+  strokeStyle: "rgba(255, 0, 0, 1)",
+  fillStyle: "rgba(255, 0, 0, 0.3)",
+  lineWidth: 2,
+});
+
+// Add drawing items (e.g., highlight a barcode location)
+const rectItem = new Dynamsoft.DCE.DrawingItem.RectDrawingItem(
+  { x: 100, y: 100, width: 200, height: 50 },
+  styleId
+);
+customLayer.addDrawingItems([rectItem]);
+
+// Clear all items
+customLayer.clearDrawingItems();
+```
+
+---
+
+## UI Element Customization
+
+The default camera UI includes dropdowns for camera and resolution selection. Hide or style
+them as needed:
+
+```js
+const uiElement = cameraView.getUIElement();
+
+// Hide the camera selector dropdown
+uiElement.querySelector(".dce-sel-camera").style.display = "none";
+
+// Hide the resolution selector dropdown
+uiElement.querySelector(".dce-sel-resolution").style.display = "none";
+```
