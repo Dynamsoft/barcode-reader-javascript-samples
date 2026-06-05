@@ -383,16 +383,145 @@ export class VideoCaptureComponent implements AfterViewInit, OnDestroy {
 
 ---
 
-## Next.js
+## Next.js (App Router)
 
-- Use `"use client"` directive — all SDK code runs client-side only.
-- Dynamic import with `ssr: false` for SDK if needed:
+The Dynamsoft SDK is entirely client-side (WASM). Next.js App Router uses **server components
+by default**, so you must explicitly opt into client rendering for any component that touches
+the SDK.
+
+### Architecture: Server vs Client Components
+
+```text
+app/
+├── layout.tsx              ← server component (navigation, metadata) — no SDK imports
+├── page.tsx                ← server component (home page) — no SDK imports
+├── scanner/
+│   └── page.tsx            ← "use client" wrapper with dynamic import
+└── upload/
+    └── page.tsx            ← "use client" wrapper with dynamic import
+components/
+├── VideoCapture.tsx        ← "use client" — SDK camera scanning logic
+└── ImageCapture.tsx        ← "use client" — SDK image decoding logic
+dynamsoft.config.ts         ← SDK init (client-side only, imported by components)
+public/
+└── MyTemplate.json         ← custom templates served as static files
+```
+
+**Rule:** `layout.tsx` and top-level `page.tsx` stay as server components. Only the page
+wrappers that load SDK components need `"use client"`.
+
+### Page Wrapper Pattern — `next/dynamic` with `ssr: false`
+
+The SDK accesses browser APIs (`navigator`, `document`, WASM). Import SDK components with
+`next/dynamic` to prevent server-side rendering:
+
+```tsx
+// app/scanner/page.tsx
+"use client";
+
+import dynamic from "next/dynamic";
+
+const VideoCapture = dynamic(() => import("../../components/VideoCapture"), {
+  ssr: false,
+});
+
+export default function ScannerPage() {
+  return (
+    <main>
+      <h2>Camera Scanner</h2>
+      <VideoCapture />
+    </main>
+  );
+}
+```
+
+```tsx
+// app/upload/page.tsx
+"use client";
+
+import dynamic from "next/dynamic";
+
+const ImageCapture = dynamic(() => import("../../components/ImageCapture"), {
+  ssr: false,
+});
+
+export default function UploadPage() {
+  return (
+    <main>
+      <h2>Image Upload</h2>
+      <ImageCapture />
+    </main>
+  );
+}
+```
+
+### SDK Components
+
+The actual `VideoCapture` and `ImageCapture` components are **identical to the React
+patterns** shown above, with one addition — add `"use client"` at the top of each file:
+
+```tsx
+// components/VideoCapture.tsx
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import "../dynamsoft.config";
+import { CameraEnhancer, CameraView, CaptureVisionRouter, MultiFrameResultCrossFilter } from "dynamsoft-barcode-reader-bundle";
+
+// ... rest is identical to the React VideoCapture pattern
+```
+
+### Custom Templates in Next.js
+
+Place template JSON files in `public/` — they're served at the web root:
+
+```text
+public/ReadPDF417.json  →  accessible at "/ReadPDF417.json"
+```
+
+Load in your component:
 
 ```ts
-"use client";
-import "../../dynamsoft.config"; // same config as React
-// Everything else is identical to the React pattern
+await cvRouter.initSettings("/ReadPDF417.json");
+await cvRouter.startCapturing("ReadPDF417_SpeedFirst"); // template name from JSON
 ```
+
+### Server Component Layout (no SDK)
+
+```tsx
+// app/layout.tsx — stays as a server component
+import type { Metadata } from "next";
+import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Barcode Scanner — Dynamsoft",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <nav>
+          <Link href="/">Home</Link>
+          <Link href="/scanner">Scanner</Link>
+          <Link href="/upload">Upload</Link>
+        </nav>
+        {children}
+      </body>
+    </html>
+  );
+}
+```
+
+### Next.js Key Rules
+
+1. **Never import SDK packages in server components** — they access browser globals.
+2. **Always use `dynamic()` with `ssr: false`** for components that import from
+   `dynamsoft-barcode-reader-bundle`.
+3. **`dynamsoft.config.ts` is client-only** — import it inside `"use client"` components only.
+4. **Custom templates go in `public/`** and are referenced by absolute URL path.
+5. **Everything else follows the React pattern** — `useEffect`, `isDestroyed`, `pInit`,
+   `useRef`, cleanup/dispose.
 
 ---
 
