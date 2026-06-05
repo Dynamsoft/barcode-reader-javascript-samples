@@ -173,3 +173,132 @@ Load and use:
 await cvRouter.initSettings("./template.json");   // or pass JSON string
 await cvRouter.startCapturing("MyTemplate");       // use template name from JSON
 ```
+
+**In framework projects (Next.js, React, etc.):** place the template JSON in `public/` so it's
+served at a URL. Then reference it as `"/MyTemplate.json"` (absolute path from web root).
+
+Custom template names also work with `cvRouter.capture()` for image decoding:
+```js
+const result = await cvRouter.capture(file, "MyTemplate"); // uses the custom template
+```
+
+---
+
+## BarcodeFormatIds Reference
+
+Use these strings in custom template JSON (`BarcodeFormatIds` array) or with `SimplifiedBarcodeReaderSettings`.
+
+### Common 1D Formats
+
+| Format ID | Description |
+|---|---|
+| `BF_CODE_128` | Code 128 |
+| `BF_CODE_39` | Code 39 |
+| `BF_CODE_93` | Code 93 |
+| `BF_CODABAR` | Codabar |
+| `BF_ITF` | Interleaved 2 of 5 |
+| `BF_EAN_13` | EAN-13 |
+| `BF_EAN_8` | EAN-8 |
+| `BF_UPC_A` | UPC-A |
+| `BF_UPC_E` | UPC-E |
+| `BF_INDUSTRIAL_25` | Industrial 2 of 5 |
+| `BF_CODE_39_EXTENDED` | Code 39 Extended |
+| `BF_CODE_11` | Code 11 |
+| `BF_MSI_CODE` | MSI Code |
+| `BF_CODE_32` | Code 32 |
+
+### Common 2D Formats
+
+| Format ID | Description |
+|---|---|
+| `BF_QR_CODE` | QR Code |
+| `BF_PDF417` | PDF417 |
+| `BF_DATAMATRIX` | DataMatrix |
+| `BF_AZTEC` | Aztec |
+| `BF_MICRO_QR` | Micro QR Code |
+| `BF_MICRO_PDF417` | Micro PDF417 |
+| `BF_MAXICODE` | MaxiCode |
+| `BF_DOTCODE` | DotCode |
+| `BF_PATCHCODE` | Patch Code |
+| `BF_GS1_COMPOSITE` | GS1 Composite Code |
+
+### GS1 DataBar Formats
+
+| Format ID | Description |
+|---|---|
+| `BF_GS1_DATABAR_OMNIDIRECTIONAL` | GS1 DataBar Omnidirectional |
+| `BF_GS1_DATABAR_TRUNCATED` | GS1 DataBar Truncated |
+| `BF_GS1_DATABAR_STACKED` | GS1 DataBar Stacked |
+| `BF_GS1_DATABAR_STACKED_OMNIDIRECTIONAL` | GS1 DataBar Stacked Omnidirectional |
+| `BF_GS1_DATABAR_EXPANDED` | GS1 DataBar Expanded |
+| `BF_GS1_DATABAR_EXPANDED_STACKED` | GS1 DataBar Expanded Stacked |
+| `BF_GS1_DATABAR_LIMITED` | GS1 DataBar Limited |
+
+### Postal Formats
+
+| Format ID | Description |
+|---|---|
+| `BF_USPSINTELLIGENTMAIL` | USPS Intelligent Mail |
+| `BF_POSTNET` | Postnet |
+| `BF_PLANET` | Planet |
+| `BF_AUSTRALIANPOST` | Australian Post |
+| `BF_RM4SCC` | Royal Mail 4-State |
+| `BF_KIX` | KIX |
+
+### Convenience Groups
+
+| Format ID | Description |
+|---|---|
+| `BF_ALL` | All supported formats |
+| `BF_ONED` | All 1D formats combined |
+| `BF_GS1_DATABAR` | All GS1 DataBar formats combined |
+| `BF_POSTALCODE` | All postal formats combined |
+| `BF_DEFAULT` | Default set of formats |
+| `BF_NULL` | No format (disable) |
+
+### Common Format Presets for Templates
+
+```json
+// Retail 1D
+"BarcodeFormatIds": ["BF_EAN_13", "BF_EAN_8", "BF_UPC_A", "BF_UPC_E"]
+
+// Industrial 1D
+"BarcodeFormatIds": ["BF_CODE_128", "BF_CODE_39", "BF_CODE_93", "BF_ITF", "BF_CODABAR"]
+
+// 2D only
+"BarcodeFormatIds": ["BF_QR_CODE", "BF_PDF417", "BF_DATAMATRIX"]
+
+// Single format
+"BarcodeFormatIds": ["BF_QR_CODE"]
+```
+
+---
+
+## Dynamic Settings Modification
+
+Read the current settings, modify them programmatically, and re-apply — useful for runtime
+barcode format, text length, or regex filters:
+
+```js
+// 1. Get the current settings as a JSON object
+const settings = await cvRouter.outputSettings("ReadBarcodes_SpeedFirst", true);
+
+// 2. Modify barcode format filter
+settings.BarcodeReaderTaskSettingOptions[0].BarcodeFormatIds = ["BF_QR_CODE", "BF_CODE_128"];
+
+// 3. Modify text length filter
+settings.BarcodeFormatSpecificationOptions[0].BarcodeTextLengthRangeArray = [
+  { MinValue: 5, MaxValue: 50 }
+];
+
+// 4. Modify regex filter
+settings.BarcodeFormatSpecificationOptions[0].BarcodeTextRegExPattern = "^[A-Z0-9]+$";
+
+// 5. Re-apply the modified settings
+await cvRouter.initSettings(settings);
+
+// 6. Start capturing with the modified template name
+await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+```
+
+This approach works for both camera scanning (`startCapturing`) and image decoding (`capture`).
