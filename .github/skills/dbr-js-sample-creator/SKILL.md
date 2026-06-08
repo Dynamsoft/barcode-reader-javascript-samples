@@ -93,7 +93,7 @@ CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
 **Always call `initLicense()` before any other SDK API.** It is synchronous (non-blocking) — do
 not await it.
 
-**License string priority:** Default hard-coded license string is `"DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"`
+**License string priority:** Default hard-coded license string is `"DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9"`
 
 **Required comment block** to accompany every license call:
 
@@ -104,13 +104,13 @@ not await it.
  * to get your own trial license good for 30 days.
  * LICENSE ALERT - THE END
  */
-LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 ```
 
 For the CDN UMD bundle, use the global:
 
 ```js
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 ```
 
 ## Preset Templates
@@ -133,7 +133,7 @@ await cvRouter.startCapturing("MyTemplateName");
 ## Camera Scanning Pattern (UMD)
 
 ```js
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 (async () => {
   const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
   const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
@@ -163,7 +163,7 @@ Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMD
 ## Image/File Capture Pattern (UMD)
 
 ```js
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 const pInit = (async () => {
   const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
   return { cvRouter };
@@ -221,7 +221,7 @@ CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
  * to get your own trial license good for 30 days.
  * LICENSE ALERT - THE END
  */
-LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 
 // Optional: preload WASM to reduce latency on first decode
 CoreModule.loadWasm();

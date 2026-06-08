@@ -130,8 +130,10 @@ Pass these strings to `cvRouter.startCapturing()` or `cvRouter.capture()`:
 |---|---|
 | `"ReadBarcodes_SpeedFirst"` | Optimized for speed — best for real-time camera |
 | `"ReadBarcodes_ReadRateFirst"` | Optimized for accuracy — best for image decoding |
-| `"ReadSingleBarcode"` | Stops after one barcode found — best for single-scan UI |
+| `"ReadSingleBarcode"` | Quickly scans a single barcode |
 | `"ReadBarcodes_Balance"` | Balanced between speed and accuracy |
+| `"ReadDenseBarcodes"` | Specialized in reading barcodes with high information density |
+| `"ReadDistantBarcodes"` | Capable of reading barcodes from extended distances |
 
 ---
 
@@ -265,7 +267,7 @@ Use these strings in custom template JSON (`BarcodeFormatIds` array) or with `Si
 // Industrial 1D
 "BarcodeFormatIds": ["BF_CODE_128", "BF_CODE_39", "BF_CODE_93", "BF_ITF", "BF_CODABAR"]
 
-// 2D only
+// General 2D
 "BarcodeFormatIds": ["BF_QR_CODE", "BF_PDF417", "BF_DATAMATRIX"]
 
 // Single format
