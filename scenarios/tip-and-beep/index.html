@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Scan barcodes with tip messages and beep feedback using Dynamsoft Barcode Reader." />
+  <meta name="keywords" content="barcode scanner, tip message, beep, camera scanning" />
+  <title>Dynamsoft Barcode Reader Sample - Tip Message &amp; Beep</title>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-bundle@3.4.2001/dist/dcv.bundle.js"></script>
+</head>
+
+<body>
+  <h1 class="title">Barcode Scanner with Tip &amp; Beep</h1>
+  <div class="camera-view" style="width: 100%; height: 70vh;"></div>
+  <input type="file" id="fallback-file" accept="image/*" capture="environment" style="display: none;" />
+  <div class="result-view" style="width: 100%; height: calc(30vh - 80px); padding: 10px; overflow: auto;"></div>
+
+  <script>
+    /** LICENSE ALERT - README
+     * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
+     * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js
+     * to get your own trial license good for 30 days.
+     * LICENSE ALERT - THE END
+     */
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+
+    const resultView = document.querySelector(".result-view");
+    const fallbackFile = document.getElementById("fallback-file");
+
+    (async () => {
+      try {
+        const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+        const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+        const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+        cvRouter.setInput(cameraEnhancer);
+
+        /* ── Timing constants ─────────────────────────────── */
+        const TIP_ROTATE_MS = 2000;   // cycle to next tip message
+        const TIP_RESUME_MS = 2000;   // resume tips after last barcode leaves view
+        const FALLBACK_MS  = 10000;   // show "take a photo" fallback
+
+        /* ── Tip configuration ────────────────────────────── */
+        cameraView.setTipConfig({
+          topLeftPoint: { x: 10, y: 40 },
+          width: 80,
+          duration: TIP_ROTATE_MS,
+          coordinateBase: "view",
+        });
+        const tipMessages = [
+          "\u{1F4F7} Point your camera at a barcode",
+          "\u{1F50D} Move closer so the barcode fills the frame",
+          "\u{1F4A1} Make sure the barcode is well-lit",
+        ];
+
+        /* ── ImageEditorView for image decode + barcode highlights ── */
+        const imageEditorView = await Dynamsoft.DCE.ImageEditorView.createInstance();
+        const editorElement = imageEditorView.getUIElement();
+        editorElement.className = "image-editor";
+        editorElement.style.display = "none";
+
+        /* ── Overlay elements ── */
+        const spinner = document.createElement("div");
+        spinner.className = "spinner-overlay";
+        spinner.innerHTML = '<div class="spinner"></div><div>Decoding...</div>';
+        spinner.style.display = "none";
+
+        const fallbackOverlay = document.createElement("div");
+        fallbackOverlay.className = "fallback-overlay";
+        fallbackOverlay.style.display = "none";
+
+        /* ── Helper: update the fallback overlay in one call ── */
+        const setOverlay = (text, handler) => {
+          fallbackOverlay.textContent = text;
+          fallbackOverlay.style.cursor = handler ? "pointer" : "default";
+          fallbackOverlay.onclick = handler;
+          fallbackOverlay.style.display = "";
+        };
+
+        /* ── Tip cycle: rotate messages, show fallback after timeout ── */
+        let tipIndex = 0, tipInterval = null, lostTimer = null, fallbackTimer = null;
+
+        const openFilePicker = () => { stopTipCycle(); fallbackFile.click(); };
+
+        const startTipCycle = () => {
+          if (tipInterval) return;
+          tipIndex = 0;
+          setOverlay("\u{1F4F8} Having trouble? Tap here to take a photo", openFilePicker);
+          fallbackOverlay.style.display = "none"; // hidden until FALLBACK_MS elapses
+          tipInterval = setInterval(() => {
+            cameraView.updateTipMessage(tipMessages[tipIndex++ % tipMessages.length]);
+            cameraView.setTipVisible(true);
+          }, TIP_ROTATE_MS);
+          fallbackTimer = setTimeout(() => { fallbackOverlay.style.display = ""; }, FALLBACK_MS);
+        };
+
+        const stopTipCycle = () => {
+          clearInterval(tipInterval);  tipInterval = null;
+          clearTimeout(lostTimer);     lostTimer = null;
+          clearTimeout(fallbackTimer); fallbackTimer = null;
+          cameraView.setTipVisible(false);
+          fallbackOverlay.style.display = "none";
+        };
+
+        /* ── Resume camera from image-decode mode ── */
+        const resumeCamera = async () => {
+          fallbackOverlay.style.display = "none";
+          editorElement.style.display = "none";
+          spinner.style.display = "none";
+          resultView.innerHTML = "";
+          await cameraEnhancer.open();
+          await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+          startTipCycle();
+        };
+
+        /* ── Display barcode text results ── */
+        const displayResults = (items) => {
+          resultView.innerHTML = "";
+          for (const item of items) {
+            const div = document.createElement("div");
+            div.className = "result-item";
+            div.innerHTML = `<span class="format">${item.formatString}</span> ${item.text}`;
+            resultView.append(div);
+          }
+        };
+
+        /* ── Camera result handler ── */
+        const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+        resultReceiver.onDecodedBarcodesReceived = (result) => {
+          if (!result.barcodeResultItems.length) return;
+          stopTipCycle();
+          Dynamsoft.DCE.Feedback.beep();
+          displayResults(result.barcodeResultItems);
+          lostTimer = setTimeout(() => { resultView.innerHTML = ""; startTipCycle(); }, TIP_RESUME_MS);
+        };
+        await cvRouter.addResultReceiver(resultReceiver);
+
+        const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+        filter.enableResultCrossVerification("barcode", true);
+        filter.enableResultDeduplication("barcode", true);
+        await cvRouter.addResultFilter(filter);
+
+        /* ── Mount UI and start ── */
+        const cameraContainer = document.querySelector(".camera-view");
+        cameraContainer.style.position = "relative";
+        cameraContainer.append(cameraView.getUIElement(), editorElement, spinner, fallbackOverlay);
+        await cameraEnhancer.open();
+        cameraView.setScanLaserVisible(true);
+        await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+        startTipCycle();
+
+        /* ── File fallback: decode image with capture() ── */
+        fallbackFile.addEventListener("change", async function (e) {
+          const file = e.target.files[0];
+          this.value = "";
+          if (!file) return;
+
+          editorElement.style.display = "";
+          spinner.style.display = "";
+          resultView.innerHTML = "";
+
+          await cvRouter.stopCapturing();
+          await cameraEnhancer.close();
+
+          try {
+            // Show selected image in the editor view
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
+            img.onload = () => imageEditorView.setOriginalImage(img);
+
+            const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+            spinner.style.display = "none";
+            const items = result.decodedBarcodesResult?.barcodeResultItems ?? [];
+            if (!items.length) {
+              resultView.innerHTML = "<div class='result-item'>No barcode found in image</div>";
+              setOverlay("\u{274C} No barcode found \u{2014} tap to try another photo", openFilePicker);
+            } else {
+              Dynamsoft.DCE.Feedback.beep();
+              displayResults(items);
+              // Draw barcode outlines — ImageEditorView handles coordinate mapping
+              const layer = imageEditorView.createDrawingLayer();
+              await layer.setMode("viewer"); // read-only: prevent dragging/resizing
+              layer.addDrawingItems(items.map(item => new Dynamsoft.DCE.QuadDrawingItem(item.location)));
+              setOverlay("\u{2705} Tap to resume camera scanning", resumeCamera);
+            }
+          } catch (ex) {
+            alert(ex.message || ex);
+            resumeCamera();
+          }
+        });
+
+      } catch (ex) {
+        alert(ex.message || ex);
+      }
+    })();
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; font-family: sans-serif; }
+    .title { height: 80px; text-align: center; font-size: 20px; padding: 20px 0; }
+    .result-item { padding: 4px 0; border-bottom: 1px solid #eee; }
+    .format { display: inline-block; background: #fe8e14; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 13px; margin-right: 6px; }
+    .dm-camera-mn-toast { font-size: 16px !important; font-weight: 600 !important; padding: 10px 14px !important; }
+    .image-editor { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5; }
+    .spinner-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: rgba(0, 0, 0, 0.5); color: #fff; font-size: 16px; font-weight: 600; z-index: 8; }
+    .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .fallback-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 12px 16px; background: rgba(0, 0, 0, 0.75); color: #fff; font-size: 15px; font-weight: 600; text-align: center; cursor: pointer; z-index: 10; }
+  </style>
+</body>
+
+</html>
