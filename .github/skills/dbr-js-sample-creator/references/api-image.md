@@ -198,6 +198,92 @@ onBeforeUnmount(async () => {
 
 ---
 
+## ImageEditorView — Display Image with Barcode Highlights
+
+`ImageEditorView` displays a static image with drawing layers for barcode location overlays.
+It handles all coordinate mapping internally — no manual canvas math needed.
+
+### Setup
+
+```js
+// UMD
+const imageEditorView = await Dynamsoft.DCE.ImageEditorView.createInstance();
+document.querySelector("#editor-container").append(imageEditorView.getUIElement());
+
+// ES module / npm
+import { ImageEditorView } from "dynamsoft-barcode-reader-bundle";
+const imageEditorView = await ImageEditorView.createInstance();
+```
+
+### Display an Image
+
+`setOriginalImage()` accepts `DSImageData`, `HTMLCanvasElement`, or `HTMLImageElement`:
+
+```js
+// From an HTMLImageElement (e.g., loaded from a File via object URL)
+const img = new Image();
+img.src = URL.createObjectURL(file);
+img.onload = () => imageEditorView.setOriginalImage(img);
+
+// From a camera frame
+const frame = cameraEnhancer.fetchImage(); // returns DSImageData
+imageEditorView.setOriginalImage(frame);
+```
+
+### Draw Barcode Highlights
+
+Use `QuadDrawingItem` with `item.location` directly from barcode results — the view
+handles coordinate mapping automatically:
+
+```js
+const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+const items = result.decodedBarcodesResult?.barcodeResultItems ?? [];
+
+const layer = imageEditorView.createDrawingLayer();
+const quads = items.map(item => new Dynamsoft.DCE.QuadDrawingItem(item.location));
+layer.addDrawingItems(quads);
+```
+
+To clear highlights: `layer.clearDrawingItems();`
+
+### Custom Drawing Styles
+
+```js
+const styleId = Dynamsoft.DCE.DrawingStyleManager.createDrawingStyle({
+  strokeStyle: "rgba(0, 229, 0, 1)",  // green outline
+  fillStyle: "rgba(0, 229, 0, 0.1)",  // translucent fill
+  lineWidth: 3,
+});
+// Apply to all items on the layer
+layer.setDefaultStyle(styleId);
+```
+
+### Typical Pattern — Decode File and Show Results
+
+```js
+// Decode
+const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+const items = result.decodedBarcodesResult?.barcodeResultItems ?? [];
+
+// Display image
+const img = new Image();
+img.src = URL.createObjectURL(file);
+img.onload = () => {
+  imageEditorView.setOriginalImage(img);
+  // Draw barcode outlines
+  const layer = imageEditorView.createDrawingLayer();
+  layer.addDrawingItems(items.map(item => new Dynamsoft.DCE.QuadDrawingItem(item.location)));
+};
+```
+
+### Cleanup
+
+```js
+imageEditorView.dispose();
+```
+
+---
+
 ## Accepted Image Formats
 
 The SDK accepts the same formats as the browser's `<input type="file" accept="...">`:
