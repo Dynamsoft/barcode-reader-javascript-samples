@@ -104,6 +104,13 @@ cameraEnhancer.singleFrameMode = "image";    // show file picker instead of came
 cameraEnhancer.singleFrameMode = "disabled";  // back to camera video
 ```
 
+> **Limitations:** `singleFrameMode` has minimal control over the decode UX — no spinner,
+> no programmatic file picker trigger (requires user gesture chain), and
+> `MultiFrameResultCrossFilter` may suppress results (cross-verification expects multiple
+> frames but single-frame mode provides only one). For advanced image-decode UX (custom
+> spinner, image preview with barcode highlights), prefer `cvRouter.capture()` with a
+> hidden `<input type="file">` and `ImageEditorView` — see `api-image.md`.
+
 ### Coordinate Conversion
 
 Convert barcode location points from video coordinates to page/viewport coordinates:
@@ -203,6 +210,13 @@ await cvRouter.addResultFilter(filter);
 ```
 
 Add the filter **after** `addResultReceiver` and **before** `startCapturing`.
+
+> **Important:** The filter only applies to continuous camera scanning via `startCapturing()`.
+> It does **not** affect `cvRouter.capture()` calls (single-image decode). However, if you
+> use `singleFrameMode` (which still goes through the `startCapturing` pipeline),
+> cross-verification may suppress results because it expects multiple frames but
+> single-frame mode provides only one. Use `cvRouter.capture()` for reliable single-image
+> decoding.
 
 ---
 

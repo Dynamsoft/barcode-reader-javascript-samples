@@ -203,15 +203,26 @@ onBeforeUnmount(async () => {
 `ImageEditorView` displays a static image with drawing layers for barcode location overlays.
 It handles all coordinate mapping internally — no manual canvas math needed.
 
+### Availability
+
+`ImageEditorView` is **not included** in `dynamsoft-barcode-reader-bundle` (dbr.bundle.js) as of v11.4.
+Use `dynamsoft-capture-vision-bundle` (dcv.bundle.js) instead — it includes the full DCE module.
+Expected to be added back to `dbr.bundle` in v11.6+.
+
+```html
+<!-- Required for ImageEditorView -->
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-bundle@3.4.2001/dist/dcv.bundle.js"></script>
+```
+
 ### Setup
 
 ```js
-// UMD
+// UMD (requires dcv.bundle.js)
 const imageEditorView = await Dynamsoft.DCE.ImageEditorView.createInstance();
 document.querySelector("#editor-container").append(imageEditorView.getUIElement());
 
-// ES module / npm
-import { ImageEditorView } from "dynamsoft-barcode-reader-bundle";
+// ES module / npm (requires dynamsoft-capture-vision-bundle)
+import { ImageEditorView } from "dynamsoft-capture-vision-bundle";
 const imageEditorView = await ImageEditorView.createInstance();
 ```
 
@@ -242,6 +253,12 @@ const items = result.decodedBarcodesResult?.barcodeResultItems ?? [];
 const layer = imageEditorView.createDrawingLayer();
 const quads = items.map(item => new Dynamsoft.DCE.QuadDrawingItem(item.location));
 layer.addDrawingItems(quads);
+```
+
+To make highlights read-only (prevent dragging/resizing):
+
+```js
+await layer.setMode("viewer"); // "editor" (default) allows interaction, "viewer" is read-only
 ```
 
 To clear highlights: `layer.clearDrawingItems();`

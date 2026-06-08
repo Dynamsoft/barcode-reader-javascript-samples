@@ -52,13 +52,22 @@ Image/Camera Input → CaptureVisionRouter (with template) → CapturedResult
 ### Method 1: CDN UMD bundle (plain HTML, no build step)
 
 ```html
+<!-- Barcode-only bundle (smaller) -->
 <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.js"></script>
+
+<!-- Full DCV bundle (includes ImageEditorView, QuadDrawingItem, DrawingLayer) -->
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-bundle@3.4.2001/dist/dcv.bundle.js"></script>
 ```
+
+Use `dcv.bundle.js` when the sample needs `ImageEditorView` (image display with barcode highlight
+overlays). Use `dbr.bundle.js` for simpler samples that only need camera scanning or basic file decode.
+Both bundles expose the same `Dynamsoft.*` namespace — switching between them only changes the script tag.
 
 All APIs are on the global `Dynamsoft` object:
 - `Dynamsoft.License.LicenseManager`
 - `Dynamsoft.CVR.CaptureVisionRouter`, `Dynamsoft.CVR.CapturedResultReceiver`
 - `Dynamsoft.DCE.CameraView`, `Dynamsoft.DCE.CameraEnhancer`
+- `Dynamsoft.DCE.ImageEditorView`, `Dynamsoft.DCE.QuadDrawingItem` *(dcv.bundle only as of v11.4; expected in dbr.bundle v11.6+)*
 - `Dynamsoft.Utility.MultiFrameResultCrossFilter`
 - `Dynamsoft.Core.CoreModule`, `Dynamsoft.Core.EnumCapturedResultItemType`
 
