@@ -316,6 +316,69 @@ See full code in `references/api-frameworks.md` → "Vue 3 → VideoCapture Comp
 
 ---
 
+## Pattern 9: DPM (Direct Part Marking) DataMatrix
+
+Source: `scenarios/scan-dpm-codes/`
+
+DPM codes are dot-peened, laser-etched, or chemically-etched DataMatrix marks. The
+standard DataMatrix decoder will not read them reliably. Enable the DPM decode path
+by adding `DPMCodeReadingModes` to the task settings:
+
+```js
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+(async () => {
+  try {
+    const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+    const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+    const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+
+    cvRouter.setInput(cameraEnhancer);
+
+    const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+    resultReceiver.onDecodedBarcodesReceived = (result) => {
+      for (let item of result.barcodeResultItems) {
+        console.log(item.formatString, item.text);
+      }
+    };
+    await cvRouter.addResultReceiver(resultReceiver);
+
+    await cvRouter.initSettings("./ReadDPM.json");
+
+    document.querySelector(".barcode-scanner-view").append(cameraView.getUIElement());
+    await cameraEnhancer.open();
+    await cvRouter.startCapturing("ReadDPM");
+  } catch (ex) {
+    alert(ex.message || ex);
+  }
+})();
+```
+
+Minimal DPM template:
+```json
+{
+  "CaptureVisionTemplates": [
+    { "Name": "ReadDPM", "ImageROIProcessingNameArray": ["ROI_DPM"], "Timeout": 3000 }
+  ],
+  "TargetROIDefOptions": [
+    { "Name": "ROI_DPM", "TaskSettingNameArray": ["Task_DPM"] }
+  ],
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "Name": "Task_DPM",
+      "BarcodeFormatIds": ["BF_DATAMATRIX"],
+      "ExpectedBarcodesCount": 1,
+      "DPMCodeReadingModes": [{ "Mode": "DPMCRM_GENERAL" }]
+    }
+  ]
+}
+```
+
+For harder surfaces (low contrast, light-on-dark engraving, speckled binarization),
+see the canonical `scenarios/scan-dpm-codes/ReadDPM.json` for `ImageParameterOptions`
+and `SectionArray` tuning.
+
+---
+
 ## Common Mistakes to Avoid
 
 | Mistake | Fix |
