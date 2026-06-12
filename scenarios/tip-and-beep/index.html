@@ -135,7 +135,7 @@
           await cvRouter.stopCapturing();
           cameraEnhancer.singleFrameMode = "image";
           await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
-          document.querySelector(".dce-bg-camera").click();
+          cameraEnhancer.open();
         }
 
         cameraContainer.append(cameraView.getUIElement());
