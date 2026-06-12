@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Scan a single barcode via camera and stop automatically with Dynamsoft Barcode Reader." />
+  <meta name="keywords" content="barcode, camera, single scan" />
+  <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/basics/scan-a-single-barcode.html" />
+  <title>Dynamsoft Barcode Scanner Sample - Scan a Single Barcode</title>
+
+  <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.js"></script>
+  <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
+  <!-- <script src="../../dist/dbr.bundle.js"></script> -->
+</head>
+
+<body>
+  <h1 class="barcode-scanner-title">
+    Hello World (Scan One Single Barcode via Camera)
+  </h1>
+  <button class="scan-btn" onclick="startScan()">scan</button>
+  <!-- This div will host the barcode scanner's camera view -->
+  <div class="barcode-scanner-view"></div>
+  <script>
+    // Detect file:// protocol and show a helpful tip
+    if (location.protocol === "file:") {
+      const tip = document.createElement("div");
+      tip.style.cssText = "background:#fff3cd;border:1px solid #ffc107;color:#856404;padding:12px 16px;margin:8px;border-radius:6px;font:14px/1.5 sans-serif;text-align:center;";
+      tip.innerHTML = '<strong>Tip:</strong> This page works via <code>file://</code>, but for the best experience, '
+        + 'serve it from a web server (e.g. HTTPS or localhost).';
+      document.body.insertBefore(tip, document.body.firstChild);
+    }
+
+    /** LICENSE ALERT - README
+     * To use the library, you need to first specify a license key.
+     *
+     * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
+     * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
+     * For more information, see https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html#license&utm_source=samples or contact support@dynamsoft.com.
+     * LICENSE ALERT - THE END
+     */
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+    const pInit = (async () => {
+      const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+
+      cvRouter.setInput(cameraEnhancer);
+
+      const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+      resultReceiver.onDecodedBarcodesReceived = async (result) => {
+        alert(result.barcodeResultItems[0].text);
+        await cameraEnhancer.close();
+        await cvRouter.stopCapturing();
+        document.querySelector(".barcode-scanner-view").style.display = "none"; // Hide the camera view after scanning is complete
+        document.querySelector(".scan-btn").style.display = "block"; // Show the scan button after the scanning process is complete
+      };
+      await cvRouter.addResultReceiver(resultReceiver);
+
+      const uiElement = cameraView.getUIElement();
+      document.querySelector(".barcode-scanner-view").append(uiElement);
+
+      return {
+        cameraEnhancer,
+        cvRouter
+      }
+    })();
+
+    const startScan = async () => {
+      document.querySelector(".barcode-scanner-view").style.display = "block";
+      document.querySelector(".scan-btn").style.display = "none"; // Hide the scan button during the scanning process
+
+      const { cameraEnhancer, cvRouter } = await pInit;
+      await cameraEnhancer.open();
+      await cvRouter.startCapturing("ReadSingleBarcode");
+    }
+    startScan();
+  </script>
+
+  <!--
+    Please note that putting CSS at the end is not a best practice. 
+    We do this so that you can focus on reading the JS logic.
+  -->
+  <style>
+    /* Reset default margin and padding, and apply border-box sizing */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Ensure html and body take full viewport size */
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Style for the scanner title */
+    .barcode-scanner-title {
+      height: 80px;
+      text-align: center;
+      font-size: 20px;
+      padding: 20px 0;
+    }
+
+    /* Container where the barcode scanner will be rendered */
+    .barcode-scanner-view {
+      width: 100%;
+      height: calc(100% - 80px);
+      /* Fill remaining space below the title */
+    }
+
+    .scan-btn {
+      display: none;
+      margin: 0 auto;
+    }
+  </style>
+</body>
+
+</html>

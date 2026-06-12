@@ -9,6 +9,7 @@ This directory contains framework-specific examples demonstrating how to integra
 - [capacitor/](./capacitor/) — Capacitor mobile hybrid examples.
 - [electron/](./electron/) — Electron desktop examples.
 - [es6/](./es6/) — Plain ES6 module examples.
+- [maui-blazor-hybrid/](./maui-blazor-hybrid/) — MAUI Blazor Hybrid (.NET) examples.
 - [native-ts/](./native-ts/) — Native TypeScript examples.
 - [next/](./next/) — Next.js examples.
 - [nuxt/](./nuxt/) — Nuxt examples.
