@@ -141,7 +141,12 @@
         filter.enableResultDeduplication("barcode", true);
         await cvRouter.addResultFilter(filter);
 
-        fallbackOverlay.onclick = toggleSingleFrameMode;
+        fallbackOverlay.onclick = async () => {
+          await cvRouter.stopCapturing();
+          cameraEnhancer.singleFrameMode = "image";
+          await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+          cameraEnhancer.open();
+        }
 
         cameraContainer.append(cameraView.getUIElement());
         cameraView.setScanLaserVisible(true);
