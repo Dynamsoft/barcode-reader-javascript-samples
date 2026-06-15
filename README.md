@@ -157,6 +157,7 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 - [pick-one-to-fill/](./scenarios/pick-one-to-fill/) — Picking the correct one from multiple candidates by scanning barcodes.
 - [cart-builder/](./scenarios/cart-builder/) — Single-page demo illustrating adding scanned items into a shopping cart.
 - [scan-and-search/](./scenarios/scan-and-search/) — Example that scans a barcode and performs a lookup/search operation.
+- [tip-and-beep/](./scenarios/tip-and-beep/) — Camera scanning with rotating tip messages and beep feedback on successful detection.
 - [show-result-texts-on-the-video/](./scenarios/show-result-texts-on-the-video/) — Overlay decoded text on live video while scanning.
 - [batch-inventory/](./scenarios/batch-inventory/) — Batch scanning workflow for inventory collection and export.
 - [read-a-drivers-license/](./scenarios/read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.

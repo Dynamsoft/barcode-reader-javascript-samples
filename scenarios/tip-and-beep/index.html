@@ -98,6 +98,13 @@
           }
         };
 
+        const toggleSingleFrameMode = async () => {
+          await cvRouter.stopCapturing();
+          cameraEnhancer.singleFrameMode = "image";
+          await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+          document.querySelector(".dce-bg-camera").click();
+        }
+
         const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
         resultReceiver.onCapturedResultReceived = (result) => {
           if (!result.decodedBarcodesResult) {
@@ -114,6 +121,9 @@
               fallbackOverlay.style.display = "none";
               await cameraEnhancer.open();
               await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+              fallbackOverlay.textContent = "\u{1F4F8} Having trouble? Tap here to take a photo";
+              startTipCycle();
+              fallbackOverlay.onclick = toggleSingleFrameMode;
             }
           }
           displayResults(result.decodedBarcodesResult.barcodeResultItems);
@@ -131,12 +141,7 @@
         filter.enableResultDeduplication("barcode", true);
         await cvRouter.addResultFilter(filter);
 
-        fallbackOverlay.onclick = async () => {
-          await cvRouter.stopCapturing();
-          cameraEnhancer.singleFrameMode = "image";
-          await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
-          document.querySelector(".dce-bg-camera").click();
-        }
+        fallbackOverlay.onclick = toggleSingleFrameMode;
 
         cameraContainer.append(cameraView.getUIElement());
         cameraView.setScanLaserVisible(true);
