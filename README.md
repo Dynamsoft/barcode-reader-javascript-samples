@@ -58,13 +58,15 @@ git clone https://github.com/Dynamsoft/barcode-reader-javascript-samples.git --d
 
 ## Running the Samples Locally
 
-The standalone samples (`hello-world.html`, `scan-a-single-barcode.html`, `read-an-image.html`) and scenario samples load the SDK from a CDN, so you can open them directly by double-clicking — no web server required (an internet connection is needed).
+The standalone samples (`hello-world.html`, `scan-a-single-barcode.html`, `read-an-image.html`) load the SDK from a CDN, so you can open them directly from the local file system (`file://`) by double-clicking — no web server required (an internet connection is needed).
+
+Samples that depend on additional resource files, such as JSON templates, images, or server-side utilities, should be deployed through a local or hosted web server so those resources can be loaded correctly.
 
 To browse all available samples, open `index.html` in your browser — it links to every sample in the repository.
 
 For framework samples, follow the instructions in each subfolder's README (typically `npm install` then `npm run dev`).
 
-If you need a web server for standalone or scenario samples (for example, to serve SDK resources from a local `dist/` folder), here's a quick method using [Visual Studio Code](https://code.visualstudio.com/):
+If you need a web server for standalone or scenario samples, here's a quick method using [Visual Studio Code](https://code.visualstudio.com/):
 
 1. Install the [Five Server extension](https://marketplace.visualstudio.com/items?itemName=yandeu.five-server) from the VS Code Marketplace.
 
