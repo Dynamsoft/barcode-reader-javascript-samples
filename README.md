@@ -76,11 +76,11 @@ If you need a web server for standalone or scenario samples, here's a quick meth
 
 ## Sample Folders
 
-The repository includes two main sample directories:
-
-- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
+- **`basics/`** - Three foundational samples: hello-world, scan-a-single-barcode, and read-an-image.
 
 - **`scenarios/`** - Focused scenario samples that show common real-world uses of Dynamsoft Barcode Reader.
+
+- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
 
 ---
 
@@ -116,7 +116,7 @@ The agent will automatically load the skill and generate correct, production-rea
 
 ## Documentation
 
-For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/?ver=11.4.2001&utm_source=sampleReadme).
+For the developer guide and full API reference of Dynamsoft Barcode Reader JavaScript library, please check out the [documentation](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html?utm_source=sampleReadme).
 
 - [API Docs](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/index.html?utm_source=sampleReadme)
 
@@ -132,9 +132,9 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 
 ### Hello World
 
-- [hello-world.html](./hello-world.html) — Demonstrates continuously scanning and collecting multiple unique barcodes via camera.
-- [scan-a-single-barcode.html](./scan-a-single-barcode.html) — Demonstrates single-barcode scanning: stops and returns as soon as the first barcode is detected.
-- [read-an-image.html](./read-an-image.html) — Demonstrates how to decode and read barcodes from uploaded image files.
+- [hello-world.html](./basics/hello-world.html) — Demonstrates continuously scanning and collecting multiple unique barcodes via camera.
+- [scan-a-single-barcode.html](./basics/scan-a-single-barcode.html) — Demonstrates single-barcode scanning: stops and returns as soon as the first barcode is detected.
+- [read-an-image.html](./basics/read-an-image.html) — Demonstrates how to decode and read barcodes from uploaded image files.
 
 ### Frameworks
 
