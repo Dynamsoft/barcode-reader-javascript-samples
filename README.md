@@ -58,9 +58,7 @@ git clone https://github.com/Dynamsoft/barcode-reader-javascript-samples.git --d
 
 ## Running the Samples Locally
 
-The standalone samples (`hello-world.html`, `scan-a-single-barcode.html`, `read-an-image.html`) load the SDK from a CDN, so you can open them directly from the local file system (`file://`) by double-clicking — no web server required (an internet connection is needed).
-
-Samples that depend on additional resource files, such as JSON templates, images, or server-side utilities, should be deployed through a local or hosted web server so those resources can be loaded correctly.
+The standalone samples in the `basics/` folder (`hello-world.html`, `scan-a-single-barcode.html`, `read-an-image.html`) and scenario samples load the SDK from a CDN, so you can open them directly by double-clicking — no web server required (an internet connection is needed).
 
 To browse all available samples, open `index.html` in your browser — it links to every sample in the repository.
 
@@ -111,6 +109,8 @@ Open your AI agent (e.g. GitHub Copilot Chat in agent mode) and try:
 - *"Scan QR codes only using a custom JSON template"*
 
 The agent will automatically load the skill and generate correct, production-ready code using the right SDK version, license key, API patterns, and framework conventions — without you needing to read any documentation.
+
+- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
 
 ---
 
