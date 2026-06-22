@@ -64,7 +64,7 @@ To browse all available samples, open `index.html` in your browser — it links 
 
 For framework samples, follow the instructions in each subfolder's README (typically `npm install` then `npm run dev`).
 
-If you need a web server for standalone or scenario samples (for example, to serve SDK resources from a local `dist/` folder), here's a quick method using [Visual Studio Code](https://code.visualstudio.com/):
+If you need a web server for standalone or scenario samples, here's a quick method using [Visual Studio Code](https://code.visualstudio.com/):
 
 1. Install the [Five Server extension](https://marketplace.visualstudio.com/items?itemName=yandeu.five-server) from the VS Code Marketplace.
 
@@ -77,6 +77,38 @@ If you need a web server for standalone or scenario samples (for example, to ser
 - **`basics/`** - Three foundational samples: hello-world, scan-a-single-barcode, and read-an-image.
 
 - **`scenarios/`** - Focused scenario samples that show common real-world uses of Dynamsoft Barcode Reader.
+
+- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
+
+---
+
+## Vibe Coding with AI Agents
+
+This repository ships an **AI coding skill** that gives GitHub Copilot, Claude, and Codex deep knowledge of the Dynamsoft Barcode Reader JavaScript SDK — so you can describe what you want and get working code instantly.
+
+### How It Works
+
+The skill lives in:
+
+```
+.github/skills/dbr-js-sample-creator/   ← GitHub Copilot (auto-discovered)
+.claude/skills/dbr-js-sample-creator/   ← Claude Code (auto-discovered)
+.codex/skills/dbr-js-sample-creator/    ← OpenAI Codex (auto-discovered)
+```
+
+No installation or configuration needed — just clone the repo and open it in your AI-enabled editor.
+
+### Example Prompts
+
+Open your AI agent (e.g. GitHub Copilot Chat in agent mode) and try:
+
+- *"Create a plain HTML barcode scanner that reads from camera and shows results"*
+- *"Build a React component that scans barcodes with proper cleanup"*
+- *"Make a Vue 3 page that decodes barcodes from an uploaded image"*
+- *"Write an ES6 module barcode scanner using the CDN .mjs bundle"*
+- *"Scan QR codes only using a custom JSON template"*
+
+The agent will automatically load the skill and generate correct, production-ready code using the right SDK version, license key, API patterns, and framework conventions — without you needing to read any documentation.
 
 - **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
 
@@ -127,6 +159,7 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 - [pick-one-to-fill/](./scenarios/pick-one-to-fill/) — Picking the correct one from multiple candidates by scanning barcodes.
 - [cart-builder/](./scenarios/cart-builder/) — Single-page demo illustrating adding scanned items into a shopping cart.
 - [scan-and-search/](./scenarios/scan-and-search/) — Example that scans a barcode and performs a lookup/search operation.
+- [tip-and-beep/](./scenarios/tip-and-beep/) — Camera scanning with rotating tip messages and beep feedback on successful detection.
 - [show-result-texts-on-the-video/](./scenarios/show-result-texts-on-the-video/) — Overlay decoded text on live video while scanning.
 - [batch-inventory/](./scenarios/batch-inventory/) — Batch scanning workflow for inventory collection and export.
 - [read-a-drivers-license/](./scenarios/read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.

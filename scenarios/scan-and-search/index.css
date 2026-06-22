@@ -12,9 +12,124 @@ body {
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-  padding: 10px;
+  padding: 20px 10px;
   margin: 0;
 }
+
+/* ── Camera view (always visible, inline) ────────────────────────────────── */
+
+#barcode-scanner-view {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 240px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #111;
+}
+
+/* Transparent overlay that catches clicks for play/pause */
+#camera-toggle-area {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Play/pause icon — always visible when paused, shown on hover when playing */
+#play-pause-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+/* Loading spinner — shown while SDK initialises */
+#loading-spinner {
+  display: none;
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.85);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  pointer-events: none;
+}
+
+#camera-toggle-area.loading {
+  cursor: default;
+}
+
+#camera-toggle-area.loading #loading-spinner {
+  display: block;
+}
+
+#camera-toggle-area.loading #play-pause-icon {
+  display: none;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Pause symbol (two bars) — shown when playing */
+#play-pause-icon::before,
+#play-pause-icon::after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 18px;
+  background: #fff;
+  border-radius: 2px;
+  position: absolute;
+}
+
+#play-pause-icon::before { transform: translateX(-5px); }
+#play-pause-icon::after  { transform: translateX(5px); }
+
+/* Play symbol (triangle) — shown when paused */
+#camera-toggle-area.paused #play-pause-icon::before,
+#camera-toggle-area.paused #play-pause-icon::after {
+  content: none;
+}
+
+#camera-toggle-area.paused #play-pause-icon {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.55);
+  /* Triangle via border trick */
+  position: relative;
+}
+
+#camera-toggle-area.paused #play-pause-icon::before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 0 10px 18px;
+  border-color: transparent transparent transparent #fff;
+  background: none;
+  border-radius: 0;
+  transform: translateX(3px);
+  position: static;
+}
+
+/* Show pause icon on hover when playing */
+#camera-toggle-area:not(.paused):hover #play-pause-icon {
+  opacity: 1;
+}
+
+/* ── Input bar + submit button ───────────────────────────────────────────── */
 
 #container {
   display: flex;
@@ -23,45 +138,34 @@ body {
   max-width: 400px;
 }
 
-#scan-btn {
-  width: 48px;
-  height: 48px;
-  background-color: #ff5000;
-  border: none;
-  border-radius: 6px 0 0 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#scan-btn:hover {
-  background-color: #e54c00;
-}
-
 #text-input {
   flex: 1;
   height: 48px;
   padding: 0 12px;
   font-size: 16px;
   border: 1px solid #ccc;
-  border-left: none;
   border-right: none;
+  border-radius: 6px 0 0 6px;
   box-sizing: border-box;
+}
+
+#text-input:focus {
+  outline: none;
+  border-color: #ff5000;
 }
 
 #search-btn {
   width: 48px;
   height: 48px;
   background-color: #ff5000;
+  color: #fff;
   border: none;
   border-radius: 0 6px 6px 0;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s;
 }
 
 #search-btn:hover {
@@ -89,76 +193,302 @@ body {
   transform-origin: center;
 }
 
-.scan-icon {
-  position: relative;
-  width: 20px;
-  height: 20px;
-}
-
-.scan-icon::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 2px;
-  background-color: white;
-  transform: translateY(-50%);
-}
-
-.corner {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border: 2px solid white;
-}
-
-.tl {
-  top: 0;
-  left: 0;
-  border-right: none;
-  border-bottom: none;
-}
-
-.tr {
-  top: 0;
-  right: 0;
-  border-left: none;
-  border-bottom: none;
-}
-
-.bl {
-  bottom: 0;
-  left: 0;
-  border-right: none;
-  border-top: none;
-}
-
-.br {
-  bottom: 0;
-  right: 0;
-  border-left: none;
-  border-top: none;
+h1 {
+  text-align: center;
+  margin-bottom: 6px;
 }
 
 h2 {
-  margin: 20px 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: normal;
+  color: #666;
+  margin-bottom: 20px;
+  max-width: 400px;
 }
 
-#barcode-scanner-view {
-  position: fixed;
-  left: 0;
-  top: 0;
+/* ── Filter toggle row ───────────────────────────────────────────────────── */
+
+#filter-row {
+  display: flex;
+  justify-content: flex-end;
   width: 100%;
-  height: 100vh;
-  display: none;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 9999;
+  max-width: 400px;
+  margin-top: 8px;
 }
+
+#filter-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #f8f8f8;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+#filter-toggle-btn:hover {
+  background: #f0f0f0;
+  border-color: #bbb;
+}
+
+#filter-toggle-btn.open {
+  background: #fff3ee;
+  border-color: #ff5000;
+  color: #ff5000;
+}
+
+#filter-badge {
+  color: #ff5000;
+  font-size: 10px;
+}
+
+/* ── Filter panel ────────────────────────────────────────────────────────── */
+
+#filters-panel {
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: #fafafa;
+  margin-top: 6px;
+}
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+}
+
+.filter-section:first-child {
+  padding-top: 0;
+}
+
+.filter-section:last-child {
+  padding-bottom: 0;
+}
+
+.filter-section + .filter-section {
+  border-top: 1px solid #ebebeb;
+}
+
+.filter-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.filter-hint {
+  font-size: 11px;
+  color: #bbb;
+  margin-top: -4px;
+}
+
+/* ── Format presets ──────────────────────────────────────────────────────── */
+
+.preset-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.preset-btn {
+  padding: 4px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 12px;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.preset-btn:hover {
+  background: #f5f5f5;
+  border-color: #bbb;
+}
+
+.preset-btn.active {
+  background: #ff5000;
+  border-color: #ff5000;
+  color: #fff;
+}
+
+/* ── Custom formats grid ─────────────────────────────────────────────────── */
+
+#custom-formats-wrapper {
+  margin-top: 4px;
+}
+
+#custom-formats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 6px;
+}
+
+.format-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #444;
+  cursor: pointer;
+}
+
+.format-checkbox-label input[type="checkbox"] {
+  accent-color: #ff5000;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── Length filter ───────────────────────────────────────────────────────── */
+
+.length-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.length-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #555;
+}
+
+.length-label input[type="number"] {
+  width: 70px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+.length-label input[type="number"]::-webkit-outer-spin-button,
+.length-label input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.length-label input[type="number"]:focus {
+  outline: none;
+  border-color: #ff5000;
+}
+
+.length-dash {
+  color: #bbb;
+  font-size: 16px;
+}
+
+.length-unit {
+  font-size: 13px;
+  color: #999;
+}
+
+/* ── Keyword rules ───────────────────────────────────────────────────────── */
+
+#keyword-rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rule-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.rule-type-select {
+  height: 32px;
+  padding: 0 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #444;
+  background: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.rule-type-select:focus {
+  outline: none;
+  border-color: #ff5000;
+}
+
+.rule-value-input {
+  flex: 1;
+  min-width: 80px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.rule-value-input:focus {
+  outline: none;
+  border-color: #ff5000;
+}
+
+.rule-remove-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  color: #bbb;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.rule-remove-btn:hover {
+  background: #fef0f0;
+  color: #c00;
+}
+
+.add-rule-btn {
+  align-self: flex-start;
+  padding: 5px 12px;
+  border: 1px dashed #ddd;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 12px;
+  color: #777;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.add-rule-btn:hover {
+  border-color: #ff5000;
+  color: #ff5000;
+}
+
+/* ── Result textarea ─────────────────────────────────────────────────────── */
 
 textarea {
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   height: 300px;
   margin-top: 20px;
   padding: 10px;
@@ -174,12 +504,11 @@ textarea:focus {
   outline: none;
 }
 
-@media (max-width: 480px) {
+/* ── Responsive ──────────────────────────────────────────────────────────── */
 
-  #scan-btn,
-  #search-btn {
-    width: 40px;
-    height: 40px;
+@media (max-width: 480px) {
+  #barcode-scanner-view {
+    height: 200px;
   }
 
   #text-input {
@@ -187,8 +516,21 @@ textarea:focus {
     font-size: 14px;
   }
 
+  #search-btn {
+    width: 40px;
+    height: 40px;
+  }
+
   textarea {
     height: 200px;
     font-size: 14px;
+  }
+
+  .rule-row {
+    flex-wrap: wrap;
+  }
+
+  .rule-type-select {
+    width: 100%;
   }
 }

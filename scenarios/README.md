@@ -7,6 +7,7 @@ Included samples
 - [pick-one-to-fill/](./pick-one-to-fill/) — Picking the correct one from multiple candidates by scanning barcodes.
 - [cart-builder/](./cart-builder/) — Single-page demo illustrating adding scanned items into a shopping cart.
 - [scan-and-search/](./scan-and-search/) — Example that scans a barcode and performs a lookup/search operation.
+- [tip-and-beep/](./tip-and-beep/) — Camera scanning with rotating tip messages and beep feedback on successful detection.
 - [show-result-texts-on-the-video/](./show-result-texts-on-the-video/) — Overlay decoded text on live video while scanning.
 - [batch-inventory/](./batch-inventory/) — Batch scanning workflow for inventory collection and export.
 - [read-a-drivers-license/](./read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.
