@@ -36,7 +36,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  pointer-events: none; /* let SDK controls below receive clicks */
   z-index: 10;
 }
 
@@ -51,7 +51,8 @@ body {
   justify-content: center;
   opacity: 0;
   transition: opacity 0.2s;
-  pointer-events: none;
+  pointer-events: auto; /* clickable */
+  cursor: pointer;
 }
 
 /* Loading spinner — shown while SDK initialises */

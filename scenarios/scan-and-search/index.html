@@ -19,9 +19,9 @@
   <!-- Always-visible camera view -->
   <div id="barcode-scanner-view">
     <!-- Transparent overlay covering the full view; center click toggles play/pause -->
-    <div id="camera-toggle-area" class="loading" role="button" tabindex="0" aria-label="Loading...">
+    <div id="camera-toggle-area" class="loading" aria-hidden="true">
       <div id="loading-spinner"></div>
-      <div id="play-pause-icon"></div>
+      <div id="play-pause-icon" role="button" tabindex="0" aria-label="Toggle scanning"></div>
     </div>
   </div>
 
@@ -137,6 +137,7 @@
     const inputBox             = document.getElementById("text-input");
     const barcodeScannerView   = document.getElementById("barcode-scanner-view");
     const cameraToggleArea     = document.getElementById("camera-toggle-area");
+    const playPauseIcon        = document.getElementById("play-pause-icon");
     const searchResult         = document.getElementById("search-result");
     const filterToggleBtn      = document.getElementById("filter-toggle-btn");
     const filtersPanel         = document.getElementById("filters-panel");
@@ -353,16 +354,18 @@
     function updateToggleUI() {
       cameraToggleArea.classList.remove("loading", "paused");
       if (!isCapturing) cameraToggleArea.classList.add("paused");
-      cameraToggleArea.setAttribute("aria-label", isCapturing ? "Pause scanning" : "Resume scanning");
+        cameraToggleArea.setAttribute("aria-label", isCapturing ? "Pause scanning" : "Resume scanning");
     }
 
     async function toggleCapturing() {
       if (!scanner || cameraToggleArea.classList.contains("loading")) return;
       if (isCapturing) {
         scanner.cvRouter.stopCapturing();
+        scanner.cameraEnhancer.pause();
         isCapturing = false;
       } else {
         await applySDKFilters();
+        await scanner.cameraEnhancer.resume();
         await scanner.cvRouter.startCapturing("ReadSingleBarcode");
         isCapturing = true;
       }
@@ -403,6 +406,7 @@
         inputBox.value = item.text;
         // Pause scanning after a successful read so the user can review the result
         cvRouter.stopCapturing();
+        cameraEnhancer.pause();
         isCapturing = false;
         updateToggleUI();
       };
@@ -421,8 +425,8 @@
     })();
 
     // ── Event listeners ────────────────────────────────────────────────────────
-    cameraToggleArea.addEventListener("click", toggleCapturing);
-    cameraToggleArea.addEventListener("keydown", e => {
+    playPauseIcon.addEventListener("click", toggleCapturing);
+    playPauseIcon.addEventListener("keydown", e => {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleCapturing(); }
     });
 
