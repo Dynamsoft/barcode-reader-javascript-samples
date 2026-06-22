@@ -112,6 +112,8 @@ The agent will automatically load the skill and generate correct, production-rea
 
 - **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
 
+- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
+
 ---
 
 ## Documentation
