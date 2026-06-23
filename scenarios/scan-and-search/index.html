@@ -14,16 +14,74 @@
 
 <body>
   <h1>📦 Instant Product Information Lookup</h1>
-  <h2>Enter a UPC, EAN, or ISBN number to retrieve accurate product data from a specific database</h2>
-  <div id="container">
-    <button id="scan-btn" aria-label="Scan barcode">
-      <div class="scan-icon">
-        <div class="corner tl"></div>
-        <div class="corner tr"></div>
-        <div class="corner bl"></div>
-        <div class="corner br"></div>
-      </div>
+  <h2>Scan or enter a barcode to search for product data</h2>
+
+  <!-- Always-visible camera view -->
+  <div id="barcode-scanner-view">
+    <!-- Transparent overlay covering the full view; center click toggles play/pause -->
+    <div id="camera-toggle-area" class="loading" aria-hidden="true">
+      <div id="loading-spinner"></div>
+      <div id="play-pause-icon" role="button" tabindex="0" aria-label="Toggle scanning"></div>
+    </div>
+  </div>
+
+  <!-- Filter toggle -->
+  <div id="filter-row">
+    <button id="filter-toggle-btn" aria-expanded="false" aria-controls="filters-panel">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M1 2h14l-5 6v5l-4-2V8L1 2z"/>
+      </svg>
+      Filters
+      <span id="filter-badge" hidden aria-label="Filters active">●</span>
     </button>
+  </div>
+
+  <!-- Collapsible filter panel -->
+  <div id="filters-panel" hidden aria-label="Scan filters">
+
+    <!-- 1. Barcode format -->
+    <section class="filter-section">
+      <h3 class="filter-section-title">Barcode Format</h3>
+      <div class="preset-group" role="group" aria-label="Format preset">
+        <button class="preset-btn active" data-preset="all">All</button>
+        <button class="preset-btn" data-preset="retail">1D Retail</button>
+        <button class="preset-btn" data-preset="industrial">1D Industrial</button>
+        <button class="preset-btn" data-preset="2d">2D Codes</button>
+        <button class="preset-btn" data-preset="custom">Custom</button>
+      </div>
+      <div id="custom-formats-wrapper" hidden>
+        <div id="custom-formats-grid"></div>
+      </div>
+    </section>
+
+    <!-- 2. String length -->
+    <section class="filter-section">
+      <h3 class="filter-section-title">String Length</h3>
+      <div class="length-inputs">
+        <label class="length-label">
+          Min
+          <input type="number" id="min-length" min="0" placeholder="Any" />
+        </label>
+        <span class="length-dash">–</span>
+        <label class="length-label">
+          Max
+          <input type="number" id="max-length" min="0" placeholder="Any" />
+        </label>
+        <span class="length-unit">chars</span>
+      </div>
+    </section>
+
+    <!-- 3. Keyword rules -->
+    <section class="filter-section">
+      <h3 class="filter-section-title">Keyword Rules <span class="filter-hint">(all must match)</span></h3>
+      <div id="keyword-rules-list" aria-label="Keyword rules"></div>
+      <button id="add-rule-btn" class="add-rule-btn">+ Add Rule</button>
+    </section>
+
+  </div>
+
+  <!-- Input bar + search button -->
+  <div id="container">
     <input type="text" id="text-input" placeholder="e.g. 049000042511" />
     <button id="search-btn" aria-label="Search">
       <div class="search-icon"></div>
@@ -31,61 +89,351 @@
   </div>
 
   <textarea id="search-result" placeholder="Search Result..."></textarea>
-  <div id="barcode-scanner-view"></div>
 
   <script>
-    const scanBtn = document.querySelector("#scan-btn");
-    const searchBtn = document.querySelector("#search-btn");
-    const inputBox = document.querySelector("#text-input");
-    const barcodeScannerView = document.querySelector("#barcode-scanner-view");
-    const searchResult = document.querySelector("#search-result");
+    // ── BF ID constants ────────────────────────────────────────────────────────
+    const ALL_2D_BF = ['BF_PDF417', 'BF_QR_CODE', 'BF_DATAMATRIX', 'BF_AZTEC', 'BF_MICRO_QR', 'BF_MICRO_PDF417', 'BF_DOTCODE'];
+    const ALL_1D_BF = ['BF_EAN_13', 'BF_EAN_8', 'BF_UPC_A', 'BF_UPC_E', 'BF_CODE_128', 'BF_CODE_39', 'BF_CODE_93', 'BF_ITF', 'BF_CODABAR', 'BF_GS1_DATABAR'];
 
+    // Display name → BF ID (1D only — 2D formats are not exposed in the filter UI)
+    const FORMAT_TO_BF = {
+      "EAN-13":    "BF_EAN_13",
+      "EAN-8":     "BF_EAN_8",
+      "UPC-A":     "BF_UPC_A",
+      "UPC-E":     "BF_UPC_E",
+      "Code 128":  "BF_CODE_128",
+      "Code 39":   "BF_CODE_39",
+      "Code 93":   "BF_CODE_93",
+      "ITF":       "BF_ITF",
+      "Codabar":   "BF_CODABAR",
+      "QR Code":   "BF_QR_CODE",
+      "PDF417":    "BF_PDF417",
+      "DataMatrix":"BF_DATAMATRIX",
+      "Aztec":     "BF_AZTEC",
+    };
+
+    // Preset → 1D BF ID array (written to BarcodeReaderTaskSettingOptions[0].BarcodeFormatIds)
+    const PRESET_FORMAT_IDS = {
+      all:        [...ALL_1D_BF, ...ALL_2D_BF],
+      retail:     ['BF_EAN_13', 'BF_EAN_8', 'BF_UPC_A', 'BF_UPC_E'],
+      industrial: ['BF_CODE_128', 'BF_CODE_39', 'BF_CODE_93', 'BF_ITF', 'BF_CODABAR'],
+      "2d":       ALL_2D_BF,
+    };
+
+    const ALL_FORMATS = Object.keys(FORMAT_TO_BF);
+
+    // ── Filter state ───────────────────────────────────────────────────────────
+    let activePreset     = "all";
+    let customSelectedBF = new Set(Object.values(FORMAT_TO_BF)); // all checked by default
+    let keywordRules     = [];
+    let ruleIdCounter    = 0;
+    let scanner          = null;
+    let isCapturing      = false;
+    let isApplyingFilters = false;
+    let filterApplyTimer = null;
+
+    // ── DOM refs ───────────────────────────────────────────────────────────────
+    const searchBtn            = document.getElementById("search-btn");
+    const inputBox             = document.getElementById("text-input");
+    const barcodeScannerView   = document.getElementById("barcode-scanner-view");
+    const cameraToggleArea     = document.getElementById("camera-toggle-area");
+    const playPauseIcon        = document.getElementById("play-pause-icon");
+    const searchResult         = document.getElementById("search-result");
+    const filterToggleBtn      = document.getElementById("filter-toggle-btn");
+    const filtersPanel         = document.getElementById("filters-panel");
+    const filterBadge          = document.getElementById("filter-badge");
+    const customFormatsWrapper = document.getElementById("custom-formats-wrapper");
+    const customFormatsGrid    = document.getElementById("custom-formats-grid");
+    const minLengthInput       = document.getElementById("min-length");
+    const maxLengthInput       = document.getElementById("max-length");
+    const keywordRulesList     = document.getElementById("keyword-rules-list");
+    const addRuleBtn           = document.getElementById("add-rule-btn");
+
+    // ── SDK filter application ─────────────────────────────────────────────────
+    function getActiveFormatIds() {
+      if (activePreset !== "custom") {
+        return PRESET_FORMAT_IDS[activePreset] ?? PRESET_FORMAT_IDS.all;
+      }
+      return [...ALL_1D_BF, ...ALL_2D_BF].filter(id => customSelectedBF.has(id));
+    }
+
+    function buildRegexPattern(rules) {
+      const parts = [];
+      for (const rule of rules) {
+        const val = rule.value.trim();
+        if (!val) continue;
+        const esc = val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        switch (rule.type) {
+          case "contains":     parts.push(`(?=.*${esc})`); break;
+          case "not-contains": parts.push(`(?!.*${esc})`); break;
+          case "starts-with":  parts.push(`(?=${esc})`); break;
+          case "ends-with":    parts.push(`(?=.*${esc}$)`); break;
+          case "regex":
+            try { new RegExp(val); parts.push(`(?=${val})`); } catch {}
+            break;
+        }
+      }
+      return parts.length ? `^${parts.join("")}[\\s\\S]*$` : "";
+    }
+
+    async function applySDKFilters() {
+      if (!scanner || isApplyingFilters) return;
+      isApplyingFilters = true;
+      try {
+        const { cvRouter } = scanner;
+
+        // 1. Stop capturing if active
+        const wasCapturing = isCapturing;
+        if (wasCapturing) {
+          cvRouter.stopCapturing();
+          isCapturing = false;
+        }
+
+        // 2. Get current settings for the template
+        const tempSetting = await cvRouter.outputSettings("ReadSingleBarcode", true);
+
+        // 3a. Format filter — BarcodeReaderTaskSettingOptions[0].BarcodeFormatIds
+        tempSetting.BarcodeReaderTaskSettingOptions[0].BarcodeFormatIds = getActiveFormatIds();
+
+        // 3b. String length filter — BarcodeFormatSpecificationOptions[0].BarcodeTextLengthRangeArray
+        const minLen = minLengthInput.value !== "" ? parseInt(minLengthInput.value, 10) : null;
+        const maxLen = maxLengthInput.value !== "" ? parseInt(maxLengthInput.value, 10) : null;
+        const lengthRange = (minLen !== null || maxLen !== null)
+          ? [{ MinValue: minLen ?? 0, MaxValue: maxLen ?? 999999 }]
+          : [];
+        tempSetting.BarcodeFormatSpecificationOptions[1].BarcodeTextLengthRangeArray = lengthRange;
+
+        // 3c. Keyword / regex filter — BarcodeFormatSpecificationOptions[0].BarcodeTextRegExPattern
+        const pattern = buildRegexPattern(keywordRules);
+        tempSetting.BarcodeFormatSpecificationOptions[1].BarcodeTextRegExPattern = pattern;
+
+        // 4. Apply updated settings
+        await cvRouter.initSettings(tempSetting);
+
+        // 5. Resume capturing if it was active before
+        if (wasCapturing) {
+          await cvRouter.startCapturing("ReadSingleBarcode");
+          isCapturing = true;
+        }
+      } finally {
+        isApplyingFilters = false;
+      }
+    }
+
+    // Debounced wrapper — used by text inputs to avoid applying on every keystroke
+    function scheduleFilterApply() {
+      updateBadge();
+      clearTimeout(filterApplyTimer);
+      filterApplyTimer = setTimeout(() => {
+        if (isCapturing) applySDKFilters();
+      }, 400);
+    }
+
+    // Immediate wrapper — used by discrete controls (preset buttons, checkboxes)
+    function onFilterChanged() {
+      updateBadge();
+      if (isCapturing) applySDKFilters();
+    }
+
+    // ── Build custom format checkboxes ─────────────────────────────────────────
+    ALL_FORMATS.forEach(fmt => {
+      const bfId = FORMAT_TO_BF[fmt];
+      const label = document.createElement("label");
+      label.className = "format-checkbox-label";
+
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = true;
+      cb.addEventListener("change", () => {
+        if (cb.checked) customSelectedBF.add(bfId);
+        else            customSelectedBF.delete(bfId);
+        onFilterChanged();
+      });
+
+      label.append(cb, fmt);
+      customFormatsGrid.append(label);
+    });
+
+    // ── Preset buttons ─────────────────────────────────────────────────────────
+    document.querySelectorAll(".preset-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".preset-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activePreset = btn.dataset.preset;
+        customFormatsWrapper.hidden = activePreset !== "custom";
+        onFilterChanged();
+      });
+    });
+
+    // ── Filter panel toggle ────────────────────────────────────────────────────
+    filterToggleBtn.addEventListener("click", () => {
+      const opening = filtersPanel.hidden;
+      filtersPanel.hidden = !opening;
+      filterToggleBtn.setAttribute("aria-expanded", String(opening));
+      filterToggleBtn.classList.toggle("open", opening);
+    });
+
+    // ── Length inputs ──────────────────────────────────────────────────────────
+    minLengthInput.addEventListener("input", scheduleFilterApply);
+    maxLengthInput.addEventListener("input", scheduleFilterApply);
+
+    // ── Keyword rules ──────────────────────────────────────────────────────────
+    function addKeywordRule(type = "contains", value = "") {
+      const rule = { id: ruleIdCounter++, type, value };
+      keywordRules.push(rule);
+      renderKeywordRule(rule);
+      updateBadge();
+    }
+
+    function removeKeywordRule(ruleId) {
+      keywordRules = keywordRules.filter(r => r.id !== ruleId);
+      document.getElementById(`rule-${ruleId}`)?.remove();
+      onFilterChanged();
+    }
+
+    function renderKeywordRule(rule) {
+      const row = document.createElement("div");
+      row.className = "rule-row";
+      row.id = `rule-${rule.id}`;
+
+      const typeSelect = document.createElement("select");
+      typeSelect.className = "rule-type-select";
+      typeSelect.setAttribute("aria-label", "Rule type");
+      [
+        ["contains",     "contains"],
+        ["not-contains", "does not contain"],
+        ["starts-with",  "starts with"],
+        ["ends-with",    "ends with"],
+        ["regex",        "matches regex"],
+      ].forEach(([val, label]) => {
+        const opt = new Option(label, val);
+        opt.selected = val === rule.type;
+        typeSelect.add(opt);
+      });
+      typeSelect.addEventListener("change", () => {
+        rule.type = typeSelect.value;
+        onFilterChanged();
+      });
+
+      const valueInput = document.createElement("input");
+      valueInput.type = "text";
+      valueInput.className = "rule-value-input";
+      valueInput.placeholder = "e.g. SN-";
+      valueInput.value = rule.value;
+      valueInput.setAttribute("aria-label", "Rule value");
+      valueInput.addEventListener("input", () => {
+        rule.value = valueInput.value;
+        scheduleFilterApply();
+      });
+
+      const removeBtn = document.createElement("button");
+      removeBtn.className = "rule-remove-btn";
+      removeBtn.textContent = "✕";
+      removeBtn.setAttribute("aria-label", "Remove rule");
+      removeBtn.addEventListener("click", () => removeKeywordRule(rule.id));
+
+      row.append(typeSelect, valueInput, removeBtn);
+      keywordRulesList.append(row);
+    }
+
+    addRuleBtn.addEventListener("click", () => addKeywordRule());
+
+    // ── Active filter badge ────────────────────────────────────────────────────
+    function hasActiveFilters() {
+      if (activePreset !== "all") return true;
+      if (minLengthInput.value || maxLengthInput.value) return true;
+      if (keywordRules.some(r => r.value.trim())) return true;
+      return false;
+    }
+
+    function updateBadge() {
+      filterBadge.hidden = !hasActiveFilters();
+    }
+
+    // ── Play / pause toggle UI ─────────────────────────────────────────────────
+    function updateToggleUI() {
+      cameraToggleArea.classList.remove("loading", "paused");
+      if (!isCapturing) cameraToggleArea.classList.add("paused");
+        cameraToggleArea.setAttribute("aria-label", isCapturing ? "Pause scanning" : "Resume scanning");
+    }
+
+    async function toggleCapturing() {
+      if (!scanner || cameraToggleArea.classList.contains("loading")) return;
+      if (isCapturing) {
+        scanner.cvRouter.stopCapturing();
+        scanner.cameraEnhancer.pause();
+        isCapturing = false;
+      } else {
+        await applySDKFilters();
+        await scanner.cameraEnhancer.resume();
+        await scanner.cvRouter.startCapturing("ReadSingleBarcode");
+        isCapturing = true;
+      }
+      updateToggleUI();
+    }
+
+    // ── Placeholder lookup ─────────────────────────────────────────────────────
+    function lookupBarcode(text, format) {
+      const formatLine = format ? `Format: ${format}\n\n` : "";
+      return `Barcode Text to Query from Database:\n\n${text}\n\n${formatLine}-------------------\n\nProduct name: xxx\n\nBrand: xxx\n\nCategory: xxx\n\nPrice: xxx\n\nDescription: xxx`;
+    }
+
+    // ── SDK initialisation ─────────────────────────────────────────────────────
     Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
     const pInit = (async () => {
-      const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
+      const cameraView     = await Dynamsoft.DCE.CameraView.createInstance();
       const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
-      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+      const cvRouter       = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
 
       cvRouter.setInput(cameraEnhancer);
 
+      // Attach camera UI behind the toggle overlay
+      barcodeScannerView.insertBefore(cameraView.getUIElement(), cameraToggleArea);
+
+      // Deduplicate so the same barcode doesn't fire repeatedly between filter applies
+      const dedupeFilter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
+      dedupeFilter.enableResultCrossVerification("barcode", true);
+      dedupeFilter.enableResultDeduplication("barcode", true);
+      await cvRouter.addResultFilter(dedupeFilter);
+
       const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
       resultReceiver.onDecodedBarcodesReceived = (result) => {
-        if (result.barcodeResultItems.length > 0) {
-          searchResult.value = `Barcode Text to Query from Database: \n\n${result.barcodeResultItems[0].text} \n\n-------------------\n\nProduct name: xxx \n\nBrand: xxx \n\nCategory: xxx \n\nPrice: xxx \n\nDescription: xxx`;
-          inputBox.value = result.barcodeResultItems[0].text;
-        }
-
-        barcodeScannerView.style.display = "none";
-        scanBtn.disabled = false;
-
+        if (!result.barcodeResultItems.length) return;
+        // SDK-level filters have already applied; accept the first result
+        const item = result.barcodeResultItems[0];
+        // Fill the input only; user clicks search to query
+        inputBox.value = item.text;
+        // Pause scanning after a successful read so the user can review the result
         cvRouter.stopCapturing();
-      }
+        cameraEnhancer.pause();
+        isCapturing = false;
+        updateToggleUI();
+      };
       await cvRouter.addResultReceiver(resultReceiver);
 
-      return {
-        cameraView,
-        cameraEnhancer,
-        cvRouter
-      }
+      scanner = { cameraView, cameraEnhancer, cvRouter };
+
+      // Auto-open camera and start capturing on page load
+      await cameraEnhancer.open();
+      await applySDKFilters();
+      await cvRouter.startCapturing("ReadSingleBarcode");
+      isCapturing = true;
+      updateToggleUI();
+
+      return scanner;
     })();
 
-    async function startScanner() {
-      const { cameraView, cameraEnhancer, cvRouter } = await pInit;
-      scanBtn.disabled = true;
-      barcodeScannerView.append(cameraView.getUIElement());
-      await cameraEnhancer.open();
-      await cvRouter.startCapturing("ReadSingleBarcode");
-    }
-
-    scanBtn.addEventListener("click", () => {
-      barcodeScannerView.style.display = "block";
-      startScanner();
+    // ── Event listeners ────────────────────────────────────────────────────────
+    playPauseIcon.addEventListener("click", toggleCapturing);
+    playPauseIcon.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleCapturing(); }
     });
 
     searchBtn.addEventListener("click", () => {
-      if (!inputBox.value) return;
-      searchResult.value = `Text to Query from Database: \n\n${inputBox.value} \n\n-------------------\n\nProduct name: xxx \n\nBrand: xxx \n\nCategory: xxx \n\nPrice: xxx \n\nDescription: xxx`;
+      const text = inputBox.value.trim();
+      if (!text) return;
+      searchResult.value = lookupBarcode(text);
     });
   </script>
 </body>
