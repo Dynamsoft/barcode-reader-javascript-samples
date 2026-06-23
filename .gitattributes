@@ -2,7 +2,7 @@
 # These are development or CI artifacts that don't help end users run the samples.
 
 # CI/CD and internal tooling
-.github/workflows/**   export-ignore
+.github/**             export-ignore
 
 # Git-only files (not useful without a git repo)
 .gitattributes         export-ignore
