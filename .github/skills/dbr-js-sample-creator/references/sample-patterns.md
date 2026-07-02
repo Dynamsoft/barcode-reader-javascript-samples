@@ -15,7 +15,7 @@ Source: `hello-world.html`
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dynamsoft Barcode Scanner Sample - Hello World (Decode via Camera)</title>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.3000/dist/dbr.bundle.js"></script>
 </head>
 <body>
   <h1 class="barcode-scanner-title">Hello World (Scan Barcode via Camera)</h1>
@@ -177,7 +177,7 @@ Source: `frameworks/es6/es6.html`
   import {
     CoreModule, LicenseManager, CaptureVisionRouter,
     CameraView, CameraEnhancer, MultiFrameResultCrossFilter,
-  } from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.mjs";
+  } from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.3000/dist/dbr.bundle.mjs";
 
   LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
   CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
