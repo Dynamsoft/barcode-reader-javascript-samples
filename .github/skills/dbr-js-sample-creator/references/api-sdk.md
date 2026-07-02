@@ -1,6 +1,6 @@
 # DBR JavaScript Sample Creator — API Reference: SDK Loading & Core
 
-**SDK version:** `dynamsoft-barcode-reader-bundle@11.4.2001`
+**SDK version:** `dynamsoft-barcode-reader-bundle@11.4.3000`
 
 ---
 
@@ -10,7 +10,7 @@
 
 ```html
 <!-- From CDN (recommended) -->
-<script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.3000/dist/dbr.bundle.js"></script>
 
 <!-- Self-hosted (after downloading the package) -->
 <!-- <script src="../dist/dbr.bundle.js"></script> -->
@@ -30,7 +30,7 @@ import {
   CameraEnhancer,
   MultiFrameResultCrossFilter,
   EnumCapturedResultItemType,
-} from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.mjs";
+} from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.3000/dist/dbr.bundle.mjs";
 
 // Required when using the CDN .mjs bundle — tells the SDK where to fetch WASM and resources
 CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";

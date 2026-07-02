@@ -15,7 +15,7 @@ description: >
 # DBR JavaScript Sample Creator
 
 This skill helps you write JavaScript/TypeScript/HTML sample code using the
-`dynamsoft-barcode-reader-bundle` SDK (version **11.4.2001**). The SDK can be loaded via CDN
+`dynamsoft-barcode-reader-bundle` SDK (version **11.4.3000**). The SDK can be loaded via CDN
 (no build step) or installed as an npm package for framework projects.
 
 ## Before You Start
@@ -53,7 +53,7 @@ Image/Camera Input → CaptureVisionRouter (with template) → CapturedResult
 
 ```html
 <!-- Barcode-only bundle (smaller) -->
-<script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.3000/dist/dbr.bundle.js"></script>
 
 <!-- Full DCV bundle (includes ImageEditorView, QuadDrawingItem, DrawingLayer) -->
 <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-bundle@3.4.2001/dist/dcv.bundle.js"></script>
@@ -77,7 +77,7 @@ All APIs are on the global `Dynamsoft` object:
 import {
   CoreModule, LicenseManager, CaptureVisionRouter,
   CameraView, CameraEnhancer, MultiFrameResultCrossFilter,
-} from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.mjs";
+} from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.3000/dist/dbr.bundle.mjs";
 
 CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
 ```
