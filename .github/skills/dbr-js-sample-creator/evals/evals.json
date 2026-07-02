@@ -7,7 +7,7 @@
       "expected_output": "A single HTML file that loads the SDK from CDN, calls initLicense, creates CameraView + CameraEnhancer + CaptureVisionRouter, adds a result receiver and dedup filter, appends the camera UI to a container div, opens the camera, and starts capturing.",
       "files": [],
       "expectations": [
-        "Loads SDK via CDN script tag: dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.js",
+        "Loads SDK via CDN script tag: dynamsoft-barcode-reader-bundle@11.4.3000/dist/dbr.bundle.js",
         "Calls Dynamsoft.License.LicenseManager.initLicense() with a license key",
         "Creates CameraView via Dynamsoft.DCE.CameraView.createInstance()",
         "Creates CameraEnhancer via Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView)",
@@ -27,7 +27,7 @@
       "expected_output": "A single HTML file with a file input, that loads the SDK from CDN, calls initLicense, creates a CaptureVisionRouter, captures from the selected file using ReadBarcodes_ReadRateFirst, and displays results.",
       "files": [],
       "expectations": [
-        "Loads SDK via CDN script tag: dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.js",
+        "Loads SDK via CDN script tag: dynamsoft-barcode-reader-bundle@11.4.3000/dist/dbr.bundle.js",
         "Calls Dynamsoft.License.LicenseManager.initLicense() with a license key",
         "Has an <input type='file'> element",
         "Creates CaptureVisionRouter once (not inside the event handler)",
@@ -65,7 +65,7 @@
       "files": [],
       "expectations": [
         "Uses <script type='module'>",
-        "Imports from 'https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.2001/dist/dbr.bundle.mjs'",
+        "Imports from 'https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.3000/dist/dbr.bundle.mjs'",
         "Sets CoreModule.engineResourcePaths.rootDirectory = 'https://cdn.jsdelivr.net/npm/'",
         "Calls LicenseManager.initLicense() with a license key",
         "Creates CameraView, CameraEnhancer, CaptureVisionRouter instances",
