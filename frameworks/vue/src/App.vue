@@ -3,6 +3,7 @@ import { ref, type Ref } from "vue";
 import vueLogo from "./assets/logo.svg";
 import VideoCapture from "./components/VideoCapture.vue";
 import ImageCapture from "./components/ImageCapture.vue";
+import "./dynamsoft.config";
 
 const mode: Ref<string> = ref("video");
 
