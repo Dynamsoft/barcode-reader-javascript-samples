@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { EnumCapturedResultItemType, CaptureVisionRouter, BarcodeResultItem } from "dynamsoft-barcode-reader-bundle";
 import "./ImageCapture.css";
+import "../../dynamsoft.config"; // import side effects (license, engineResourcePath) within a component is beneficial for lazy loading.
 
 function ImageCapture() {
   let [resultText, setResultText] = useState("");

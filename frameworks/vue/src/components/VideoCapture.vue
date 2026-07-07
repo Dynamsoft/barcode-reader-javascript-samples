@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref, type Ref, useTemplateRef } from "vue";
+import { onMounted, onBeforeUnmount, ref, useTemplateRef } from "vue";
 import { CameraEnhancer, CameraView, CaptureVisionRouter, MultiFrameResultCrossFilter } from "dynamsoft-barcode-reader-bundle";
+import "../dynamsoft.config"; // import side effects (license, engineResourcePath) within a component is beneficial for lazy loading.
 
 const cameraViewContainer = useTemplateRef("cameraViewContainer");
 

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { CameraEnhancer, CameraView, CaptureVisionRouter, MultiFrameResultCrossFilter } from "dynamsoft-barcode-reader-bundle";
 import "./VideoCapture.css";
+import "../../dynamsoft.config" // import side effects (license, engineResourcePath) within a component is beneficial for lazy loading.
 
 function VideoCapture() {
   const [resultText, setResultText] = useState("");

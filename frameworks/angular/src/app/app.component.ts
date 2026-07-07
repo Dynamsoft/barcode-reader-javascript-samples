@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NgStyle } from '@angular/common';
-import "./dynamsoft.config.ts"
 
 import { ImageCaptureComponent } from './image-capture/image-capture.component';
 import { VideoCaptureComponent } from './video-capture/video-capture.component';

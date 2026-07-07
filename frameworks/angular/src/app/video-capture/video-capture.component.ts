@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { CameraEnhancer, CameraView, MultiFrameResultCrossFilter, CaptureVisionRouter } from 'dynamsoft-barcode-reader-bundle';
+import "../dynamsoft.config"; // import side effects (license, engineResourcePath) within a component is beneficial for lazy loading.
 
 @Component({
   selector: 'app-video-capture',

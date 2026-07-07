@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { EnumCapturedResultItemType, CaptureVisionRouter } from 'dynamsoft-barcode-reader-bundle';
-import type { BarcodeResultItem } from 'dynamsoft-barcode-reader-bundle';
+import { EnumCapturedResultItemType, CaptureVisionRouter, type BarcodeResultItem } from 'dynamsoft-barcode-reader-bundle';
+import "../dynamsoft.config"; // import side effects (license, engineResourcePath) within a component is beneficial for lazy loading.
 
 @Component({
   selector: 'app-image-capture',
@@ -24,27 +24,28 @@ export class ImageCaptureComponent {
       // ensure cvRouter is created only once
       const cvRouter = await this.pCvRouter;
 
+      let _resultText = '';
       for (let file of files) {
         // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
         const result = await cvRouter.capture(file, 'ReadBarcodes_ReadRateFirst');
         console.log(result);
 
-        this.resultText = "";
         // Print file name if there's multiple files
         if (files.length > 1) {
-          this.resultText += `\n${file.name}:\n`;
+          _resultText += `\n${file.name}:\n`;
         }
         for (let _item of result.items) {
           if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
             continue; // check if captured result item is a barcode
           }
           let item = _item as BarcodeResultItem;
-          this.resultText += item.text + '\n'; // output the decoded barcode text
+          _resultText += item.text + '\n'; // output the decoded barcode text
         }
         // If no items are found, display that no barcode was detected
         if (!result.items.length) {
-          this.resultText += 'No barcode found\n';
+          _resultText += 'No barcode found\n';
         }
+        this.resultText = _resultText;
       }
     } catch (ex: any) {
       let errMsg = ex.message || ex;

@@ -1,7 +1,6 @@
 <script lang="ts">
   import VideoCapture from "./components/VideoCapture.svelte";
   import ImageCapture from "./components/ImageCapture.svelte";
-  import "./dynamsoft.config";
 
   let mode = "video";
 </script>

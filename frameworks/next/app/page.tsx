@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import "./page.css";
-import "../dynamsoft.config";
 
 const VideoCapture = dynamic(() => import("../components/VideoCapture/VideoCapture"), {
   ssr: false,

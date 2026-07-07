@@ -19,25 +19,26 @@ const captureImage = async (e: Event) => {
     // ensure cvRouter is created only once
     const cvRouter = await pCvRouter;
 
+    let _resultText = '';
     for (let file of files) {
       // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
       const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
       console.log(result);
 
-      resultText.value = "";
       // Print file name if there's multiple files
       if (files.length > 1) {
-        resultText.value += `\n${file.name}:\n`;
+        _resultText += `\n${file.name}:\n`;
       }
       for (let _item of result.items) {
         if (_item.type !== EnumCapturedResultItemType.CRIT_BARCODE) {
           continue;  // check if captured result item is a barcode
         }
         let item = _item as BarcodeResultItem;
-        resultText.value += item.formatString + ": " + item.text + "\n";  // output the decoded barcode text
+        _resultText += item.formatString + ": " + item.text + "\n";  // output the decoded barcode text
       }
       // If no items are found, display that no barcode was detected
-      if (!result.items.length) resultText.value += 'No barcode found\n';
+      if (!result.items.length) _resultText += 'No barcode found\n';
+      resultText.value = _resultText;
     }
   } catch (ex: any) {
     let errMsg = ex.message || ex;

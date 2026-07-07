@@ -2,7 +2,6 @@ import { useState } from "react";
 import reactLogo from "./assets/logo.svg";
 import VideoCapture from "./components/VideoCapture/VideoCapture";
 import ImageCapture from "./components/ImageCapture/ImageCapture";
-import "./dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
 import "./App.css";
 
 enum Modes {
@@ -12,9 +11,7 @@ enum Modes {
 
 function App() {
   const [mode, setMode] = useState(Modes.VIDEO_CAPTURE);
-
   const showVideoCapture = () => setMode(Modes.VIDEO_CAPTURE);
-
   const showImageCapture = () => setMode(Modes.IMAGE_CAPTURE);
 
   return (

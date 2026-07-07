@@ -6,6 +6,7 @@
     MultiFrameResultCrossFilter,
     CaptureVisionRouter,
   } from "dynamsoft-barcode-reader-bundle";
+  import "../dynamsoft.config"; // import side effects (license, engineResourcePath) within a component is beneficial for lazy loading.
 
   let cameraViewContainer: HTMLDivElement;
   let resultText = "";
