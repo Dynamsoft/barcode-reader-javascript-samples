@@ -1,29 +1,30 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref, type Ref } from "vue";
-import "../dynamsoft.config";
+import { onBeforeUnmount, ref } from "vue";
 import { EnumCapturedResultItemType, CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
 import type { BarcodeResultItem } from "dynamsoft-barcode-reader-bundle";
-
-const resultText = ref("");
+import "../dynamsoft.config"
 
 let pCvRouter: Promise<CaptureVisionRouter>;
-let isDestroyed = false;
+let resultText = ref("");
+
+onBeforeMount(() => {
+  pCvRouter = CaptureVisionRouter.createInstance();
+})
 
 const captureImage = async (e: Event) => {
   let files = [...(e.target! as HTMLInputElement).files!];
   (e.target! as HTMLInputElement).value = ''; // reset input
-  resultText.value = "";
+  resultText.value = "decoding...";
   try {
     // ensure cvRouter is created only once
-    const cvRouter = await (pCvRouter = pCvRouter || CaptureVisionRouter.createInstance());
-    if (isDestroyed) return;
+    const cvRouter = await pCvRouter;
 
     for (let file of files) {
       // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
       const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
       console.log(result);
-      if (isDestroyed) return;
 
+      resultText.value = "";
       // Print file name if there's multiple files
       if (files.length > 1) {
         resultText.value += `\n${file.name}:\n`;
@@ -33,7 +34,7 @@ const captureImage = async (e: Event) => {
           continue;  // check if captured result item is a barcode
         }
         let item = _item as BarcodeResultItem;
-        resultText.value += item.text + "\n";  // output the decoded barcode text
+        resultText.value += item.formatString + ": " + item.text + "\n";  // output the decoded barcode text
       }
       // If no items are found, display that no barcode was detected
       if (!result.items.length) resultText.value += 'No barcode found\n';
@@ -46,12 +47,11 @@ const captureImage = async (e: Event) => {
 }
 
 onBeforeUnmount(async () => {
-  isDestroyed = true;
-  if (pCvRouter) {
-    try {
-      (await pCvRouter).dispose();
-    } catch (_) { }
-  }
+  console.log("image capture component disposed");
+  // If the browser supports FinalizationRegistry, cvRouter can implement automatic resource recycling, so the manual resource cleanup code below does not need to be written.
+  pCvRouter.then((cvRouter) => {
+    cvRouter.dispose();
+  })
 });
 </script>
 

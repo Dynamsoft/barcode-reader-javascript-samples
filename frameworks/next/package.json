@@ -12,7 +12,10 @@
     "react": "^18",
     "react-dom": "^18",
     "next": "16.2.5",
-    "dynamsoft-barcode-reader-bundle": "11.4.3000"
+    "dynamsoft-barcode-reader-bundle": "npm:@dynamsoft/dynamsoft-capture-vision-bundle@3.6.1000-dev-20260707150019"
+  },
+  "overrides": {
+    "dynamsoft-barcode-reader-bundle": "$dynamsoft-barcode-reader-bundle"
   },
   "devDependencies": {
     "typescript": "^5",

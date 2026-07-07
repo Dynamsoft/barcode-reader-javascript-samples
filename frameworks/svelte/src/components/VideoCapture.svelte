@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import "../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
   import {
     CameraEnhancer,
     CameraView,
@@ -8,45 +7,31 @@
     CaptureVisionRouter,
   } from "dynamsoft-barcode-reader-bundle";
 
-  const componentDestroyedErrorMsg = "VideoCapture Component Destroyed";
-
   let cameraViewContainer: HTMLDivElement;
   let resultText = "";
-
-  let resolveInit: () => void;
-  const pInit: Promise<void> = new Promise((r) => {
-    resolveInit = r;
-  });
-  let isDestroyed = false;
+  let isDisposed = false;
+  let pInit: Promise<void>;
 
   let cvRouter: CaptureVisionRouter;
   let cameraEnhancer: CameraEnhancer;
 
   onMount(() => {
-    (async () => {
+    pInit = (async () => {
       try {
         // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
         const cameraView = await CameraView.createInstance();
 
         // Hide the "Powered by Message" overlay on the scanner view
         // cameraView.setPowerByMessageVisible(false);
-        
-        if (isDestroyed) {
-          throw Error(componentDestroyedErrorMsg);
-        } // Check if component is destroyed after every async
+
         cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
-        if (isDestroyed) {
-          throw Error(componentDestroyedErrorMsg);
-        }
+        if (isDisposed) return;
 
         // Get default UI and append it to DOM.
-        cameraViewContainer.append(cameraView.getUIElement());
+        cameraViewContainer.append(cameraEnhancer.getUIElement());
 
         // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
         cvRouter = await CaptureVisionRouter.createInstance();
-        if (isDestroyed) {
-          throw Error(componentDestroyedErrorMsg);
-        }
         cvRouter.setInput(cameraEnhancer);
 
         // Define a callback for results.
@@ -69,42 +54,28 @@
         // Filter out duplicate barcodes within 3 seconds.
         filter.enableResultDeduplication("barcode", true);
         await cvRouter.addResultFilter(filter);
-        if (isDestroyed) {
-          throw Error(componentDestroyedErrorMsg);
-        }
 
         //  Open camera and start scanning barcode.
         await cameraEnhancer.open();
         cameraView.setScanLaserVisible(true);
-        if (isDestroyed) {
-          throw Error(componentDestroyedErrorMsg);
-        }
         await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
-        if (isDestroyed) {
-          throw Error(componentDestroyedErrorMsg);
-        }
       } catch (ex: any) {
-        if ((ex as Error)?.message === componentDestroyedErrorMsg) {
-          console.log(componentDestroyedErrorMsg);
-        } else {
-          let errMsg = ex.message || ex;
-          console.error(ex);
-          alert(errMsg);
-        }
+        let errMsg = ex.message || ex;
+        console.error(ex);
+        alert(errMsg);
       }
-
-      // distroy function will wait pInit
-      resolveInit!();
     })();
 
     // onBeforeUnmount
     return async () => {
-      isDestroyed = true;
-      try {
-        await pInit;
-        cvRouter?.dispose();
+      console.log("video capture component disposed");
+      isDisposed = true;
+      cameraEnhancer?.getUIElement().remove();
+      // If the browser supports FinalizationRegistry, cvRouter can implement automatic resource recycling, so the manual resource cleanup code below does not need to be written.
+      pInit.then(() => {
         cameraEnhancer?.dispose();
-      } catch (_) {}
+        cvRouter?.dispose();
+      });
     };
   });
 </script>
