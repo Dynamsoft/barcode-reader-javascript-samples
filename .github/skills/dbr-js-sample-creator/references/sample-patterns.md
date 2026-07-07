@@ -220,11 +220,13 @@ Source: `frameworks/es6/es6.html`
 
 ---
 
-## Pattern 5: Custom JSON Template (Scan QR Codes Only)
+## Pattern 5: Restrict Barcode Formats (Scan QR Codes Only) — Best Practice
 
 Source: `scenarios/scan-qr-code/`
 
-Load a custom template JSON and use it by name:
+Use `getSimplifiedSettings` / `updateSettings` on a preset template to restrict decoding to a
+specific format. **This is the recommended approach for simple format filtering** — prefer it over
+a custom JSON template (see below), since it needs no external `.json` file and reads clearly.
 
 ```js
 Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
@@ -244,19 +246,31 @@ Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMD
     };
     await cvRouter.addResultReceiver(resultReceiver);
 
-    // Load custom template from JSON file, then use the template name from the JSON
-    await cvRouter.initSettings("./ReadQR.json");
+    // Restrict to QR codes only via SimplifiedBarcodeReaderSettings
+    const settings = await cvRouter.getSimplifiedSettings("ReadBarcodes_SpeedFirst");
+    settings.barcodeSettings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_QR_CODE;
+    await cvRouter.updateSettings("ReadBarcodes_SpeedFirst", settings);
 
     document.querySelector(".barcode-scanner-view").append(cameraView.getUIElement());
     await cameraEnhancer.open();
-    await cvRouter.startCapturing("ReadQR"); // name matches the template in ReadQR.json
+    await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
   } catch (ex) {
     alert(ex.message || ex);
   }
 })();
 ```
 
-Minimal custom JSON template to read only QR codes:
+### Alternative: Custom JSON Template (advanced scenarios only)
+
+Only reach for a custom JSON template when the scenario needs more than a format filter —
+multiple ROIs/tasks, DPM reader settings, or `ImageParameterOptions`:
+
+```js
+// Load custom template from JSON file, then use the template name from the JSON
+await cvRouter.initSettings("./ReadQR.json");
+await cvRouter.startCapturing("ReadQR"); // name matches the template in ReadQR.json
+```
+
 ```json
 {
   "CaptureVisionTemplates": [
@@ -328,3 +342,4 @@ See full code in `references/api-frameworks.md` → "Vue 3 → VideoCapture Comp
 | Not calling `cameraView.getUIElement()` and appending to DOM | Required before `open()` |
 | Calling `startCapturing` before `setInput` | Always `setInput` first |
 | Forgetting `CoreModule.engineResourcePaths.rootDirectory` in npm/ES module projects | Add to `dynamsoft.config.ts` |
+| Writing a custom JSON template just to restrict barcode formats | Use `getSimplifiedSettings`/`updateSettings` + `barcodeFormatIds` instead (Pattern 5) |

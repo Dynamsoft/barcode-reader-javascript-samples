@@ -139,6 +139,22 @@ await cvRouter.initSettings(jsonString);        // JSON string
 await cvRouter.startCapturing("MyTemplateName");
 ```
 
+## Restricting Barcode Formats (Best Practice)
+
+To limit decoding to specific formats (e.g., QR codes only), prefer mutating
+`SimplifiedBarcodeReaderSettings` on a preset template over writing a custom JSON template:
+
+```js
+const settings = await cvRouter.getSimplifiedSettings("ReadBarcodes_SpeedFirst");
+settings.barcodeSettings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_QR_CODE;
+await cvRouter.updateSettings("ReadBarcodes_SpeedFirst", settings);
+await cvRouter.startCapturing("ReadBarcodes_SpeedFirst");
+```
+
+Only use a custom JSON template (`initSettings`) for scenarios this can't express — multiple
+ROIs/tasks, DPM settings, or `ImageParameterOptions`. See `references/api-sdk.md` and
+`references/sample-patterns.md` (Pattern 5) for full details.
+
 ## Camera Scanning Pattern (UMD)
 
 ```js
