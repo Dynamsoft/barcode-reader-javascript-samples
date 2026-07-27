@@ -22,6 +22,7 @@ Included samples
 - [scan-1D-Industrial/](./scan-1D-Industrial/) — 1D industrial barcode tuning example.
 - [scan-from-distance/](./scan-from-distance/) — Demo for scanning barcodes from a distance (zoom/ROI tuning).
 - [locate-an-item-with-barcode/](./locate-an-item-with-barcode/) — UI to help locate items with barcodes in a list or layout.
+- [grid-barcode-reading/](./grid-barcode-reading/) — Scan a grid of DataMatrix / QR codes from an uploaded image with fast scan, layout analysis, and deep decode.
 - [debug/](./debug/) — Debug utilities and a small server (frame collector) used for testing and troubleshooting.
 
 >[!NOTE]
