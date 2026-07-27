@@ -174,7 +174,7 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 - [scan-1D-Industrial/](./scenarios/scan-1D-Industrial/) — 1D industrial barcode tuning example.
 - [scan-from-distance/](./scenarios/scan-from-distance/) — Demo for scanning barcodes from a distance (zoom/ROI tuning).
 - [locate-an-item-with-barcode/](./scenarios/locate-an-item-with-barcode/) — UI to help locate items with barcodes in a list or layout.
-- [grid-barcode-reading/](./scenarios/grid-barcode-reading/) — Scan a grid of DataMatrix barcodes from an uploaded image with fast scan, layout analysis, and deep decode.
+- [grid-barcode-reading/](./scenarios/grid-barcode-reading/) — Scan a grid of DataMatrix / QR codes from an uploaded image with fast scan, layout analysis, and deep decode.
 - [debug/](./scenarios/debug/) — Debug utilities and a small server (frame collector) used for testing and troubleshooting.
 
 ### Official Online Demo

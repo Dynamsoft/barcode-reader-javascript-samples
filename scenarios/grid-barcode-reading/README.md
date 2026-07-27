@@ -1,6 +1,6 @@
 # 📊 Grid Barcode Reading
 
-A demo that scans a grid of DataMatrix barcodes from an uploaded image. The scanner performs a fast scan, layout analysis, and deep decode to read every cell in the grid using the Dynamsoft Barcode Reader (JavaScript edition).
+A demo that scans a grid of DataMatrix / QR codes from an uploaded image. The scanner performs a fast scan, layout analysis, and deep decode to read every cell in the grid using the Dynamsoft Barcode Reader (JavaScript edition).
 
 ## Included files
 
@@ -11,7 +11,7 @@ A demo that scans a grid of DataMatrix barcodes from an uploaded image. The scan
 
 ## ✨ Features
 
-- Image-based grid scanning (upload an image containing a grid of DataMatrix codes)  
+- Image-based grid scanning (upload an image containing a grid of DataMatrix / QR codes)  
 - Three-phase pipeline: fast scan → layout analysis → deep decode  
 - Visual grid result table showing decoded text, status, and location for each cell  
 - Statistics display (total cells, decoded count, success rate)  
