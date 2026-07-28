@@ -175,6 +175,7 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 - [scan-from-distance/](./scenarios/scan-from-distance/) — Demo for scanning barcodes from a distance (zoom/ROI tuning).
 - [locate-an-item-with-barcode/](./scenarios/locate-an-item-with-barcode/) — UI to help locate items with barcodes in a list or layout.
 - [grid-barcode-reading/](./scenarios/grid-barcode-reading/) — Scan a grid of DataMatrix / QR codes from an uploaded image with fast scan, layout analysis, and deep decode.
+- [use-typescript-in-ui-definition/](./scenarios/use-typescript-in-ui-definition/) — Uses React as the framework for business logic, TypeScript for the UI definition script portion, and imports the UI definition JS in UMD format.
 - [debug/](./scenarios/debug/) — Debug utilities and a small server (frame collector) used for testing and troubleshooting.
 
 ### Official Online Demo

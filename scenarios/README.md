@@ -23,6 +23,7 @@ Included samples
 - [scan-from-distance/](./scan-from-distance/) — Demo for scanning barcodes from a distance (zoom/ROI tuning).
 - [locate-an-item-with-barcode/](./locate-an-item-with-barcode/) — UI to help locate items with barcodes in a list or layout.
 - [grid-barcode-reading/](./grid-barcode-reading/) — Scan a grid of DataMatrix / QR codes from an uploaded image with fast scan, layout analysis, and deep decode.
+- [use-typescript-in-ui-definition/](./use-typescript-in-ui-definition/) — Uses React as the framework for business logic, TypeScript for the UI definition script portion, and imports the UI definition JS in UMD format.
 - [debug/](./debug/) — Debug utilities and a small server (frame collector) used for testing and troubleshooting.
 
 >[!NOTE]
