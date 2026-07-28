@@ -425,18 +425,7 @@
       // ─── SDK configuration ────────────────────────────────────────────────
       let sdkReady = false;
       const sdkReadyPromise = (async () => {
-        Dynamsoft.License.LicenseManager.initLicense("");
-        // Force a non-pthread wasm variant for local static servers (e.g. Five Server)
-        // to avoid worker startup failures related to SharedArrayBuffer isolation.
-        Dynamsoft.Core.CoreModule.wasmLoadOptions = {
-          wasmType: "ml-simd",
-        };
-
-        Dynamsoft.Core.CoreModule.engineResourcePaths = {
-          //dcvBundle: "../dcv-bundle/dist/",
-          dcvData: "../data/",
-          //dcvData: 'https://npm.scannerproxy.com:802/cdn/@dynamsoft/dynamsoft-capture-vision-data@1.2.2-dev-20260528161158/',
-        };
+        Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
         try {
           await Dynamsoft.Core.CoreModule.loadWasm();
