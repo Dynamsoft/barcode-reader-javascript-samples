@@ -11,7 +11,7 @@
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
-    "next": "16.2.5",
+    "next": "16.2.11",
     "dynamsoft-barcode-reader-bundle": "npm:@dynamsoft/dynamsoft-capture-vision-bundle@3.6.1000-dev-20260707150019"
   },
   "overrides": {
