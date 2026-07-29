@@ -1,4 +1,4 @@
-# React with Customized Camera UI
+# Using TypeScript in UI Definition
 
 This sample is an implementation of the guide [Customize the UI in New UI Definition Format](https://www.dynamsoft.com/barcode-reader/docs/core/programming/features/ui-customization-js.html?lang=js).
 
