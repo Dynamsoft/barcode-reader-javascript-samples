@@ -11,11 +11,8 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "npm:@dynamsoft/dynamsoft-capture-vision-bundle@3.6.1000-dev-20260707150019",
+    "dynamsoft-barcode-reader-bundle": "11.6.2000",
     "vue": "^3.2.45"
-  },
-  "overrides": {
-    "dynamsoft-barcode-reader-bundle": "$dynamsoft-barcode-reader-bundle"
   },
   "devDependencies": {
     "@types/node": "^18.11.12",
