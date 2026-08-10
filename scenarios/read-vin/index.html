@@ -80,10 +80,6 @@
         await cvRouter.initSettings("./read_vin.json");
 
         barcodeScannerView.append(cameraView.getUIElement());
-
-        await cameraEnhancer.open();
-        await cvRouter.startCapturing("ReadVIN");
-        homePage.style.display = "none";
       } catch (ex) {
         console.log(ex.message || ex);
         alert(ex.message || ex);
