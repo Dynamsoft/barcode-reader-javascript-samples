@@ -1,9 +1,18 @@
+<template>
+  <div>
+    <div ref="cameraViewContainer" style="width: 100%; height: 70vh; background: #eee;"></div>
+    <br />
+    <div style="text-align: center;">Results:</div>
+    <div class="results">{{ resultText }}</div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, useTemplateRef } from "vue";
 import { CameraEnhancer, CameraView, CaptureVisionRouter, MultiFrameResultCrossFilter } from "dynamsoft-barcode-reader-bundle";
 import "../dynamsoft.config"; // import side effects (license, engineResourcePath) within a component is beneficial for lazy loading.
 
-const cameraViewContainer = useTemplateRef("cameraViewContainer");
+const cameraViewContainer = useTemplateRef<HTMLDivElement>("cameraViewContainer");
 
 let cvRouter: CaptureVisionRouter;
 let cameraEnhancer: CameraEnhancer;
@@ -75,15 +84,6 @@ onBeforeUnmount(async () => {
   })
 });
 </script>
-
-<template>
-  <div>
-    <div ref="cameraViewContainer" style="width: 100%; height: 70vh; background: #eee;"></div>
-    <br />
-    <div style="text-align: center;">Results:</div>
-    <div class="results">{{ resultText }}</div>
-  </div>
-</template>
 
 <style scoped>
 .results {
