@@ -167,13 +167,11 @@
       const minValue = Math.min(width, height);
       const maxValue = Math.max(width, height);
 
-      if (minValue > 480 && minValue < 960 && maxValue > 960 && maxValue < 1440) {
+      if (maxValue < 1440) {
         return "HD";
       }
 
-      if (minValue > 900 && minValue < 1440 && maxValue > 1400 && maxValue < 2160) {
-        return "Full HD";
-      }
+      return "Full HD";
     };
 
     const selectCameraOption = (cameraId, resolutionLabel) => {
