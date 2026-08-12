@@ -40,7 +40,7 @@ Object.assign(scanlight.style, {
   userSelect: 'none',
   display: 'none',
 });
-camera.setRegionBox({innerUi: scanlight});
+camera.setRegionBox({ innerUi: scanlight });
 
 const ui = camera.ui;
 
@@ -49,9 +49,9 @@ const elTorch = ui.querySelector('.dm-camera-mn-torch') as HTMLElement;
 const elTorchAuto = ui.querySelector('.dm-camera-mn-torch-auto') as HTMLElement;
 const elTorchOn = ui.querySelector('.dm-camera-mn-torch-on') as HTMLElement;
 const elTorchOff = ui.querySelector('.dm-camera-mn-torch-off') as HTMLElement;
-if(elTorchAuto){ elTorchAuto.style.display = undefined == camera.isTorchOn ? '' : 'none'; }
-if(elTorchOn){ elTorchOn.style.display = true == camera.isTorchOn ? '' : 'none'; }
-if(elTorchOff){ elTorchOff.style.display = false == camera.isTorchOn ? '' : 'none'; }
+if (elTorchAuto) { elTorchAuto.style.display = undefined == camera.isTorchOn ? '' : 'none'; }
+if (elTorchOn) { elTorchOn.style.display = true == camera.isTorchOn ? '' : 'none'; }
+if (elTorchOff) { elTorchOff.style.display = false == camera.isTorchOn ? '' : 'none'; }
 
 // You need to bind the events yourself to determine when `beep()` and `vibrate()` are triggered;
 // the SDK includes built-in, callable versions of both functions.
@@ -75,41 +75,41 @@ const elCameraAndResolutionSettings = ui.querySelector('.dm-camera-mn-camera-and
 const divCameras = elCameraAndResolutionSettings?.querySelector('.dm-camera-mn-cameras') as HTMLElement;
 const arrElResolutionOption = elCameraAndResolutionSettings?.querySelectorAll('.dm-camera-mn-resolution-option') as any as HTMLElement[];
 
-camera.addEventListener('opened',async()=>{
-  if('customized-video' != camera.requestedCamera){
+camera.addEventListener('opened', async () => {
+  if ('customized-video' != camera.requestedCamera) {
 
     // mirror front camera
     camera.isMirrored = camera.currentCamera?.isFront;
 
-    if(elTorch){ elTorch.style.display = ''; }
+    if (elTorch) { elTorch.style.display = ''; }
 
     // show current resolution
-    if(elResolutionBox || arrElResolutionOption?.length){
+    if (elResolutionBox || arrElResolutionOption?.length) {
       let resolutionFriendlyName;
       // Notice: rule should match names in the resolution options
       {
         let rsl = camera.currentResolution;
         let maxDimension = Math.max(rsl.width, rsl.height);
         let minDimension = Math.min(rsl.width, rsl.height);
-        if(minDimension <= 1080){
+        if (minDimension <= 1080) {
           resolutionFriendlyName = minDimension + 'P';
-        }else if(maxDimension < 3000){
+        } else if (maxDimension < 3000) {
           resolutionFriendlyName = '2K'
-        }else{ // maxDimension >= 3000
+        } else { // maxDimension >= 3000
           resolutionFriendlyName = Math.round(maxDimension / 1000) + 'K';
         }
       }
 
-      if(elResolutionBox){
+      if (elResolutionBox) {
         elResolutionBox.textContent = resolutionFriendlyName;
         elResolutionBox.style.display = '';
       }
 
-      if(arrElResolutionOption?.length){
-        for(let option of arrElResolutionOption){
-          if(option.textContent === resolutionFriendlyName){
+      if (arrElResolutionOption?.length) {
+        for (let option of arrElResolutionOption) {
+          if (option.textContent === resolutionFriendlyName) {
             option.setAttribute('selected', '');
-          }else if(option.hasAttribute('selected')){
+          } else if (option.hasAttribute('selected')) {
             option.removeAttribute('selected');
           }
         }
@@ -117,10 +117,10 @@ camera.addEventListener('opened',async()=>{
     }
 
     // show current camera
-    if(divCameras){
+    if (divCameras) {
       const infos = await (camera.constructor as typeof CameraEnhancer).getDeviceInfos();
       const curCam = camera.currentCamera;
-      if(!curCam){ return; } // rarely, after await, camera may already change
+      if (!curCam) { return; } // rarely, after await, camera may already change
       const curCamLabel = curCam.trackLabel || curCam.label;
       divCameras.textContent = '';
       for (let info of infos) {
@@ -128,7 +128,7 @@ camera.addEventListener('opened',async()=>{
         opt.classList.add('dm-camera-mn-camera-option');
         opt.setAttribute('data-device-id', info.deviceId);
         opt.textContent = info.trackLabel || info.label;
-        if(opt.textContent === curCamLabel){
+        if (opt.textContent === curCamLabel) {
           opt.setAttribute('selected', '');
         }
         divCameras.append(opt);
@@ -136,29 +136,29 @@ camera.addEventListener('opened',async()=>{
     }
 
     // show switch camera button
-    if(elCameraSwitch){ elCameraSwitch.style.display = ''; }
+    if (elCameraSwitch) { elCameraSwitch.style.display = ''; }
   }
 });
 
-camera.addEventListener('closed',()=>{
-  if(elTorch){ elTorch.style.display = 'none'; }
-  if(elResolutionBox){  elResolutionBox.style.display = 'none'; }
-  if(elCameraSwitch){ elCameraSwitch.style.display = 'none'; }
-  if(elCameraAndResolutionSettings){ elCameraAndResolutionSettings.style.display = 'none'; }
+camera.addEventListener('closed', () => {
+  if (elTorch) { elTorch.style.display = 'none'; }
+  if (elResolutionBox) { elResolutionBox.style.display = 'none'; }
+  if (elCameraSwitch) { elCameraSwitch.style.display = 'none'; }
+  if (elCameraAndResolutionSettings) { elCameraAndResolutionSettings.style.display = 'none'; }
 });
 
-elTorchAuto?.addEventListener('pointerdown', ()=>{
+elTorchAuto?.addEventListener('pointerdown', () => {
   camera.turnOnTorch();
   elTorchAuto.style.display = 'none';
   elTorchOn.style.display = '';
 });
-elTorchOn?.addEventListener('pointerdown', ()=>{
+elTorchOn?.addEventListener('pointerdown', () => {
   camera.turnOffTorch();
   elTorchOn.style.display = 'none';
   elTorchOff.style.display = '';
 });
-elTorchOff?.addEventListener('pointerdown', ()=>{
-  if(!camera.isSupportTorch){
+elTorchOff?.addEventListener('pointerdown', () => {
+  if (!camera.isSupportTorch) {
     funcShowToast('Torch Not Supported');
     return;
   }
@@ -166,124 +166,126 @@ elTorchOff?.addEventListener('pointerdown', ()=>{
   elTorchOff.style.display = 'none';
   elTorchAuto.style.display = '';
 });
-camera.addEventListener('torchAutoOn', ()=>{ 
+camera.addEventListener('torchAutoOn', () => {
   funcShowToast('Torch Auto On');
-  if(elTorchAuto){elTorchAuto.style.display = 'none';}
-  if(elTorchOn){elTorchOn.style.display = '';}
+  if (elTorchAuto) { elTorchAuto.style.display = 'none'; }
+  if (elTorchOn) { elTorchOn.style.display = ''; }
 });
 
 
-elBeepOn?.addEventListener('pointerdown', ()=>{
+elBeepOn?.addEventListener('pointerdown', () => {
   isBeepOn = false;
   elBeepOn.style.display = 'none';
   elBeepOff.style.display = '';
 });
-elBeepOff?.addEventListener('pointerdown', ()=>{
+elBeepOff?.addEventListener('pointerdown', () => {
   isBeepOn = true;
   elBeepOff.style.display = 'none';
   elBeepOn.style.display = '';
 });
-elVibrateOn?.addEventListener('pointerdown', ()=>{
+elVibrateOn?.addEventListener('pointerdown', () => {
   isVibrateOn = false;
   elVibrateOn.style.display = 'none';
   elVibrateOff.style.display = '';
 });
-elVibrateOff?.addEventListener('pointerdown', ()=>{
+elVibrateOff?.addEventListener('pointerdown', () => {
   isVibrateOn = true;
   elVibrateOff.style.display = 'none';
   elVibrateOn.style.display = '';
 });
 // only effective if `cvRouter.startCapturing()` is executed in the business logic.
-cvRouter.addResultReceiver({ onDecodedBarcodesReceived: (result) => {
-  if (result.barcodeResultItems?.length) {
-    isBeepOn && beep();
-    isVibrateOn && vibrate();
+cvRouter.addResultReceiver({
+  onDecodedBarcodesReceived: (result) => {
+    if (result.barcodeResultItems?.length) {
+      isBeepOn && beep();
+      isVibrateOn && vibrate();
+    }
   }
-}});
+});
 
-ui.addEventListener('click', async(ev)=>{
+ui.addEventListener('click', async (ev) => {
   let target = ev.target as HTMLElement;
   let option;
-  if(option = target.closest('.dm-camera-mn-camera-option')){
+  if (option = target.closest('.dm-camera-mn-camera-option')) {
     // change camera
-    if(option.hasAttribute('selected')){ return; }
-    await camera.requestCamera(option.getAttribute('data-device-id'));
+    if (option.hasAttribute('selected')) { return; }
+    await camera.requestCamera(option.getAttribute('data-device-id')!);
     // if remove usb camera, camera status can be 'paused'
     // anyway, if not 'opened', reopen it
-    if('opened' !== camera.status){ await camera.open(); }
-  }else if(option = target.closest('.dm-camera-mn-resolution-option')){
+    if ('opened' !== camera.status) { await camera.open(); }
+  } else if (option = target.closest('.dm-camera-mn-resolution-option')) {
     // change resolution
-    if(option.hasAttribute('selected')){ return; }
+    if (option.hasAttribute('selected')) { return; }
     let width = parseInt(option.getAttribute('data-width')!);
     let height = parseInt(option.getAttribute('data-height')!);
     await camera.requestResolution({ width, height });
-    
-    if(arrElResolutionOption.length){
+
+    if (arrElResolutionOption.length) {
       const selectedOption = elCameraAndResolutionSettings?.querySelector('.dm-camera-mn-resolution-option[selected]');
-      if(selectedOption && selectedOption.textContent != option.textContent){
+      if (selectedOption && selectedOption.textContent != option.textContent) {
         funcShowToast(`Fallback to ${selectedOption.textContent}`);
       }
     }
-  }else if(target.closest('.dm-camera-mn-camera-and-resolution-settings')){
+  } else if (target.closest('.dm-camera-mn-camera-and-resolution-settings')) {
     // nothing happen
     return;
-  }else if(target.closest('.dm-camera-mn-resolution-box')){ // toggle settings
-    if(elCameraAndResolutionSettings){
+  } else if (target.closest('.dm-camera-mn-resolution-box')) { // toggle settings
+    if (elCameraAndResolutionSettings) {
       elCameraAndResolutionSettings.style.display = elCameraAndResolutionSettings.style.display ? '' : 'none';
     }
     return;
   }
   // hide settings
-  if(elCameraAndResolutionSettings){
-    if('' === elCameraAndResolutionSettings.style.display){
+  if (elCameraAndResolutionSettings) {
+    if ('' === elCameraAndResolutionSettings.style.display) {
       elCameraAndResolutionSettings.style.display = 'none';
     }
   }
 });
 
-let taskInfoZoomChange:any = null;
-camera.addEventListener('zoom', ({zoom})=>{
-  if(!elZoom || !elZoomSpan){ return; }
-  elZoomSpan.textContent = zoom.toFixed(1);
+let taskInfoZoomChange: any = null;
+camera.addEventListener('zoom', (e) => {
+  if (!elZoom || !elZoomSpan) { return; }
+  elZoomSpan.textContent = e!.zoom.toFixed(1);
   elZoom.style.display = '';
-  if(null != taskInfoZoomChange){
+  if (null != taskInfoZoomChange) {
     clearTimeout(taskInfoZoomChange);
     taskInfoZoomChange = null;
   }
-  taskInfoZoomChange = setTimeout(()=>{
+  taskInfoZoomChange = setTimeout(() => {
     elZoom.style.display = 'none';
     taskInfoZoomChange = null;
   }, 3000);
 });
 
-let taskShowToast:any = null;
-const funcShowToast = (camera as any).funcShowToast = (info:string, duration = 3000)=>{
-  if(!elToast){ return; }
+let taskShowToast: any = null;
+const funcShowToast = (camera as any).funcShowToast = (info: string, duration = 3000) => {
+  if (!elToast) { return; }
   elToast.textContent = info;
   elToast.style.display = '';
-  if(null != taskShowToast){
+  if (null != taskShowToast) {
     clearTimeout(taskShowToast);
     taskShowToast = null;
   }
-  if(duration){ // 0 never hide
-    taskShowToast = setTimeout(()=>{
+  if (duration) { // 0 never hide
+    taskShowToast = setTimeout(() => {
       elToast.style.display = 'none';
       taskShowToast = null;
     }, duration);
   }
 };
 
-elCameraClose?.addEventListener('click', ()=>{
+elCameraClose?.addEventListener('click', () => {
   camera.close();
   camera.ui.remove();
 });
 
-elTakePhoto.addEventListener('pointerdown', async()=>{
+elTakePhoto.addEventListener('pointerdown', async () => {
   funcShowToast('decoding ...', 0);
   let captureResult = await cvRouter.capture(camera.getFrame()); // or add second param like 'ReadBarcodes_ReadRateFirst'
   let text = captureResult.decodedBarcodesResult?.barcodeResultItems?.[0]?.text;
   funcShowToast(text || 'no result');
-  if(text){
+  if (text) {
     handleBarcodeText(text);
     isBeepOn && beep();
     isVibrateOn && vibrate();
@@ -291,7 +293,7 @@ elTakePhoto.addEventListener('pointerdown', async()=>{
 });
 
 let cameraIndex = 0;
-elCameraSwitch?.addEventListener('pointerdown', async()=>{
+elCameraSwitch?.addEventListener('pointerdown', async () => {
   const deviceInfos = await (camera.constructor as typeof CameraEnhancer).getDeviceInfos();
   cameraIndex = (cameraIndex + 1) % deviceInfos.length;
   await camera.requestCamera(deviceInfos[cameraIndex]);

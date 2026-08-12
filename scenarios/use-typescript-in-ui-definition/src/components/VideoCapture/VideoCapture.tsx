@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { CameraEnhancer, CameraView, CaptureVisionRouter, MultiFrameResultCrossFilter, beep, vibrate } from "dynamsoft-barcode-reader-bundle";
+import { CameraEnhancer, CaptureVisionRouter, beep, vibrate } from "dynamsoft-barcode-reader-bundle";
 import "./VideoCapture.css";
 import "../../dynamsoft.config" // import side effects (license, engineResourcePath) within a component is beneficial for lazy loading.
 
