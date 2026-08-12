@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "^11.4.3000",
+    "dynamsoft-barcode-reader-bundle": "11.6.2000",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
