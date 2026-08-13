@@ -207,7 +207,6 @@ It handles all coordinate mapping internally — no manual canvas math needed.
 
 `ImageEditorView` is **not included** in `dynamsoft-barcode-reader-bundle` (dbr.bundle.js) as of v11.4.
 Use `dynamsoft-capture-vision-bundle` (dcv.bundle.js) instead — it includes the full DCE module.
-Expected to be added back to `dbr.bundle` in v11.6+.
 
 ```html
 <!-- Required for ImageEditorView -->
