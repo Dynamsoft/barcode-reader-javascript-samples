@@ -5,7 +5,6 @@ import VideoCapture from "./components/VideoCapture.vue";
 import ImageCapture from "./components/ImageCapture.vue";
 
 const mode: Ref<string> = ref("video");
-
 </script>
 
 <template>

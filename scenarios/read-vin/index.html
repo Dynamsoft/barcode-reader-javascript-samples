@@ -9,7 +9,7 @@
   <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/scenarios/read-vin/index.html" />
   <link rel="stylesheet" href="./style.css" />
   <title>Dynamsoft Barcode Reader Sample - Read a VIN</title>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.3000/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.2000/dist/dbr.bundle.js"></script>
 </head>
 
 <body>
@@ -80,10 +80,6 @@
         await cvRouter.initSettings("./read_vin.json");
 
         barcodeScannerView.append(cameraView.getUIElement());
-
-        await cameraEnhancer.open();
-        await cvRouter.startCapturing("ReadVIN");
-        homePage.style.display = "none";
       } catch (ex) {
         console.log(ex.message || ex);
         alert(ex.message || ex);

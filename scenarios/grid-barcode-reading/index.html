@@ -1,0 +1,617 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamsoft DataMatrix/QR Grid Scanner</title>
+    <link rel="stylesheet" href="./index.css">
+    
+    <!-- Include Dynamsoft Barcode Reader Bundle via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.2000/dist/dbr.bundle.js"></script>
+    <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
+    <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1>DataMatrix/QR Grid Scanner</h1>
+        <p>
+          Upload an image to scan a grid of DataMatrix/QR barcodes. The scanner performs fast scan, layout analysis, and deep decode to read
+          every cell in the grid.
+        </p>
+      </div>
+
+      <div class="upload-section" id="uploadSection">
+        <label for="imageInput" class="upload-btn">Choose Image</label>
+        <input type="file" id="imageInput" accept="image/*" />
+        <span id="fileName">No file selected</span>
+      </div>
+
+      <div class="progress-strip" id="progressStrip">
+        <div class="progress-track">
+          <div class="progress-fill animating" id="progressFill"></div>
+        </div>
+        <span class="progress-elapsed" id="progressElapsed">0.0s</span>
+      </div>
+
+      <div class="phases">
+        <div class="phase phase-pending" id="phase1">
+          <span class="phase-icon"></span>
+          <span class="phase-label">Fast Scan</span>
+          <span class="phase-sublabel" id="phase1-sub"></span>
+        </div>
+        <div class="phase phase-pending" id="phase2">
+          <span class="phase-icon"></span>
+          <span class="phase-label">Layout Analysis</span>
+          <span class="phase-sublabel" id="phase2-sub"></span>
+        </div>
+        <div class="phase phase-pending" id="phase3">
+          <span class="phase-icon"></span>
+          <span class="phase-label">Deep Decode</span>
+          <span class="phase-sublabel" id="phase3-sub"></span>
+        </div>
+        <div class="phase phase-pending" id="phase4">
+          <span class="phase-icon"></span>
+          <span class="phase-label">Final Result</span>
+          <span class="phase-sublabel" id="phase4-sub"></span>
+        </div>
+      </div>
+
+      <div id="logSection"></div>
+
+      <div class="canvas-wrapper" id="canvasWrapper">
+        <span class="canvas-placeholder">Image preview will appear here after uploading</span>
+        <canvas id="canvas"></canvas>
+      </div>
+
+      <div id="resultsSection">
+        <h2>Results</h2>
+        <div class="summary-stats" id="resultsSummary"></div>
+        <div style="overflow-x: auto">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Row</th>
+                <th>Col</th>
+                <th>Status</th>
+                <th>Text</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ─── SDK configuration ────────────────────────────────────────────────
+      let sdkReady = false;
+      const sdkReadyPromise = (async () => {
+        Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+
+        try {
+          await Dynamsoft.Core.CoreModule.loadWasm();
+          sdkReady = true;
+          log("[Init] WASM preloaded.");
+        } catch (e) {
+          console.error("[Init] Failed to preload WASM:", e);
+          throw e;
+        }
+      })();
+      // ─── Constants ────────────────────────────────────────────────────────
+      const FAST_TEMPLATE = "GridFastScan";
+      const DEEP_TEMPLATE = "GridDeepDecode";
+      const SCALE_FACTOR = 2.0;
+
+      // ─── Geometry helpers ─────────────────────────────────────────────────
+      function computeCenter(quad) {
+        const cx = quad.points.reduce((s, p) => s + p.x, 0) / 4;
+        const cy = quad.points.reduce((s, p) => s + p.y, 0) / 4;
+        return { cx, cy };
+      }
+
+      function expandQuad(quad, scale) {
+        const { cx, cy } = computeCenter(quad);
+        return {
+          points: quad.points.map((p) => ({
+            x: Math.round(cx + (p.x - cx) * scale),
+            y: Math.round(cy + (p.y - cy) * scale),
+          })),
+        };
+      }
+
+      /**
+       * Produces a string key from a quad's corner coordinates so we can
+       * match LayoutAnalyzer LES_INPUT elements back to the decoded texts.
+       * Uses rounded integers to tolerate sub-pixel differences.
+       */
+      function quadKey(quad) {
+        return quad.points.map((p) => `${Math.round(p.x)},${Math.round(p.y)}`).join("|");
+      }
+
+      // ─── Canvas drawing helpers ───────────────────────────────────────────
+      function drawImage(ctx, bitmap) {
+        ctx.drawImage(bitmap, 0, 0);
+      }
+
+      function drawSolidQuads(ctx, quads, color = "#00cc44", lineWidth = 2) {
+        ctx.save();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lineWidth;
+        ctx.setLineDash([]);
+        for (const quad of quads) {
+          const pts = quad.points;
+          ctx.beginPath();
+          ctx.moveTo(pts[0].x, pts[0].y);
+          for (let i = 1; i < 4; i++) ctx.lineTo(pts[i].x, pts[i].y);
+          ctx.closePath();
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function drawDashedQuads(ctx, quads, color = "#ff3333", lineWidth = 3, dashLen = 10) {
+        ctx.save();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lineWidth;
+        ctx.setLineDash([dashLen, dashLen]);
+        for (const quad of quads) {
+          const pts = quad.points;
+          ctx.beginPath();
+          ctx.moveTo(pts[0].x, pts[0].y);
+          for (let i = 1; i < 4; i++) ctx.lineTo(pts[i].x, pts[i].y);
+          ctx.closePath();
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function getTopLeft(quad) {
+        return {
+          x: Math.min(...quad.points.map((p) => p.x)),
+          y: Math.min(...quad.points.map((p) => p.y)),
+        };
+      }
+
+      function drawTexts(ctx, items, color = "#00ff55", fontSize = 11) {
+        ctx.save();
+        ctx.fillStyle = color;
+        ctx.font = `bold ${fontSize}px monospace`;
+        for (const item of items) {
+          if (!item.text) continue;
+          const { x, y } = getTopLeft(item.location);
+          ctx.fillText(item.text, x + 1, Math.max(y - 2, fontSize));
+        }
+        ctx.restore();
+      }
+
+      // ─── UI helpers ───────────────────────────────────────────────────────
+      function setPhaseStatus(num, status, subText = "") {
+        const el = document.getElementById(`phase${num}`);
+        if (!el) return;
+        el.className = `phase phase-${status}`;
+        const sub = document.getElementById(`phase${num}-sub`);
+        if (sub) sub.textContent = subText;
+      }
+
+      function log(msg, type) {
+        const logEl = document.getElementById("logSection");
+        logEl.style.display = "block";
+        const div = document.createElement("div");
+        div.className = "log-entry" + (type ? ` log-${type}` : "");
+        div.textContent = msg;
+        logEl.appendChild(div);
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+
+      function escapeHtml(str) {
+        return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      }
+
+      function withTimeout(promise, timeoutMs, timeoutMessage) {
+        let timer = null;
+        const timeoutPromise = new Promise((_, reject) => {
+          timer = setTimeout(() => reject(new Error(timeoutMessage)), timeoutMs);
+        });
+        return Promise.race([promise, timeoutPromise]).finally(() => {
+          if (timer) clearTimeout(timer);
+        });
+      }
+
+      const AUTO_AXIS = { elementCount: -1, isStaggered: false, angle: -1, isEqualSpacing: false, spacing: -1, spacingUnit: 0 };
+
+      async function analyzeLayoutWithFallback(locations, width, height) {
+        return await withTimeout(
+          Dynamsoft.Utility.LayoutAnalyzer.analyze(locations, {
+            pattern: Dynamsoft.Utility.EnumLayoutPattern.LP_MATRIX,
+            axes: [AUTO_AXIS, AUTO_AXIS],
+            inputImageWidth: width,
+            inputImageHeight: height,
+          }),
+          60000,
+          "Phase 2 timeout on LP_MATRIX (60s)",
+        );
+      }
+
+      // ─── Progress bar helpers ─────────────────────────────────────────
+      let _progressTimer = null;
+      let _progressStart = 0;
+
+      function startProgress() {
+        const strip = document.getElementById("progressStrip");
+        const fill = document.getElementById("progressFill");
+        const elapsed = document.getElementById("progressElapsed");
+        strip.className = "progress-strip active";
+        fill.className = "progress-fill animating";
+        fill.style.width = "0%";
+        elapsed.textContent = "0.0s";
+        _progressStart = Date.now();
+        _progressTimer = setInterval(() => {
+          const s = ((Date.now() - _progressStart) / 1000).toFixed(1);
+          elapsed.textContent = `${s}s`;
+        }, 100);
+      }
+
+      function updateProgress(pct) {
+        document.getElementById("progressFill").style.width = `${Math.min(pct, 100)}%`;
+      }
+
+      function stopProgress(status = "done") {
+        if (_progressTimer) {
+          clearInterval(_progressTimer);
+          _progressTimer = null;
+        }
+        const strip = document.getElementById("progressStrip");
+        const fill = document.getElementById("progressFill");
+        const elapsed = document.getElementById("progressElapsed");
+        fill.classList.remove("animating");
+        fill.style.width = "100%";
+        strip.className = `progress-strip active ${status}`;
+        const s = ((Date.now() - _progressStart) / 1000).toFixed(1);
+        elapsed.textContent = `${s}s`;
+      }
+
+      // ─── Results rendering ────────────────────────────────────────────────
+      function renderResults(gridItems) {
+        let totalDecoded = 0,
+          totalFailed = 0,
+          totalCells = 0;
+        Object.values(gridItems).forEach((cols) =>
+          Object.values(cols).forEach((item) => {
+            totalCells++;
+            if (item.type === "decoded" || item.type === "deep-decoded") totalDecoded++;
+            else if (item.type === "failed") totalFailed++;
+          }),
+        );
+
+        document.getElementById("resultsSummary").innerHTML = `
+          <div class="stat decoded">
+            <span class="stat-value">${totalDecoded}</span>
+            <span class="stat-label">Decoded</span>
+          </div>
+          <div class="stat failed">
+            <span class="stat-value">${totalFailed}</span>
+            <span class="stat-label">Failed</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">${totalCells}</span>
+            <span class="stat-label">Total Cells</span>
+          </div>`;
+
+        const tbody = document.getElementById("resultsBody");
+        tbody.innerHTML = "";
+        Object.keys(gridItems)
+          .map(Number)
+          .sort((a, b) => a - b)
+          .forEach((ri) => {
+            Object.keys(gridItems[ri])
+              .map(Number)
+              .sort((a, b) => a - b)
+              .forEach((ci) => {
+                const item = gridItems[ri][ci];
+                const statusLabel = item.type === "decoded" ? "Decoded" : item.type === "deep-decoded" ? "Deep Decoded" : "Failed";
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                  <td class="cell-num">${ri + 1}</td>
+                  <td class="cell-num">${ci + 1}</td>
+                  <td class="status-${item.type}">${statusLabel}</td>
+                  <td class="text-cell" title="${escapeHtml(item.text)}">${escapeHtml(item.text)}</td>`;
+                tbody.appendChild(tr);
+              });
+          });
+
+        const section = document.getElementById("resultsSection");
+        section.style.display = "block";
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      // ─── Main processing pipeline ─────────────────────────────────────────
+      let cvRouter = null;
+      let isProcessing = false;
+
+      async function ensureRouter() {
+        if (!cvRouter) {
+          cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+        }
+        return cvRouter;
+      }
+
+      // Phase 1 – Fast Scan on a given source (File, Canvas, etc.)
+      async function runFastScan(source) {
+        await cvRouter.initSettings("./GridFastScan.json");
+        const t0 = Date.now();
+        const fastResult = await cvRouter.capture(source, FAST_TEMPLATE);
+        const elapsed = Date.now() - t0;
+        const barcodeItems = fastResult.decodedBarcodesResult?.barcodeResultItems ?? [];
+        const quadTextMap = new Map();
+        barcodeItems.forEach((item) => quadTextMap.set(quadKey(item.location), item.text));
+        const locations = barcodeItems.map((b) => b.location);
+        return { barcodeItems, quadTextMap, locations, elapsed };
+      }
+
+      // Phase 2 – Build gridItems from layout result + quadTextMap
+      function buildGridItems(layoutResult, quadTextMap) {
+        const LES = Dynamsoft.Utility.EnumLayoutElementSource;
+        const gridItems = {};
+        const elements = layoutResult.elements ?? [];
+        elements.forEach((row, ri) => {
+          row.forEach((el, ci) => {
+            if (el.source === LES.LES_INPUT) {
+              const text = quadTextMap.get(quadKey(el.quad)) ?? "";
+              (gridItems[ri] ??= {})[ci] = { location: el.quad, text, type: "decoded" };
+            } else if (el.source === LES.LES_INFERRED) {
+              (gridItems[ri] ??= {})[ci] = { location: el.quad, text: "", type: "inferred" };
+            }
+          });
+        });
+        return gridItems;
+      }
+
+      // Phase 3 – Deep Decode inferred cells
+      async function runDeepDecode(gridItems, source) {
+        await cvRouter.initSettings("./GridDeepDecode.json");
+        const tasks = [];
+        Object.entries(gridItems).forEach(([ri, cols]) =>
+          Object.entries(cols).forEach(([ci, item]) => {
+            if (item.type === "inferred") tasks.push({ ri: +ri, ci: +ci });
+          }),
+        );
+
+        let deepDecoded = 0;
+        const t0 = Date.now();
+
+        for (let i = 0; i < tasks.length; i++) {
+          const { ri, ci } = tasks[i];
+          setPhaseStatus(3, "running", `${i + 1} / ${tasks.length}`);
+          updateProgress(50 + ((i + 1) / tasks.length) * 40);
+
+          try {
+            const expandedQuad = expandQuad(gridItems[ri][ci].location, SCALE_FACTOR);
+            const simSettings = await cvRouter.getSimplifiedSettings(DEEP_TEMPLATE);
+            simSettings.roi = expandedQuad;
+            simSettings.roiMeasuredInPercentage = 0;
+            await cvRouter.updateSettings(DEEP_TEMPLATE, simSettings);
+
+            const deepResult = await cvRouter.capture(source, DEEP_TEMPLATE);
+            const deepBarcodes = deepResult.decodedBarcodesResult?.barcodeResultItems;
+
+            if (deepBarcodes?.length && deepBarcodes[0].text) {
+              gridItems[ri][ci] = {
+                location: deepBarcodes[0].location,
+                text: deepBarcodes[0].text,
+                type: "deep-decoded",
+              };
+              deepDecoded++;
+            } else {
+              gridItems[ri][ci].type = "failed";
+            }
+          } catch (e) {
+            console.error(`Deep decode [${ri},${ci}]:`, e);
+            gridItems[ri][ci].type = "failed";
+          }
+        }
+
+        const elapsed = Date.now() - t0;
+        return { deepDecoded, total: tasks.length, elapsed };
+      }
+
+      // Phase 4 – Draw final overlay with quads + text labels
+      function drawFinalOverlay(ctx, backgroundImage, gridItems) {
+        ctx.drawImage(backgroundImage, 0, 0);
+        const phase1Quads = [], deepQuads = [], failedQuads = [];
+        const phase1Items = [], deepItems = [];
+        Object.values(gridItems).forEach((cols) =>
+          Object.values(cols).forEach((item) => {
+            if (item.type === "decoded") {
+              phase1Quads.push(item.location);
+              phase1Items.push(item);
+            } else if (item.type === "deep-decoded") {
+              deepQuads.push(item.location);
+              deepItems.push(item);
+            } else {
+              failedQuads.push(expandQuad(item.location, SCALE_FACTOR));
+            }
+          }),
+        );
+        drawSolidQuads(ctx, phase1Quads);
+        drawSolidQuads(ctx, deepQuads, "#3399ff");
+        drawDashedQuads(ctx, failedQuads);
+        drawTexts(ctx, phase1Items);
+        drawTexts(ctx, deepItems, "#66bbff");
+        return { totalDecoded: phase1Items.length + deepItems.length, totalCells: phase1Items.length + deepItems.length + failedQuads.length };
+      }
+
+      async function processImage(file) {
+        if (isProcessing) return;
+        isProcessing = true;
+
+        // Reset UI
+        document.getElementById("logSection").innerHTML = "";
+        document.getElementById("resultsSection").style.display = "none";
+        for (let i = 1; i <= 4; i++) setPhaseStatus(i, "pending");
+        startProgress();
+        log(`Processing ${file.name}...`);
+
+        const canvas = document.getElementById("canvas");
+        const placeholder = document.querySelector(".canvas-placeholder");
+
+        try {
+          if (!sdkReady) {
+            log("[Init] Waiting for SDK/WASM preload...");
+            await sdkReadyPromise;
+          }
+
+          // Validate image format
+          const supportedTypes = ["image/png", "image/jpeg", "image/bmp", "image/gif", "image/webp"];
+          if (!supportedTypes.includes(file.type)) {
+            log(`Unsupported file type: "${file.type || file.name.split(".").pop()}". Please use PNG, JPEG, BMP, GIF, or WebP.`);
+            stopProgress("error");
+            return;
+          }
+
+          // Load image into canvas
+          const bitmap = await createImageBitmap(file);
+          const { width, height } = bitmap;
+          canvas.width = width;
+          canvas.height = height;
+          canvas.style.display = "block";
+          if (placeholder) placeholder.style.display = "none";
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(bitmap, 0, 0);
+
+          await ensureRouter();
+
+          // ══════════════════════════════════════════════
+          // Phase 1 – Fast Scan
+          // ══════════════════════════════════════════════
+          setPhaseStatus(1, "running");
+          const { barcodeItems, quadTextMap, locations, elapsed: elapsed1 } = await runFastScan(file);
+          log(`[Phase 1] Fast scan: ${barcodeItems.length} barcodes decoded in ${elapsed1}ms.`, "result");
+          setPhaseStatus(1, "done", `${barcodeItems.length} barcodes`);
+          updateProgress(25);
+
+          // Draw phase 1 overlay
+          ctx.drawImage(bitmap, 0, 0);
+          drawSolidQuads(ctx, barcodeItems.map((b) => b.location));
+
+          if (barcodeItems.length === 0) {
+            log("No barcodes found in the image. Please check the image and try again.");
+            setPhaseStatus(2, "error");
+            setPhaseStatus(3, "error");
+            setPhaseStatus(4, "error");
+            stopProgress("error");
+            return;
+          }
+
+          log(`[Phase 2] Input quads: ${locations.length}`);
+
+          // ══════════════════════════════════════════════
+          // Phase 2 – Layout Analysis
+          // ══════════════════════════════════════════════
+          setPhaseStatus(2, "running");
+          log("[Phase 2] Running layout analysis...");
+          let gridItems = {};
+          let skippedDeepDecode = false;
+
+          try {
+            const layoutResult = await analyzeLayoutWithFallback(locations, width, height);
+            console.log("Layout analysis result:", layoutResult);
+
+            const layoutErrCode = layoutResult.errorInfo?.errorCode ?? layoutResult.errorCode ?? 0;
+            if (layoutErrCode === 0) {
+              const { rowCount, colCount, inferredQuads } = layoutResult;
+              const inferredCount = (inferredQuads ?? []).length;
+              log(`[Phase 2] Layout: ${rowCount}×${colCount} grid, ${inferredCount} inferred cells.`, "result");
+              setPhaseStatus(2, "done", `${rowCount}×${colCount}`);
+              gridItems = buildGridItems(layoutResult, quadTextMap);
+            } else {
+              log(`[Phase 2] Layout analysis returned error code ${layoutErrCode}. Falling back to Phase 1 results.`);
+              setPhaseStatus(2, "done", "n/a — fallback");
+            }
+          } catch (layoutErr) {
+            log(`[Phase 2] Layout analysis threw: ${layoutErr.message ?? layoutErr}. Falling back to Phase 1 results.`);
+            setPhaseStatus(2, "done", "n/a — fallback");
+          }
+
+          // Fallback: if layout produced no grid items, build a flat list from Phase 1
+          if (Object.keys(gridItems).length === 0) {
+            log("[Phase 2] No grid cells from layout — using Phase 1 barcode list instead.");
+            gridItems = { 0: {} };
+            barcodeItems.forEach((item, idx) => {
+              gridItems[0][idx] = { location: item.location, text: item.text, type: "decoded" };
+            });
+            updateProgress(50);
+            skippedDeepDecode = true;
+          }
+
+          // Draw phase 2 overlay
+          ctx.drawImage(bitmap, 0, 0);
+          const decoded2 = [], inferred2 = [];
+          Object.values(gridItems).forEach((cols) =>
+            Object.values(cols).forEach((item) => {
+              if (item.type === "decoded") decoded2.push(item.location);
+              else inferred2.push(item.location);
+            }),
+          );
+          drawSolidQuads(ctx, decoded2);
+          drawDashedQuads(ctx, inferred2);
+          updateProgress(50);
+
+          // ══════════════════════════════════════════════
+          // Phase 3 – Deep Decode (inferred cells)
+          // ══════════════════════════════════════════════
+          if (skippedDeepDecode) {
+            log("[Phase 3] Skipped: all cells already decoded in Phase 1.", "result");
+            setPhaseStatus(3, "done", "0 inferred");
+          } else {
+            setPhaseStatus(3, "running");
+            const { deepDecoded, total: inferredTotal, elapsed: elapsed3 } = await runDeepDecode(gridItems, file);
+            log(`[Phase 3] Deep decode: ${deepDecoded} / ${inferredTotal} inferred cells decoded in ${elapsed3}ms.`, "result");
+            setPhaseStatus(3, "done", `+${deepDecoded} decoded`);
+          }
+
+          // Draw phase 3 overlay
+          ctx.drawImage(bitmap, 0, 0);
+          const phase1Quads3 = [], deepQuads3 = [], failed3 = [];
+          Object.values(gridItems).forEach((cols) =>
+            Object.values(cols).forEach((item) => {
+              if (item.type === "decoded") phase1Quads3.push(item.location);
+              else if (item.type === "deep-decoded") deepQuads3.push(item.location);
+              else failed3.push(expandQuad(item.location, SCALE_FACTOR));
+            }),
+          );
+          drawSolidQuads(ctx, phase1Quads3);
+          drawSolidQuads(ctx, deepQuads3, "#3399ff");
+          drawDashedQuads(ctx, failed3);
+
+          // ══════════════════════════════════════════════
+          // Phase 4 – Final Result
+          // ══════════════════════════════════════════════
+          setPhaseStatus(4, "running");
+          const { totalDecoded, totalCells } = drawFinalOverlay(ctx, bitmap, gridItems);
+          log(`[Done] ${totalDecoded} / ${totalCells} cells decoded successfully.`, "result");
+          setPhaseStatus(4, "done", `${totalDecoded}/${totalCells} cells`);
+          stopProgress("done");
+
+          renderResults(gridItems);
+        } catch (err) {
+          log(`Error: ${err.message ?? err}`);
+          console.error(err);
+          stopProgress("error");
+        } finally {
+          isProcessing = false;
+        }
+      }
+
+      // ─── File input handler ───────────────────────────────────────────────
+      document.getElementById("imageInput").addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        document.getElementById("fileName").textContent = file.name;
+        e.target.value = ""; // allow re-selecting the same file
+        await processImage(file);
+      });
+    </script>
+  </body>
+</html>

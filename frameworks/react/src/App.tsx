@@ -4,16 +4,14 @@ import VideoCapture from "./components/VideoCapture/VideoCapture";
 import ImageCapture from "./components/ImageCapture/ImageCapture";
 import "./App.css";
 
-enum Modes {
-  VIDEO_CAPTURE = "video",
-  IMAGE_CAPTURE = "image",
-}
+const Modes = {
+  VIDEO_CAPTURE: "video",
+  IMAGE_CAPTURE: "image"
+} as const;
 
 function App() {
-  const [mode, setMode] = useState(Modes.VIDEO_CAPTURE);
-
+  const [mode, setMode] = useState<(typeof Modes)[keyof typeof Modes]>(Modes.VIDEO_CAPTURE);
   const showVideoCapture = () => setMode(Modes.VIDEO_CAPTURE);
-
   const showImageCapture = () => setMode(Modes.IMAGE_CAPTURE);
 
   return (

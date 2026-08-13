@@ -1,6 +1,6 @@
 # DBR JavaScript Sample Creator — API Reference: SDK Loading & Core
 
-**SDK version:** `dynamsoft-barcode-reader-bundle@11.4.3000`
+**SDK version:** `dynamsoft-barcode-reader-bundle@11.6.2000`
 
 ---
 
@@ -10,7 +10,7 @@
 
 ```html
 <!-- From CDN (recommended) -->
-<script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.3000/dist/dbr.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.2000/dist/dbr.bundle.js"></script>
 
 <!-- Self-hosted (after downloading the package) -->
 <!-- <script src="../dist/dbr.bundle.js"></script> -->
@@ -30,7 +30,7 @@ import {
   CameraEnhancer,
   MultiFrameResultCrossFilter,
   EnumCapturedResultItemType,
-} from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.4.3000/dist/dbr.bundle.mjs";
+} from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.2000/dist/dbr.bundle.mjs";
 
 // Required when using the CDN .mjs bundle — tells the SDK where to fetch WASM and resources
 CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
@@ -73,6 +73,7 @@ CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
 | `Dynamsoft.DCE.CameraView` | `CameraView` |
 | `Dynamsoft.DCE.CameraEnhancer` | `CameraEnhancer` |
 | `Dynamsoft.Utility.MultiFrameResultCrossFilter` | `MultiFrameResultCrossFilter` |
+| `Dynamsoft.DBR.EnumBarcodeFormat` | `EnumBarcodeFormat` |
 
 ---
 
@@ -134,6 +135,53 @@ Pass these strings to `cvRouter.startCapturing()` or `cvRouter.capture()`:
 | `"ReadBarcodes_Balance"` | Balanced between speed and accuracy |
 | `"ReadDenseBarcodes"` | Specialized in reading barcodes with high information density |
 | `"ReadDistantBarcodes"` | Capable of reading barcodes from extended distances |
+
+---
+
+## Restricting Barcode Formats — SimplifiedBarcodeReaderSettings (Best Practice)
+
+**Preferred over a custom JSON template** when the only goal is to restrict which barcode
+formats are decoded (e.g., "QR codes only"). Read the current simplified settings from a preset
+template, mutate `barcodeFormatIds`, and write them back with `updateSettings`:
+
+```ts
+cvRouter.getSimplifiedSettings(templateName: string): Promise<SimplifiedCaptureVisionSettings>
+cvRouter.updateSettings(templateName: string, settings: SimplifiedCaptureVisionSettings): Promise<ErrorInfo>
+```
+
+```js
+// UMD
+const settings = await cvRouter.getSimplifiedSettings("ReadBarcodes_SpeedFirst");
+settings.barcodeSettings.barcodeFormatIds = Dynamsoft.DBR.EnumBarcodeFormat.BF_QR_CODE;
+await cvRouter.updateSettings("ReadBarcodes_SpeedFirst", settings);
+
+await cvRouter.startCapturing("ReadBarcodes_SpeedFirst"); // same template name, now QR-only
+```
+
+```ts
+// ES module / npm
+import { EnumBarcodeFormat } from "dynamsoft-barcode-reader-bundle";
+
+const settings = await cvRouter.getSimplifiedSettings("ReadBarcodes_SpeedFirst");
+settings.barcodeSettings.barcodeFormatIds = EnumBarcodeFormat.BF_QR_CODE;
+await cvRouter.updateSettings("ReadBarcodes_SpeedFirst", settings);
+```
+
+`barcodeFormatIds` accepts a bitwise-OR combination of `EnumBarcodeFormat` members for multiple
+formats:
+
+```js
+settings.barcodeSettings.barcodeFormatIds =
+  Dynamsoft.DBR.EnumBarcodeFormat.BF_QR_CODE | Dynamsoft.DBR.EnumBarcodeFormat.BF_CODE_128;
+```
+
+Other commonly adjusted `SimplifiedBarcodeReaderSettings` fields on `settings.barcodeSettings`:
+`expectedBarcodesCount`, `minResultConfidence`, `scaleDownThreshold`, `barcodeTextRegExPattern`.
+
+> Use a **custom JSON template** (below) instead only for advanced scenarios a simplified settings
+> object can't express — multiple ROIs/tasks, DPM/reader settings combinations, or
+> `ImageParameterOptions`. For simple format filtering, `getSimplifiedSettings`/`updateSettings` is
+> the recommended approach — no external `.json` file needed.
 
 ---
 

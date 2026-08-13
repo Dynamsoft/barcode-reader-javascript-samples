@@ -1,30 +1,37 @@
-import React, { useRef, useEffect, MutableRefObject, useState } from "react";
-import "../../dynamsoft.config"; // import side effects. The license, engineResourcePath, so on.
-import { EnumCapturedResultItemType, CaptureVisionRouter, BarcodeResultItem } from "dynamsoft-barcode-reader-bundle";
+import React, { useEffect, useRef, useState } from "react";
+import { EnumCapturedResultItemType, CaptureVisionRouter, type BarcodeResultItem } from "dynamsoft-barcode-reader-bundle";
 import "./ImageCapture.css";
+import "../../dynamsoft.config"; // import side effects (license, engineResourcePath) within a component is beneficial for lazy loading.
 
 function ImageCapture() {
-  const [resultText, setResultText] = useState("");
+  let [resultText, setResultText] = useState("");
+  let pCvRouter = useRef<Promise<CaptureVisionRouter>>(null);
 
-  let pCvRouter: MutableRefObject<Promise<CaptureVisionRouter> | null> = useRef(null);
-  let isDestroyed = useRef(false);
+  useEffect(() => {
+    pCvRouter.current = CaptureVisionRouter.createInstance();
+    return () => {
+      console.log("image capture component disposed");
+       // If the browser supports FinalizationRegistry, cvRouter can implement automatic resource recycling, so the manual resource cleanup code below does not need to be written.
+      pCvRouter.current?.then((cvRouter) => {
+        cvRouter.dispose();
+      })
+    }
+  }, [])
 
   const captureImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = [...(e.target.files as any as File[])];
     e.target.value = ""; // reset input
-    setResultText("");
+    setResultText("decoding...");
 
     try {
       // ensure cvRouter is created only once
-      const cvRouter = await (pCvRouter.current = pCvRouter.current || CaptureVisionRouter.createInstance());
-      if (isDestroyed.current) return;
+      const cvRouter = await pCvRouter.current!;
 
       let _resultText = "";
       for (let file of files) {
         // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
         const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
         console.log(result);
-        if (isDestroyed.current) return;
 
         // Print file name if there's multiple files
         if (files.length > 1) {
@@ -47,21 +54,6 @@ function ImageCapture() {
       alert(errMsg);
     }
   };
-
-  useEffect((): any => {
-    // In 'development', React runs setup and cleanup one extra time before the actual setup in Strict Mode.
-    isDestroyed.current = false;
-
-    // componentWillUnmount. dispose cvRouter when it's no longer needed
-    return () => {
-      isDestroyed.current = true;
-      if (pCvRouter.current) {
-        pCvRouter.current.then((cvRouter) => {
-          cvRouter.dispose();
-        }).catch((_) => { })
-      }
-    };
-  }, []);
 
   return (
     <div className="image-capture-container">
