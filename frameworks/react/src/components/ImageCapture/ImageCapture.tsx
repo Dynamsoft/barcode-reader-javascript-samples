@@ -46,7 +46,7 @@ function ImageCapture() {
         }
         setResultText(_resultText);
         // If no items are found, display that no barcode was detected
-        if (!result.items.length) setResultText(_resultText + "No barcode found");
+        if (!result.items.length) setResultText(_resultText += "No barcode found\n");
       }
     } catch (ex: any) {
       let errMsg = ex.message || ex;
