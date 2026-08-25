@@ -67,7 +67,7 @@ All APIs are on the global `Dynamsoft` object:
 - `Dynamsoft.License.LicenseManager`
 - `Dynamsoft.CVR.CaptureVisionRouter`, `Dynamsoft.CVR.CapturedResultReceiver`
 - `Dynamsoft.DCE.CameraView`, `Dynamsoft.DCE.CameraEnhancer`
-- `Dynamsoft.DCE.ImageEditorView`, `Dynamsoft.DCE.QuadDrawingItem` *(dcv.bundle only as of v11.4; expected in dbr.bundle v11.6+)*
+- `Dynamsoft.DCE.ImageEditorView`, `Dynamsoft.DCE.QuadDrawingItem` *(dcv.bundle only)*
 - `Dynamsoft.Utility.MultiFrameResultCrossFilter`
 - `Dynamsoft.Core.CoreModule`, `Dynamsoft.Core.EnumCapturedResultItemType`
 
