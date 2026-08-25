@@ -6,6 +6,7 @@ A demo focused on decoding common 2D barcode formats (QR, DataMatrix, PDF417, et
 
 - `index.html` — demo page (camera & image input).  
 - `ReadCommon2D.json` — example decoder configuration for common 2D formats.  
+- `index.css` — styles for the demo.  
 
 ## ✨ Features
 

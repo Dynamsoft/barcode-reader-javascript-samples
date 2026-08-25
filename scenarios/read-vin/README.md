@@ -7,6 +7,7 @@ This focused demo decodes and parses VIN barcodes from vehicle images or live ca
 - `index.html` — main demo page (camera + image/file input UI)
 - `SampleVIN.jpg` — example image with a VIN barcode (or you can use your own test image)
 - `read_vin.json` — JSON template used by the sample.
+- `index.css` — styles for the demo.
 
 ## Features
 

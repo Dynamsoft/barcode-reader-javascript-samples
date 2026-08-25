@@ -6,6 +6,7 @@ A focused demo for decoding industrial-strength 1D barcodes (high-density, damag
 
 - `index.html` — main demo page (camera + UI).  
 - `ReadOneDIndustrial.json` — example decoder configuration used by the sample.  
+- `index.css` — styles for the demo.  
 
 ## ✨ Features
 

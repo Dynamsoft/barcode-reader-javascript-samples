@@ -6,6 +6,7 @@ A demo tuned for retail 1D barcodes (UPC/EAN etc.) demonstrating speed and accur
 
 - `index.html` — demo page (camera + UI).  
 - `ReadOneDRetail.json` — example decoder configuration for retail 1D formats.  
+- `index.css` — styles for the demo.  
 
 ## ✨ Features
 

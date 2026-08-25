@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && node compileDceUi.js && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "11.6.2100",
+    "dynamsoft-barcode-reader-bundle": "11.6.3000",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
