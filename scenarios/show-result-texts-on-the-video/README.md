@@ -5,6 +5,7 @@ A demo that overlays decoded barcode text directly onto the live camera video. U
 ## Included files
 
 - `index.html` — demo page that overlays decoded text on video.  
+- `index.css` — styles for the demo.  
 
 ## ✨ Features
 
@@ -29,4 +30,4 @@ Opening HTML files directly may not work as expected. Instead, run a local devel
 ## 💡 Tips
  
 - Use steady lighting and keep barcodes within the camera view for stable overlays.
-- Run on localhost/HTTPS to allow camera access.  
+- Run on localhost/HTTPS to allow camera access.

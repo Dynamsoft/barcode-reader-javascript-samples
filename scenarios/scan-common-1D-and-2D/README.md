@@ -6,6 +6,7 @@ A demo configured to detect a wide range of barcode formats (1D and 2D). Useful 
 
 - `index.html` — demo page (camera & image input).  
 - `ReadAllBarcodeFormats.json` — example configuration for enabling multiple formats.  
+- `index.css` — styles for the demo.  
 
 ## ✨ Features
 

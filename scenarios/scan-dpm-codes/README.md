@@ -6,6 +6,7 @@ A focused demo for decoding **Direct Part Mark (DPM)** barcodes from camera vide
 
 - `index.html` — demo page (camera & image input).  
 - `ReadDPM.json` — Example template used by the demo.  
+- `index.css` — styles for the demo.
 
 ## ✨ Features
 

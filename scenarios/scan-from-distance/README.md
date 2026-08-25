@@ -6,6 +6,7 @@ A demo that demonstrates techniques for scanning barcodes from a distance (ROI, 
 
 - `index.html` — demo page (camera + UI).  
 - `ReadDistantBarcodes.json` — example configuration used by the sample.  
+- `index.css` — styles for the demo.  
 
 ## ✨ Features
 

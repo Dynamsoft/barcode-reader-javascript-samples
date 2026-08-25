@@ -6,6 +6,7 @@ A focused demo for scanning QR codes from camera video or static images using th
 
 - `index.html` — demo page (camera & image input).  
 - `ReadQR.json` — sample configuration/template used by the demo.  
+- `index.css` — styles for the demo.
 
 ## ✨ Features
 
