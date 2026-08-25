@@ -33,4 +33,4 @@ function compileDceUi() {
   fs.writeFileSync(outputPath, newContent, "utf8");
 }
 
-export default compileDceUi;
+compileDceUi();
