@@ -8,170 +8,35 @@
   <meta name="keywords" content="read driver license barcode" />
   <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/scenarios/read-a-drivers-license/index.html" />
   <title>Dynamsoft Barcode Reader Sample - Read a Driver's License</title>
-  <link rel="stylesheet" href="./index.css" />
 </head>
 
 <body>
-  <div class="home-page">
-    <h1 class="home-page-title">Read a Driver's License</h1>
-    <div class="start-btn">
-      <div class="start-icon"></div>
-      <div class="loading"></div>
-
-    </div>
-    <img class="logo-dynamsoft" src="./logo-dynamsoft.png" alt="logo-dynamsoft">
-  </div>
-  <div class="barcode-scanner-view"></div>
-  <div class="parsed-result-view">
-    <div class="barcode-text"></div>
-    <ul class="parsed-result-list"></ul>
-    <div class="back-to-scan" style="cursor: pointer;">Back to Scan</div>
-  </div>
   <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3000/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
   <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
   <script>
-    const parsedResultView = document.querySelector(".parsed-result-view");
-    const homePage = document.querySelector(".home-page");
-    const startIcon = document.querySelector(".start-icon");
-    const startBtn = document.querySelector(".start-btn");
-    const loading = document.querySelector(".loading");
-    const barcodeText = document.querySelector(".barcode-text");
-    const parsedResultList = document.querySelector(".parsed-result-list");
-    const backToScan = document.querySelector(".back-to-scan");
-    const barcodeScannerView = document.querySelector(".barcode-scanner-view");
 
     Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
-    Dynamsoft.DCP.CodeParserModule.loadSpec(["AAMVA_DL_ID", "SOUTH_AFRICA_DL"]);
+    (async () => {
+      const cameraView = await Dynamsoft.DCE.CameraView.createInstance('./driver-license.ui.xml');
+      const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+      
+      const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
 
-    let cameraView, cameraEnhancer, cvRouter, parser;
-    let pInit = (async function () {
-      try {
-        cameraView = await Dynamsoft.DCE.CameraView.createInstance();
-        cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
-        cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
+      cvRouter.setInput(cameraEnhancer);
 
-        cvRouter.setInput(cameraEnhancer);
+      const uiElement = cameraView.getUIElement();
 
-        const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
-        resultReceiver.onDecodedBarcodesReceived = async (result) => {
-          if (result.barcodeResultItems.length > 0) {
-            let processedResult;
-            try {
-              parser = await Dynamsoft.DCP.CodeParser.createInstance();
-              const parsedResult = await parser.parse(result.barcodeResultItems[0].bytes);
-              processedResult = handleDLResult(parsedResult);
-            } catch (ex) {
-              processedResult = [
-                { description: "Error", value: ex.message || "parse failed." },
-                {
-                  description: "Original text",
-                  value: result.barcodeResultItems[0].text,
-                },
-              ]
-            } finally {
-              generateResultList(processedResult);
-              barcodeText.innerText = result.barcodeResultItems[0].text.replace(/\n/g, "");
-            }
-            parsedResultView.style.display = "block";
-            barcodeScannerView.style.display = "none";
-            cameraView.clearAllInnerDrawingItems();
-            cvRouter.stopCapturing();
-          }
+      cameraView.exportToUI = {
+        ...Dynamsoft.DCP,
+        cvRouter,
+        onDriverLicenseResult: (result)=>{
+          console.log(result);
         }
-        await cvRouter.addResultReceiver(resultReceiver);
-        await cvRouter.initSettings("./read_dl.json");
+      };
 
-        barcodeScannerView.append(cameraView.getUIElement());
-      } catch (ex) {
-        console.log(ex.message || ex);
-        alert(ex.message || ex);
-      }
+      document.body.append(uiElement);
     })();
-
-    async function start() {
-      await pInit;
-      await cameraEnhancer.open();
-      await cvRouter.startCapturing("ReadDriversLicense");
-      homePage.style.display = "none";
-    }
-
-    function handleDLResult(parsedResult) {
-      const oriParseInfo = [];
-      const resultInfo = JSON.parse(parsedResult.jsonString);
-      if (parsedResult.codeType === "AAMVA_DL_ID") {
-        for (let info of resultInfo.ResultInfo) {
-          if (info.FieldName !== "commonSubfile") continue;
-          if (info.ChildFields) {
-            wrapResultObject(info.ChildFields);
-          }
-        }
-      } else if (parsedResult.codeType === "AAMVA_DL_ID_WITH_MAG_STRIPE") {
-        for (let info of resultInfo.ResultInfo) {
-          if (info.FieldName.includes("track")) {
-            if (info.ChildFields) {
-              wrapResultObject(info.ChildFields);
-            }
-          }
-        }
-      } else if (parsedResult.codeType === "SOUTH_AFRICA_DL") {
-        for (let info of resultInfo.ResultInfo) {
-          if (info.ChildFields) {
-            wrapResultObject(info.ChildFields);
-          } else {
-            if (info.Value) {
-              oriParseInfo.push({
-                description: info.FieldName,
-                value: info.Value,
-              });
-            }
-          }
-        }
-      }
-
-      function wrapResultObject(childFields) {
-        for (let childField of childFields) {
-          for (let field of childField) {
-            if (!["dataElementSeparator", "segmentTerminator", "subfile", "subfileType"].includes(field.FieldName)) {
-              if (field.Value) {
-                oriParseInfo.push({
-                  description: field.FieldName,
-                  value: field.Value,
-                });
-              }
-            }
-            if (field.ChildFields) {
-              wrapResultObject(field.ChildFields);
-            }
-          }
-        }
-      }
-      return oriParseInfo;
-    }
-
-    function generateResultList(processedResult) {
-      parsedResultList.innerHTML = "";
-      const resultList = [];
-      for (let item of processedResult) {
-        const resultItem = document.createElement("li");
-        resultItem.className = "parsed-result-item";
-        resultItem.innerHTML = `<strong>${item.description}: </strong><span>${item.value}</span>`;
-        resultList.push(resultItem);
-      }
-      parsedResultList.append(...resultList);
-    }
-
-    startBtn.addEventListener("click", () => {
-      loading.style.display = "block";
-      startIcon.style.display = "none";
-      start();
-    })
-
-    backToScan.addEventListener("click", () => {
-      parsedResultView.style.display = "none";
-      barcodeScannerView.style.display = "block";
-      start();
-    })
   </script>
 </body>
 
