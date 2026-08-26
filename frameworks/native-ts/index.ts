@@ -40,8 +40,6 @@ let cvRouter: CaptureVisionRouter;
     // Define a callback for results.
     await cvRouter.addResultReceiver({
       onDecodedBarcodesReceived: (result: DecodedBarcodesResult) => {
-        if (!result.barcodeResultItems.length) return;
-
         const resultsContainer = document.querySelector("#results")!;
         resultsContainer.textContent = "";
         console.log(result);

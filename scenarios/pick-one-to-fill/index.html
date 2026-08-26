@@ -88,18 +88,16 @@
 
         const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
         resultReceiver.onDecodedBarcodesReceived = (result) => {
-          if (result.barcodeResultItems.length > 0) {
-            //  Display the first detected barcode's text in an alert
-            targetInput.value = result.barcodeResultItems[0].text;
-            guideView.style.display = "flex";
-            barcodeScannerView.style.display = "none";
-            scanBtn.style.display = "inline-block";
-            decodeBtn.style.display = "none";
-            decodeBtn.innerText = "Decode to Auto-Fill";
-            cameraEnhancer.close();
-            cvRouter.stopCapturing();
-            cvRouter.removeResultReceiver(resultReceiver);
-          }
+          //  Display the first detected barcode's text in an alert
+          targetInput.value = result.barcodeResultItems[0].text;
+          guideView.style.display = "flex";
+          barcodeScannerView.style.display = "none";
+          scanBtn.style.display = "inline-block";
+          decodeBtn.style.display = "none";
+          decodeBtn.innerText = "Decode to Auto-Fill";
+          cameraEnhancer.close();
+          cvRouter.stopCapturing();
+          cvRouter.removeResultReceiver(resultReceiver);
         }
         await cvRouter.addResultReceiver(resultReceiver);
 

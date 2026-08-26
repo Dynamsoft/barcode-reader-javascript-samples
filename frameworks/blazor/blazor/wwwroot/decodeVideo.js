@@ -21,8 +21,6 @@ window.startVideoDecode = async () => {
         // Define a callback for results.
         await cvRouter.addResultReceiver({
             onDecodedBarcodesReceived: (result) => {
-                if (!result.barcodeResultItems.length) return;
-
                 resultsContainer.textContent = "";
                 for (let item of result.barcodeResultItems) {
                     resultsContainer.textContent += `${item.formatString}: ${item.text}\n\n`;
