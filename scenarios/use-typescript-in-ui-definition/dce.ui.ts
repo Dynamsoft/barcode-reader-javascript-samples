@@ -1,5 +1,3 @@
-
-
 // You must use `import type`; otherwise, 
 // the entire 'dynamsoft-barcode-reader-bundle' package
 // will be imported into the compiled output.
@@ -7,23 +5,15 @@
 // Since the 'dynamsoft-barcode-reader-bundle' package
 // has already been imported in the business logic, 
 // importing it again in the UI definition is unnecessary.
-//
-// Some types have been renamed to versions with underscores 
-// to avoid conflicts with variables imported from `exportToUI`. 
-// You can also choose to change the names of the variables imported from `exportToUI` instead.
-import type {
-  CameraEnhancer,
-  CaptureVisionRouter,
-  beep as _beep,
-  vibrate as _vibrate,
-} from 'dynamsoft-barcode-reader-bundle';
+import type * as Types from 'dynamsoft-barcode-reader-bundle';
+type CaptureVisionRouter = Types.CaptureVisionRouter;
+type CameraEnhancer = Types.CameraEnhancer;
 
 const camera = (document.currentScript as any).currentDMCamera as CameraEnhancer;
 
-const { cvRouter, beep, vibrate, handleBarcodeText } = (camera as any).exportToUI as {
+const { beep, vibrate, CaptureVisionRouter, CameraEnhancer } = (camera as any).exportToUI as (typeof Types);
+const { cvRouter, handleBarcodeText } = (camera as any).exportToUI as {
   cvRouter: CaptureVisionRouter;
-  beep: typeof _beep;
-  vibrate: typeof _vibrate;
   handleBarcodeText: (text: string) => void;
 };
 
@@ -118,7 +108,7 @@ camera.addEventListener('opened', async () => {
 
     // show current camera
     if (divCameras) {
-      const infos = await (camera.constructor as typeof CameraEnhancer).getDeviceInfos();
+      const infos = await CameraEnhancer.getDeviceInfos();
       const curCam = camera.currentCamera;
       if (!curCam) { return; } // rarely, after await, camera may already change
       const curCamLabel = curCam.trackLabel || curCam.label;
@@ -294,7 +284,7 @@ elTakePhoto.addEventListener('pointerdown', async () => {
 
 let cameraIndex = 0;
 elCameraSwitch?.addEventListener('pointerdown', async () => {
-  const deviceInfos = await (camera.constructor as typeof CameraEnhancer).getDeviceInfos();
+  const deviceInfos = await CameraEnhancer.getDeviceInfos();
   cameraIndex = (cameraIndex + 1) % deviceInfos.length;
   await camera.requestCamera(deviceInfos[cameraIndex]);
 });
