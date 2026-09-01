@@ -25,7 +25,7 @@ Source: `hello-world.html`
   <script>
     const resultView = document.querySelector(".result-view");
 
-    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+    Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
     (async () => {
       const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
       const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
@@ -81,7 +81,7 @@ Key differences from Pattern 1:
 <div class="barcode-scanner-view"></div>
 
 <script>
-  Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+  Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
   const pInit = (async () => {
     const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
     const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
@@ -132,7 +132,7 @@ Source: `read-an-image.html`
    * to get your own trial license good for 30 days.
    * LICENSE ALERT - THE END
    */
-  Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+  Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 
   const resultsContainer = document.querySelector("#results");
   const pInit = (async () => {
@@ -179,7 +179,7 @@ Source: `frameworks/es6/es6.html`
     CameraView, CameraEnhancer, MultiFrameResultCrossFilter,
   } from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3000/dist/dbr.bundle.mjs";
 
-  LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+  LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
   CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
   CoreModule.loadWasm();
 
@@ -229,7 +229,7 @@ specific format. **This is the recommended approach for simple format filtering*
 a custom JSON template (see below), since it needs no external `.json` file and reads clearly.
 
 ```js
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 (async () => {
   try {
     const cameraView = await Dynamsoft.DCE.CameraView.createInstance();

@@ -26,7 +26,7 @@ CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
  * to get your own trial license good for 30 days.
  * LICENSE ALERT - THE END
  */
-LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 
 // Optional: preload WASM to reduce latency on first decode
 CoreModule.loadWasm();

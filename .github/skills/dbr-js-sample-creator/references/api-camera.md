@@ -223,7 +223,7 @@ Add the filter **after** `addResultReceiver` and **before** `startCapturing`.
 ## Full Camera Sample: UMD (Plain HTML)
 
 ```js
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 (async () => {
   const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
   const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
