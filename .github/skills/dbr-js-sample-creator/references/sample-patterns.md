@@ -194,7 +194,6 @@ Source: `frameworks/es6/es6.html`
 
       await cvRouter.addResultReceiver({
         onDecodedBarcodesReceived: (result) => {
-          if (!result.barcodeResultItems.length) return;
           const resultsContainer = document.querySelector("#results");
           resultsContainer.textContent = "";
           for (let item of result.barcodeResultItems) {

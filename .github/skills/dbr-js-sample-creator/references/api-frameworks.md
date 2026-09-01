@@ -74,7 +74,6 @@ function VideoCapture() {
 
         await cvRouter.addResultReceiver({
           onDecodedBarcodesReceived: (result) => {
-            if (!result.barcodeResultItems.length) return;
             let text = "";
             for (let item of result.barcodeResultItems) {
               text += `${item.formatString}: ${item.text}\n\n`;
@@ -224,7 +223,6 @@ onMounted(async () => {
 
     await cvRouter.addResultReceiver({
       onDecodedBarcodesReceived: (result) => {
-        if (!result.barcodeResultItems.length) return;
         resultText.value = "";
         for (let item of result.barcodeResultItems) {
           resultText.value += `${item.formatString}: ${item.text}\n\n`;
@@ -358,7 +356,6 @@ export class VideoCaptureComponent implements AfterViewInit, OnDestroy {
 
     await this.cvRouter.addResultReceiver({
       onDecodedBarcodesReceived: (result) => {
-        if (!result.barcodeResultItems.length) return;
         this.resultText = result.barcodeResultItems.map(i => `${i.formatString}: ${i.text}`).join("\n");
       },
     });

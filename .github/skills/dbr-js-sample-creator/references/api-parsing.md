@@ -94,8 +94,6 @@ Dynamsoft.DCP.CodeParserModule.loadSpec("GS1_AI");
 
   const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
   resultReceiver.onDecodedBarcodesReceived = async (result) => {
-    if (!result.barcodeResultItems.length) return;
-
     for (let item of result.barcodeResultItems) {
       try {
         const parsed = await parser.parse(item.bytes);
@@ -131,8 +129,6 @@ Dynamsoft.DCP.CodeParserModule.loadSpec("AAMVA_DL_ID");
 // ... (camera setup same as above)
 
 resultReceiver.onDecodedBarcodesReceived = async (result) => {
-  if (!result.barcodeResultItems.length) return;
-
   for (let item of result.barcodeResultItems) {
     // Driver's licenses are typically PDF417 barcodes
     if (item.formatString !== "PDF_417") continue;
