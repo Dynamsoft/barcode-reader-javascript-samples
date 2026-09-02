@@ -11,8 +11,10 @@ type CameraEnhancer = Types.CameraEnhancer;
 
 const camera = (document.currentScript as any).currentDMCamera as CameraEnhancer;
 
-const { beep, vibrate, CaptureVisionRouter, CameraEnhancer } = (camera as any).exportToUI as (typeof Types);
-const { cvRouter, handleBarcodeText } = (camera as any).exportToUI as {
+// Start from dbrjs 11.6.3100:
+// you can import SDK variables from `dynamsoftExports`
+const { beep, vibrate, CaptureVisionRouter, CameraEnhancer } = (camera as any).dynamsoftExports as (typeof Types);
+const { cvRouter, handleBarcodeText } = (camera as any).uiContext as {
   cvRouter: CaptureVisionRouter;
   handleBarcodeText: (text: string) => void;
 };

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { CameraEnhancer, CaptureVisionRouter, beep, vibrate } from "dynamsoft-barcode-reader-bundle";
+import { CameraEnhancer, CaptureVisionRouter } from "dynamsoft-barcode-reader-bundle";
 import "./VideoCapture.css";
 import "../../dynamsoft.config" // import side effects (license, engineResourcePath) within a component is beneficial for lazy loading.
 
@@ -17,8 +17,11 @@ function VideoCapture() {
 
         cvRouter = await CaptureVisionRouter.createInstance();
         camera = await CameraEnhancer.createInstance('dce.ui.v5.xml');
-        (camera as any).exportToUI = {
-          beep, vibrate, CaptureVisionRouter, CameraEnhancer,
+        (camera as any).uiContext = {
+          //// Start from dbrjs 11.6.3100:
+          //// you only need to pass custom variables;
+          //// you no longer need to manually pass SDK variables.
+          // beep, vibrate, CaptureVisionRouter, CameraEnhancer,
           cvRouter, handleBarcodeText: setResultText
         };
         if (isDisposed) return;
