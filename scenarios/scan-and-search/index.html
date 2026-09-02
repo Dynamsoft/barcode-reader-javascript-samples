@@ -399,7 +399,6 @@
 
       const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
       resultReceiver.onDecodedBarcodesReceived = (result) => {
-        if (!result.barcodeResultItems.length) return;
         // SDK-level filters have already applied; accept the first result
         const item = result.barcodeResultItems[0];
         // Fill the input only; user clicks search to query

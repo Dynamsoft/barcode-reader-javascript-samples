@@ -177,8 +177,6 @@ export class VideoCaptureComponent {
       // Define a callback for results.
       this.cvRouter.addResultReceiver({
         onDecodedBarcodesReceived: (result) => {
-          if (!result.barcodeResultItems.length) return;
-
           this.resultText = '';
           console.log(result);
           for (let item of result.barcodeResultItems) {

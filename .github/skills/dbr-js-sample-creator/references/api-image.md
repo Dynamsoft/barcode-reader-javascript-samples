@@ -81,7 +81,7 @@ if (!items.length) {
 <div id="results"></div>
 
 <script>
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 
 const pInit = (async () => {
   const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();

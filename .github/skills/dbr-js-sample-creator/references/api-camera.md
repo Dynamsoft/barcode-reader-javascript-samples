@@ -156,7 +156,6 @@ Subscribe to async barcode results from continuous camera scanning.
 ```js
 await cvRouter.addResultReceiver({
   onDecodedBarcodesReceived: (result) => {
-    if (!result.barcodeResultItems.length) return;
     for (let item of result.barcodeResultItems) {
       console.log(item.formatString, item.text);
     }
@@ -183,8 +182,6 @@ result.barcodeResultItems   // BarcodeResultItem[] — may be empty between fram
 result.errorCode            // number — 0 means success
 result.errorString          // string
 ```
-
-Always guard with `if (!result.barcodeResultItems.length) return;` to skip empty callbacks.
 
 ---
 
@@ -223,7 +220,7 @@ Add the filter **after** `addResultReceiver` and **before** `startCapturing`.
 ## Full Camera Sample: UMD (Plain HTML)
 
 ```js
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 (async () => {
   const cameraView = await Dynamsoft.DCE.CameraView.createInstance();
   const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
@@ -259,7 +256,6 @@ Use `"ReadSingleBarcode"` template and stop/close after the first result:
 
 ```js
 resultReceiver.onDecodedBarcodesReceived = async (result) => {
-  if (!result.barcodeResultItems.length) return;
   const text = result.barcodeResultItems[0].text;
   alert(text);
   await cameraEnhancer.close();
@@ -334,7 +330,6 @@ result callback:
 
 ```js
 resultReceiver.onDecodedBarcodesReceived = (result) => {
-  if (!result.barcodeResultItems.length) {
     // No barcode detected — show guidance
     cameraView.updateTipMessage("Move closer to the barcode.");
     cameraView.setTipVisible(true);
@@ -364,7 +359,6 @@ Typical usage inside a result callback:
 
 ```js
 resultReceiver.onDecodedBarcodesReceived = (result) => {
-  if (!result.barcodeResultItems.length) return;
   Dynamsoft.DCE.Feedback.beep();
   // process results...
 };

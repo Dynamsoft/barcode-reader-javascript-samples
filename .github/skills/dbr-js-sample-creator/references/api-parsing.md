@@ -42,7 +42,7 @@ In `dynamsoft.config.ts` for framework projects:
 import { CoreModule, LicenseManager, CodeParserModule } from "dynamsoft-barcode-reader-bundle";
 
 CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
-LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 
 CoreModule.loadWasm();
 CodeParserModule.loadSpec("GS1_AI");
@@ -81,7 +81,7 @@ parser.dispose();
 ## GS1 Parsing Pattern (UMD)
 
 ```js
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 Dynamsoft.DCP.CodeParserModule.loadSpec("GS1_AI");
 
 (async () => {
@@ -94,8 +94,6 @@ Dynamsoft.DCP.CodeParserModule.loadSpec("GS1_AI");
 
   const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
   resultReceiver.onDecodedBarcodesReceived = async (result) => {
-    if (!result.barcodeResultItems.length) return;
-
     for (let item of result.barcodeResultItems) {
       try {
         const parsed = await parser.parse(item.bytes);
@@ -131,8 +129,6 @@ Dynamsoft.DCP.CodeParserModule.loadSpec("AAMVA_DL_ID");
 // ... (camera setup same as above)
 
 resultReceiver.onDecodedBarcodesReceived = async (result) => {
-  if (!result.barcodeResultItems.length) return;
-
   for (let item of result.barcodeResultItems) {
     // Driver's licenses are typically PDF417 barcodes
     if (item.formatString !== "PDF_417") continue;

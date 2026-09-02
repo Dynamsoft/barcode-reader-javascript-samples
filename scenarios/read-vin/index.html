@@ -52,29 +52,27 @@
 
         const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
         resultReceiver.onDecodedBarcodesReceived = async (result) => {
-          if (result.barcodeResultItems.length > 0) {
-            let processedResult;
-            try {
-              parser = await Dynamsoft.DCP.CodeParser.createInstance();
-              const parsedResult = await parser.parse(result.barcodeResultItems[0].bytes);
-              processedResult = handleVINResult(parsedResult);
-            } catch (ex) {
-              processedResult = [
-                { description: "Error", value: ex.message || "parse failed." },
-                {
-                  description: "Original text",
-                  value: result.barcodeResultItems[0].text,
-                },
-              ]
-            } finally {
-              generateResultList(processedResult);
-              barcodeText.innerText = result.barcodeResultItems[0].text.replace(/\n/g, "");
-            }
-            parsedResultView.style.display = "block";
-            barcodeScannerView.style.display = "none";
-            cameraView.clearAllInnerDrawingItems();
-            cvRouter.stopCapturing();
+          let processedResult;
+          try {
+            parser = await Dynamsoft.DCP.CodeParser.createInstance();
+            const parsedResult = await parser.parse(result.barcodeResultItems[0].bytes);
+            processedResult = handleVINResult(parsedResult);
+          } catch (ex) {
+            processedResult = [
+              { description: "Error", value: ex.message || "parse failed." },
+              {
+                description: "Original text",
+                value: result.barcodeResultItems[0].text,
+              },
+            ]
+          } finally {
+            generateResultList(processedResult);
+            barcodeText.innerText = result.barcodeResultItems[0].text.replace(/\n/g, "");
           }
+          parsedResultView.style.display = "block";
+          barcodeScannerView.style.display = "none";
+          cameraView.clearAllInnerDrawingItems();
+          cvRouter.stopCapturing();
         }
         await cvRouter.addResultReceiver(resultReceiver);
         await cvRouter.initSettings("./read_vin.json");

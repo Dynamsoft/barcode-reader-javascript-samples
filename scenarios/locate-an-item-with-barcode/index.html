@@ -341,10 +341,7 @@
 
         await setResultReceiver(cvRouter, {
           onDecodedBarcodesReceived: (result) => {
-            const scannedItem = result.barcodeResultItems?.[0];
-            if (!scannedItem) {
-              return;
-            }
+            const scannedItem = result.barcodeResultItems[0];
 
             itemIdInput.value = scannedItem.text;
             errorMessage.style.display = "none";

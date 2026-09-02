@@ -180,8 +180,6 @@ Dynamsoft.Core.CoreModule.loadWasm();
     // Define a callback for results.
     cvRouter.addResultReceiver({
       onDecodedBarcodesReceived: (result) => {
-        if (!result.barcodeResultItems.length) return;
-
         const resultsContainer = document.querySelector("#results");
         resultsContainer.textContent = "";
         console.log(result);

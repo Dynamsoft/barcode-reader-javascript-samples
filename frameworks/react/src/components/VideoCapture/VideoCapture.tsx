@@ -33,8 +33,6 @@ function VideoCapture() {
         // Define a callback for results.
         await cvRouter.addResultReceiver({
           onDecodedBarcodesReceived: (result) => {
-            if (!result.barcodeResultItems.length) return;
-
             let _resultText = "";
             setResultText(_resultText);
             console.log(result);
