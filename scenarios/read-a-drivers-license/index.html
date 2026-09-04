@@ -27,7 +27,7 @@
     <ul class="parsed-result-list"></ul>
     <div class="back-to-scan" style="cursor: pointer;">Back to Scan</div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3000/dist/dbr.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3100/dist/dbr.bundle.js"></script>
   <!-- If the network is unstable or you prefer to self-host the SDK, uncomment the line below to load it locally -->
   <!-- <script src="../../../dist/dbr.bundle.js"></script> -->
   <script>
@@ -55,29 +55,27 @@
 
         const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
         resultReceiver.onDecodedBarcodesReceived = async (result) => {
-          if (result.barcodeResultItems.length > 0) {
-            let processedResult;
-            try {
-              parser = await Dynamsoft.DCP.CodeParser.createInstance();
-              const parsedResult = await parser.parse(result.barcodeResultItems[0].bytes);
-              processedResult = handleDLResult(parsedResult);
-            } catch (ex) {
-              processedResult = [
-                { description: "Error", value: ex.message || "parse failed." },
-                {
-                  description: "Original text",
-                  value: result.barcodeResultItems[0].text,
-                },
-              ]
-            } finally {
-              generateResultList(processedResult);
-              barcodeText.innerText = result.barcodeResultItems[0].text.replace(/\n/g, "");
-            }
-            parsedResultView.style.display = "block";
-            barcodeScannerView.style.display = "none";
-            cameraView.clearAllInnerDrawingItems();
-            cvRouter.stopCapturing();
+          let processedResult;
+          try {
+            parser = await Dynamsoft.DCP.CodeParser.createInstance();
+            const parsedResult = await parser.parse(result.barcodeResultItems[0].bytes);
+            processedResult = handleDLResult(parsedResult);
+          } catch (ex) {
+            processedResult = [
+              { description: "Error", value: ex.message || "parse failed." },
+              {
+                description: "Original text",
+                value: result.barcodeResultItems[0].text,
+              },
+            ]
+          } finally {
+            generateResultList(processedResult);
+            barcodeText.innerText = result.barcodeResultItems[0].text.replace(/\n/g, "");
           }
+          parsedResultView.style.display = "block";
+          barcodeScannerView.style.display = "none";
+          cameraView.clearAllInnerDrawingItems();
+          cvRouter.stopCapturing();
         }
         await cvRouter.addResultReceiver(resultReceiver);
         await cvRouter.initSettings("./read_dl.json");
