@@ -1,6 +1,6 @@
 # DBR JavaScript Sample Creator — API Reference: SDK Loading & Core
 
-**SDK version:** `dynamsoft-barcode-reader-bundle@11.6.3000`
+**SDK version:** `dynamsoft-barcode-reader-bundle@11.6.3100`
 
 ---
 
@@ -10,7 +10,7 @@
 
 ```html
 <!-- From CDN (recommended) -->
-<script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3000/dist/dbr.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3100/dist/dbr.bundle.js"></script>
 
 <!-- Self-hosted (after downloading the package) -->
 <!-- <script src="../dist/dbr.bundle.js"></script> -->
@@ -30,7 +30,7 @@ import {
   CameraEnhancer,
   MultiFrameResultCrossFilter,
   EnumCapturedResultItemType,
-} from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3000/dist/dbr.bundle.mjs";
+} from "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3100/dist/dbr.bundle.mjs";
 
 // Required when using the CDN .mjs bundle — tells the SDK where to fetch WASM and resources
 CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
@@ -84,15 +84,15 @@ LicenseManager.initLicense(license: string): void
 ```
 
 - **Must be called before any other SDK API.** Call it synchronously (no `await`) at the top of your script.
-- The default public trial license is `"DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9"` — valid for 24 hours, requires internet.
+- The default public trial license is `"DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9"` — valid for 24 hours, requires internet.
 - Users can get their own 30-day trial at: `https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js`
 
 ```js
 // UMD
-Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+Dynamsoft.License.LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 
 // ES module / npm
-LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 ```
 
 ---

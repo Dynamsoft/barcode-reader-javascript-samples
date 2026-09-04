@@ -26,7 +26,7 @@ CoreModule.engineResourcePaths.rootDirectory = "https://cdn.jsdelivr.net/npm/";
  * to get your own trial license good for 30 days.
  * LICENSE ALERT - THE END
  */
-LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+LicenseManager.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTEwNTI2NzQwMSJ9");
 
 // Optional: preload WASM to reduce latency on first decode
 CoreModule.loadWasm();
@@ -74,7 +74,6 @@ function VideoCapture() {
 
         await cvRouter.addResultReceiver({
           onDecodedBarcodesReceived: (result) => {
-            if (!result.barcodeResultItems.length) return;
             let text = "";
             for (let item of result.barcodeResultItems) {
               text += `${item.formatString}: ${item.text}\n\n`;
@@ -224,7 +223,6 @@ onMounted(async () => {
 
     await cvRouter.addResultReceiver({
       onDecodedBarcodesReceived: (result) => {
-        if (!result.barcodeResultItems.length) return;
         resultText.value = "";
         for (let item of result.barcodeResultItems) {
           resultText.value += `${item.formatString}: ${item.text}\n\n`;
@@ -358,7 +356,6 @@ export class VideoCaptureComponent implements AfterViewInit, OnDestroy {
 
     await this.cvRouter.addResultReceiver({
       onDecodedBarcodesReceived: (result) => {
-        if (!result.barcodeResultItems.length) return;
         this.resultText = result.barcodeResultItems.map(i => `${i.formatString}: ${i.text}`).join("\n");
       },
     });

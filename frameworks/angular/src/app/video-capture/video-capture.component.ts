@@ -38,7 +38,6 @@ export class VideoCaptureComponent {
         // Define a callback for results.
         await this.cvRouter.addResultReceiver({
           onDecodedBarcodesReceived: (result) => {
-            if (!result.barcodeResultItems.length) return;
             console.log(result);
             this.ngZone.run(() => {
               this.resultText = '';
