@@ -168,7 +168,7 @@ body {
   <img class="logo-dynamsoft" src="./logo-dynamsoft.png" alt="logo-dynamsoft">
 </div>
 <div class="barcode-scanner-view">
-  <UIInclude src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3000/dist/ui/dce.ui.v5.xml">
+  <Include src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3200/dist/ui/dce.ui.v5.xml">
 </div>
 <div class="parsed-result-view">
   <div class="barcode-text"></div>
@@ -177,11 +177,8 @@ body {
 </div>
 <script>
   const camera = document.currentScript.currentDMCamera;
-  const {
-    CodeParserModule, CodeParser,
-    cvRouter,
-    onDriverLicenseResult,
-  } = camera.uiContext;
+  const { CodeParserModule, CodeParser } = camera.dynamsoftExports;
+  const { cvRouter, onDriverLicenseResult } = camera.uiContext;
 
   const parsedResultView = document.querySelector(".parsed-result-view");
   const homePage = document.querySelector(".home-page");
@@ -195,9 +192,9 @@ body {
 
   CodeParserModule.loadSpec(["AAMVA_DL_ID", "SOUTH_AFRICA_DL"]);
 
-  let parser;
+  let pParser;
   let pInit = (async () => {
-    parser = await CodeParser.createInstance(); // TODO: parser need to distory when camera destroyed in Framework
+    const parser = await (pParser ??= CodeParser.createInstance());
     await cvRouter.addResultReceiver({
       onDecodedBarcodesReceived: async (result) => {
         if (result.barcodeResultItems.length > 0) {
@@ -311,5 +308,10 @@ body {
     barcodeScannerView.style.display = "block";
     start();
   })
+
+  // Allow business logic to call `dispose()` to release resources.
+  camera.uiContext.dispose = async()=>{
+    (await pParser).dispose();
+  };
 
 </script>
