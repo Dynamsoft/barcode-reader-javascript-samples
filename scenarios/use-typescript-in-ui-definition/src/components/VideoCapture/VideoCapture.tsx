@@ -19,7 +19,7 @@ function VideoCapture() {
         camera = await CameraEnhancer.createInstance('dce.ui.v5.xml');
         // You can use this interface to share variables between business logic and UI definition files.
         camera.uiContext = {
-          //// Start from dbrjs 11.6.3100:
+          //// Start from dbrjs 11.6.3200:
           //// you only need to pass custom variables;
           //// you no longer need to manually pass SDK variables.
           // beep, vibrate, CaptureVisionRouter, CameraEnhancer,

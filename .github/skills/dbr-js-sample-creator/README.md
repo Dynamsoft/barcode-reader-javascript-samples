@@ -49,8 +49,8 @@ your task. You do not need to understand these files — they are written for th
 
 ## SDK at a Glance
 
-- **Package:** `dynamsoft-barcode-reader-bundle@11.6.3100`
-- **CDN:** `https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3100/dist/dbr.bundle.js`
+- **Package:** `dynamsoft-barcode-reader-bundle@11.6.3200`
+- **CDN:** `https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3200/dist/dbr.bundle.js`
 - **npm:** `npm install dynamsoft-barcode-reader-bundle`
 - **Trial license:** [Get a 30-day free trial](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=js&utm_source=sampleReadme)
 
