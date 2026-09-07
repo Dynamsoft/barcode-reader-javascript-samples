@@ -11,7 +11,7 @@ type CameraEnhancer = Types.CameraEnhancer;
 
 const camera = (document.currentScript as any).currentDMCamera as CameraEnhancer;
 
-// Start from dbrjs 11.6.3100:
+// Start from dbrjs 11.6.3200:
 // you can import SDK variables from `dynamsoftExports`
 const { beep, vibrate, CaptureVisionRouter, CameraEnhancer } = (camera as any).dynamsoftExports as (typeof Types);
 // You can use this interface to share variables between business logic and UI definition files.
