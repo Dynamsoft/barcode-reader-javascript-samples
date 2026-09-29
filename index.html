@@ -63,6 +63,7 @@
     .qr-caption { margin-top: 8px; font-size: 12px; color: #dbe4ff; }
     .net-hint { margin: 0 0 16px; padding: 12px 14px; border-radius: 10px; background: rgba(0, 0, 0, .18); border: 1px solid rgba(255, 255, 255, .22); color: #fff; font-size: 13px; max-width: 78ch; }
     .net-hint[hidden] { display: none; }
+    .net-qr { display: none; }
     .net-hint .net-msg { margin: 0 0 8px; color: #fff; max-width: none; }
     .net-hint .net-msg:last-child { margin: 0; }
     .net-hint a { color: #fff; text-decoration: underline; }
@@ -206,7 +207,13 @@
       .show-mobile { display: block; }
       .hide-mobile { display: none; }
       .handoff { grid-template-columns: 1fr; padding: 22px; }
-      .handoff-qr, .steps { display: none; }
+      .steps { display: none; }
+      .handoff-qr { display: none; }
+      .net-hint[hidden] { display: flex !important; }
+      .net-hint { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+      .net-qr { display: flex; align-items: center; gap: 12px; flex: none; }
+      .net-qr .qr-card { width: 80px; padding: 6px; box-shadow: none; }
+      .net-qr .qr-label { font-size: 12px; color: #dbe4ff; max-width: 10ch; line-height: 1.3; }
       .layout { grid-template-columns: 1fr; }
       .detail {
         position: fixed;
@@ -258,10 +265,8 @@
 
     <section class="handoff">
       <div class="handoff-text">
-        <h1 class="hide-mobile">📱 Scan with your phone — keep this page on your desktop</h1>
-        <h1 class="show-mobile">📱 You're on your phone — perfect for scanning</h1>
-        <p class="hide-mobile">Barcode scanning works best on a phone camera. Send any sample to your phone in seconds, then use the barcode images on this screen as scan targets.</p>
-        <p class="show-mobile">Pick any sample below to start scanning with your camera.</p>
+        <h1 id="handoffTitle">📱 Scan with your phone — keep this page on your desktop</h1>
+        <p id="handoffDesc">Barcode scanning works best on a phone camera. Send any sample to your phone in seconds, then use the barcode images on this screen as scan targets.</p>
         <ol class="steps">
           <li>Point your phone camera at a QR code — the one here opens this page, and each sample has its own.</li>
           <li>Try the sample on your phone.</li>
@@ -276,7 +281,7 @@
       </div>
       <div class="handoff-qr">
         <div class="qr-card" id="pageQr"></div>
-        <div class="qr-caption">This page on your phone</div>
+        <div class="qr-caption">Scan to open on phone</div>
       </div>
     </section>
 
@@ -821,16 +826,28 @@
     return path ? new URL(path, base).href : base;
   }
 
+  var NET_QR_HTML = '<div class="net-qr"><div class="qr-card" id="netQr"></div><div class="qr-label">Scan to open on phone</div></div>';
+
+  function renderNetQr() {
+    var q = document.getElementById("netQr");
+    if (q) q.innerHTML = MiniQR.toSvg(absoluteUrl(""));
+  }
+
   function renderNetHint() {
     var el = document.getElementById("netHint");
     if (IS_FILE) {
       el.innerHTML = '<p class="net-msg">ℹ️ Opened from the file system, so the QR codes point to the ' +
         '<a href="' + FALLBACK_BASE + '" target="_blank" rel="noopener">hosted online demo</a>. ' +
-        "To try your own copy, serve this folder with a local web server (e.g. Five Server).</p>";
+        "To try your own copy, serve this folder with a local web server (e.g. Five Server).</p>" + NET_QR_HTML;
       el.hidden = false;
+      renderNetQr();
       return;
     }
-    if (!IS_LOOPBACK && !IS_INSECURE_REMOTE) return;
+    if (!IS_LOOPBACK && !IS_INSECURE_REMOTE) {
+      el.innerHTML = NET_QR_HTML;
+      renderNetQr();
+      return;
+    }
 
     var status;
     if (phoneBase) {
@@ -856,8 +873,9 @@
       "<code>https://….trycloudflare.com</code> URL.</li>" +
       "<li><strong>Same Wi-Fi</strong>: in Five Server set <code>\"host\": \"0.0.0.0\"</code> and <code>\"https\": true</code>, find your IP with " +
       "<code>ipconfig</code> / <code>ifconfig</code>, then enter <code>192.168.x.x:5500</code>. Accept the certificate warning on the phone.</li>" +
-      "</ul></details>";
+      "</ul></details>" + NET_QR_HTML;
     el.hidden = false;
+    renderNetQr();
 
     document.getElementById("baseForm").addEventListener("submit", function (e) {
       e.preventDefault();
@@ -880,6 +898,7 @@
 
   function renderPageQr() {
     document.getElementById("pageQr").innerHTML = MiniQR.toSvg(absoluteUrl(""));
+    renderNetQr();
   }
 
   var MATERIALS = {
@@ -1011,6 +1030,8 @@
   var lightboxCaption = document.getElementById("lightboxCaption");
   var toastEl = document.getElementById("toast");
 
+  var IS_MOBILE_DEVICE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.userAgentData && navigator.userAgentData.mobile);
   function isPhoneLayout() { return window.matchMedia("(max-width: 860px)").matches; }
 
   function esc(s) {
@@ -1254,6 +1275,11 @@
   renderList();
   renderPlaceholder();
   if (!isPhoneLayout()) selectSample(SAMPLES[0].id);
+
+  if (IS_MOBILE_DEVICE) {
+    document.getElementById("handoffTitle").textContent = "📱 You're on a mobile device — perfect for scanning";
+    document.getElementById("handoffDesc").textContent = "Pick any sample below to start scanning with your camera.";
+  }
 
   renderPageQr();
   renderNetHint();
