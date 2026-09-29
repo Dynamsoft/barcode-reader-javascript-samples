@@ -1,1347 +1,1268 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Browse 30+ JavaScript barcode scanning samples including framework integrations (Angular, React, Vue, Next.js, etc.) and real-world scenarios. Try live demos and explore source code."
-    />
-    <link rel="icon" href="data:image/x-icon;base64,AAABAAIAICAAAAEACACoCAAAJgAAABAQAAABAAgAaAUAAM4IAAAoAAAAIAAAAEAAAAABAAgAAAAAAAAEAAAAAAAAAAAAAAABAAAAAQAAAAAAABON/gAUjf4AGI/+AB+T/gAgk/4AKJf+ACuZ/gAynP4AOJ/+AD2h/gBBov4ARaX+AEim/gBLqP4AT6r+AFCq/gBWrf4AXbD+AGm2/gBuuf4Adbz+AHu//gB8v/4AgcL+AIXE/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AAAAAAAAAAAAAAAAGAwVAAAAABUMFwAAAAAAAAAAAAAAAAAAAAAAAAAADAEBARQAAAAAFAEBAQoAAAAAAAAAAAAAAAAAAAAAEAEBAQEBFAAAAAAUAQEBAQEMAAAAAAAAAAAAAAAAAAUBAQEBAQEUAAAAABQBAQEBAQEEAAAAAAAAAAAAAAADAQEBAQEBARQAAAAAFAEBAQEBAQEBAAAAAAAAAAAAAwEBAQEBAQEBFAAAAAAUAQEBAQEBAQEBAAAAAAAAAAUBAQEBAQEBARAAAAAAAAAQAwEBAQEBAQEEAAAAAAAQAQEBAQEBAQ0AAAAAAAAAAAAAEAEBAQEBAQEMAAAAAAEBAQEBAQEXAAAAAAAAAAAAAAAAGAEBAQEBAQEAAAANAQEBAQEBFwAAAAAAAAAAAAAAAAAAGAEBAQEBAQkAGAEBAQEBAQ0AAAAAAAAAAAAAAAAAAAAAEAEBAQEBARgMAQEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQEBDAgBAQEBAQ4AAAAAAAAAAAAAAAAAAAAAAAARAQEBAQEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgGBgYGBgAAAAAAAAAAAAAAAAAAAAAAAAAABgYGBgYIDAEBAwEBDAAAAAAAAAAAAAAAAAAAAAAAABABAwEDAQwYAQEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQEBGAABAQEBAQEKAAAAAAAAAAAAAAAAAAAAAA0BAQEBAQEAAA4BAQEBAQETAAAAAAAAAAAAAAAAAAAXAQEBAQEBDAAAAAEBAQEBAQETAAAAAAAAAAAAAAAAFQEBAQEBAQEAAAAAEgEBAQEBAQEKAAAAAAAAAAAAAAoBAQEBAQEBEAAAAAAABgEBAQEBAQEBCgAAAAAAAAwBAQEBAQEBAQUAAAAAAAAAAwEBAQEBAQEBFAAAAAAUAQEBAQEBAQEDAAAAAAAAAAAAAwEBAQEBAQEUAAAAABQBAQEBAQEBAwAAAAAAAAAAAAAABgEBAQEBARQAAAAAFAEBAQEBAQUAAAAAAAAAAAAAAAAAEgEBAQEBFAAAAAAUAQEBAQEQAAAAAAAAAAAAAAAAAAAAAA4BAQEUAAAAABQBAQEMAAAAAAAAAAAAAAAAAAAAAAAAAAAYEBgAAAAAGA4YAAAAAAAAAAAAAAD/48f//4PB//4DwH/8A8A/+APAH/ADwA/gB+AHwB/4A8A//AOAf/4BAP//AAH//4AB//+A//////////////////////////8D///AAf//gAH//4CA//8BgH/+AcA//APAH/gD4AfgB/ADwA/4A8Af/APAP/4DwH//g8H//+PH/ygAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAABAAAAAAAAE43+AB+T/gAtmf4ANJ3+AD2h/gBBo/4ASqf+AEuo/gBOqf4AUar+AFOs/gBUrP4AWK7+AF2w/gBhs/4AcLr+AHS7/gB4vv4AgcL9AIfE/QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8AAAAAAAAOCQAACQ4AAAAAAAAAAA0BAQYAAAYBAQwAAAAAAAUBAQEGAAAGAQEBBAAAAA0BAQEMAAAAAAwBAQEMAAABAQETAAAAAAAAEwEBAQAPAQEJAAAAAAAAAAAMAQEOEQ8PAAAAAAAAAAAAAA8PEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAICAAAAAAAAAAAAAAICAw8BAQcAAAAAAAAAAAwBAQ4AAQEBEgAAAAAAABMBAQEAAA4BAQEHAAAAAAkBAQENAAAABQEBAQYAAAYBAQEFAAAAAAAOAQEGAAAGAQENAAAAAAAAAAAPDAAADA8AAAAAAPmfAADhhwAAwYMAAIPBAACH4QAAD/AAAB/4AAD//wAA//8AAB/4AAAP8AAAh+EAAIPBAADBgwAA4YcAAPmfAAA=" type="image/x-icon" />
-    <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/index.html" />
-    <title>Dynamsoft Barcode Reader Samples</title>
-  </head>
-
-  <body>
-    <!-- This is a sample routing page. SDK users do not need to study this html. -->
-    <style>
-      body {
-        text-align: center;
-        font-family: "Open Sans", sans-serif;
-        background-color: #ffffff;
-        margin: 20px;
-      }
-      .filetree .ds-logo {
-        height: 6vh;
-      }
-    </style>
-    <!--
-        For document, copy start from here
-        search `href="scenarios` replace to `href="https://demo.dynamsoft.com/Samples/DBR/JS/scenarios`
-    -->
-    <style>
-      .filetree {
-        text-align: left;
-        background-color: #f8f9fa;
-        border: 2px solid #e1e4e8;
-        border-radius: 8px;
-        margin: 0 auto;
-        max-width: 1200px;
-        padding: 24px 40px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-      }
-
-      .filetree h3 {
-        margin: 2em 0 1em 0;
-        padding-bottom: 0.5em;
-        color: #24292e;
-        font-weight: 600;
-        font-size: 1.3em;
-        border-bottom: 2px solid #e1e4e8;
-      }
-
-      .filetree h3:first-of-type {
-        margin-top: 0.5em;
-      }
-
-      .filetree .file {
-        display: block;
-        font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
-        letter-spacing: 0.3px;
-        line-height: 32px;
-        color: #24292e;
-      }
-
-      /* Category headings (Workflow Examples, Barcode Type Focused, etc.) */
-      .filetree .children > .file:not(:has(a)) {
-        font-weight: 600;
-        color: #586069;
-        margin-top: 1.2em;
-        margin-bottom: 0.4em;
-        font-size: 1.05em;
-        padding: 2px 0 2px 4px;
-        border-left: 3px solid #d1d5da;
-        background-color: rgba(88, 96, 105, 0.03);
-      }
-
-      .filetree .children > .file:not(:has(a))::before {
-        display: none;
-      }
-
-      /* First category in each section */
-      .filetree .children > .file:not(:has(a)):first-child {
-        margin-top: 0.6em;
-      }
-
-      /* Add spacing between main sections */
-      .filetree > .file:has(h3) {
-        margin-top: 2em;
-      }
-
-      .filetree > .file:has(h3):first-child {
-        margin-top: 0;
-      }
-
-      .filetree .children {
-        padding-left: 24px;
-        position: relative;
-      }
-
-      /* Two-column layout for all top-level sample lists */
-      .filetree > .children {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.5em 32px;
-      }
-
-      /* Category headings span full width */
-      .filetree > .children > .file:not(:has(a)) {
-        grid-column: 1 / -1;
-      }
-
-      /* Nested children under categories also need grid */
-      .filetree > .children > .children {
-        grid-column: 1 / -1;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.3em 32px;
-      }
-
-      .filetree .children .file {
-        position: relative;
-      }
-
-      .filetree .children .file::before {
-        content: "";
-        left: -18px;
-        bottom: 16px;
-        width: 16px;
-        height: 20px;
-        position: absolute;
-        border-width: 0 0 1px 1px;
-        border-style: solid;
-        border-color: #e1e4e8;
-        border-radius: 0 0 0 3px;
-      }
-
-      .filetree .button.title {
-        line-height: 1.5;
-        color: #0066cc;
-        text-decoration: none;
-        transition: color 0.2s ease;
-      }
-
-      .filetree .button.title:hover {
-        color: #0052a3;
-        text-decoration: underline;
-      }
-
-      /* GitHub label - non-clickable sample name with tech icon */
-      .filetree .github-label {
-        display: inline-block;
-        font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
-        letter-spacing: 0.3px;
-        color: #24292e;
-        cursor: default;
-      }
-
-      .filetree .github-label::before {
-        content: "";
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        margin-right: 6px;
-        vertical-align: text-bottom;
-        background-size: contain;
-        background-repeat: no-repeat;
-        opacity: 0.6;
-      }
-
-      /* Framework-specific icons for labels */
-      .filetree .github-label.angular::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23DD0031'%3E%3Cpath d='M9.931 12.645h4.138l-2.07-4.908m0-7.737L.68 3.982l1.726 14.771L12 24l9.596-5.242L23.32 3.984 11.999.001zm7.064 18.31l-2.096-1.218-4.9-2.686-4.898 2.686-2.098 1.218-1.726-14.771L12 3.982l9.596 5.242-1.726 14.771z'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.react::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2361DAFB'%3E%3Cpath d='M12 10.11c1.03 0 1.87.84 1.87 1.89 0 1-.84 1.85-1.87 1.85S10.13 13 10.13 12c0-1.05.84-1.89 1.87-1.89M7.37 20c.63.38 2.01-.2 3.6-1.7-.52-.59-1.03-1.23-1.51-1.9a21 21 0 0 1-2.4-.36c-.51 2.14-.32 3.61.31 3.96m.71-5.74l-.29-.51c-.11.29-.22.58-.29.86.27.06.57.11.88.16l-.3-.51m6.54-.76l.81-1.5-.81-1.5c-.3-.53-.62-1-.91-1.47C13.17 9 12.6 9 12 9s-1.17 0-1.71.03c-.29.47-.61.94-.91 1.47L8.57 12l.81 1.5c.3.53.62 1 .91 1.47.54.03 1.11.03 1.71.03s1.17 0 1.71-.03c.29-.47.61-.94.91-1.47M12 6.78c-.19.22-.39.45-.59.72h1.18c-.2-.27-.4-.5-.59-.72m0 10.44c.19-.22.39-.45.59-.72h-1.18c.2.27.4.5.59.72M16.62 4c-.62-.38-2 .2-3.59 1.7.52.59 1.03 1.23 1.51 1.9.82.08 1.63.2 2.4.36.51-2.14.32-3.61-.32-3.96m-.7 5.74l.29.51c.11-.29.22-.58.29-.86-.27-.06-.57-.11-.88-.16l.3.51m1.45-7.05c1.47.84 1.63 3.05 1.01 5.63 2.54.75 4.37 1.99 4.37 3.68s-1.83 2.93-4.37 3.68c.62 2.58.46 4.79-1.01 5.63-1.46.84-3.45-.12-5.37-1.95-1.92 1.83-3.91 2.79-5.38 1.95-1.46-.84-1.62-3.05-1-5.63-2.54-.75-4.37-1.99-4.37-3.68s1.83-2.93 4.37-3.68c-.62-2.58-.46-4.79 1-5.63 1.47-.84 3.46.12 5.38 1.95 1.92-1.83 3.91-2.79 5.37-1.95M17.08 12c.34.75.64 1.5.89 2.26 2.1-.63 3.28-1.53 3.28-2.26s-1.18-1.63-3.28-2.26c-.25.76-.55 1.51-.89 2.26M6.92 12c-.34-.75-.64-1.5-.89-2.26-2.1.63-3.28 1.53-3.28 2.26s1.18 1.63 3.28 2.26c.25-.76.55-1.51.89-2.26m9 2.26l-.3.51c.31-.05.61-.1.88-.16-.07-.28-.18-.57-.29-.86l-.29.51m-2.89 4.04c1.59 1.5 2.97 2.08 3.59 1.7.64-.35.83-1.82.32-3.96-.77.16-1.58.28-2.4.36-.48.67-.99 1.31-1.51 1.9M8.08 9.74l.3-.51c-.31.05-.61.1-.88.16.07.28.18.57.29.86l.29-.51m2.89-4.04C9.38 4.2 8 3.62 7.37 4c-.63.35-.82 1.82-.31 3.96a21 21 0 0 1 2.4-.36c.48-.67.99-1.31 1.51-1.9z'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.vue::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234FC08D'%3E%3Cpath d='M2 3h3.5L12 15l6.5-12H22L12 21 2 3m4.5 0h3L12 7.58 14.5 3h3L12 13.08 6.5 3z'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.svelte::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF3E00'%3E%3Cpath d='M10.354 21.125a4.44 4.44 0 0 1-4.765-1.767 4.109 4.109 0 0 1-.703-3.107 3.898 3.898 0 0 1 .134-.522l.105-.321.287.21a7.21 7.21 0 0 0 2.186 1.092l.208.063-.02.208a1.253 1.253 0 0 0 .226.83c.214.28.538.465.904.512a1.379 1.379 0 0 0 .624-.04l.002-.001 6.717-2.439a1.379 1.379 0 0 0 .904-1.051 1.277 1.277 0 0 0-.205-.973 1.379 1.379 0 0 0-.904-.512 1.379 1.379 0 0 0-.624.04l-2.589.94a4.356 4.356 0 0 1-1.977.123 4.44 4.44 0 0 1-3.37-2.376 4.109 4.109 0 0 1-.703-3.107 4.43 4.43 0 0 1 2.782-3.396l6.717-2.439a4.356 4.356 0 0 1 1.977-.123 4.44 4.44 0 0 1 3.37 2.376c.26.537.417 1.127.456 1.73a3.898 3.898 0 0 1-.134.522l-.105.321-.287-.21a7.21 7.21 0 0 0-2.186-1.092l-.208-.063.02-.208a1.253 1.253 0 0 0-.226-.83 1.379 1.379 0 0 0-.904-.512 1.379 1.379 0 0 0-.624.04l-6.717 2.439a1.379 1.379 0 0 0-.904 1.051 1.277 1.277 0 0 0 .205.973c.214.28.538.465.904.512.216.025.434.006.624-.04l2.589-.94a4.356 4.356 0 0 1 1.977-.123 4.44 4.44 0 0 1 3.37 2.376c.26.537.417 1.127.456 1.73a4.109 4.109 0 0 1-.703 3.107 4.43 4.43 0 0 1-2.782 3.396l-6.717 2.439a4.356 4.356 0 0 1-1.977.123z'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.next::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'%3E%3Cpath d='M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.049-.106.005-4.703.007-4.705.073-.091a.637.637 0 0 1 .174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 0 0 4.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 0 0 2.466-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 0 0-2.499-.523A33.119 33.119 0 0 0 11.573 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 0 1 .237.277c.018.06.023 1.365.018 4.304l-.006 4.218-0.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 0 1 .233-.296c.096-.05.13-.054.5-.054z'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.nuxt::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300DC82'%3E%3Cpath d='M19.724 20.272l-3.524-6.282c-.057-.1-.165-.165-.28-.165H14.4l.332-.607h1.984c.117 0 .224.066.28.165l2.024 3.614 3.862-6.89-3.862-6.89a.328.328 0 0 0-.28-.165h-7.702a.328.328 0 0 0-.28.165l-3.862 6.89 2.024 3.614h.001l.332.607H6.738a.328.328 0 0 0-.28-.165L2.596 7.28 6.458.39c.057-.1.165-.165.28-.165h7.702c.117 0 .224.066.28.165l7.724 13.78a.328.328 0 0 1 0 .328l-2.44 4.352c-.057.1-.165.165-.28.165h-7.702a.328.328 0 0 1-.28-.165l-.332-.607h1.984l1.54 2.747a.328.328 0 0 0 .28.165h3.028a.328.328 0 0 0 .28-.165l2.024-3.614z'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.blazor::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23512BD4'%3E%3Cpath d='M23.834 8.101a13.912 13.912 0 0 1-13.643 11.72a10.105 10.105 0 0 1-1.994-.12a6.111 6.111 0 0 1-5.082-5.761a5.934 5.934 0 0 1 11.867-.084c.025.983-.401 1.846-1.277 1.871c-.936 0-1.374-.668-1.374-1.567v-2.5a1.531 1.531 0 0 0-1.52-1.533H8.715a3.648 3.648 0 1 0 2.695 6.08l.073-.11l.074.121a2.58 2.58 0 0 0 2.2 1.048a2.909 2.909 0 0 0 2.695-3.04a7.912 7.912 0 0 0-.217-1.933a7.404 7.404 0 0 0-14.64 1.603a7.497 7.497 0 0 0 7.308 7.405s.549.05 1.167.035a15.803 15.803 0 0 0 8.475-2.528c.036-.025.072.025.048.061a12.44 12.44 0 0 1-9.69 3.963a8.744 8.744 0 0 1-8.9-9.479a9.404 9.404 0 0 1 18.686-.744c.049.534.074 1.06.074 1.569v.217a.422.422 0 0 1-.423.423h-.121a.422.422 0 0 1-.423-.423v-.217a7.405 7.405 0 1 0-14.64 1.603a7.497 7.497 0 0 0 7.308 7.405a13.912 13.912 0 0 0 13.643-11.72z'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.electron::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2347848F'%3E%3Cpath d='M12.001 2.361c.635 0 1.258.053 1.865.155a9.926 9.926 0 0 1 7.618 7.618 9.952 9.952 0 0 1 0 3.732 9.926 9.926 0 0 1-7.618 7.618 9.952 9.952 0 0 1-3.732 0 9.926 9.926 0 0 1-7.618-7.618 9.952 9.952 0 0 1 0-3.732 9.926 9.926 0 0 1 7.618-7.618c.608-.102 1.23-.155 1.867-.155m0-2.361C5.383 0 0 5.383 0 12s5.383 12 12 12 12-5.383 12-12S18.617 0 12.001 0zm-.866 5.27a1.622 1.622 0 1 0 1.732 0 1.622 1.622 0 0 0-1.732 0z'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.capacitor::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23119EFF'%3E%3Cpath d='M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 3.6c4.632 0 8.4 3.768 8.4 8.4 0 4.632-3.768 8.4-8.4 8.4-4.632 0-8.4-3.768-8.4-8.4 0-4.632 3.768-8.4 8.4-8.4zm0 2.4c-3.312 0-6 2.688-6 6s2.688 6 6 6 6-2.688 6-6-2.688-6-6-6z'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.pwa::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235A0FC8'%3E%3Cpath d='M20.5796 14.7979L18.7976 21.5383C18.7166 21.8511 18.4319 22.0676 18.1053 22.0676H5.89467C5.56809 22.0676 5.28339 21.8511 5.20238 21.5383L3.42036 14.7979C3.35488 14.5477 3.42036 14.2804 3.59845 14.0867L11.7038 4.98339C11.8819 4.78968 12.1181 4.78968 12.2962 4.98339L20.4015 14.0867C20.5796 14.2804 20.6451 14.5477 20.5796 14.7979Z'/%3E%3Cpath d='M9.60605 8.30682L8.48438 18.9754H5.89467L7.37548 12.8498L9.60605 8.30682Z' fill='white'/%3E%3Cpath d='M14.3939 8.30682L15.5156 18.9754H18.1053L16.6245 12.8498L14.3939 8.30682Z' fill='white'/%3E%3Cpath d='M12 8.30682L10.4394 18.9754H13.5606L12 8.30682Z' fill='white'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.js::before,
-      .filetree .github-label.typescript::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F7DF1E'%3E%3Cpath d='M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.requirejs::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E44D26'%3E%3Cpath d='M12 0L2.524 3.804 4.012 20.238 12 24l7.988-3.762 1.488-16.434L12 0zm0 2.532l6.24 2.34-1.167 12.888L12 19.468l-5.073-1.708-1.167-12.888L12 2.532z'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.webview::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233DDC84'%3E%3Cpath d='M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 3a7 7 0 0 0-7 7c0 3.866 3.134 7 7 7s7-3.134 7-7-3.134-7-7-7z'/%3E%3C/svg%3E");
-      }
-
-      .filetree .github-label.debug::before {
-        width: 22px;
-        height: 22px;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B6B'%3E%3Cpath d='M14,12h-4v-2h4M14,16h-4v-2h4M20,8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17,4.41L15.59,3l-2.17,2.17C12.96,5.06,12.49,5,12,5s-.96.06-1.41.17L8.41,3L7,4.41l1.62,1.63C7.88,6.55,7.26,7.22,6.81,8H4v2h2.09c-.05.33-.09.66-.09,1v1H4v2h2v1c0,.34.04.67.09,1H4v2h2.81c1.04,1.79,2.97,3,5.19,3s4.15-1.21,5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8z'/%3E%3C/svg%3E");
-      }
-
-      /* Demo link - play icon before text */
-      .filetree .button.title.demo-link::before {
-        content: "";
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        margin-right: 6px;
-        vertical-align: text-bottom;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230066cc'%3E%3Cpath d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/%3E%3Cpath d='M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z'/%3E%3C/svg%3E");
-        background-size: contain;
-        background-repeat: no-repeat;
-        opacity: 0.7;
-      }
-
-      .filetree .button.title.demo-link:hover::before {
-        opacity: 1;
-      }
-
-      /* Source code link - inline GitHub icon */
-      .filetree .button.title.source-link {
-        color: #586069;
-        font-size: 0.9em;
-        margin-left: 8px;
-        padding-left: 8px;
-        border-left: 1px solid #e1e4e8;
-      }
-
-      .filetree .button.title.source-link::before {
-        content: "";
-        display: inline-block;
-        width: 14px;
-        height: 14px;
-        margin-right: 5px;
-        vertical-align: text-bottom;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23586069'%3E%3Cpath fill-rule='evenodd' d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'%3E%3C/path%3E%3C/svg%3E");
-        background-size: contain;
-        background-repeat: no-repeat;
-        opacity: 0.6;
-      }
-
-      .filetree .button.title.source-link:hover {
-        color: #0366d6;
-      }
-
-      .filetree .button.title.source-link:hover::before {
-        opacity: 1;
-      }
-
-      /* README link styling - similar to source-link but with document icon */
-      .filetree .button.title.readme-link {
-        color: #24292e;
-        font-size: 0.95em;
-        text-decoration: none;
-        font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
-        letter-spacing: 0.3px;
-      }
-
-      .filetree .button.title.readme-link::before {
-        content: "";
-        display: inline-block;
-        width: 14px;
-        height: 14px;
-        margin-right: 5px;
-        vertical-align: text-bottom;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%235468FF'%3E%3Cpath d='M4 1.75C4 .784 4.784 0 5.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0114.25 16h-8.5A1.75 1.75 0 014 14.25V1.75zm1.75-.25a.25.25 0 00-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 00.25-.25V4.664a.25.25 0 00-.073-.177l-2.914-2.914a.25.25 0 00-.177-.073H5.75z'/%3E%3Cpath d='M8 3a.75.75 0 01.75.75v3.5h3.5a.75.75 0 010 1.5h-3.5v3.5a.75.75 0 01-1.5 0v-3.5h-3.5a.75.75 0 010-1.5h3.5v-3.5A.75.75 0 018 3z'/%3E%3C/svg%3E");
-        background-size: contain;
-        background-repeat: no-repeat;
-        opacity: 0.7;
-      }
-
-      .filetree .button.title.readme-link:hover {
-        color: #5468ff;
-      }
-
-      .filetree .button.title.readme-link:hover::before {
-        opacity: 1;
-      }
-
-      /* External link indicator - shared by readme-link and source-link */
-      .filetree .button.title.readme-link::after,
-      .filetree .button.title.source-link::after {
-        content: "";
-        display: inline-block;
-        width: 11px;
-        height: 11px;
-        margin-left: 5px;
-        vertical-align: text-bottom;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23586069'%3E%3Cpath d='M3.75 2A1.75 1.75 0 002 3.75v8.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 12.25v-3.5a.75.75 0 00-1.5 0v3.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-8.5a.25.25 0 01.25-.25h3.5a.75.75 0 000-1.5h-3.5z'/%3E%3Cpath d='M6.854 6.146a.5.5 0 010 .708l-.354.353a.5.5 0 11-.707-.707l.353-.354a.5.5 0 01.708 0zM10 1.75a.75.75 0 01.75-.75h3.5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0V2.56l-4.72 4.72a.75.75 0 11-1.06-1.06l4.72-4.72h-2.69a.75.75 0 01-.75-.75z'/%3E%3C/svg%3E");
-        background-size: contain;
-        background-repeat: no-repeat;
-        opacity: 0.5;
-        transition: opacity 0.2s ease;
-      }
-
-      .filetree .button.title.readme-link:hover::after,
-      .filetree .button.title.source-link:hover::after {
-        opacity: 0.9;
-      }
-
-      /* Main README link styling */
-      .filetree .main-readme-container {
-        margin-bottom: 1.5em;
-      }
-
-      .filetree .main-readme-link {
-        font-size: 1.05em;
-      }
-
-      /* Section header README links */
-      .filetree .section-readme-link {
-        font-size: 0.75em;
-        margin-left: 10px;
-      }
-
-      /* Better spacing for sample items */
-      .filetree .children .children .file {
-        margin-bottom: 0;
-      }
-
-      /* Featured Section Container - Side by Side */
-      .filetree .featured-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-        margin: 1em 0 2em 0;
-      }
-
-      .filetree .featured-box {
-        border-radius: 8px;
-        padding: 20px 24px;
-        text-align: center;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        display: block;
-        text-decoration: none;
-        cursor: pointer;
-        position: relative;
-      }
-
-      .filetree .featured-box:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-      }
-
-      .filetree .featured-box:active {
-        transform: translateY(0);
-      }
-
-      /* Quick Start - Purple Gradient */
-      .filetree .quick-start {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      }
-
-      /* Official Demo - Pink/Red Gradient */
-      .filetree .official-demo {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      }
-
-      .filetree .featured-box .label {
-        display: block;
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 0.85em;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 8px;
-      }
-
-      .filetree .featured-box .title {
-        color: #ffffff;
-        font-size: 1.15em;
-        font-weight: 700;
-        display: block;
-        margin: 0;
-      }
-
-      .filetree .featured-box .description {
-        color: rgba(255, 255, 255, 0.85);
-        font-size: 0.9em;
-        margin-top: 8px;
-        line-height: 1.4;
-      }
-
-      /* Badge styles - shared by github-badge and guide-badge */
-      .filetree .featured-box .github-badge,
-      .filetree .featured-box .guide-badge {
-        position: absolute;
-        top: 12px;
-        width: 32px;
-        height: 32px;
-        background-color: rgba(255, 255, 255, 0.2);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10;
-        transition: all 0.2s ease;
-        backdrop-filter: blur(4px);
-      }
-
-      .filetree .featured-box .github-badge {
-        right: 12px;
-      }
-
-      .filetree .featured-box .guide-badge {
-        left: 12px;
-      }
-
-      .filetree .featured-box .github-badge:hover,
-      .filetree .featured-box .guide-badge:hover {
-        background-color: rgba(255, 255, 255, 0.35);
-        transform: scale(1.15);
-      }
-
-      .filetree .featured-box .github-badge:active,
-      .filetree .featured-box .guide-badge:active {
-        transform: scale(0.95);
-      }
-
-      .filetree .featured-box .github-badge svg,
-      .filetree .featured-box .guide-badge svg {
-        display: block;
-      }
-
-      .filetree .title img,
-      .filetree .title svg {
-        height: 17px;
-        vertical-align: middle;
-      }
-
-      /* Search Bar */
-      .filetree .search-container {
-        position: relative;
-        margin: 1.5em auto 2em auto;
-        max-width: 350px;
-        transition: max-width 0.3s ease;
-      }
-
-      .filetree .search-container:focus-within {
-        max-width: 600px;
-      }
-
-      .filetree .search-input {
-        width: 100%;
-        padding: 12px 45px 12px 16px;
-        font-size: 15px;
-        border: 2px solid #e1e4e8;
-        border-radius: 8px;
-        background-color: #ffffff;
-        color: #24292e;
-        transition: all 0.2s ease;
-        font-family: inherit;
-        box-sizing: border-box;
-      }
-
-      .filetree .search-input:focus {
-        outline: none;
-        border-color: #0066cc;
-        box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
-      }
-
-      .filetree .search-input::placeholder {
-        color: #959da5;
-      }
-
-      .filetree .search-icon {
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 18px;
-        pointer-events: none;
-        opacity: 0.5;
-      }
-
-      /* Sample Count Badges */
-      .filetree h3 .sample-count {
-        font-size: 0.75em;
-        font-weight: 400;
-        color: #586069;
-        background-color: #f1f3f5;
-        padding: 2px 8px;
-        border-radius: 12px;
-        margin-left: 8px;
-      }
-
-      /* Back to Top Button */
-      .filetree .back-to-top {
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Samples for the Dynamsoft Barcode Reader JavaScript SDK. Open any sample on your phone via QR code and scan the barcode images shown on this page.">
+  <link rel="canonical" href="https://demo.dynamsoft.com/Samples/DBR/JS/index.html">
+  <title>Dynamsoft Barcode Reader - JavaScript Samples</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+            --panel: #fff;
+            --ink: #1b1f2a;
+            --ink-soft: #5b6472;
+            --line: #e3e7ef;
+            --brand: #2b5bd7;
+            --brand-soft: #eaf0ff;
+      --radius: 12px;
+      --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 8px 24px rgba(16, 24, 40, .06);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 1360px; margin: 0 auto; padding: 20px 24px 60px; }
+    .show-mobile { display: none; }
+
+    /* header */
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 0 20px; flex-wrap: wrap; }
+    .brand { display: inline-flex; height: 34px; }
+    .brand svg { height: 100%; }
+    .top-links { display: flex; gap: 18px; flex-wrap: wrap; }
+    .top-links a { color: var(--ink-soft); font-weight: 600; }
+    .top-links a:hover { color: var(--brand); text-decoration: none; }
+
+    /* handoff banner */
+    .handoff {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 28px;
+      align-items: center;
+      background: linear-gradient(120deg, #1f2a50, #2b5bd7);
+      color: #fff;
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: var(--shadow);
+    }
+    .handoff h1 { margin: 0 0 10px; font-size: 24px; line-height: 1.3; }
+          .handoff p { margin: 0 0 14px; color: #dbe4ff; max-width: 62ch; }
+          .steps { margin: 0 0 18px; padding-left: 20px; color: #dbe4ff; }
+    .steps li { margin: 4px 0; }
+    .handoff-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .handoff-qr { text-align: center; }
+    .qr-card { background: #fff; border-radius: 12px; padding: 10px; width: 150px; box-shadow: 0 4px 14px rgba(0, 0, 0, .18); }
+    .qr-card svg { display: block; width: 100%; height: auto; }
+    .qr-caption { margin-top: 8px; font-size: 12px; color: #dbe4ff; }
+    .net-hint { margin: 0 0 16px; padding: 12px 14px; border-radius: 10px; background: rgba(0, 0, 0, .18); border: 1px solid rgba(255, 255, 255, .22); color: #fff; font-size: 13px; max-width: 78ch; }
+    .net-hint[hidden] { display: none; }
+    .net-hint .net-msg { margin: 0 0 8px; color: #fff; max-width: none; }
+    .net-hint .net-msg:last-child { margin: 0; }
+    .net-hint a { color: #fff; text-decoration: underline; }
+    .net-hint code { background: rgba(0, 0, 0, .28); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+    .base-form { display: flex; gap: 8px; flex-wrap: wrap; }
+    .base-form input { flex: 1 1 260px; min-width: 0; padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, .35); background: rgba(255, 255, 255, .95); color: var(--ink); font: inherit; font-size: 13px; }
+    .base-form .btn { padding: 7px 14px; }
+    .base-help { margin-top: 8px; }
+    .base-help summary { cursor: pointer; color: #dbe4ff; }
+    .base-help ul { margin: 6px 0 0; padding-left: 18px; color: #dbe4ff; }
+    .base-help li { margin: 4px 0; }
+    .base-help strong { color: #fff; }
+
+    /* buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .btn:hover { text-decoration: none; border-color: var(--brand); color: var(--brand); }
+        .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+        .btn.primary:hover { background: #2449ad; color: #fff; }
+    .btn.light { background: rgba(255, 255, 255, .14); border-color: rgba(255, 255, 255, .35); color: #fff; }
+    .btn.light:hover { background: rgba(255, 255, 255, .24); color: #fff; }
+        .btn.ghost { background: transparent; border-color: transparent; color: #cfe0ff; }
+    .btn.ghost:hover { color: #fff; }
+
+    /* toolbar */
+    .toolbar { display: flex; gap: 14px; align-items: center; margin: 22px 0 16px; flex-wrap: wrap; }
+    #search { flex: 1 1 280px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; font-size: 14px; background: #fff; }
+    #search:focus { outline: 2px solid var(--brand-soft); border-color: var(--brand); }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink-soft); font-size: 13px; font-weight: 600; cursor: pointer; }
+    .chip:hover { border-color: var(--brand); color: var(--brand); }
+        .chip.active { background: var(--brand); border-color: var(--brand); color: #fff; }
+
+    /* layout */
+    .layout { display: grid; grid-template-columns: minmax(0, 3fr) minmax(420px, 2fr); gap: 20px; align-items: start; }
+    .group-title { margin: 18px 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); }
+    .group-title .count { color: var(--brand); }
+    .group:first-child .group-title { margin-top: 0; }
+    .items { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
+    .sample {
+      text-align: left;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font: inherit;
+      color: inherit;
+      width: 100%;
+    }
+    .sample:hover { border-color: var(--brand); box-shadow: var(--shadow); }
+    .sample.active { border-color: var(--brand); background: var(--brand-soft); box-shadow: inset 4px 0 0 var(--brand); }
+    .sample-title { font-weight: 700; }
+    .sample-desc { font-size: 13px; color: var(--ink-soft); }
+    .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+    .tag { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: #eef1f7; color: var(--ink-soft); }
+    .tag.nocam { background: #e7f6ec; color: #1c7c3c; }
+    .empty { padding: 30px; text-align: center; color: var(--ink-soft); background: var(--panel); border: 1px dashed var(--line); border-radius: var(--radius); }
+
+    /* detail panel */
+    .detail {
+      position: sticky;
+      top: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      max-height: calc(100vh - 32px);
+      overflow: auto;
+    }
+    .sheet-close { display: none; }
+    .detail h2 { margin: 0 0 6px; font-size: 22px; line-height: 1.3; }
+    .detail .desc { color: var(--ink-soft); margin: 0 0 14px; font-size: 14px; }
+    .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .qr-section { display: flex; gap: 16px; align-items: center; background: var(--brand-soft); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 20px; }
+    .qr-section .qr-card { width: 140px; flex: none; box-shadow: none; }
+    .qr-side { font-size: 13px; color: var(--ink-soft); min-width: 0; }
+    .qr-side strong { display: block; color: var(--ink); margin-bottom: 3px; font-size: 15px; }
+    .qr-side p { margin: 0 0 8px; }
+    .url { display: block; word-break: break-all; font-size: 11px; background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; color: var(--ink-soft); }
+    .materials h3 { margin: 0 0 4px; font-size: 16px; }
+    .mat-note { margin: 0 0 10px; font-size: 13px; color: var(--ink-soft); }
+    .mat-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .mat-grid.multi { grid-template-columns: 1fr 1fr; }
+    .preview { padding: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; cursor: zoom-in; display: block; width: 100%; font: inherit; transition: border-color .15s; }
+    .preview:hover { border-color: var(--brand); }
+    .preview img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background: #fff; }
+    .preview .mat-label { display: block; padding: 6px 8px; font-size: 12px; color: var(--ink-soft); border-top: 1px solid var(--line); text-align: left; }
+    .fallback { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; aspect-ratio: 4 / 3; background: #f0f2f8; border: 1px dashed var(--line); border-radius: 10px; color: var(--ink-soft); font-size: 12px; text-align: center; padding: 8px; }
+    .fallback code { font-size: 11px; }
+
+    /* frameworks */
+    .frameworks { margin-top: 28px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 20px; }
+    .frameworks summary { cursor: pointer; font-weight: 700; }
+    .fw-note { color: var(--ink-soft); font-size: 13px; }
+    .fw-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
+    .fw-list a { display: block; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); font-weight: 600; }
+    .fw-list a:hover { border-color: var(--brand); color: var(--brand); text-decoration: none; }
+
+    .foot { margin-top: 30px; color: var(--ink-soft); font-size: 13px; text-align: center; }
+
+    /* backdrop, lightbox, toast, back-to-top */
+    .backdrop { position: fixed; inset: 0; background: rgba(15, 20, 35, .45); opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 40; }
+    .backdrop.active { opacity: 1; pointer-events: auto; }
+    .lightbox { position: fixed; inset: 0; z-index: 60; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 12px; background: rgba(10, 14, 25, .85); padding: 30px; }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: min(92vw, 1100px); max-height: 82vh; background: #fff; border-radius: 10px; }
+    .lightbox-caption { color: #dbe4ff; font-size: 14px; }
+    .lightbox-close { position: absolute; top: 16px; right: 20px; font-size: 28px; background: none; border: none; color: #fff; cursor: pointer; }
+    .toast { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(20px); background: #1b1f2a; color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 14px; opacity: 0; pointer-events: none; transition: .2s; z-index: 70; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .back-to-top { position: fixed; right: 22px; bottom: 22px; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--brand); font-size: 20px; cursor: pointer; box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: .2s; z-index: 30; }
+    .back-to-top.show { opacity: 1; pointer-events: auto; }
+
+    @media (max-width: 1080px) {
+      .layout { grid-template-columns: minmax(0, 1fr) 360px; gap: 18px; }
+      .items { grid-template-columns: 1fr; }
+      .detail { padding: 18px; }
+      .qr-section .qr-card { width: 120px; }
+      .mat-grid, .mat-grid.multi { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 860px) {
+      .wrap { padding: 14px 14px 80px; }
+      .show-mobile { display: block; }
+      .hide-mobile { display: none; }
+      .handoff { grid-template-columns: 1fr; padding: 22px; }
+      .handoff-qr, .steps { display: none; }
+      .layout { grid-template-columns: 1fr; }
+      .detail {
         position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 48px;
-        height: 48px;
-        background-color: #0066cc;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        font-size: 24px;
-        cursor: pointer;
-        opacity: 0;
-        visibility: hidden;
-        transform: scale(0.8);
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
-        z-index: 1000;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        z-index: 50;
+        max-height: 82vh;
+        border-radius: 16px 16px 0 0;
+        transform: translateY(102%);
+        transition: transform .25s ease;
       }
+      .detail.open { transform: translateY(0); }
+      .sheet-close { display: block; position: absolute; top: 8px; right: 12px; font-size: 26px; background: none; border: none; color: var(--ink-soft); cursor: pointer; z-index: 1; }
+      .qr-section { display: none; }
+    }
 
-      .filetree .back-to-top.visible {
-        opacity: 1;
-        visibility: visible;
-        transform: scale(1);
-      }
-
-      .filetree .back-to-top:hover {
-        background-color: #0052a3;
-        transform: scale(1.1);
-        box-shadow: 0 6px 16px rgba(0, 102, 204, 0.4);
-      }
-
-      .filetree .back-to-top:active {
-        transform: scale(0.95);
-      }
-
-      /* Responsive Design */
-      @media screen and (max-width: 768px) {
-        body {
-          margin: 10px;
-        }
-
-        .filetree {
-          padding: 16px 20px;
-          border-radius: 6px;
-          max-width: 100%;
-        }
-
-        .filetree h3 {
-          font-size: 1.15em;
-          margin: 1.5em 0 0.8em 0;
-          padding-bottom: 0.4em;
-        }
-
-        .filetree h3:first-of-type {
-          margin-top: 0.3em;
-        }
-
-        .filetree .file {
-          line-height: 28px;
-          font-size: 14px;
-        }
-
-        .filetree .children {
-          padding-left: 16px;
-        }
-
-        /* Single column on mobile */
-        .filetree > .children,
-        .filetree > .children > .children {
-          grid-template-columns: 1fr;
-          gap: 0.3em;
-        }
-
-        .filetree .children > .file:not(:has(a)) {
-          font-size: 1em;
-          margin-top: 1em;
-          margin-bottom: 0.3em;
-        }
-
-        .filetree .button.title {
-          font-size: 14px;
-          word-break: break-word;
-        }
-
-        .filetree .featured-container {
-          grid-template-columns: 1fr;
-          gap: 12px;
-          margin: 0.8em 0 1.5em 0;
-        }
-
-        .filetree .featured-box {
-          padding: 16px 20px;
-        }
-
-        .filetree .featured-box .title {
-          font-size: 1.1em;
-        }
-
-        .filetree .featured-box .description {
-          font-size: 0.85em;
-        }
-
-        .filetree .search-container {
-          margin: 1em 0 1.5em 0;
-          max-width: 280px;
-        }
-
-        .filetree .search-container:focus-within {
-          max-width: 100%;
-        }
-
-        .filetree .search-input {
-          padding: 10px 40px 10px 14px;
-          font-size: 14px;
-        }
-
-        .filetree .back-to-top {
-          bottom: 20px;
-          right: 20px;
-          width: 44px;
-          height: 44px;
-          font-size: 22px;
-        }
-      }
-
-      @media screen and (max-width: 480px) {
-        body {
-          margin: 5px;
-        }
-
-        .filetree {
-          padding: 12px 16px;
-          border-width: 1px;
-          border-radius: 4px;
-        }
-
-        .filetree h3 {
-          font-size: 1.05em;
-          margin: 1.2em 0 0.6em 0;
-          padding-bottom: 0.3em;
-          border-bottom-width: 1px;
-        }
-
-        .filetree h3:first-of-type {
-          margin-top: 0.2em;
-        }
-
-        .filetree .file {
-          line-height: 26px;
-          font-size: 13px;
-        }
-
-        .filetree .children {
-          padding-left: 12px;
-        }
-
-        .filetree .children .file::before {
-          left: -12px;
-          width: 12px;
-          height: 16px;
-        }
-
-        .filetree .children > .file:not(:has(a)) {
-          font-size: 0.95em;
-          margin-top: 0.8em;
-          margin-bottom: 0.2em;
-        }
-
-        .filetree .button.title {
-          font-size: 13px;
-          line-height: 1.4;
-          display: inline-block;
-        }
-
-        .filetree .title img,
-        .filetree .title svg {
-          height: 14px;
-        }
-
-        .filetree .button.title.demo-link::before {
-          width: 14px;
-          height: 14px;
-          margin-right: 5px;
-        }
-
-        .filetree .button.title.source-link {
-          font-size: 0.85em;
-          margin-left: 6px;
-          padding-left: 6px;
-        }
-
-        .filetree .button.title.source-link::before {
-          width: 12px;
-          height: 12px;
-          margin-right: 4px;
-        }
-
-        .filetree .featured-container {
-          grid-template-columns: 1fr;
-          gap: 10px;
-          margin: 0.6em 0 1.2em 0;
-        }
-
-        .filetree .featured-box {
-          padding: 14px 16px;
-        }
-
-        .filetree .featured-box .label {
-          font-size: 0.75em;
-          margin-bottom: 6px;
-        }
-
-        .filetree .featured-box .title {
-          font-size: 1em;
-        }
-
-        .filetree .featured-box .description {
-          font-size: 0.8em;
-          margin-top: 6px;
-        }
-
-        .filetree .featured-box .github-badge {
-          top: 10px;
-          right: 10px;
-          width: 28px;
-          height: 28px;
-        }
-
-        .filetree .featured-box .github-badge svg {
-          width: 16px;
-          height: 16px;
-        }
-
-        .filetree .featured-box .guide-badge {
-          top: 10px;
-          left: 10px;
-          width: 28px;
-          height: 28px;
-        }
-
-        .filetree .featured-box .guide-badge svg {
-          width: 16px;
-          height: 16px;
-        }
-
-        .filetree .search-container {
-          margin: 0.8em 0 1.2em 0;
-          max-width: 250px;
-        }
-
-        .filetree .search-container:focus-within {
-          max-width: 100%;
-        }
-
-        .filetree .search-input {
-          padding: 9px 38px 9px 12px;
-          font-size: 13px;
-        }
-
-        .filetree .search-icon {
-          font-size: 16px;
-          right: 14px;
-        }
-
-        .filetree .back-to-top {
-          bottom: 15px;
-          right: 15px;
-          width: 40px;
-          height: 40px;
-          font-size: 20px;
-        }
-      }
-
-      /* Tablet landscape and larger */
-      @media screen and (min-width: 769px) and (max-width: 1024px) {
-        .filetree {
-          max-width: 90%;
-        }
-      }
-
-      /* Touch device improvements */
-      @media (hover: none) and (pointer: coarse) {
-        .filetree .button.title {
-          padding: 4px 0;
-          min-height: 44px;
-          display: inline-flex;
-          align-items: center;
-        }
-      }
-    </style>
-    <div class="filetree">
-      <a href="https://www.dynamsoft.com/" target="_blank">
-        <div class="ds-logo">
-          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 159 39" style="height:100%;" xml:space="preserve">
-            <style type="text/css">.st0{fill:#323234;}.st1{fill:#F99D31;}</style>
-            <path class="st0" d="M0,5.3h6.9c4.8,0,7.4,2.6,7.4,8.2v10.8c0,5.6-2.6,8.2-7.4,8.2H0V5.3z M4.7,28.7h1.6c2.5,0,3.4-0.9,3.4-3.8V12.9c0-2.9-0.9-3.8-3.4-3.8H4.7V28.7z"/>
-            <path class="st0" d="M26.6,12.2h4.3L25.6,34c-0.9,3.7-2.6,4.9-5.8,4.9H18v-3.5h1c2.1,0,2.8-1.1,2.8-3.3c0-0.8-0.2-1.7-0.5-2.7L17,12.2h4.3l2.7,13h0.1L26.6,12.2z"/>
-            <path class="st0" d="M33.3,32.5V12.2h4v2c1.8-1.5,2.7-2.4,5.1-2.4c2.2,0,3.5,1.6,3.5,4.3v16.4h-4.2V16.8c0-1-0.6-1.5-1.5-1.5c-0.9,0-1.7,0.6-2.7,1.3v15.9H33.3z"/>
-            <path class="st0" d="M49.6,18.2c0.2-4.1,2.8-6.3,6.8-6.3c3.9,0,6.2,1.8,6.2,5.5v13c0,0.6,0.2,1.5,0.3,2.2h-4c0-0.6-0.2-1.1-0.2-1.6c-1.6,1.3-2.9,2-4.9,2c-2.9,0-4.3-2-4.3-4.6c0-4.5,2.9-6.9,9-9.2v-1.2c0-1.7-0.7-2.6-2.1-2.6c-1.9,0-2.3,1.1-2.4,2.9H49.6z M58.4,22.2c-3.8,2.2-4.8,3.6-4.8,5.4c0,1.3,0.7,1.8,2,1.8c1.2,0,2.1-0.9,2.8-1.9V22.2z"/>
-            <path class="st0" d="M75.3,32.5V16.8c0-1-0.6-1.5-1.5-1.5c-0.9,0-1.7,0.6-2.7,1.3v15.9h-4.2V12.2h4v2c1.8-1.5,2.7-2.4,4.7-2.4c2.1,0,2.8,0.8,3.7,2.4c2-2,3.2-2.4,4.7-2.4c2.6,0,4,1.6,4,4.3v16.4h-4.2V16.8c0-1-0.7-1.5-1.5-1.5c-0.9,0-1.7,0.6-2.7,1.3v15.9H75.3z"/>
-            <g><path class="st0" d="M151.8,27.2h-1v-0.9h3.1v0.9h-1v5.3h-1.1V27.2z"/><path class="st0" d="M158.9,26.3v6.2h-0.9v-4.9h0l-1,4.9h-0.5l-1-4.9h0v4.9h-0.9v-6.2h1.4l0.8,3.6h0l0.8-3.6H158.9z"/></g>
-            <polygon class="st0" points="118.9,0 114,0 116.5,6.3"/>
-            <path class="st1" d="M99.7,17.8c-0.3-1.6-1.1-2.5-2.4-2.5c-1.1,0-1.9,0.6-1.9,1.6c0,3.2,7.9,4.5,7.9,10.5c0,3.6-2.5,5.5-5.9,5.5c-3.7,0-5.8-2.1-6.5-5.7l3.7-1c0.3,1.7,0.9,3.2,2.8,3.2c1.1,0,1.9-0.6,1.9-1.8c0-3.5-7.9-4.8-7.9-10.4c0-3.2,2.5-5.4,5.7-5.4c3.3,0,5.5,2.2,6.2,5.4L99.7,17.8z"/>
-            <path class="st1" d="M130.5,15.7H128v-3.5h2.5V9.7c0-3.3,1.7-4.8,4.7-4.8h2.1v3.5h-1.2c-1,0-1.4,0.4-1.4,1.4v2.5h2.4v3.5h-2.4v16.8h-4.2V15.7z"/>
-            <path class="st1" d="M138.5,15.7v-3.5h2.3V6.7h4.2v5.5h2.8v3.5h-2.8v11.7c0,1.1,0.5,1.7,1.4,1.7h1.4v3.6c-0.6,0.2-1.1,0.2-2.1,0.2c-3.2,0-4.9-1.5-4.9-4.6V15.7H138.5z"/>
-            <g><path class="st1" d="M114.7,15.7v-4.2c-4.7,0.7-8.4,4.5-9,9.2h4.2C110.4,18.2,112.3,16.3,114.7,15.7z"/><path class="st1" d="M123,20.6h4.2c-0.7-4.7-4.4-8.5-9.1-9.2v4.2C120.5,16.2,122.4,18.2,123,20.6z"/><path class="st1" d="M110,24h-4.2c0.8,4.6,4.4,8.2,9,8.9v-4.2C112.4,28.1,110.6,26.3,110,24z"/><path class="st1" d="M118.1,28.7v4.2c4.6-0.7,8.3-4.3,9.1-8.9h-4.2C122.3,26.3,120.4,28.1,118.1,28.7z"/></g>
-          </svg>
-        </div>
+    @media (min-width: 861px) {
+      .backdrop { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="https://www.dynamsoft.com/" target="_blank" rel="noopener" aria-label="Dynamsoft">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 159 39" xml:space="preserve">
+          <style type="text/css">.st0{fill:#323234;}.st1{fill:#F99D31;}</style>
+          <path class="st0" d="M0,5.3h6.9c4.8,0,7.4,2.6,7.4,8.2v10.8c0,5.6-2.6,8.2-7.4,8.2H0V5.3z M4.7,28.7h1.6c2.5,0,3.4-0.9,3.4-3.8V12.9c0-2.9-0.9-3.8-3.4-3.8H4.7V28.7z"/>
+          <path class="st0" d="M26.6,12.2h4.3L25.6,34c-0.9,3.7-2.6,4.9-5.8,4.9H18v-3.5h1c2.1,0,2.8-1.1,2.8-3.3c0-0.8-0.2-1.7-0.5-2.7L17,12.2h4.3l2.7,13h0.1L26.6,12.2z"/>
+          <path class="st0" d="M33.3,32.5V12.2h4v2c1.8-1.5,2.7-2.4,5.1-2.4c2.2,0,3.5,1.6,3.5,4.3v16.4h-4.2V16.8c0-1-0.6-1.5-1.5-1.5c-0.9,0-1.7,0.6-2.7,1.3v15.9H33.3z"/>
+          <path class="st0" d="M49.6,18.2c0.2-4.1,2.8-6.3,6.8-6.3c3.9,0,6.2,1.8,6.2,5.5v13c0,0.6,0.2,1.5,0.3,2.2h-4c0-0.6-0.2-1.1-0.2-1.6c-1.6,1.3-2.9,2-4.9,2c-2.9,0-4.3-2-4.3-4.6c0-4.5,2.9-6.9,9-9.2v-1.2c0-1.7-0.7-2.6-2.1-2.6c-1.9,0-2.3,1.1-2.4,2.9H49.6z M58.4,22.2c-3.8,2.2-4.8,3.6-4.8,5.4c0,1.3,0.7,1.8,2,1.8c1.2,0,2.1-0.9,2.8-1.9V22.2z"/>
+          <path class="st0" d="M75.3,32.5V16.8c0-1-0.6-1.5-1.5-1.5c-0.9,0-1.7,0.6-2.7,1.3v15.9h-4.2V12.2h4v2c1.8-1.5,2.7-2.4,4.7-2.4c2.1,0,2.8,0.8,3.7,2.4c2-2,3.2-2.4,4.7-2.4c2.6,0,4,1.6,4,4.3v16.4h-4.2V16.8c0-1-0.7-1.5-1.5-1.5c-0.9,0-1.7,0.6-2.7,1.3v15.9H75.3z"/>
+          <g><path class="st0" d="M151.8,27.2h-1v-0.9h3.1v0.9h-1v5.3h-1.1V27.2z"/><path class="st0" d="M158.9,26.3v6.2h-0.9v-4.9h0l-1,4.9h-0.5l-1-4.9h0v4.9h-0.9v-6.2h1.4l0.8,3.6h0l0.8-3.6H158.9z"/></g>
+          <polygon class="st0" points="118.9,0 114,0 116.5,6.3"/>
+          <path class="st1" d="M99.7,17.8c-0.3-1.6-1.1-2.5-2.4-2.5c-1.1,0-1.9,0.6-1.9,1.6c0,3.2,7.9,4.5,7.9,10.5c0,3.6-2.5,5.5-5.9,5.5c-3.7,0-5.8-2.1-6.5-5.7l3.7-1c0.3,1.7,0.9,3.2,2.8,3.2c1.1,0,1.9-0.6,1.9-1.8c0-3.5-7.9-4.8-7.9-10.4c0-3.2,2.5-5.4,5.7-5.4c3.3,0,5.5,2.2,6.2,5.4L99.7,17.8z"/>
+          <path class="st1" d="M130.5,15.7H128v-3.5h2.5V9.7c0-3.3,1.7-4.8,4.7-4.8h2.1v3.5h-1.2c-1,0-1.4,0.4-1.4,1.4v2.5h2.4v3.5h-2.4v16.8h-4.2V15.7z"/>
+          <path class="st1" d="M138.5,15.7v-3.5h2.3V6.7h4.2v5.5h2.8v3.5h-2.8v11.7c0,1.1,0.5,1.7,1.4,1.7h1.4v3.6c-0.6,0.2-1.1,0.2-2.1,0.2c-3.2,0-4.9-1.5-4.9-4.6V15.7H138.5z"/>
+          <g><path class="st1" d="M114.7,15.7v-4.2c-4.7,0.7-8.4,4.5-9,9.2h4.2C110.4,18.2,112.3,16.3,114.7,15.7z"/><path class="st1" d="M123,20.6h4.2c-0.7-4.7-4.4-8.5-9.1-9.2v4.2C120.5,16.2,122.4,18.2,123,20.6z"/><path class="st1" d="M110,24h-4.2c0.8,4.6,4.4,8.2,9,8.9v-4.2C112.4,28.1,110.6,26.3,110,24z"/><path class="st1" d="M118.1,28.7v4.2c4.6-0.7,8.3-4.3,9.1-8.9h-4.2C122.3,26.3,120.4,28.1,118.1,28.7z"/></g>
+        </svg>
       </a>
+      <nav class="top-links">
+        <a href="https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/" target="_blank" rel="noopener">User Guide</a>
+        <a href="https://github.com/Dynamsoft/barcode-reader-javascript-samples" target="_blank" rel="noopener">GitHub Repo</a>
+        <a href="https://demo.dynamsoft.com/barcode-reader-js/" target="_blank" rel="noopener">Official Demo</a>
+      </nav>
+    </header>
 
-      <!-- Featured Section - Quick Start & Official Demo -->
-      <div class="featured-container">
-        <a href="basics/hello-world.html" class="featured-box quick-start">
-          <span class="label">🚀 Quick Start</span>
-          <div class="title">Hello World - Scan Multiple Barcodes</div>
-          <div class="description">The simplest example to get started with barcode scanning. Continuously scans and collects multiple unique barcodes</div>
-          <span
-            class="guide-badge"
-            title="View user guide documentation"
-            onclick="event.stopPropagation(); window.open('https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html', '_blank'); return false;"
-          >
-            <svg width="20" height="20" viewBox="0 0 16 16" fill="white">
-              <path
-                fill-rule="evenodd"
-                d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z"
-              ></path>
-            </svg>
-          </span>
-          <span
-            class="github-badge"
-            title="View source code on GitHub"
-            onclick="event.stopPropagation(); window.open('https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/basics/hello-world.html', '_blank'); return false;"
-          >
-            <svg width="20" height="20" viewBox="0 0 16 16" fill="white">
-              <path
-                fill-rule="evenodd"
-                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
-              ></path>
-            </svg>
-          </span>
-        </a>
-        <a href="https://demo.dynamsoft.com/barcode-reader-js/" target="_blank" class="featured-box official-demo">
-          <span class="label">✨ Full Demo</span>
-          <div class="title">Official Online Demo</div>
-          <div class="description">Explore all features and capabilities in our comprehensive live demo</div>
-          <!-- <span
-            class="github-badge"
-            title="View source code on GitHub"
-            onclick="event.stopPropagation(); window.open('https://github.com/Dynamsoft/barcode-reader-javascript-demo', '_blank'); return false;"
-          >
-            <svg width="20" height="20" viewBox="0 0 16 16" fill="white">
-              <path
-                fill-rule="evenodd"
-                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
-              ></path>
-            </svg>
-          </span> -->
-        </a>
-      </div>
-
-      <!-- Search Bar -->
-      <div class="search-container">
-        <input type="text" id="searchInput" class="search-input" placeholder="Search samples..." aria-label="Search samples" />
-        <span class="search-icon">🔍</span>
-      </div>
-
-      <!-- Main README -->
-      <div class="file main-readme-container">
-        <a
-          class="button title readme-link main-readme-link"
-          href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/README.md"
-          title="View main README documentation"
-          >Main README</a
-        >
-      </div>
-
-      <!-- Hello World Samples -->
-      <div class="file">
-        <h3>
-          Hello World Samples <span class="sample-count">(3)</span>
-        </h3>
-      </div>
-      <div class="children">
-        <div class="file">
-          <a class="button title demo-link" href="basics/hello-world.html" title="View live demo">Hello World (Scan Multiple Barcodes)</a>
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/basics/hello-world.html"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <a class="button title demo-link" href="basics/scan-a-single-barcode.html" title="View live demo">Scan a Single Barcode</a>
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/basics/scan-a-single-barcode.html"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <a class="button title demo-link" href="basics/read-an-image.html" title="View live demo">Read an Image</a>
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/basics/read-an-image.html"
-            title="View source code on GitHub"
-            >Source</a
-          >
+    <section class="handoff">
+      <div class="handoff-text">
+        <h1 class="hide-mobile">📱 Scan with your phone — keep this page on your desktop</h1>
+        <h1 class="show-mobile">📱 You're on your phone — perfect for scanning</h1>
+        <p class="hide-mobile">Barcode scanning works best on a phone camera. Send any sample to your phone in seconds, then use the barcode images on this screen as scan targets.</p>
+        <p class="show-mobile">Pick any sample below to start scanning with your camera.</p>
+        <ol class="steps">
+          <li>Point your phone camera at a QR code — the one here opens this page, and each sample has its own.</li>
+          <li>Try the sample on your phone.</li>
+          <li>Scan the barcode images shown on this screen.</li>
+        </ol>
+        <div class="net-hint" id="netHint" role="note" hidden></div>
+        <div class="handoff-actions">
+          <button class="btn light" id="copyPageLink" type="button">Copy page link</button>
+          <a class="btn light" href="basics/hello-world.html">Quick start: Hello World</a>
+          <a class="btn ghost" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/README.md" target="_blank" rel="noopener">Main README</a>
         </div>
       </div>
-
-      <!-- Framework Samples -->
-      <div class="file">
-        <h3>
-          Framework Samples <span class="sample-count">(14)</span>
-          <a
-            class="button title readme-link section-readme-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/frameworks/README.md"
-            title="View Frameworks README"
-            >README</a
-          >
-        </h3>
+      <div class="handoff-qr">
+        <div class="qr-card" id="pageQr"></div>
+        <div class="qr-caption">This page on your phone</div>
       </div>
-      <div class="children">
-        <div class="file">
-          <span class="github-label angular">Angular Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/angular"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label blazor">Blazor Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/blazor"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label capacitor">Capacitor Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/capacitor"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label electron">Electron Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/electron"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label js">ES6 Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/es6"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label typescript">Native TypeScript Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/native-ts"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label next">Next.js Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/next"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label nuxt">Nuxt Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/nuxt"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label pwa">PWA Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/pwa"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label react">React Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/react"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label requirejs">RequireJS Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/requirejs"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label svelte">Svelte Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/svelte"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label vue">Vue Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/vue"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-        <div class="file">
-          <span class="github-label webview">WebView Samples</span> -
-          <a
-            class="button title source-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/frameworks/webview"
-            title="View source code on GitHub"
-            >Source</a
-          >
-        </div>
-      </div>
+    </section>
 
-      <!-- Scenario Samples -->
-      <div class="file">
-        <h3>
-          Scenario Samples <span class="sample-count">(19)</span>
-          <a
-            class="button title readme-link section-readme-link"
-            href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/README.md"
-            title="View Scenarios README"
-            >README</a
-          >
-        </h3>
-      </div>
-      <div class="children">
-        <div class="file">Workflow Examples</div>
-        <div class="children">
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/cart-builder/index.html" title="View live demo">Cart Builder</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/cart-builder"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/scan-and-search/index.html" title="View live demo">Scan and Search</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/scan-and-search"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/tip-and-beep/index.html" title="View live demo">Tip Message &amp; Beep</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/tip-and-beep"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/pick-one-to-fill/index.html" title="View live demo">Pick One to Fill</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/pick-one-to-fill"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/batch-inventory/index.html" title="View live demo">Batch Inventory</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/batch-inventory"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/locate-an-item-with-barcode/index.html" title="View live demo">Locate an Item with Barcode</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/locate-an-item-with-barcode"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/show-result-texts-on-the-video/index.html" title="View live demo"
-              >Show Result Texts on Video</a
-            >
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/scenarios/show-result-texts-on-the-video"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-        </div>
-
-        <div class="file">Barcode Type Focused</div>
-        <div class="children">
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/scan-qr-code/index.html" title="View live demo">Scan QR Code</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-qr-code"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/scan-datamatrix-code/index.html" title="View live demo">Scan DataMatrix Code</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-datamatrix-code"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/scan-dpm-codes/index.html" title="View live demo">Scan DPM Codes</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-dpm-codes"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a
-              class="button title demo-link"
-              href="scenarios/scan-common-2D-codes/index.html"
-              title="View live demo"
-              >Scan Common 2D Codes</a
-            >
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-common-2D-codes"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/scan-1D-Retail/index.html" title="View live demo">Scan 1D Retail Barcodes</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-1D-Retail"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/scan-1D-Industrial/index.html" title="View live demo">Scan 1D Industrial Barcodes</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-1D-Industrial"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/scan-common-1D-and-2D/index.html" title="View live demo">Scan Any Codes</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-common-1D-and-2D"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/scan-from-distance/index.html" title="View live demo">Scan from Distance</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/scan-from-distance"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/grid-barcode-reading/index.html" title="View live demo">Grid Barcode Reading</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/grid-barcode-reading"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-        </div>
-
-        <div class="file">Data Parsing</div>
-        <div class="children">
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/read-a-drivers-license/index.html" title="View live demo">Read a Driver's License</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-a-drivers-license"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/read-vin/index.html" title="View live demo">Read VIN</a>
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-vin"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-          <div class="file">
-            <a class="button title demo-link" href="scenarios/read-and-parse-GS1-AI/index.html" title="View live demo"
-              >Read and Parse GS1-AI</a
-            >
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/read-and-parse-GS1-AI/"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-        </div>
-
-        <div class="file">Utilities</div>
-        <div class="children">
-          <div class="file">
-            <a class="github-label debug" href="scenarios/debug/public/index.html" title="View live demo"
-              >Debug Tools</a
-            > -
-            <a
-              class="button title source-link"
-              href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/tree/main/scenarios/debug"
-              title="View source code on GitHub"
-              >Source</a
-            >
-          </div>
-        </div>
-      </div>
-
-      <!-- Back to Top Button -->
-      <button id="backToTop" class="back-to-top" title="Back to top" aria-label="Back to top">↑</button>
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Search samples… (e.g. QR, inventory, VIN)" aria-label="Search samples">
+      <div class="chips" id="chips"></div>
     </div>
 
-    <script>
-      // Search functionality
-      const searchInput = document.getElementById("searchInput");
-      searchInput.addEventListener("input", (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        const allSamples = document.querySelectorAll(".filetree .children .file:has(a)");
-        const categories = document.querySelectorAll(".filetree .children > .file:not(:has(a))");
+    <main class="layout">
+      <section class="list" id="list" aria-label="Sample list"></section>
+      <aside class="detail" id="detail" aria-label="Sample detail">
+        <button class="sheet-close" id="sheetClose" type="button" aria-label="Close">×</button>
+        <div class="detail-content" id="detailContent"></div>
+      </aside>
+    </main>
 
-        allSamples.forEach((sample) => {
-          const text = sample.textContent.toLowerCase();
+    <details class="frameworks">
+      <summary>Framework &amp; build-required samples (<span id="fwCount"></span>) — source code only</summary>
+      <p class="fw-note">These samples need a build step or a specific framework runtime, so they are not hosted as live demos. Browse the source on GitHub:</p>
+      <ul class="fw-list" id="fwList"></ul>
+    </details>
 
-          if (text.includes(searchTerm)) {
-            sample.style.display = "block";
-          } else {
-            sample.style.display = "none";
-          }
-        });
+    <footer class="foot">
+      <p>Dynamsoft Barcode Reader SDK for JavaScript ·
+        <a href="https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/" target="_blank" rel="noopener">Documentation</a> ·
+        <a href="https://github.com/Dynamsoft/barcode-reader-javascript-samples" target="_blank" rel="noopener">GitHub</a>
+      </p>
+    </footer>
+  </div>
 
-        // Hide empty categories
-        categories.forEach((category) => {
-          const nextSibling = category.nextElementSibling;
-          if (nextSibling && nextSibling.classList.contains("children")) {
-            const visibleItems = Array.from(nextSibling.querySelectorAll(".file:has(a)")).filter((item) => item.style.display !== "none");
-            if (visibleItems.length === 0 && searchTerm !== "") {
-              category.style.display = "none";
-            } else {
-              category.style.display = "block";
-            }
-          }
-        });
-      });
+  <div class="backdrop" id="backdrop"></div>
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Scan material preview">
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close">×</button>
+    <img id="lightboxImg" alt="Scan material">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+  <button id="backToTop" class="back-to-top" title="Back to top" aria-label="Back to top">↑</button>
+  <div class="toast" id="toast" role="status"></div>
 
-      // Back to top button
-      const backToTopButton = document.getElementById("backToTop");
+  <script>
+/* Minimal QR Code generator: byte mode, ECC level M, versions 1-10, auto mask. */
+(function (root) {
+  "use strict";
 
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 300) {
-          backToTopButton.classList.add("visible");
-        } else {
-          backToTopButton.classList.remove("visible");
+  // [ecCodewordsPerBlock, group1Blocks, group1DataCodewords, group2Blocks, group2DataCodewords]
+  var ECC_M = {
+    1: [10, 1, 16, 0, 0],
+    2: [16, 1, 28, 0, 0],
+    3: [26, 1, 44, 0, 0],
+    4: [18, 2, 32, 0, 0],
+    5: [24, 2, 43, 0, 0],
+    6: [16, 4, 27, 0, 0],
+    7: [18, 4, 31, 0, 0],
+    8: [22, 2, 38, 2, 39],
+    9: [22, 3, 36, 2, 37],
+    10: [26, 4, 43, 1, 44],
+  };
+
+  var ALIGN = {
+    1: [],
+    2: [6, 18],
+    3: [6, 22],
+    4: [6, 26],
+    5: [6, 30],
+    6: [6, 34],
+    7: [6, 22, 38],
+    8: [6, 24, 42],
+    9: [6, 26, 46],
+    10: [6, 28, 50],
+  };
+
+  // GF(256) tables, primitive polynomial 0x11D
+  var EXP = new Uint8Array(512);
+  var LOG = new Uint8Array(256);
+  (function () {
+    var x = 1;
+    for (var i = 0; i < 255; i++) {
+      EXP[i] = x;
+      LOG[x] = i;
+      x <<= 1;
+      if (x & 0x100) x ^= 0x11d;
+    }
+    for (var j = 255; j < 512; j++) EXP[j] = EXP[j - 255];
+  })();
+
+  function gfMul(a, b) {
+    if (a === 0 || b === 0) return 0;
+    return EXP[LOG[a] + LOG[b]];
+  }
+
+  function rsGeneratorPoly(degree) {
+    var poly = [1];
+    for (var i = 0; i < degree; i++) {
+      var next = new Array(poly.length + 1).fill(0);
+      for (var j = 0; j < poly.length; j++) {
+        next[j] ^= poly[j];
+        next[j + 1] ^= gfMul(poly[j], EXP[i]);
+      }
+      poly = next;
+    }
+    return poly;
+  }
+
+  function rsEncode(data, ecLen) {
+    var gen = rsGeneratorPoly(ecLen);
+    var res = new Array(ecLen).fill(0);
+    for (var i = 0; i < data.length; i++) {
+      var factor = data[i] ^ res[0];
+      res.shift();
+      res.push(0);
+      for (var j = 0; j < ecLen; j++) res[j] ^= gfMul(gen[j + 1], factor);
+    }
+    return res;
+  }
+
+  function utf8Bytes(str) {
+    var out = [];
+    for (var i = 0; i < str.length; i++) {
+      var c = str.charCodeAt(i);
+      if (c < 0x80) out.push(c);
+      else if (c < 0x800) {
+        out.push(0xc0 | (c >> 6), 0x80 | (c & 0x3f));
+      } else if (c >= 0xd800 && c <= 0xdbff && i + 1 < str.length) {
+        var c2 = str.charCodeAt(++i);
+        var cp = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
+        out.push(0xf0 | (cp >> 18), 0x80 | ((cp >> 12) & 0x3f), 0x80 | ((cp >> 6) & 0x3f), 0x80 | (cp & 0x3f));
+      } else {
+        out.push(0xe0 | (c >> 12), 0x80 | ((c >> 6) & 0x3f), 0x80 | (c & 0x3f));
+      }
+    }
+    return out;
+  }
+
+  function bchFormat(data) {
+    var d = data << 10;
+    for (var i = 14; i >= 10; i--) {
+      if (d & (1 << i)) d ^= 0x537 << (i - 10);
+    }
+    return ((data << 10) | d) ^ 0x5412;
+  }
+
+  function bchVersion(version) {
+    var d = version << 12;
+    for (var i = 17; i >= 12; i--) {
+      if (d & (1 << i)) d ^= 0x1f25 << (i - 12);
+    }
+    return (version << 12) | d;
+  }
+
+  function buildCodewords(bytes, version) {
+    var spec = ECC_M[version];
+    var ecLen = spec[0];
+    var totalData = spec[1] * spec[2] + spec[3] * spec[4];
+
+    var bits = [];
+    function push(value, len) {
+      for (var i = len - 1; i >= 0; i--) bits.push((value >> i) & 1);
+    }
+    push(0x4, 4); // byte mode
+    push(bytes.length, version < 10 ? 8 : 16);
+    for (var i = 0; i < bytes.length; i++) push(bytes[i], 8);
+
+    var capacityBits = totalData * 8;
+    var terminator = Math.min(4, capacityBits - bits.length);
+    push(0, terminator);
+    while (bits.length % 8 !== 0) bits.push(0);
+
+    var data = [];
+    for (var b = 0; b < bits.length; b += 8) {
+      var v = 0;
+      for (var k = 0; k < 8; k++) v = (v << 1) | bits[b + k];
+      data.push(v);
+    }
+    var padBytes = [0xec, 0x11];
+    var p = 0;
+    while (data.length < totalData) data.push(padBytes[p++ % 2]);
+
+    // split into blocks
+    var blocks = [];
+    var ecBlocks = [];
+    var offset = 0;
+    var groups = [
+      [spec[1], spec[2]],
+      [spec[3], spec[4]],
+    ];
+    for (var g = 0; g < groups.length; g++) {
+      for (var n = 0; n < groups[g][0]; n++) {
+        var block = data.slice(offset, offset + groups[g][1]);
+        offset += groups[g][1];
+        blocks.push(block);
+        ecBlocks.push(rsEncode(block, ecLen));
+      }
+    }
+
+    var result = [];
+    var maxData = Math.max(spec[2], spec[4]);
+    for (var c = 0; c < maxData; c++) {
+      for (var bi = 0; bi < blocks.length; bi++) {
+        if (c < blocks[bi].length) result.push(blocks[bi][c]);
+      }
+    }
+    for (var e = 0; e < ecLen; e++) {
+      for (var bj = 0; bj < ecBlocks.length; bj++) result.push(ecBlocks[bj][e]);
+    }
+    return result;
+  }
+
+  function createMatrix(version) {
+    var size = version * 4 + 17;
+    var modules = [];
+    var reserved = [];
+    for (var i = 0; i < size; i++) {
+      modules.push(new Array(size).fill(0));
+      reserved.push(new Array(size).fill(false));
+    }
+
+    function setFinder(row, col) {
+      for (var r = -1; r <= 7; r++) {
+        for (var c = -1; c <= 7; c++) {
+          var rr = row + r;
+          var cc = col + c;
+          if (rr < 0 || rr >= size || cc < 0 || cc >= size) continue;
+          var isDark = r >= 0 && r <= 6 && c >= 0 && c <= 6 && (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4));
+          modules[rr][cc] = isDark ? 1 : 0;
+          reserved[rr][cc] = true;
         }
-      });
+      }
+    }
+    setFinder(0, 0);
+    setFinder(0, size - 7);
+    setFinder(size - 7, 0);
 
-      backToTopButton.addEventListener("click", () => {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
+    // timing patterns
+    for (var t = 8; t < size - 8; t++) {
+      var dark = t % 2 === 0 ? 1 : 0;
+      modules[6][t] = dark;
+      reserved[6][t] = true;
+      modules[t][6] = dark;
+      reserved[t][6] = true;
+    }
+
+    // alignment patterns
+    var centers = ALIGN[version];
+    var last = centers.length - 1;
+    for (var a = 0; a < centers.length; a++) {
+      for (var b = 0; b < centers.length; b++) {
+        // skip the three positions that overlap the finder patterns
+        if ((a === 0 && b === 0) || (a === 0 && b === last) || (a === last && b === 0)) continue;
+        var cr = centers[a];
+        var cc2 = centers[b];
+        for (var dr = -2; dr <= 2; dr++) {
+          for (var dc = -2; dc <= 2; dc++) {
+            modules[cr + dr][cc2 + dc] = Math.max(Math.abs(dr), Math.abs(dc)) !== 1 ? 1 : 0;
+            reserved[cr + dr][cc2 + dc] = true;
+          }
+        }
+      }
+    }
+
+    // dark module
+    modules[size - 8][8] = 1;
+    reserved[size - 8][8] = true;
+
+    // reserve format info areas
+    for (var f = 0; f < 9; f++) {
+      if (!reserved[8][f]) reserved[8][f] = true;
+      if (!reserved[f][8]) reserved[f][8] = true;
+    }
+    for (var f2 = 0; f2 < 8; f2++) {
+      reserved[8][size - 1 - f2] = true;
+      reserved[size - 1 - f2][8] = true;
+    }
+
+    // reserve version info areas
+    if (version >= 7) {
+      for (var vi = 0; vi < 6; vi++) {
+        for (var vj = 0; vj < 3; vj++) {
+          reserved[size - 11 + vj][vi] = true;
+          reserved[vi][size - 11 + vj] = true;
+        }
+      }
+    }
+
+    return { size: size, modules: modules, reserved: reserved };
+  }
+
+  function placeData(m, codewords) {
+    var size = m.size;
+    var bitIndex = 0;
+    var total = codewords.length * 8;
+    function nextBit() {
+      if (bitIndex >= total) return 0;
+      var b = (codewords[bitIndex >> 3] >> (7 - (bitIndex & 7))) & 1;
+      bitIndex++;
+      return b;
+    }
+    var upward = true;
+    for (var col = size - 1; col > 0; col -= 2) {
+      if (col === 6) col--;
+      for (var i = 0; i < size; i++) {
+        var row = upward ? size - 1 - i : i;
+        for (var c = 0; c < 2; c++) {
+          var cc = col - c;
+          if (m.reserved[row][cc]) continue;
+          m.modules[row][cc] = nextBit();
+        }
+      }
+      upward = !upward;
+    }
+  }
+
+  function maskFn(id, r, c) {
+    switch (id) {
+      case 0:
+        return (r + c) % 2 === 0;
+      case 1:
+        return r % 2 === 0;
+      case 2:
+        return c % 3 === 0;
+      case 3:
+        return (r + c) % 3 === 0;
+      case 4:
+        return (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0;
+      case 5:
+        return ((r * c) % 2) + ((r * c) % 3) === 0;
+      case 6:
+        return (((r * c) % 2) + ((r * c) % 3)) % 2 === 0;
+      default:
+        return (((r + c) % 2) + ((r * c) % 3)) % 2 === 0;
+    }
+  }
+
+  function applyMask(base, id) {
+    var size = base.size;
+    var out = [];
+    for (var r = 0; r < size; r++) {
+      out.push(base.modules[r].slice());
+      for (var c = 0; c < size; c++) {
+        if (!base.reserved[r][c] && maskFn(id, r, c)) out[r][c] ^= 1;
+      }
+    }
+    return out;
+  }
+
+  function drawFormat(modules, size, maskId) {
+    var bits = bchFormat((0x0 << 3) | maskId); // ECC level M -> 00
+    for (var i = 0; i < 15; i++) {
+      var bit = (bits >> i) & 1;
+      // top-left copy
+      if (i < 6) modules[i][8] = bit;
+      else if (i === 6) modules[7][8] = bit;
+      else if (i === 7) modules[8][8] = bit;
+      else if (i === 8) modules[8][7] = bit;
+      else modules[8][14 - i] = bit;
+      // second copy
+      if (i < 8) modules[8][size - 1 - i] = bit;
+      else modules[size - 15 + i][8] = bit;
+    }
+    modules[size - 8][8] = 1;
+  }
+
+  function drawVersion(modules, size, version) {
+    if (version < 7) return;
+    var bits = bchVersion(version);
+    for (var i = 0; i < 18; i++) {
+      var bit = (bits >> i) & 1;
+      var r = Math.floor(i / 3);
+      var c = size - 11 + (i % 3);
+      modules[r][c] = bit;
+      modules[c][r] = bit;
+    }
+  }
+
+  function penalty(modules, size) {
+    var score = 0;
+    var dark = 0;
+    // rule 1 & 3 horizontal + vertical
+    function runScore(line) {
+      var s = 0;
+      var run = 1;
+      for (var i = 1; i < line.length; i++) {
+        if (line[i] === line[i - 1]) run++;
+        else {
+          if (run >= 5) s += 3 + (run - 5);
+          run = 1;
+        }
+      }
+      if (run >= 5) s += 3 + (run - 5);
+      return s;
+    }
+    var patternA = [1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0];
+    var patternB = [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1];
+    function finderScore(line) {
+      var s = 0;
+      for (var i = 0; i + 11 <= line.length; i++) {
+        var a = true;
+        var b = true;
+        for (var j = 0; j < 11; j++) {
+          if (line[i + j] !== patternA[j]) a = false;
+          if (line[i + j] !== patternB[j]) b = false;
+        }
+        if (a) s += 40;
+        if (b) s += 40;
+      }
+      return s;
+    }
+    for (var r = 0; r < size; r++) {
+      var row = modules[r];
+      score += runScore(row) + finderScore(row);
+      for (var c = 0; c < size; c++) if (row[c]) dark++;
+    }
+    for (var c2 = 0; c2 < size; c2++) {
+      var col = [];
+      for (var r2 = 0; r2 < size; r2++) col.push(modules[r2][c2]);
+      score += runScore(col) + finderScore(col);
+    }
+    // rule 2: 2x2 blocks
+    for (var r3 = 0; r3 < size - 1; r3++) {
+      for (var c3 = 0; c3 < size - 1; c3++) {
+        var v = modules[r3][c3];
+        if (v === modules[r3][c3 + 1] && v === modules[r3 + 1][c3] && v === modules[r3 + 1][c3 + 1]) score += 3;
+      }
+    }
+    // rule 4: dark ratio
+    var ratio = (dark * 100) / (size * size);
+    score += Math.floor(Math.abs(ratio - 50) / 5) * 10;
+    return score;
+  }
+
+  function encode(text) {
+    var bytes = utf8Bytes(text);
+    var version = 0;
+    for (var v = 1; v <= 10; v++) {
+      var spec = ECC_M[v];
+      var capacity = spec[1] * spec[2] + spec[3] * spec[4];
+      var headerBits = 4 + (v < 10 ? 8 : 16);
+      if (headerBits + bytes.length * 8 <= capacity * 8) {
+        version = v;
+        break;
+      }
+    }
+    if (!version) throw new Error("Text too long for QR version 10 (ECC M).");
+
+    var codewords = buildCodewords(bytes, version);
+    var base = createMatrix(version);
+    placeData(base, codewords);
+
+    var best = null;
+    var bestScore = Infinity;
+    for (var mask = 0; mask < 8; mask++) {
+      var modules = applyMask(base, mask);
+      drawFormat(modules, base.size, mask);
+      drawVersion(modules, base.size, version);
+      var s = penalty(modules, base.size);
+      if (s < bestScore) {
+        bestScore = s;
+        best = modules;
+      }
+    }
+    return { size: base.size, modules: best, version: version };
+  }
+
+  function toSvg(text, options) {
+    var opts = options || {};
+    var quiet = opts.quiet == null ? 2 : opts.quiet;
+    var qr = encode(text);
+    var dim = qr.size + quiet * 2;
+    var path = "";
+    for (var r = 0; r < qr.size; r++) {
+      for (var c = 0; c < qr.size; c++) {
+        if (qr.modules[r][c]) path += "M" + (c + quiet) + " " + (r + quiet) + "h1v1h-1z";
+      }
+    }
+    return (
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' +
+      dim +
+      " " +
+      dim +
+      '" shape-rendering="crispEdges" role="img" aria-label="QR code">' +
+      '<rect width="' +
+      dim +
+      '" height="' +
+      dim +
+      '" fill="#ffffff"/><path d="' +
+      path +
+      '" fill="#111111"/></svg>'
+    );
+  }
+
+  root.MiniQR = { encode: encode, toSvg: toSvg };
+})(typeof window !== "undefined" ? window : globalThis);
+
+(function () {
+  "use strict";
+
+  var REPO = "https://github.com/Dynamsoft/barcode-reader-javascript-samples";
+  var FALLBACK_BASE = "https://demo.dynamsoft.com/Samples/DBR/JS/";
+  var MATERIAL_DIR = "assets/materials/";
+
+  var IS_FILE = location.protocol === "file:";
+  var IS_LOOPBACK = /^(localhost|127(\.\d+){3}|\[?::1\]?|0\.0\.0\.0)$/i.test(location.hostname);
+
+  var IS_INSECURE_REMOTE = !IS_FILE && !IS_LOOPBACK && location.protocol === "http:";
+  var BASE_KEY = "dbrjs-samples.phoneBase";
+
+  function readPhoneBase() {
+    try { return localStorage.getItem(BASE_KEY) || ""; } catch (e) { return ""; }
+  }
+
+  function writePhoneBase(v) {
+    try { v ? localStorage.setItem(BASE_KEY, v) : localStorage.removeItem(BASE_KEY); } catch (e) { /* private mode */ }
+  }
+
+  // Accepts "192.168.1.20:5500", "https://abc.trycloudflare.com" or a full URL.
+  // A bare origin reuses this page's path, since tunnels and LAN servers mirror it.
+  function normalizeBase(input) {
+    var v = (input || "").trim();
+    if (!v) return "";
+    if (!/^https?:\/\//i.test(v)) v = "https://" + v;
+    var u;
+    try { u = new URL(v); } catch (e) { return null; }
+    var path = u.pathname === "/" ? location.pathname : u.pathname;
+    if (!/\/$/.test(path) && !/\.html?$/i.test(path)) path += "/";
+    return u.origin + path;
+  }
+
+  var phoneBase = "";
+  if (IS_LOOPBACK || IS_INSECURE_REMOTE) {
+    // ?phone=<address> presets the phone address (handy for docs/scripts).
+    var qp = new URLSearchParams(location.search).get("phone");
+    var fromQuery = qp !== null ? normalizeBase(qp) : null;
+    if (fromQuery !== null) writePhoneBase(fromQuery);
+    phoneBase = fromQuery !== null ? fromQuery : readPhoneBase();
+  }
+
+  // Sample links follow the prefix of this index page, so a self-hosted copy
+  // (Five Server, tunnel, LAN) points phones at itself. Only file:// falls back
+  // to the hosted demo; a user-supplied phone address overrides loopback/http.
+  function absoluteUrl(path) {
+    if (IS_FILE) return FALLBACK_BASE + path;
+    var base = phoneBase || (location.origin + location.pathname);
+    return path ? new URL(path, base).href : base;
+  }
+
+  function renderNetHint() {
+    var el = document.getElementById("netHint");
+    if (IS_FILE) {
+      el.innerHTML = '<p class="net-msg">ℹ️ Opened from the file system, so the QR codes point to the ' +
+        '<a href="' + FALLBACK_BASE + '" target="_blank" rel="noopener">hosted online demo</a>. ' +
+        "To try your own copy, serve this folder with a local web server (e.g. Five Server).</p>";
+      el.hidden = false;
+      return;
+    }
+    if (!IS_LOOPBACK && !IS_INSECURE_REMOTE) return;
+
+    var status;
+    if (phoneBase) {
+      status = "✅ QR codes point to <strong>" + esc(phoneBase) + "</strong>";
+    } else if (IS_LOOPBACK) {
+      status = "⚠️ QR codes point to <strong>" + esc(location.host) + "</strong>, which your phone cannot reach.";
+    } else {
+      status = "⚠️ This page is served over plain HTTP. Phone browsers only allow the camera on <strong>HTTPS</strong>.";
+    }
+
+    el.innerHTML =
+      '<p class="net-msg">' + status + (phoneBase ? " — change it below if needed." : " Enter an HTTPS address your phone can open:") + "</p>" +
+      '<form class="base-form" id="baseForm" autocomplete="off">' +
+      '<input id="baseInput" type="text" spellcheck="false" aria-label="Phone-accessible address" ' +
+      'placeholder="https://xxxx.trycloudflare.com  or  192.168.1.20:5500" value="' + esc(phoneBase) + '">' +
+      '<button class="btn light" type="submit">Apply</button>' +
+      (phoneBase ? '<button class="btn ghost" type="button" id="baseReset">Reset</button>' : "") +
+      "</form>" +
+      '<details class="base-help"><summary>How do I get a phone-accessible HTTPS address?</summary><ul>' +
+      "<li><strong>VS Code port forwarding</strong> (any network): open the <em>Ports</em> panel → <em>Forward a Port</em> → enter your server port " +
+      "(e.g. <code>5500</code>) → right-click → <em>Port Visibility › Public</em> → copy the forwarded address.</li>" +
+      "<li><strong>Cloudflare quick tunnel</strong> (no account): run <code>cloudflared tunnel --url http://localhost:5500</code> and paste the " +
+      "<code>https://….trycloudflare.com</code> URL.</li>" +
+      "<li><strong>Same Wi-Fi</strong>: in Five Server set <code>\"host\": \"0.0.0.0\"</code> and <code>\"https\": true</code>, find your IP with " +
+      "<code>ipconfig</code> / <code>ifconfig</code>, then enter <code>192.168.x.x:5500</code>. Accept the certificate warning on the phone.</li>" +
+      "</ul></details>";
+    el.hidden = false;
+
+    document.getElementById("baseForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = normalizeBase(document.getElementById("baseInput").value);
+      if (v === null) { toast("That doesn't look like a valid address"); return; }
+      applyPhoneBase(v);
+      toast(v ? "QR codes updated" : "Phone address cleared");
+    });
+    var reset = document.getElementById("baseReset");
+    if (reset) reset.addEventListener("click", function () { applyPhoneBase(""); toast("Phone address cleared"); });
+  }
+
+  function applyPhoneBase(v) {
+    phoneBase = v;
+    writePhoneBase(v);
+    renderPageQr();
+    renderNetHint();
+    if (state.selected && !isPhoneLayout()) selectSample(state.selected);
+  }
+
+  function renderPageQr() {
+    document.getElementById("pageQr").innerHTML = MiniQR.toSvg(absoluteUrl(""));
+  }
+
+  var MATERIALS = {
+    "mixed-codes": { file: "mixed-codes.png", label: "Assorted 1D & 2D barcode symbologies" },
+    "form-codes": { file: "form-codes.png", label: "Component box label with several barcodes" },
+    "industrial-1d": { file: "industrial-1d.png", label: "Shipping label with Code 128 / Code 39 barcodes" },
+    "datamatrix-grid": { file: "datamatrix-grid.png", label: "Rack of tubes with DataMatrix codes" },
+    "dpm-parts": { file: "dpm-parts.png", label: "Dot-peened DPM DataMatrix on metal" },
+    "drivers-license": { file: "drivers-license-pdf417.png", label: "Driver's license PDF417 (AAMVA sample)" },
+    "vin-code": { file: "vin-code.png", label: "VIN barcode on a vehicle door label" },
+    "gs1-codes": { file: "gs1-codes.png", label: "GS1-128 barcode on a food label" },
+    "qr": { file: "qr.png", label: "A single QR code" },
+    "retail-1d1": { file: "retail-1d1.png", label: "EAN-13 on a cereal box" },
+    "retail-1d2": { file: "retail-1d2.png", label: "UPC-A on a curved pouch" },
+    "retail-1d3": { file: "retail-1d3.png", label: "EAN-13 on a crinkled snack bag" },
+    "retail-1d4": { file: "retail-1d4.png", label: "EAN-13 on a product on a shelf" },
+    "locate-item": { file: "locate_item.png", label: "Grid of UPC / EAN / QR / DataMatrix items" },
+    "datamatrix": { file: "datamatrix.png", label: "DataMatrix on a hard drive label" }
+  };
+  var GROUPS = [
+    { id: "basics", label: "Hello World" },
+    { id: "workflow", label: "Workflow Examples" },
+    { id: "barcode-type", label: "Barcode Type Focused" },
+    { id: "parsing", label: "Data Parsing" }
+  ];
+
+  function src(path) { return REPO + "/blob/main/" + path; }
+  function srcDir(path) { return REPO + "/tree/main/" + path; }
+
+  var SAMPLES = [
+    { id: "hello-world", title: "Hello World (Scan Multiple Barcodes)", group: "basics", path: "basics/hello-world.html", source: src("basics/hello-world.html"),
+      desc: "The simplest way to get started: open the camera and scan multiple barcodes with default settings.",
+      tags: ["camera", "getting started"], materials: ["mixed-codes"] },
+    { id: "scan-a-single-barcode", title: "Scan a Single Barcode", group: "basics", path: "basics/scan-a-single-barcode.html", source: src("basics/scan-a-single-barcode.html"),
+      desc: "Scan exactly one barcode and return immediately — ideal for simple scan-and-go flows.",
+      tags: ["camera", "single"], materials: ["qr", "retail-1d1", "retail-1d2"] },
+    { id: "read-an-image", title: "Read an Image", group: "basics", path: "basics/read-an-image.html", source: src("basics/read-an-image.html"),
+      desc: "Decode barcodes from a local image file instead of the camera. Works great on desktop — download a material image below and feed it to the sample.",
+      tags: ["image", "file"], noCamera: true, materials: ["mixed-codes"] },
+
+    { id: "cart-builder", title: "Cart Builder", group: "workflow", path: "scenarios/cart-builder/index.html", source: srcDir("scenarios/cart-builder"),
+      desc: "Scan product barcodes to build a shopping cart with quantities and a running total.",
+      tags: ["cart", "retail", "checkout"], materials: ["retail-1d1", "retail-1d2", "retail-1d3", "retail-1d4"] },
+    { id: "scan-and-search", title: "Scan and Search", group: "workflow", path: "scenarios/scan-and-search/index.html", source: srcDir("scenarios/scan-and-search"),
+      desc: "Scan a barcode and look it up in a dataset — the classic inventory / price-check flow.",
+      tags: ["search", "inventory", "lookup"], materials: ["retail-1d1", "retail-1d2", "retail-1d3", "retail-1d4"] },
+    { id: "tip-and-beep", title: "Tip Message & Beep", group: "workflow", path: "scenarios/tip-and-beep/index.html", source: srcDir("scenarios/tip-and-beep"),
+      desc: "Give users feedback with a sound and a toast message whenever a barcode is decoded.",
+      tags: ["feedback", "sound", "ux"], materials: ["mixed-codes"] },
+    { id: "pick-one-to-fill", title: "Pick One to Fill", group: "workflow", path: "scenarios/pick-one-to-fill/index.html", source: srcDir("scenarios/pick-one-to-fill"),
+      desc: "Pick a target input field, then scan a barcode to fill it in — handy for web forms.",
+      tags: ["form", "input", "fill"], materials: ["form-codes"] },
+    { id: "batch-inventory", title: "Batch Inventory", group: "workflow", path: "scenarios/batch-inventory/index.html", source: srcDir("scenarios/batch-inventory"),
+      desc: "Continuously scan many items and keep a running inventory list with counts.",
+      tags: ["inventory", "batch", "count"], materials: ["industrial-1d"] },
+    { id: "locate-an-item-with-barcode", title: "Locate an Item with Barcode", group: "workflow", path: "scenarios/locate-an-item-with-barcode/index.html", source: srcDir("scenarios/locate-an-item-with-barcode"),
+      desc: "Highlight the one item you are looking for among the many barcodes in view.",
+      tags: ["locate", "highlight", "ar"], materials: ["locate-item"] },
+    { id: "show-result-texts-on-the-video", title: "Show Result Texts on Video", group: "workflow", path: "scenarios/show-result-texts-on-the-video/index.html", source: srcDir("scenarios/show-result-texts-on-the-video"),
+      desc: "Overlay the decoded text directly on the video feed next to each barcode.",
+      tags: ["overlay", "video", "ar"], materials: ["mixed-codes"] },
+
+    { id: "scan-qr-code", title: "Scan QR Code", group: "barcode-type", path: "scenarios/scan-qr-code/index.html", source: srcDir("scenarios/scan-qr-code"),
+      desc: "Tune the runtime settings to read QR codes only — faster and more accurate when you know the symbology.",
+      tags: ["qr", "2d"], materials: ["qr"] },
+    { id: "scan-datamatrix-code", title: "Scan DataMatrix Code", group: "barcode-type", path: "scenarios/scan-datamatrix-code/index.html", source: srcDir("scenarios/scan-datamatrix-code"),
+      desc: "Tune the runtime settings to read DataMatrix codes only.",
+      tags: ["datamatrix", "2d"], materials: ["datamatrix"] },
+    { id: "scan-dpm-codes", title: "Scan DPM Codes", group: "barcode-type", path: "scenarios/scan-dpm-codes/index.html", source: srcDir("scenarios/scan-dpm-codes"),
+      desc: "Read Direct Part Marking codes — barcodes etched or dotted directly onto metal parts.",
+      tags: ["dpm", "datamatrix", "industrial"], materials: ["dpm-parts"] },
+    { id: "scan-common-2D-codes", title: "Scan Common 2D Codes", group: "barcode-type", path: "scenarios/scan-common-2D-codes/index.html", source: srcDir("scenarios/scan-common-2D-codes"),
+      desc: "Read the most common 2D symbologies: QR, DataMatrix, PDF417 and Aztec.",
+      tags: ["2d", "qr", "datamatrix", "pdf417", "aztec"], materials: ["mixed-codes"] },
+    { id: "scan-1D-Retail", title: "Scan 1D Retail Barcodes", group: "barcode-type", path: "scenarios/scan-1D-Retail/index.html", source: srcDir("scenarios/scan-1D-Retail"),
+      desc: "Read retail 1D barcodes such as EAN-13, EAN-8, UPC-A and UPC-E.",
+      tags: ["1d", "retail", "ean", "upc"], materials: ["retail-1d1", "retail-1d2", "retail-1d3", "retail-1d4"] },
+    { id: "scan-1D-Industrial", title: "Scan 1D Industrial Barcodes", group: "barcode-type", path: "scenarios/scan-1D-Industrial/index.html", source: srcDir("scenarios/scan-1D-Industrial"),
+      desc: "Read industrial 1D barcodes such as Code 39, Code 93, Code 128 and ITF.",
+      tags: ["1d", "industrial", "code39", "code128"], materials: ["industrial-1d"] },
+    { id: "scan-common-1D-and-2D", title: "Scan Any Codes", group: "barcode-type", path: "scenarios/scan-common-1D-and-2D/index.html", source: srcDir("scenarios/scan-common-1D-and-2D"),
+      desc: "Enable all common 1D and 2D symbologies at once and scan whatever you point at.",
+      tags: ["1d", "2d", "all"], materials: ["mixed-codes"] },
+    { id: "scan-from-distance", title: "Scan from Distance", group: "barcode-type", path: "scenarios/scan-from-distance/index.html", source: srcDir("scenarios/scan-from-distance"),
+      desc: "Scan small or far-away barcodes by combining resolution, zoom and focus settings.",
+      tags: ["distance", "zoom", "small"], materials: ["mixed-codes"] },
+    { id: "grid-barcode-reading", title: "Grid Barcode Reading", group: "barcode-type", path: "scenarios/grid-barcode-reading/index.html", source: srcDir("scenarios/grid-barcode-reading"),
+      desc: "Read dozens of barcodes arranged in a grid from a single image — no camera required.",
+      tags: ["grid", "batch", "image"], noCamera: true, materials: ["datamatrix-grid"] },
+
+    { id: "read-a-drivers-license", title: "Read a Driver's License", group: "parsing", path: "scenarios/read-a-drivers-license/index.html", source: srcDir("scenarios/read-a-drivers-license"),
+      desc: "Scan the PDF417 on a driver's license and parse the AAMVA data into readable fields.",
+      tags: ["pdf417", "aamva", "license", "parse"], materials: ["drivers-license"] },
+    { id: "read-vin", title: "Read VIN", group: "parsing", path: "scenarios/read-vin/index.html", source: srcDir("scenarios/read-vin"),
+      desc: "Scan a vehicle identification number barcode and parse it into structured fields.",
+      tags: ["vin", "vehicle", "parse"], materials: ["vin-code"] },
+    { id: "read-and-parse-GS1-AI", title: "Read and Parse GS1-AI", group: "parsing", path: "scenarios/read-and-parse-GS1-AI/index.html", source: srcDir("scenarios/read-and-parse-GS1-AI"),
+      desc: "Read GS1 barcodes and parse the application identifiers (GTIN, expiry, batch, …).",
+      tags: ["gs1", "ai", "parse", "retail"], materials: ["gs1-codes"] }
+  ];
+
+  var FRAMEWORKS = [
+    { name: "Angular", url: srcDir("frameworks/angular") },
+    { name: "Blazor", url: srcDir("frameworks/blazor") },
+    { name: "Capacitor", url: srcDir("frameworks/capacitor") },
+    { name: "Electron", url: srcDir("frameworks/electron") },
+    { name: "ES6", url: srcDir("frameworks/es6") },
+    { name: ".NET MAUI Blazor Hybrid", url: srcDir("frameworks/maui-blazor-hybrid") },
+    { name: "Native TypeScript", url: srcDir("frameworks/native-ts") },
+    { name: "Next.js", url: srcDir("frameworks/next") },
+    { name: "Nuxt", url: srcDir("frameworks/nuxt") },
+    { name: "PWA", url: srcDir("frameworks/pwa") },
+    { name: "React", url: srcDir("frameworks/react") },
+    { name: "RequireJS", url: srcDir("frameworks/requirejs") },
+    { name: "Svelte", url: srcDir("frameworks/svelte") },
+    { name: "Vue", url: srcDir("frameworks/vue") },
+    { name: "WebView", url: srcDir("frameworks/webview") },
+    { name: "Use TypeScript in UI Definition", url: srcDir("scenarios/use-typescript-in-ui-definition") }
+  ];
+
+  var state = { filter: "all", query: "", selected: null };
+
+  var listEl = document.getElementById("list");
+  var detailEl = document.getElementById("detail");
+  var detailContent = document.getElementById("detailContent");
+  var backdrop = document.getElementById("backdrop");
+  var lightbox = document.getElementById("lightbox");
+  var lightboxImg = document.getElementById("lightboxImg");
+  var lightboxCaption = document.getElementById("lightboxCaption");
+  var toastEl = document.getElementById("toast");
+
+  function isPhoneLayout() { return window.matchMedia("(max-width: 860px)").matches; }
+
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function groupLabel(id) {
+    for (var i = 0; i < GROUPS.length; i++) if (GROUPS[i].id === id) return GROUPS[i].label;
+    return id;
+  }
+
+  /* ---------- list ---------- */
+
+  function matches(s) {
+    if (state.filter === "nocam" && !s.noCamera) return false;
+    if (state.filter !== "all" && state.filter !== "nocam" && s.group !== state.filter) return false;
+    if (state.query) {
+      var hay = (s.title + " " + s.desc + " " + s.path + " " + s.tags.join(" ")).toLowerCase();
+      if (hay.indexOf(state.query) === -1) return false;
+    }
+    return true;
+  }
+
+  function renderList() {
+    var html = "";
+    var total = 0;
+    GROUPS.forEach(function (g) {
+      var items = SAMPLES.filter(function (s) { return s.group === g.id && matches(s); });
+      if (!items.length) return;
+      total += items.length;
+      html += '<div class="group"><h3 class="group-title">' + esc(g.label) + ' <span class="count">(' + items.length + ")</span></h3><div class=\"items\">";
+      items.forEach(function (s) {
+        html += '<button class="sample' + (state.selected === s.id ? " active" : "") + '" type="button" data-id="' + s.id + '">' +
+          '<span class="sample-title">' + esc(s.title) + "</span>" +
+          '<span class="sample-desc">' + esc(s.desc) + "</span>" +
+          '<span class="tags">' + s.tags.map(function (t) { return '<span class="tag">' + esc(t) + "</span>"; }).join("") +
+          (s.noCamera ? '<span class="tag nocam">No camera needed</span>' : "") +
+          "</span></button>";
       });
-    </script>
-  </body>
+      html += "</div></div>";
+    });
+    listEl.innerHTML = total ? html : '<div class="empty">No samples match your search.</div>';
+  }
+
+  /* ---------- detail ---------- */
+
+  function renderPlaceholder() {
+    detailContent.innerHTML = '<div class="empty">Select a sample from the list to see its QR code and scan material.</div>';
+  }
+
+  function renderDetail(s) {
+    var url = absoluteUrl(s.path);
+    var html =
+      "<h2>" + esc(s.title) + "</h2>" +
+      '<div class="badges"><span class="tag">' + esc(groupLabel(s.group)) + "</span>" +
+      (s.noCamera ? '<span class="tag nocam">No camera needed</span>' : "") + "</div>" +
+      '<p class="desc">' + esc(s.desc) + "</p>" +
+      '<div class="actions">' +
+      '<a class="btn primary" href="' + esc(s.path) + '" target="_blank" rel="noopener">Open demo</a>' +
+      '<a class="btn" href="' + esc(s.source) + '" target="_blank" rel="noopener">Source</a>' +
+      '<button class="btn" type="button" data-copy="' + esc(url) + '">Copy link</button>' +
+      "</div>";
+
+    var matCount = (s.materials || []).filter(function (mid) { return MATERIALS[mid]; }).length;
+    var multi = matCount > 1;
+
+    if (s.noCamera) {
+      html += '<div class="qr-section"><div class="qr-side"><strong>Runs fine on this computer</strong>' +
+        "<p>This sample does not need a camera, so there is no QR handoff — just open the demo here. The " + (multi ? "images" : "image") + " below can be downloaded as test input.</p></div></div>";
+    } else {
+      html += '<div class="qr-section"><div class="qr-card" id="sampleQr"></div>' +
+        '<div class="qr-side"><strong>Open on your phone</strong>' +
+        "<p>Scan this QR code with your phone camera to launch the sample, then point your phone at the " + (multi ? "images" : "image") + " below.</p>" +
+        '<code class="url">' + esc(url) + "</code></div></div>";
+    }
+
+    if (matCount) {
+      html += '<div class="materials"><h3>' + (multi ? "Scan materials" : "Scan material") + "</h3>" +
+        '<p class="mat-note">' + (s.noCamera
+          ? (multi ? "Download an image and feed it to the sample." : "Download this image and feed it to the sample.")
+          : (multi ? "Point your phone (running the sample) at any of these images — click to enlarge." : "Point your phone (running the sample) at this image — click to enlarge.")) + "</p>" +
+        '<div class="mat-grid' + (multi ? " multi" : "") + '">';
+      s.materials.forEach(function (mid) {
+        var m = MATERIALS[mid];
+        if (!m) return;
+        var fileUrl = MATERIAL_DIR + m.file;
+        html += '<button class="preview" type="button" data-full="' + esc(fileUrl) + '" data-label="' + esc(m.label) + '">' +
+          '<img src="' + esc(fileUrl) + '" alt="' + esc(m.label) + '" loading="lazy">' +
+          '<span class="mat-label">' + esc(m.label) + "</span></button>";
+      });
+      html += "</div></div>";
+    }
+
+    detailContent.innerHTML = html;
+
+    var qrHost = document.getElementById("sampleQr");
+    if (qrHost) {
+      try { qrHost.innerHTML = MiniQR.toSvg(url); }
+      catch (e) { qrHost.innerHTML = '<div class="fallback">QR unavailable</div>'; }
+    }
+
+    // graceful fallback for material images that have not been added yet
+    var imgs = detailContent.querySelectorAll(".preview img");
+    for (var i = 0; i < imgs.length; i++) {
+      imgs[i].addEventListener("error", function () {
+        var btn = this.closest(".preview");
+        if (!btn) return;
+        var file = btn.getAttribute("data-full").split("/").pop();
+        btn.outerHTML = '<span class="fallback"><span>Scan material coming soon</span><code>' + esc(file) + "</code></span>";
+      });
+    }
+  }
+
+  function selectSample(id) {
+    state.selected = id;
+    var s = null;
+    for (var i = 0; i < SAMPLES.length; i++) if (SAMPLES[i].id === id) s = SAMPLES[i];
+    if (!s) return;
+    renderDetail(s);
+    var buttons = listEl.querySelectorAll(".sample");
+    for (var j = 0; j < buttons.length; j++) {
+      buttons[j].classList.toggle("active", buttons[j].getAttribute("data-id") === id);
+    }
+    if (isPhoneLayout()) openSheet();
+  }
+
+  /* ---------- bottom sheet (phone) ---------- */
+
+  function openSheet() { detailEl.classList.add("open"); backdrop.classList.add("active"); }
+  function closeSheet() { detailEl.classList.remove("open"); backdrop.classList.remove("active"); }
+
+  /* ---------- lightbox ---------- */
+
+  function openLightbox(srcUrl, caption) {
+    lightboxImg.src = srcUrl;
+    lightboxImg.alt = caption || "Scan material";
+    lightboxCaption.textContent = caption || "";
+    lightbox.classList.add("open");
+  }
+  function closeLightbox() { lightbox.classList.remove("open"); lightboxImg.src = ""; }
+
+  /* ---------- toast & copy ---------- */
+
+  var toastTimer = null;
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 1800);
+  }
+
+  function copyText(text) {
+    function done() { toast("Link copied — send it to your phone"); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { legacyCopy(text); done(); });
+    } else {
+      legacyCopy(text); done();
+    }
+  }
+  function legacyCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); } catch (e) { /* ignore */ }
+    document.body.removeChild(ta);
+  }
+
+  /* ---------- chips & search ---------- */
+
+  function renderChips() {
+    var chips = [{ id: "all", label: "All samples" }]
+      .concat(GROUPS.map(function (g) { return { id: g.id, label: g.label }; }))
+      .concat([{ id: "nocam", label: "No camera needed" }]);
+    var chipsEl = document.getElementById("chips");
+    chipsEl.innerHTML = chips.map(function (c) {
+      return '<button class="chip' + (state.filter === c.id ? " active" : "") + '" type="button" data-filter="' + c.id + '">' + esc(c.label) + "</button>";
+    }).join("");
+  }
+
+  /* ---------- events ---------- */
+
+  listEl.addEventListener("click", function (e) {
+    var btn = e.target.closest(".sample");
+    if (btn) selectSample(btn.getAttribute("data-id"));
+  });
+
+  document.getElementById("chips").addEventListener("click", function (e) {
+    var chip = e.target.closest(".chip");
+    if (!chip) return;
+    state.filter = chip.getAttribute("data-filter");
+    renderChips();
+    renderList();
+  });
+
+  document.getElementById("search").addEventListener("input", function () {
+    state.query = this.value.trim().toLowerCase();
+    renderList();
+  });
+
+  detailContent.addEventListener("click", function (e) {
+    var copyBtn = e.target.closest("[data-copy]");
+    if (copyBtn) { copyText(copyBtn.getAttribute("data-copy")); return; }
+    var preview = e.target.closest(".preview");
+    if (preview) openLightbox(preview.getAttribute("data-full"), preview.getAttribute("data-label"));
+  });
+
+  document.getElementById("sheetClose").addEventListener("click", closeSheet);
+  backdrop.addEventListener("click", closeSheet);
+  document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", function (e) { if (e.target === lightbox) closeLightbox(); });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape") return;
+    if (lightbox.classList.contains("open")) closeLightbox();
+    else if (detailEl.classList.contains("open")) closeSheet();
+  });
+
+  document.getElementById("copyPageLink").addEventListener("click", function () {
+    copyText(absoluteUrl(""));
+  });
+
+  var backToTop = document.getElementById("backToTop");
+  window.addEventListener("scroll", function () {
+    backToTop.classList.toggle("show", window.scrollY > 400);
+  }, { passive: true });
+  backToTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+
+  window.addEventListener("resize", function () {
+    if (!isPhoneLayout()) {
+      closeSheet();
+      if (!state.selected) selectSample(SAMPLES[0].id);
+    }
+  });
+
+  /* ---------- init ---------- */
+
+  renderChips();
+  renderList();
+  renderPlaceholder();
+  if (!isPhoneLayout()) selectSample(SAMPLES[0].id);
+
+  renderPageQr();
+  renderNetHint();
+
+  document.getElementById("fwCount").textContent = FRAMEWORKS.length;
+  document.getElementById("fwList").innerHTML = FRAMEWORKS.map(function (f) {
+    return '<li><a href="' + esc(f.url) + '" target="_blank" rel="noopener">' + esc(f.name) + "</a></li>";
+  }).join("");
+})();
+  </script>
+</body>
 </html>
