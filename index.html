@@ -42,10 +42,7 @@
 
     /* handoff banner */
     .handoff {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 28px;
-      align-items: center;
+      display: block;
       background: linear-gradient(120deg, #1f2a50, #2b5bd7);
       color: #fff;
       border-radius: 16px;
@@ -53,26 +50,35 @@
       box-shadow: var(--shadow);
     }
     .handoff h1 { margin: 0 0 10px; font-size: 24px; line-height: 1.3; }
-          .handoff p { margin: 0 0 14px; color: #dbe4ff; max-width: 62ch; }
-          .steps { margin: 0 0 18px; padding-left: 20px; color: #dbe4ff; }
+          .handoff p { margin: 0 0 14px; color: #dbe4ff; }
+          .steps-row { display: flex; gap: 20px; align-items: flex-start; margin: 0 0 18px; padding: 14px 16px; border-radius: 10px; background: rgba(0, 0, 0, .18); border: 1px solid rgba(255, 255, 255, .22); }
+          .steps { margin: 0; padding-left: 20px; color: #dbe4ff; flex: 1; }
     .steps li { margin: 4px 0; }
-    .handoff-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    .handoff-qr { text-align: center; }
+.handoff-qr { text-align: center; position: relative; }
     .qr-card { background: #fff; border-radius: 12px; padding: 10px; width: 150px; box-shadow: 0 4px 14px rgba(0, 0, 0, .18); }
     .qr-card svg { display: block; width: 100%; height: auto; }
     .qr-caption { margin-top: 8px; font-size: 12px; color: #dbe4ff; }
-    .net-hint { margin: 0 0 16px; padding: 12px 14px; border-radius: 10px; background: rgba(0, 0, 0, .18); border: 1px solid rgba(255, 255, 255, .22); color: #fff; font-size: 13px; max-width: 78ch; }
-    .net-hint[hidden] { display: none; }
-    .net-hint .net-msg { margin: 0 0 8px; color: #fff; max-width: none; }
+    .net-pill { display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; padding: 4px 10px; border-radius: 999px; border: none; font-size: 11px; font-weight: 600; cursor: pointer; transition: .15s; }
+    .net-pill[hidden] { display: none; }
+    .net-pill.warn { background: #fef3c7; color: #92400e; }
+    .net-pill.warn:hover { background: #fde68a; }
+    .net-pill.ok { background: #d1fae5; color: #065f46; }
+    .net-pill.ok:hover { background: #a7f3d0; }
+    .net-pill.info { background: #dbeafe; color: #1e40af; }
+    .net-pill.info:hover { background: #bfdbfe; }
+    .net-panel { position: absolute; top: 100%; right: 0; z-index: 40; margin-top: 8px; width: max(320px, 100%); max-width: 90vw; background: #1b2340; border: 1px solid rgba(255, 255, 255, .22); border-radius: 10px; padding: 14px 16px; box-shadow: 0 8px 30px rgba(0, 0, 0, .4); text-align: left; }
+    .net-panel[hidden] { display: none; }
+    .net-panel::before { content: ""; position: absolute; top: -6px; right: 20px; width: 10px; height: 10px; background: #1b2340; border-left: 1px solid rgba(255, 255, 255, .22); border-top: 1px solid rgba(255, 255, 255, .22); transform: rotate(45deg); }
+    .net-hint .net-msg { margin: 0 0 8px; color: #fff; font-size: 13px; max-width: none; }
     .net-hint .net-msg:last-child { margin: 0; }
-    .net-hint a { color: #fff; text-decoration: underline; }
+    .net-hint a { color: #93c5fd; text-decoration: underline; }
     .net-hint code { background: rgba(0, 0, 0, .28); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
     .base-form { display: flex; gap: 8px; flex-wrap: wrap; }
-    .base-form input { flex: 1 1 260px; min-width: 0; padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, .35); background: rgba(255, 255, 255, .95); color: var(--ink); font: inherit; font-size: 13px; }
+    .base-form input { flex: 1 1 220px; min-width: 0; padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, .35); background: rgba(255, 255, 255, .95); color: var(--ink); font: inherit; font-size: 13px; }
     .base-form .btn { padding: 7px 14px; }
     .base-help { margin-top: 8px; }
-    .base-help summary { cursor: pointer; color: #dbe4ff; }
-    .base-help ul { margin: 6px 0 0; padding-left: 18px; color: #dbe4ff; }
+    .base-help summary { cursor: pointer; color: #dbe4ff; font-size: 12px; }
+    .base-help ul { margin: 6px 0 0; padding-left: 18px; color: #dbe4ff; font-size: 12px; }
     .base-help li { margin: 4px 0; }
     .base-help strong { color: #fff; }
 
@@ -106,6 +112,8 @@
     .chip { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink-soft); font-size: 13px; font-weight: 600; cursor: pointer; }
     .chip:hover { border-color: var(--brand); color: var(--brand); }
         .chip.active { background: var(--brand); border-color: var(--brand); color: #fff; }
+    .chip-fw { background: var(--brand-soft); border-color: var(--brand-soft); color: var(--brand); }
+    .chip-fw:hover { background: var(--brand); border-color: var(--brand); color: #fff; }
 
     /* layout */
     .layout { display: grid; grid-template-columns: minmax(0, 3fr) minmax(420px, 2fr); gap: 20px; align-items: start; }
@@ -205,8 +213,10 @@
       .wrap { padding: 14px 14px 80px; }
       .show-mobile { display: block; }
       .hide-mobile { display: none; }
-      .handoff { grid-template-columns: 1fr; padding: 22px; }
-      .handoff-qr, .steps { display: none; }
+      .handoff { padding: 22px; }
+      .steps-row { flex-direction: column; }
+      .steps-row .handoff-qr .qr-card { width: 100px; margin: 0 auto; }
+      .net-panel { right: auto; left: 50%; transform: translateX(-50%); }
       .layout { grid-template-columns: 1fr; }
       .detail {
         position: fixed;
@@ -258,25 +268,23 @@
 
     <section class="handoff">
       <div class="handoff-text">
-        <h1 class="hide-mobile">📱 Scan with your phone — keep this page on your desktop</h1>
-        <h1 class="show-mobile">📱 You're on your phone — perfect for scanning</h1>
-        <p class="hide-mobile">Barcode scanning works best on a phone camera. Send any sample to your phone in seconds, then use the barcode images on this screen as scan targets.</p>
-        <p class="show-mobile">Pick any sample below to start scanning with your camera.</p>
-        <ol class="steps">
-          <li>Point your phone camera at a QR code — the one here opens this page, and each sample has its own.</li>
-          <li>Try the sample on your phone.</li>
-          <li>Scan the barcode images shown on this screen.</li>
-        </ol>
-        <div class="net-hint" id="netHint" role="note" hidden></div>
-        <div class="handoff-actions">
-          <button class="btn light" id="copyPageLink" type="button">Copy page link</button>
-          <a class="btn light" href="basics/hello-world.html">Quick start: Hello World</a>
-          <a class="btn ghost" href="https://github.com/Dynamsoft/barcode-reader-javascript-samples/blob/main/README.md" target="_blank" rel="noopener">Main README</a>
+        <h1 id="handoffTitle">📱 Scan with your phone, keep this page on your desktop</h1>
+        <p id="handoffDesc">Barcode scanning works best with a phone camera. Send any sample to your phone in seconds, then use the barcode images on this screen as scan targets.</p>
+        <div class="steps-row">
+          <ol class="steps">
+            <li>Scan this page's QR code to open it on your phone, or use the QR code shown with any sample to open it directly.</li>
+            <li>Try the sample on your phone.</li>
+            <li>Point your phone at the barcode images on this screen to test scanning.</li>
+          </ol>
+          <div class="handoff-qr">
+            <div class="qr-card" id="pageQr"></div>
+            <div class="qr-caption">Scan to open on your phone</div>
+            <button class="net-pill" id="netPill" type="button" hidden></button>
+            <div class="net-panel" id="netPanel" hidden>
+              <div class="net-hint" id="netHint"></div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="handoff-qr">
-        <div class="qr-card" id="pageQr"></div>
-        <div class="qr-caption">This page on your phone</div>
       </div>
     </section>
 
@@ -294,7 +302,7 @@
     </main>
 
     <details class="frameworks">
-      <summary>Framework &amp; build-required samples (<span id="fwCount"></span>) — source code only</summary>
+      <summary>Framework &amp; build-required samples (<span id="fwCount"></span>), source code only</summary>
       <p class="fw-note">These samples need a build step or a specific framework runtime, so they are not hosted as live demos. Browse the source on GitHub:</p>
       <ul class="fw-list" id="fwList"></ul>
     </details>
@@ -822,44 +830,82 @@
   }
 
   function renderNetHint() {
+    var pill = document.getElementById("netPill");
+    var panel = document.getElementById("netPanel");
     var el = document.getElementById("netHint");
+
     if (IS_FILE) {
-      el.innerHTML = '<p class="net-msg">ℹ️ Opened from the file system, so the QR codes point to the ' +
-        '<a href="' + FALLBACK_BASE + '" target="_blank" rel="noopener">hosted online demo</a>. ' +
-        "To try your own copy, serve this folder with a local web server (e.g. Five Server).</p>";
-      el.hidden = false;
+      pill.className = "net-pill info";
+      pill.textContent = "ℹ️ File system";
+      pill.hidden = false;
+      el.innerHTML = '<p class="net-msg">Opened via <code>file://</code>, so QR codes link to the ' +
+        '<a href="' + FALLBACK_BASE + '" target="_blank" rel="noopener">hosted demo</a>. ' +
+        "Serve this folder locally to use your own copy.</p>";
       return;
     }
-    if (!IS_LOOPBACK && !IS_INSECURE_REMOTE) return;
-
-    var status;
-    if (phoneBase) {
-      status = "✅ QR codes point to <strong>" + esc(phoneBase) + "</strong>";
-    } else if (IS_LOOPBACK) {
-      status = "⚠️ QR codes point to <strong>" + esc(location.host) + "</strong>, which your phone cannot reach.";
-    } else {
-      status = "⚠️ This page is served over plain HTTP. Phone browsers only allow the camera on <strong>HTTPS</strong>.";
+    if (!IS_LOOPBACK && !IS_INSECURE_REMOTE) {
+      if (phoneBase) {
+        pill.className = "net-pill ok";
+        pill.textContent = "✅ " + phoneBase.replace(/^https?:\/\//, "").split("/")[0];
+        pill.hidden = false;
+        el.innerHTML = '<p class="net-msg">QR codes → <strong>' + esc(phoneBase) + '</strong></p>' +
+          renderBaseForm();
+        bindBaseForm();
+      } else {
+        pill.hidden = true;
+        panel.hidden = true;
+      }
+      return;
     }
 
-    el.innerHTML =
-      '<p class="net-msg">' + status + (phoneBase ? " — change it below if needed." : " Enter an HTTPS address your phone can open:") + "</p>" +
-      '<form class="base-form" id="baseForm" autocomplete="off">' +
-      '<input id="baseInput" type="text" spellcheck="false" aria-label="Phone-accessible address" ' +
-      'placeholder="https://xxxx.trycloudflare.com  or  192.168.1.20:5500" value="' + esc(phoneBase) + '">' +
-      '<button class="btn light" type="submit">Apply</button>' +
-      (phoneBase ? '<button class="btn ghost" type="button" id="baseReset">Reset</button>' : "") +
-      "</form>" +
-      '<details class="base-help"><summary>How do I get a phone-accessible HTTPS address?</summary><ul>' +
-      "<li><strong>VS Code port forwarding</strong> (any network): open the <em>Ports</em> panel → <em>Forward a Port</em> → enter your server port " +
-      "(e.g. <code>5500</code>) → right-click → <em>Port Visibility › Public</em> → copy the forwarded address.</li>" +
-      "<li><strong>Cloudflare quick tunnel</strong> (no account): run <code>cloudflared tunnel --url http://localhost:5500</code> and paste the " +
-      "<code>https://….trycloudflare.com</code> URL.</li>" +
-      "<li><strong>Same Wi-Fi</strong>: in Five Server set <code>\"host\": \"0.0.0.0\"</code> and <code>\"https\": true</code>, find your IP with " +
-      "<code>ipconfig</code> / <code>ifconfig</code>, then enter <code>192.168.x.x:5500</code>. Accept the certificate warning on the phone.</li>" +
-      "</ul></details>";
-    el.hidden = false;
+    var pillText, pillClass, status;
+    if (phoneBase) {
+      pillClass = "ok";
+      pillText = "✅ " + phoneBase.replace(/^https?:\/\//, "").split("/")[0];
+      status = "QR codes → <strong>" + esc(phoneBase) + "</strong>";
+    } else if (IS_LOOPBACK) {
+      pillClass = "warn";
+      pillText = "⚠️ localhost";
+      status = "This page is hosted at <strong>" + esc(location.host) + "</strong>, which your phone can't reach.";
+    } else {
+      pillClass = "warn";
+      pillText = "⚠️ No HTTPS";
+      status = "Served over plain HTTP. Camera access requires HTTPS, so scanning won't work on your phone.";
+    }
 
-    document.getElementById("baseForm").addEventListener("submit", function (e) {
+    pill.className = "net-pill " + pillClass;
+    pill.textContent = pillText;
+    pill.hidden = false;
+
+    el.innerHTML = '<p class="net-msg">' + status + "</p>" +
+      '<details class="base-help"><summary>Why HTTPS?</summary>' +
+      '<p class="net-msg" style="margin:6px 0 8px">The camera API (<code>getUserMedia</code>) only works in ' +
+      "<strong>secure contexts</strong>. Without HTTPS, the browser blocks camera access entirely. " +
+      '<code>localhost</code> is exempt but unreachable from your phone.</p><ul>' +
+      "<li><strong>Same Wi-Fi</strong>: serve on <code>0.0.0.0</code> with HTTPS enabled, " +
+      "find your LAN IP (<code>ipconfig</code> / <code>ifconfig</code>), " +
+      "open <code>https://192.168.x.x:&lt;port&gt;</code> on the phone.</li>" +
+      "<li><strong>ngrok / Cloudflare tunnel</strong>: " +
+      "<code>ngrok http 5500</code> or <code>cloudflared tunnel --url http://localhost:5500</code>. " +
+      "Gives you a public HTTPS URL instantly.</li>" +
+      "</ul></details>" +
+      '<p class="net-msg" style="margin:8px 0 4px">Once you have an HTTPS address, paste it here:</p>' + renderBaseForm();
+    bindBaseForm();
+  }
+
+  function renderBaseForm() {
+    return '<form class="base-form" id="baseForm" autocomplete="off">' +
+      '<input id="baseInput" type="text" spellcheck="false" aria-label="Phone-accessible address" ' +
+      'placeholder="https://xxxx.trycloudflare.com  or  https://192.168.x.x:5500" value="' + esc(phoneBase) + '">' +
+      '<button class="btn light" type="submit">Update all QR codes</button>' +
+      (phoneBase ? '<button class="btn ghost" type="button" id="baseReset">Reset</button>' : "") +
+      "</form>";
+  }
+
+  function bindBaseForm() {
+    var form = document.getElementById("baseForm");
+    if (!form) return;
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
       var v = normalizeBase(document.getElementById("baseInput").value);
       if (v === null) { toast("That doesn't look like a valid address"); return; }
@@ -914,23 +960,23 @@
       desc: "The simplest way to get started: open the camera and scan multiple barcodes with default settings.",
       tags: ["camera", "getting started"], materials: ["mixed-codes"] },
     { id: "scan-a-single-barcode", title: "Scan a Single Barcode", group: "basics", path: "basics/scan-a-single-barcode.html", source: src("basics/scan-a-single-barcode.html"),
-      desc: "Scan exactly one barcode and return immediately — ideal for simple scan-and-go flows.",
+      desc: "Scan exactly one barcode and return immediately. Ideal for simple scan-and-go flows.",
       tags: ["camera", "single"], materials: ["qr", "retail-1d1", "retail-1d2"] },
     { id: "read-an-image", title: "Read an Image", group: "basics", path: "basics/read-an-image.html", source: src("basics/read-an-image.html"),
-      desc: "Decode barcodes from a local image file instead of the camera. Works great on desktop — download a material image below and feed it to the sample.",
+      desc: "Decode barcodes from a local image file instead of the camera. Works great on desktop: download a material image below and feed it to the sample.",
       tags: ["image", "file"], noCamera: true, materials: ["mixed-codes"] },
 
     { id: "cart-builder", title: "Cart Builder", group: "workflow", path: "scenarios/cart-builder/index.html", source: srcDir("scenarios/cart-builder"),
       desc: "Scan product barcodes to build a shopping cart with quantities and a running total.",
       tags: ["cart", "retail", "checkout"], materials: ["retail-1d1", "retail-1d2", "retail-1d3", "retail-1d4"] },
     { id: "scan-and-search", title: "Scan and Search", group: "workflow", path: "scenarios/scan-and-search/index.html", source: srcDir("scenarios/scan-and-search"),
-      desc: "Scan a barcode and look it up in a dataset — the classic inventory / price-check flow.",
+      desc: "Scan a barcode and look it up in a dataset. The classic inventory / price-check flow.",
       tags: ["search", "inventory", "lookup"], materials: ["retail-1d1", "retail-1d2", "retail-1d3", "retail-1d4"] },
     { id: "tip-and-beep", title: "Tip Message & Beep", group: "workflow", path: "scenarios/tip-and-beep/index.html", source: srcDir("scenarios/tip-and-beep"),
       desc: "Give users feedback with a sound and a toast message whenever a barcode is decoded.",
       tags: ["feedback", "sound", "ux"], materials: ["mixed-codes"] },
     { id: "pick-one-to-fill", title: "Pick One to Fill", group: "workflow", path: "scenarios/pick-one-to-fill/index.html", source: srcDir("scenarios/pick-one-to-fill"),
-      desc: "Pick a target input field, then scan a barcode to fill it in — handy for web forms.",
+      desc: "Pick a target input field, then scan a barcode to fill it in. Handy for web forms.",
       tags: ["form", "input", "fill"], materials: ["form-codes"] },
     { id: "batch-inventory", title: "Batch Inventory", group: "workflow", path: "scenarios/batch-inventory/index.html", source: srcDir("scenarios/batch-inventory"),
       desc: "Continuously scan many items and keep a running inventory list with counts.",
@@ -943,13 +989,13 @@
       tags: ["overlay", "video", "ar"], materials: ["mixed-codes"] },
 
     { id: "scan-qr-code", title: "Scan QR Code", group: "barcode-type", path: "scenarios/scan-qr-code/index.html", source: srcDir("scenarios/scan-qr-code"),
-      desc: "Tune the runtime settings to read QR codes only — faster and more accurate when you know the symbology.",
+      desc: "Tune the runtime settings to read QR codes only. Faster and more accurate when you know the symbology.",
       tags: ["qr", "2d"], materials: ["qr"] },
     { id: "scan-datamatrix-code", title: "Scan DataMatrix Code", group: "barcode-type", path: "scenarios/scan-datamatrix-code/index.html", source: srcDir("scenarios/scan-datamatrix-code"),
       desc: "Tune the runtime settings to read DataMatrix codes only.",
       tags: ["datamatrix", "2d"], materials: ["datamatrix"] },
     { id: "scan-dpm-codes", title: "Scan DPM Codes", group: "barcode-type", path: "scenarios/scan-dpm-codes/index.html", source: srcDir("scenarios/scan-dpm-codes"),
-      desc: "Read Direct Part Marking codes — barcodes etched or dotted directly onto metal parts.",
+      desc: "Read Direct Part Marking codes: barcodes etched or dotted directly onto metal parts.",
       tags: ["dpm", "datamatrix", "industrial"], materials: ["dpm-parts"] },
     { id: "scan-common-2D-codes", title: "Scan Common 2D Codes", group: "barcode-type", path: "scenarios/scan-common-2D-codes/index.html", source: srcDir("scenarios/scan-common-2D-codes"),
       desc: "Read the most common 2D symbologies: QR, DataMatrix, PDF417 and Aztec.",
@@ -967,7 +1013,7 @@
       desc: "Scan small or far-away barcodes by combining resolution, zoom and focus settings.",
       tags: ["distance", "zoom", "small"], materials: ["mixed-codes"] },
     { id: "grid-barcode-reading", title: "Grid Barcode Reading", group: "barcode-type", path: "scenarios/grid-barcode-reading/index.html", source: srcDir("scenarios/grid-barcode-reading"),
-      desc: "Read dozens of barcodes arranged in a grid from a single image — no camera required.",
+      desc: "Read dozens of barcodes arranged in a grid from a single image. No camera required.",
       tags: ["grid", "batch", "image"], noCamera: true, materials: ["datamatrix-grid"] },
 
     { id: "read-a-drivers-license", title: "Read a Driver's License", group: "parsing", path: "scenarios/read-a-drivers-license/index.html", source: srcDir("scenarios/read-a-drivers-license"),
@@ -1011,6 +1057,8 @@
   var lightboxCaption = document.getElementById("lightboxCaption");
   var toastEl = document.getElementById("toast");
 
+  var IS_MOBILE_DEVICE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.userAgentData && navigator.userAgentData.mobile);
   function isPhoneLayout() { return window.matchMedia("(max-width: 860px)").matches; }
 
   function esc(s) {
@@ -1079,7 +1127,7 @@
 
     if (s.noCamera) {
       html += '<div class="qr-section"><div class="qr-side"><strong>Runs fine on this computer</strong>' +
-        "<p>This sample does not need a camera, so there is no QR handoff — just open the demo here. The " + (multi ? "images" : "image") + " below can be downloaded as test input.</p></div></div>";
+        "<p>This sample does not need a camera, so there is no QR handoff. Just open the demo here. The " + (multi ? "images" : "image") + " below can be downloaded as test input.</p></div></div>";
     } else {
       html += '<div class="qr-section"><div class="qr-card" id="sampleQr"></div>' +
         '<div class="qr-side"><strong>Open on your phone</strong>' +
@@ -1091,7 +1139,7 @@
       html += '<div class="materials"><h3>' + (multi ? "Scan materials" : "Scan material") + "</h3>" +
         '<p class="mat-note">' + (s.noCamera
           ? (multi ? "Download an image and feed it to the sample." : "Download this image and feed it to the sample.")
-          : (multi ? "Point your phone (running the sample) at any of these images — click to enlarge." : "Point your phone (running the sample) at this image — click to enlarge.")) + "</p>" +
+          : (multi ? "Point your phone (running the sample) at any of these images. Click to enlarge." : "Point your phone (running the sample) at this image. Click to enlarge.")) + "</p>" +
         '<div class="mat-grid' + (multi ? " multi" : "") + '">';
       s.materials.forEach(function (mid) {
         var m = MATERIALS[mid];
@@ -1163,7 +1211,7 @@
   }
 
   function copyText(text) {
-    function done() { toast("Link copied — send it to your phone"); }
+    function done() { toast("Link copied, send it to your phone"); }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(done, function () { legacyCopy(text); done(); });
     } else {
@@ -1190,10 +1238,21 @@
     var chipsEl = document.getElementById("chips");
     chipsEl.innerHTML = chips.map(function (c) {
       return '<button class="chip' + (state.filter === c.id ? " active" : "") + '" type="button" data-filter="' + c.id + '">' + esc(c.label) + "</button>";
-    }).join("");
+    }).join("") + '<button class="chip chip-fw" type="button" id="fwChip">Frameworks (' + FRAMEWORKS.length + ') ↓</button>';
   }
 
   /* ---------- events ---------- */
+
+  document.getElementById("netPill").addEventListener("click", function () {
+    var panel = document.getElementById("netPanel");
+    panel.hidden = !panel.hidden;
+  });
+  document.addEventListener("click", function (e) {
+    var panel = document.getElementById("netPanel");
+    if (!panel.hidden && !e.target.closest(".net-panel") && !e.target.closest(".net-pill")) {
+      panel.hidden = true;
+    }
+  });
 
   listEl.addEventListener("click", function (e) {
     var btn = e.target.closest(".sample");
@@ -1203,6 +1262,12 @@
   document.getElementById("chips").addEventListener("click", function (e) {
     var chip = e.target.closest(".chip");
     if (!chip) return;
+    if (chip.id === "fwChip") {
+      var fw = document.querySelector(".frameworks");
+      fw.open = true;
+      fw.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
     state.filter = chip.getAttribute("data-filter");
     renderChips();
     renderList();
@@ -1231,10 +1296,6 @@
     else if (detailEl.classList.contains("open")) closeSheet();
   });
 
-  document.getElementById("copyPageLink").addEventListener("click", function () {
-    copyText(absoluteUrl(""));
-  });
-
   var backToTop = document.getElementById("backToTop");
   window.addEventListener("scroll", function () {
     backToTop.classList.toggle("show", window.scrollY > 400);
@@ -1254,6 +1315,12 @@
   renderList();
   renderPlaceholder();
   if (!isPhoneLayout()) selectSample(SAMPLES[0].id);
+
+  if (IS_MOBILE_DEVICE) {
+    document.getElementById("handoffTitle").textContent = "📱 You're on a mobile device, perfect for scanning";
+    document.getElementById("handoffDesc").textContent = "Pick any sample below to start scanning with your camera.";
+    document.querySelector(".steps-row").style.display = "none";
+  }
 
   renderPageQr();
   renderNetHint();
