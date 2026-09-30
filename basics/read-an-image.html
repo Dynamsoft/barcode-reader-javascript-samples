@@ -22,6 +22,7 @@
   Results:<br />
   <div id="results"></div>
   <script>
+    // Configure the WASM engine to include PDF support.
     Dynamsoft.Core.CoreModule.wasmLoadOptions = {
       wasmType: Dynamsoft.Core.EnumWasmType.ML_SIMD_WITH_PDF,
     };
@@ -35,6 +36,7 @@
      */
     Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
+    // Preload the deep-learning models required for barcode localization and decoding.
     const MODELS = ["OneDLocalization", "DataMatrixQRCodeLocalization", "Code128Decoder", "EAN13Decoder", "Code39ITFDecoder"];
     Dynamsoft.CVR.CaptureVisionRouter.appendDLModelBuffer(MODELS);
 
