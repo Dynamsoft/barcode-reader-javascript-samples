@@ -1,3 +1,8 @@
+<!--
+This file is essentially an HTML file; you can use any valid HTML syntax.
+You can click on the XML icon in the bottom right corner of VS Code to switch to HTML mode highlighting.
+Document: https://www.dynamsoft.com/barcode-reader/docs/core/programming/features/ui-customization-js.html?lang=js
+-->
 <style>
 * {
   margin: 0;
