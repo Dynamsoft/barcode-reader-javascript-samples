@@ -16,12 +16,15 @@
 
 <body>
   <h1>Hello World (Read an Image)</h1>
-  <input id="input-file" type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp" />
+  <input id="input-file" type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp,.pdf" />
   <span id="decoding" style="display: none;">Decoding...</span>
   <br />
   Results:<br />
   <div id="results"></div>
   <script>
+    Dynamsoft.Core.CoreModule.wasmLoadOptions = {
+      wasmType: Dynamsoft.Core.EnumWasmType.ML_SIMD_WITH_PDF,
+    };
     /** LICENSE ALERT - README
      * To use the library, you need to first specify a license key.
      *
@@ -31,6 +34,9 @@
      * LICENSE ALERT - THE END
      */
     Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
+
+    const MODELS = ["OneDLocalization", "DataMatrixQRCodeLocalization", "Code128Decoder", "EAN13Decoder", "Code39ITFDecoder"];
+    Dynamsoft.CVR.CaptureVisionRouter.appendDLModelBuffer(MODELS);
 
     const resultsContainer = document.querySelector("#results");
     const pInit = (async () => {
@@ -47,7 +53,13 @@
         document.querySelector("#decoding").style.display = "inline"; // Show decoding indicator during the decoding process
         // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
         const { cvRouter } = await pInit;
-        const result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+        let result;
+        if (file.type === "application/pdf") {
+          const _result = await cvRouter.captureMultiPages(file, "ReadBarcodes_ReadRateFirst");
+          result = _result[0];
+        } else {
+          result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+        }
         const barcodeResultItems = result.decodedBarcodesResult?.barcodeResultItems;
 
         if (!barcodeResultItems) {
