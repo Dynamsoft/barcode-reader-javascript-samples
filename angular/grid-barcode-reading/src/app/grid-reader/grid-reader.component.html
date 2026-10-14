@@ -1,0 +1,8 @@
+<div style="max-width: 600px; margin: 0 auto">
+  <input type="file" accept=".jpg,.jpeg,.png,.bmp" (change)="processImage($event)"
+    style="display: block; margin: 20px auto; padding: 10px" />
+  @if (status) {
+    <p style="margin: 10px; font-weight: bold">{{status}}</p>
+  }
+  <div style="white-space: pre-wrap; text-align: left; padding: 10px; font-family: monospace; font-size: 13px">{{resultText}}</div>
+</div>

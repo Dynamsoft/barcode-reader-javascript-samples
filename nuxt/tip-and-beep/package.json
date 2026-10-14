@@ -1,0 +1,18 @@
+{
+  "name": "nuxt-tip-and-beep",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "nuxt": "3.21.10"
+  },
+  "dependencies": {
+    "dynamsoft-barcode-reader-bundle": "11.6.3200"
+  }
+}

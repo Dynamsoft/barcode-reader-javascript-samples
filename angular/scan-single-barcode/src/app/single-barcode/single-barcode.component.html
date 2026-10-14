@@ -1,0 +1,13 @@
+@if (!scanning) {
+  <button (click)="startScan()" style="padding: 10px 24px; font-size: 16px; margin: 10px; cursor: pointer">
+    {{ result ? 'Scan Again' : 'Start Scan' }}
+  </button>
+}
+<div
+  #cameraViewContainer
+  [style.height]="scanning ? '70vh' : '0'"
+  style="width: 100%; overflow: hidden"
+></div>
+@if (result) {
+  <p style="margin: 20px; font-size: 18px">Result: <strong>{{result}}</strong></p>
+}

@@ -1,0 +1,21 @@
+<div class="controls">
+  <input [(ngModel)]="query" placeholder="Barcode value..."
+    style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; width: 250px" />
+  <button (click)="lookup()">Search</button>
+  <button (click)="startScan()" [class.active]="scanning">{{ scanning ? 'Scanning...' : 'Scan' }}</button>
+</div>
+<div
+  #cameraViewContainer
+  [style.height]="scanning ? '50vh' : '0'"
+  style="width: 100%; overflow: hidden; transition: height 0.3s"
+></div>
+@if (query && !scanning) {
+  <div style="margin: 20px; padding: 16px; border: 1px solid #eee; border-radius: 8px; max-width: 400px; margin-inline: auto">
+    <p><strong>Barcode:</strong> {{query}}</p>
+    @if (match) {
+      <p style="color: green; margin-top: 8px">Found: <strong>{{match}}</strong></p>
+    } @else {
+      <p style="color: #c00; margin-top: 8px">No match found in database.</p>
+    }
+  </div>
+}

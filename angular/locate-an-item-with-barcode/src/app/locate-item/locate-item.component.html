@@ -1,0 +1,14 @@
+<div class="controls">
+  <input [(ngModel)]="target" (ngModelChange)="onTargetChange()" placeholder="Enter target barcode value..."
+    style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; width: 280px" />
+</div>
+@if (target) {
+  <p [style.color]="found ? 'green' : '#c00'" style="margin: 8px; font-size: 16px; font-weight: bold">
+    {{ found ? 'Item found in view!' : 'Searching for item...' }}
+  </p>
+}
+<div
+  #cameraViewContainer
+  style="width: 100%; height: 50vh"
+></div>
+<div style="white-space: pre-wrap; font-size: 12px; max-height: 10vh; overflow: auto; font-family: monospace">{{resultText}}</div>

@@ -1,0 +1,138 @@
+{
+  "GlobalParameter": 
+  {
+    "IntraOpNumThreads": 2
+  },
+  "BarcodeReaderTaskSettingOptions": [
+    {
+      "BarcodeFormatIds": [
+        "BF_DATAMATRIX"
+      ],
+      "DPMCodeReadingModes": [
+        {
+          "Mode": "DPMCRM_GENERAL"
+        }
+      ],
+      "ExpectedBarcodesCount": 1,
+      "Name": "task_read_dpm",
+      "SectionArray": [
+        {
+          "ImageParameterName": "ip_read_dpm",
+          "Section": "ST_BARCODE_LOCALIZATION",
+          "StageArray": [
+            {
+              "LocalizationModes": [
+                {
+                  "Mode": "LM_STATISTICS_MARKS"
+                },
+                {
+                  "Mode": "LM_CONNECTED_BLOCKS"
+                }
+              ],
+              "Stage": "SST_LOCALIZE_CANDIDATE_BARCODES"
+            },
+            {
+              "Stage": "SST_LOCALIZE_BARCODES"
+            }
+          ]
+        },
+        {
+          "ImageParameterName": "ip_read_dpm",
+          "Section": "ST_BARCODE_DECODING",
+          "StageArray": [
+            {
+              "Stage": "SST_RESIST_DEFORMATION"
+            },
+            {
+              "Stage": "SST_COMPLEMENT_BARCODE"
+            },
+            {
+              "Stage": "SST_SCALE_BARCODE_IMAGE"
+            },
+            {
+              "Stage": "SST_DECODE_BARCODES"
+            }
+          ]
+        }
+      ],
+      "TextResultOrderModes": [
+        {
+          "Mode": "TROM_POSITION"
+        },
+        {
+          "Mode": "TROM_FORMAT"
+        },
+        {
+          "Mode": "TROM_CONFIDENCE"
+        }
+      ]
+    }
+  ],
+  "CaptureVisionTemplates": [
+    {
+      "ImageROIProcessingNameArray": [
+        "roi_read_dpm"
+      ],
+      "MaxParallelTasks": 0,
+      "Name": "ReadDPM",
+      "Timeout": 3000
+    }
+  ],
+  "ImageParameterOptions": [
+    {
+      "ApplicableStages": [
+        {
+          "Stage": "SST_INPUT_COLOR_IMAGE"
+        },
+        {
+          "Stage": "SST_SCALE_IMAGE"
+        },
+        {
+          "Stage": "SST_CONVERT_TO_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_TRANSFORM_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_ENHANCE_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_BINARIZE_IMAGE"
+        },
+        {
+          "Stage": "SST_DETECT_TEXTURE"
+        },
+        {
+          "Stage": "SST_REMOVE_TEXTURE_FROM_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_BINARIZE_TEXTURE_REMOVED_GRAYSCALE"
+        },
+        {
+          "Stage": "SST_FIND_CONTOURS"
+        },
+        {
+          "Stage": "SST_DETECT_SHORTLINES"
+        },
+        {
+          "Stage": "SST_ASSEMBLE_LINES"
+        },
+        {
+          "Stage": "SST_DETECT_TEXT_ZONES"
+        },
+        {
+          "Stage": "SST_REMOVE_TEXT_ZONES_FROM_BINARY"
+        }
+      ],
+      "Name": "ip_read_dpm"
+    }
+  ],
+  "TargetROIDefOptions": [
+    {
+      "Name": "roi_read_dpm",
+      "TaskSettingNameArray": [
+        "task_read_dpm"
+      ]
+    }
+  ]
+}

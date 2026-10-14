@@ -1,0 +1,6 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+.page { text-align: center; min-width: 350px; font-family: sans-serif; }
+h2 { margin: 20px 0 10px; }
+.controls { margin: 10px auto; max-width: 600px; }
+.controls button { padding: 8px 16px; margin: 4px; cursor: pointer; border: 1px solid #333; border-radius: 6px; background: #fff; }
+.controls button.active, .controls button:hover { background: rgb(255,174,55); }

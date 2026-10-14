@@ -1,0 +1,15 @@
+<div
+  #cameraViewContainer
+  [style.height]="scanning ? '40vh' : '0'"
+  style="width: 100%; overflow: hidden; transition: height 0.3s"
+></div>
+<div style="max-width: 400px; margin: 20px auto; text-align: left">
+  @for (f of ['sn', 'mac', 'eid']; track f) {
+    <div style="margin: 12px 0; display: flex; align-items: center; gap: 8px">
+      <label style="width: 50px; font-weight: bold">{{ f.toUpperCase() }}</label>
+      <input [(ngModel)]="fields[f]" [placeholder]="'Scan or type ' + f.toUpperCase() + '...'"
+        style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; width: 220px" />
+      <button (click)="scanForField(f)" style="padding: 6px 12px; cursor: pointer">Scan</button>
+    </div>
+  }
+</div>

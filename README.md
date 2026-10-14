@@ -58,11 +58,11 @@ git clone https://github.com/Dynamsoft/barcode-reader-javascript-samples.git --d
 
 ## Running the Samples Locally
 
-The standalone samples in the `basics/` folder (`hello-world.html`, `scan-a-single-barcode.html`, `read-an-image.html`) and scenario samples load the SDK from a CDN, so you can open them directly by double-clicking — no web server required (an internet connection is needed).
+The standalone samples in `vanilla/` (`hello-world.html`, `scan-a-single-barcode.html`, `read-an-image.html`, and all scenario samples) load the SDK from a CDN, so you can open them directly by double-clicking — no web server required (an internet connection is needed).
 
 To browse all available samples, open `index.html` in your browser — it links to every sample in the repository.
 
-For framework samples, follow the instructions in each subfolder's README (typically `npm install` then `npm run dev`).
+For framework samples, follow the instructions in each framework's `hello-world/` subfolder README (typically `npm install` then `npm run dev`).
 
 If you need a web server for standalone or scenario samples, here's a quick method using [Visual Studio Code](https://code.visualstudio.com/):
 
@@ -74,11 +74,9 @@ If you need a web server for standalone or scenario samples, here's a quick meth
 
 ## Sample Folders
 
-- **`basics/`** - Three foundational samples: hello-world, scan-a-single-barcode, and read-an-image.
+- **`vanilla/`** — Standalone vanilla JS samples: the three foundational hello-world samples plus all scenario samples (workflow, barcode-type, and data-parsing demos). No build step required.
 
-- **`scenarios/`** - Focused scenario samples that show common real-world uses of Dynamsoft Barcode Reader.
-
-- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
+- **`angular/`**, **`blazor/`**, **`capacitor/`**, **`electron/`**, **`es6/`**, **`maui-blazor-hybrid/`**, **`native-ts/`**, **`next/`**, **`nuxt/`**, **`pwa/`**, **`react/`**, **`requirejs/`**, **`svelte/`**, **`vue/`**, **`webview/`** — Framework-specific samples, each containing a `hello-world/` project.
 
 ---
 
@@ -110,8 +108,6 @@ Open your AI agent (e.g. GitHub Copilot Chat in agent mode) and try:
 
 The agent will automatically load the skill and generate correct, production-ready code using the right SDK version, license key, API patterns, and framework conventions — without you needing to read any documentation.
 
-- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
-
 ---
 
 ## Documentation
@@ -132,51 +128,51 @@ If you have any questions, feel free to [contact Dynamsoft support](https://www.
 
 ### Hello World
 
-- [hello-world.html](./basics/hello-world.html) — Demonstrates continuously scanning and collecting multiple unique barcodes via camera.
-- [scan-a-single-barcode.html](./basics/scan-a-single-barcode.html) — Demonstrates single-barcode scanning: stops and returns as soon as the first barcode is detected.
-- [read-an-image.html](./basics/read-an-image.html) — Demonstrates how to decode and read barcodes from uploaded image files.
+- [hello-world.html](./vanilla/hello-world.html) — Demonstrates continuously scanning and collecting multiple unique barcodes via camera.
+- [scan-a-single-barcode.html](./vanilla/scan-a-single-barcode.html) — Demonstrates single-barcode scanning: stops and returns as soon as the first barcode is detected.
+- [read-an-image.html](./vanilla/read-an-image.html) — Demonstrates how to decode and read barcodes from uploaded image files.
 
 ### Frameworks
 
-- [angular/](./frameworks/angular/) — Angular examples.
-- [blazor/](./frameworks/blazor/) — Blazor (.NET) examples.
-- [capacitor/](./frameworks/capacitor/) — Capacitor mobile hybrid examples.
-- [electron/](./frameworks/electron/) — Electron desktop examples.
-- [es6/](./frameworks/es6/) — Plain ES6 module examples.
-- [maui-blazor-hybrid/](./frameworks/maui-blazor-hybrid/) — MAUI Blazor Hybrid (.NET) examples.
-- [native-ts/](./frameworks/native-ts/) — Native TypeScript examples.
-- [next/](./frameworks/next/) — Next.js examples.
-- [nuxt/](./frameworks/nuxt/) — Nuxt examples.
-- [pwa/](./frameworks/pwa/) — Progressive Web App examples.
-- [react/](./frameworks/react/) — React examples.
-- [requirejs/](./frameworks/requirejs/) — RequireJS (AMD) examples.
-- [svelte/](./frameworks/svelte/) — Svelte examples.
-- [vue/](./frameworks/vue/) — Vue examples.
-- [webview/](./frameworks/webview/) — Native WebView examples for Android/iOS.
+- [angular/hello-world/](./angular/hello-world/) — Angular example.
+- [blazor/hello-world/](./blazor/hello-world/) — Blazor (.NET) example.
+- [capacitor/hello-world/](./capacitor/hello-world/) — Capacitor mobile hybrid example.
+- [electron/hello-world/](./electron/hello-world/) — Electron desktop example.
+- [es6/hello-world/](./es6/hello-world/) — Plain ES6 module example.
+- [maui-blazor-hybrid/hello-world/](./maui-blazor-hybrid/hello-world/) — MAUI Blazor Hybrid (.NET) example.
+- [native-ts/hello-world/](./native-ts/hello-world/) — Native TypeScript example.
+- [next/hello-world/](./next/hello-world/) — Next.js example.
+- [nuxt/hello-world/](./nuxt/hello-world/) — Nuxt example.
+- [pwa/hello-world/](./pwa/hello-world/) — Progressive Web App example.
+- [react/hello-world/](./react/hello-world/) — React example.
+- [requirejs/hello-world/](./requirejs/hello-world/) — RequireJS (AMD) example.
+- [svelte/hello-world/](./svelte/hello-world/) — Svelte example.
+- [vue/hello-world/](./vue/hello-world/) — Vue example.
+- [webview/hello-world/](./webview/hello-world/) — Native WebView example for Android/iOS.
 
 ### Scenarios
 
-- [pick-one-to-fill/](./scenarios/pick-one-to-fill/) — Picking the correct one from multiple candidates by scanning barcodes.
-- [cart-builder/](./scenarios/cart-builder/) — Single-page demo illustrating adding scanned items into a shopping cart.
-- [scan-and-search/](./scenarios/scan-and-search/) — Example that scans a barcode and performs a lookup/search operation.
-- [tip-and-beep/](./scenarios/tip-and-beep/) — Camera scanning with rotating tip messages and beep feedback on successful detection.
-- [show-result-texts-on-the-video/](./scenarios/show-result-texts-on-the-video/) — Overlay decoded text on live video while scanning.
-- [batch-inventory/](./scenarios/batch-inventory/) — Batch scanning workflow for inventory collection and export.
-- [read-a-drivers-license/](./scenarios/read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.
-- [read-vin/](./scenarios/read-vin/) — Demo for reading and parsing a VIN (vehicle identification number) code.
-- [read-and-parse-GS1-AI/](./scenarios/read-and-parse-GS1-AI/) — Example showing GS1 AI parsing and data extraction.
-- [scan-qr-code/](./scenarios/scan-qr-code/) — QR code targeted demo and settings.
-- [scan-common-1D-and-2D/](./scenarios/scan-common-1D-and-2D/) — Demo configured to detect a wide range of barcode formats.
-- [scan-common-2D-codes/](./scenarios/scan-common-2D-codes/) — Focused on common 2D barcode formats decoding.
-- [scan-datamatrix-code/](./scenarios/scan-datamatrix-code/) — DataMatrix code targeted demo with optimized settings.
-- [scan-dpm-codes/](./scenarios/scan-dpm-codes/) — Demo for reading Direct Part Mark (DPM) codes etched or marked on surfaces.
-- [scan-1D-Retail/](./scenarios/scan-1D-Retail/) — 1D retail barcode tuning example.
-- [scan-1D-Industrial/](./scenarios/scan-1D-Industrial/) — 1D industrial barcode tuning example.
-- [scan-from-distance/](./scenarios/scan-from-distance/) — Demo for scanning barcodes from a distance (zoom/ROI tuning).
-- [locate-an-item-with-barcode/](./scenarios/locate-an-item-with-barcode/) — UI to help locate items with barcodes in a list or layout.
-- [grid-barcode-reading/](./scenarios/grid-barcode-reading/) — Scan a grid of DataMatrix / QR codes from an uploaded image with fast scan, layout analysis, and deep decode.
-- [use-typescript-in-ui-definition/](./scenarios/use-typescript-in-ui-definition/) — Uses React as the framework for business logic, TypeScript for the UI definition script portion, and imports the UI definition JS in UMD format.
-- [debug/](./scenarios/debug/) — Debug utilities and a small server (frame collector) used for testing and troubleshooting.
+- [pick-one-to-fill/](./vanilla/pick-one-to-fill/) — Picking the correct one from multiple candidates by scanning barcodes.
+- [cart-builder/](./vanilla/cart-builder/) — Single-page demo illustrating adding scanned items into a shopping cart.
+- [scan-and-search/](./vanilla/scan-and-search/) — Example that scans a barcode and performs a lookup/search operation.
+- [tip-and-beep/](./vanilla/tip-and-beep/) — Camera scanning with rotating tip messages and beep feedback on successful detection.
+- [show-result-texts-on-the-video/](./vanilla/show-result-texts-on-the-video/) — Overlay decoded text on live video while scanning.
+- [batch-inventory/](./vanilla/batch-inventory/) — Batch scanning workflow for inventory collection and export.
+- [read-a-drivers-license/](./vanilla/read-a-drivers-license/) — Demo for reading and parsing a driver's license image/data.
+- [read-vin/](./vanilla/read-vin/) — Demo for reading and parsing a VIN (vehicle identification number) code.
+- [read-and-parse-GS1-AI/](./vanilla/read-and-parse-GS1-AI/) — Example showing GS1 AI parsing and data extraction.
+- [scan-qr-code/](./vanilla/scan-qr-code/) — QR code targeted demo and settings.
+- [scan-common-1D-and-2D/](./vanilla/scan-common-1D-and-2D/) — Demo configured to detect a wide range of barcode formats.
+- [scan-common-2D-codes/](./vanilla/scan-common-2D-codes/) — Focused on common 2D barcode formats decoding.
+- [scan-datamatrix-code/](./vanilla/scan-datamatrix-code/) — DataMatrix code targeted demo with optimized settings.
+- [scan-dpm-codes/](./vanilla/scan-dpm-codes/) — Demo for reading Direct Part Mark (DPM) codes etched or marked on surfaces.
+- [scan-1D-Retail/](./vanilla/scan-1D-Retail/) — 1D retail barcode tuning example.
+- [scan-1D-Industrial/](./vanilla/scan-1D-Industrial/) — 1D industrial barcode tuning example.
+- [scan-from-distance/](./vanilla/scan-from-distance/) — Demo for scanning barcodes from a distance (zoom/ROI tuning).
+- [locate-an-item-with-barcode/](./vanilla/locate-an-item-with-barcode/) — UI to help locate items with barcodes in a list or layout.
+- [grid-barcode-reading/](./vanilla/grid-barcode-reading/) — Scan a grid of DataMatrix / QR codes from an uploaded image with fast scan, layout analysis, and deep decode.
+- [use-typescript-in-ui-definition/](./vanilla/use-typescript-in-ui-definition/) — Uses React as the framework for business logic, TypeScript for the UI definition script portion, and imports the UI definition JS in UMD format.
+- [debug/](./vanilla/debug/) — Debug utilities and a small server (frame collector) used for testing and troubleshooting.
 
 ### Official Online Demo
 

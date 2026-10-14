@@ -1,0 +1,34 @@
+<div class="controls">
+  <button (click)="toggleScan()" [class.active]="scanning">{{ scanning ? 'Stop Scanning' : 'Scan Barcode' }}</button>
+  <button (click)="clearCart()">Clear Cart</button>
+</div>
+<div
+  #cameraViewContainer
+  [style.height]="scanning ? '40vh' : '0'"
+  style="width: 100%; overflow: hidden; transition: height 0.3s"
+></div>
+<div style="max-width: 500px; margin: 10px auto; text-align: left">
+  <h3>Cart ({{totalItems}} items)</h3>
+  @if (items.length === 0) {
+    <p style="color: #999">No items. Start scanning!</p>
+  } @else {
+    <table style="width: 100%; border-collapse: collapse; margin-top: 8px">
+      <thead>
+        <tr style="border-bottom: 2px solid #333">
+          <th style="text-align: left; padding: 6px">Barcode</th>
+          <th>Format</th>
+          <th>Qty</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of items; track item.text) {
+          <tr style="border-bottom: 1px solid #eee">
+            <td style="padding: 6px; font-family: monospace">{{item.text}}</td>
+            <td style="text-align: center">{{item.format}}</td>
+            <td style="text-align: center">{{item.count}}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

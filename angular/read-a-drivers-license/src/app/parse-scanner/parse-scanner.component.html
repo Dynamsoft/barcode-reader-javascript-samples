@@ -1,0 +1,25 @@
+<div
+  #cameraViewContainer
+  style="width: 100%; height: 50vh"
+></div>
+@if (resultText) {
+  <p style="margin: 10px; font-family: monospace; font-size: 13px">{{resultText}}</p>
+}
+@if (parsedFields.length > 0) {
+  <table style="max-width: 500px; margin: 10px auto; border-collapse: collapse; text-align: left">
+    <thead>
+      <tr style="border-bottom: 2px solid #333">
+        <th style="padding: 6px">Field</th>
+        <th style="padding: 6px">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (f of parsedFields; track f.name; let i = $index) {
+        <tr style="border-bottom: 1px solid #eee">
+          <td style="padding: 6px; font-weight: bold">{{f.name}}</td>
+          <td style="padding: 6px; font-family: monospace">{{f.value}}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
