@@ -21,12 +21,8 @@
     (async () => {
       const cameraView = await Dynamsoft.DCE.CameraView.createInstance('./driver-license.ui.xml');
       const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
-      
       const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-
       cvRouter.setInput(cameraEnhancer);
-
-      const uiElement = cameraView.getUIElement();
 
       cameraView.uiContext = {
         cvRouter,
@@ -35,9 +31,8 @@
         },
       };
 
+      const uiElement = cameraView.getUIElement();
       document.body.append(uiElement);
-
-      // business logic can call `cameraView.uiContext.dispose()` to release resources created in UI definition.
     })();
   </script>
 </body>
