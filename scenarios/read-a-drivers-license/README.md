@@ -239,7 +239,7 @@ Only the first barcode is used (`barcodeResultItems[0]`), matching `ExpectedBarc
 
 **Reusing the `.ui.xml` is the lowest-effort path, not the only path.**
 
-### Option A: reuse the UI definition
+### Option A: reuse the UI definition (Recommended)
 
 1. Put `driver-license.ui.xml`, `read_dl.json`, and `logo-dynamsoft.png` in a public/static directory. If you need offline/self-hosted operation, also copy `dce.ui.v5.xml` and the SDK bundle locally, then update both URLs.
 2. Create a container ref.
