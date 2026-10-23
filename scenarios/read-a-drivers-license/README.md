@@ -1,4 +1,4 @@
-# Read a Driver's License (Custom UI)
+# Read a Driver's License
 
 Decode the PDF417 barcode on a driver's license and display the parsed fields. The sample uses the new UI definition format: the whole UI lives in [`driver-license.ui.xml`](./driver-license.ui.xml), while [`index.html`](./index.html) only creates the SDK objects and connects them.
 
@@ -10,7 +10,7 @@ The point is portability. The same `.ui.xml` can be mounted from plain HTML, Rea
 
 > **TL;DR** — `index.html` is the host; `driver-license.ui.xml` is the UI. The host passes `{ cvRouter, onDriverLicenseResult }` through `cameraView.uiContext`; the UI gets the camera from `document.currentScript.currentDMCamera`. When porting to a framework, reuse the `.ui.xml` unchanged or rebuild the UI and drive the SDK directly.
 
-**How to read this:** run it → [Quick Start](#quick-start); understand it → [Architecture](#architecture-at-a-glance) + [Contract](#the-host-ui-contract) + [Inside the UI Definition](#inside-driver-licenseuixml); port it → [Porting](#porting-to-react--vue); verify it → [Integration Checklist](#integration-checklist); change it → [Customization](#customization-guide) + [Troubleshooting](#troubleshooting).
+**How to read this:** run it → [Quick Start](#quick-start); understand it → [Architecture](#architecture-at-a-glance) + [Contract](#the-host-ui-contract) + [Inside the UI Definition](#inside-driver-licenseuixml); port it → [Porting](#porting-to-react--vue); change it → [Customization](#customization-guide) + [Troubleshooting](#troubleshooting).
 
 ## What This Sample Shows
 
@@ -24,7 +24,7 @@ It is **not**:
 
 - a general-purpose barcode scanner — `read_dl.json` is PDF417-only on purpose;
 - a file-upload-only sample — the camera is the primary path, and the upload button is a convenience for desktop/testing;
-- a framework sample — for framework/TypeScript integration, see [`frameworks`](../../frameworks/).
+- a framework sample — however, it can be migrated to any framework with [very minor modifications](#porting-to-react--vue).
 
 [Live demo](https://demo.dynamsoft.com/Samples/DBR/JS/scenarios/read-a-drivers-license/index.html)
 
@@ -64,18 +64,6 @@ All styles are inside the `.ui.xml`. There is also no UI code in `index.html` �
 
 ## Architecture at a Glance
 
-```text
-index.html (host)                                      driver-license.ui.xml (UI)
-────────────────                                       ──────────────────────────
-LicenseManager.initLicense()                           <style>...</style>
-CameraView.createInstance(path) ────── fetch ────────▶ markup: home / scanner / result
-CameraEnhancer.createInstance(view)                    <Include src="dce.ui.v5.xml">
-CaptureVisionRouter.createInstance()                   <script>
-cvRouter.setInput(cameraEnhancer)                        camera = currentScript.currentDMCamera
-view.uiContext = { cvRouter, onDriverLicenseResult } ──▶   { cvRouter, onDriverLicenseResult } = camera.uiContext
-document.body.append(view.getUIElement())                camera.dynamsoftExports.CodeParser...
-```
-
 | Concern | Owner |
 | --- | --- |
 | License, camera, and router creation | `index.html` |
@@ -85,17 +73,6 @@ document.body.append(view.getUIElement())                camera.dynamsoftExports
 | Decoding settings | `read_dl.json` |
 
 `CameraView` and `CameraEnhancer` are effectively the same class (11.4.2000+); `CameraEnhancer.createInstance(cameraView)` reuses the same instance. That is why `uiContext` set on the view is readable as `camera.uiContext` inside the UI.
-
-### Why the split?
-
-| | Plain HTML approach | This sample |
-| --- | --- | --- |
-| UI markup | `index.html` | `driver-license.ui.xml` |
-| UI styles | `index.css` | `<style>` in the `.ui.xml` |
-| UI event handlers | `index.html` | `<script>` in the `.ui.xml` |
-| Host code | mixed with UI | setup + callbacks only |
-
-When you move to React or Vue, only the host changes. The UI file remains the same artifact.
 
 ## The Host-UI Contract
 
@@ -139,26 +116,11 @@ const ui = camera.ui; // root element of this UI definition
 
 Set `uiContext` **before** appending `getUIElement()` to the DOM. The SDK converts inline UI scripts to blob scripts and runs them when the UI is attached. `driver-license.ui.xml` reads `camera.uiContext` at the top of its script, so appending first makes the UI see `undefined`.
 
-### Minimal UI skeleton
-
-```html
-<div class="dm-camera-core-container"></div>
-<script>
-  (() => {
-    const camera = document.currentScript.currentDMCamera;
-    const { cvRouter } = camera.uiContext;
-    // Wire buttons, listen to cvRouter, ...
-  })();
-</script>
-```
-
-`.dm-camera-core-container` is required; the SDK injects the video and overlay there. All other elements are optional.
-
 ### Lifecycle
 
 - One camera instance = one UI instance. Create it when the component mounts and remove it when it unmounts.
-- The sample creates `CodeParser` inside the UI. If the browser supports the `FinalizationRegistry`, the `parser` will be automatically destructed when nothing references it. Therefore, in most modern browsers, `parser.dispose()` is not required. If you need to care about older browsers, expose a `dispose` callback through `uiContext` and call `parser.dispose()` from the host; the sample does not do this.
-- On unmount: stop capture, close the camera, and remove the UI element. See [Porting](#porting-to-react--vue).
+- The sample creates `CodeParser` inside the UI. 
+- The modern browsers support `FinalizationRegistry`, so `camera`, `cvRouter` and `parser` will automatically `dispose()` when the component unmounts.
 
 ## Inside driver-license.ui.xml
 
@@ -275,7 +237,7 @@ Only the first barcode is used (`barcodeResultItems[0]`), matching `ExpectedBarc
 
 ## Porting to React / Vue
 
-**Reusing the `.ui.xml` is the lowest-effort path, not the only path.** If your app already has a UI framework, you can rebuild the UI in your components and drive the SDK directly; you only lose the ability to reuse this file as-is.
+**Reusing the `.ui.xml` is the lowest-effort path, not the only path.**
 
 ### Option A: reuse the UI definition
 
@@ -284,7 +246,7 @@ Only the first barcode is used (`barcodeResultItems[0]`), matching `ExpectedBarc
 3. In `useEffect` / `onMounted`, create the view, enhancer, and router.
 4. Set `uiContext` before appending.
 5. Append `getUIElement()` to the ref, not `document.body`.
-6. On cleanup: stop capture, close the camera, remove the element.
+6. On cleanup: remove the element.
 
 ```jsx
 useEffect(() => {
@@ -308,8 +270,6 @@ useEffect(() => {
 
   return () => {
     cancelled = true;
-    cvRouter?.stopCapturing();
-    cameraEnhancer?.close();
     cameraView?.getUIElement()?.remove();
   };
 }, []);
@@ -323,7 +283,6 @@ You do not need `uiContext` or `document.currentScript` for this option:
 
 - Create the camera and router in the component.
 - Render your own controls.
-- The `<Include src>` is invalid or has different semantics in your framework. Append basic camera UI by `camera.getUIElement()` instead; Or `<div class=".dm-camera-core-container">` + `camera.setUIElement(thatContainer)` instead.
 - Own mount/unmount cleanup.
 
 ### Gotchas
@@ -377,14 +336,14 @@ If you change the parsing output shape, update both `generateResultList()` and t
 
 ## Maintainer Notes (and AI Agents)
 
-> These notes apply only if you are editing **this repository's sample**. They are not requirements for applications built with the SDK. Customer-facing agents should use the [Integration Checklist](#integration-checklist) above.
+> These notes apply only if you are editing **this repository's sample**. They are not requirements for applications built with the SDK. Customer-facing agents are not required to comply with this section.
 
 - **Keep the host/UI split.** `index.html` stays a thin host; `driver-license.ui.xml` stays the complete UI. Inlining the UI back into `index.html` removes the separation this sample exists to demonstrate.
 - **Keep `<Include>`.** Reuse the official v5 UI; do not paste its hundreds of lines into this file.
 - **Keep the contract names and shape.** `uiContext = { cvRouter, onDriverLicenseResult }`, `document.currentScript.currentDMCamera`, `camera.dynamsoftExports`.
 - **Keep one result path.** Camera and image upload must both go through `showResult()`; do not fork parsing or rendering.
 - **Keep the version pin in sync.** Update the bundle URL in `index.html` and the `<Include src>` URL together.
-- **Keep it plain HTML.** No build step in this sample; TypeScript/UMD belongs in [`use-typescript-in-ui-definition`](../use-typescript-in-ui-definition/).
+- **Keep it plain HTML.** No build step in this sample;
 - **Keep DOM access safe and scoped.** Use `camera.ui.querySelector`, `textContent`, and `replaceChildren`; avoid `document.querySelector` and HTML string interpolation.
 - **Keep the smoke test.** Upload `SampleDriversLicense.jpg` and expect a populated result list (29 fields at the time of writing).
 - **Keep the README in sync.** If files, flow, or the contract change, update this document.
