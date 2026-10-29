@@ -8,7 +8,7 @@ The point is portability. The same `.ui.xml` can be mounted from plain HTML, Rea
 - **Input**: camera, or a local image via the bottom-left button
 - **Output**: raw barcode text plus parsed fields (`AAMVA_DL_ID`, `AAMVA_DL_ID_WITH_MAG_STRIPE`, `SOUTH_AFRICA_DL`)
 
-> **TL;DR** — `index.html` is the host; `driver-license.ui.xml` is the UI. The host passes `{ cvRouter, onDriverLicenseResult }` through `cameraView.uiContext`; the UI gets the camera from `document.currentScript.currentDMCamera`. When porting to a framework, reuse the `.ui.xml` unchanged or rebuild the UI and drive the SDK directly.
+> **TL;DR** — `index.html` is the host; `driver-license.ui.xml` is the UI. The host passes `{ cvRouter, onDriverLicenseResult }` through `camera.uiContext`; the UI gets the camera from `document.currentScript.currentDMCamera`. When porting to a framework, reuse the `.ui.xml` unchanged or rebuild the UI and drive the SDK directly.
 
 **How to read this:** run it → [Quick Start](#quick-start); understand it → [Architecture](#architecture-at-a-glance) + [Contract](#the-host-ui-contract) + [Inside the UI Definition](#inside-driver-licenseuixml); port it → [Porting](#porting-to-react--vue); change it → [Customization](#customization-guide) + [Troubleshooting](#troubleshooting).
 
@@ -243,34 +243,35 @@ Only the first barcode is used (`barcodeResultItems[0]`), matching `ExpectedBarc
 
 1. Put `driver-license.ui.xml`, `read_dl.json`, and `logo-dynamsoft.png` in a public/static directory. If you need offline/self-hosted operation, also copy `dce.ui.v5.xml` and the SDK bundle locally, then update both URLs.
 2. Create a container ref.
-3. In `useEffect` / `onMounted`, create the view, enhancer, and router.
+3. In `useEffect` / `onMounted`, create the camera, and router.
 4. Set `uiContext` before appending.
 5. Append `getUIElement()` to the ref, not `document.body`.
 6. On cleanup: remove the element.
+7. Custom the UI by editing `driver-license.ui.xml`. Expand `<Include src>` for editing if necessary.
 
 ```jsx
 useEffect(() => {
   let cancelled = false;
   const container = containerRef.current;
-  let cameraView, cameraEnhancer, cvRouter;
+  let camera, cvRouter;
 
   (async () => {
-    cameraView = await CameraView.createInstance("/driver-license.ui.xml");
-    cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
+    // `CameraView` and `CameraEnhancer` are the same class (11.4.2000+), so let's keep it simple.
+    camera = await CameraEnhancer.createInstance("/driver-license.ui.xml");
     cvRouter = await CaptureVisionRouter.createInstance();
-    cvRouter.setInput(cameraEnhancer);
+    cvRouter.setInput(camera);
 
-    cameraView.uiContext = {
+    camera.uiContext = {
       cvRouter,
       onDriverLicenseResult: (result) => console.log(result),
     };
 
-    if (!cancelled) container.append(cameraView.getUIElement());
+    if (!cancelled) container.append(camera.getUIElement());
   })();
 
   return () => {
     cancelled = true;
-    cameraView?.getUIElement()?.remove();
+    camera?.getUIElement()?.remove();
   };
 }, []);
 ```
@@ -279,10 +280,14 @@ Adjust the imports and effect API to your framework and SDK version. React 18 St
 
 ### Option B: rebuild the UI in your framework
 
-You do not need `uiContext` or `document.currentScript` for this option:
+You do not need `uiContext` or `ui.xml` for this option:
 
-- Create the camera and router in the component.
-- Render your own controls.
+- Create the camera with simpler UI. As example, here we use the most basic.
+  ```js
+  CameraEnhancer.defaultUIElementURL = null; // even not to use the default
+  camera = await CameraEnhancer.createInstance();
+  ```
+- Create router and render your own controls.
 - Own mount/unmount cleanup.
 
 ### Gotchas
@@ -352,7 +357,7 @@ If you change the parsing output shape, update both `generateResultList()` and t
 
 - [Dynamsoft Barcode Reader JS — Introduction](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/)
 - [Foundational API user guide](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/user-guide/index.html)
-- [Customize the UI — new UI definition format](https://www.dynamsoft.com/barcode-reader/docs/core/programming/features/ui-customization-js.html)
+- [Customize the UI — new UI definition format](https://www.dynamsoft.com/barcode-reader/docs/core/programming/features/ui-customization-js.html#new-ui-definition-format)
 - [API reference](https://www.dynamsoft.com/barcode-reader/docs/web/programming/javascript/api-reference/index.html)
 - [TypeScript in UI definition sample](../use-typescript-in-ui-definition/)
 - [Repository root README](../../README.md)
