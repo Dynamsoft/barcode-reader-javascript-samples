@@ -282,10 +282,11 @@ Adjust the imports and effect API to your framework and SDK version. React 18 St
 
 You do not need `uiContext` or `ui.xml` for this option:
 
-- Create the camera with simpler UI. As example, here we use the most basic.
+- Create the camera with simpler UI. As example, here we use the minimal UI.
   ```js
   CameraEnhancer.defaultUIElementURL = null; // even not to use the default
   camera = await CameraEnhancer.createInstance();
+  container.append(camera.getUIElement());
   ```
 - Create router and render your own controls.
 - Own mount/unmount cleanup.
