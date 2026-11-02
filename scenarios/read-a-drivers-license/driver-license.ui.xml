@@ -207,7 +207,7 @@
   <img class="logo-dynamsoft" src="./logo-dynamsoft.png" alt="logo-dynamsoft">
 </div>
 <div class="barcode-scanner-view" style="display:none;">
-  <Include src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3200/dist/ui/dce.ui.v5.xml"></Include>
+  <Include src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.5000/dist/ui/dce.ui.v5.xml"></Include>
   <!-- Read a barcode from a local image instead of the camera. -->
   <button class="upload-image-btn" type="button" title="Read a barcode from an image" aria-label="Read a barcode from an image">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
