@@ -11,8 +11,8 @@
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
-    "next": "16.3.3",
-    "dynamsoft-barcode-reader-bundle": "11.6.3200"
+    "next": "16.4.1",
+    "dynamsoft-barcode-reader-bundle": "11.6.5000"
   },
   "devDependencies": {
     "typescript": "^5",

@@ -91,7 +91,15 @@
           "Stage": "SST_CONVERT_TO_GRAYSCALE"
         },
         {
-          "Stage": "SST_TRANSFORM_GRAYSCALE"
+          "Stage": "SST_TRANSFORM_GRAYSCALE",
+          "GrayscaleTransformationModes": [
+            {
+              "Mode": "GTM_ORIGINAL"
+            },
+            {
+              "Mode": "GTM_INVERTED"
+            }
+          ]
         },
         {
           "Stage": "SST_ENHANCE_GRAYSCALE"
