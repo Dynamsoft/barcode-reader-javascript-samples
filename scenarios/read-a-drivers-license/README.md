@@ -4,7 +4,7 @@ Decode the PDF417 barcode on a driver's license and display the parsed fields. T
 
 The point is portability. The same `.ui.xml` can be mounted from plain HTML, React, Vue, or another framework. The host code is small enough to rewrite per framework; the UI does not need to be.
 
-- **SDK**: `dynamsoft-barcode-reader-bundle@11.6.3200`
+- **SDK**: `dynamsoft-barcode-reader-bundle@11.6.5000`
 - **Input**: camera, or a local image via the bottom-left button
 - **Output**: raw barcode text plus parsed fields (`AAMVA_DL_ID`, `AAMVA_DL_ID_WITH_MAG_STRIPE`, `SOUTH_AFRICA_DL`)
 
@@ -110,7 +110,7 @@ const ui = camera.ui; // root element of this UI definition
 
 - `currentDMCamera` is assigned to every `<script>` in the UI definition when the UI is bound.
 - `camera.ui` is the root element; use it for scoped queries.
-- `camera.dynamsoftExports` exposes SDK objects such as `CodeParser`, `CodeParserModule`, `beep`, and `vibrate` without importing the bundle again (11.6.3200+).
+- `camera.dynamsoftExports` exposes SDK objects such as `CodeParser`, `CodeParserModule`, `beep`, and `vibrate` without importing the bundle again (11.6.5000+).
 
 ### Attach order
 
@@ -130,7 +130,7 @@ The `.xml` extension is deliberate: it prevents dev servers and build tools from
 
 ```html
 <div class="barcode-scanner-view">
-  <Include src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.3200/dist/ui/dce.ui.v5.xml"></Include>
+  <Include src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.5000/dist/ui/dce.ui.v5.xml"></Include>
   <!-- sample-specific UI -->
 </div>
 ```
@@ -184,7 +184,7 @@ const items = captureResult.decodedBarcodesResult?.barcodeResultItems ?? [];
 - The same template is used, so the image goes through the same PDF417 settings.
 - Barcode capture is stopped first if the camera loop is running. If the image has no barcode, the loop restarts and a toast is shown.
 - The input value is cleared immediately, so the same file can be selected again.
-- In 11.6.3200, `capture()` returns the result directly; it does not go through the camera result receiver.
+- In 11.6.5000, `capture()` returns the result directly; it does not go through the camera result receiver.
 - The button is disabled while the image is processed.
 
 ### `showResult()` and Back to Scan
