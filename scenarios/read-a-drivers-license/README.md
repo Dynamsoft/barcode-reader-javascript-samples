@@ -110,7 +110,7 @@ const ui = camera.ui; // root element of this UI definition
 
 - `currentDMCamera` is assigned to every `<script>` in the UI definition when the UI is bound.
 - `camera.ui` is the root element; use it for scoped queries.
-- `camera.dynamsoftExports` exposes SDK objects such as `CodeParser`, `CodeParserModule`, `beep`, and `vibrate` without importing the bundle again (11.6.5000+).
+- `camera.dynamsoftExports` exposes SDK objects such as `CodeParser`, `CodeParserModule`, `beep`, and `vibrate` without importing the bundle again (11.6.3200+).
 
 ### Attach order
 
@@ -184,7 +184,7 @@ const items = captureResult.decodedBarcodesResult?.barcodeResultItems ?? [];
 - The same template is used, so the image goes through the same PDF417 settings.
 - Barcode capture is stopped first if the camera loop is running. If the image has no barcode, the loop restarts and a toast is shown.
 - The input value is cleared immediately, so the same file can be selected again.
-- In 11.6.5000, `capture()` returns the result directly; it does not go through the camera result receiver.
+- The `capture()` returns the result directly; it does not go through the camera result receiver.
 - The button is disabled while the image is processed.
 
 ### `showResult()` and Back to Scan
