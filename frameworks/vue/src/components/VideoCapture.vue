@@ -42,8 +42,6 @@ onMounted(() => {
       // Define a callback for results.
       await cvRouter.addResultReceiver({
         onDecodedBarcodesReceived: (result) => {
-          if (!result.barcodeResultItems.length) return;
-
           resultText.value = '';
           console.log(result);
           for (let item of result.barcodeResultItems) {
