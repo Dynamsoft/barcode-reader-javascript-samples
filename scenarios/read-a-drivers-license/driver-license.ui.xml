@@ -1,0 +1,432 @@
+<!--
+  This file is essentially an **HTML** file; you can use any valid HTML syntax.
+  You can click on the XML icon in the bottom right corner of VS Code to switch to HTML mode highlighting.
+  Document: https://www.dynamsoft.com/barcode-reader/docs/core/programming/features/ui-customization-js.html?lang=js
+-->
+<style>
+.home-page *,
+.parsed-result-view *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+}
+
+.home-page {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  position: absolute;
+  left:0;
+  top:0;
+  background-color: #323234;
+}
+
+.home-page .home-page-title {
+  width: 100%;
+  color: white;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  text-align: center;
+}
+
+.home-page .start-btn {
+  height: 10%;
+  min-height: 50px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  aspect-ratio: 1/1;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-page .start-btn .start-icon {
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 25px solid #FE8E14;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+}
+
+.home-page .start-btn .loading {
+  width: 70%;
+  height: 70%;
+  display: none;
+  position: absolute;
+  font-size: 14px;
+  border: 4px solid #FE8E14;
+  border-right-color: transparent;
+  border-radius: 50%;
+  color: transparent;
+  font-weight: 700;
+  animation: rotate 1s linear infinite;
+}
+
+.home-page .logo-dynamsoft {
+  position: absolute;
+  left: 50%;
+  bottom: 50px;
+  transform: translate(-50%, -50%);
+  width: 130px;
+  height: 32px;
+}
+
+.barcode-scanner-view {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  position: absolute;
+  left:0;
+  top:0;
+}
+
+.barcode-scanner-view .upload-image-btn {
+  position: absolute;
+  left: calc(20px + env(safe-area-inset-left, 0px));
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.92);
+  color: #323234;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.barcode-scanner-view .upload-image-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.barcode-scanner-view .upload-image-btn:focus-visible {
+  outline: 3px solid #FE8E14;
+  outline-offset: 2px;
+}
+
+.barcode-scanner-view .upload-image-btn svg {
+  width: 26px;
+  height: 26px;
+  pointer-events: none;
+}
+
+.parsed-result-view {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  position: absolute;
+  left:0;
+  top:0;
+  background-color: #DEDFE1;
+  overflow: auto;
+  border: 1px solid #E9EAEB;
+}
+
+.parsed-result-view .barcode-text {
+  width: 100%;
+  height: 80px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  color: #323234;
+  padding: 10px 27px;
+  font-weight: 600;
+  overflow: auto;
+  word-break: break-all;
+}
+
+.parsed-result-view .parsed-result-list {
+  width: 100%;
+  height: fit-content;
+  max-height: 70%;
+  background-color: #fff;
+  overflow: auto;
+}
+
+.parsed-result-view .parsed-result-list .parsed-result-item {
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 27px;
+  border-bottom: 1px solid #E9EAEB;
+  font-size: 18px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.parsed-result-view .parsed-result-list .parsed-result-item strong {
+  font-weight: 500;
+}
+
+.parsed-result-view .parsed-result-list .parsed-result-item span {
+  color: #666666;
+}
+
+.parsed-result-view .back-to-scan {
+  width: 80%;
+  height: 50px;
+  max-width: 372px;
+  background-color: #FE8E14;
+  border-radius: 4px;
+  color: #FFFFFF;
+  font-size: 20px;
+  text-align: center;
+  line-height: 50px;
+  margin: 30px auto;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
+<div class="home-page">
+  <h1 class="home-page-title">Read a Driver's License</h1>
+  <div class="start-btn">
+    <div class="start-icon"></div>
+    <div class="loading"></div>
+  </div>
+  <img class="logo-dynamsoft" src="./logo-dynamsoft.png" alt="logo-dynamsoft">
+</div>
+<div class="barcode-scanner-view" style="display:none;">
+  <Include src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.5000/dist/ui/dce.ui.v5.xml"></Include>
+  <!-- Read a barcode from a local image instead of the camera. -->
+  <button class="upload-image-btn" type="button" title="Read a barcode from an image" aria-label="Read a barcode from an image">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+      <path d="M21 15l-5-5L5 21"></path>
+    </svg>
+  </button>
+  <input class="upload-image-input" type="file" accept="image/*" hidden>
+</div>
+<div class="parsed-result-view" style="display:none;">
+  <div class="barcode-text"></div>
+  <ul class="parsed-result-list"></ul>
+  <div class="back-to-scan" style="cursor: pointer;">Back to Scan</div>
+</div>
+<script>
+  (async()=>{
+    const camera = document.currentScript.currentDMCamera;
+    const { CodeParserModule, CodeParser } = camera.dynamsoftExports;
+    const { cvRouter, onDriverLicenseResult } = camera.uiContext;
+    const ui = camera.ui;
+
+    const parsedResultView = ui.querySelector(".parsed-result-view");
+    const homePage = ui.querySelector(".home-page");
+    const startIcon = ui.querySelector(".start-icon");
+    const startBtn = ui.querySelector(".start-btn");
+    const loading = ui.querySelector(".loading");
+    const barcodeText = ui.querySelector(".barcode-text");
+    const parsedResultList = ui.querySelector(".parsed-result-list");
+    const backToScan = ui.querySelector(".back-to-scan");
+    const barcodeScannerView = ui.querySelector(".barcode-scanner-view");
+    const uploadImageBtn = ui.querySelector(".upload-image-btn");
+    const uploadImageInput = ui.querySelector(".upload-image-input");
+
+    CodeParserModule.loadSpec(["AAMVA_DL_ID", "SOUTH_AFRICA_DL"]);
+
+    let parser;
+    let isHandlingResult = false;
+    let pInit = (async () => {
+      parser = await CodeParser.createInstance();
+      await cvRouter.addResultReceiver({
+        onDecodedBarcodesReceived: (result) => {
+          const barcodeResultItem = result.barcodeResultItems?.[0];
+          if (!barcodeResultItem) return;
+          cvRouter.stopCapturing();
+          showResult(barcodeResultItem);
+        }
+      });
+      await cvRouter.initSettings("./read_dl.json");
+    })();
+
+    async function start() {
+      await pInit;
+      await camera.open();
+      await cvRouter.startCapturing("ReadDriversLicense");
+      barcodeScannerView.style.display = '';
+    }
+
+    async function showResult(barcodeResultItem) {
+      if (isHandlingResult) return;
+      isHandlingResult = true;
+
+      camera.clearAllInnerDrawingItems();
+
+      let processedResult;
+      try {
+        const parsedResult = await parser.parse(barcodeResultItem.bytes);
+        processedResult = handleDLResult(parsedResult);
+      } catch (ex) {
+        processedResult = [
+          { description: "Error", value: ex.message || "parse failed." },
+          {
+            description: "Original text",
+            value: barcodeResultItem.text,
+          },
+        ];
+      }
+
+      try {
+        onDriverLicenseResult(processedResult);
+      } catch (ex) {
+        console.error(ex);
+      }
+      generateResultList(processedResult);
+      barcodeText.textContent = barcodeResultItem.text.replace(/\n/g, "");
+      parsedResultView.style.display = '';
+    }
+
+    function handleDLResult(parsedResult) {
+      const oriParseInfo = [];
+      const resultInfo = JSON.parse(parsedResult.jsonString);
+      if (parsedResult.codeType === "AAMVA_DL_ID") {
+        for (let info of resultInfo.ResultInfo) {
+          if (info.FieldName !== "commonSubfile") continue;
+          if (info.ChildFields) {
+            wrapResultObject(info.ChildFields);
+          }
+        }
+      } else if (parsedResult.codeType === "AAMVA_DL_ID_WITH_MAG_STRIPE") {
+        for (let info of resultInfo.ResultInfo) {
+          if (info.FieldName.includes("track")) {
+            if (info.ChildFields) {
+              wrapResultObject(info.ChildFields);
+            }
+          }
+        }
+      } else if (parsedResult.codeType === "SOUTH_AFRICA_DL") {
+        for (let info of resultInfo.ResultInfo) {
+          if (info.ChildFields) {
+            wrapResultObject(info.ChildFields);
+          } else {
+            if (info.Value) {
+              oriParseInfo.push({
+                description: info.FieldName,
+                value: info.Value,
+              });
+            }
+          }
+        }
+      }
+
+      function wrapResultObject(childFields) {
+        for (let childField of childFields) {
+          for (let field of childField) {
+            if (!["dataElementSeparator", "segmentTerminator", "subfile", "subfileType"].includes(field.FieldName)) {
+              if (field.Value) {
+                oriParseInfo.push({
+                  description: field.FieldName,
+                  value: field.Value,
+                });
+              }
+            }
+            if (field.ChildFields) {
+              wrapResultObject(field.ChildFields);
+            }
+          }
+        }
+      }
+      return oriParseInfo;
+    }
+
+    function generateResultList(processedResult) {
+      const resultList = processedResult.map((item) => {
+        const resultItem = document.createElement("li");
+        resultItem.className = "parsed-result-item";
+
+        const description = document.createElement("strong");
+        description.textContent = `${item.description}: `;
+        const value = document.createElement("span");
+        value.textContent = item.value ?? "";
+
+        resultItem.append(description, value);
+        return resultItem;
+      });
+      parsedResultList.replaceChildren(...resultList);
+    }
+
+    startBtn.addEventListener("click", () => {
+      loading.style.display = "block";
+      startIcon.style.display = "none";
+      start();
+    })
+
+    backToScan.addEventListener("click", () => {
+      parsedResultView.style.display = "none";
+      isHandlingResult = false;
+      start();
+    })
+
+    uploadImageBtn.addEventListener("click", () => {
+      uploadImageInput.click();
+    });
+
+    uploadImageInput.addEventListener("change", async () => {
+      const file = uploadImageInput.files?.[0];
+      uploadImageInput.value = "";
+      if (!file) return;
+
+      uploadImageBtn.disabled = true;
+      let shouldResumeScanning = false;
+      try {
+        await pInit;
+        if (isHandlingResult) return;
+
+        shouldResumeScanning = cvRouter.isCapturing;
+        if (shouldResumeScanning) {
+          cvRouter.stopCapturing();
+        }
+
+        const captureResult = await cvRouter.capture(file, "ReadDriversLicense");
+        const barcodeResultItems = captureResult.decodedBarcodesResult?.barcodeResultItems ?? [];
+        if (barcodeResultItems.length === 0) {
+          notify("No barcode found in this image. Please try another one.");
+          return;
+        }
+
+        shouldResumeScanning = false;
+        await showResult(barcodeResultItems[0]);
+      } catch (ex) {
+        console.error(ex);
+        notify(ex.message || "Failed to read the image.");
+      } finally {
+        uploadImageBtn.disabled = false;
+        if (shouldResumeScanning && !isHandlingResult) {
+          try {
+            await cvRouter.startCapturing("ReadDriversLicense");
+          } catch (ex) {
+            console.error(ex);
+          }
+        }
+      }
+    });
+
+    function notify(message) {
+      if (typeof camera.funcShowToast === "function") {
+        camera.funcShowToast(message);
+      } else {
+        console.warn(message);
+      }
+    }
+  })();
+</script>
