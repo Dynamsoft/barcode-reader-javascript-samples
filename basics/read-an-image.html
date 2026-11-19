@@ -36,7 +36,8 @@
      */
     Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
-    // Preload the deep-learning models required for barcode localization and decoding.
+    // Optional. Preload the deep-learning models required for barcode localization and decoding.
+    // If models are not preloaded, it will be lazy-loaded when they are used, resulting in slower first decoding.
     const MODELS = ["OneDLocalization", "DataMatrixQRCodeLocalization", "Code128Decoder", "EAN13Decoder", "Code39ITFDecoder"];
     Dynamsoft.CVR.CaptureVisionRouter.appendDLModelBuffer(MODELS);
 
