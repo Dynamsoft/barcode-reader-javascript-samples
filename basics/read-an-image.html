@@ -21,6 +21,7 @@
   <br />
   Results:<br />
   <div id="results"></div>
+  <canvas id="preview-canvas" style="display: none; max-width: 100%; max-height: 60vh; margin-top: 12px; border: 1px solid #ddd;"></canvas>
   <script>
     // Configure the WASM engine to include PDF support.
     Dynamsoft.Core.CoreModule.wasmLoadOptions = {
@@ -42,6 +43,49 @@
     Dynamsoft.CVR.CaptureVisionRouter.appendDLModelBuffer(MODELS);
 
     const resultsContainer = document.querySelector("#results");
+    const previewCanvas = document.querySelector("#preview-canvas");
+    const previewCtx = previewCanvas.getContext("2d");
+    let currentObjectUrl = null;
+
+    function loadImage(file) {
+      return new Promise((resolve, reject) => {
+        if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
+        currentObjectUrl = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = currentObjectUrl;
+      });
+    }
+
+    function drawImageAndHighlights(img, barcodeResultItems = []) {
+      previewCanvas.width = img.naturalWidth;
+      previewCanvas.height = img.naturalHeight;
+      previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+      previewCtx.drawImage(img, 0, 0);
+      previewCanvas.style.display = "block";
+
+      if (!barcodeResultItems.length) return;
+
+      const lineWidth = Math.max(2, Math.round(Math.max(img.naturalWidth, img.naturalHeight) / 300));
+      previewCtx.lineWidth = lineWidth;
+      previewCtx.strokeStyle = "#00e500";
+      previewCtx.fillStyle = "rgba(0, 229, 0, 0.18)";
+
+      for (const item of barcodeResultItems) {
+        const points = item.location?.points;
+        if (!points || points.length < 4) continue;
+        previewCtx.beginPath();
+        previewCtx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          previewCtx.lineTo(points[i].x, points[i].y);
+        }
+        previewCtx.closePath();
+        previewCtx.fill();
+        previewCtx.stroke();
+      }
+    }
+
     const pInit = (async () => {
       const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
 
@@ -51,9 +95,17 @@
     document.querySelector("#input-file").addEventListener("change", async function (e) {
       let file = e.target.files[0];
       this.value = "";
+      if (!file) return;
       resultsContainer.innerText = "";
+      previewCanvas.style.display = "none";
+      previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
       try {
         document.querySelector("#decoding").style.display = "inline"; // Show decoding indicator during the decoding process
+        const pImg = file.type !== "application/pdf" ? loadImage(file).then((img) => {
+          drawImageAndHighlights(img);
+          return img;
+        }) : Promise.resolve(null);
+
         // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
         const { cvRouter } = await pInit;
         let result;
@@ -64,8 +116,12 @@
           result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
         }
         const barcodeResultItems = result.decodedBarcodesResult?.barcodeResultItems;
+        const img = await pImg;
+        if (img) {
+          drawImageAndHighlights(img, barcodeResultItems || []);
+        }
 
-        if (!barcodeResultItems) {
+        if (!barcodeResultItems || !barcodeResultItems.length) {
           resultsContainer.innerText += "No barcode found\n";
           return;
         }
