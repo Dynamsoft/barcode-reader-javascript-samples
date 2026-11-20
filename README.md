@@ -110,8 +110,6 @@ Open your AI agent (e.g. GitHub Copilot Chat in agent mode) and try:
 
 The agent will automatically load the skill and generate correct, production-ready code using the right SDK version, license key, API patterns, and framework conventions — without you needing to read any documentation.
 
-- **`frameworks/`** - Framework-specific examples demonstrating how to integrate Dynamsoft Barcode Reader into common web and hybrid frameworks.
-
 ---
 
 ## Documentation
