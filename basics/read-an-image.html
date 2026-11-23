@@ -17,7 +17,8 @@
 <body>
   <h1>Hello World (Read an Image)</h1>
   <input id="input-file" type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp,.pdf" />
-  <span id="decoding" style="display: none;">Decoding...</span>
+  <button id="sample-image" type="button">Try a sample image</button>
+  <span id="decoding" role="status"></span>
   <br />
   Results:<br />
   <div id="results"></div>
@@ -43,6 +44,9 @@
     Dynamsoft.CVR.CaptureVisionRouter.appendDLModelBuffer(MODELS);
 
     const resultsContainer = document.querySelector("#results");
+    const fileInput = document.querySelector("#input-file");
+    const sampleImageButton = document.querySelector("#sample-image");
+    const decodingStatus = document.querySelector("#decoding");
     const previewCanvas = document.querySelector("#preview-canvas");
     const previewCtx = previewCanvas.getContext("2d");
     let currentObjectUrl = null;
@@ -92,31 +96,35 @@
       return { cvRouter }
     })();
 
-    document.querySelector("#input-file").addEventListener("change", async function (e) {
-      let file = e.target.files[0];
-      this.value = "";
-      if (!file) return;
+    async function decodeImage(file) {
+      if (sampleImageButton.disabled) return;
+      fileInput.disabled = sampleImageButton.disabled = true;
       resultsContainer.innerText = "";
       previewCanvas.style.display = "none";
       previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
       try {
-        document.querySelector("#decoding").style.display = "inline"; // Show decoding indicator during the decoding process
+        if (!file) {
+          decodingStatus.textContent = "Loading sample image...";
+          if (location.protocol === "file:") {
+            throw new Error("Open this page through a local web server (e.g. localhost) to try the sample image.");
+          }
+          const response = await fetch("../assets/materials/read-an-image.png");
+          if (!response.ok) throw new Error(`Could not load the sample image (HTTP ${response.status}).`);
+          file = await response.blob();
+        }
+
+        decodingStatus.textContent = "Decoding...";
+        const { cvRouter } = await pInit;
         const pImg = file.type !== "application/pdf" ? loadImage(file).then((img) => {
           drawImageAndHighlights(img);
           return img;
         }) : Promise.resolve(null);
 
-        // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
-        const { cvRouter } = await pInit;
-        let result;
-        if (file.type === "application/pdf") {
-          const _result = await cvRouter.captureMultiPages(file, "ReadBarcodes_ReadRateFirst");
-          result = _result[0];
-        } else {
-          result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
-        }
+        const pResult = file.type === "application/pdf"
+          ? cvRouter.captureMultiPages(file, "ReadBarcodes_ReadRateFirst").then((pages) => pages[0])
+          : cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+        const [result, img] = await Promise.all([pResult, pImg]);
         const barcodeResultItems = result.decodedBarcodesResult?.barcodeResultItems;
-        const img = await pImg;
         if (img) {
           drawImageAndHighlights(img, barcodeResultItems || []);
         }
@@ -135,9 +143,17 @@
         console.error(ex);
         alert(errMsg);
       } finally {
-        document.querySelector("#decoding").style.display = "none"; // Hide decoding indicator after the decoding process
+        decodingStatus.textContent = "";
+        fileInput.disabled = sampleImageButton.disabled = false;
       }
+    }
+
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      fileInput.value = "";
+      if (file) void decodeImage(file);
     });
+    sampleImageButton.addEventListener("click", () => void decodeImage());
   </script>
 </body>
 

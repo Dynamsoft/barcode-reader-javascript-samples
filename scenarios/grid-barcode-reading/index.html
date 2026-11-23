@@ -25,6 +25,7 @@
       <div class="upload-section" id="uploadSection">
         <label for="imageInput" class="upload-btn">Choose Image</label>
         <input type="file" id="imageInput" accept="image/*" />
+        <button type="button" class="upload-btn sample-btn" id="sampleImageButton">Try a sample image</button>
         <span id="fileName">No file selected</span>
       </div>
 
@@ -442,21 +443,38 @@
         return { totalDecoded: phase1Items.length + deepItems.length, totalCells: phase1Items.length + deepItems.length + failedQuads.length };
       }
 
+      const imageInput = document.getElementById("imageInput");
+      const sampleImageButton = document.getElementById("sampleImageButton");
+
       async function processImage(file) {
         if (isProcessing) return;
         isProcessing = true;
+        imageInput.disabled = sampleImageButton.disabled = true;
 
         // Reset UI
         document.getElementById("logSection").innerHTML = "";
         document.getElementById("resultsSection").style.display = "none";
         for (let i = 1; i <= 4; i++) setPhaseStatus(i, "pending");
         startProgress();
-        log(`Processing ${file.name}...`);
 
         const canvas = document.getElementById("canvas");
         const placeholder = document.querySelector(".canvas-placeholder");
 
         try {
+          if (!file) {
+            const sampleName = "datamatrix-grid.png";
+            log(`Loading ${sampleName}...`);
+            if (location.protocol === "file:") {
+              throw new Error("Open this page through a local web server (e.g. localhost) to try the sample image.");
+            }
+            const response = await fetch(`../../assets/materials/${sampleName}`);
+            if (!response.ok) throw new Error(`Could not load the sample image (HTTP ${response.status}).`);
+            const blob = await response.blob();
+            file = new File([blob], sampleName, { type: blob.type });
+          }
+          document.getElementById("fileName").textContent = file.name;
+          log(`Processing ${file.name}...`);
+
           if (!sdkReady) {
             log("[Init] Waiting for SDK/WASM preload...");
             await sdkReadyPromise;
@@ -601,17 +619,17 @@
           stopProgress("error");
         } finally {
           isProcessing = false;
+          imageInput.disabled = sampleImageButton.disabled = false;
         }
       }
 
-      // ─── File input handler ───────────────────────────────────────────────
-      document.getElementById("imageInput").addEventListener("change", async (e) => {
+      // ─── Image input handlers ─────────────────────────────────────────────
+      imageInput.addEventListener("change", (e) => {
         const file = e.target.files[0];
-        if (!file) return;
-        document.getElementById("fileName").textContent = file.name;
         e.target.value = ""; // allow re-selecting the same file
-        await processImage(file);
+        if (file) void processImage(file);
       });
+      sampleImageButton.addEventListener("click", () => void processImage());
     </script>
   </body>
 </html>

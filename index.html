@@ -1225,9 +1225,6 @@
       html += '<a class="btn primary" href="' + esc(s.path) + '" target="_blank" rel="noopener">Open demo</a>';
     }
     html += '<a class="btn' + (isSourceOnly ? ' primary' : '') + '" href="' + esc(s.source) + '" target="_blank" rel="noopener">' + (isSourceOnly ? 'View source on GitHub' : 'Source') + '</a>';
-    if (url) {
-      html += '<button class="btn" type="button" data-copy="' + esc(url) + '">Copy link</button>';
-    }
     html += "</div>";
 
     if (!isSourceOnly && s.path) {
@@ -1311,7 +1308,7 @@
   }
   function closeLightbox() { lightbox.classList.remove("open"); lightboxImg.src = ""; }
 
-  /* ---------- toast & copy ---------- */
+  /* ---------- toast ---------- */
 
   var toastTimer = null;
   function toast(msg) {
@@ -1319,25 +1316,6 @@
     toastEl.classList.add("show");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 1800);
-  }
-
-  function copyText(text) {
-    function done() { toast("Link copied, send it to your phone"); }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, function () { legacyCopy(text); done(); });
-    } else {
-      legacyCopy(text); done();
-    }
-  }
-  function legacyCopy(text) {
-    var ta = document.createElement("textarea");
-    ta.value = text;
-    ta.style.position = "fixed";
-    ta.style.opacity = "0";
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand("copy"); } catch (e) { /* ignore */ }
-    document.body.removeChild(ta);
   }
 
   /* ---------- chips & search ---------- */
@@ -1422,8 +1400,6 @@
   });
 
   detailContent.addEventListener("click", function (e) {
-    var copyBtn = e.target.closest("[data-copy]");
-    if (copyBtn) { copyText(copyBtn.getAttribute("data-copy")); return; }
     var preview = e.target.closest(".preview");
     if (preview) openLightbox(preview.getAttribute("data-full"), preview.getAttribute("data-label"));
   });
