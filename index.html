@@ -116,12 +116,10 @@
     /* framework tabs */
     .tabs {
       display: flex;
-      gap: 4px;
-      overflow-x: auto;
+      flex-wrap: wrap;
+      gap: 6px;
       padding: 4px 0 8px;
       margin: 18px 0 -4px;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin;
     }
     .tab {
       flex: none;
@@ -1166,7 +1164,8 @@
     var html = "";
     FRAMEWORKS.forEach(function (fw) {
       html += '<button class="tab' + (state.framework === fw.id ? " active" : "") + '" type="button" data-fw="' + fw.id + '">' +
-        esc(fw.name) + '<span class="tab-count">' + fw.samples.length + '</span></button>';
+        esc(fw.name) + (fw.id === "vanilla" ? '<span class="tab-count">' + fw.samples.length + '</span>' : "") +
+        '</button>';
     });
     document.getElementById("tabs").innerHTML = html;
   }
