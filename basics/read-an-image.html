@@ -17,10 +17,12 @@
 <body>
   <h1>Hello World (Read an Image)</h1>
   <input id="input-file" type="file" accept=".jpg,.jpeg,.icon,.gif,.svg,.webp,.png,.bmp,.pdf" />
-  <span id="decoding" style="display: none;">Decoding...</span>
+  <button id="sample-image" type="button">Try a sample image</button>
+  <span id="decoding" role="status"></span>
   <br />
   Results:<br />
   <div id="results"></div>
+  <canvas id="preview-canvas" style="display: none; max-width: 100%; max-height: 60vh; margin-top: 12px; border: 1px solid #ddd;"></canvas>
   <script>
     // Configure the WASM engine to include PDF support.
     Dynamsoft.Core.CoreModule.wasmLoadOptions = {
@@ -42,30 +44,92 @@
     Dynamsoft.CVR.CaptureVisionRouter.appendDLModelBuffer(MODELS);
 
     const resultsContainer = document.querySelector("#results");
+    const fileInput = document.querySelector("#input-file");
+    const sampleImageButton = document.querySelector("#sample-image");
+    const decodingStatus = document.querySelector("#decoding");
+    const previewCanvas = document.querySelector("#preview-canvas");
+    const previewCtx = previewCanvas.getContext("2d");
+    let currentObjectUrl = null;
+
+    function loadImage(file) {
+      return new Promise((resolve, reject) => {
+        if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
+        currentObjectUrl = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = currentObjectUrl;
+      });
+    }
+
+    function drawImageAndHighlights(img, barcodeResultItems = []) {
+      previewCanvas.width = img.naturalWidth;
+      previewCanvas.height = img.naturalHeight;
+      previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+      previewCtx.drawImage(img, 0, 0);
+      previewCanvas.style.display = "block";
+
+      if (!barcodeResultItems.length) return;
+
+      const lineWidth = Math.max(2, Math.round(Math.max(img.naturalWidth, img.naturalHeight) / 300));
+      previewCtx.lineWidth = lineWidth;
+      previewCtx.strokeStyle = "#00e500";
+      previewCtx.fillStyle = "rgba(0, 229, 0, 0.18)";
+
+      for (const item of barcodeResultItems) {
+        const points = item.location?.points;
+        if (!points || points.length < 4) continue;
+        previewCtx.beginPath();
+        previewCtx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          previewCtx.lineTo(points[i].x, points[i].y);
+        }
+        previewCtx.closePath();
+        previewCtx.fill();
+        previewCtx.stroke();
+      }
+    }
+
     const pInit = (async () => {
       const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
 
       return { cvRouter }
     })();
 
-    document.querySelector("#input-file").addEventListener("change", async function (e) {
-      let file = e.target.files[0];
-      this.value = "";
+    async function decodeImage(file) {
+      if (sampleImageButton.disabled) return;
+      fileInput.disabled = sampleImageButton.disabled = true;
       resultsContainer.innerText = "";
+      previewCanvas.style.display = "none";
+      previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
       try {
-        document.querySelector("#decoding").style.display = "inline"; // Show decoding indicator during the decoding process
-        // Decode selected image with 'ReadBarcodes_ReadRateFirst' template.
-        const { cvRouter } = await pInit;
-        let result;
-        if (file.type === "application/pdf") {
-          const _result = await cvRouter.captureMultiPages(file, "ReadBarcodes_ReadRateFirst");
-          result = _result[0];
-        } else {
-          result = await cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+        if (!file) {
+          decodingStatus.textContent = "Loading sample image...";
+          if (location.protocol === "file:") {
+            throw new Error("Open this page through a local web server (e.g. localhost) to try the sample image.");
+          }
+          const response = await fetch("../assets/materials/read-an-image.png");
+          if (!response.ok) throw new Error(`Could not load the sample image (HTTP ${response.status}).`);
+          file = await response.blob();
         }
-        const barcodeResultItems = result.decodedBarcodesResult?.barcodeResultItems;
 
-        if (!barcodeResultItems) {
+        decodingStatus.textContent = "Decoding...";
+        const { cvRouter } = await pInit;
+        const pImg = file.type !== "application/pdf" ? loadImage(file).then((img) => {
+          drawImageAndHighlights(img);
+          return img;
+        }) : Promise.resolve(null);
+
+        const pResult = file.type === "application/pdf"
+          ? cvRouter.captureMultiPages(file, "ReadBarcodes_ReadRateFirst").then((pages) => pages[0])
+          : cvRouter.capture(file, "ReadBarcodes_ReadRateFirst");
+        const [result, img] = await Promise.all([pResult, pImg]);
+        const barcodeResultItems = result.decodedBarcodesResult?.barcodeResultItems;
+        if (img) {
+          drawImageAndHighlights(img, barcodeResultItems || []);
+        }
+
+        if (!barcodeResultItems || !barcodeResultItems.length) {
           resultsContainer.innerText += "No barcode found\n";
           return;
         }
@@ -79,9 +143,17 @@
         console.error(ex);
         alert(errMsg);
       } finally {
-        document.querySelector("#decoding").style.display = "none"; // Hide decoding indicator after the decoding process
+        decodingStatus.textContent = "";
+        fileInput.disabled = sampleImageButton.disabled = false;
       }
+    }
+
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      fileInput.value = "";
+      if (file) void decodeImage(file);
     });
+    sampleImageButton.addEventListener("click", () => void decodeImage());
   </script>
 </body>
 

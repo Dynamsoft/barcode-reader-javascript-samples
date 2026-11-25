@@ -36,6 +36,7 @@ body {
 /* Upload */
 .upload-section {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 14px;
   margin-bottom: 20px;
@@ -59,6 +60,23 @@ body {
 }
 .upload-btn:hover {
   background: #e07a10;
+}
+.sample-btn {
+  font-family: inherit;
+  background: white;
+  color: #333;
+  border: 1px solid #aaa;
+}
+.sample-btn:hover:not(:disabled) {
+  background: #f0f2f5;
+}
+.sample-btn:disabled,
+.upload-section:has(#imageInput:disabled) label {
+  cursor: default;
+  opacity: 0.6;
+}
+.sample-btn:disabled {
+  background: white;
 }
 #imageInput {
   display: none;
