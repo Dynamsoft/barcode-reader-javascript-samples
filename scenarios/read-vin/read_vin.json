@@ -73,7 +73,6 @@
             }
           ]
         },
-
         {
           "ImageParameterName": "ip-decode-vin",
           "Section": "ST_BARCODE_DECODING",
