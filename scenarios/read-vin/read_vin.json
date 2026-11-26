@@ -45,7 +45,8 @@
         "BF_CODE_128",
         "BF_CODE_39_EXTENDED",
         "BF_QR_CODE",
-        "BF_DATAMATRIX"
+        "BF_DATAMATRIX",
+        "BF_AZTEC"
       ],
       "BarcodeFormatSpecificationNameArray": [
         "VIN-CODE-39-EXTENDED",
@@ -72,6 +73,7 @@
             }
           ]
         },
+
         {
           "ImageParameterName": "ip-decode-vin",
           "Section": "ST_BARCODE_DECODING",
