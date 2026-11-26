@@ -1,5 +1,5 @@
 const engineResourcePaths = {
-  dbrBundle: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.5000/dist/",
+  dbrBundle: "https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.6000/dist/",
 };
 
 // Files to cache

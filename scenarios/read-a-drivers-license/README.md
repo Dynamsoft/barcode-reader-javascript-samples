@@ -4,7 +4,7 @@ Decode the PDF417 barcode on a driver's license and display the parsed fields. T
 
 The point is portability. The same `.ui.xml` can be mounted from plain HTML, React, Vue, or another framework. The host code is small enough to rewrite per framework; the UI does not need to be.
 
-- **SDK**: `dynamsoft-barcode-reader-bundle@11.6.5000`
+- **SDK**: `dynamsoft-barcode-reader-bundle@11.6.6000`
 - **Input**: camera, or a local image via the bottom-left button
 - **Output**: raw barcode text plus parsed fields (`AAMVA_DL_ID`, `AAMVA_DL_ID_WITH_MAG_STRIPE`, `SOUTH_AFRICA_DL`)
 
@@ -130,7 +130,7 @@ The `.xml` extension is deliberate: it prevents dev servers and build tools from
 
 ```html
 <div class="barcode-scanner-view">
-  <Include src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.5000/dist/ui/dce.ui.v5.xml"></Include>
+  <Include src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@11.6.6000/dist/ui/dce.ui.v5.xml"></Include>
   <!-- sample-specific UI -->
 </div>
 ```

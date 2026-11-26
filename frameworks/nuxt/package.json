@@ -13,6 +13,6 @@
     "nuxt": "4.6.4"
   },
   "dependencies": {
-    "dynamsoft-barcode-reader-bundle": "11.6.5000"
+    "dynamsoft-barcode-reader-bundle": "11.6.6000"
   }
 }
